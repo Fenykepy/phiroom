@@ -1,0 +1,28 @@
+<div class="follow"><h6 class="follow"><span>Me suivre</span></h6></div>
+<ul id="share-icon">
+    {% if conf.follow_fb %}
+    <a id="facebook" href="{{ conf.fb_link }}" title="Me suivre sur facebook"><li>Me suivre sur facebook</li></a>
+    {% elif conf.no_fb %}
+     <a id="no-fb" href="http://www.framablog.org/index.php/post/2011/01/09/facebook-bouton-j-aime-pas-fsf" title="Vous ne me trouverez pas sur facebook"><li>Vous ne me trouverez pas sur facebook</li></a>
+
+
+    {% endif %}
+    {% if conf.follow_twitter %}
+    <a id="twitter" href="{{ conf.twitter_link }}" title="Me suivre sur twitter"><li>Me suivre sur twitter</li></a>
+    {% endif %}
+    {% if conf.follow_gplus %}
+    <a id="gplus" href="{{ conf.gplus_link }}" title="Me suivre sur google +"><li>Me suivre sur google +</li></a>
+    {% endif %}
+    {% if conf.follow_flickr %}
+    <a id="flickr" href="{{ conf.flickr_link }}" title="Me suivre sur flickr"><li>Me suivre sur flickr</li></a>
+    {% endif %}
+    {% if conf.follow_vk %}
+    <a id="vk" href="{{ conf.vk_link }}" title="Me suivre sur vkontakte"><li>Me suivre sur vkontakte</li></a>
+    {% endif %}
+    {% if conf.follow_feed %}
+    <a id="rss" href="{% url "feed" %}" title="S'abonner au flux rss"><li>S'abonner au flux rss</li></a>
+    {% endif %}
+    {% if conf.follow_mail %}
+    <a id="mail" class="popup" href="{% if user.is_authenticated %}{% url "user_profil" %}#id_weblog_mail_newsletter{% else %}{% url "user_suscription"%}{% endif %}" title="S'abonner aux mails"><li>S'abonner aux mails"</li></a>
+    {% endif %}</ul>
+

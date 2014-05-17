@@ -1,0 +1,233 @@
+{% load mptt_tags %}
+{% load tz %}
+
+{% localtime off %}
+<li class="togglesubmenu"><a class="arrow arrow-plus" href="#">Dossiers</a><a class="plus" href="#">menu de l'onglet</a>
+	<ul class="popover">
+		<li><a class="popup" href="{% url "librairy_import" %}">Importer un dossier (existant)</a></li>
+		<li><a class="popup" href="{% url "librairy_create_folder" %}">Nouveau dossier</a></li>
+		<li><a class="popup" href="{% url "librairy_rename_folder" %}">Renommer un dossier</a></li>
+		<hr />
+		<li><a class="popup" href="{% url "librairy_delete_folder" %}">Supprimer un dossier</a></li>
+	</ul>
+	<div class="cadre2">
+	<div class="cadre2b">
+		<ul class="submenu">
+			{% if folders %}
+				{% recursetree folders %}
+					<li>
+                    <a class="doc load" data-target="content" href="{% url "librairy_folder" node.id node.slug %}">{{ node.name|truncatechars:28 }}</a>
+						{% if not node.is_leaf_node %}
+							<ul>
+								{{ children }}
+							</ul>
+						{% endif %}
+					</li>
+				{% endrecursetree %}
+			{% else %}
+				<li><a class="doc popup" href="{% url "librairy_import" %}">Aucun dossier</a></li>
+			{% endif %}
+		</ul><!-- submenu -->
+	</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+<li class="togglesubmenu"><a class="arrow arrow-plus" href="#">Collections</a><a class="plus" href="#"><span class="hidden">menu de l'onglet</span></a>
+	<ul class="popover">
+		<li><a class="popup" href="{% url "librairy_create_collection" %}">Nouvelle collection</a></li>
+		<li><a class="popup" href="{% url "librairy_create_collections_ensemble" %}">Nouvel ensemble de collections</a></li>
+		<li><a class="popup" href="{% url "librairy_rename_collection" %}">Renommer une collection</a></li>
+		<li><a class="popup" href="{% url "librairy_rename_collections_ensemble" %}">Renommer un ensemble de collections</a></li>
+		<hr />
+		<li><a class="popup" href="{% url "librairy_delete_collection" %}">Supprimer une collection</a></li>
+		<li><a class="popup" href="{% url "librairy_delete_collections_ensemble" %}">Supprimer un ensemble de collections</a></li>
+	</ul>
+
+	<div class="cadre2">
+	<div class="cadre2b">
+		<ul class="submenu">
+			{% if collectionsensembles or collections %}
+				{% recursetree collectionsensembles %}
+					<li>
+					<a class="doc load" data-target="content" href="{% url "librairy_collections_ensemble" node.id node.slug %}">{{ node.name|truncatechars:28 }}</a>
+						{% if not node.is_leaf_node %}
+							<ul>
+								{{ children }}
+								{% for subnode in node.collection_set.all %}
+								<li><a class="dia load" data-target="content" data-droppable="thumb" href="{% url "librairy_collection" subnode.id subnode.slug %}">{{ subnode.name|truncatechars:28 }}<span class="count">{{ subnode.n_pict }}</span></a>
+								{% endfor %}
+							</ul>
+						{% else %}
+							{% if node.collection_set.all %}		
+								<ul>
+									{% for subnode in node.collection_set.all %}
+									<li><a class="dia load" data-target="content" data-droppable="thumb" href="{% url "librairy_collection" subnode.id subnode.slug %}">{{ subnode.name|truncatechars:28 }}<span class="count">{{ subnode.n_pict }}</span></a>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						{% endif %}
+					</li>
+				{% endrecursetree %}
+				{% for item in collections %}
+				<li><a class="dia load" data-target="content" data-droppable="thumb" href="{% url "librairy_collection" item.id item.slug %}">{{ item.name|truncatechars:28 }}<span class="count">{{ item.n_pict }}</span></a></li>
+				{% endfor %}
+			{% else %}
+			<li><a class="doc popup" href="{% url "librairy_create_collections_ensemble" %}">Aucun ensemble de collections</a></li>
+			<li><a class="dia popup" href="{% url "librairy_create_collection" %}">Aucune collection</a></li>
+			{% endif %}
+		</ul><!-- submenu -->
+	</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+
+<li class="togglesubmenu"><a class="arrow arrow-plus" href="#">Articles</a><a class="plus" href="#"><span class="hidden">menu de l'onglet</span></a>
+	<ul class="popover">
+		<li><a class="popup" href="{% url "article_create" %}">Nouvel article</a></li>
+		<li><a class="popup" href="{% url "librairy_choose_update_article" %}">Éditer un article</a></li>
+		<hr />
+		<li><a class="popup" href="{% url "librairy_choose_delete_article" %}">Supprimer un article</a></li>
+	</ul>
+
+	<div class="cadre2">
+	<div class="cadre2b">
+		<ul class="submenu">
+			{% for item in articles %}
+			<li><a class="doc" href="{% url "article_view" item.pub_date|date:"Y/m/d" item.slug %}">{{ item.title|truncatechars:28 }}</a></li>
+			{% empty %}
+			<li><a class="doc popup" href="{% url "article_create" %}">Aucun article</a></li>
+			{% endfor %}
+		</ul><!-- submenu -->
+	</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+
+
+<li class="togglesubmenu"><a class="arrow arrow-plus" href="#">Galeries</a><a class="plus" href="#"><span class="hidden">menu de l'onglet</span></a>
+	<ul class="popover">
+		<li><a class="popup" href="{% url "gallery_create" %}">Nouvelle galerie</a></li>
+		<li><a class="popup" href="{% url "librairy_choose_update_gallery" %}">Éditer une galerie</a></li>
+		<hr />
+		<li><a class="popup" href="{% url "librairy_choose_delete_gallery" %}">Supprimer une galerie</a></li>
+	</ul>
+
+	<div class="cadre2">
+	<div class="cadre2b">
+		<ul class="submenu">
+			{% for item in gallerys %}
+            <li><a class="dia load" data-target="content" data-droppable="thumb" href="{% url "librairy_gallery" item.pub_date|date:"Y/m/d" item.slug %}">{{ item.title|truncatechars:28 }}<span class="count">{{ item.n_pict }}</span></a></li>
+			{% empty %}
+			<li><a class="dia popup" href="{% url "gallery_create" %}">Aucune galeries</a></li>
+			{% endfor %}
+		</ul><!-- submenu -->
+	</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+
+
+<li class="togglesubmenu"><a class="arrow arrow-plus" href="#">Images du jour</a><a class="plus" href="#"><span class="hidden">menu de l'onglet</span></a>
+	<ul class="popover">
+        <li><a class="popup" href="{% url "pictofday_create" %}">Nouvelle image du jour</a></li>
+		<li><a class="popup" href="{% url "librairy_choose_update_pictofday" %}">Éditer une image du jour</a></li>
+		<hr />
+		<li><a class="popup" href="{% url "librairy_choose_delete_pictofday" %}">Supprimer une image du jour</a></li>
+	</ul>
+
+	<div class="cadre2">
+	<div class="cadre2b">
+		<ul class="submenu">
+			{% for item in pictofdays %}
+            {% spaceless %}
+            <li><a class="dia load" data-target="content" data-droppable="thumb" href="{% url "librairy_pictofday" item.day_date|date:"Y/m/d" %}">{% localtime on %}{{ item.day_date|date:"d-m-Y" }}{% endlocaltime %}<span class="count">
+                    {% if item.picture %}1{% else %}0{% endif %}</span></a></li>
+            {% endspaceless %}
+			{% empty %}
+			<li><a class="dia popup" href="{% url "pictofday_create" %}">Aucune image du jour</a></li>
+			{% endfor %}
+		</ul><!-- submenu -->
+	</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+<div class="panelfooter">
+	<hr />
+	<div class="wrap1"><a class="popup" href="{% url 'librairy_import' %}"><button type="button">Importer</button></a></div>
+	<div class="wrap2"><a href="{% url 'help_home' %}"><button type="button">Aide</button></a></div>
+</div>
+
+
+
+<li class="togglesubmenu"><a class="arrow arrow-plus" href="#">Portfolios</a><a class="plus" href="#"><span class="hidden">menu de l'onglet</span></a>
+	<ul class="popover">
+		<li><a class="popup" href="{% url "portfolio_create" %}">Nouveau portfolio</a></li>
+		<li><a class="popup" href="{% url "librairy_choose_update_portfolio" %}">Éditer un portfolio</a></li>
+		<hr />
+		<li><a class="popup" href="{% url "librairy_choose_delete_portfolio" %}">Supprimer un portfolio</a></li>
+	</ul>
+
+	<div class="cadre2">
+	<div class="cadre2b">
+		<ul class="submenu">
+			{% for item in portfolios %}
+            <li><a class="dia load" data-target="content" data-droppable="thumb" href="{% url "librairy_portfolio" item.slug %}">{{ item.title|truncatechars:28 }}<span class="count">{{ item.n_pict }}</span></a></li>
+			{% empty %}
+			<li><a class="dia popup" href="{% url "portfolio_create" %}">Aucun portfolios</a></li>
+			{% endfor %}
+		</ul><!-- submenu -->
+	</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+
+
+<li class="togglesubmenu"><a class="arrow arrow-plus" href="#">Catégories</a><a class="plus" href="#"><span class="hidden">menu de l'onglet</span></a>
+	<ul class="popover">
+		<li><a class="popup" href="{% url "librairy_create_category" %}">Nouvelle catégorie</a></li>
+		<li><a class="popup" href="{% url "librairy_rename_category" %}">Renommer une catégorie</a></li>
+		<hr />
+		<li><a class="popup" href="{% url "librairy_delete_category" %}">Supprimer une catégorie</a></li>
+	</ul>
+
+	<div class="cadre2">
+	<div class="cadre2b">
+		<ul class="submenu">
+            {% if categorys %}
+                {% recursetree categorys %}
+                    <li>
+                    <a class="cat" href="{% url "weblog_cat" node.id node.slug %}">{{ node.name|truncatechars:28 }}</a>
+                    {% if not node.is_leaf_node %}
+                        <ul>
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+                {% endrecursetree %}
+            {% else %}
+                <li><a class="cat" href="#">Aucune catégories</a></li>
+            {% endif %}
+		</ul><!-- submenu -->
+	</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+
+
+
+
+<li class="togglesubmenu"><a class="arrow arrow-plus" href="#">Mots Clés</a><a class="plus" href="#"><span class="hidden">menu de l'onglet</span></a>
+	<ul class="popover">
+		<li><a class="popup" href="{% url "librairy_create_tag" %}">Nouveau mot clé</a></li>
+		<li><a class="popup" href="{% url "librairy_rename_tag" %}">Renommer un mot clé</a></li>
+		<hr />
+		<li><a class="popup" href="{% url "librairy_delete_tag" %}">Supprimer un mot clé</a></li>
+	</ul>
+
+	<div class="cadre2">
+	<div class="cadre2b">
+		<ul class="submenu">
+            {% for item in tags %}
+            <li><a class="tag" href="{% url "weblog_tag" item.slug %}">{{ item.name|truncatechars:28 }}</a></li>
+            {% empty %}
+            <li><a class="tag" href="#">Aucun mots clés</a></li>
+            {% endfor %}
+        </ul><!-- submenu -->
+	</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+{% endlocaltime %}
+

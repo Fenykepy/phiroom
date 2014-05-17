@@ -1,0 +1,95 @@
+/**
+* Phiroom
+*
+* Copyright 2013 Lavilotte-Rolle Frédéric
+*
+* @contact <phiroom@lavilotte-rolle.fr>
+*
+*    This file is part of Phiroom.
+*
+*   Phiroom is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   Phiroom is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with Phiroom in COPYING file.
+*   If not, see <http://www.gnu.org/licenses/>.
+*
+*/
+
+// comments
+div.comment, #comments > p {
+    position: relative;
+    margin: 25px 6% 0 6%;
+    max-width: 650px;
+}
+#comments p {
+    padding: 0 0 15px 0;
+    margin: 10px 6% 10px 6%;
+}
+.abus {
+    float: right;
+}
+div.moderation {
+    width: 1px;
+    position: absolute;
+    height: 35px;
+    top: 0px;
+    right: 15px
+}
+div.moderation div {
+    height: 26px;
+    line-height: 26px;
+    width: 15px;
+    text-align: center;
+    .degrade(@40, @22, @44);
+    border: 1px solid @00;
+    border-radius: 2px;
+    box-shadow: 0 0 1px @00;
+    color: @91;
+}
+div.moderation:hover div {
+    box-shadow: 0 0 2px @00;
+    color: @CC;
+}
+div.moderation ul {
+    height: 22px;
+    position: absolute;
+    width: 250px;
+    top: 3px;
+    right: 0px;
+    display: inline-block;
+    margin: 0;
+    padding: 0 0 0 10px;
+    text-align: left;
+    opacity: 0.2;
+    .transform(scaleX(0));
+    .transform-origin(100%, 0);
+    .transition(all .5s ease);
+    background: @trans;
+    color: @91;
+}
+div.moderation li {
+    position: relative;
+    display: inline-block;
+    line-height: 22px;
+    margin: 0;
+    padding: 0 10px 0 0;
+}
+div.moderation li a {
+    color: @CC;
+}
+div.moderation li a:hover {
+    color: @red;
+}
+div.moderation:hover ul {
+    .transform(scaleX(1));
+    opacity: 1;
+}
+

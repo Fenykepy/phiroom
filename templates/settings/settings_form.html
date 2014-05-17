@@ -1,0 +1,32 @@
+<header>
+<h1>{{ title }}</h1>
+</header>
+<form method="post" enctype="multipart/form-data" action="{{ action }}">
+<p><span id="red"><span class="red">*</span></span> : Champs obligatoires.</p>
+{% csrf_token %}
+{{ form.non_field_errors }}
+{% for field in form %}
+<div class="field_wrapper">
+    {{ field.label_tag }}{% if field.field.required %}<span class="red"> *</span>{% endif %}
+    {{ field.errors }}
+    {{ field }}{% if field.help_text %}<span class="help_text">{{ field.help_text|safe }}</span>{% endif %}
+</div>
+{% endfor %}
+
+<p class="center-align">
+{% spaceless %}
+{% if request.is_ajax %}
+    <button id="cancel" type="button" onclick="close_overlay()" >Annuler</button>
+{% else %}
+    <a href="{{ cancel_link }}">
+        <button type="button">Annuler</button>
+    </a>
+{% endif %}
+<input type="submit" name="enregistrer" value="{{ button }}" />
+{% endspaceless %}
+</p>
+</form>
+<footer>
+<div class="v3"></div><!-- v3 -->
+</footer>
+

@@ -1,0 +1,61 @@
+{% load static %}
+
+	<header>
+	<h1>Inscription</h1>
+	</header>
+	{% if user.is_authenticated %}
+		<p>
+        <a href="{% url "user_profil" %}">
+		{% if user.avatar %}
+		<img class="image top-left" src="{{ MEDIA_URL }}{{ user.avatar }}" alt="avatar" />
+		{% else %}
+		<img class="image top-left" src="{% static 'images/structure/default.png' %}" alt="avatar" />
+		{% endif %}
+        </a>
+
+		<strong>Vous êtes bien inscrit !</strong><br />
+		<em><strong>Votre pseudo : </strong>{{ user.username }}</em><br />
+		<em><strong>Votre mail : </strong>{{ user.email }}</em><br />
+		</p>
+		<h2>
+		Vous pouvez mainenant :
+		</h2>
+			<ul>
+				<li>Renseigner davantage votre profil</li>
+				<li>Uploader un avatar de votre choix</li>
+				<li>Commencer à poster des commentaires</li>
+
+			<p><a href="{% url "user_profil" %}">Modifier mon profil…</a></p>
+			<p><a href="{% url "user_logout" %}">Se déconnecter</a></p>
+
+	{% else %}
+		<form method="post" action="{% url "user_suscription" %}">
+            <p><span id="red"><span class="red">*</span></span> : Champs obligatoires.</p>
+			{% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+            <div class="field_wrapper">
+            {{ field.label_tag }}{% if field.field.required %}<span class="red"> *</span>{% endif %}
+            {{ field.errors }}
+            {{ field }}{% if field.help_text %}<span class="help_text">{{ field.help_text }}</span>{% endif %}
+        </div>
+        {% endfor %}
+            <p class="center-align">
+            {% spaceless %}
+            {% if request.is_ajax %}
+                <button id="cancel" type="button" onclick="close_overlay()" >Annuler</button>
+            {% else %}
+            <a href="{% url 'weblog_home' %}">
+                <button type="button">Annuler</button>
+            </a>
+            {% endif %}
+            <input type="submit" value="S'inscrire" />
+            {% endspaceless %}
+            </p>
+		</form>
+	{% endif %}
+	<footer>
+	<div class="v3"></div><!-- v3 -->
+	</footer>
+
+

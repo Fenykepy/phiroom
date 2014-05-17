@@ -1,0 +1,36 @@
+{% extends "weblog/weblog_base.html" %}
+{% load humanize %}
+{% block content %}
+{% load tz %}
+{% load static %}
+
+{# principal title for semantic #}
+<h1 class="hidden">Article</h1>
+
+<h2 class="hidden">{{ entry.category }}</h2>
+    <article id="main"><div class="article_content">
+		<header>
+		<h1>{{ entry.title }}</h1>
+        {% include "weblog/weblog_date.html" %}
+			{% if user.is_staff %}
+            {% localtime off %}
+			<a class="popup" href="{% url "article_edit" entry.pub_date|date:"Y/m/d" entry.slug %}"><button class="entry-header small_button">Éditer</button></a>
+            {% endlocaltime %}
+			{% endif %}
+		</header>
+
+
+		{{ entry.content|safe }}
+        <h6 class="author"><a class="author small_caps" href="{{ entry.author.web_site}}" rel="author">{{ entry.author.author_name }}</a></h6>
+		<footer>
+            {% include "weblog/weblog_tag_thread.html" %}
+            {% include "weblog/weblog_follow.html" %}
+            <hr />
+            	<div class="v3"></div>{# v3 #}
+            <p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
+		</footer>
+    </div>{# article_content #}
+	</article>
+{% endblock %}
+
+

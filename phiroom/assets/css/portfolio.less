@@ -1,0 +1,97 @@
+/**
+* Phiroom
+*
+* Copyright 2013 Lavilotte-Rolle Frédéric
+*
+* @contact <phiroom@lavilotte-rolle.fr>
+*
+*    This file is part of Phiroom.
+*
+*   Phiroom is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   Phiroom is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with Phiroom in COPYING file.
+*   If not, see <http://www.gnu.org/licenses/>.
+*
+*/
+// compute alignments
+@li-width2: 22.5%;
+@margin2: (100 - (@li-width2 * 4)) / 8;
+
+// Main area
+body section#portfolio {
+    left: 3px;
+    background: @22;
+    color: @91;
+    article {
+        background: none;
+        text-align: center;
+        padding: 60px 0 0;
+        box-shadow: none;
+        width: 90%;
+        max-width: 510px;
+        margin-right: auto;
+        margin-left: auto;
+        hr {
+            border-top: 1px solid @00;
+            border-bottom: 1px solid @44;
+        }
+        header {
+            position: relative;
+        }
+        figcaption h1, li h2 {
+            text-align: center;
+            font-size: 1.1em;
+        }
+        img {
+            box-sizing: border-box;
+            border: 5px solid @FF;
+            max-width: 100%;
+            box-shadow: 0 0 50px #000;
+        }
+        &#portfolio {
+            text-align: justify;
+            max-width: none;
+            p.date {
+                color: @50;
+            }
+            div.gallery {
+                h2 {
+                    font-size: 0.8em;
+                }
+                figcaption {
+                    height: 2.8em;
+                    margin-top: 0.5em;
+                }
+                ul {
+                    li {
+                        margin: 1em @margin2 1em @margin2;
+                        width: @li-width2;
+                    }
+                }
+                &:hover a:not(:hover) {
+                    opacity: 0.5;
+                    .transition(all .5s);
+                }
+            }
+        }
+    }
+    #powered {
+        margin-top: 0;
+        margin-bottom: 2em;
+        a, a:visited  {
+            color: @44;
+            &:hover, &:focus {
+                color: @00;
+            }
+        }
+    }
+}

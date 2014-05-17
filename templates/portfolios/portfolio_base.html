@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block page %}
+{{ page_info.title|lower }}
+{% endblock %}
+{% block left_panel_link %}
+{% endblock %}
+{% block right_panel_link %}
+{% endblock %}
+{% block section %}
+    {# main content area #}
+    <section id="portfolio">
+        {# anchor div to join page top #}
+        <div id="top"></div>
+        {% block content %}
+        {% endblock %}{# content #}
+        <a id="pageup" href="#top" title="haut de page"><span class="hidden">haut de page</span></a>
+    </section>
+{% endblock %}{# section #}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ lang|default:"fr" }}">
+	{# including css files #}
+	{% load static %}
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{% static 'css/phiroom-home.css' %}" />
+    <title>{{ conf.title_home }}, {{ page.title|lower }}</title>
+    <link rel="icon" type="image/png" href="{% static 'images/structure/phiroom-favicon.png' %}" />
+    <link
+			rel = "alternate"
+			type = "application/atom+xml"
+			title = "{{ conf.title }}"
+            href = "{% url "feed" %}"
+		/>
+</head>
+<body>
+		<header role="banner">
+		<h1>{{ conf.title_home }}, {{ conf.sub_title_home }}</h1>
+		</header>
+        <img src="{% if conf.home_logo %}{{ MEDIA_URL }}{{ conf.home_logo }}{% else %}/assets/images/structure/phiroom-home.png{% endif %}" alt="{{ conf.title_home }}, {{ conf.sub_title_home }} logo" />
+		<footer>
+			<nav role="navigation">
+				<ul>
+					{% for item in menu %}
+					<li><a href="{% url item.reverse_url %}" {% if item.name == "home" %} class="selected" {% endif %}>{{item.title}}</a></li>
+					{% empty %}
+					<li>Pas de menus :( </li>
+					{% endfor %}
+					{% if user.is_staff %}
+					<li><a href="{% url "librairy_home" %}">Bibliothèque</a></li>
+					{% endif %}
+				</ul>
+			</nav>
+		</footer>
+</body>
+</html>

@@ -1,0 +1,5 @@
+<div class="tags"><h3 class="hidden">Mots-clés :</h3>
+    <ul>
+        {%for item in entry.tags.all %}<div class="join"></div><a href="{% url "weblog_tag" item.slug %}"><li class="tag">{{ item.name }}</li></a>{% endfor %}
+    </ul>
+</div>

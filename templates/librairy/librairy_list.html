@@ -1,0 +1,88 @@
+{% load static %}
+{% load humanize %}
+{# anchor div to join page top #}
+{% if request.is_ajax %}
+<div id="top"></div>
+{% endif %}
+{# principal title for semantic #}
+<h1 class="hidden">Bibliothèque</h1>
+
+{% spaceless %}
+{% for picture in pictures %}
+<article class="thumb" data-selectable="thumb" data-draggable="thumb" 
+    {% if gallery or portfolio or collection %}
+    data-sortable="thumb"
+    {% endif %}
+id="{{ picture.id }}">
+		<header>
+			<div class="line1">
+				<span class="float-right">{{ picture.name }}</span>
+				{{ picture.id }}
+			</div>
+			<div class="line2">
+				<span class="float-right">{{ picture.type }}</span>
+				{{ picture.width }} x {{ picture.height }}
+			</div>
+			<a class="thumb-menu" href="#"><span class="hidden">menu de l'onglet</span></a>
+			<ul class="thumb-popover popover">
+                {% if collection %}
+                <li><a class="del" target="blank" data-url="{% url "librairy_collection" collection.0 collection.1 %}" href="{% url "librairy_delete_pict_from_collection" collection.0 collection.1 picture.id %}">Supprimer de la collection</a></li>
+				<hr />
+                {% elif gallery %}
+                <li><a class="del" data-url="{% url "librairy_gallery" gallery.0 gallery.1 %}" href="{% url "librairy_delete_pict_from_gallery" gallery.0 gallery.1 picture.id %}">Supprimer de la galerie</a></li>
+				<hr />
+                {% elif portfolio %}
+                <li><a class="del" data-url="{% url "librairy_portfolio" portfolio %}" href="{% url "librairy_delete_pict_from_portfolio" portfolio picture.id %}">Supprimer du portfolio</a></li>
+                {% endif %}
+				<li><a class="popup" href="{% url "librairy_remove_picture" picture.id %}">Supprimer du serveur</a></li>
+			</ul>
+		</header>
+		<div class="thumb-container">
+            <div>
+                <a id="{{ picture.id }}" href="{{ MEDIA_URL }}images/previews/height-700/{{picture.id}}.jpg" {#data-lightbox="1"#}>
+		    <img class="thumbnail" src="{{ MEDIA_URL }}images/previews/max-300/{{picture.id}}.jpg" alt="{{picture.title}}" />
+            </a>
+            <div class="published">
+            {% if picture.pictofday %}
+            <a title="L'image est une image du jour" href="{{ picture.pictofday.get_absolute_url }}">
+                <div class="pod-icon">L'image est une image du jour.</div>
+            </a>
+            {% endif %}
+            {% if picture.gallery_set.all %}
+            <a title="L'image fait partie d'au moins une galerie" href="{% url "weblog_picture_gallerys" picture.id %}">
+                <div class="gallery-icon">L'image fait partie d'au moins une galerie.</div>
+            </a>
+            {% endif %}
+            {% if picture.portfolio_set.all %}
+            <a title="L'image fait partie d'au moins un portfolio" href="{% url "weblog_picture_portfolios" picture.id %}">
+                <div class="portfolio-icon">L'image fait partie d'au moins un portfolio.</div>
+            </a>
+            {% endif %}
+            </div>
+            </div>
+		</div>
+		<footer>
+			{% include 'librairy/librairy_note.html' %}
+		</footer>
+	</article>
+{% empty %}
+	<article>
+        <div class="article_content">
+		<header>
+			<h1>Aucune image…</h1>
+		</header>
+		<footer>
+		{% if user.is_staff %}
+        <p class="center-align"><a class="popup" href="{% url "librairy_import" %}"><button type="button">Importer des images</button></a></p>
+		{% endif %}
+			{# show 'grigri' #}
+			<div class="v3"></div><!-- v3 -->
+
+		</footer>
+    </div>{# article_content #}
+	</article>
+{% endfor %}
+{% endspaceless %}
+{% if request.is_ajax %}  
+<a id="pageup" href="#top" title="haut de page"><span class="hidden">haut de page</span></a>
+{% endif %}

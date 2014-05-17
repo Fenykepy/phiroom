@@ -1,0 +1,43 @@
+{% extends "portfolios/portfolio_base.html" %}
+{% block content %}
+    {# principal title for semantic #}
+
+<header>
+    <h1 class="hidden">Portfolios</h1> 
+    <h2 class="hidden">{{ entry.category }}</h2>
+</header>
+<article id="portfolio">
+    <header>
+    <h1>{{ entry.title }}</h1>
+    {% include "weblog/weblog_date.html" %}
+    {% if user.is_staff %}
+    <a class="popup" href="{% url "portfolio_edit" entry.slug %}"><button class="entry-header small_button">Éditer</button></a>
+    {% endif %}
+    </header>
+    {{ entry.content|safe }}
+    <hr />
+<div class="gallery">
+<ul>
+{% for picture in entry.get_sorted_pictures %}
+<li>
+    <figure>
+
+        <a id="{{ picture.id }}" href="{{ MEDIA_URL }}images/previews/height-700/{{ picture.id }}.jpg" data-lightbox="{{ entry.id }}"{# title="{{ picture.title }}"#}>
+            <img src="{{ MEDIA_URL }}images/previews/square-500/{{ picture.id }}.jpg" alt="{{ picture.title }}" />
+        </a>
+        <figcaption>
+        <h2>{{ picture.title }}</h2>
+        </figcaption>
+    </figure>
+</li>
+{% endfor %}
+</ul>
+</div>{# gallery #}
+<div class="js-hide">
+    <p class="center-align">Pour une meilleure expérience utilisateur activez javascript.</p>
+</div>
+    <hr />
+    <div class="v3"></div>{# v3 #}
+    <p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
+</article>
+{% endblock %}

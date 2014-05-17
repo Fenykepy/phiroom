@@ -1,0 +1,70 @@
+{% load static %}
+{% comment %}
+<li class="togglesubmenu"><a class="arrow arrow-loupe" href="#">Rechercher</a>
+	<div class="cadre2">
+		<div class="cadre2b">
+			<ul class="submenu">
+				<li id="rechercher">
+				<form method="get" action="search.php">
+				<input type="text" name="search" id="search" size="1" placeholder="Motif de la recherche" required />
+				<input type="submit" value="" id="submit" />
+				<input type="hidden" name="articles" value="on" />
+				<input type="hidden" name="galeries" value="on" />
+				<input type="hidden" name="idj" value="on" />
+			</form>
+			</ul><!-- submenu -->
+		</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+{% endcomment %}
+
+
+<li class="togglesubmenu"><a class="arrow arrow-doc" href="#">Connexion</a>
+	<div class="cadre2">
+		<div class="cadre2b">
+			<ul class="submenu">
+				{% if user.is_authenticated %}
+					<li class="connected"><a class="popup" href="{% url 'user_profil' %}">
+					{% if user.avatar %}
+					<img src=" {{ MEDIA_URL }}{{ user.avatar }}" width="40" height="40" />
+					{% else %}
+						<img src="{% static 'images/structure/default.png' %}" width="40" height="40" />
+					{% endif %}
+					</a>
+					<span class="pseudo">{{ user.username }}</span></li>
+					<li><a class="doc popup" href="{% url "user_profil" %}">modifier mon profil</a></li>
+					{% if user.is_staff %}
+						<li><a class="doc" href="{% url "librairy_home" %}">bibliothèque</a></li>
+						<li><a class="doc" href="/admin">administration</a></li>
+                        <li><a class="doc popup" href="{% url "conf_settings" %}">configuration</a></li>
+					{% endif %}
+					<li><a class="off" href="{% url "user_logout" %}">se déconnecter</a></li>
+				{% else %}
+					<li class="connect">
+						<form method="post" action="{% url "user_login" %}">
+						{% csrf_token %}
+						{{ login_form.username }}
+						{{ login_form.password }}
+						<input type="submit" value="Connection" />
+						</form>
+					</li>
+					<li><a class="doc popup" href="{% url "user_suscription" %}">Pas encore inscrit ? C'est ici !</a></li>
+					<li><a class="doc popup" href="{% url "user_recovery" %}">Mot de passe perdu ? Cliquez ici…</a></li>
+				{% endif %}
+			</ul><!-- submenu -->
+		</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+
+
+
+
+
+
+<li>
+	<a class="ecran" href="{% url conf.home_page.reverse_url %}">Accueil</a>
+	<div class="cadre2">
+		<div class="cadre2b">
+		</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li>

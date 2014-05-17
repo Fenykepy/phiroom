@@ -1,0 +1,187 @@
+<header>
+{% load static %}
+{% load humanize %}
+<h1>{{ title }}</h1>
+</header>
+<form method="post" action="#preview" spellcheck="true">
+        <p><span id="red"><span class="red">*</span></span> : Champs obligatoires.</p>
+        {{ form.non_field_errors }}
+        {% csrf_token %}
+        <div class="field_wrapper">
+        {{ form.category.label_tag }}<span class="red"> *</span>
+        {{ form.category.errors }}
+        <div class="input_group">
+            {{ form.category }}<a class="popup" href="{% url 'librairy_create_category' %}" title="Ajouter une nouvelle catégorie"></a>{% if form.category.help_text %}<span class="help_text">{{ form.category.help_text }}</span>{% endif %}
+        </div>
+        </div>
+        
+        {% if form.collection %}
+        <div class="field_wrapper">
+        {{ form.collection.label_tag }}
+        {{ form.collection.errors }}
+        {{ form.collection }}{% if form.collection.help_text %}<span class="help_text">{{ form.collection.help_text }}</span>{% endif %}
+        </div>
+        {% endif %}
+         
+        {% if form.folder %}
+        <div class="field_wrapper">
+        {{ form.folder.label_tag }}
+        {{ form.folder.errors }}
+        {{ form.folder }}{% if form.folder.help_text %}<span class="help_text">{{ form.folder.help_text }}</span>{% endif %}
+        </div>
+        {% endif %}       
+
+        <div class="field_wrapper">
+        {{ form.title.label_tag }}<span class="red"> *</span>
+        {{ form.title.errors }}
+        {{ form.title }}{% if form.title.help_text %}<span class="help_text">{{ form.title.help_text }}</span>{% endif %}
+        </div>
+ 
+        {% if form.order %}
+        <div class="field_wrapper">
+        {{ form.order.label_tag }}
+        {{ form.order.errors }}
+        {{ form.order }}{% if form.order.help_text %}<span class="help_text">{{ form.order.help_text }}</span>{% endif %}
+        </div>
+        
+        {% if form.reversed_order %}
+        <div class="field_wrapper checkbox">
+        {{ form.reversed_order.label_tag }}
+        {{ form.reversed_order.errors }}
+        {{ form.reversed_order }}{% if form.reversed_order.help_text %}<span class="help_text">{{ form.reversed_order.help_text }}</span>{% endif %}
+        </div>
+        {% endif %}
+        {% endif %}
+
+
+        {% if form.picture %}
+        <div class="field_wrapper">
+        {{ form.picture.label_tag }}
+        {{ form.picture.errors }}
+        {{ form.picture }}{% if form.picture.help_text %}<span class="help_text">{{ form.picture.help_text }}</span>{% endif %}
+        </div>
+        {% endif %}
+
+        {% if form.day_date %}
+        <div class="field_wrapper">
+        {{ form.day_date.label_tag }}
+        {{ form.day_date.errors }}
+        {{ form.day_date }}{% if form.day_date.help_text %}<span class="help_text">{{ form.day_date.help_text }}</span>{% endif %}
+        </div>
+        {% endif %}
+
+        {% if not form.day_date %}
+        <div class="field_wrapper">
+        {{ form.pub_date.label_tag }}
+        {{ form.pub_date.errors }}
+        {{ form.pub_date }}{% if form.pub_date.help_text %}<span class="help_text">{{ form.pub_date.help_text }}</span>{% endif %}
+        </div>
+        {% endif %}
+
+        {% if form.tags %}
+        <div class="field_wrapper">
+        {{ form.tags.label_tag }}<span class="red"> *</span>
+        {{ form.tags.errors }}
+        {{ form.tags }}{% if form.tags.help_text %}<span class="help_text">{{ form.tags.help_text }}</span>{% endif %}
+        </div>
+        {% endif %}
+
+        <div class="field_wrapper">
+        {{ form.new_tags.label_tag }}
+        {{ form.new_tags.errors }}
+        {{ form.new_tags }}{% if form.new_tags.help_text %}<span class="help_text">{{ form.new_tags.help_text }}</span>{% endif %}
+        </div>
+
+        <div class="field_wrapper">
+        {{ form.source.label_tag }}<span class="red"> *</span>
+        {{ form.source.errors }}
+        {{ form.source }}{% if form.source.help_text %}<span class="help_text">{{ form.source.help_text }}</span>{% endif %}
+        </div>
+
+        <div class="field_wrapper checkbox">
+        {% if update %}
+        {{ form.minor_change.errors }}
+        {{ form.minor_change.label_tag }}
+        {{ form.minor_change }}{% if form.minor_change.help_text %}<span class="help_text">{{ form.minor_change.help_text }}</span>{% endif %}<br />
+        {% endif %}
+
+        {{ form.draft.errors }}
+        {{ form.draft.label_tag }}
+        {{ form.draft }}{% if form.draft.help_text %}<span class="help_text">{{ form.draft.help_text }}</span>{% endif %}
+        </div>
+        {% spaceless %}
+        <p class="center-align">
+        {% if request.is_ajax %}
+            <button id="cancel" type="button" onclick="close_overlay()" >Annuler</button>
+        {% else %}
+        <a href="{{ cancel_link }}">
+            <button type="button">Annuler</button>
+        </a>
+        {% endif %}
+            <input type="submit" name="article_preview" value="Aperçu" />
+            <input type="submit" name="article_save" value="Enregistrer" />
+        {% endspaceless %}
+    </p>
+    </form>
+
+    {% if article_preview %}
+<div class="v3"></div><!-- v3 -->
+    <h2 id="preview">Aperçu :</h2>
+    <h4>Résumé :</h4>
+    <article>
+        <div class="article_content">
+    <header>
+        <h1>{{ article_preview.title }}</h1>
+        <p class="date">
+        <em>
+            Publié <time datetime="{{ article_preview.pub_date|date:"c" }}">{{ article_preview.pub_date|naturalday:"l j F Y" }}</time>
+            {% if not article_preview.minor %}
+            <br />Mis à jour <time datetime="{% now 'c' %}" pubdate="pubdate">aujourd'hui</time>
+            {% endif %}
+        </em>
+        </p>
+        </header>
+        {{ article_preview.abstract|safe }}
+        <h6 class="author"><a class="author small_caps" href="{{ article.author.web_site}}" rel="author">{{ article.author.author_name }}</a></h6>
+        <footer>
+        {% if not article_preview.is_gallery %}
+            <p class="center-align"><a href="#"><button type="button">Lire l'article</button></a></p>
+        {% else %}
+            <p class="center-align"><a href="#"><button type="button">Voir la galerie</button></a></p>
+        {% endif %}
+        <div class="v3"></div><!-- v3 -->
+        </footer>
+    </div>
+    </article>
+    <h4 id="article">Article :</h4>		
+    <article>
+        <div class="article_content">
+    <header>
+        <h1>{{ article_preview.title }}</h1>
+        <p class="date">
+        <em>
+            Publié <time datetime="{{ article_preview.pub_date|date:"c" }}">{{ article_preview.pub_date|naturalday:"l j F Y" }}</time>
+            {% if not article_preview.minor %}
+            <br />Mis à jour <time datetime="{% now 'c' %}" pubdate="pubdate">aujourd'hui</time>
+            {% endif %}
+        </em>
+        </p>
+        </header>
+        {% if article_preview.is_gallery %}
+        <div class="gallery">
+
+        </div><!-- gallery -->
+        {% endif %}
+        {{ article_preview.content|safe }}
+        <h6 class="author"><a class="author small_caps" href="{{ article.author.web_site}}" rel="author">{{ article.author.author_name }}</a></h6>
+        <footer>
+        <div class="v3"></div><!-- v3 -->
+        </footer>
+    </div>
+    </article>
+    {% endif %}
+<footer>
+<div class="v3"></div><!-- v3 -->
+</footer>
+
+

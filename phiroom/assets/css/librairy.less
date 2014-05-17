@@ -1,0 +1,226 @@
+/**
+* Phiroom
+*
+* Copyright 2013 Lavilotte-Rolle Frédéric
+*
+* @contact <phiroom@lavilotte-rolle.fr>
+*
+*    This file is part of Phiroom.
+*
+*   Phiroom is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   Phiroom is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with Phiroom in COPYING file.
+*   If not, see <http://www.gnu.org/licenses/>.
+*
+*/
+
+// left menu
+#nav {
+    // folders and collections count number
+    ul.submenu .count { float: right; margin-right: 20px;}
+   
+    // drag&drop receivers
+
+    // class for hover drop receivers
+    .diareceiver{ background: @58; color: @FF; }
+    // class for drop receivers (not hover)
+    .diahover{ background-color: @CB; color: @00;}
+}
+
+// thumbnails
+body section#content article.thumb {
+    position: relative;
+    display: inline-block;
+    margin: 3px 0px 0px 3px;
+    padding: 0px;
+
+    header {
+        height: 50px;
+        position: relative;
+        margin: 0px;
+        border-top: 1px solid @83;
+        border-bottom: 1px solid @44;
+        background: @73;
+        padding: 10px;
+        box-shadow: none;
+
+        div.line1, div.line2 {
+            font-weight: bold;
+            height: 25px;
+            color: @22;
+        }
+        div.line2 {
+            color: @47;
+            font-size: 0.9em;
+        }
+
+        a.thumb-menu {
+            display: block;
+            position: absolute;
+            right: 10px;
+            height: 15px;
+            width: 15px;
+            bottom: 0px;
+            &:before {
+                .arrow-down(@47, 7px, 7px);
+            }
+            &:hover:before, &:focus:before {
+                .arrow-down(@22, 7px, 7px);
+            }
+        }
+    }
+
+    div.thumb-container {
+        position: relative;
+        height: 324px;
+        width: 324px;
+        border-top: 1px solid @83;
+        border-bottom: 1px solid @44;
+        line-height: 324px;
+        text-align: center;
+
+        img.thumbnail {
+            border: 2px solid @00;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: auto;
+            margin-left: auto;
+            box-shadow: 0 0 15px @44;
+        }
+        & > div {
+            display: inline-block;
+            line-height: 1.1em;
+            position: relative;
+        }
+        div.published {
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            height: 15px;
+            text-align: right;
+        }
+        div.pod-icon {
+            display: inline-block;
+            height: 15px;
+            width: 15px;
+            .sprite-replace(18, @line2, @grid2);
+            &:focus, &:hover {
+                .sprite-replace(19, @line2, @grid2);
+            }
+        }
+        div.gallery-icon {
+            display: inline-block;
+            height: 15px;
+            width: 15px;
+            .sprite-replace(16, @line2, @grid2);
+            &:focus, &:hover {
+                .sprite-replace(17, @line2, @grid2);
+            }
+        }
+        div.portfolio-icon {
+            display: inline-block;
+            height: 15px;
+            width: 15px;
+            .sprite-replace(14, @line2, @grid2);
+            &:focus, &:hover {
+                .sprite-replace(15, @line2, @grid2);
+            }
+        }
+    }
+
+    footer {
+        height: 40px;
+        border-top: 1px solid @83;
+        position: relative;
+        margin: 0px;
+        line-height: 40px;
+        text-align: center;
+        vertical-align: middle;
+        ul li {
+            display: inline-block;
+            height: 25px;
+            width: 25px;
+        }
+        a.point {
+            .sprite-replace(28, @line2, @grid2);
+        }
+        a.star {
+            .sprite-replace(26, @line2, @grid2);
+        }
+    }
+}
+
+// cursor_img
+#cursor_img {
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+    //background: yellow;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    cursor: default;
+    img {
+        box-sizing: border-box;
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+        border: 3px solid @FF;
+    }
+    div.cursor-multiple, div.cursor-multiple2 {
+        position: absolute;
+        //box-sizing: border-box;
+        border: 3px solid @CC;
+        background: @44;
+        vertical-align: middle;
+        right: 0px;
+        top: 0px;
+        z-index: -1;
+    }
+    div.cursor-multiple2 {
+        z-index: -2;
+    }
+}
+
+
+// ul popover
+ul.thumb-popover {
+    background-color: @66;
+    color: @22;
+}
+
+body section#content {
+    article.thumb.selected, article.thumb.selected header {
+        background-color: @CC;
+    }
+    article.thumb.active, article.thumb.active header {
+        background-color: @FF;
+    }
+    article.thumb.selected {
+        header {
+            border-bottom: 1px solid @CC;
+        }
+        div.thumb-container {
+            border-bottom: 1px solid @CC;
+        }
+    }
+}
+
+// to avoid draggable elements selection
+[data-draggable], [data-draggable] *, #cursor_img, #cursor_img * {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}

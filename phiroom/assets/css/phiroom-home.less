@@ -1,0 +1,103 @@
+/**
+* Phiroom
+*
+* Copyright 2013 Lavilotte-Rolle Frédéric
+*
+* @contact <phiroom@lavilotte-rolle.fr>
+*
+*    This file is part of Phiroom.
+*
+*   Phiroom is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   Phiroom is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with Phiroom in COPYING file.
+*   If not, see <http://www.gnu.org/licenses/>.
+*
+*/
+
+// client side compilation
+/*
+@base-css: '/assets/css/';
+@base-image: '/assets/images/structure/css/';
+@base-font: '/assets/fonts/';
+*/
+
+// server side compilation
+@base-css: '../css/';
+@base-image: '../images/structure/css/';
+@base-font: '../fonts/';
+
+// Typography
+@import '@{base-css}typo.less';
+
+body {
+    background: #000000;
+}
+a
+{
+	color: #919191;
+	text-decoration: none;
+}
+a:hover
+{
+	color: #CCCCCC;
+	text-decoration: none;
+}
+a.selected
+{
+	color: #FFFFFF;
+}
+h1
+{
+    margin: 0;
+    padding: 0;
+    height: 0;
+    width: 0;
+	color: #CCCCCC;
+	text-indent: -50000px;
+}
+img {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 200px;
+}
+footer
+{
+	position: absolute;
+	bottom: 3%;
+	color: #FFFFFF;
+	font-size: 1.1em;
+	text-align: center;
+	width: 98%;
+}
+nav ul
+{
+	text-indent: 0;
+	padding: 0;
+	height: 20px;
+}
+nav li
+{
+	display: inline;
+	border-right: 1px solid #919191;
+	padding-right: 2.8%;
+	padding-left: 2.8%;
+}
+nav li:last-child
+{
+	border: none;
+}
+img
+{
+	border: none;
+}
+

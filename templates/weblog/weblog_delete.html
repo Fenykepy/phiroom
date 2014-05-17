@@ -1,0 +1,26 @@
+<header>
+    <h1>{{ title }}</h1>
+    <h2>{{ entry.title }}</h2>
+</header>
+{{ entry.content|safe }}
+<form method="post" action="{{ action }}">
+    {% csrf_token %}
+    <p>{{ message }}<em>« {{ entry.title }} »{% if entry.day_date %} du {{ entry.day_date|date:"d F Y" }}{% endif %}</em> ?</p>
+    <p class="center-align">
+    {% spaceless %}
+    {% if request.is_ajax %}
+        <button id="cancel" type="button" onclick="close_overlay()" >Annuler</button>
+    {% else %}
+        <a href="{% url 'weblog_home' %}">
+            <button type="button">Annuler</button>
+        </a>
+    {% endif %}
+        <input type="submit" name="Confirmer" value="Confirmer" />
+    {% endspaceless %}
+    </p>
+
+
+</form>
+<footer>
+    <div class="v3"></div><!-- v3 -->
+</footer>

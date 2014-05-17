@@ -1,0 +1,212 @@
+{% extends "weblog/weblog_base.html" %}
+{% load humanize %}
+{% load tz %}
+
+{% block pagination %}
+    {% if page_obj.paginator.num_pages > 1 %}
+        {% include 'weblog/weblog_head_pagination.html' %}
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+{# principal title for semantic #}
+<h1 class="hidden">Articles, galeries, portfolios et images du jour</h1>
+
+{% for entry in entrys %}
+
+<h2 class="hidden">{{ entry.category }}</h2>
+	<article class="abstract" >
+        <div class="article_content">
+		<header>
+
+        {# if we get an article #}
+        {% if entry.is_article %}
+        <ul class="entry-type">
+            <li><div>Article</div></li>
+            {% if user.is_staff %}
+            {% with entry.page_set.all|first as page %}
+            <li><div>{{ page.n_view_not_staff|default:"0" }} vues</div></li>
+            {% endwith %}
+            {% endif %}
+        </ul>
+
+		<h1>{{ entry.title }}</h1>
+        {% include "weblog/weblog_date.html" %}
+		</header>
+
+
+
+            {{ entry.abstract|safe }}
+            <h6 class="author"><a class="author small_caps" href="{{ entry.author.web_site}}" rel="author">{{ entry.author.author_name }}</a></h6>
+            
+            <footer>
+                {% localtime off %}
+                <p class="center-align"><a href="{% url "article_view" entry.pub_date|date:"Y/m/d" entry.slug %}" rel="canonical"><button type="button">Lire l'article</button></a></p>
+                {% endlocaltime %}
+
+
+
+        {# if we get a gallery #}
+        {% elif entry.is_gallery %}
+        <ul class="entry-type">
+            <li><div>Galerie</div></li>
+            {% if user.is_staff %}
+            {% with entry.page_set.all|first as page %}
+            <li><div>{{ page.n_view_not_staff|default:"0" }} vues</div></li>
+            {% endwith %}
+            {% endif %}
+        </ul>
+
+		<h1>{{ entry.title }}</h1>
+        {% include "weblog/weblog_date.html" %}
+		</header>
+            <figure>
+                <figcaption>
+		            {{ entry.abstract|safe }}
+                    <h6 class="author"><a class="author small_caps" href="{{ entry.author.web_site}}" rel="author">{{ entry.author.author_name }}</a></h6>
+                </figcaption>
+        
+                <div class="gallery">
+                    {% localtime off %}
+                    <ul>
+                        {% for picture in entry.gallery.get_sorted_pictures|slice:":6" %}<li><a href="{% url "gallery_view" entry.pub_date|date:"Y/m/d" entry.slug %}#/lightbox/{{ picture.id }}/" rel="canonical"><img class="thumbs" src="{{ MEDIA_URL }}images/previews/square-500/{{ picture.id }}.jpg" alt="{{ picture.title }}" {#title="{{ picture.title }}"#} /></a></li>{% endfor %}
+                    </ul>
+                </div>{#gallery#}
+                <hr />
+            </figure>
+
+            <footer>
+                <p class="center-align"><a href="{% url "gallery_view" entry.pub_date|date:"Y/m/d" entry.slug %}#/lightbox/{{ entry.gallery.get_sorted_pictures.0.id }}/" rel="canonical"><button type="button">Voir la galerie</button></a></p>
+                {% endlocaltime %}
+
+
+        {# if we get a portfolio #}
+        {% elif entry.is_portfolio %}
+        <ul class="entry-type">
+            <li><div>Portfolio</div></li>
+            {% if user.is_staff %}
+            {% with entry.page_set.all|first as page %}
+            <li><div>{{ page.n_view_not_staff|default:"0" }} vues</div></li>
+            {% endwith %}
+            {% endif %}
+        </ul>
+
+		<h1>{{ entry.title }}</h1>
+        {% include "weblog/weblog_date.html" %}
+		</header>
+
+
+
+            <figure>
+                <figcaption>
+		            {{ entry.abstract|safe }}
+                    <h6 class="author"><a class="author small_caps" href="{{ entry.author.web_site}}" rel="author">{{ entry.author.author_name }}</a></h6>
+                </figcaption>
+        
+                <div class="gallery">
+                    {% localtime off %}
+                    <ul>
+                        {% for picture in entry.portfolio.get_sorted_pictures|slice:":6" %}<li><a href="{% url "portfolio_view" entry.slug %}#/lightbox/{{ picture.id }}/" rel="canonical"><img class="thumbs" src="{{ MEDIA_URL }}images/previews/square-500/{{ picture.id }}.jpg" alt="{{ picture.title }}" {#title="{{ picture.title }}"#} /></a></li>{% endfor %}
+                    </ul>
+                </div>{#gallery#}
+                <hr />
+            </figure>
+
+            <footer>
+                <p class="center-align"><a href="{% url "portfolio_view" entry.slug %}#/lightbox/{{ entry.portfolio.get_sorted_pictures.0.id }}/" rel="canonical"><button type="button">Voir le portfolio</button></a></p>
+                {% endlocaltime %}
+
+                
+        {# if we get a pictofday #}
+        {% elif entry.is_pictofday %}
+        <ul class="entry-type">
+            <li><div>Image du jour</div></li>
+            {% if user.is_staff %}
+            {% with entry.page_set.all|first as page %}
+            <li><div>{{ page.n_view_not_staff|default:"0" }} vues</div></li>
+            {% endwith %}
+            {% endif %}
+        </ul>
+
+		<h1>{{ entry.title }}</h1>
+        {% include "weblog/weblog_date.html" %}
+		</header>
+
+
+
+            <figure>
+                <figcaption>
+		            {{ entry.abstract|safe }}
+                    <hr />
+                </figcaption>
+        
+                <div class="gallery pictofday">
+                    {% localtime off %}
+                <ul>
+                    <li>
+                    <a href="{% url "pictofday_view" entry.pictofday.day_date|date:"Y/m/d" %}" rel="canonical">
+                    <img class="thumbs" src="{{ MEDIA_URL }}images/previews/square-500/{{ entry.pictofday.picture.id }}.jpg" alt="{{ entry.pictofday.picture.title }}" {#title="{{ picture.title }}"#} />
+                    </a>
+                    </li>
+                </ul>
+                </div>{#gallery#}
+                    <h6 class="author"><a class="author small_caps" href="{{ entry.author.web_site}}" rel="author">{{ entry.author.author_name }}</a></h6>
+            </figure>
+
+            <footer>
+                <p class="center-align"><a href="{% url "pictofday_view" entry.pictofday.day_date|date:"Y/m/d"%}" rel="canonical"><button type="button">Voir l'image du jour</button></a></p>
+                {% endlocaltime %}
+        {% endif %}
+
+		    {# show 'grigri' #}
+		    <div class="v3"></div>{# v3 #}
+		</footer>
+
+
+        </div>{# article_content #}
+	</article>
+{% empty %}
+	<article class="abstract" >
+        <div class="article_content">
+		<header>
+		<h1>Aucun contenu publié…</h1>
+		</header>
+		<footer>
+		{% if user.is_staff %}
+        {% spaceless %}
+			<p class="center-align">
+            <a class="popup" href="{% url "article_create" %}">
+                        <button type="button">Nouvel article</button>
+                    </a>
+                    <a class="popup" href="{% url "gallery_create" %}">
+                        <button type="button">Nouvelle galerie</button>
+                    </a>
+                    <a class="popup" href="{% url "portfolio_create" %}">
+                        <button type="button">Nouveau portfolio</button>
+                    </a>
+                    <a class="popup" href="{% url "gallery_create" %}">
+                        <button type="button">Nouvelle image du jour</button>
+                    </a>
+			</p>
+        {% endspaceless %}
+		{% endif %}
+			{# show 'grigri' #}
+			<div class="v3"></div>{# v3 #}
+
+		</footer>
+    </div>{# article_content #}
+	</article>
+{% endfor %}
+{% if page_obj.paginator.num_pages > 1 %}
+    {% if not arg0 %}
+	    {% include 'weblog/weblog_pagination.html' %}
+    {% elif not arg1 %}
+        {% include 'weblog/weblog_pagination_1arg.html' %}
+    {% else %}
+        {% include 'weblog/weblog_pagination_2arg.html' %}
+    {% endif %}
+{% endif %}
+{% endblock %}
+
+

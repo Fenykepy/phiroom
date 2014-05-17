@@ -1,0 +1,31 @@
+<header>
+<h1>Supprimer une image</h1>
+</header>
+{% load static %}
+<form method="post" action="{{ action }}">
+{% csrf_token %}
+<p>
+Êtes vous sûr de vouloir supprimer l'image <strong><em>« {{ picture.name }}, id: {{ picture.id }} »</em></strong> du serveur ?
+</p>
+<p class="center-align">
+
+<img class="image" src="{{ MEDIA_URL }}images/previews/max-300/{{picture.id}}.jpg" alt="{{picture.title}}" />
+
+</p>
+<p class="center-align">
+{% spaceless %}
+{% if request.is_ajax %}
+    <button id="cancel" type="button" onclick="close_overlay()" >Annuler</button>
+    {% else %}
+        <a href="{% url "librairy_home" %}">
+            <button type="button">Annuler</button>
+        </a>
+    {% endif %}
+        <input type="submit" name="enregistrer" value="Supprimer" />
+{% endspaceless %}
+</p>
+</form>
+<footer>
+<div class="v3"></div><!-- v3 -->
+</footer>
+

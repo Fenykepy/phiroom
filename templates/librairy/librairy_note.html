@@ -1,0 +1,52 @@
+{% load static %}
+{% spaceless %}
+{% if picture.note == 0 %}
+<ul>
+    <a href="{% url "librairy_rate_picture" picture.id 1 %}" class="point"><li>1 étoile</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 2 %}" class="point"><li>2 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 3 %}" class="point"><li>3 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 4 %}" class="point"><li>4 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 5 %}" class="point"><li>5 étoiles</li></a>
+</ul>
+{% elif picture.note == 1 %}
+<ul>
+	<a href="{% url "librairy_rate_picture" picture.id 0 %}" class="star"><li>0 étoile</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 2 %}" class="point"><li>2 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 3 %}" class="point"><li>3 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 4 %}" class="point"><li>4 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 5 %}" class="point"><li>5 étoiles</li></a>
+</ul>
+{% elif picture.note == 2 %}
+<ul>
+	<a href="{% url "librairy_rate_picture" picture.id 1 %}" class="star"><li>1 étoile</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 1 %}" class="star"><li>1 étoile</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 3 %}" class="point"><li>3 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 4 %}" class="point"><li>4 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 5 %}" class="point"><li>5 étoiles</li></a>
+</ul>
+{% elif picture.note == 3 %}
+<ul>
+	<a href="{% url "librairy_rate_picture" picture.id 1 %}" class="star"><li>1 étoile</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 2 %}" class="star"><li>2 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 2 %}" class="star"><li>2 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 4 %}" class="point"><li>4 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 5 %}" class="point"><li>5 étoiles</li></a>
+</ul>
+{% elif picture.note == 4 %}
+<ul>
+	<a href="{% url "librairy_rate_picture" picture.id 1 %}" class="star"><li>1 étoile</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 2 %}" class="star"><li>2 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 3 %}" class="star"><li>3 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 3 %}" class="star"><li>3 étoiles</li></a>
+	<a href="{% url "librairy_rate_picture" picture.id 5 %}" class="point"><li>5 étoiles</li></a>
+</ul>
+{% elif picture.note == 5 %}
+<ul>
+    <a href="{% url "librairy_rate_picture" picture.id 1 %}" class="star"><li>1 étoile</li></a> 
+    <a href="{% url "librairy_rate_picture" picture.id 2 %}" class="star"><li>2 étoiles</li></a>
+    <a href="{% url "librairy_rate_picture" picture.id 3 %}" class="star"><li>3 étoiles</li></a>
+    <a href="{% url "librairy_rate_picture" picture.id 4 %}" class="star"><li>4 étoiles</li></a>
+    <a href="{% url "librairy_rate_picture" picture.id 4 %}" class="star"><li>4 étoiles</li></a>
+</ul>
+{% endif %}
+{% endspaceless %}

@@ -5,6 +5,12 @@ __pycache__/
 # C extensions
 *.so
 
+# bdd
+phiroom.sql
+
+# data files
+phiroom/data/
+
 # Distribution / packaging
 .Python
 env/

@@ -1,0 +1,12 @@
+{% load humanize %}
+
+<p class="date">
+    <em>
+        {% if entry.pub_date|date:"Y-m-d" == entry.pub_update|date:"Y-m-d" %}
+        Publié <time datetime="{{ entry.pub_date|date:"c" }}" pubdate="pubdate">{{ entry.pub_date|naturalday:"l j F Y" }}</time>
+        {% else %}
+        Publié <time datetime="{{ entry.pub_date|date:"c" }}">{{ entry.pub_date|naturalday:"l j F Y" }}</time>
+        <br />Mis à jour <time datetime="{{ entry.pub_update|date:"c" }}" pubdate="pubdate">{{ entry.pub_update|naturalday:"l j F Y" }}</time>
+        {% endif %}
+    </em>
+</p>

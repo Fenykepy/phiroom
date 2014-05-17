@@ -1,0 +1,34 @@
+{% extends "portfolios/portfolio_base.html" %}
+{% block content %}
+    {# principal title for semantic #}
+    <h1 class="hidden">Portfolios</h1> 
+{% for entry in entrys %}
+    <h2 class="hidden">{{ entry.category }}</h2>
+    <article>
+    <figure>
+        {% with picture=entry.portfolio.get_sorted_pictures.0 %}
+        <a href="{% url "portfolio_view" entry.slug %}#/lightbox/{{ picture.id }}/" title="Voir le portfolio">
+            <img src="{{ MEDIA_URL }}images/previews/square-500/{{ picture.id }}.jpg" alt="{{ picture.title }}" />
+        </a>
+        {% endwith %}
+        <figcaption>
+        <h1>{{ entry.title }}</h1>
+        </figcaption>
+    </figure>
+    <div class="v3"></div>{# v3 #}
+    </article>
+{% empty %}
+    <article>
+        <h1>Aucun portfolio publié…</h1>
+        {% if user.is_staff %}
+            <p class="center-align">
+                <a class="popup" href="{% url "portfolio_create" %}">
+                    <button type="button">Nouveau portfolio</button>
+                </a>
+            </p>
+        {% endif %}
+            <div class="v3"></div>{# v3 #}
+    </article>
+{% endfor %}
+<p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
+{% endblock %}

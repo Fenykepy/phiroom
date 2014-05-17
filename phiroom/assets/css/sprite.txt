@@ -1,0 +1,63 @@
+cadre2b.png                 290x500     -> à découper
+cadre2h.png                 290x1       -> à découper
+categorys-hover.png         19x15       -> 20   45      -> line2 colon2
+categorys.png               19x15       -> 0    45      -> line2 colon1
+dia-hover.png               17x13       -> 60   45      -> line2 colon4
+dia.png                     17x13       -> 40   45      -> line2 colon3
+doc-hover.png               14x16       -> 100  45      -> line2 colon6
+doc.png                     14x16       -> 80   45      -> line2 colon5
+facebook-hover.png          40x40       -> 675  0       -> line1 colon16
+facebook.png                40x40       -> 630  0       -> line1 colon15
+flickr-hover.png            40x40       -> 585  0       -> line1 colon14
+flickr.png                  40x40       -> 540  0       -> line1 colon13
+gallery-hover.png           15x15       -> 340  45      -> line2 colon18
+gallery.png                 15x15       -> 320  45      -> line2 colon17
+gplus-hover.png             40x40       -> 495  0       -> line1 colon12
+gplus.png                   40x40       -> 450  0       -> line1 colon11
+ligne2.png                  235x1       -> à passer en border
+ligne3.png                  220x1       -> à passer en border
+ligne4.png                  205x1       -> à passer en border
+ligne.png                   250x1       -> à passer en border
+loading.gif                 50x50       -> à refaire, tenir en dehors du sprite (gif)
+loupe1-hover.png            18x18       -> 220  45      -> line2 colon12
+loupe1.png                  18x18       -> 200  45      -> line2 colon11
+loupe-hover.png             12x12       -> à redessiner
+loupe.png                   12x12       -> à redessiner
+mail-hover.png              40x40       -> 405  0       -> line1 colon10
+mail.png                    40x40       -> 360  0       -> line1 colon9
+no-fb-hover.png             40x40       -> 315  0       -> line1 colon8
+no-fb.png                   40x40       -> 270  0       -> line1 colon7
+off-hover.png               14x15       -> 420  45      -> line2 colon21
+off.png                     14x15       -> 400  45      -> line2 colon22
+ornament2.png               59x56       -> 180  65      -> line3 colon10
+ornament.png                162x149     -> 0    65      -> line3 colon1
+pictofday-hover.png         15x15       -> 380  45      -> line2 colon20
+pictofday.png               15x15       -> 360  45      -> line2 colon19
+plus2-hover.png             16x16       -> 260  45      -> line2 colon14
+plus2.png                   16x16       -> 240  45      -> line2 colon13
+plus-hover.png              21x17       -> 480  45      -> line2 colon25
+plus.png                    21x17       -> 440  45      -> line2 colon23
+portfolio-hover.png         15x15       -> 300  45      -> line2 colon16
+portfolio.png               15x15       -> 280  45      -> line2 colon15
+rss-hover.png               40x40       -> 45   0       -> line1 colon2
+rss.png                     40x40       -> 0    0       -> line1 colon1
+ruban-vertical-bottom.png   33x20
+ruban-vertical-middle.png   33x1
+ruban-vertical-top.png      33x4
+screen-hover.png            13x13       -> 180  45      -> line2 colon10
+screen.png                  13x13       -> 160  45      -> line2 colon9
+tags-hover.png              19x13       -> 140  45      -> line2 colon8
+tags.png                    19x13       -> 120  45      -> line2 colon7
+tag-thread.png              59x45       -> 600  45      -> line2 colon31
+twitter-hover.png           40x40       -> 134  0       -> line1 colon4
+twitter.png                 40x40       -> 90   0       -> line1 colon3
+vk-hover.png                40x40       -> 225  0       -> line1 colon5
+vk.png                      40x40       -> 180  0       -> line1 colon6
+star.png                    25x25       -> 520  45      -> line2 colon27
+point.png                   25x25       -> 560  45      -> line2 colon29
+
+poids total sans sprite : 488K, 56 requêtes http
+poids total du sprite: 36K, 10 requêtes http, 715x214px
+
+ligne 1 cases de 45px * 45px
+ligne 2 cases de 20px * 20px

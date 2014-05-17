@@ -1,0 +1,32 @@
+
+    <hr />
+{% spaceless %}
+<ul id="pager">
+    {% if previous %}
+        <a href="{% url "pictofday_view" previous %}" title="image précédente" rel="prev">
+            <li>&lt;<span class="hidden">Précédente</span></li>
+        </a>
+    {% else %}
+        <li>&lt;<span class="hidden">Précédente</span></li>
+    {% endif %}
+    {% if today %}
+        <a href="{% url "pictofday_view" today %}" title="image du jour">
+            <li>Aujourd'hui</li>
+        </a>
+    {% else %}
+        <li>Aujourd'hui</li>
+    {% endif %}
+    {% if next %}
+        <a href="{% url "pictofday_view" next %}" title="image suivante" rel="next">
+            <li><span class="hidden">Suivante</span>&gt;</li>
+        </a>
+    {% else %}
+        <li><span class="hidden">Suivante</span>&gt;</li>
+    {% endif %}
+<ul>{# pager #}
+{% endspaceless %}
+<hr />
+<div class="v3"></div>{# v3 #}
+<p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
+
+

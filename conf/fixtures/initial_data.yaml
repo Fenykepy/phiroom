@@ -1,0 +1,166 @@
+- model: conf.Conf
+  pk: 1
+  fields:
+    title: Phiroom
+    title_home: Phiroom
+    sub_title_home: le cms des photographes
+    domain: phiroom.org
+    home_page: 1
+    comment: Paramètres par défaut
+    date: 2013-07-29 12:41:13.207520
+
+- model: conf.Page
+  pk: 1
+  fields:
+    title: Accueil
+    name: home
+    is_in_main_menu: False
+    position_in_main_menu: 1
+    is_in_home_menu: True
+    position_in_home_menu: 1
+    is_active: True
+    reverse_url: home
+
+- model: conf.Page
+  pk: 2
+  fields:
+    title: Portfolios
+    name: portfolios
+    is_in_main_menu: True
+    position_in_main_menu: 2
+    is_in_home_menu: True
+    position_in_home_menu: 2
+    is_active: True
+    reverse_url: portfolio_home
+
+- model: conf.Page
+  pk: 3
+  fields:
+    title: Images du jour
+    name: pictofdays
+    is_in_main_menu: True
+    position_in_main_menu: 3
+    is_in_home_menu: True
+    position_in_home_menu: 3
+    is_active: True
+    reverse_url: pictofday_home
+
+- model: conf.Page
+  pk: 4
+  fields:
+    title: Weblog
+    name: weblog
+    is_in_main_menu: True
+    position_in_main_menu: 4
+    is_in_home_menu: True
+    position_in_home_menu: 4
+    is_active: True
+    reverse_url: weblog_home
+
+- model: conf.Page
+  pk: 5
+  fields:
+    title: Connexion
+    name: login
+    is_in_main_menu: False
+    position_in_main_menu: 100
+    is_in_home_menu: False
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: user_login
+
+- model: conf.Page
+  pk: 6
+  fields:
+    title: Déconnexion
+    name: logout
+    is_in_main_menu: False
+    position_in_main_menu: 100
+    is_in_home_menu: False
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: user_logout
+
+- model: conf.Page
+  pk: 7
+  fields:
+    title: Inscription
+    name: suscription
+    is_in_main_menu: False
+    position_in_main_menu: 100
+    is_in_home_menu: False
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: user_suscription
+
+- model: conf.Page
+  pk: 8
+  fields:
+    title: Profil
+    name: profil
+    is_in_main_menu: False
+    position_in_main_menu: 100
+    is_in_home_menu: False
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: user_profil
+
+
+- model: conf.Page
+  pk: 9
+  fields:
+    title: Bibliothèque
+    name: librairy
+    is_in_main_menu: False
+    position_in_main_menu: 50
+    is_in_home_menu: False
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: librairy_home
+
+
+- model: conf.Page
+  pk: 10
+  fields:
+    title: Articles
+    name: article
+    is_in_main_menu: False
+    position_in_main_menu: 50
+    is_in_home_menu: False
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: weblog_home
+
+
+- model: conf.Page
+  pk: 11
+  fields:
+    title: Galeries
+    name: gallery
+    is_in_main_menu: False
+    position_in_main_menu: 50
+    is_in_home_menu: False
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: weblog_home
+
+- model: conf.Page
+  pk: 12
+  fields:
+    title: Configuration
+    name: settings
+    is_in_main_menu: False
+    position_in_main_menu: 100
+    is_in_home_menu: False
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: conf_settings
+
+
+
+
+
+
+
+
+

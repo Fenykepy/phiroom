@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block page %}
+{{ page_info.title|lower }}
+{% endblock %}
+{% block left_panel %}
+<nav id="left_panel" role="navigation">
+<ul id="nav">
+<li class="togglesubmenu"><a class="arrow arrow-doc" href="#">Sommaire</a>
+	<div class="cadre2">
+	<div class="cadre2b">
+		<ul class="submenu">
+            <li><a class="doc" href="{% url "help_home" %}#first-steps">Premiers pas</a>
+                <ul>
+                    <li><a class="doc" href="{% url "help_about" %}">À propos</a></li>
+                    <li><a class="doc" href="{% url "help_about" %}">Le petit lexique</a></li>
+                    <li><a class="doc" href="{% url "help_tutorial" %}">Le tutoriel</a></li>
+                </ul>
+            </li>
+			<li>Le module bibliothèque
+            </li>
+			<li>Le module weblog
+            </li>
+			<li>Le module image du jour
+            </li>
+			<li>Le module portfolios
+            </li>
+		</ul><!-- submenu -->
+	</div><!-- cadre2b -->
+	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+
+{% include 'menu.html' %}
+</ul><!-- nav -->
+{% block left_panel_footer %}
+{% endblock %}
+</nav><!-- left-panel -->
+{% endblock %}
+{% block content %}
+{% load static %}
+    <article id="help"><div class="article_content">
+        <header>
+        <h1>Aide de Phiroom
+            <a class="headerlink" href="#main" title="Lien vers cette section">¶</a></h1>
+        </header>
+        {% block help %}
+        {% endblock %}
+        <footer>
+            <hr />
+            <div class="v3"></div>{# v3 #}
+            <p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
+        </footer>
+    </div>{# article_content #}
+    </article>
+{% endblock %}
+
+

@@ -1,0 +1,28 @@
+{% extends "weblog/weblog_base.html" %}
+{% block content %}
+{% load static %}
+
+{# principal title for semantic #}
+<h1 class="hidden">Image du jour:</h1>
+
+    <article id="main"><div class="article_content">
+		<header>
+		<h1>Aucune image du jour publiée…</h1>
+		</header>
+		<footer>
+            {% if user.is_staff %}
+            {% spaceless %}
+            <p class="center-align">
+                <a class="popup" href="{% url "pictofday_create" %}">
+                    <button type="button">Nouvelle image du jour</button>
+                </a>
+            </p>
+            {% endspaceless %}
+            {% endif %}
+            <div class="v3"></div>{# v3 #}
+		</footer>
+    </div>{# article_content #}
+	</article>
+{% endblock %}
+
+

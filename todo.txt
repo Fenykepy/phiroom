@@ -1,0 +1,421 @@
+# vim: syntax=note
+
+===== Liste des choses à faire dans  phiroom =====
+
+===== Avant release Béta =====
+    - ajouter des index dans les tables
+#    - form de modification de la configuration
+        - liste des anciennes configurations
+#        - revoir le form avec les nouveau champs relatifs aux rss
+#    - revoir le form d'inscription
+        - envoi d'un mail de confirmation d'inscription (avec uniqID : uuid.uuid4() )
+#    - revoir le form de profil
+#    - css de l'avatar dans le form profil
+#    - help_text dans le form profil
+    - revoir le form de perte de mot de passe
+#    - générer le sitemap
+#    - générer les rss
+#    - générer les abonnements par mail
+#    - générer les mails au managers
+#        - voir pour l'url dans les mails (ajouter le fqdn)
+        - pour les commentaires
+#        - pour les inscriptions
+        - pour les modifications de profil
+#    - voir pour gérer le paramètre « next » après les vues de login
+#    - cacher le form de recherche
+    - nettoyage général du code
+    - implémenter les commentaires
+    - formulaire de remplacement d'une image
+#    - implémenter le tri drag & drop
+#        - supprimer le tri dans les dossiers
+#        - ajouter un tuple en base pour les types de tris :
+#            - par nom
+#            - par nom inversé
+#            - par date
+#            - par date inversée
+#            - par id
+#            - par id inversé
+#            - par ordre perso
+#            - par ordre perso inversé
+        - avec un select pour choisir l'ordre dans la barre d'outils
+#        - avec un select dans les formulaires de création de
+#            - collection
+#            - galerie
+#            - portfolios
+    - implémenter l'upload http
+#    - le titre est égal à la description exif, mais il est limité à 140 char alors que la description ne l'est pas.
+    - l'effacement de dossiers plante s'il y a d'autres fichiers que des fichiers images dedans (.DStore)
+
+
+==== Les taches cron ====
+=== La publication à retardement ===
+#    - Créer une app « tasks » avec une table « tasks » et des champs "dates" et "commande"
+#    - Créer une "management command":
+#        https://docs.djangoproject.com/en/1.6/howto/custom-management-commands/
+#        dans cron: cd projet; <path to virtualenv>/bin/python manage.py command) toutes les 3 ou 5 minutes (à voir)
+#        - "command" récupère les entrées de la table "tasks" dont la date est passée
+#        - pour chaque entrées :
+#            - On récupère l'Entry correspondante (directement en OneToOne)
+#            - Si Entry n'existe pas -> on efface l'entrée de la table
+#            - si Entry est draft ou auto_draft -> pass
+#                - le mieux c'est de n'ajouter à la table tasks que les entrées qui ne sont pas draft ou auto_draft, pour éviter des calculs inutiles
+#            - sinon :
+#                - On récupère l'url absolue de l'entrée
+#                - On réinitialise les caches liés à Entry (la clé est l'url)
+#                - On réinitialise le cache des feed et du sitemap
+#                - Si c'est trop compliqué (cache par user) on clear le cache (aux grands mots grands moyens :D ).
+#                - On envoit les mails aux abonnés
+#                - On efface l'entrée de la table
+#        - à chaque save d'une entrée, si elle n'est pas draft ou auto_draft, et si pub_date est dans le futur on ajoute une entrée à tasks
+
+=== L'envoie de mails aux abonnés ===
+=== La génération des aperçus des images ===
+
+
+
+==== Le cache ====
+
+=== La partie publique ===
+    - L'idée de base est de servir au maximum des fichiers statiques
+    - mais peut être de continuer de passer par le résolver django
+    - Les seules parties vraiment dynamique (changeant en dehors de l'ajout de contenu) sont
+        - pour l'ensemble des users :
+            - l'onglet connexion du menu latéral :
+                - user connecté -> avatar, lien vers le profil
+                - user non-connecté -> form de connection
+            - le liens vers la bibliothèque si l'user y a droit (actuellement personne mais ça va venir)
+        - pour les membres du staff
+            - le menu éditer dans les pages articles
+            - le nombre de vues de l'objet dans les pages weblog
+
+    - l'idée :
+        - deux dossiers de fichiers statiques un pour les users normaux, un pour les membres du staff
+            - dans chaque dossiers un fichier statique correspondant au rendu d'une url, le nom du fichier correspond au nom de l'url avec les "/" remplacés par un autre caractère
+        - à la demande d'une vue  un décorateur :
+            - cherche si le fichier statique existe pour l'user donné (anonymous ou staff, trop de détail tue le système sinon s'il y a trop d'users)
+            - si il existe il le renvoit
+            - sinon il exécute la vue, sauve la réponse dans le bon fichier, retourne la réponse
+        - à la modification d'un élément, un signal est envoyé les fichiers concernées sont détruits (vue de l'objet, listes, menus), et donc régénérés à la prochaine demande
+        - le problème reste les pub_date à retardement, qui impose de lancer le signal non à l'enregistrement de l'objet, mais à la date prévue
+
+    - deuxième idée :
+        - un cache tradi (memcache) très long sur tout les fichiers (genre 6 mois), pour les user normaux, et pour les membres du staff
+        - un clear du cache concerné lors d'une nouvelle entrée,
+        - un cron pour clear le cache à la bonne date en cas de publication à retardement
+            
+
+
+=== La bibliothèque ===
+    - la bibliothèque fait l'objet d'un cache de quelques secondes, ainsi que de certaines parties du template
+    - le point noir reste de toutes façons le téléchargement des images
+    - on peu cacher certaines parties du template, 
+    - et utiliser ajax au maximum
+
+=== L'administration ===
+    - pas de cache et ajax au maximum
+    - peut être cache de certaines parties du template
+
+==== Module Phiroom ====
+#	- décommenter les urls de la page d'accueil :
+#		- pictofdays
+#		- galeries
+#	- passer l'image de fond de la page d'accueil du css vers l'html (pour pouvoir la changer dynamiquement)
+#	- revoir l'organisation des modules conf / user
+#	- revoir l'organisation des templates par modules
+	- tests du module article
+	- tests du module conf
+	- tests du module user
+#	- passer le queryset conf ailleurs que dans une variable de classe (pour sa mise à jour)
+#	- trouver une solution pour les commentaires -> vieux module commentaire
+		- mettre en place le vieux module commentaire ou coder le mien
+            -commentaire attachable à chaque objet (article, galerie, portfolios, images en particulier)
+            - les commentaires de galeries articles portfolios et idj s'affichent avec une requête ajax sous l'article
+            - les commentaires des images s'affichent sous l'image dans la lightbox avec une requête ajax
+            - ajout dans la conf d'une option "autoriser les utilisateurs non inscrits à poster des commentaires"
+            - la lutte contre le spam se fait de manière passive (voir section spam plus bas)
+#        - essayer de laisser le choix entre disqus (beuuurkkk…) et le module de commentaires intégré (non)
+#	- incrémentation des nombres de lecture d'objets -> middleware
+    - changer la direction des flèches des liens de masquage des panneaux en js (ou rotate css3)
+#    - revoir l'organisation des tables pour pouvoir lister pas dates toutes les entrées de n'importe quel type
+    - ajouter un champ n_entry aux catégories et tags qui se met à jour au save() et à l'enregistrement d'entrées
+    - n'afficher que les tags et les catégories ayant des entrées dans les menus latéraux
+    - voir pour mettre (plus de) liens d'évitement correctement indexés : http://www.alsacreations.com/article/lire/572-Les-liens-d-evitement.html 
+#    - modifier la lightbox pour mettre à jour le hashtag dans l'url (et voir pour avoir un hashtag de la forme #/lightbox/9000/ directement comme id
+#    - agrandir la favicone (rendu horrible sur le smartphone avec les 16px…) (même agrandie le rendu est horrible sous ff mobile, pas sous chrome mobile…)
+#    - ajouter la favicone à la page d'accueil
+#    - Modifier l'url de login par défaut
+#    - Gestion des abonnements par mail:
+#        option 1
+#        - au clic sur l'icone mail:
+#            - si l'utilisateur est connecté, et a une adresse mail:
+#                - ouverture d'une popup « Votre abonnement a bien été pris en compte avec l'adresse … », lien de désabonnement, bouton "close"
+#                - ou ouverture d'une popup « Vous êtes déjà abonné », lien de désabonnement, bouton "close"
+#            - si l'utilisateur est connecté mais n'a pas d'addresse mail:
+#                - ouverture d'une popup « Merci de renseigner votre addresse mail dans votre profil », lien profil, bouton "close"
+#            - si l'utilisateur n'est pas connecté
+#                - ouverture d'une popup avec un champ de saisi de l'addresse mail
+#                - si validation rechargement de la popup avec « votre abonnement a bien été pris en compte » lien de désabonnement, bouton "close"
+#        option 2
+#        - au clic sur l'icone mail:
+#            - si l'user est connecté, page profil id de la case à cocher
+#            - si l'user n'est pas connecté page d'inscription
+#        - script de passage de la production au développement et vice versa:
+#            - compilation du controller .less vers .min.css
+#            - modification des inclusions de fichiers dans les templates
+            - minification du javascript
+
+==== Module Bibliothèque ====
+#	- Renommer les modules en : Portfolio, Image du jour, Weblog, Bibliothèque
+#	- Crud ajax d'ajout et import de dossiers
+#   - Crud ajax de gestion de collections
+#	- Crud ajax de gestion d'articles (posts du module weblog)
+#    - Crud ajax de gestion de catégories
+#    - Crud ajax de gestion des mots clés
+#    - Crud ajax de gestion des pictofdays
+#    - Crud ajax de gestion des portfolios
+#	- fallback non-ajax des formulaires :
+#		- de collections
+#		- de dossiers
+#		- d'articles
+#        - de galeries
+#		- d'images du jour
+#		- de portfolios
+#	- Chargement des miniatures en ajax
+#   - Remplir une collection avec le contenu d'un dossier à sa création
+	- Chargement des sous-menus de #nav en ajax
+	- Stockage en base de l'état d'ouverture des panneaux
+#	- Ajout d'un indicateur de chargement lors de l'import d'un dossier en ajax
+#	- Rechargement des vignettes après le chargement d'un dossier en ajax
+	- Import http des images vers un dossier cible ou créé par variable de dates / nom etc.
+#	- Ajouter des dossiers hiérarchiques par catégories pour lister les articles dans #nav
+	- Ajouter un dossier contenant les derniers articles dans #nav
+	- Rendre les sous-listes dépliables dans #nav
+#	- créer un système de tags hiérarchiques pour les images
+#	- Lire les iptc à l'import
+#    - n'enregistrer les images en base qu'au succès de la création des aperçus (en cas d'erreur il suffit de réimporter)
+#    - ajouter au form d'importation d'un dossier:
+#        - un bouton « recréer les aperçus »
+#        - un bouton « recharger les métadonnées d'origine »
+#	- Fonction de rechargement des métadonnées d'une image, ou d'un dossier
+#        - ajouter une vue associée
+	- Gestion des droits:
+#		- Admin : accès à tout
+		- Client : accès aux collections et ensembles de collections autorisés
+			- possibilité de noter ses images ?
+			- lien télécharger avec un choix de taille ?
+			- possibilité de laisser des "commentaires / notes" privées
+#	- Ajouter un champ is_pictofday à la table picture en one2one avec les images du jour
+#	- Séparer les articles et galeries dans le menu latéral
+	- Ajouter des fixtures avec :
+#		- Une catégorie parente Galleries (onglet séparé)
+#		- Une catégorie parente Articles (onglet séparé)
+		- Un ensemble de collection phiroom
+		- Un ensemble de collection user
+        - des licences pré-inscrites
+        - des labels pré-incrits
+	- Ajouter des collections dynamiques 5, 4, 3, 2, 1, et pas d'étoiles, dernières photos importées
+	- Ajouter un formulaire pour vider une collection
+	- Ajouter un formulaire pour vider un dossier
+    - Ajouter une barre d'outils permettant de :
+        - choisir entre 3 tailles de vignettes (curseur)
+        - noter les images
+        - mettre un libellé de couleur
+        - rotation ? -> css rotate + ajax et rotation des previews
+        - téléchargement:
+            - avec choix de la taille en fonction des aperçus disponibles
+        - passer à la photo suivante / précédente lors des vue en une seule images
+#    - Rendre les images sélectionnables
+#    - Rendre les images drag & droppable par lot
+#        - passer la photo sursélectionnée en indice 0 du tableau selected (pour ajouter la bonne dans les images du jour, et se débarrasser d'une classe)
+        - voir pour la sélection et le drag après rechargement ajax de la page
+    - Passer les options d'ajout de métadonnées par lot (notes, libellé)
+    - Faire le panel de droite
+#    - Rendre les images classable dans les collections, les galleries, les portfolios
+        - voir pour maintenir le classement dans la partie publique
+    - Gérer les droits d'accès aux galleries
+    - Garder dans la base la dernière url accédée (par user) et les onglets ouverts
+    - Passer les forms js en post à la place de load pour pouvoir avoir un message d'erreur
+    - Vérifier qu'une image ne soit pas image du jour ou partie d'une galerie avant de la supprimer:
+        - avertissement dans le form de confirmation, puis suppression de l'image dans les contenus associés,
+        ou du contenu dans le cas d'une image du jour
+#    - Ajouter une icone sur les vignettes de la bibliothèque si l'image est une image du jour
+#    - Ajouter une icone sur les vignettes de la bibliothèque si l'image fait partie d'une galerie
+#        - Mettre cette image en lien vers une liste des galeries
+#    - Ajouter une icone sur les vignettes de la bibliothèque si l'image fait partie d'un portfolio
+#        - Mettre cette image en lien vers une liste des portfolios
+    - ajouter au menu déroulant "faire une image du jour à partir de cette image"
+    - ajouter au menu déroulant "regénérer les aperçus de cette image"
+    - ajouter au menu déroulant "recharger les métadonnées de cette image"
+    - changer les redirections après suppression d'un élément (portfolios, galeries etc.)
+    - tracer les appels ajax (j'ai l'impression qu'il y en a trop)
+
+==== Module Weblog ====
+#	- créer formulaire de modification / aperçu / création / suppression d'article
+#	- Séparation des form de galeries et d'articles (avec héritage)
+#	- Modifier le form de création, édition d'articles
+#		- Ajout d'un bouton + pour les catégories (hiérarchiques) chargeant un formulaire ajax
+		- Voir pour régler la redirection après l'ajout d'une cat en ajax
+#        - Ajout d'un select pour insérer directement les images d'un dossier
+#		- Ajout d'un select pour insérer directement les images d'une collection
+            - utiliser un TreeNodeChoiceField avec les Ensembles parents des collections
+		- Ajout d'un sytème pour parser les images incluses par leur id dans les markdown
+#		- Laisser la date de parution blanche dans le form et la mettre à l'enregistrement en base
+		- Ajouter un date picker pour la date de parution (test avec input type=datetime mais le format renvoyé dépend du navigateur)
+		- Enregistrement ajax en tant que brouillon toutes les 30s
+#        - Cacher le « modification mineure » dans les forms de création
+#        - Ajouter une checkbox « modification mineure » pour ne pas remettre à jour la date d'update pour la correction d'une faute de frappe (peut être ajouter un champ date pour lui)
+#(annulé)		- Ajouter un checkbox "is_galerie" pour empêcher la publication s'il n'y a pas d'images
+#		- tableau multiple choice pour les tags des articles
+#		- input text pour lister les nouveaux tags séparés par des virgules
+#		- previews du markdown dans la vue update
+		- previews des images dans la vue update
+#		- previews du markdown dans la vue create
+		- previews des images dans la vue create
+#		- ne pas répèter les form_valid() de Update et Create…
+        - essayer de passer le TreeNodeChoiceField pour le champ catégory, en gardant (ou reimplémentant) le selected auto et les vérifications
+#        - factoriser la fonction d'ajout de nouveaux mots clés aux 3 formulaires
+#	- Modifier le menu latéral pour prendre en compte les catégories hiérarchiques
+#	- Modifier le menu latéral pour supprimer les extraits (transformés en portfolio)
+#	- Ajouter un champ bool pour désigner si l'article est une galerie ou non
+#		- Ce champ changera l'icone
+#		- Se comportera comme brouillon si une gallerie n'a pas d'images associées
+#		- Ce champ servira à séparer les articles des galeries dans les menus latéraux
+#	- Ajouter un champ bool pour mettre un article en mode brouillon
+#	- Passer le modèle article en classe abstraite sans images, puis hériter de lui pour les idj (avec une image en one2one), et les galleries (avec les images en many2many)
+#    - Ajouter pubdate dans les time de publication
+#    - Revoir l'affichage des catégories au dessus des articles
+    - Ajouter un warning dans les formulaires lors du auto-draft (renvoyer le formulaire s'il n'y a pas d'image avec le warning, et un champ caché indiquant qu'il a été affiché
+    - Ajouter un li « nuage de mots clés » dans l'onglet mots clés du menu latéral pour afficher un… …nuage de mots clés :D
+#    - Passer la requête de conf dans le __init__ de la vue de manière à faire la requête une seule fois par vue (c'est mieux :D)
+#    - Voir pour changer le titre des pages en articles, et galeries à la place de weblog
+    - Mettre en place la recherche
+
+
+==== Module Image du jour ====
+#	- Héritage du modèle article
+#	- Changer le rapport vers Picture en one to one
+#	- Changer le champ date pour une précision à la journée
+#    - Revoir les css
+#    - Ajouter les infos sur l'image
+#    - Ajouter la pagination
+#    - Ajouter la vue par date
+#    - N'afficher dans le select que les pictures qui ne sont pas déjà idj (limit_choice, voir conf.models)
+#        - pas si simple: le limit_choice = {'portfolio': None} marche trop bien : en cas d'update l'image d'origine n'est plus accessible
+#            - remplacer le dictionnaire par un Q object et faire un Q(portfolio=None)|Q(portfolio=self) ne semble pas possible… (pas de moyen d'obtenir l'instance du modèle dans le modèle
+#            - il reste deux options :
+#                - garder limit_choice = {'portfolio': None}, et si besoins (update) ajouter aux choices l'instance en cours dans le form
+#                - gérer complètement le contenu du modelChoice dans le form 
+#                    - début de solution ici : https://groups.google.com/forum/?fromgroups=#!topic/django-users/s9a0J6fKgWs 
+#        - bug à corriger avec l'implémentation actuelle (erreur lors des éditions)
+#    - Afficher aucune image du jour en cas de table vide (à la place du 404)
+#    - définir et utiliser last pour récupérer la dernière idj
+#    - merger article_edit.html et pictofday_edit.html
+
+==== Module Portfolio ====
+#	- Template d'affichage des images (design à trouver)
+#	- Lightbox js perso ou carousel auto ?
+#        - ajouter space pour passer à l'image suivante
+
+==== Module User ====
+#    - merger les modèles User et Profil
+#	- gestion des avatars
+#	- formulaire de gestion du profil
+	- formulaire de réinitialisation du mot de passe
+	- formulaire de récupération de mot de passe
+    - ajouter un cookie secure (n'envoyer le cookie que par https)
+
+==== Module Conf ====
+#	- form d'upload pour modifier l'image de titre
+#	- form d'upload pour modifier l'image de l'accueil
+#    - form de modification de la conf
+    - form de sélection d'une ancienne version de la conf
+    - ajouter mail_comment au form après l'activation des commentaires
+    - ajouter les icones share si besoins:
+    - revoir la présentation du form de modification:
+        - grouper les éléments par logique
+#        - ajouter (beaucoup) de help_text
+
+
+==== Spam security ====
+    - ajouter un champ hidden avec un timestamp dans les forms non sécurisé (inscription, comment)
+        - vérifier en js au submit si l'user a mis moins de 5s pour remplir le form, si oui, message d'erreur et nouveau form (rempli qd même)
+        - vérifier à réception (au cas où js soit désactivé)
+    - ajouter un input text que l'on cache en css
+        - si il est rempli c'est un spam <del>ou un aveugle</del>
+
+==== Sémantique ====
+#    - passer les article#popup en <div> (<section> finalement)
+#    - passer les article#conf en article#main
+#    - ajouter pubdate="pubdate" dans les balises <time> de date de mise à jour ou de publication
+#    - passer les balises author comme ceci : <a href="http://johnsplace.com" rel="author">John</a>
+    - passer les commentaires en <article> ?
+    - jeter un œil du côté des micro-data
+    - <detail> et <summary> pour #nav ?
+#    - passer en <figure> les aperçus des galeries et en <figcaption> le texte associé
+#    - passer en <figure> l'image dans la lightbox et en <figcaption> le texte associé
+    - passer en <figure> les images dans les articles et en <figcaption> le titre associé
+    - passer en text-indent -9000 les éléments sémantiques à cacher (h1 etc.) class screenout
+    - revoir l'organisations classes / ids / css
+        - revoir l'organisation des classes et des ids : http://nefariousdesigns.co.uk/on-html-element-identifiers.html
+            - préconise une sémantique dans les classes et les ids des éléments html, et de ne pas en faire des « crochets » à javascript ou css
+        - à contrario du précédent lien : http://coding.smashingmagazine.com/2013/10/21/challenging-css-best-practices-atomic-approach/
+            - préconise une classe par style, en accrochant autant de classes que de style aux éléments. revient à styler chaque élément dans le html,
+              pas terrible mais permet un allègement conséquent des css (qui ont une fâcheuse tendance à s'allonger exponentiellement)
+        - la solution serait un mix des deux :
+            - les classes générales en haut du css, suivant le principe du second lien
+            - les classes contextuelles plus bas reprenant les classes générales en mixin, en utilisant les classes et ids sémantiques du premier lien
+            - pas de mixins pour les propriétés de moins d'une ligne (mais faire des mixins de groupe de propriétés, et par sprite)
+            - compilation du tout avec less
+            - adopté
+#    - revoir les urls des articles pour utiliser un slug unique par jour, combiné à la date (permet de se passer des ids)
+
+    
+
+==== Graphisme ====
+	- icone folder pour les submenu de #nav (svg)
+#	- icone doc pour les submenu de #nav (svg)
+#	- icone dia pour les submenu de #nav (svg)
+#	- revoir l'icone "+" pour les ajouts de catégories dans les formulaires
+	- icone pour l'onglet connection de #nav (svg) (sigle off)
+#	- icone tag pour les submenu de #nav (svg) (petite étiquette façon timer android)
+	- icone ensemble de collection pour les submenus de #nav (svg)
+#    - icone pour les portfolios en bas à gauche des vignettes
+	- petites flèches pour les submenus de #nav (svg)
+	- modifier la classe des flèches lors du masquage des panneaux latéraux (addClass, removeClass)
+#    - cacher les flèches des panneaux latéraux là où c'est inutile
+#    - enlever le « rebond sur les miniatures »
+#	- Spliter en deux les background composés des li.togglesubmenu (flèche mobile et icone)
+#	- Rationnaliser les css (avant release ?)
+#        - organisations des css en sous fichiers
+        - refaire un tour avant release
+#	- Rassembler toutes les icones en une seule image (sprite) (avant release ? non non, c'est pas le moment d'ajouter des bugs…)
+        - Revoir les lignes, et cadres du menu latéral
+        - Revoir les indentations des listes imbriquées
+        - Revoir le form de recherche
+        - Revoir le Gif loading
+#    - Refaire la pagination des idj et des listes d'articles
+#    - Refaire la croix de fermeture de lightbox
+#    - Voir pour l'alignement vertical du texte dans les ul.submenu li
+#    - Voir pour utiliser les polices android partout
+    - Passer les |Truncatechar en css
+#    - creuser les liens de pagination non actifs (comme les mots clés), ou utiliser le design des boutons et submits
+#    - Supprimer l'effet hover des buttons de pagination s'il n'y a pas de lien
+#    - Changer le curseur des button contenus dans un lien
+#    - ajouter un effet scroll pour rejoindre les ancres : http://uxdesign.smashingmagazine.com/2013/10/23/smart-transitions-in-user-experience-design/ 
+    - Voir pour éventuellement changer l'affichage de la date des publications. idées :
+        - http://secouezlecours.wordpress.com/2012/09/26/the-impressionist-une-interface-graphique-pour-impress-js/ 
+    - Créer une barre d'outils:
+        - select order
+        - bouton pour inverser l'ordre
+        - bouton étoiles
+        - boutons libellés de couleur
+        - boutons suivant / précédent
+        - curseur taille de vignettes
+
+
+==== Module Pages ====
+	- formulaire CRUD de gestion des pageswikiLink
+	- case à cocher àjouter au menu principal
+	- ordre de la page
+	- voir si le module flatpages convient
+	- markdown ou html
