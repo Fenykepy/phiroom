@@ -9,15 +9,15 @@ __pycache__/
 phiroom.sql
 
 # data files
-phiroom/data/images/librairy/*
-phiroom/data/images/avatars/*
-phiroom/data/images/logos/*
-phiroom/data/images/previews/*
+phiroom/data/images/librairy/**
+phiroom/data/images/avatars/**
+phiroom/data/images/logos/**
+phiroom/data/images/previews/**
 
 # allow sample files
-! phiroom/data/images/librairy/sample1/*
-! phiroom/data/images/librairy/sample2/*
-! phiroom/data/images/librairy/sample3/*
+! phiroom/data/images/librairy/sample1/
+! phiroom/data/images/librairy/sample2/
+! phiroom/data/images/librairy/sample3/
 
 # Distribution / packaging
 .Python
