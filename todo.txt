@@ -45,6 +45,14 @@
     - implémenter l'upload http
 #    - le titre est égal à la description exif, mais il est limité à 140 char alors que la description ne l'est pas.
     - l'effacement de dossiers plante s'il y a d'autres fichiers que des fichiers images dedans (.DStore)
+    - pré-remplir le dossier /data/images avec un avatar par défaut, un dossier image avec quelques exemples.
+    - Créer des fixtures avec : mots-clés, catégories, article, galeries
+    - Merger articles et galeries
+    - Changer le gitignore pour accepter les jpeg de l'avatar par défaut et du dossier images d'exemple
+    - Changer le nom du module image du jour
+    - Autoriser la désactivation des modules
+    - Choisir la taille des grands aperçus pour la lightbox
+    - 
 
 
 ==== Les taches cron ====
