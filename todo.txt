@@ -52,7 +52,7 @@
     - Changer le nom du module image du jour
     - Autoriser la désactivation des modules
     - Choisir la taille des grands aperçus pour la lightbox
-    - 
+    - http://fr.flossmanuals.net/ecrire/phiroom/
 
 
 ==== Les taches cron ====
@@ -256,6 +256,9 @@
     - ajouter au menu déroulant "recharger les métadonnées de cette image"
     - changer les redirections après suppression d'un élément (portfolios, galeries etc.)
     - tracer les appels ajax (j'ai l'impression qu'il y en a trop)
+    - redirection vers le contenu de la collection après sa création
+    - ajouter un menu "effacer l'image" (en parallèle à supprimer du serveur)
+    -
 
 ==== Module Weblog ====
 #	- créer formulaire de modification / aperçu / création / suppression d'article
