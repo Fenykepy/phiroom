@@ -43,13 +43,21 @@
 #            - galerie
 #            - portfolios
     - implémenter l'upload http
+    - redimentionner les avatars à l'upload (100px), et les renommer
 #    - le titre est égal à la description exif, mais il est limité à 140 char alors que la description ne l'est pas.
     - l'effacement de dossiers plante s'il y a d'autres fichiers que des fichiers images dedans (.DStore)
-    - pré-remplir le dossier /data/images avec un avatar par défaut, un dossier image avec quelques exemples.
-    - Créer des fixtures avec : mots-clés, catégories, article, galeries
+    - pré-remplir le dossier /data/images avec :
+#        - un avatar par défaut
+#        - un dossier image avec quelques exemples
+#        - les logos par défaut
+    - Créer des fixtures avec :
+        - mots-clés
+        - catégories
+        - article
+        - galeries
     - Merger articles et galeries
-    - Changer le gitignore pour accepter les jpeg de l'avatar par défaut et du dossier images d'exemple
-    - Changer le nom du module image du jour
+#    - Changer le gitignore pour accepter les jpeg de l'avatar par défaut et du dossier images d'exemple
+    - Changer le nom du module image du jour pour "à la une" et trouver une traduction
     - Autoriser la désactivation des modules
     - Choisir la taille des grands aperçus pour la lightbox
     - http://fr.flossmanuals.net/ecrire/phiroom/
@@ -326,6 +334,7 @@
 #	- Template d'affichage des images (design à trouver)
 #	- Lightbox js perso ou carousel auto ?
 #        - ajouter space pour passer à l'image suivante
+    - ajouter une chekbox "réserver à un public majeur", avec une popup à valider avant de voir le contenu
 
 ==== Module User ====
 #    - merger les modèles User et Profil
