@@ -50,17 +50,19 @@ class Entry(models.Model):
     is_portfolio = models.BooleanField(default=False, verbose_name="L'entrée est un portfolio")
     is_pictofday = models.BooleanField(default=False, verbose_name="L'entrée est une image du jour")
     is_published = models.BooleanField(default=False, verbose_name="L'entrée a été publiée")
+    absolute_url = models.URLField(verbose_name="Url absolue")
+
     objects_entry = models.Manager()
     published_entry = PublishedManager()
 
     def get_n_view(self):
-        return View.objects.filter(url=self.get_absolute_url()).count()
+        return View.objects.filter(url=self.absolute_url).count()
 
     def get_n_view_not_staff(self):
-        return View.objects.filter(url=self.get_absolute_url(), staff=False).count()
+        return View.objects.filter(url=self.absolute_url, staff=False).count()
 
     def get_n_view_unique(self):
-        return View.objects.filter(url=self.get_absolute_url(), staff=False).values('ip').distinct().count()
+        return View.objects.filter(url=self.absolute_url, staff=False).values('ip').distinct().count()
 
     def get_absolute_url(self):
         if self.is_article:
@@ -105,6 +107,7 @@ class Entry(models.Model):
         """Make unique slug from title and save"""
         slug = '%s' % (self.title)
         unique_slugify(self, slug, queryset=Entry.objects_entry.all())
+        self.absolute_url = self.get_absolute_url()
         super(Entry, self).save()
 
     def __str__(self):
