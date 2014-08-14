@@ -114,7 +114,7 @@ class Page(models.Model):
     is_active = models.BooleanField(default=True, verbose_name="Activer")
     content = models.TextField(null=True, verbose_name="Contenu")
     source = models.TextField(null=True, verbose_name="Source")
-    reverse_url = models.CharField(max_length=100, verbose_name="Titre")
+    reverse_url = models.URLField()
 
 
     def __str__(self):

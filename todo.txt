@@ -145,6 +145,8 @@
 	- tests du module article
 	- tests du module conf
 	- tests du module user
+#    - fixer le bug du choix de la page d'accueil
+    - ajouter un diaporama automatique en accueil
 #	- passer le queryset conf ailleurs que dans une variable de classe (pour sa mise à jour)
 #	- trouver une solution pour les commentaires -> vieux module commentaire
 		- mettre en place le vieux module commentaire ou coder le mien
