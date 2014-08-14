@@ -32,11 +32,11 @@
     # aptitude update
     # aptitude safe-upgrade
     # aptitude install python3 python3-markdown python3-pip python3-yaml fossil libpng12-dev libjpeg-dev libpng12-dev
-    # pip-3.2 install Django==1.6
+    # pip-3.2 install Django==1.6.5
     # pip-3.2 install django-mptt
-    # pip-3.2 install Pillow==2.3.0
+    # pip-3.2 install Pillow==2.5.2
     # pip-3.2 install pytz
-    # pip-3.2 install python-xmp-toolkit==2.0.0
+    # pip-3.2 install python-xmp-toolkit==2.0.1
 
 
 

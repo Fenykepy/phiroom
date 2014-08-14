@@ -12,7 +12,6 @@ from gallery.models import Gallery
 from pictofday.models import Pictofday
 from portfolio.models import Portfolio
 from conf.models import Conf, Page
-from stats.models import Page as Url
 
 from user.forms import LoginForm
 
@@ -35,9 +34,6 @@ class ConfMixin(ContextMixin):
         context['page_info'] = Page.objects.get(name = self.page_name)
         context['menu'] = Page.objects.filter(is_in_main_menu=True).order_by('position_in_main_menu', 'pk')
         context['phiroom'] = PHIROOM
-        if self.request.user.is_staff:
-            # if user is staff get number of views
-            context['n_view'] = Url.objects.get(url=self.request.path).n_view
 
         return context
 
