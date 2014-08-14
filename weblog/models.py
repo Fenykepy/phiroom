@@ -11,6 +11,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from user.models import User
 from conf.models import Conf
 from weblog.slug import unique_slugify
+from stats.models import View
 
 class PublishedManager(models.Manager):
     """returns a queryset with all published objects
@@ -49,11 +50,17 @@ class Entry(models.Model):
     is_portfolio = models.BooleanField(default=False, verbose_name="L'entrée est un portfolio")
     is_pictofday = models.BooleanField(default=False, verbose_name="L'entrée est une image du jour")
     is_published = models.BooleanField(default=False, verbose_name="L'entrée a été publiée")
-    n_view = models.IntegerField(default=0, verbose_name="Nombre de vues totales")
-    n_view_not_staff = models.IntegerField(default=0, verbose_name="Nombre de vues utilisateurs")
-    n_view_unique = models.IntegerField(default=0, verbose_name="Nombre de vues uniques")
     objects_entry = models.Manager()
     published_entry = PublishedManager()
+
+    def get_n_view(self):
+        return View.objects.filter(url=self.get_absolute_url()).count()
+
+    def get_n_view_not_staff(self):
+        return View.objects.filter(url=self.get_absolute_url(), staff=False).count()
+
+    def get_n_view_unique(self):
+        return View.objects.filter(url=self.get_absolute_url(), staff=False).values('ip').distinct().count()
 
     def get_absolute_url(self):
         if self.is_article:

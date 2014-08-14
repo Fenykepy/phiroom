@@ -25,7 +25,8 @@
         <ul class="entry-type">
             <li><div>Article</div></li>
             {% if user.is_staff %}
-            <li><div>{{ entry.n_view_unique }} vues</div></li>
+            <li><div>{{ entry.get_n_view_not_staff }} vues</div></li>
+            <li><div>{{ entry.get_n_view_unique }} unitaires</div></li>
             {% endif %}
         </ul>
 
@@ -50,8 +51,8 @@
         <ul class="entry-type">
             <li><div>Galerie</div></li>
             {% if user.is_staff %}
-            <li><div>{{ entry.n_view_not_staff }} vues</div></li>
-            <li><div>{{ entry.n_view_unique }} unitaires</div></li>
+            <li><div>{{ entry.get_n_view_not_staff }} vues</div></li>
+            <li><div>{{ entry.get_n_view_unique }} unitaires</div></li>
             {% endif %}
         </ul>
 
@@ -83,7 +84,8 @@
         <ul class="entry-type">
             <li><div>Portfolio</div></li>
             {% if user.is_staff %}
-            <li><div>{{ entry.n_view_unique }} vues</div></li>
+            <li><div>{{ entry.get_n_view_not_staff }} vues</div></li>
+            <li><div>{{ entry.get_n_view_unique }} unitaires</div></li>
             {% endif %}
         </ul>
 
@@ -118,7 +120,8 @@
         <ul class="entry-type">
             <li><div>Image du jour</div></li>
             {% if user.is_staff %}
-            <li><div>{{ entry.n_view_unique }} vues</div></li>
+            <li><div>{{ entry.get_n_view_not_staff }} vues</div></li>
+            <li><div>{{ entry.get_n_view_unique }} unitaires</div></li>
             {% endif %}
         </ul>
 

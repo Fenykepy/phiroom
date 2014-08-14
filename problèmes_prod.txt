@@ -25,10 +25,10 @@
 - Les uploads de fichiers ne marchent pas avec les forms ajax :(
     - probablement le « enctype » qui n'est pas sérialisé par jquery -> finalement c'est plus compliqué :(
 
-- De temps en temps le middleware stats retourne :
-    get() returned more than one Entry -- it returned 2!
-    /home/lavilotte-rolle/sites/phiroom/stats/middleware.py in process_view
-     entry = Entry.objects_entry.get(slug=view_kwargs['slug']) 
+#- De temps en temps le middleware stats retourne :
+#    get() returned more than one Entry -- it returned 2!
+#    /home/lavilotte-rolle/sites/phiroom/stats/middleware.py in process_view
+#     entry = Entry.objects_entry.get(slug=view_kwargs['slug']) 
 
 #- Si le success url des forms de créations d'article etc. renvoient vers la date locale au lieu d'utc si l'utilisateur a précisé une date…
 #- Les mails d'abonnement sont foireux (voir les mails reçus)
