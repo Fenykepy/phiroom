@@ -60,9 +60,11 @@
     - Changer le nom du module image du jour pour "image à la une" et trouver une traduction (in the spotlight, in the news)
     - Autoriser la désactivation des modules
     - Choisir la taille des grands aperçus pour la lightbox
-    - http://fr.flossmanuals.net/ecrire/phiroom/
-    - Voir pour passer la fonction "get_absolute_url" de Entry automatiquement avant le "save" et remplir un champ en base.
-    - ajouter un lien vers le fichier original dans les menus images de la bibliothèque
+    - http://fr.flossmanuals.net/ecrire/phiroom/ 
+#    - Voir pour passer la fonction "get_absolute_url" de Entry automatiquement avant le "save" et remplir un champ en base.
+#    - ajouter un lien vers le fichier original dans les menus images de la bibliothèque
+    - ajouter un form de modification du titre d'une image
+    - empêcher les ancres de la lightbox de pourrir l'historique
 
 
 ==== Les taches cron ====

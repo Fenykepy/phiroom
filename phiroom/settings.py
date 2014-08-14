@@ -36,6 +36,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'phiroom/data/')
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
 MEDIA_URL = '/data/'
+LIBRAIRY_URL = os.path.join(MEDIA_URL, 'images/librairy')
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files

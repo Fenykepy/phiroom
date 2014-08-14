@@ -274,6 +274,7 @@ def save_picture(path, dir, file, md5, update=False, previews=True, metadatas=Tr
     else:
         pict = Picture.objects.get(id=update)
 
+
     # if metadatas, read metadatas from file
     if metadatas:
         img = Image.open(pathname)

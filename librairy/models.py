@@ -6,6 +6,8 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db.models import Q
 
+from phiroom.settings import LIBRAIRY_URL
+
 PICTURES_ORDERING_CHOICES = (
         ('name', 'Nom'),
         ('id', 'ID'),
@@ -68,6 +70,7 @@ class Picture(models.Model):
     date_update = models.DateTimeField(auto_now_add=True, auto_now=True, verbose_name="Date de mise àà jour")
     date_origin = models.DateTimeField(auto_now_add=False, auto_now=False, null=True, blank=True, verbose_name="Date d'origine")
     date = models.DateTimeField(auto_now_add=False, auto_now=False, null=True, blank=True, verbose_name="Date")
+    absolute_url = models.URLField()
 
     class Meta:
         unique_together = ('directory', 'name')
@@ -81,6 +84,11 @@ class Picture(models.Model):
         ancestors = self.directory.get_ancestors(include_self=True)
         ancestors_path = '/' + '/'.join(ancestors2list(ancestors)) + '/'
         return (os.path.join(ancestors_path, self.name))
+
+    def save(self, **kwargs):
+        """Get absolute url then save"""
+        self.absolute_url = LIBRAIRY_URL + self.get_relative_pathname()
+        super(Picture, self).save()
 
 class Directory(MPTTModel):
     """Directorys table"""
