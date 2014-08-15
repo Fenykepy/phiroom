@@ -1,0 +1,59 @@
+<header>
+{% load static %}
+{% load humanize %}
+<h1>{{ title }}</h1>
+</header>
+<form method="post" action="#preview" spellcheck="true">
+    <p><span id="red"><span class="red">*</span></span> : Champs obligatoires.</p>
+    {{ form.non_field_errors }}
+    {% csrf_token %}
+
+    <div class="field_wrapper">
+    {{ form.title.label_tag }}<span class="red"> *</span>
+    {{ form.title.errors }}
+    {{ form.title }}{% if form.title.help_text %}<span class="help_text">{{ form.title.help_text }}</span>{% endif %}
+    </div> 
+
+    <div class="field_wrapper">
+    {{ form.source.label_tag }}<span class="red"> *</span>
+    {{ form.source.errors }}
+    {{ form.source }}{% if form.source.help_text %}<span class="help_text">{{ form.source.help_text }}</span>{% endif %}
+    </div> 
+
+
+    {% spaceless %}
+    <p class="center-align">
+    {% if request.is_ajax %}
+        <button id="cancel" type="button" onclick="close_overlay()" >Annuler</button>
+    {% else %}
+        <a href="{{ cancel_link }}">
+            <button type="button">Annuler</button>
+        </a>
+    {% endif %}
+        <input type="submit" name="contact_preview" value="Aperçu" />
+        <input type="submit" name="contact_save" value="Enregistrer" />
+    {% endspaceless %}
+    </p>
+</form>
+
+{% if contact_preview %}
+<div class="v3"></div><!-- v3 -->
+<h2 id="preview">Aperçu :</h2>
+<article>
+    <div class="article_content">
+    <header>
+        <h1>{{ contact_preview.title }}</h1>
+    </header>
+        {{ contact_preview.content|safe }}
+    <footer>
+        <div class="v3"></div><!-- v3 -->
+    </footer>
+    </div>
+</article>
+{% endif %}
+
+
+
+<footer>
+<div class="v3"></div><!-- v3 -->
+</footer>

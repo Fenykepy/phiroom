@@ -8,6 +8,7 @@ class Description(models.Model):
     content = models.TextField(null=True, verbose_name="Description")
     source = models.TextField(null=True, verbose_name="Source")
     date_update = models.DateTimeField(auto_now_add=True, auto_now=True, verbose_name="Date de modification")
+    author = models.ForeignKey(User, blank=True, null=True)
 
 class Message(models.Model):
     """Received emails table"""

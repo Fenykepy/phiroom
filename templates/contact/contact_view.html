@@ -10,17 +10,18 @@
         <a class="popup" href="{% url "contact_edit" %}"><button class="entry-header small_button">Éditer</button></a>
         {% endif %}
     </header>
-    
+    <div id="contact-content"> 
     {{ entry.content|safe }}
+    </div>
     <footer>
         {% include "weblog/weblog_follow.html" %}
         <hr />
         <div class="v3"></div>{# v3 #}
     </footer>
-    <header>
+
+        <form id="message-form" method="post" action="" spellcheck="true">
         <h2>Laisser un message</h2>
-    </header>
-        <form method="post" action="" spellcheck="true">
+        <hr />
             <p><span id="red"><span class="red">*</span></span> : Champs obligatoires.</p>
             {{ form.non_field_errors }}
             {% csrf_token %}
@@ -76,10 +77,10 @@
             <p class="center-align">
             <input type="submit" name="send" value="Envoyer" />
             </p>
+        <hr />
         </form>
 
     <footer>
-        <hr />
         <div class="v3"></div>{# v3 #}
         <p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
     </footer>

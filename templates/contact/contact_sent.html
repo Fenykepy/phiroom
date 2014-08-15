@@ -3,18 +3,17 @@
 {% block content %}
 <article id="main">
     <div class="article_content">
-    <header>
-        <h1>Laisser un message</h1>
-    </header>
+    <div id="contact-content">
     <p class="center-align"><strong>
-        Votre message a bien été envoyé !
+        <span class="warning-message">Votre message a bien été envoyé !</span>
     </strong></p>
     <p class="center-align">
 
         <a href="{% url "contact_home" %}">
-            <button type="button">Retour à la page contact</button>
+            <button class="large-button" type="button">Retour à la page de contact</button>
         </a>
     </p>
+</div>
         <footer>
             <hr />
             <div class="v3"></div>{# v3 #}

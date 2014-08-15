@@ -42,6 +42,7 @@ ul#id_tags li{display:block;width:33%;height:20px;float:left;clear:right}
 ul#id_tags li[float="left"]+li{float:none}
 input:hover,input:focus,textarea:focus,textarea:hover,select:focus,select:hover{box-shadow:0 0 3px #000}
 input[type="submit"],button{display:inline-block;background:#444;background:-webkit-linear-gradient(#404040, #222);background:-moz-linear-gradient(#404040, #222);background:-ms-linear-gradient(#404040, #222);background:-o-linear-gradient(#404040, #222);background:linear-gradient(#404040, #222);border:1px solid #000;border-radius:2px;box-shadow:0 0 1px #000;color:#ccc;height:34px;width:150px;margin-top:5px;margin-right:2px;margin-left:2px;text-align:center;overflow:hidden;-o-text-overflow:ellipsis;text-overflow:ellipsis}input[type="submit"].small_button,button.small_button{height:24px;padding:2px 6px 0 6px}
+input[type="submit"].large-button,button.large-button{width:auto}
 input[type="submit"]:hover,input[type="submit"]:focus,button:hover,button:focus,a:hover button,a:focus button{color:#fff;box-shadow:0 0 3px #000}
 a button{cursor:pointer}
 li#rechercher form{height:20px;background:none}
@@ -55,6 +56,7 @@ form ul.errorlist li{display:block;margin-bottom:15px;border-color:#970000;color
 div.input_group{display:table;box-sizing:border-box;margin-bottom:10px;border-collapse:separate;width:100%;position:relative;margin-top:5px}div.input_group select{margin:0;border-top-right-radius:0;border-bottom-right-radius:0;display:table-cell}
 div.input_group a{box-sizing:border-box;display:table-cell;height:100%;width:60px;border-radius:4px;border:1px solid #000;border-bottom-left-radius:0;border-top-left-radius:0;box-shadow:none;background:#222;background:-webkit-linear-gradient(#404040, #222);background:-moz-linear-gradient(#404040, #222);background:-ms-linear-gradient(#404040, #222);background:-o-linear-gradient(#404040, #222);background:linear-gradient(#404040, #222)}div.input_group a:before{top:3px;margin-right:auto;margin-left:auto;background:url("../images/structure/css/phiroom-sprite.png") no-repeat;background-position:-240px -45px;position:relative;display:block;content:"";width:16px;height:16px}
 div.input_group a:hover,div.input_group a:focus{box-shadow:0 0 3px #000}div.input_group a:hover:before,div.input_group a:focus:before{background:url("../images/structure/css/phiroom-sprite.png") no-repeat;background-position:-260px -45px;position:relative;display:block;content:"";width:16px;height:16px}
+.warning-message{font-size:1.7em}
 .arrow{content:"";position:absolute;height:0;width:0}
 .out-screen{text-indent:-999em;letter-spacing:-999em;overflow:hidden}
 body{margin:0 20px 0 20px;color:#000;background-color:#000}body a{color:#919191}body a:hover,body a:active,body a:focus{color:#ccc}
@@ -229,6 +231,8 @@ div#pagination ul,ul#pager{position:relative;text-align:center}div#pagination ul
 div#pagination ul li#actual,ul#pager li#actual,div#pagination ul a:hover li,ul#pager a:hover li,div#pagination ul a:active li,ul#pager a:active li,div#pagination ul a:focus li,ul#pager a:focus li{border:1px solid #000;background:#444;background:-webkit-linear-gradient(#404040, #222);background:-moz-linear-gradient(#404040, #222);background:-ms-linear-gradient(#404040, #222);background:-o-linear-gradient(#404040, #222);background:linear-gradient(#404040, #222);color:#ccc;box-shadow:0 0 1px #000}
 div#pagination ul a:hover li,ul#pager a:hover li,div#pagination ul a:focus li,ul#pager a:focus li{color:#fff}
 div#pagination ul a:active li,ul#pager a:active li{color:#fff;box-shadow:0 0 3px #000}
+#contact-content{margin-bottom:40px;margin-top:30px}
+#message-form{margin-right:auto;margin-left:auto}
 #pager{position:relative;text-align:center}
 div.gallery.pictofday{text-align:center;margin-top:1em;margin-bottom:1em;padding-right:.8333333333333334%;padding-left:.8333333333333334%}div.gallery.pictofday img{max-width:100%;margin:0}
 ul.exif{margin-left:.8333333333333334%}
