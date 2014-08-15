@@ -112,9 +112,9 @@ class Page(models.Model):
     is_in_home_menu = models.BooleanField(default=False, verbose_name="Afficher dans le menu de la page d'accueil")
     position_in_home_menu = models.PositiveSmallIntegerField(default=100)
     is_active = models.BooleanField(default=True, verbose_name="Activer")
-    content = models.TextField(null=True, verbose_name="Contenu")
-    source = models.TextField(null=True, verbose_name="Source")
-    reverse_url = models.URLField()
+    content = models.TextField(null=True, verbose_name="Contenu", blank=True)
+    source = models.TextField(null=True, verbose_name="Source", blank=True)
+    reverse_url = models.CharField(max_length=254)
 
 
     def __str__(self):

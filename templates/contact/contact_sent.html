@@ -1,0 +1,26 @@
+{% extends "weblog/weblog_base.html" %}
+{% load static %}
+{% block content %}
+<article id="main">
+    <div class="article_content">
+    <header>
+        <h1>Laisser un message</h1>
+    </header>
+    <p class="center-align"><strong>
+        Votre message a bien été envoyé !
+    </strong></p>
+    <p class="center-align">
+
+        <a href="{% url "contact_home" %}">
+            <button type="button">Retour à la page contact</button>
+        </a>
+    </p>
+        <footer>
+            <hr />
+            <div class="v3"></div>{# v3 #}
+            <p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
+        </footer>
+
+    </div>{# article_content #}
+</article>
+{% endblock %}

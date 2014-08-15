@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     url(r'^librairy/', include('librairy.urls')), # librairy app
     url(r'^settings/', include('conf.urls')), # conf app
     url(r'^account/', include('user.urls')), # user app
+    url(r'^contact/', include('contact.urls')), # user app
     url(r'^feed/$', WeblogFeed(), name="feed"),
 )
 

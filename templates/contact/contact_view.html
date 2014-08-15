@@ -1,0 +1,89 @@
+{% extends "weblog/weblog_base.html" %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+<article id="main">
+<div class="article_content">
+    <header>
+        <h1>{{ entry.title }}</h1>
+        {% if user.is_staff %}
+        <a class="popup" href="{% url "contact_edit" %}"><button class="entry-header small_button">Éditer</button></a>
+        {% endif %}
+    </header>
+    
+    {{ entry.content|safe }}
+    <footer>
+        {% include "weblog/weblog_follow.html" %}
+        <hr />
+        <div class="v3"></div>{# v3 #}
+    </footer>
+    <header>
+        <h2>Laisser un message</h2>
+    </header>
+        <form method="post" action="" spellcheck="true">
+            <p><span id="red"><span class="red">*</span></span> : Champs obligatoires.</p>
+            {{ form.non_field_errors }}
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+            <div class="hidden">
+            {% endif %}
+            <div class="field_wrapper">
+            {{ form.name.label_tag }}<span class="red"> *</span>
+            {{ form.name.errors }}
+            {{ form.name }}{% if form.name.help_text %}<span class="help_text">{{ form.name.help_text }}</span>{% endif %}
+            </div>
+
+            <div class="field_wrapper">
+            {{ form.mail.label_tag }}<span class="red"> *</span>
+            {{ form.mail.errors }}
+            {{ form.mail }}{% if form.mail.help_text %}<span class="help_text">{{ form.mail.help_text }}</span>{% endif %}
+            </div>
+
+            <div class="field_wrapper">
+            {{ form.website.label_tag }}
+            {{ form.website.errors }}
+            {{ form.website }}{% if form.website.help_text %}<span class="help_text">{{ form.website.help_text }}</span>{% endif %}
+            </div>
+            {% if user.is_authenticated %}
+            </div>
+            {% endif %}
+
+            <div class="field_wrapper">
+            {{ form.subject.label_tag }}<span class="red"> *</span>
+            {{ form.subject.errors }}
+            {{ form.subject }}{% if form.subject.help_text %}<span class="help_text">{{ form.subject.help_text }}</span>{% endif %}
+            </div>
+
+            <div class="field_wrapper">
+            {{ form.message.label_tag }}<span class="red"> *</span>
+            {{ form.message.errors }}
+            {{ form.message }}{% if form.message.help_text %}<span class="help_text">{{ form.message.help_text }}</span>{% endif %}
+            </div>
+
+            <div class="field_wrapper checkbox">
+            {{ form.forward.errors }}
+            {{ form.forward.label_tag }}
+            {{ form.forward }}{% if form.forward.help_text %}<span class="help_text">{{ form.forward.help_text }}</span>{% endif %}
+            </div>
+
+            <div class="hidden">
+            {{ form.bottrap.errors }}
+            {{ form.bottrap }}
+            {{ form.bottrap.help_text }}
+            </div>
+
+
+            <p class="center-align">
+            <input type="submit" name="send" value="Envoyer" />
+            </p>
+        </form>
+
+    <footer>
+        <hr />
+        <div class="v3"></div>{# v3 #}
+        <p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
+    </footer>
+
+</div>{# article_content #}
+</article>
+{% endblock %}

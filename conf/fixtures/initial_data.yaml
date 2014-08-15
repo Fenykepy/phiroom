@@ -156,6 +156,19 @@
     is_active: True
     reverse_url: conf_settings
 
+- model: conf.Page
+  pk: 13
+  fields:
+    title: Contact
+    name: contact
+    is_in_main_menu: True
+    position_in_main_menu: 60
+    is_in_home_menu: True
+    position_in_home_menu: 60
+    is_active: True
+    reverse_url: contact_home
+
+
 
 
 
