@@ -1,42 +1,47 @@
 from django.conf.urls import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth.decorators import user_passes_test
 
-from weblog.views import *
+from user.views import user_is_staff
+from weblog.views import ListEntrys, ListPortfolios, ListEntrysByTag, \
+        ViewEntry, CreateEntry, UpdateEntry, DeleteEntry
 
 urlpatterns = patterns('',
-        # weblog home page
+        # weblog home page (list entrys)
         url(r'^$', ListEntrys.as_view(), name="weblog_home"),
         url(r'^page/(?P<page>\d+)/$', ListEntrys.as_view(), name="weblog_home"),
-        # articles list
-        url(r'^articles/$', ListArticles.as_view(), name="weblog_articles"),
-        url(r'^page/(?P<page>\d+)/articles/$', ListArticles.as_view(), name="weblog_articles"),
-        # gallerys list
-        url(r'^gallerys/$', ListGallerys.as_view(), name="weblog_gallerys"),
-        url(r'^page/(?P<page>\d+)/gallerys/$', ListGallerys.as_view(), name="weblog_gallerys"),
+        
+        # entry update
+        url(r'^(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/edit/$',
+            user_passes_test(user_is_staff)(UpdateEntry.as_view()),
+            name="entry_edit"),
+
+        # entry delete
+        url(r'^(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/delete/$',
+            user_passes_test(user_is_staff)(DeleteEntry.as_view()),
+            name="entry_delete"),
+
         # portfolios list
-        url(r'^portfolios/$', ListPortfolios.as_view(), name="weblog_portfolios"),
-        url(r'^page/(?P<page>\d+)/portfolios/$', ListPortfolios.as_view(), name="weblog_portfolios"),
-        # pictofdays list
-        url(r'^picturesofday/$', ListPictofdays.as_view(), name="weblog_pictofdays"),
-        url(r'^page/(?P<page>\d+)/picturesofday/$', ListPictofdays.as_view(), name="weblog_pictofdays"),
-        # entrys by categorys
-        url(r'^category/(?P<pk>\d+)-(?P<cat>.+)/$', ListEntrysByCat.as_view(), name="weblog_cat"),
-        url(r'^page/(?P<page>\d+)/category/(?P<pk>\d+)-(?P<cat>.+)/$', ListEntrysByCat.as_view(), name="weblog_cat"),
+        url(r'^portfolios/$', ListPortfolios.as_view(),
+            name="weblog_portfolios"),
+        url(r'^page/(?P<page>\d+)/portfolios/$', ListPortfolios.as_view(),
+            name="weblog_portfolios"),
+
         # entrys by tags
-        url(r'^keyword/(?P<slug>.+)/$', ListEntrysByTag.as_view(), name="weblog_tag"),
-        url(r'^page/(?P<page>\d+)/keyword/(?P<slug>.+)/$', ListEntrysByTag.as_view(), name="weblog_tag"),
-        # entrys by picture
-        url(r'^picture/(?P<pk>\d+)/$', ListEntrysByPicture.as_view(), name="weblog_picture"),
-        url(r'^page/(?P<page>\d+)/picture/(?P<pk>\d+)/$', ListEntrysByPicture.as_view(), name="weblog_picture"),
-        # entrys by gallerys for a picture
-        url(r'^gallery/picture/(?P<pk>\d+)/$', ListEntrysByGallerysPicture.as_view(), name="weblog_picture_gallerys"),
-        url(r'^page/(?P<page>\d+)/gallery/picture/(?P<pk>\d+)/$', ListEntrysByGallerysPicture.as_view(), name="weblog_picture_gallerys"),
-        # entrys by portfolio for a picture
-        url(r'^portfolio/picture/(?P<pk>\d+)/$', ListEntrysByPortfoliosPicture.as_view(), name="weblog_picture_portfolios"),
-        url(r'^page/(?P<page>\d+)/portfolio/picture/(?P<pk>\d+)/$', ListEntrysByPortfoliosPicture.as_view(), name="weblog_picture_portfolios"),
-        # entrys by year
-        url(r'^archive/(?P<year>\d{4})/$', ListEntrysByYear.as_view(), name="weblog_year"),
-        url(r'^page/(?P<page>\d+)/archive/(?P<year>\d{4})/$', ListEntrysByYear.as_view(), name="weblog_year"),
+        url(r'^keyword/(?P<slug>.+)/$', ListEntrysByTag.as_view(),
+            name="weblog_tag"),
+        url(r'^page/(?P<page>\d+)/keyword/(?P<slug>.+)/$',
+            ListEntrysByTag.as_view(), name="weblog_tag"),
+
+        # entry view
+        url(r'^(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/$',
+            ViewEntry.as_view(), name="entry_view"),
+
+        # entry create
+        url(r'^create/$',
+            user_passes_test(user_is_staff)(CreateEntry.as_view()),
+            name="entry_create"),
+
 )
 
 # To get static files during development

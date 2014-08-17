@@ -13,16 +13,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
 from django.template import RequestContext
 
-from librairy.forms import ImportForm, CreateFolderForm, RenameFolderForm, DeleteFolderForm, CreateCollectionsEnsembleForm, RenameCollectionsEnsembleForm, DeleteCollectionsEnsembleForm, CreateCollectionForm, RenameCollectionForm, DeleteCollectionForm, CreateCategoryForm, RenameCategoryForm, DeleteCategoryForm, ChooseArticleToUpdateForm, ChooseGalleryToUpdateForm, ChooseArticleToDeleteForm, ChooseGalleryToDeleteForm, ChoosePictofdayToUpdateForm, ChoosePictofdayToDeleteForm, CreateTagForm, RenameTagForm, DeleteTagForm, ChoosePortfolioToUpdateForm, ChoosePortfolioToDeleteForm
+from librairy.forms import *
 from librairy.utils import recursive_import, delete_previews, delete_file
-from article.models import Article
-from gallery.models import Gallery, Gallery_pictures
-from weblog.models import Category, Tag as Tag_weblog
-from pictofday.models import Pictofday
-from portfolio.models import Portfolio, Portfolio_pictures
+from weblog.models import Tag as Tag_weblog
 from librairy.models import Picture, Directory, Tag, Label, Licence, Collection, CollectionsEnsemble, Collection_pictures
-from weblog.views import ConfMixin
-from article.views import AjaxableResponseMixin
+from weblog.views import ConfMixin, AjaxableResponseMixin
 from phiroom.settings import LIBRAIRY
 
 
@@ -39,11 +34,10 @@ class LibrairyMixin(ConfMixin):
         context['folders'] = Directory.objects.all()
         context['collectionsensembles'] = CollectionsEnsemble.objects.all()
         context['collections'] = Collection.objects.filter(ensemble=None) # get root collections for lateral menu
-        context['categorys'] = Category.objects.all()
-        context['articles'] = Article.objects.all().order_by('-pub_date')
-        context['gallerys'] = Gallery.objects.all().order_by('-pub_date')
-        context['pictofdays'] = Pictofday.objects.all().order_by('-pub_date')
-        context['portfolios'] = Portfolio.objects.all().order_by('-pub_update')
+#        context['articles'] = Article.objects.all().order_by('-pub_date')
+#        context['gallerys'] = Gallery.objects.all().order_by('-pub_date')
+#        context['pictofdays'] = Pictofday.objects.all().order_by('-pub_date')
+#        context['portfolios'] = Portfolio.objects.all().order_by('-pub_update')
         context['tags'] = Tag_weblog.objects.all()
         return context
 
@@ -131,18 +125,18 @@ class ListPictofday(ListPictures):
         context['pictofday'] = self.kwargs['date']
         return context
 
-class ListPortfolio(ListPictures):
-    """Class to list all pictures of a portfolio"""
-    def get_queryset(self):
-        # if gallery doesn't exists raise 404
-        portfolio = get_object_or_404(Portfolio, slug=self.kwargs['slug'])
-        # else return queryset
-        return portfolio.get_sorted_pictures
-
-    def get_context_data(self, **kwargs):
-        context = super(ListPortfolio, self).get_context_data(**kwargs)
-        context['portfolio'] = self.kwargs['slug']
-        return context
+#class ListPortfolio(ListPictures):
+#    """Class to list all pictures of a portfolio"""
+#    def get_queryset(self):
+#        # if gallery doesn't exists raise 404
+#        portfolio = get_object_or_404(Portfolio, slug=self.kwargs['slug'])
+#        # else return queryset
+#        return portfolio.get_sorted_pictures
+#
+#    def get_context_data(self, **kwargs):
+#        context = super(ListPortfolio, self).get_context_data(**kwargs)
+#        context['portfolio'] = self.kwargs['slug']
+#        return context
 
 
 class ListCollectionsEnsemble(ListPictures):
@@ -329,45 +323,6 @@ class DeleteCollection(LibrairyFormView):
 
     form_class = DeleteCollectionForm
 
-class CreateCategory(LibrairyFormView):
-    """Class to create a new category in librairy."""
-    def get_context_data(self, **kwargs):
-        context = super(CreateCategory, self).get_context_data(**kwargs)
-        context['title'] = "Enregistrer une nouvelle catégorie"
-        context['action'] = reverse_lazy('librairy_create_category')
-        context['button'] = "Enregistrer"
-
-        return context
-
-    form_class = CreateCategoryForm
-
-
-# category renaming form
-class RenameCategory(LibrairyFormView):
-    """Class to rename a category"""
-    def get_context_data(self, **kwargs):
-        context = super(RenameCategory, self).get_context_data(**kwargs)
-        context['title'] = "Renommer une catégorie"
-        context['action'] = reverse_lazy('librairy_rename_category')
-        context['button'] = "Renommer"
-    
-        return context
-
-    form_class = RenameCategoryForm
-
-
-# category deleting form
-class DeleteCategory(LibrairyFormView):
-    """Class to delete a category"""
-    def get_context_data(self, **kwargs):
-        context = super(DeleteCategory, self).get_context_data(**kwargs)
-        context['title'] = "Effacer une catégorie"
-        context['action'] = reverse_lazy('librairy_delete_category')
-        context['button'] = "Effacer"
-    
-        return context
-
-    form_class = DeleteCategoryForm
 
 class CreateTag(LibrairyFormView):
     """Class to create a new tag in librairy."""
@@ -408,208 +363,156 @@ class DeleteTag(LibrairyFormView):
     form_class = DeleteTagForm
 
 # article update choosing form
-class ChooseArticleToUpdate(LibrairyFormView):
-    """Class to choose an article to update"""
-    def get_context_data(self, **kwargs):
-        context = super(ChooseArticleToUpdate, self).get_context_data(**kwargs)
-        context['title'] = "Sélectionner l'article à mettre à jour"
-        context['action'] = reverse_lazy('librairy_choose_update_article')
-        context['button'] = "Sélectionner"
+#class ChooseArticleToUpdate(LibrairyFormView):
+#    """Class to choose an article to update"""
+#    def get_context_data(self, **kwargs):
+#        context = super(ChooseArticleToUpdate, self).get_context_data(**kwargs)
+#        context['title'] = "Sélectionner l'article à mettre à jour"
+#        context['action'] = reverse_lazy('librairy_choose_update_article')
+#        context['button'] = "Sélectionner"
 
-        return context
+ #       return context
 
-    form_class = ChooseArticleToUpdateForm
+#    form_class = ChooseArticleToUpdateForm
 
-    def form_valid(self, form):
-        """If form is valid, redirect to update form"""
-        article = form.cleaned_data.get('article')
-        url =  reverse('article_edit', kwargs={'date': article.pub_date.strftime("%Y/%m/%d"), 'slug': article.slug})
-        if self.request.is_ajax():
-            return self.render_to_json_response({'loadurl':{'section#popup': url}, 'close': 'False' })
+#    def form_valid(self, form):
+#        """If form is valid, redirect to update form"""
+#        article = form.cleaned_data.get('article')
+#        url =  reverse('article_edit', kwargs={'date': article.pub_date.strftime("%Y/%m/%d"), 'slug': article.slug})
+#        if self.request.is_ajax():
+#            return self.render_to_json_response({'loadurl':{'section#popup': url}, 'close': 'False' })
 
-        return redirect(url)
+#        return redirect(url)
 
 # article delete choosing form
-class ChooseArticleToDelete(LibrairyFormView):
-    """Class to choose an article to delete"""
-    def get_context_data(self, **kwargs):
-        context = super(ChooseArticleToDelete, self).get_context_data(**kwargs)
-        context['title'] = "Sélectionner l'article à supprimer"
-        context['action'] = reverse_lazy('librairy_choose_delete_article')
-        context['button'] = "Supprimer"
+#class ChooseArticleToDelete(LibrairyFormView):
+#    """Class to choose an article to delete"""
+#    def get_context_data(self, **kwargs):
+#        context = super(ChooseArticleToDelete, self).get_context_data(**kwargs)
+#        context['title'] = "Sélectionner l'article à supprimer"
+#        context['action'] = reverse_lazy('librairy_choose_delete_article')
+#        context['button'] = "Supprimer"
 
-        return context
+#        return context
 
-    form_class = ChooseArticleToDeleteForm
+#    form_class = ChooseArticleToDeleteForm
 
-    def form_valid(self, form):
-        """If form is valid, load deletingform form"""
-        article = form.cleaned_data.get('article')
-        url =  reverse('article_delete', kwargs={'date': article.pub_date.strftime("%Y/%m/%d"), 'slug': article.slug})
-        if self.request.is_ajax():
-            html = render_to_string('weblog/weblog_delete.html', {
-                'entry': article,
-                'action': url,
-                'title': 'Supprimer un article',
-                'message': 'Êtes vous bien sûr de vouloir supprimer l\'article'
-                }, context_instance=RequestContext(self.request))
-            return self.render_to_json_response({'reload':{'section#popup': html}, 'close': 'False'})
+#    def form_valid(self, form):
+#        """If form is valid, load deletingform form"""
+#        article = form.cleaned_data.get('article')
+#        url =  reverse('article_delete', kwargs={'date': article.pub_date.strftime("%Y/%m/%d"), 'slug': article.slug})
+#        if self.request.is_ajax():
+#            html = render_to_string('weblog/weblog_delete.html', {
+#                'entry': article,
+#                'action': url,
+#                'title': 'Supprimer un article',
+#                'message': 'Êtes vous bien sûr de vouloir supprimer l\'article'
+#                }, context_instance=RequestContext(self.request))
+#            return self.render_to_json_response({'reload':{'section#popup': html}, 'close': 'False'})
 
-        return redirect(url)
+#        return redirect(url)
 
 # gallery update choosing form
-class ChooseGalleryToUpdate(LibrairyFormView):
-    """Class to choose a gallery to update"""
-    def get_context_data(self, **kwargs):
-        context = super(ChooseGalleryToUpdate, self).get_context_data(**kwargs)
-        context['title'] = "Sélectionner la galerie à mettre à jour"
-        context['action'] = reverse_lazy('librairy_choose_update_gallery')
-        context['button'] = "Sélectionner"
+#class ChooseGalleryToUpdate(LibrairyFormView):
+#    """Class to choose a gallery to update"""
+#    def get_context_data(self, **kwargs):
+#        context = super(ChooseGalleryToUpdate, self).get_context_data(**kwargs)
+#        context['title'] = "Sélectionner la galerie à mettre à jour"
+#        context['action'] = reverse_lazy('librairy_choose_update_gallery')
+#        context['button'] = "Sélectionner"
 
-        return context
+#        return context
 
-    form_class = ChooseGalleryToUpdateForm
+#    form_class = ChooseGalleryToUpdateForm
 
-    def form_valid(self, form):
-        """If form is valid, redirect to update form"""
-        gallery = form.cleaned_data.get('article')
-        url =  reverse('gallery_edit', kwargs={'date': gallery.pub_date.strftime("%Y/%m/%d"), 'slug': gallery.slug })
-        if self.request.is_ajax():
-            return self.render_to_json_response({'loadurl':{'section#popup': url}, 'close': 'False'})
+#    def form_valid(self, form):
+#        """If form is valid, redirect to update form"""
+#        gallery = form.cleaned_data.get('article')
+#        url =  reverse('gallery_edit', kwargs={'date': gallery.pub_date.strftime("%Y/%m/%d"), 'slug': gallery.slug })
+#        if self.request.is_ajax():
+#            return self.render_to_json_response({'loadurl':{'section#popup': url}, 'close': 'False'})
 
-        return redirect(url)
+#        return redirect(url)
 
 
 # article delet choosing form
-class ChooseGalleryToDelete(LibrairyFormView):
-    """Class to choose a gallery to delete"""
-    def get_context_data(self, **kwargs):
-        context = super(ChooseGalleryToDelete, self).get_context_data(**kwargs)
-        context['title'] = "Sélectionner la galerie à supprimer"
-        context['action'] = reverse_lazy('librairy_choose_delete_gallery')
-        context['button'] = "Supprimer"
+#class ChooseGalleryToDelete(LibrairyFormView):
+#    """Class to choose a gallery to delete"""
+#    def get_context_data(self, **kwargs):
+#        context = super(ChooseGalleryToDelete, self).get_context_data(**kwargs)
+#        context['title'] = "Sélectionner la galerie à supprimer"
+#        context['action'] = reverse_lazy('librairy_choose_delete_gallery')
+#        context['button'] = "Supprimer"
 
-        return context
+#        return context
 
-    form_class = ChooseGalleryToDeleteForm
+#    form_class = ChooseGalleryToDeleteForm
 
-    def form_valid(self, form):
-        """If form is valid, load deletingform"""
-        gallery = form.cleaned_data.get('article')
-        url =  reverse('gallery_delete', kwargs={'date': gallery.pub_date.strftime("%Y/%m/%d"), 'slug': gallery.slug})
-        if self.request.is_ajax():
-            html = render_to_string('weblog/weblog_delete.html', {
-                'entry': gallery,
-                'action': url,
-                'title': 'Supprimer une galerie',
-                'message': 'Êtes vous bien sûr de vouloir supprimer la galerie'
-                }, context_instance=RequestContext(self.request))
-            return self.render_to_json_response({'reload':{'section#popup': html}, 'close': 'False'})
+#    def form_valid(self, form):
+#        """If form is valid, load deletingform"""
+#        gallery = form.cleaned_data.get('article')
+#        url =  reverse('gallery_delete', kwargs={'date': gallery.pub_date.strftime("%Y/%m/%d"), 'slug': gallery.slug})
+#        if self.request.is_ajax():
+#            html = render_to_string('weblog/weblog_delete.html', {
+#                'entry': gallery,
+#                'action': url,
+#                'title': 'Supprimer une galerie',
+#                'message': 'Êtes vous bien sûr de vouloir supprimer la galerie'
+#                }, context_instance=RequestContext(self.request))
+#            return self.render_to_json_response({'reload':{'section#popup': html}, 'close': 'False'})
 
-        return redirect(url)
-
-
-# pictofday update choosing form
-class ChoosePictofdayToUpdate(LibrairyFormView):
-    """Class to choose a pictofday to update"""
-    def get_context_data(self, **kwargs):
-        context = super(ChoosePictofdayToUpdate, self).get_context_data(**kwargs)
-        context['title'] = "Sélectionner l'image du jour à mettre à jour"
-        context['action'] = reverse_lazy('librairy_choose_update_pictofday')
-        context['button'] = "Sélectionner"
-
-        return context
-
-    form_class = ChoosePictofdayToUpdateForm
-
-    def form_valid(self, form):
-        """If form is valid, redirect to update form"""
-        url =  reverse('pictofday_edit', kwargs={'date': form.cleaned_data.get('pictofday').day_date.strftime("%Y/%m/%d")})
-        if self.request.is_ajax():
-            return self.render_to_json_response({'loadurl':{'section#popup': url}, 'close': 'False'})
-
-        return redirect(url)
-
-# pictofday delete choosing form
-class ChoosePictofdayToDelete(LibrairyFormView):
-    """Class to choose a pictofday to delete"""
-    def get_context_data(self, **kwargs):
-        context = super(ChoosePictofdayToDelete, self).get_context_data(**kwargs)
-        context['title'] = "Sélectionner l'image du jour à supprimer"
-        context['action'] = reverse_lazy('librairy_choose_delete_pictofday')
-        context['button'] = "Supprimer"
-
-        return context
-
-    form_class = ChoosePictofdayToDeleteForm
-
-    def form_valid(self, form):
-        """If form is valid, redirect to deleting form"""
-        pictofday = form.cleaned_data.get('pictofday')
-        url =  reverse('pictofday_delete', kwargs={'date': pictofday.day_date.strftime("%Y/%m/%d")})
-        if self.request.is_ajax():
-            html = render_to_string('weblog/weblog_delete.html', {
-                'entry': pictofday,
-                'action': url,
-                'title': 'Supprimer une image du jour',
-                'message': 'Êtes vous bien sûr de vouloir supprimer l\'image du jour'
-                }, context_instance=RequestContext(self.request))
-            return self.render_to_json_response({'reload':{'section#popup': html}, 'close': 'False'})
-
-        return redirect(url)
+#        return redirect(url)
 
 
+#PortfolioToUpdate(LibrairyFormView):
+#    """Class to choose a portfolio to update."""
+#    def get_context_data(self, **kwargs):
+#        context = super(ChoosePortfolioToUpdate, self).get_context_data(**kwargs)
+#        context['title'] = "Sélectionner le portfolio à mettre à jour"
+#        context['action'] = reverse_lazy('librairy_choose_update_portfolio')
+#        context['button'] = "Sélectionner"
 
-# portfolio update choosing form
-class ChoosePortfolioToUpdate(LibrairyFormView):
-    """Class to choose a portfolio to update."""
-    def get_context_data(self, **kwargs):
-        context = super(ChoosePortfolioToUpdate, self).get_context_data(**kwargs)
-        context['title'] = "Sélectionner le portfolio à mettre à jour"
-        context['action'] = reverse_lazy('librairy_choose_update_portfolio')
-        context['button'] = "Sélectionner"
-
-        return context
+#        return context
     
-    form_class = ChoosePortfolioToUpdateForm
+#    form_class = ChoosePortfolioToUpdateForm
 
-    def form_valid(self, form):
-        """If form is valid, redirect to update form."""
-        portfolio = form.cleaned_data.get('article')
-        url = reverse('portfolio_edit', kwargs={'slug': portfolio.slug })
-        if self.request.is_ajax():
-            return self.render_to_json_response({'loadurl':{'section#popup': url}, 'close': 'False'})
-
-        return redirect(url)
+#    def form_valid(self, form):
+#        """If form is valid, redirect to update form."""
+#        portfolio = form.cleaned_data.get('article')
+#        url = reverse('portfolio_edit', kwargs={'slug': portfolio.slug })
+#        if self.request.is_ajax():
+#            return self.render_to_json_response({'loadurl':{'section#popup': url}, 'close': 'False'})
+#
+#        return redirect(url)
 
 
 # portfolio delete choosing form
-class ChoosePortfolioToDelete(LibrairyFormView):
-    """Class to choose a portfolio to delete."""
-    def get_context_data(self, **kwargs):
-        context = super(ChoosePortfolioToDelete, self).get_context_data(**kwargs)
-        context['title'] = "Sélectionner le portfolio à supprimer"
-        context['action'] = reverse_lazy('librairy_choose_delete_portfolio')
-        context['button'] = "Supprimer"
+#class ChoosePortfolioToDelete(LibrairyFormView):
+#    """Class to choose a portfolio to delete."""
+#    def get_context_data(self, **kwargs):
+#        context = super(ChoosePortfolioToDelete, self).get_context_data(**kwargs)
+#        context['title'] = "Sélectionner le portfolio à supprimer"
+#        context['action'] = reverse_lazy('librairy_choose_delete_portfolio')
+#        context['button'] = "Supprimer"
 
-        return context
+#        return context
 
-    form_class = ChoosePortfolioToDeleteForm
+#    form_class = ChoosePortfolioToDeleteForm
 
-    def form_valid(self, form):
-        """If form is valid, load deleting form."""
-        portfolio = form.cleaned_data.get('article')
-        url = reverse('portfolio_delete', kwargs={'slug': portfolio.slug})
-        if self.request.is_ajax():
-            html = render_to_string('weblog/weblog_delete.html', {
-                'entry': portfolio,
-                'action': url,
-                'title': 'Supprimer un portfolio',
-                'message': 'Êtes vous bien sûr de vouloir supprimer le portfolio'
-                }, context_instance=RequestContext(self.request))
-            return self.render_to_json_response({'reload':{'section#popup': html}, 'close': 'False'})
-
-        return redirect(url)
+#    def form_valid(self, form):
+#        """If form is valid, load deleting form."""
+#        portfolio = form.cleaned_data.get('article')
+#        url = reverse('portfolio_delete', kwargs={'slug': portfolio.slug})
+#        if self.request.is_ajax():
+#            html = render_to_string('weblog/weblog_delete.html', {
+#                'entry': portfolio,
+#                'action': url,
+#                'title': 'Supprimer un portfolio',
+#                'message': 'Êtes vous bien sûr de vouloir supprimer le portfolio'
+#                }, context_instance=RequestContext(self.request))
+#            return self.render_to_json_response({'reload':{'section#popup': html}, 'close': 'False'})
+#
+#        return redirect(url)
 
 
 
@@ -668,158 +571,158 @@ def AddOrder2Collection(request, pk, slug):
     return HttpResponse("request_error")
 
 # ajax picture adding to gallery
-def AddPict2Gallery(request, date, slug):
-    """Fonction to add a picture to a gallery"""
-    if request.is_ajax():
-        date = date.replace("/", "-", 2)
-        gallery = get_object_or_404(Gallery, slug=slug, pub_date__startswith=date)
-        for n in request.POST.getlist('arr'):
-            pict = get_object_or_404(Picture, id=int(n))
-            try:
-                gallerypict = Gallery_pictures.objects.get(gallery=gallery, picture=pict)
-            except:
-                gallerypict = Gallery_pictures(gallery=gallery, picture=pict)
-                gallerypict.save()
-        gallery.n_pict = gallery.pictures.all().count()
-        if gallery.auto_draft:
-            gallery.auto_draft = False
-        # if it hasn't been publish publish it
-        if not gallery.is_published:
-            gallery.mail_followers()
-        gallery.clear_cache()
-        gallery.save()
+#def AddPict2Gallery(request, date, slug):
+#    """Fonction to add a picture to a gallery"""
+#    if request.is_ajax():
+#        date = date.replace("/", "-", 2)
+#        gallery = get_object_or_404(Gallery, slug=slug, pub_date__startswith=date)
+#        for n in request.POST.getlist('arr'):
+#            pict = get_object_or_404(Picture, id=int(n))
+#            try:
+#                gallerypict = Gallery_pictures.objects.get(gallery=gallery, picture=pict)
+#            except:
+#                gallerypict = Gallery_pictures(gallery=gallery, picture=pict)
+#                gallerypict.save()
+#        gallery.n_pict = gallery.pictures.all().count()
+#        if gallery.auto_draft:
+#            gallery.auto_draft = False
+#        # if it hasn't been publish publish it
+#        if not gallery.is_published:
+#            gallery.mail_followers()
+#        gallery.clear_cache()
+#         gallery.save()
 
-        return HttpResponse(gallery.n_pict)
-    return HttpResponse("request_error")
+#        return HttpResponse(gallery.n_pict)
+#    return HttpResponse("request_error")
 
 # ajax ordering for gallerys
-def AddOrder2Gallery(request, date, slug):
-    """Fonction to add order to a gallery's pictures"""
-    if request.is_ajax():
-        date = date.replace("/", "-", 2)
-        gallery = get_object_or_404(Gallery, slug=slug, pub_date__startswith=date)
-        for i, n in enumerate(request.POST.getlist('arr')):
-            try:
-                gallerypict = Gallery_pictures.objects.get(gallery=gallery, picture=int(n))
-                gallerypict.order = i + 1
-                gallerypict.save()
-            except:
-                pass
-        gallery.order = 'custom'
-        gallery.save()
+#def AddOrder2Gallery(request, date, slug):
+#    """Fonction to add order to a gallery's pictures"""
+#    if request.is_ajax():
+#        date = date.replace("/", "-", 2)
+#        gallery = get_object_or_404(Gallery, slug=slug, pub_date__startswith=date)
+#        for i, n in enumerate(request.POST.getlist('arr')):
+#            try:
+#                gallerypict = Gallery_pictures.objects.get(gallery=gallery, picture=int(n))
+#                gallerypict.order = i + 1
+#                gallerypict.save()
+#            except:
+#                pass
+#        gallery.order = 'custom'
+#        gallery.save()
 
-        return HttpResponse("done")
-    return HttpResponse("request_error")
+#        return HttpResponse("done")
+#    return HttpResponse("request_error")
 
 
 # ajax picture adding to pictofday
-def AddPict2Pictofday(request, date):
-    """Fonction to add a picture to a pictofday"""
-    if request.is_ajax():
-        date = date.replace("/", "-", 2)
-        pictofday = get_object_or_404(Pictofday, day_date=date)
-        pict = get_object_or_404(Picture, id=int(request.POST.getlist('arr')[0]))
-        if pictofday.picture:
-            # show warning ?
-            pass
-        pictofday.picture = pict
-        if pictofday.auto_draft:
-            pictofday.auto_draft = False
-        # if it hasn't been publish publish it
-        if not pictofday.is_published:
-            pictofday.mail_followers()
-        pictofday.clear_cache()
-        pictofday.save()
-
-        return HttpResponse(1)
-    return HttpResponse("request_error")
+##def AddPict2Pictofday(request, date):
+#    """Fonction to add a picture to a pictofday"""
+#    if request.is_ajax():
+#        date = date.replace("/", "-", 2)
+#        pictofday = get_object_or_404(Pictofday, day_date=date)
+#        pict = get_object_or_404(Picture, id=int(request.POST.getlist('arr')[0]))
+#        if pictofday.picture:
+#            # show warning ?
+#            pass
+#        pictofday.picture = pict
+#        if pictofday.auto_draft:
+#            pictofday.auto_draft = False
+#        # if it hasn't been publish publish it
+#        if not pictofday.is_published:
+#            pictofday.mail_followers()
+#        pictofday.clear_cache()
+#        pictofday.save()
+#
+#        return HttpResponse(1)
+#    return HttpResponse("request_error")
 
 # ajax picture adding to portfolio
-def AddPict2Portfolio(request, slug):
-    """Fonction to add a picture to a portfolio"""
-    if request.is_ajax():
-        portfolio = get_object_or_404(Portfolio, slug=slug)
-        for n in request.POST.getlist('arr'):
-            pict = get_object_or_404(Picture, id=int(n))
-            try:
-                portfoliopict = Portfolio_pictures.objects.get(portfolio=portfolio, picture=pict)
-            except:
-                portfoliopict = Portfolio_pictures(portfolio=portfolio, picture=pict)
-                portfoliopict.save()
-        portfolio.n_pict = portfolio.pictures.all().count()
-        # if it's auto_draft, remove it
-        if portfolio.auto_draft:
-            portfolio.auto_draft = False
-        # if it hasn't been publish publish it
-        if not portfolio.is_published:
-            portfolio.mail_followers()
-        portfolio.clear_cache()
-        portfolio.save()
-
-        return HttpResponse(portfolio.n_pict)
-    return HttpResponse("request_error")
+#def AddPict2Portfolio(request, slug):
+#    """Fonction to add a picture to a portfolio"""
+#    if request.is_ajax():
+#        portfolio = get_object_or_404(Portfolio, slug=slug)
+#        for n in request.POST.getlist('arr'):
+#            pict = get_object_or_404(Picture, id=int(n))
+#            try:
+#                portfoliopict = Portfolio_pictures.objects.get(portfolio=portfolio, picture=pict)
+#            except:
+#                portfoliopict = Portfolio_pictures(portfolio=portfolio, picture=pict)
+#                portfoliopict.save()
+#        portfolio.n_pict = portfolio.pictures.all().count()
+#        # if it's auto_draft, remove it
+#        if portfolio.auto_draft:
+#            portfolio.auto_draft = False
+#        # if it hasn't been publish publish it
+#        if not portfolio.is_published:
+#            portfolio.mail_followers()
+#        portfolio.clear_cache()
+#        portfolio.save()
+#
+#        return HttpResponse(portfolio.n_pict)
+#    return HttpResponse("request_error")
 
 # ajax ordering for portfolioss
-def AddOrder2Portfolio(request, slug):
-    """Fonction to add order to a portfolio's pictures"""
-    if request.is_ajax():
-        portfolio = get_object_or_404(Portfolio, slug=slug)
-        for i, n in enumerate(request.POST.getlist('arr')):
-            try:
-                portfoliopict = Portfolio_pictures.objects.get(portfolio=portfolio, picture=int(n))
-                portfoliopict.order = i + 1
-                portfoliopict.save()
-            except:
-                pass
-
-        portfolio.order = 'custom'
-        portfolio.save()
-
-        return HttpResponse("done")
-    return HttpResponse("request_error")
+#def AddOrder2Portfolio(request, slug):
+#    """Fonction to add order to a portfolio's pictures"""
+#    if request.is_ajax():
+#        portfolio = get_object_or_404(Portfolio, slug=slug)
+#        for i, n in enumerate(request.POST.getlist('arr')):
+#            try:
+#                portfoliopict = Portfolio_pictures.objects.get(portfolio=portfolio, picture=int(n))
+#                portfoliopict.order = i + 1
+#                portfoliopict.save()
+#            except:
+#                pass
+#
+#        portfolio.order = 'custom'
+#        portfolio.save()
+#
+#        return HttpResponse("done")
+#    return HttpResponse("request_error")
 
 # ajax picture removing from gallery
-def DeletePictFromGallery(request, date, slug, pict_pk):
-    """Fonction to delete a picture from a gallery"""
-    # check if it's ajax request
-    if request.is_ajax():
-        date = date.replace("/", "-", 2)
-        gallery = get_object_or_404(Gallery, slug=slug, pub_date__startswith=date)
-        pict = get_object_or_404(Picture, id=pict_pk)
-        try:
-            gallerypict = Gallery_pictures.objects.get(gallery=gallery, picture=pict)
-            gallerypict.delete()
-        except:
-            pass
-        gallery.n_pict = gallery.pictures.all().count()
-        if gallery.n_pict == 0:
-            gallery.auto_draft = True
-        gallery.clear_cache()
-        gallery.save()
+#def DeletePictFromGallery(request, date, slug, pict_pk):
+#    """Fonction to delete a picture from a gallery"""
+#    # check if it's ajax request
+#    if request.is_ajax():
+#        date = date.replace("/", "-", 2)
+#        gallery = get_object_or_404(Gallery, slug=slug, pub_date__startswith=date)
+#        pict = get_object_or_404(Picture, id=pict_pk)
+#        try:
+#            gallerypict = Gallery_pictures.objects.get(gallery=gallery, picture=pict)
+#            gallerypict.delete()
+#        except:
+#            pass
+#        gallery.n_pict = gallery.pictures.all().count()
+#        if gallery.n_pict == 0:
+#            gallery.auto_draft = True
+#        gallery.clear_cache()
+#        gallery.save()
 
-        return HttpResponse(gallery.n_pict)
-    return HttpResponse("request_error")
+#        return HttpResponse(gallery.n_pict)
+#    return HttpResponse("request_error")
 
 # ajax picture removing from portfolio
-def DeletePictFromPortfolio(request, slug, pict_pk):
-    """Fonction to delete a picture from a portfolio"""
-    # check if it's ajax request
-    if request.is_ajax():
-        portfolio = get_object_or_404(Portfolio, slug=slug)
-        pict = get_object_or_404(Picture, id=pict_pk)
-        try:
-            portfoliopict = Portfolio_pictures.objects.get(portfolio=portfolio, picture=pict)
-            portfoliopict.delete()
-        except:
-            pass
-        portfolio.n_pict = portfolio.pictures.all().count()
-        if portfolio.n_pict == 0:
-            portfolio.auto_draft = True
-        portfolio.clear_cache()
-        portfolio.save()
-
-        return HttpResponse(portfolio.n_pict)
-    return HttpResponse("request_error")
+#def DeletePictFromPortfolio(request, slug, pict_pk):
+#    """Fonction to delete a picture from a portfolio"""
+#    # check if it's ajax request
+#    if request.is_ajax():
+#        portfolio = get_object_or_404(Portfolio, slug=slug)
+#        pict = get_object_or_404(Picture, id=pict_pk)
+#        try:
+#            portfoliopict = Portfolio_pictures.objects.get(portfolio=portfolio, picture=pict)
+#            portfoliopict.delete()
+ #       except:
+#            pass
+#        portfolio.n_pict = portfolio.pictures.all().count()
+#        if portfolio.n_pict == 0:
+#            portfolio.auto_draft = True
+#        portfolio.clear_cache()
+#        portfolio.save()
+#
+#        return HttpResponse(portfolio.n_pict)
+#    return HttpResponse("request_error")
 
 
 class RemovePicture(DeleteView, LibrairyMixin, AjaxableResponseMixin):

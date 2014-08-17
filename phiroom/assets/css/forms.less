@@ -218,38 +218,42 @@ ul#nav {
             margin: 0;
             padding: 0;
         }
-        input {
-            margin: 5px 8px 0px 8px;
-            border-radius: 0;
-            box-sizing: content-box;
-            padding: 1px 7px 1px 7px;
-            width: 255px;
-            height: 14px;
-            background: @47;
-            border: 1px solid #313131;
-            color: @91;
-            text-align: left;
+    }
+    input {
+        margin: 5px 8px 0px 8px;
+        border-radius: 0;
+        box-sizing: content-box;
+        padding: 1px 7px 1px 7px;
+        width: 255px;
+        height: 14px;
+        background: @47;
+        border: 1px solid #313131;
+        color: @91;
+        text-align: left;
+    }
+    input[type="submit"], button {
+        display: block;
+        .degrade(@5E, @44);
+        border: none;
+        box-shadow: 0 0 2px @00;
+        border-radius: 2px;
+        color: @CC;
+        text-align: center;
+        vertical-align: middle;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 5px;
+        margin-bottom: 0;
+        width: 151px;
+        height: 20px;
+        &:hover, &:focus {
+            color: @FF;
+            box-shadow: 0 0 3px @00;
         }
-        input[type="submit"] {
-            display: block;
-            .degrade(@5E, @44);
-            border: none;
-            box-shadow: 0 0 2px @00;
-            border-radius: 2px;
-            color: @CC;
-            text-align: center;
-            vertical-align: middle;
-            margin-right: auto;
-            margin-left: auto;
-            margin-top: 5px;
-            margin-bottom: 0;
-            width: 151px;
-            height: 20px;
-            &:hover, &:focus {
-                color: @FF;
-                box-shadow: 0 0 3px @00;
-            }
-        }
+    }
+    button {
+        margin-bottom: 5px;
+        padding: 2px;
     }
 }
 

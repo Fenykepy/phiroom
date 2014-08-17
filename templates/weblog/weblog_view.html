@@ -1,0 +1,48 @@
+{% extends "weblog/weblog_base.html" %}
+{% load humanize %}
+{% block content %}
+{% load static %}
+{% load tz %}
+
+<article id="main">
+    <div class="entry-content">
+        <header>
+        <h1>{{ entry.title }}</h1>
+        {% include "weblog/weblog_date.html" %}
+            {% if user.is_staff %}
+            {% localtime off %}
+            <a class="popup" href="{% url "entry_edit" entry.pub_date|date:"Y/m/d" entry.slug %}"><button class="entry-header small_button">Éditer</button></a>
+            {% endlocaltime %}
+            {% endif %}
+        </header>
+        <figure>
+        <figcaption>
+        {{ entry.content|safe }}
+        <h6 class="author"><a class="author small_caps" href="{{ entry.author.web_site}}" rel="author">{{ entry.author.author_name }}</a></h6>
+        </fibcaption>
+        {% if entry.get_sorted_pictures %} 
+        <div class="gallery">
+            <ul>
+                {% spaceless %}
+                {% for picture in entry.get_sorted_pictures %}
+                <li>
+                <a id="{{ picture.id }}" href="{{ MEDIA_URL }}images/previews/height-700/{{ picture.id }}.jpg" data-lightbox="{{ entry.id }}"{# title="{{ picture.title }}"#}>
+                    <img class="thumbs" src="{{ MEDIA_URL }}images/previews/square-500/{{ picture.id }}.jpg" alt="{{ picture.title }}" {#title="{{ picture.title }}"#} />
+                </a>
+                </li>
+                {% endfor %}
+                {% endspaceless %}
+            </ul>
+        </div>{# gallery #}
+        <hr />
+        {% endif %}
+        <footer>
+            {% include "weblog/weblog_tag_thread.html" %}
+            {% include "weblog/weblog_follow.html" %}
+            <hr />
+                <div class="v3"></div>{# v3 #}
+            <p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
+        </footer>
+    </div>{# entry-content #}
+</article>
+{% endblock %}

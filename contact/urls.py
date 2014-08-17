@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.decorators import user_passes_test
 
-from weblog.views import user_is_staff
+from user.views import user_is_staff
 from contact.views import ViewContact, UpdateContact, SentMessage
 
 urlpatterns = patterns('',

@@ -6,8 +6,7 @@ from django.shortcuts import redirect
 
 from conf.models import Conf
 from conf.forms import SettingsForm
-from weblog.views import WeblogMixin
-from article.views import AjaxableResponseMixin
+from weblog.views import WeblogMixin, AjaxableResponseMixin
 
 class SettingsMixin(WeblogMixin):
     """Mixin to get generic context for settings pages."""

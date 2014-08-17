@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import user_passes_test
 
 
 from conf.views import SetNewSettings, ListSettings
-from weblog.views import ListEntrys, user_is_staff
+from weblog.views import ListEntrys
+from user.views import user_is_staff
 
 urlpatterns = patterns('',
         url(r'^$', user_passes_test(user_is_staff)(SetNewSettings.as_view()), name="conf_settings"),

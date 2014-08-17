@@ -8,7 +8,7 @@
 <h1 class="hidden">Article</h1>
 
 <h2 class="hidden">{{ entry.category }}</h2>
-    <article id="main"><div class="article_content">
+    <article id="main"><div class="entry-content">
 		<header>
 		<h1>{{ entry.title }}</h1>
         {% include "weblog/weblog_date.html" %}
@@ -29,7 +29,7 @@
             	<div class="v3"></div>{# v3 #}
             <p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
 		</footer>
-    </div>{# article_content #}
+    </div>{# entry-content #}
 	</article>
 {% endblock %}
 

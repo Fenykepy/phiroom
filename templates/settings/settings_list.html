@@ -3,7 +3,7 @@
 
 {% for entry in entrys %}
 <article class="abstract" >
-    <div class="article_content">
+    <div class="entry-content">
         <header>
             {% if entry.date|date:"Y-m-d" == "2013-07-29" %}
             <h1>Configuration par défaut</h1>
@@ -52,7 +52,7 @@
             <div class="v3"></div><!-- v3 -->
 
         </footer>
-    </div>{# article_content #}
+    </div>{# entry-content #}
 </article>
 {% endfor %}
 {% if page_obj.paginator.num_pages > 1 %}

@@ -32,4 +32,4 @@
 
 #- Si le success url des forms de créations d'article etc. renvoient vers la date locale au lieu d'utc si l'utilisateur a précisé une date…
 #- Les mails d'abonnement sont foireux (voir les mails reçus)
-- Rédiger rapidement une page contact
+#- Rédiger rapidement une page contact

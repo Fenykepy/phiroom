@@ -1,9 +1,8 @@
-from django import forms
-from article.forms import Form
+from weblog.forms import ModelForm
 
 from conf.models import Conf
 
-class SettingsForm(forms.ModelForm):
+class SettingsForm(ModelForm):
     """Configuration edition form."""
     class Meta:
         model = Conf
@@ -33,16 +32,10 @@ class SettingsForm(forms.ModelForm):
                 'feed_description',
                 'feed_number',
                 'follow_mail',
-                'n_last_articles_menu',
-                'n_last_gallerys_menu',
-                'n_last_pictofdays_menu',
+                'n_last_entrys_menu',
                 'n_last_portfolios_menu',
                 'print_comment',
                 'comment',
                 )
-
-    def __init__(self, *args, **kwargs):
-        super(SettingsForm, self).__init__(*args, **kwargs)
-        self.label_suffix=''
 
 

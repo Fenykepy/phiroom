@@ -9,12 +9,8 @@ from mptt.forms import TreeNodeChoiceField
 
 from phiroom.settings import LIBRAIRY
 
-from article.forms import Form
-from article.models import Article
-from gallery.models import Gallery
-from weblog.models import Category, Tag
-from pictofday.models import Pictofday
-from portfolio.models import Portfolio
+from weblog.forms import Form
+from weblog.models import Tag
 from librairy.models import Picture, Directory, CollectionsEnsemble, Collection, Collection_pictures, PICTURES_ORDERING_CHOICES
 from librairy.utils import ancestors2list 
 
@@ -481,102 +477,6 @@ class DeleteCollectionForm(Form):
         return cleaned_data
 
     
-class CreateCategoryForm(Form):
-    """Category creation form"""
-    name = forms.CharField(max_length=30, label="Nom", widget=forms.TextInput(attrs={'required': 'required'}))
-    parent = TreeNodeChoiceField(queryset=Category.objects.all(), label="Placer comme sous catégorie de", required=False)
-
-    def clean(self):
-        cleaned_data = super(CreateCategoryForm, self).clean()
-        new_category = cleaned_data.get('name')
-        parent = cleaned_data.get('parent')
-        slug = slugify(new_category)
-
-        # check if name already exists
-        category = Category.objects.filter(name=new_category, parent=parent, slug=slug)
-        # if get a result category already exists, raise an error
-        if category:
-            # define error message
-            msg = "La catégorie est déjà existante"
-            # display error message
-            self._errors["name"] = self.error_class([msg])
-            # delete not cleaned data
-            del cleaned_data["name"]
-        else:
-            # create new category
-            cleaned_data["object"] = Category.objects.create(name=new_category, slug=slug, parent=parent)
-
-        # returns data if everything is correct
-        return cleaned_data
-           
-class RenameCategoryForm(Form):
-    """Collection renaming form"""
-    category = TreeNodeChoiceField(queryset=Category.objects.all(), label="Catégorie à renommer", required=True)
-    name = forms.CharField(max_length=30, label="Nouveau nom", widget=forms.TextInput(attrs={'required': 'required'}))
-
-    def clean(self):
-        cleaned_data = super(RenameCategoryForm, self).clean()
-        category = cleaned_data.get('category')
-        name = cleaned_data.get('name')
-        slug = slugify(name)
-
-        # check if collection exists with same name and parent
-        new_category = Category.objects.filter(name=name, parent=category.parent)
-
-        # if get a result so name already exists, raise an error
-        if new_category:
-            # define error message
-            msg = "La catégorie cible est déjà existante"
-            # display error message
-            self._errors["name"] = self.error_class([msg])
-            # delete not cleaned data
-            del cleaned_data["name"]
-        else:
-            category.name = name
-            category.slug = slug
-            category.save()
-
-        # returns data if everything is correct
-        return cleaned_data
-
-class DeleteCategoryForm(Form):
-    """Category deleting form"""
-    category = TreeNodeChoiceField(queryset=Category.objects.all(), label="Catégorie à supprimer", required=True)
-
-    def clean(self):
-        cleaned_data = super(DeleteCategoryForm, self).clean()
-        category = cleaned_data.get('category')
-
-        # if no category choosen, raise an error
-        if not category:
-            # define error message
-            msg = "Veuillez choisir la catégorie à supprimer"
-            # display error message
-            self._errors["category"] = self.error_class([msg])
-            # delete not cleaned data
-        else:
-            # get category descendant count
-            descendant_count = category.get_descendant_count()
-
-            # get category articles & gallerys count
-            articles_count = Article.objects.filter(category=category).count()
-
-            # if ensemble is not empty, raise an error
-            if descendant_count >= 1 or articles_count >= 1:
-                # define error message
-                msg = "La catégorie n'est pas vide"
-                # display error message
-                self._errors["category"] = self.error_class([msg])
-                # delete not cleaned data
-                del cleaned_data["category"]
-
-            else:
-                # delete ensemble
-                category.delete()
-
-        # returns data if everything is correct
-        return cleaned_data
-  
 class CreateTagForm(Form):
     """Tag creation form."""
     name = forms.CharField(max_length=30, label="Nom", widget=forms.TextInput(attrs={'required': 'required'}))
@@ -647,46 +547,46 @@ class DeleteTagForm(Form):
 
      
             
-class ChooseArticleToUpdateForm(Form):
-    """Form to choose an article to update"""
-    article = forms.ModelChoiceField(queryset=Article.objects.all().order_by('-pub_update'), label="Article à éditer", required=True)
+#class ChooseArticleToUpdateForm(Form):
+#    """Form to choose an article to update"""
+#    article = forms.ModelChoiceField(queryset=Article.objects.all().order_by('-pub_update'), label="Article à éditer", required=True)
            
-class ChooseArticleToDeleteForm(Form):
-    """Form to choose an article to delete"""
-    article = forms.ModelChoiceField(queryset=Article.objects.all().order_by('-pub_update'), label="Article à supprimer", required=True)
+#class ChooseArticleToDeleteForm(Form):
+#    """Form to choose an article to delete"""
+#    article = forms.ModelChoiceField(queryset=Article.objects.all().order_by('-pub_update'), label="Article à supprimer", required=True)
 
 
 
-class ChooseGalleryToUpdateForm(Form):
-    """Form to choose a galerie to update"""
-    article = forms.ModelChoiceField(queryset=Gallery.objects.all().order_by('-pub_update'), label="Galerie à éditer", required=True)
+#class ChooseGalleryToUpdateForm(Form):
+#    """Form to choose a galerie to update"""
+#    article = forms.ModelChoiceField(queryset=Gallery.objects.all().order_by('-pub_update'), label="Galerie à éditer", required=True)
  
             
-class ChooseGalleryToDeleteForm(Form):
-    """Form to choose a galerie to delete"""
-    article = forms.ModelChoiceField(queryset=Gallery.objects.all().order_by('-pub_update'), label="Galerie à supprimer", required=True)
+#class ChooseGalleryToDeleteForm(Form):
+#    """Form to choose a galerie to delete"""
+#    article = forms.ModelChoiceField(queryset=Gallery.objects.all().order_by('-pub_update'), label="Galerie à supprimer", required=True)
 
 
 
-class ChoosePictofdayToUpdateForm(Form):
-    """Form to choose a pictofday to update"""
-    pictofday = forms.ModelChoiceField(queryset=Pictofday.objects.all().order_by('-pub_date'), label="Image du jour à éditer", required=True)
+#class ChoosePictofdayToUpdateForm(Form):
+#    """Form to choose a pictofday to update"""
+#    pictofday = forms.ModelChoiceField(queryset=Pictofday.objects.all().order_by('-pub_date'), label="Image du jour à éditer", required=True)
 
 
-class ChoosePictofdayToDeleteForm(Form):
-    """Form to choose a pictofday to delete"""
+#class ChoosePictofdayToDeleteForm(Form):
+#    """Form to choose a pictofday to delete"""
+#
+#    pictofday = forms.ModelChoiceField(queryset=Pictofday.objects.all().order_by('-pub_date'), label="Image du jour à supprimer", required=True)
 
-    pictofday = forms.ModelChoiceField(queryset=Pictofday.objects.all().order_by('-pub_date'), label="Image du jour à supprimer", required=True)
 
-
-class ChoosePortfolioToUpdateForm(Form):
-    """Form to choose a portfolio to update"""
-    article = forms.ModelChoiceField(queryset=Portfolio.objects.all().order_by('-pub_update'), label="Portfolio à éditer", required=True)
+#class ChoosePortfolioToUpdateForm(Form):
+#    """Form to choose a portfolio to update"""
+#    article = forms.ModelChoiceField(queryset=Portfolio.objects.all().order_by('-pub_update'), label="Portfolio à éditer", required=True)
  
             
-class ChoosePortfolioToDeleteForm(Form):
-    """Form to choose a portfolio to delete"""
-    article = forms.ModelChoiceField(queryset=Portfolio.objects.all().order_by('-pub_update'), label="Portfolio à supprimer", required=True)
+#class ChoosePortfolioToDeleteForm(Form):
+#    """Form to choose a portfolio to delete"""
+#    article = forms.ModelChoiceField(queryset=Portfolio.objects.all().order_by('-pub_update'), label="Portfolio à supprimer", required=True)
 
 
 

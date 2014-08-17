@@ -7,13 +7,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from phiroom.feeds import WeblogFeed
-from phiroom.sitemaps import WeblogSitemap, CatSitemap, TagSitemap, StaticSitemap
+from phiroom.sitemaps import WeblogSitemap, TagSitemap, StaticSitemap
 
 admin.autodiscover()
 
 sitemaps = {
         'weblog': WeblogSitemap,
-        'category': CatSitemap,
         'tag': TagSitemap,
         'static': StaticSitemap,
 }
@@ -23,10 +22,7 @@ urlpatterns = patterns('',
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),    
     url(r'^$', 'phiroom.views.home', name="home"), # home page
     url(r'^weblog/', include('weblog.urls')), # articles app
-    url(r'^article/', include('article.urls')), # article app
-    url(r'^gallery/', include('gallery.urls')), # gallery app
     url(r'^portfolio/', include('portfolio.urls')), # portfolio app
-    url(r'^pictureofday/', include('pictofday.urls')), # pictofdays app
     url(r'^librairy/', include('librairy.urls')), # librairy app
     url(r'^settings/', include('conf.urls')), # conf app
     url(r'^account/', include('user.urls')), # user app

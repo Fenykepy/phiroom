@@ -2,7 +2,14 @@
 
 ===== Liste des choses à faire dans  phiroom =====
 
+Petits bugs de la refactorisation :
+    - placeholder de la date de publication (weblog.forms)
+    - supprimer les mots-clés inutilisés du menu
+
 ===== Avant release Béta =====
+#    - déplacer la SECRET_KEY dans devel_settings
+
+
     - ajouter des index dans les tables
 #    - form de modification de la configuration
         - liste des anciennes configurations
@@ -52,12 +59,14 @@
 #        - les logos par défaut
     - Créer des fixtures avec :
         - mots-clés
-        - catégories
+#        - catégories
         - article
         - galeries
-    - Merger articles et galeries
+#    - Merger articles et galeries
+#    - Supprimer les catégories (momentanément au moins)
 #    - Changer le gitignore pour accepter les jpeg de l'avatar par défaut et du dossier images d'exemple
-    - Changer le nom du module image du jour pour "image à la une" et trouver une traduction (in the spotlight, in the news)
+#    - Changer le nom du module image du jour pour "image à la une" et trouver une traduction (in the spotlight, in the news)
+#   - supprimer les images du jour (remplacement par un blog post avec une seule image)
     - Autoriser la désactivation des modules
     - Choisir la taille des grands aperçus pour la lightbox
     - http://fr.flossmanuals.net/ecrire/phiroom/ 
@@ -142,7 +151,9 @@
 #	- passer l'image de fond de la page d'accueil du css vers l'html (pour pouvoir la changer dynamiquement)
 #	- revoir l'organisation des modules conf / user
 #	- revoir l'organisation des templates par modules
-	- tests du module article
+	- tests du module weblog
+    - tests du module portfolio
+    - tests du module contact
 	- tests du module conf
 	- tests du module user
 #    - fixer le bug du choix de la page d'accueil
@@ -279,7 +290,7 @@
 #	- Séparation des form de galeries et d'articles (avec héritage)
 #	- Modifier le form de création, édition d'articles
 #		- Ajout d'un bouton + pour les catégories (hiérarchiques) chargeant un formulaire ajax
-		- Voir pour régler la redirection après l'ajout d'une cat en ajax
+#		- Voir pour régler la redirection après l'ajout d'une cat en ajax
 #        - Ajout d'un select pour insérer directement les images d'un dossier
 #		- Ajout d'un select pour insérer directement les images d'une collection
             - utiliser un TreeNodeChoiceField avec les Ensembles parents des collections
@@ -297,7 +308,7 @@
 #		- previews du markdown dans la vue create
 		- previews des images dans la vue create
 #		- ne pas répèter les form_valid() de Update et Create…
-        - essayer de passer le TreeNodeChoiceField pour le champ catégory, en gardant (ou reimplémentant) le selected auto et les vérifications
+#        - essayer de passer le TreeNodeChoiceField pour le champ catégory, en gardant (ou reimplémentant) le selected auto et les vérifications
 #        - factoriser la fonction d'ajout de nouveaux mots clés aux 3 formulaires
 #	- Modifier le menu latéral pour prendre en compte les catégories hiérarchiques
 #	- Modifier le menu latéral pour supprimer les extraits (transformés en portfolio)

@@ -38,7 +38,9 @@
 						<li><a class="doc" href="/admin">administration</a></li>
                         <li><a class="doc popup" href="{% url "conf_settings" %}">configuration</a></li>
 					{% endif %}
-					<li><a class="off" href="{% url "user_logout" %}">se déconnecter</a></li>
+					<li.button><a href="{% url "user_logout" %}">
+                        <button type="button">Se déconnecter</button>
+                    </a></li>
 				{% else %}
 					<li class="connect">
 						<form method="post" action="{% url "user_login" %}">

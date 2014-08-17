@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 <article id="main">
-<div class="article_content">
+<div class="entry-content">
     <header>
         <h1>{{ entry.title }}</h1>
         {% if user.is_staff %}
@@ -85,6 +85,6 @@
         <p id="powered" class="center-align"><a target="_blank" href="{{ phiroom }}">Powered by Phiroom</a></p>
     </footer>
 
-</div>{# article_content #}
+</div>{# entry-content #}
 </article>
 {% endblock %}

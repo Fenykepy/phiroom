@@ -7,8 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 
-from weblog.views import WeblogMixin
-from article.views import AjaxableResponseMixin
+from weblog.views import WeblogMixin, AjaxableResponseMixin
 from weblog.utils import format_content
 from contact.forms import MessageForm, AuthenticatedMessageForm, ContactForm
 from contact.models import Message, Description

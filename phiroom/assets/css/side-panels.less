@@ -95,18 +95,6 @@
             &:after {
                 right: 0px;
                 top: 9px;
-                .sprite-padded(6, @line2, @grid2, 19px, 13px);
-            }
-            &:hover, &:focus, &.hover, &.selected {
-                &:after {
-                    .sprite-padded(7, @line2, @grid2, 19px, 13px);
-                }
-            }
-        }
-        &.arrow-cat {
-            &:after {
-                right: 0px;
-                top: 9px;
                 .sprite-padded(0, @line2, @grid2, 19px, 15px);
             }
             &:hover, &:focus, &.hover, &.selected {
@@ -311,39 +299,9 @@
     }
     // tag icon
     ul.submenu > li a.tag:before { // first level tag icon
-        top: 5px;
-        left: 13px;
-        .sprite-padded(6, @line2, @grid2, 19px, 13px);
-    }
-    ul.submenu > li > ul > li > a.tag:before { // second level tag icon
-        left: 28px;
-    }
-    ul.submenu > li > ul > li > ul > li > a.tag:before { // third level tag icon
-        left: 43px;
-    }
-    ul.submenu > li > ul > li > ul > li > ul > li a.tag:before { // fourth level and more tag icon
-        left: 58px;
-    }
-    // category icon
-    ul.submenu > li a.cat:before { // first level cat icon
         top: 4px;
         left: 12px;
         .sprite-padded(0, @line2, @grid2, 19px, 15px);
-    }
-    ul.submenu > li > ul > li > a.cat:before { // second level cat icon
-        left: 27px;
-    }
-    ul.submenu > li > ul > li > ul > li > a.cat:before { // third level cat icon
-        left: 42px;
-    }
-    ul.submenu > li > ul > li > ul > li > ul > li a.cat:before { // fourth level and more cat icon
-        left: 57px;
-    }
-    // off icon
-    ul.submenu .off:before {
-        top: 3px;
-        left: 15px;
-        .sprite-padded(20, @line2, @grid2, 14px, 15px);
     }
 
     // connection area

@@ -10,56 +10,28 @@
 {% block left_panel %}
 <nav id="left_panel" role="navigation">
 <ul id="nav">
-<li class="togglesubmenu"><a class="arrow arrow-doc" href="#">Articles</a>
+<li class="togglesubmenu"><a class="arrow arrow-doc" href="#">Derniers posts</a>
     <div class="cadre2">
     <div class="cadre2b">
         <ul class="submenu">
-            {% if articles_menu %}
-            <li><a class="doc" href="{% url "weblog_articles" %}">Lister les articles</a></li>
+            {% if entrys_menu %}
+            <li><a class="doc" href="{% url "weblog_home" %}">Lister les posts</a></li>
             {% endif %}
-            {% for item in articles_menu %}
-            <li><a class="doc" href="{% url "article_view" item.pub_date|date:"Y/m/d" item.slug %}">{{ item.title|truncatechars:28 }}</a></li>
+            {% for item in entrys_menu %}
+            <li><a class="doc" href="{% url "entry_view" item.pub_date|date:"Y/m/d" item.slug %}">{{ item.title|truncatechars:28 }}</a></li>
             {% empty %}
-            <li><a class="doc" href="#">Aucun article publié</a></li>
+            <li><a class="doc" href="#">Aucun posts</a></li>
             {% endfor %}
+            {% if user.is_staff %}
+            <li.button><a class="popup" href="{% url "entry_create" %}">
+                <button type="button">Nouveau post</button>
+            </a></li>
+            {% endif %}
         </ul><!-- submenu -->
     </div><!-- cadre2b -->
     </div><!-- cadre2 -->
 </li><!-- togglesubmenu -->
 
-<li class="togglesubmenu"><a class="arrow arrow-dia" href="#">Galeries</a>
-    <div class="cadre2">
-    <div class="cadre2b">
-        <ul class="submenu">
-            {% if gallerys_menu %}
-            <li><a class="dia" href="{% url "weblog_gallerys" %}">Lister les galeries</a></li>
-            {% endif %}
-            {% for item in gallerys_menu %}
-            <li><a class="dia" href="{% url "gallery_view" item.pub_date|date:"Y/m/d" item.slug %}">{{ item.title|truncatechars:28 }}</a></li>
-            {% empty %}
-            <li><a class="dia" href="#">Aucune galerie publiée</a></li>
-            {% endfor %}
-        </ul><!-- submenu -->
-    </div><!-- cadre2b -->
-    </div><!-- cadre2 -->
-</li><!-- togglesubmenu -->
-
-<li class="togglesubmenu"><a class="arrow arrow-dia" href="#">Images du jour</a>
-	<div class="cadre2">
-	<div class="cadre2b">
-		<ul class="submenu">
-            {% if pictofdays_menu %}
-            <li><a class="dia" href="{% url "weblog_pictofdays" %}">Lister les images du jour</a></li>
-            {% endif %}
-			{% for item in pictofdays_menu %}
-            <li><a class="dia" href="{% url "pictofday_view" item.day_date|date:"Y/m/d" %}">{% localtime on %}{{ item.day_date|date:"d-m-Y" }}{% endlocaltime %}</a></li>
-			{% empty %}
-			<li><a class="dia" href="#">Aucune images du jour</a></li>
-			{% endfor %}
-		</ul><!-- submenu -->
-	</div><!-- cadre2b -->
-	</div><!-- cadre2 -->
-</li><!-- togglesubmenu -->
 
 <li class="togglesubmenu"><a class="arrow arrow-dia" href="#">Portfolios</a>
 	<div class="cadre2">
@@ -73,33 +45,16 @@
 			{% empty %}
 			<li><a class="dia" href="#">Aucun portfolio</a></li>
 			{% endfor %}
+            {% if user.is_staff %}
+            <li.button><a class="popup" href="{% url "portfolio_create" %}">
+                <button type="button">Nouveau portfolio</button>
+            </a></li>
+            {% endif %}
 		</ul><!-- submenu -->
 	</div><!-- cadre2b -->
 	</div><!-- cadre2 -->
 </li><!-- togglesubmenu -->
 
-<li class="togglesubmenu"><a class="arrow arrow-cat" href="#">Catégories</a>
-	<div class="cadre2">
-	<div class="cadre2b">
-		<ul class="submenu">
-			{% if categorys %}
-				{% recursetree categorys %}
-					<li>
-					<a class="cat" href="{% url "weblog_cat" node.id node.slug %}">{{ node.name|truncatechars:28 }}</a>
-					{% if not node.is_leaf_node %}
-						<ul>
-							{{ children }}
-						</ul>
-					{% endif %}
-				</li>
-				{% endrecursetree %}
-			{% else %}
-				<li><a class="cat" href="#">Aucune catégories</a></li>
-			{% endif %}
-		</ul><!-- submenu -->
-	</div><!-- cadre2b -->
-	</div><!-- cadre2 -->
-</li><!-- togglesubmenu -->
 
 <li class="togglesubmenu"><a class="arrow arrow-tag" href="#">Mots clés</a>
 	<div class="cadre2">

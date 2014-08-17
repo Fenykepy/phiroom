@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth import authenticate, login
 
+from weblog.forms import ModelForm
 from user.models import User
 
 
@@ -20,7 +21,7 @@ class LoginForm(AuthenticationForm):
         self.label_suffix=''
 
 
-class SuscriptionForm(forms.ModelForm):
+class SuscriptionForm(ModelForm):
     """
     A form that creates a user, with no privileges, from the given username and
     password.
@@ -87,18 +88,14 @@ class SuscriptionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(SuscriptionForm, self).__init__(*args, **kwargs)
-        self.label_suffix=''
         self.fields['email'].required = True
 
 
-class ProfilForm(forms.ModelForm):
+class ProfilForm(ModelForm):
     """Profil edition form."""
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'avatar', 'author_name', 'signature', 'web_site', 'weblog_mail_newsletter')
 
-    def __init__(self, *args, **kwargs):
-        super(ProfilForm, self).__init__(*args, **kwargs)
-        self.label_suffix=''
 
 

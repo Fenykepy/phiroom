@@ -36,18 +36,6 @@
 - model: conf.Page
   pk: 3
   fields:
-    title: Images du jour
-    name: pictofdays
-    is_in_main_menu: True
-    position_in_main_menu: 3
-    is_in_home_menu: True
-    position_in_home_menu: 3
-    is_active: True
-    reverse_url: pictofday_home
-
-- model: conf.Page
-  pk: 4
-  fields:
     title: Weblog
     name: weblog
     is_in_main_menu: True
@@ -58,19 +46,43 @@
     reverse_url: weblog_home
 
 - model: conf.Page
+  pk: 4
+  fields:
+    title: Contact
+    name: contact
+    is_in_main_menu: True
+    position_in_main_menu: 100
+    is_in_home_menu: True
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: contact_home
+
+- model: conf.Page
   pk: 5
+  fields:
+    title: Bibliothèque
+    name: librairy
+    is_in_main_menu: False
+    position_in_main_menu: 50
+    is_in_home_menu: False
+    position_in_home_menu: 100
+    is_active: True
+    reverse_url: librairy_home
+
+- model: conf.Page
+  pk: 6
   fields:
     title: Connexion
     name: login
     is_in_main_menu: False
-    position_in_main_menu: 100
+    position_in_main_menu: 50
     is_in_home_menu: False
     position_in_home_menu: 100
     is_active: True
     reverse_url: user_login
 
 - model: conf.Page
-  pk: 6
+  pk: 7
   fields:
     title: Déconnexion
     name: logout
@@ -82,7 +94,7 @@
     reverse_url: user_logout
 
 - model: conf.Page
-  pk: 7
+  pk: 8
   fields:
     title: Inscription
     name: suscription
@@ -94,7 +106,7 @@
     reverse_url: user_suscription
 
 - model: conf.Page
-  pk: 8
+  pk: 9
   fields:
     title: Profil
     name: profil
@@ -105,47 +117,8 @@
     is_active: True
     reverse_url: user_profil
 
-
-- model: conf.Page
-  pk: 9
-  fields:
-    title: Bibliothèque
-    name: librairy
-    is_in_main_menu: False
-    position_in_main_menu: 50
-    is_in_home_menu: False
-    position_in_home_menu: 100
-    is_active: True
-    reverse_url: librairy_home
-
-
 - model: conf.Page
   pk: 10
-  fields:
-    title: Articles
-    name: article
-    is_in_main_menu: False
-    position_in_main_menu: 50
-    is_in_home_menu: False
-    position_in_home_menu: 100
-    is_active: True
-    reverse_url: weblog_home
-
-
-- model: conf.Page
-  pk: 11
-  fields:
-    title: Galeries
-    name: gallery
-    is_in_main_menu: False
-    position_in_main_menu: 50
-    is_in_home_menu: False
-    position_in_home_menu: 100
-    is_active: True
-    reverse_url: weblog_home
-
-- model: conf.Page
-  pk: 12
   fields:
     title: Configuration
     name: settings
@@ -155,21 +128,6 @@
     position_in_home_menu: 100
     is_active: True
     reverse_url: conf_settings
-
-- model: conf.Page
-  pk: 13
-  fields:
-    title: Contact
-    name: contact
-    is_in_main_menu: True
-    position_in_main_menu: 60
-    is_in_home_menu: True
-    position_in_home_menu: 60
-    is_active: True
-    reverse_url: contact_home
-
-
-
 
 
 

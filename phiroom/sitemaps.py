@@ -2,7 +2,7 @@
 
 from django.contrib.sitemaps import Sitemap
 from django.core.urlresolvers import reverse
-from weblog.models import Entry, Category, Tag
+from weblog.models import Entry, Tag
 
 class WeblogSitemap(Sitemap):
     """Site map of weblog entrys."""
@@ -15,14 +15,6 @@ class WeblogSitemap(Sitemap):
     def lastmod(self, item):
         return item.pub_update
 
-
-class CatSitemap(Sitemap):
-    """Site map of weblog entrys by category."""
-    changefreq = 'daily'
-    priority = 0.2
-
-    def items(self):
-        return Category.objects.all()
 
 class TagSitemap(Sitemap):
     """Site map of weblog entrys by tag."""

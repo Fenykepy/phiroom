@@ -1,5 +1,4 @@
 #-*- coding: utf-8 -*-
-from pprint import pprint
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -11,9 +10,14 @@ from django.core.mail import send_mail, mail_managers
 from phiroom.settings import DEFAULT_FROM_EMAIL
 from user.models import User
 from user.forms import LoginForm, SuscriptionForm, ProfilForm
-from weblog.views import WeblogMixin
-from article.views import AjaxableResponseMixin
+from weblog.views import WeblogMixin, AjaxableResponseMixin
 from conf.models import Conf
+
+# test function for user_passes_test() in urls.py
+def user_is_staff(user):
+    """Return True if given user is staff member."""
+    return user.is_staff
+
 
 # login class
 class LoginView(FormView,WeblogMixin):

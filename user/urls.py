@@ -4,8 +4,7 @@ from django.conf.urls import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.decorators import user_passes_test, login_required
 
-from weblog.views import user_is_staff
-from user.views import LoginView, SuscriptionView, ProfilView, RecoveryView
+from user.views import LoginView, SuscriptionView, ProfilView, RecoveryView, user_is_staff
 
 
 urlpatterns = patterns('user.views',
