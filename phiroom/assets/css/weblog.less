@@ -284,7 +284,8 @@ body section article, body section div#pagination {
     }
     ul#share-icon { 
         text-align: center;
-        li{
+        position: relative;
+        li {
             display: inline-block;
             margin: 0.5em;
             border: 1px solid @22;
@@ -292,6 +293,31 @@ body section article, body section div#pagination {
             border-radius: 4px;
             height: 40px;
             width: 40px;
+        }
+        a#prev, a#next {
+            li {
+                position: absolute;
+                color: @22;
+                line-height: 40px;
+                vertical-align: middle;
+                border: 1px solid @31;
+                box-shadow: 1px 1px 0 @66 + 20, inset 0px 0px 8px 2px @66 - 20;
+            }
+            &:hover li, &:active li, &:focus li {
+                border: 1px solid @00;
+                .degrade(@40, @22, @44);
+                color: @FF;
+                box-shadow: 0 0 1px @00;
+            }
+            &:active li {
+                box-shadow: 0 0 3px @00;
+            }
+        }
+        a#prev li {
+            left: 10px;
+        }
+        a#next li {
+            right: 10px;
         }
         a:hover li, a:focus li {
             box-shadow: 0 0 3px #000;

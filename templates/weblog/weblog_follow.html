@@ -1,5 +1,9 @@
 <div class="follow"><h6 class="follow"><span>Me suivre</span></h6></div>
 <ul id="share-icon">
+    {% spaceless %}
+    {% if previous %}
+    <a id="prev" href="{{ previous.absolute_url}}" title="Post précédent" rel="prev"><li><span class="hidden">Post précédent</span>&lt;</li></a>
+    {% endif %}
     {% if conf.follow_fb %}
     <a id="facebook" href="{{ conf.fb_link }}" title="Me suivre sur facebook"><li>Me suivre sur facebook</li></a>
     {% elif conf.no_fb %}
@@ -24,5 +28,12 @@
     {% endif %}
     {% if conf.follow_mail %}
     <a id="mail" class="popup" href="{% if user.is_authenticated %}{% url "user_profil" %}#id_weblog_mail_newsletter{% else %}{% url "user_suscription"%}{% endif %}" title="S'abonner aux mails"><li>S'abonner aux mails"</li></a>
-    {% endif %}</ul>
+    {% endif %}
+    {% if next %}
+    <a id="next" href="{{ next.absolute_url}}" title="Post suivant" rel="next"><li><span class="hidden">Post suivant</span>&gt;</li></a>
+    {% endif %}
+    {% endspaceless %}
+</ul>
+
+
 

@@ -49,7 +49,6 @@ class EntryForm(ModelForm):
                     'size': '19'}),
                 'source': forms.Textarea(attrs={'cols': 70,
                     'rows': 15,
-                    'required': 'required',
                     'placeholder': 'Le contenu du post, syntaxe markdown'}),
                 'tags': forms.CheckboxSelectMultiple(),
                 }

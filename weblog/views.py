@@ -168,6 +168,30 @@ class ViewEntry(DetailView, WeblogMixin):
     context_object_name = 'entry'
     template_name = 'weblog/weblog_view.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(ViewEntry, self).get_context_data(**kwargs)
+        # try to get previous post
+        if self.request.user.is_staff:
+            previous_entry = Entry.not_draft.filter(portfolio=False,
+                    pub_update__lt=self.object.pub_update)
+        else:
+            previous_entry = Entry.published.filter(portfolio=False,
+                    pub_update__lt=self.object.pub_update)
+        if previous_entry:
+            context['previous'] = previous_entry[0]
+        # try to get nex post
+        if self.request.user.is_staff:
+            next_entry = Entry.not_draft.filter(portfolio=False,
+                    pub_update__gt=self.object.pub_update)
+        else:
+            next_entry = Entry.published.filter(portfolio=False,
+                    pub_update__gt=self.object.pub_update)
+        if next_entry:
+            context['next'] = next_entry[0]
+        
+        return context
+
+
     def get_queryset(self):
         date = self.kwargs['date'].replace("/", "-", 2)
         if self.request.user.is_staff:
@@ -233,6 +257,12 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
         # save entry's number of pictures
         self.object.n_pict = self.object.pictures.all().count()
 
+        # if there are picts, remove auto-draf
+        if self.object.n_pict > 0:
+            self.object.auto_draft = False
+
+
+
     def form_pre_save(self, form):
         """Executed before saving object."""
         pass
@@ -243,10 +273,15 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
         self.object = form.save(commit=False)
         # definition of author
         self.object.author = self.request.user
-        # definition of abstract
-        self.object.abstract = format_abstract(self.object.source)
-        # definition of content
-        self.object.content = format_content(self.object.source)
+        if len(self.object.source) > 0:
+            # remove auto-draft
+            self.object.auto_draft = False
+            # definition of abstract
+            self.object.abstract = format_abstract(self.object.source)
+            # definition of content
+            self.object.content = format_content(self.object.source)
+        else:
+            self.object.abstract = self.object.content = ''
 
         # save changes
         if 'entry_save' in form.data:
@@ -268,9 +303,6 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
                     self.object.pub_update = date
                     update = True
 
-            # if no pict and no text, auto_draf
-            if self.object.n_pict < 1 and len(self.object.content) < 1:
-                self.object.auto_draft = True
 
             ## convert pub_date to utc before saving
             # form give a local pub_date time, sql save it in utc
@@ -291,7 +323,6 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
             # if associated pictures, save them
             self.form_save_pictures(form)
 
-            # 
             # add and save new tags
             new_tags = form.cleaned_data.get('new_tags')
             if new_tags:

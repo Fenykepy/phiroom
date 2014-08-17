@@ -58,6 +58,8 @@ class Picture(models.Model):
     size = models.PositiveIntegerField(verbose_name="Poids")
     width = models.PositiveIntegerField(verbose_name="Largeur")
     height = models.PositiveIntegerField(verbose_name="Hauteur")
+    landscape = models.BooleanField(default=True,
+            verbose_name="Orientation paysage")
     color = models.BooleanField(default=True, verbose_name="Couleur")
     camera = models.CharField(max_length=140, null=True, blank=True,
             verbose_name="Appareil photo")

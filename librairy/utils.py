@@ -300,6 +300,8 @@ def save_picture(path, dir, file, md5, update=False, previews=True, metadatas=Tr
         pict.size = size
         pict.width = width
         pict.height = height
+        if height > width:
+            pict.landscape = False
         #pict.color (default true)
         pict.camera = xmp.get_camera()[:140]
         pict.lens = xmp.get_lens()[:140]

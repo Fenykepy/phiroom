@@ -63,7 +63,7 @@
 
         {% if form.tags %}
         <div class="field_wrapper">
-        {{ form.tags.label_tag }}<span class="red"> *</span>
+        {{ form.tags.label_tag }}
         {{ form.tags.errors }}
         {{ form.tags }}{% if form.tags.help_text %}<span class="help_text">{{ form.tags.help_text }}</span>{% endif %}
         </div>
@@ -76,7 +76,7 @@
         </div>
 
         <div class="field_wrapper">
-        {{ form.source.label_tag }}<span class="red"> *</span>
+        {{ form.source.label_tag }}
         {{ form.source.errors }}
         {{ form.source }}{% if form.source.help_text %}<span class="help_text">{{ form.source.help_text }}</span>{% endif %}
         </div>

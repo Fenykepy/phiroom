@@ -6,11 +6,13 @@ Petits bugs de la refactorisation :
 #    - placeholder de la date de publication (weblog.forms)
     - supprimer les mots-clés inutilisés du menu
 #    - changer le queryset dans weblog.models "save function"
-    - problème avec le renommage des dossiers dans librairy
+    - problème avec le renommage des dossiers dans librairy -> bug irreproductible…
 #    - problème avec la vignette des portfolios
 #    - problème avec les indications de portfolios et de posts sur les vignettes de la bibliothèque.
 #        - ajouter une fonction is_part_of_portfolio, et is_part_of_blogpost au modèle picture.
-    - faire une pagination de blog posts en blog posts
+#    - faire une pagination de blog posts en blog posts
+#    - ajouter l'orientation de l'image dans la table Picture
+#    - rendre le texte des posts facultatif
 #    - bug avec les dates de moins de 2:00:00 dans les urls
 
 ===== Avant release Béta =====

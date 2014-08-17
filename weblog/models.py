@@ -39,8 +39,8 @@ class Entry(models.Model):
     """Table for all weblog entrys (weblog posts and portfolios)."""
     title = models.CharField(max_length=254, verbose_name="Titre")
     slug = models.SlugField(max_length=254)
-    abstract = models.TextField(null=True, verbose_name="Résumé")
-    content = models.TextField(null=True, verbose_name="Contenu")
+    abstract = models.TextField(null=True, blank=True, verbose_name="Résumé")
+    content = models.TextField(null=True, blank=True, verbose_name="Contenu")
     source = models.TextField(null=True, blank=True, verbose_name="Contenu du post")
     tags = models.ManyToManyField('Tag', verbose_name="Mots clés")
     pictures = models.ManyToManyField(Picture, through='Entry_pictures', 
@@ -57,7 +57,7 @@ class Entry(models.Model):
     portfolio = models.BooleanField(default=False,
             verbose_name="Le post est un portfolio")
     draft = models.BooleanField(default=False, verbose_name="Brouillon")
-    auto_draft = models.BooleanField(default=False,
+    auto_draft = models.BooleanField(default=True,
             verbose_name="Brouillon automatique")
     is_published = models.BooleanField(default=False,
             verbose_name="Le post a été publiée")
