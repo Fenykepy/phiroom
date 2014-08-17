@@ -182,10 +182,12 @@ class ViewEntry(DetailView, WeblogMixin):
         # try to get nex post
         if self.request.user.is_staff:
             next_entry = Entry.not_draft.filter(portfolio=False,
-                    pub_update__gt=self.object.pub_update)
+                    pub_update__gt=self.object.pub_update).order_by(
+                            'pub_update')
         else:
             next_entry = Entry.published.filter(portfolio=False,
-                    pub_update__gt=self.object.pub_update)
+                    pub_update__gt=self.object.pub_update).order_by(
+                            'pub_update')
         if next_entry:
             context['next'] = next_entry[0]
         
