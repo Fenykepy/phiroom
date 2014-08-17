@@ -11,6 +11,7 @@ Petits bugs de la refactorisation :
 #    - problème avec les indications de portfolios et de posts sur les vignettes de la bibliothèque.
 #        - ajouter une fonction is_part_of_portfolio, et is_part_of_blogpost au modèle picture.
     - faire une pagination de blog posts en blog posts
+#    - bug avec les dates de moins de 2:00:00 dans les urls
 
 ===== Avant release Béta =====
 #    - déplacer la SECRET_KEY dans devel_settings
@@ -36,7 +37,7 @@ Petits bugs de la refactorisation :
         - pour les modifications de profil
 #    - voir pour gérer le paramètre « next » après les vues de login
 #    - cacher le form de recherche
-    - nettoyage général du code
+#    - nettoyage général du code
     - implémenter les commentaires
     - formulaire de remplacement d'une image
 #    - implémenter le tri drag & drop

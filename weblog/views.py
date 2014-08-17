@@ -202,7 +202,6 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
         # if it's a draft
         if (self.object.auto_draft or self.object.draft):
             return reverse('weblog_home')
-        print(self.object.absolute_url)
         return self.object.absolute_url
 
     def form_save_pictures(self, form):
@@ -254,7 +253,8 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
             date = timezone.now()
             create = False
             update = False
-            # if no pubdate specified, pub_update and pub_date are now
+            # if no pubdate specified (creation),
+            # pub_update and pub_date are at current time
             if not self.object.pub_date:
                 self.object.pub_update = self.object.pub_date = date
             else:
@@ -268,11 +268,19 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
                     self.object.pub_update = date
                     update = True
 
-                # if no pict and no text, auto_draf
-                if self.object.n_pict < 1 and len(self.object.content) < 1:
-                    self.object.auto_draft = True
+            # if no pict and no text, auto_draf
+            if self.object.n_pict < 1 and len(self.object.content) < 1:
+                self.object.auto_draft = True
 
-            
+            ## convert pub_date to utc before saving
+            # form give a local pub_date time, sql save it in utc
+            # but redirection of success_url is still made with local pub_date
+            # which is wrong. To avoid that convert to utc:
+            # get a timestamp from given pub_date
+            t = time.mktime(self.object.pub_date.timetuple())
+            # convert timestamp to utc datetime
+            self.object.pub_date = self.object.pub_date.utcfromtimestamp(
+                    t).replace(tzinfo=timezone.utc)
 
             # save form
             self.form_pre_save(form)
@@ -310,14 +318,6 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
                     if not self.object.is_published:
                         self.object.mail_followers()
 
-            # form give a local pub_date time, sql save it in utc
-            # but redirection of success_url is still made with local pub_date
-            # which is wrong. To avoid that convert to utc:
-            # get a timestamp from given pub_date
-            t = time.mktime(self.object.pub_date.timetuple())
-            # convert timestamp to utc datetime
-            self.object.pub_date = self.object.pub_date.utcfromtimestamp(t).replace(
-                    tzinfo=timezone.utc)
 
             # return response
             if self.request.is_ajax():

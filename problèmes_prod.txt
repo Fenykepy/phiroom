@@ -1,7 +1,7 @@
 - Les css pré gzippés ne sont pas interprétés
 #- Erreur lors de l'upload des fichiers (avatars, logos)
 #    -> donner les droits au serveur sur le dossier phiroom/phiroom/data
-- Erreur d'affichage des « images du jour » dans les boutons
+#- Erreur d'affichage des « images du jour » dans les boutons
 #- Erreur d'affichage de la page login une fois loggué
 #- Plus de favicon sous chromium -> réapparue au redémarrage de chromium
 #- Erreur de timeOut à l'import des images

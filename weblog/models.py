@@ -129,6 +129,7 @@ class Entry(models.Model):
             return reverse('portfolio_view', kwargs={
                 'slug': self.slug})
         else:
+            print(self.pub_date.strftime("%Y/%m/%d"))
             return reverse('entry_view', kwargs={
                 'date': self.pub_date.strftime("%Y/%m/%d"),
                 'slug': self.slug})
