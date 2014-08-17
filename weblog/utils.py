@@ -4,12 +4,17 @@ import markdown
 import re
 
 def format_lettrine(string):
-    """format lettrine delimited by "<lettrine></lettrine>" from escaped html string"""
-    string = re.sub("<p>&lt;lettrine&gt;(.+)&lt;/lettrine&gt;", r'<p class="article"><span class="sc">\1</span>' , string)
+    """format lettrine delimited by "<lettrine></lettrine>"
+    from escaped html string"""
+    string = re.sub("<p>&lt;lettrine&gt;(.+)&lt;/lettrine&gt;",
+            r'<p class="article"><span class="sc">\1</span>' , string)
     return string
 
+
+
 def format_abstract(source, delimiter="[...]"):
-    """select abstract from source delimited by delimiter (default "[...]"), format it with markdown and returns html"""
+    """select abstract from source delimited by delimiter (default "[...]"),
+    format it with markdown and returns html"""
     # separate abstract
     abstract_tuple = source.partition(delimiter)
     abstract = abstract_tuple[0].rstrip('.!?…') + "…"
@@ -19,6 +24,8 @@ def format_abstract(source, delimiter="[...]"):
     abstract = format_lettrine(abstract)
 
     return abstract
+
+
 
 def format_content(source, delimiter="[...]"):
     """format source with markdown and returns html"""

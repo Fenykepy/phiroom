@@ -10,7 +10,7 @@
 {% spaceless %}
 {% for picture in pictures %}
 <article class="thumb" data-selectable="thumb" data-draggable="thumb" 
-    {% if gallery or portfolio or collection %}
+    {% if entry or portfolio or collection %}
     data-sortable="thumb"
     {% endif %}
 id="{{ picture.id }}">
@@ -29,8 +29,8 @@ id="{{ picture.id }}">
                 {% if collection %}
                 <li><a class="del" target="blank" data-url="{% url "librairy_collection" collection.0 collection.1 %}" href="{% url "librairy_delete_pict_from_collection" collection.0 collection.1 picture.id %}">Supprimer de la collection</a></li>
 				<hr />
-                {% elif gallery %}
-                <li><a class="del" data-url="{% url "librairy_gallery" gallery.0 gallery.1 %}" href="{% url "librairy_delete_pict_from_gallery" gallery.0 gallery.1 picture.id %}">Supprimer de la galerie</a></li>
+                {% elif entry %}
+                <li><a class="del" data-url="{% url "librairy_entry" entry.0 entry.1 %}" href="{% url "librairy_delete_pict_from_entry" entry.0 entry.1 picture.id %}">Supprimer du post</a></li>
 				<hr />
                 {% elif portfolio %}
                 <li><a class="del" data-url="{% url "librairy_portfolio" portfolio %}" href="{% url "librairy_delete_pict_from_portfolio" portfolio picture.id %}">Supprimer du portfolio</a></li>
@@ -44,17 +44,12 @@ id="{{ picture.id }}">
 		    <img class="thumbnail" src="{{ MEDIA_URL }}images/previews/max-300/{{picture.id}}.jpg" alt="{{picture.title}}" />
             </a>
             <div class="published">
-            {% if picture.pictofday %}
-            <a title="L'image est une image du jour" href="{{ picture.pictofday.get_absolute_url }}">
-                <div class="pod-icon">L'image est une image du jour.</div>
+            {% if picture.is_part_of_blogpost %}
+            <a title="L'image fait partie d'au moins un post" href="{% url "weblog_picture_posts" picture.id %}">
+                <div class="gallery-icon">L'image fait partie d'au moins un post.</div>
             </a>
             {% endif %}
-            {% if picture.gallery_set.all %}
-            <a title="L'image fait partie d'au moins une galerie" href="{% url "weblog_picture_gallerys" picture.id %}">
-                <div class="gallery-icon">L'image fait partie d'au moins une galerie.</div>
-            </a>
-            {% endif %}
-            {% if picture.portfolio_set.all %}
+            {% if picture.is_part_of_portfolio %}
             <a title="L'image fait partie d'au moins un portfolio" href="{% url "weblog_picture_portfolios" picture.id %}">
                 <div class="portfolio-icon">L'image fait partie d'au moins un portfolio.</div>
             </a>

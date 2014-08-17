@@ -3,8 +3,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.decorators import user_passes_test
 
 from user.views import user_is_staff
-from weblog.views import ListEntrys, ListPortfolios, ListEntrysByTag, \
-        ViewEntry, CreateEntry, UpdateEntry, DeleteEntry
+from weblog.views import *
 
 urlpatterns = patterns('',
         # weblog home page (list entrys)
@@ -32,6 +31,22 @@ urlpatterns = patterns('',
             name="weblog_tag"),
         url(r'^page/(?P<page>\d+)/keyword/(?P<slug>.+)/$',
             ListEntrysByTag.as_view(), name="weblog_tag"),
+
+        # entrys by blog posts for a picture
+        url(r'^blogpost/picture/(?P<pk>\d+)/$',
+            ListEntrysByPostsPicture.as_view(),
+            name="weblog_picture_posts"),
+        url(r'^page/(?P<page>\d+)/blogpost/picture/(?P<pk>\d+)/$',
+            ListEntrysByPostsPicture.as_view(),
+            name="weblog_picture_posts"),
+
+        # entrys by portfolios for a picture
+        url(r'^portfolio/picture/(?P<pk>\d+)/$',
+            ListEntrysByPortfoliosPicture.as_view(),
+            name="weblog_picture_portfolios"),
+        url(r'^page/(?P<page>\d+)/portfolio/picture/(?P<pk>\d+)/$',
+            ListEntrysByPortfoliosPicture.as_view(),
+            name="weblog_picture_portfolios"),
 
         # entry view
         url(r'^(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/$',

@@ -44,8 +44,8 @@ class EntryForm(ModelForm):
         widgets = {
                 'title': forms.TextInput(attrs={'required': 'required'}),
                 'pub_date': forms.DateTimeInput(attrs={
-                    'placeholder': 'Date de publication jj/mm/aaaa hh:mm:ss \
-                    (optionnelle)',
+                    'placeholder': 'Date de publication jj/mm/aaaa hh:mm:ss ' +
+                    '(optionnelle)',
                     'size': '19'}),
                 'source': forms.Textarea(attrs={'cols': 70,
                     'rows': 15,

@@ -25,8 +25,6 @@ PICTURES_ORDERING_CHOICES = (
         ('note', 'Note'),
     )
 
-
-
 def ancestors2list(ancestors):
     """Transform ancestors from mptt tree into list of element names.
 
@@ -46,11 +44,9 @@ def ancestors2list(ancestors):
 
 class Picture(models.Model):
     """Pictures table"""
-    title = models.CharField(max_length=140, null=True, blank=True,
-            verbose_name="Titre")
+    title = models.CharField(max_length=140, null=True, blank=True, verbose_name="Titre")
     legend = models.TextField(null=True, blank=True, verbose_name="Légende")
-    name_import = models.CharField(max_length=140,
-            verbose_name="Nom à l'importation")
+    name_import = models.CharField(max_length=140, verbose_name="Nom à l'importation")
     name_origin = models.CharField(max_length=140, verbose_name="Nom original")
     name = models.CharField(max_length=140, verbose_name="Nom")
     directory = models.ForeignKey('Directory', verbose_name="Dossier")
@@ -59,45 +55,29 @@ class Picture(models.Model):
     width = models.PositiveIntegerField(verbose_name="Largeur")
     height = models.PositiveIntegerField(verbose_name="Hauteur")
     color = models.BooleanField(default=True, verbose_name="Couleur")
-    camera = models.CharField(max_length=140, null=True, blank=True,
-            verbose_name="Appareil photo")
-    lens = models.CharField(max_length=140, null=True, blank=True,
-            verbose_name="Objectif")
-    speed = models.CharField(max_length=30, null=True, blank=True,
-            verbose_name="Vitesse d'obturation")
-    aperture = models.CharField(max_length=30, null=True, blank=True,
-            verbose_name="Diaphragme")
-    iso = models.PositiveSmallIntegerField(null=True, blank=True,
-            verbose_name="Sensibilité iso")
-    tags = models.ManyToManyField('Tag', null=True, blank=True,
-            verbose_name="Mots clés")
+    camera = models.CharField(max_length=140, null=True, blank=True, verbose_name="Appareil photo")
+    lens = models.CharField(max_length=140, null=True, blank=True, verbose_name="Objectif")
+    speed = models.CharField(max_length=30, null=True, blank=True, verbose_name="Vitesse d'obturation")
+    aperture = models.CharField(max_length=30, null=True, blank=True, verbose_name="Diaphragme")
+    iso = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Sensibilité iso")
+    tags = models.ManyToManyField('Tag', null=True, blank=True, verbose_name="Mots clés")
     note = models.PositiveSmallIntegerField(default=0, verbose_name="Note")
-    label= models.ForeignKey('Label', verbose_name="Libellé", null=True,
-            blank=True)
-    licence = models.ForeignKey('Licence', verbose_name="License",
-            null=True, blank=True)
+    label= models.ForeignKey('Label', verbose_name="Libellé", null=True, blank=True)
+    licence = models.ForeignKey('Licence', verbose_name="License", null=True, blank=True)
     md5 = models.CharField(max_length=300, verbose_name="Somme de contrôle")
-    n_read = models.PositiveIntegerField(default=0,
-            verbose_name="Nombre de lectures")
-    date_import = models.DateTimeField(auto_now_add=True, auto_now=False,
-            verbose_name="Date d'importation")
-    date_update = models.DateTimeField(auto_now_add=True, auto_now=True,
-            verbose_name="Date de mise àà jour")
-    date_origin = models.DateTimeField(auto_now_add=False, auto_now=False,
-            null=True, blank=True, verbose_name="Date d'origine")
-    date = models.DateTimeField(auto_now_add=False, auto_now=False,
-            null=True, blank=True, verbose_name="Date")
+    n_read = models.PositiveIntegerField(default=0, verbose_name="Nombre de lectures")
+    date_import = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name="Date d'importation")
+    date_update = models.DateTimeField(auto_now_add=True, auto_now=True, verbose_name="Date de mise àà jour")
+    date_origin = models.DateTimeField(auto_now_add=False, auto_now=False, null=True, blank=True, verbose_name="Date d'origine")
+    date = models.DateTimeField(auto_now_add=False, auto_now=False, null=True, blank=True, verbose_name="Date")
     absolute_url = models.URLField()
-
 
     class Meta:
         unique_together = ('directory', 'name')
         ordering = ['name']
 
-
     def __str__(self):
         return "id: %s, %s" % (self.id, self.name)
-
 
     def get_relative_pathname(self):
         """Returns picture pathname relative to LIBRAIRY"""
@@ -105,34 +85,16 @@ class Picture(models.Model):
         ancestors_path = '/' + '/'.join(ancestors2list(ancestors)) + '/'
         return (os.path.join(ancestors_path, self.name))
 
-
-    def is_part_of_portfolio(self):
-        """Returns True if picture is part of at list one portfolio."""
-        if self.entry_set.filter(portfolio=True):
-            return True
-        return False
-
-
-    def is_part_of_blogpost(self):
-        """Returns True if picture is part of at list one blogpost."""
-        if self.entry_set.filter(portfolio=False):
-            return True
-        return False
-
-
     def save(self, **kwargs):
         """Get absolute url then save"""
         self.absolute_url = LIBRAIRY_URL + self.get_relative_pathname()
         super(Picture, self).save()
 
-
-
 class Directory(MPTTModel):
     """Directorys table"""
     name = models.CharField(max_length=150, verbose_name="Nom")
     slug = models.SlugField(max_length=150, verbose_name="slug")
-    parent = TreeForeignKey('self', null=True, blank=True,
-            related_name="Children")
+    parent = TreeForeignKey('self', null=True, blank=True, related_name="Children")
 
     def get_directory_pictures(self):
         """Return all pictures of a directory and its sub directorys."""
@@ -159,8 +121,6 @@ class Directory(MPTTModel):
     def __str__(self):
         return self.name
 
-
-
 class Tag(MPTTModel):
     """Tags table"""
     name = models.CharField(max_length=150, verbose_name="Nom")
@@ -174,14 +134,11 @@ class Tag(MPTTModel):
     def __str__(self):
         return self.name
 
-
-
 class Label(models.Model):
     """Labels table"""
     name = models.CharField(max_length=150, verbose_name="Nom")
     slug = models.SlugField(max_length=150, verbose_name="slug")
-    color = models.CharField(max_length=7, default="#CB5151",
-            verbose_name="Couleur")
+    color = models.CharField(max_length=7, default="#CB5151", verbose_name="Couleur")
     # colors:
     # #CB5151 -> rouge
     # #C5C42E -> jaune
@@ -192,41 +149,29 @@ class Label(models.Model):
     def __str__(self):
         return self.name
 
-
-
 class Licence(models.Model):
     """Licences table"""
-    name = models.CharField(max_length=150, null=True, blank=True,
-            verbose_name="Nom")
-    slug = models.SlugField(max_length=150, null=True, blank=True,
-            verbose_name="slug")
-    state = models.CharField(max_length=30, null=True, blank=True,
-            verbose_name="État du copyright")
+    name = models.CharField(max_length=150, null=True, blank=True, verbose_name="Nom")
+    slug = models.SlugField(max_length=150, null=True, blank=True, verbose_name="slug")
+    state = models.CharField(max_length=30, null=True, blank=True, verbose_name="État du copyright")
     copyright = models.CharField(max_length=300, null=True, blank=True)
-    description = models.TextField(null=True, blank=True,
-            verbose_name="Description")
+    description = models.TextField(null=True, blank=True, verbose_name="Description")
     url = models.URLField(verbose_name="URL", null=True, blank=True)
 
 
     def __str__(self):
         return self.name
 
-
-
 class Collection(models.Model):
     """Collections table"""
     name = models.CharField(max_length=150, verbose_name="Collection")
     slug = models.SlugField(max_length=150, verbose_name="slug")
     ensemble = models.ForeignKey('CollectionsEnsemble', null=True, blank=True)
-    pictures = models.ManyToManyField(Picture, through='Collection_pictures',
-            null=True, blank=True, verbose_name="Images")
-    n_pict = models.PositiveIntegerField(default=0,
-            verbose_name="Nombre d'images")
-    order = models.CharField(max_length=150, null=True, blank=True,
-            default='name', choices=PICTURES_ORDERING_CHOICES,
-            verbose_name="Ordre")
-    reversed_order = models.BooleanField(default=False,
-            verbose_name="Classement décroissant")
+    pictures = models.ManyToManyField(Picture, through='Collection_pictures', null=True, blank=True, verbose_name="Images")
+    n_pict = models.PositiveIntegerField(default=0, verbose_name="Nombre d'images")
+    order = models.CharField(max_length=150, null=True, blank=True, default='name',
+            choices=PICTURES_ORDERING_CHOICES, verbose_name="Ordre")
+    reversed_order = models.BooleanField(default=False, verbose_name="Classement décroissant")
 
     @property
     def get_sorted_pictures(self):
@@ -248,8 +193,6 @@ class Collection(models.Model):
     def __str__(self):
         return self.name
 
-
-
 class Collection_pictures(models.Model):
     """Through class for collection's pictures relation, add order column"""
     collection = models.ForeignKey(Collection)
@@ -259,12 +202,9 @@ class Collection_pictures(models.Model):
     class Meta:
         ordering = ('order',)
 
-
-
 class CollectionsEnsemble(MPTTModel):
     """Collections ensembles table"""
-    name = models.CharField(max_length=150,
-            verbose_name="Ensemble de collection")
+    name = models.CharField(max_length=150, verbose_name="Ensemble de collection")
     slug = models.SlugField(max_length=150, verbose_name="slug")
     parent = models.ForeignKey('CollectionsEnsemble', null=True, blank=True)
 

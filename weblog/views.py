@@ -2,7 +2,8 @@ import json
 import time
 
 from django.utils import timezone
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, \
+        UpdateView, DeleteView
 from django.views.generic.base import ContextMixin
 from django.template.loader import render_to_string
 from django.http import HttpResponse
@@ -12,7 +13,7 @@ from django.template.defaultfilters import slugify
 
 
 from phiroom.settings import PHIROOM
-from weblog.models import Entry, Tag, Ordering_pictures
+from weblog.models import Entry, Tag, Entry_pictures
 from weblog.forms import EntryForm
 from weblog.utils import format_abstract, format_content
 from conf.models import Conf, Page
@@ -114,15 +115,50 @@ class ListPortfolios(ListEntrys):
 
 
 class ListEntrysByTag(ListEntrys):
-    """List all weblog entrys corresponding to a given tag."""
-    def get_context_date(self, **kwargs):
+    """List all weblog entrys corresponding to given tag."""
+    def get_context_data(self, **kwargs):
         context = super(ListEntrysByTag, self).get_context_data(**kwargs)
         context['arg0'] = self.kwargs['slug']
 
         return context
 
+
     def get_queryset(self):
-        return Entry.published.filter(tags__slug = self.kwargs['slug'])
+         return Entry.published.filter(tags__slug = self.kwargs['slug'])
+
+
+
+class ListEntrysByPostsPicture(ListEntrys):
+    """List all posts corresponding to given picture."""
+    def get_context_data(self, **kwargs):
+        context = super(
+                ListEntrysByPostsPicture, self).get_context_data(**kwargs)
+        context['arg0'] = self.kwargs['pk']
+
+        return context
+
+
+    def get_queryset(self):
+        return Entry.published.filter(
+                entry_pictures__picture__id = self.kwargs['pk'],
+                portfolio=False)
+
+
+
+class ListEntrysByPortfoliosPicture(ListEntrys):
+    """List all portfolios corresponding to given picture."""
+    def get_context_data(self, **kwargs):
+        context = super(
+                ListEntrysByPortfoliosPicture, self).get_context_data(**kwargs)
+        context['arg0'] = self.kwargs['pk']
+
+        return context
+
+
+    def get_queryset(self):
+        return Entry.published.filter(
+                entry_pictures__picture__id = self.kwargs['pk'],
+                portfolio=True)
 
 
 
@@ -145,7 +181,7 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
     """View to create a new entry."""
     form_class = EntryForm
     model = Entry
-    through_model = Ordering_pictures
+    through_model = Entry_pictures
 
     def get_context_data(self, **kwargs):
         context = super(CreateEntry, self).get_context_data(**kwargs)

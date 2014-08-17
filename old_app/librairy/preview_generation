@@ -1,0 +1,33 @@
+entrée:
+
+    h   1000    700     (horizontal)
+    v   700     1000    (vertical)
+    s   1000    1000    (carré)
+
+preview 700 height:
+
+    h   1000    700
+    v   450     700
+    s   700     700
+
+preview 500 max:
+    
+    h   500     350
+    v   350     500
+    s   500     500
+
+    => passe dans le preview 700 height dans tous les cas
+
+preview 300 max:
+    
+    h   300     250
+    v   250     300
+    s   300     300
+
+    => passe dans le preview 500 height dans tous les cas
+
+preview 500 square:
+    
+    h   500     500     =>  passe dans le preview 700 height
+    v   500     500     =>  peut passer dans le preview 700 height, sinon original
+    s   500     500     =>  passe dans le preview 700 height

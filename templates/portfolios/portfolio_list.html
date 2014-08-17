@@ -6,7 +6,7 @@
     <h2 class="hidden">{{ entry.category }}</h2>
     <article>
     <figure>
-        {% with picture=entry.portfolio.get_sorted_pictures.0 %}
+        {% with picture=entry.get_sorted_pictures.0 %}
         <a href="{% url "portfolio_view" entry.slug %}#/lightbox/{{ picture.id }}/" title="Voir le portfolio">
             <img src="{{ MEDIA_URL }}images/previews/square-500/{{ picture.id }}.jpg" alt="{{ picture.title }}" />
         </a>

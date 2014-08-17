@@ -1,6 +1,7 @@
 import json
 
-from django.views.generic import TemplateView, UpdateView, CreateView, ListView, DetailView
+from django.views.generic import TemplateView, UpdateView, CreateView, \
+        ListView, DetailView
 from django.core.mail import send_mail, mail_managers
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse

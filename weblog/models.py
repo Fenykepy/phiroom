@@ -43,7 +43,7 @@ class Entry(models.Model):
     content = models.TextField(null=True, verbose_name="Contenu")
     source = models.TextField(null=True, blank=True, verbose_name="Contenu du post")
     tags = models.ManyToManyField('Tag', verbose_name="Mots clés")
-    pictures = models.ManyToManyField(Picture, through='Ordering_pictures', 
+    pictures = models.ManyToManyField(Picture, through='Entry_pictures', 
             null=True, blank=True, verbose_name="Images")
     n_pict = models.PositiveIntegerField(default=0,
             verbose_name="Nombre d'images")
@@ -141,10 +141,12 @@ class Entry(models.Model):
             unique_slugify(self, slug,
                     queryset=Entry.objects.filter(portfolio=True))
         else:
-        # !!! change queryset to query only dayly entrys (because of date in url,
-        # no sense to do uniq slug for all dates
+            date = self.pub_date.strftime("%Y-%m-%d")
+            queryset = Entry.objects.filter(portfolio=False,
+                    pub_date__startswith=date)
+            print(date)
             unique_slugify(self, slug,
-                    queryset=Entry.objects.filter(portfolio=False))
+                queryset=queryset)
 
         self.absolute_url = self.get_absolute_url()
         super(Entry, self).save()
@@ -161,7 +163,7 @@ class Entry(models.Model):
 
         if self.order == 'custom':
             return [entry.picture for entry in
-                    Ordering_pictures.objects.filter(entry=self)
+                    Entry_pictures.objects.filter(entry=self)
                     .order_by(prefix + 'order')]
         else:
             return self.pictures.order_by(prefix + self.order)
@@ -172,7 +174,7 @@ class Entry(models.Model):
 
 
 
-class Ordering_pictures(models.Model):
+class Entry_pictures(models.Model):
     """Through table for entry's pictures relation,
     add an order column"""
     entry = models.ForeignKey(Entry)

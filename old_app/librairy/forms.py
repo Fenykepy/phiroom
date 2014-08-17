@@ -10,7 +10,7 @@ from mptt.forms import TreeNodeChoiceField
 from phiroom.settings import LIBRAIRY
 
 from weblog.forms import Form
-from weblog.models import Tag, Entry
+from weblog.models import Tag
 from librairy.models import Picture, Directory, CollectionsEnsemble, Collection, Collection_pictures, PICTURES_ORDERING_CHOICES
 from librairy.utils import ancestors2list 
 
@@ -63,33 +63,18 @@ class RelativeFilePathField(forms.ChoiceField):
 
         self.widget.choices = self.choices
 
-
-
 class ImportForm(Form):
     """Pictures importation form"""
     def __init__(self, *args, **kwargs):
         super(ImportForm, self).__init__(*args, **kwargs)
-        self.fields['folder'] = RelativeFilePathField(LIBRAIRY,
-                allow_files=False,
-                allow_folders=True,
-                recursive=True,
-                label="Dossier",
-                required=True)
-        self.fields['previews'] = forms.BooleanField(
-                label="Régénérer les aperçus des images existantes",
-                required=False)
-        self.fields['metadatas'] = forms.BooleanField(
-                label="Recharger les métadonnées des images existantes",
-                required=False)
-
-
+        self.fields['folder'] = RelativeFilePathField(LIBRAIRY, allow_files=False, allow_folders=True, recursive=True, label="Dossier", required=True)
+        self.fields['previews'] = forms.BooleanField(label="Régénérer les aperçus des images existantes", required=False)
+        self.fields['metadatas'] = forms.BooleanField(label="Recharger les métadonnées des images existantes", required=False)
 
 class CreateFolderForm(Form):
     """Folder creation form"""
-    name = forms.CharField(max_length=150, label="Nom",
-            widget=forms.TextInput(attrs={'required': 'required'}))
-    parent = TreeNodeChoiceField(queryset=Directory.objects.all(),
-            label="Placer dans un dossier existant", required=False)
+    name = forms.CharField(max_length=150, label="Nom", widget=forms.TextInput(attrs={'required': 'required'}))
+    parent = TreeNodeChoiceField(queryset=Directory.objects.all(), label="Placer dans un dossier existant", required=False)
 
     def clean(self):
         cleaned_data = super(CreateFolderForm, self).clean()
@@ -101,10 +86,10 @@ class CreateFolderForm(Form):
         if parent:
             # get parent ancestors
             ancestors = parent.get_ancestors(include_self=True)
-            ancestors_path = os.path.join(LIBRAIRY,
-                    '/'.join(ancestors2list(ancestors)))
+            ancestors_path = os.path.join(LIBRAIRY, '/'.join(ancestors2list(ancestors)))
             # if parent is not a folder
             if not os.path.isdir(ancestors_path):
+
                 msg = "Erreur sur le dossier parent"
                 # display error message
                 self._errors["parent"] = self.error_class([msg])
@@ -130,28 +115,17 @@ class CreateFolderForm(Form):
             os.makedirs(new_folder_path)
             # insert folder in database
             if 'parent' in locals():
-                Directory.objects.create(
-                        name=new_folder, 
-                        slug=slug, 
-                        parent=parent)
+                Directory.objects.create(name=new_folder, slug=slug, parent=parent)
             else:
                 Directory.objects.create(name=new_folder, slug=slug)
 
         # Returns data if everything is correct
         return cleaned_data
 
-
-
 class RenameFolderForm(Form):
     """Forder renaming form"""
-    folder = TreeNodeChoiceField(
-            queryset=Directory.objects.all(),
-            label="Dossier à renommer",
-            required=True)
-    new_name = forms.CharField(
-            max_length=150,
-            label="Nouveau nom",
-            widget=forms.TextInput(attrs={'required': 'required'}))
+    folder = TreeNodeChoiceField(queryset=Directory.objects.all(), label="Dossier à renommer", required=True)
+    new_name = forms.CharField(max_length=150, label="Nouveau nom", widget=forms.TextInput(attrs={'required': 'required'}))
     
     def clean(self):
         cleaned_data = super(RenameFolderForm, self).clean()
@@ -169,13 +143,11 @@ class RenameFolderForm(Form):
         else:
             # define old name absolute path
             ancestors = folder.get_ancestors(include_self=True)
-            ancestors_path = os.path.join(LIBRAIRY,
-                    '/'.join(ancestors2list(ancestors)))
+            ancestors_path = os.path.join(LIBRAIRY, '/'.join(ancestors2list(ancestors)))
 
             # define new name absolute path
             new_ancestors = folder.get_ancestors()
-            new_path = os.path.join(LIBRAIRY,
-                    '/'.join(ancestors2list(new_ancestors)), slug)
+            new_path = os.path.join(LIBRAIRY, '/'.join(ancestors2list(new_ancestors)), slug)
 
             # if folder doesn't exists, raise an error
             if not os.path.isdir(ancestors_path):
@@ -206,13 +178,9 @@ class RenameFolderForm(Form):
         return cleaned_data
 
 
-
 class DeleteFolderForm(Form):
     """Folder deleting form"""
-    folder = TreeNodeChoiceField(
-            queryset=Directory.objects.all(),
-            label="Dossier à effacer",
-            required=True)
+    folder = TreeNodeChoiceField(queryset=Directory.objects.all(), label="Dossier à effacer", required=True)
 
     def clean(self):
         cleaned_data = super(DeleteFolderForm, self).clean()
@@ -229,8 +197,7 @@ class DeleteFolderForm(Form):
         else:    
             # define absolute path
             ancestors = folder.get_ancestors(include_self=True)
-            ancestors_path = os.path.join(LIBRAIRY,
-                    '/'.join(ancestors2list(ancestors)))
+            ancestors_path = os.path.join(LIBRAIRY, '/'.join(ancestors2list(ancestors)))
 
             # Count folder's number of descendant 
             descendant_count = folder.get_descendant_count()
@@ -251,8 +218,7 @@ class DeleteFolderForm(Form):
             # if folder has descendants, raise an error
             elif descendant_count >= 1:
                 # define error message
-                msg = "Le dossier n'est pas vide : il contient " + str(
-                        descendant_count) + " sous-dossiers"
+                msg = "Le dossier n'est pas vide : il contient " + str(descendant_count) + " sous-dossiers"
                 # display error message
                 self._errors["folder"] = self.error_class([msg])
                 # delete non cleaned data
@@ -261,8 +227,7 @@ class DeleteFolderForm(Form):
             # if folder has pictures
             elif pictures_count >= 1:
                 # define error message
-                msg = "Le dossier n'est pas vide : il contient " + str(
-                        pictures_count) + " images"
+                msg = "Le dossier n'est pas vide : il contient " + str(pictures_count) + " images"
                 # display error message
                 self._errors["folder"] = self.error_class([msg])
                 # delete non cleaned data
@@ -274,21 +239,14 @@ class DeleteFolderForm(Form):
                 # delete folder in db
                 folder.delete()
                 
+
         # Returns data if everything is correct
         return cleaned_data
-   
-
-
+        
 class CreateCollectionsEnsembleForm(Form):
     """Collections Ensemble creation form"""
-    name = forms.CharField(
-            max_length=150,
-            label="Nom",
-            widget=forms.TextInput(attrs={'required': 'required'}))
-    parent = TreeNodeChoiceField(
-            queryset=CollectionsEnsemble.objects.all(),
-            label="Placer dans un ensemble existant",
-            required=False)
+    name = forms.CharField(max_length=150, label="Nom", widget=forms.TextInput(attrs={'required': 'required'}))
+    parent = TreeNodeChoiceField(queryset=CollectionsEnsemble.objects.all(), label="Placer dans un ensemble existant", required=False)
 
     def clean(self):
         cleaned_data = super(CreateCollectionsEnsembleForm, self).clean()
@@ -297,10 +255,7 @@ class CreateCollectionsEnsembleForm(Form):
         slug = slugify(new_ensemble)
 
         # check if name already exists:
-        ensemble = CollectionsEnsemble.objects.filter(
-                name=new_ensemble,
-                parent=parent,
-                slug=slug)
+        ensemble = CollectionsEnsemble.objects.filter(name=new_ensemble, parent=parent, slug=slug)
         
         # if get a result so ensemble already exists, raise an error
         if ensemble:
@@ -313,26 +268,15 @@ class CreateCollectionsEnsembleForm(Form):
 
         else:
             # create new ensemble
-            CollectionsEnsemble.objects.create(
-                    name=new_ensemble,
-                    slug=slug,
-                    parent=parent)
+            CollectionsEnsemble.objects.create(name=new_ensemble, slug=slug, parent=parent)
 
         # returns data if everything is correct
         return cleaned_data
 
-
-
 class RenameCollectionsEnsembleForm(Form):
     """Collections Ensemble renaming form"""
-    ensemble = TreeNodeChoiceField(
-            queryset=CollectionsEnsemble.objects.all(),
-            label="Ensemble à renommer",
-            required=True)
-    name = forms.CharField(
-            max_length=150,
-            label="Nouveau nom",
-            widget=forms.TextInput(attrs={'required': 'required'}))
+    ensemble = TreeNodeChoiceField(queryset=CollectionsEnsemble.objects.all(), label="Ensemble à renommer", required=True)
+    name = forms.CharField(max_length=150, label="Nouveau nom", widget=forms.TextInput(attrs={'required': 'required'}))
 
     def clean(self):
         cleaned_data = super(RenameCollectionsEnsembleForm, self).clean()
@@ -357,9 +301,9 @@ class RenameCollectionsEnsembleForm(Form):
             else:
                 parent = None
 
+
             # check if new name already exists:
-            new_ensemble = CollectionsEnsemble.objects.filter(
-                    name=name, parent=parent)
+            new_ensemble = CollectionsEnsemble.objects.filter(name=name, parent=parent)
 
             # if get a result so new name already exists, raise an error
             if new_ensemble:
@@ -369,6 +313,7 @@ class RenameCollectionsEnsembleForm(Form):
                 self._errors["name"] = self.error_class([msg])
                 # delete not cleaned data
                 del cleaned_data["name"]
+
             else:
                 # rename ensemble
                 ensemble.name = name
@@ -378,14 +323,9 @@ class RenameCollectionsEnsembleForm(Form):
         # returns data if everything is correct
         return cleaned_data
 
-
-
 class DeleteCollectionsEnsembleForm(Form):
     """Collections Ensemble deleting form"""
-    ensemble = TreeNodeChoiceField(
-            queryset=CollectionsEnsemble.objects.all(),
-            label="Ensemble à supprimer",
-            required=True)
+    ensemble = TreeNodeChoiceField(queryset=CollectionsEnsemble.objects.all(), label="Ensemble à supprimer", required=True)
 
     def clean(self):
         cleaned_data = super(DeleteCollectionsEnsembleForm, self).clean()
@@ -403,8 +343,7 @@ class DeleteCollectionsEnsembleForm(Form):
             descendant_count = ensemble.get_descendant_count()
 
             # get ensemble collection count
-            collections_count = Collection.objects.filter(
-                    ensemble=ensemble).count()
+            collections_count = Collection.objects.filter(ensemble=ensemble).count()
 
             # if ensemble is not empty, raise an error
             if descendant_count >= 1 or collections_count >= 1:
@@ -426,24 +365,11 @@ class DeleteCollectionsEnsembleForm(Form):
 
 class CreateCollectionForm(Form):
     """Collection creation form"""
-    name = forms.CharField(
-            max_length=150,
-            label="Nom",
-            widget=forms.TextInput(attrs={'required': 'required'}))
-    parent = TreeNodeChoiceField(
-            queryset=CollectionsEnsemble.objects.all(),
-            label="Placer dans un ensemble existant",
-            required=False)
-    folder = TreeNodeChoiceField(
-            queryset=Directory.objects.all(),
-            label="Utiliser les images d'un dossier",
-            required=False)
-    order = forms.ChoiceField(
-            choices=PICTURES_ORDERING_CHOICES,
-            label="Classement des images par :")
-    desc = forms.BooleanField(
-            label="Classement décroissant",
-            required=False)
+    name = forms.CharField(max_length=150, label="Nom", widget=forms.TextInput(attrs={'required': 'required'}))
+    parent = TreeNodeChoiceField(queryset=CollectionsEnsemble.objects.all(), label="Placer dans un ensemble existant", required=False)
+    folder = TreeNodeChoiceField(queryset=Directory.objects.all(), label="Utiliser les images d'un dossier", required=False)
+    order = forms.ChoiceField(choices=PICTURES_ORDERING_CHOICES, label="Classement des images par :")
+    desc = forms.BooleanField(label="Classement décroissant", required=False)
 
     def clean(self):
         cleaned_data = super(CreateCollectionForm, self).clean()
@@ -455,10 +381,7 @@ class CreateCollectionForm(Form):
         slug = slugify(name)
         
         # check if collection with same name and parent already exists
-        collection = Collection.objects.filter(
-                name=name,
-                ensemble=parent,
-                slug=slug)
+        collection = Collection.objects.filter(name=name, ensemble=parent, slug=slug)
 
         # if get a result so name already exists, raise an error
         if collection:
@@ -470,20 +393,14 @@ class CreateCollectionForm(Form):
             del cleaned_data["name"]
         else:
             # create new collection
-            collection = Collection.objects.create(
-                    name=name,
-                    slug=slug,
-                    ensemble=parent,
-                    order=order,
-                    reversed_order=desc)
+            collection = Collection.objects.create(name=name, slug=slug, ensemble=parent,
+                    order=order, reversed_order=desc)
             if folder:
                 for item in folder.get_directory_pictures():
                     try:
-                        pict = Collection_pictures.objects.get(
-                                collection=collection, picture=item)
+                        pict = Collection_pictures.objects.get(collection=collection, picture=item)
                     except:
-                        pict = Collection_pictures(
-                                collection=collection, picture=item)
+                        pict = Collection_pictures(collection=collection, picture=item)
                         pict.save()
                 collection.n_pict = collection.pictures.count()
                 collection.save()
@@ -495,14 +412,8 @@ class CreateCollectionForm(Form):
             
 class RenameCollectionForm(Form):
     """Collection renaming form"""
-    collection = forms.ModelChoiceField(
-            queryset=Collection.objects.all(),
-            label="Collection à renommer",
-            required=True)
-    name = forms.CharField(
-            max_length=150,
-            label="Nouveau nom",
-            widget=forms.TextInput(attrs={'required': 'required'}))
+    collection = forms.ModelChoiceField(queryset=Collection.objects.all(), label="Collection à renommer", required=True)
+    name = forms.CharField(max_length=150, label="Nouveau nom", widget=forms.TextInput(attrs={'required': 'required'}))
 
     def clean(self):
         cleaned_data = super(RenameCollectionForm, self).clean()
@@ -511,9 +422,7 @@ class RenameCollectionForm(Form):
         slug = slugify(name)
 
         # check if collection exists with same name and parent
-        new_collection = Collection.objects.filter(
-                name=name,
-                ensemble=collection.ensemble)
+        new_collection = Collection.objects.filter(name=name, ensemble=collection.ensemble)
 
         # if get a result so name already exists, raise an error
         if new_collection:
@@ -532,13 +441,9 @@ class RenameCollectionForm(Form):
         return cleaned_data
 
 
-
 class DeleteCollectionForm(Form):
     """Collection deleting form"""
-    collection = forms.ModelChoiceField(
-            queryset=Collection.objects.all(),
-            label="collection à supprimer",
-            required=True)
+    collection = forms.ModelChoiceField(queryset=Collection.objects.all(), label="collection à supprimer", required=True)
 
     def clean(self):
         cleaned_data = super(DeleteCollectionForm, self).clean()
@@ -553,8 +458,7 @@ class DeleteCollectionForm(Form):
             # delete not cleaned data
         else:
             # get collection picture count
-            pictures_count = Picture.objects.filter(
-                    collections=collection).count()
+            pictures_count = Picture.objects.filter(collections=collection).count()
 
             # if ensemble is not empty, raise an error
             if pictures_count >= 1:
@@ -573,13 +477,9 @@ class DeleteCollectionForm(Form):
         return cleaned_data
 
     
-
 class CreateTagForm(Form):
     """Tag creation form."""
-    name = forms.CharField(
-            max_length=30,
-            label="Nom",
-            widget=forms.TextInput(attrs={'required': 'required'}))
+    name = forms.CharField(max_length=30, label="Nom", widget=forms.TextInput(attrs={'required': 'required'}))
 
     def clean(self):
         cleaned_data = super(CreateTagForm, self).clean()
@@ -601,17 +501,10 @@ class CreateTagForm(Form):
         return cleaned_data
             
  
-
 class RenameTagForm(Form):
     """Tag renaming form."""
-    tag = forms.ModelChoiceField(
-            queryset=Tag.objects.all(),
-            label="Mot clé à renommer",
-            required=True)
-    name = forms.CharField(
-            max_length=30,
-            label="Nouveau nom",
-            widget=forms.TextInput(attrs={'required': 'required'}))
+    tag = forms.ModelChoiceField(queryset=Tag.objects.all(), label="Mot clé à renommer", required=True)
+    name = forms.CharField(max_length=30, label="Nouveau nom", widget=forms.TextInput(attrs={'required': 'required'}))
 
     def clean(self):
         cleaned_data = super(RenameTagForm, self).clean()
@@ -633,13 +526,9 @@ class RenameTagForm(Form):
         return cleaned_data
 
  
-
 class DeleteTagForm(Form):
     """Tag deletion form."""
-    tag = forms.ModelChoiceField(
-            queryset=Tag.objects.all(),
-            label="Mot clé à supprimer",
-            required=True)
+    tag = forms.ModelChoiceField(queryset=Tag.objects.all(), label="Mot clé à supprimer", required=True)
 
     def clean(self):
         cleaned_data = super(DeleteTagForm, self).clean()
@@ -656,39 +545,48 @@ class DeleteTagForm(Form):
         # returns data if everything is correct
         return cleaned_data
 
+     
             
+#class ChooseArticleToUpdateForm(Form):
+#    """Form to choose an article to update"""
+#    article = forms.ModelChoiceField(queryset=Article.objects.all().order_by('-pub_update'), label="Article à éditer", required=True)
+           
+#class ChooseArticleToDeleteForm(Form):
+#    """Form to choose an article to delete"""
+#    article = forms.ModelChoiceField(queryset=Article.objects.all().order_by('-pub_update'), label="Article à supprimer", required=True)
 
-class ChooseEntryToUpdateForm(Form):
-    """Form to choose a blog entry to update"""
-    entry = forms.ModelChoiceField(
-            queryset=Entry.objects.filter(
-                portfolio=False).order_by('-pub_update'), 
-            label="Post à éditer", required=True)
+
+
+#class ChooseGalleryToUpdateForm(Form):
+#    """Form to choose a galerie to update"""
+#    article = forms.ModelChoiceField(queryset=Gallery.objects.all().order_by('-pub_update'), label="Galerie à éditer", required=True)
  
-
-
-class ChooseEntryToDeleteForm(Form):
-    """Form to choose a blog entry to delete"""
-    entry = forms.ModelChoiceField(
-            queryset=Entry.objects.filter(
-                portfolio=False).order_by('-pub_update'),
-            label="Post à supprimer", required=True)
+            
+#class ChooseGalleryToDeleteForm(Form):
+#    """Form to choose a galerie to delete"""
+#    article = forms.ModelChoiceField(queryset=Gallery.objects.all().order_by('-pub_update'), label="Galerie à supprimer", required=True)
 
 
 
-class ChoosePortfolioToUpdateForm(Form):
-    """Form to choose a portfolio to update"""
-    entry = forms.ModelChoiceField(queryset=Entry.objects.filter(
-        portfolio=True).order_by('-pub_update'),
-        label="Portfolio à éditer", required=True)
+#class ChoosePictofdayToUpdateForm(Form):
+#    """Form to choose a pictofday to update"""
+#    pictofday = forms.ModelChoiceField(queryset=Pictofday.objects.all().order_by('-pub_date'), label="Image du jour à éditer", required=True)
+
+
+#class ChoosePictofdayToDeleteForm(Form):
+#    """Form to choose a pictofday to delete"""
+#
+#    pictofday = forms.ModelChoiceField(queryset=Pictofday.objects.all().order_by('-pub_date'), label="Image du jour à supprimer", required=True)
+
+
+#class ChoosePortfolioToUpdateForm(Form):
+#    """Form to choose a portfolio to update"""
+#    article = forms.ModelChoiceField(queryset=Portfolio.objects.all().order_by('-pub_update'), label="Portfolio à éditer", required=True)
  
-
-
-class ChoosePortfolioToDeleteForm(Form):
-    """Form to choose a portfolio to delete"""
-    entry = forms.ModelChoiceField(queryset=Entry.objects.filter(
-        portfolio=True).order_by('-pub_update'),
-        label="Portfolio à supprimer", required=True)
+            
+#class ChoosePortfolioToDeleteForm(Form):
+#    """Form to choose a portfolio to delete"""
+#    article = forms.ModelChoiceField(queryset=Portfolio.objects.all().order_by('-pub_update'), label="Portfolio à supprimer", required=True)
 
 
 
