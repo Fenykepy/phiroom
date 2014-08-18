@@ -23,7 +23,6 @@ class PortfolioForm(EntryForm):
             'source': forms.Textarea(attrs={
                 'cols': 70, 
                 'rows': 15, 
-                'required': 'required', 
                 'placeholder': 'La description du portfolio, syntaxe markdown'}),
             'tags': forms.CheckboxSelectMultiple(),
         }

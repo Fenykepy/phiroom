@@ -25,6 +25,13 @@ PICTURES_ORDERING_CHOICES = (
         ('note', 'Note'),
     )
 
+LARGE_PREVIEWS_SIZE_CHOICES = (
+        (0, 'Taille réelle'),
+        (700, '700px pour le grand côté'),
+        (1024, '1024px pour le grand côté'),
+        (2048, '20148px pour le grand côté'),
+    )
+
 
 
 def ancestors2list(ancestors):
@@ -51,8 +58,8 @@ class Picture(models.Model):
     legend = models.TextField(null=True, blank=True, verbose_name="Légende")
     name_import = models.CharField(max_length=140,
             verbose_name="Nom à l'importation")
-    name_origin = models.CharField(max_length=140, verbose_name="Nom original")
-    name = models.CharField(max_length=140, verbose_name="Nom")
+    name_origin = models.TextField(verbose_name="Nom original")
+    name = models.TextField(verbose_name="Nom")
     directory = models.ForeignKey('Directory', verbose_name="Dossier")
     type = models.CharField(max_length=30, verbose_name="Type")
     size = models.PositiveIntegerField(verbose_name="Poids")
@@ -78,7 +85,7 @@ class Picture(models.Model):
             blank=True)
     licence = models.ForeignKey('Licence', verbose_name="License",
             null=True, blank=True)
-    md5 = models.CharField(max_length=300, verbose_name="Somme de contrôle")
+    md5 = models.TextField(verbose_name="Somme de contrôle")
     n_read = models.PositiveIntegerField(default=0,
             verbose_name="Nombre de lectures")
     date_import = models.DateTimeField(auto_now_add=True, auto_now=False,

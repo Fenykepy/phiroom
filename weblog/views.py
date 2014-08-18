@@ -197,9 +197,13 @@ class ViewEntry(DetailView, WeblogMixin):
     def get_queryset(self):
         date = self.kwargs['date'].replace("/", "-", 2)
         if self.request.user.is_staff:
-            return Entry.not_draft.filter(slug=self.kwargs['slug'],
+            return Entry.not_draft.filter(
+                    portfolio=False,
+                    slug=self.kwargs['slug'],
                     pub_date__startswith=date)
-        return Entry.published.filter(slug=self.kwargs['slug'],
+        return Entry.published.filter(
+                    portfolio=False,
+                    slug=self.kwargs['slug'],
                     pub_date__startswith=date)
 
 

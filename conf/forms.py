@@ -16,6 +16,7 @@ class SettingsForm(ModelForm):
                 'mail_profil', 
                 'mail_suscription', 
                 'n_entrys_per_page',
+                'large_previews_size',
                 'follow_fb',
                 'fb_link',
                 'no_fb',

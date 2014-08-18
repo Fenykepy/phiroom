@@ -40,8 +40,8 @@ id="{{ picture.id }}">
 		</header>
 		<div class="thumb-container">
             <div>
-                <a id="{{ picture.id }}" href="{{ MEDIA_URL }}images/previews/height-700/{{picture.id}}.jpg" {#data-lightbox="1"#}>
-		    <img class="thumbnail" src="{{ MEDIA_URL }}images/previews/max-300/{{picture.id}}.jpg" alt="{{picture.title}}" />
+                <a id="{{ picture.id }}" href="{{ MEDIA_URL }}images/previews/large/{{picture.id}}.jpg" {#data-lightbox="1"#}>
+		    <img class="thumbnail" src="{{ MEDIA_URL }}images/previews/max-500/{{picture.id}}.jpg" alt="{{picture.title}}" />
             </a>
             <div class="published">
             {% if picture.is_part_of_blogpost %}

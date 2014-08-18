@@ -2,6 +2,8 @@
 
 from django.db import models
 
+from librairy.models import LARGE_PREVIEWS_SIZE_CHOICES
+
 # conf table
 class Conf(models.Model):
     # main configuration of site
@@ -35,6 +37,17 @@ class Conf(models.Model):
             verbose_name="Page d'accueil",
             help_text="La page a utiliser comme page d'accueil (« accueil » \
                     par défaut).")
+
+    # configuration des aperçus
+    large_previews_size = models.PositiveIntegerField(
+            choices=LARGE_PREVIEWS_SIZE_CHOICES,
+            default=1024,
+            verbose_name="Taille des plus grands aperçus publics",
+            help_text="Une régénération des aperçus de chaque image " +
+            "est nécessaire après chaque changement (en réimportant les " +
+            "dossiers avec l'option : « Régénérer les aperçus des images " +
+            "existantes ».")
+
     
     # configuration of notifications
     mail_profil = models.BooleanField(default=True,
