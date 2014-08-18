@@ -53,7 +53,7 @@ class WeblogMixin(ConfMixin):
                 )[:self.conf.n_last_entrys_menu]
         context['portfolios_menu'] = Entry.published.filter(
                 portfolio=True)
-        context['tags'] = Tag.objects.all()
+        context['tags'] = Tag.objects.filter(n_entry__gt=0).order_by('-n_entry')
         context['login_form'] = LoginForm()
         # for pagination links max and min
         if 'page' in self.kwargs:
@@ -322,6 +322,7 @@ class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
 
             # save multiple choices (tags)
             form.save_m2m()
+            
             # if associated pictures, save them
             self.form_save_pictures(form)
 

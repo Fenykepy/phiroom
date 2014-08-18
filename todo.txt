@@ -4,7 +4,7 @@
 
 Petits bugs de la refactorisation :
 #    - placeholder de la date de publication (weblog.forms)
-    - supprimer les mots-clés inutilisés du menu
+#    - supprimer les mots-clés inutilisés du menu
 #    - changer le queryset dans weblog.models "save function"
     - problème avec le renommage des dossiers dans librairy -> bug irreproductible…
 #    - problème avec la vignette des portfolios
@@ -14,6 +14,8 @@ Petits bugs de la refactorisation :
 #    - ajouter l'orientation de l'image dans la table Picture
 #    - rendre le texte des posts facultatif
 #    - bug avec les dates de moins de 2:00:00 dans les urls
+#    - refactoriser les sitemaps
+#    - refactoriser les feeds
 
 ===== Avant release Béta =====
 #    - déplacer la SECRET_KEY dans devel_settings
@@ -179,8 +181,8 @@ Petits bugs de la refactorisation :
 #	- incrémentation des nombres de lecture d'objets -> middleware
     - changer la direction des flèches des liens de masquage des panneaux en js (ou rotate css3)
 #    - revoir l'organisation des tables pour pouvoir lister pas dates toutes les entrées de n'importe quel type
-    - ajouter un champ n_entry aux catégories et tags qui se met à jour au save() et à l'enregistrement d'entrées
-    - n'afficher que les tags et les catégories ayant des entrées dans les menus latéraux
+#    - ajouter un champ n_entry aux catégories et tags qui se met à jour au save() et à l'enregistrement d'entrées
+#    - n'afficher que les tags et les catégories ayant des entrées dans les menus latéraux
     - voir pour mettre (plus de) liens d'évitement correctement indexés : http://www.alsacreations.com/article/lire/572-Les-liens-d-evitement.html 
 #    - modifier la lightbox pour mettre à jour le hashtag dans l'url (et voir pour avoir un hashtag de la forme #/lightbox/9000/ directement comme id
 #    - agrandir la favicone (rendu horrible sur le smartphone avec les 16px…) (même agrandie le rendu est horrible sous ff mobile, pas sous chrome mobile…)

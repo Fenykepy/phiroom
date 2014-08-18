@@ -17,7 +17,7 @@ class WeblogFeed(Feed):
         self.subtitle = self.conf.feed_description
 
     def items(self):
-        return Entry.published_entry.order_by('-pub_date')[:self.conf.feed_number]
+        return Entry.published.order_by('-pub_date')[:self.conf.feed_number]
 
     def item_title(self, item):
         return item.title

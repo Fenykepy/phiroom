@@ -5,6 +5,8 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
 from django.core.mail import send_mail
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 from user.models import User
 from conf.models import Conf
@@ -175,6 +177,19 @@ class Entry(models.Model):
 
 
 
+@receiver(post_save, sender=Entry)
+@receiver(post_delete, sender=Entry)
+def count_tags_entrys(**kwargs):
+    """update tag's entrys number."""
+    for elem in Tag.objects.all():
+        elem.n_entry = elem.entry_set.filter(
+                is_published=True,
+                draft=False,
+                auto_draft=False).count()
+        elem.save()
+
+
+
 class Entry_pictures(models.Model):
     """Through table for entry's pictures relation,
     add an order column"""
@@ -191,6 +206,7 @@ class Tag(models.Model):
     """Entry's tags table."""
     name = models.CharField(max_length=50, verbose_name="Mot clé", unique=True)
     slug = models.SlugField(max_length=60, unique=True)
+    n_entry = models.IntegerField(default=0)
     absolute_url = models.URLField(verbose_name="Url absolue")
 
     class Meta:

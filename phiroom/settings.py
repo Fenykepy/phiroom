@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'stats',
     'tasks',
     'contact',
+    'comment',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

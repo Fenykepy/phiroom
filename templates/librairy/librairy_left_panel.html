@@ -137,7 +137,7 @@
 	<div class="cadre2b">
 		<ul class="submenu">
             {% for item in tags %}
-            <li><a class="tag" href="{% url "weblog_tag" item.slug %}">{{ item.name|truncatechars:28 }}</a></li>
+            <li><a class="tag" href="{% url "weblog_tag" item.slug %}">{{ item.name|truncatechars:28 }}<span class="count">{{ item.n_entry }}</span></a></li>
             {% empty %}
             <li><a class="tag" href="#">Aucun mots clés</a></li>
             {% endfor %}

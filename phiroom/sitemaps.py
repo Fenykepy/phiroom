@@ -6,11 +6,11 @@ from weblog.models import Entry, Tag
 
 class WeblogSitemap(Sitemap):
     """Site map of weblog entrys."""
-    changefreq = 'monthly'
+    changefreq = 'daily'
     priority = 1
 
     def items(self):
-        return Entry.published_entry.all()
+        return Entry.published.all()
         
     def lastmod(self, item):
         return item.pub_update
@@ -22,7 +22,7 @@ class TagSitemap(Sitemap):
     priority = 0.1
 
     def items(self):
-        return Tag.objects.all()
+        return Tag.objects.filter(n_entry__gt=0)
 
 
 class StaticSitemap(Sitemap):
@@ -31,9 +31,15 @@ class StaticSitemap(Sitemap):
     priority = 0.5
     
     def items(self):
-        return ['home', 'pictofday_home' ,'portfolio_home', 'user_login', 'user_suscription',
-                'weblog_home', 'weblog_articles', 'weblog_gallerys', 'weblog_portfolios',
-                'weblog_pictofdays']
+        return [
+                'home',
+                'weblog_home',
+                'weblog_portfolios',
+                'portfolio_home',
+                'contact_home',
+                'user_login',
+                'user_suscription',
+        ]
 
     def location(self, item):
         return reverse(item)
