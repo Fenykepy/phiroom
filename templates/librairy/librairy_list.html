@@ -25,6 +25,7 @@ id="{{ picture.id }}">
 			</div>
 			<a class="thumb-menu" href="#"><span class="hidden">menu de l'onglet</span></a>
 			<ul class="thumb-popover popover">
+                <li><a target="blank" href="{{ MEDIA_URL }}images/previews/large/{{ picture.id }}.jpg">Ouvrir la version large</a></li>
                 <li><a target="blank" href="{{ picture.absolute_url }}">Ouvrir l'original</a></li>
                 {% if collection %}
                 <li><a class="del" target="blank" data-url="{% url "librairy_collection" collection.0 collection.1 %}" href="{% url "librairy_delete_pict_from_collection" collection.0 collection.1 picture.id %}">Supprimer de la collection</a></li>
@@ -40,8 +41,8 @@ id="{{ picture.id }}">
 		</header>
 		<div class="thumb-container">
             <div>
-                <a id="{{ picture.id }}" href="{{ MEDIA_URL }}images/previews/large/{{picture.id}}.jpg" {#data-lightbox="1"#}>
-		    <img class="thumbnail" src="{{ MEDIA_URL }}images/previews/max-500/{{picture.id}}.jpg" alt="{{picture.title}}" />
+                <a id="{{ picture.id }}" href="{{ MEDIA_URL }}images/previews/large/{{ picture.id }}.jpg" {#data-lightbox="1"#}>
+		    <img class="thumbnail" src="{{ MEDIA_URL }}images/previews/max-500/{{ picture.id }}.jpg" alt="{{picture.title}}" />
             </a>
             <div class="published">
             {% if picture.is_part_of_blogpost %}
