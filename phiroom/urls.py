@@ -28,7 +28,7 @@ urlpatterns = patterns('',
     url(r'^settings/', include('conf.urls')), # conf app
     url(r'^account/', include('user.urls')), # user app
     url(r'^contact/', include('contact.urls')), # user app
-    url(r'^comment/', include('comment.urls')), # comment app
+    #url(r'^comment/', include('comment.urls')), # comment app
     url(r'^feed/$', WeblogFeed(), name="feed"),
 )
 
