@@ -45,7 +45,7 @@
             {% if request.is_ajax %}
                 <button id="cancel" type="button" onclick="close_overlay()" >Annuler</button>
             {% else %}
-            <a href="{% url 'weblog_home' %}">
+            <a href="{% url "weblog_home" %}">
                 <button type="button">Annuler</button>
             </a>
             {% endif %}

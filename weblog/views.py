@@ -3,7 +3,7 @@ import time
 
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, \
-        UpdateView, DeleteView
+        UpdateView, DeleteView, TemplateView
 from django.views.generic.base import ContextMixin
 from django.template.loader import render_to_string
 from django.http import HttpResponse

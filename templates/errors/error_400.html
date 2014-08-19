@@ -1,0 +1,24 @@
+{% extends "portfolios/portfolio_base.html" %}
+{% block content %}
+{% load static %}
+<article class="abstract">
+    <div class="entry-content">
+        <header>
+            <h1 class="error">400</h1>
+        </header>
+            <p class="center-align">
+            <em>Requête erronée…</em>
+            </p>
+        <footer>
+            <p class="center-align">
+            <a href="{% url "home" %}">
+                <button type="button">Page d'accueil</button>
+            </a>
+            </p>
+            {# show 'grigri' #}
+            <div class="v3"></div>{# v3 #}
+        </footer>
+    </div>{# entry-content #}
+</article>
+        
+{% endblock %}

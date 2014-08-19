@@ -467,3 +467,41 @@ Petits bugs de la refactorisation :
 	- ordre de la page
 	- voir si le module flatpages convient
 	- markdown ou html
+
+
+==== Problèmes de prod ====
+ css pré gzippés ne sont pas interprétés
+#- Erreur lors de l'upload des fichiers (avatars, logos)
+#    -> donner les droits au serveur sur le dossier phiroom/phiroom/data
+#- Erreur d'affichage des « images du jour » dans les boutons
+#- Erreur d'affichage de la page login une fois loggué
+#- Plus de favicon sous chromium -> réapparue au redémarrage de chromium
+#- Erreur de timeOut à l'import des images
+#    - court terme
+#        - donner un timeout et gracefull timeout à gunicorn
+#        - donner un timout à nginx
+    - long terme
+        - ajouter un cron pour le traitement des images
+        - ajouter un message d'erreur lors du plantage des forms ajax
+#- Classer les dossiers par ordre alphabétique dans le form d'import
+#- Le form d'import ne liste que les dossiers présents au lancement du serveur
+#- Les images récement importées écrasent les anciennes si elles ont le même nom
+#- L'ouverture auto des portfolios envoit vers la dernière image ou plutôt n'importe laquelle
+#- Le lien « voir la galerie » ou « voir le portfolio » du weblog n'ouvre pas la lightbox
+
+- gzip des fichiers envoyés (dans nginx)
+#-   File "/home/fred/sites/phiroom/article/views.py", line 158, in form_valid
+#    819     if create and self.object.pub_date > date:
+#    820 
+#    821 TypeError: can't compare offset-naive and offset-aware datetimes
+- Les uploads de fichiers ne marchent pas avec les forms ajax :(
+    - probablement le « enctype » qui n'est pas sérialisé par jquery -> finalement c'est plus compliqué :(
+
+#- De temps en temps le middleware stats retourne :
+#    get() returned more than one Entry -- it returned 2!
+#    /home/lavilotte-rolle/sites/phiroom/stats/middleware.py in process_view
+#     entry = Entry.objects_entry.get(slug=view_kwargs['slug']) 
+
+#- Si le success url des forms de créations d'article etc. renvoient vers la date locale au lieu d'utc si l'utilisateur a précisé une date…
+#- Les mails d'abonnement sont foireux (voir les mails reçus)
+#- Rédiger rapidement une page contact

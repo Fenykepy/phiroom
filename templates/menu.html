@@ -24,7 +24,7 @@
 		<div class="cadre2b">
 			<ul class="submenu">
 				{% if user.is_authenticated %}
-					<li class="connected"><a class="popup" href="{% url 'user_profil' %}">
+					<li class="connected"><a class="popup" href="{% url "user_profil" %}">
 					{% if user.avatar %}
 					<img src=" {{ MEDIA_URL }}{{ user.avatar }}" width="40" height="40" />
 					{% else %}

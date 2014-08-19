@@ -17,7 +17,19 @@ sitemaps = {
         'static': StaticSitemap,
 }
 
+handler404 = 'phiroom.views.error404'
+handler500 = 'phiroom.views.error500'
+handler403 = 'phiroom.views.error403'
+handler400 = 'phiroom.views.error400'
+
 urlpatterns = patterns('',
+    ## uncomment to test error pages
+    #url(r'^404', 'phiroom.views.error404', name="404"),
+    #url(r'^500', 'phiroom.views.error500', name="500"),
+    #url(r'^403', 'phiroom.views.error403', name="403"),
+    #url(r'^400', 'phiroom.views.error400', name="400"),
+
+
     url(r'^admin/', include(admin.site.urls), name="admin"),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': sitemaps}),    

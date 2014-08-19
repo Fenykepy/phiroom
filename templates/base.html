@@ -9,8 +9,8 @@
 		{% load humanize %}
 
 		{% block css %}
-                        <link rel="stylesheet" href="{% static 'css/phiroom.min.css' %}" /> {# PROD: le fichier final compilé #}
-        {#                <link rel="stylesheet/less" href="{% static 'css/controller.less' %}" /> {# DEVEL: le fichier gérant les include #}
+                                <link rel="stylesheet" href="{% static 'css/phiroom.min.css' %}" /> {# PROD: le fichier final compilé #}
+        {#                        <link rel="stylesheet/less" href="{% static 'css/controller.less' %}" /> {# DEVEL: le fichier gérant les include #}
 		{% endblock %}
         {% block pagination %}
         {% endblock %}
@@ -26,7 +26,7 @@
 		<header role="banner">
 		<h1 class="hidden">{{ conf.title }}</h1>
 			<p id="logo">
-			<a href="{% url conf.home_page.reverse_url %}">
+            <a href="{% url conf.home_page.reverse_url %}">
                 <img src="{% if conf.site_logo %}{{ MEDIA_URL }}{{ conf.site_logo }}{% else %}/assets/images/structure/phiroom.png{% endif %}" alt="{{ conf.title }} logo" />
 				</a>
 			</p>
@@ -81,7 +81,7 @@
 {#        <script src="{% static 'scripts/phiroomui.js' %}"></script>{# DEVEL not optimized js file #}
         <script src="{% static 'scripts/phiroomui.compiled.js' %}"></script>{# PROD optimized js file #}
 		{# remove on production #}
-        {#                <script src="{% static 'scripts/less-1.4.1.min.js' %}" type="text/javascript"></script>{# DEVEL less compilation client side #}
+        {#                        <script src="{% static 'scripts/less-1.4.1.min.js' %}" type="text/javascript"></script>{# DEVEL less compilation client side #}
 	</body>
 </html>
 
