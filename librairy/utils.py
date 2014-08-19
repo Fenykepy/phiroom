@@ -394,9 +394,9 @@ def recursive_import(path, previews, metadatas):
                 save_picture(path, pict)
 
         # if file is a directory
-        elif os.path.isdir(os.path.join(path, files)):
+        elif os.path.isdir(os.path.join(path, file)):
             # launching recursive import on the directory
-            recursive_import(os.path.join(path, files, previews, metadatas))
+            recursive_import(os.path.join(path, file, previews, metadatas))
 
     # return directory object (for success url)
     return dir

@@ -16,6 +16,8 @@ Petits bugs de la refactorisation :
 #    - bug avec les dates de moins de 2:00:00 dans les urls
 #    - refactoriser les sitemaps
 #    - refactoriser les feeds
+    - mettre un maximum à la taille de l'avatar dans la vue qui suit la connexion
+    - mettre un maximum au logo en haut à gauche des pages
 
 ===== Avant release Béta =====
 #    - déplacer la SECRET_KEY dans devel_settings
