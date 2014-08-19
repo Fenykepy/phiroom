@@ -47,7 +47,7 @@ Run as root:
 
     # aptitude install python-sqlite
 
-Run as <my_user>:
+Run as `<my_user>`:
 
     $ cd /var/www/phiroom/
     $ python3 manage.py syncdb
@@ -57,7 +57,7 @@ Run as <my_user>:
 
 #### Launch development server ####
 
-Run as <my_user>:
+Run as `<my_user>`:
 
     $ cd /var/www/phiroom/
     $ python3 manage.py runserver
@@ -103,24 +103,25 @@ Run as root:
 
  * Fix those options in `/etc/postgresql/9.1/main/postgresql.conf`:
 
+
     # vim /etc/postgresql/9.1/main/postgresql.conf
-      
-      #----------------------
-      # DJANGO CONFIGURATION
-      #----------------------
-      
-      client_encoding = 'UTF8'
-      default_transaction_isolation = 'read committed'
-      timezone = 'UTC'
+
+    #----------------------
+    # DJANGO CONFIGURATION
+    #----------------------
+
+    client_encoding = 'UTF8'
+    default_transaction_isolation = 'read committed'
+    timezone = 'UTC'
 
 Relaunch postgresql:
 
     # /etc/init.d/postgresql restart
 
-Run as <my_user>:
+Run as `<my_user>`:
 
  * Rename and complete as follow `phiroom/prod_settings.py.example`:
-    
+
     $ mv phiroom/prod_settings.py.example phiroom/prod_settings.py
     $ vim phiroom/prod_settings.py
 
@@ -129,7 +130,7 @@ Run as <my_user>:
     ADMINS = (
         # ('Your Name', 'your_email@example.com'),
         ('Lavilotte-Rolle Frédéric', 'pro@lavilotte-rolle.fr'),
-)
+    )
 
  * Change default from email:
 
@@ -180,7 +181,7 @@ Run as root:
 
     # pip3 install gunicorn==18
 
- * You can test that it runs correctly with following command (to run as <my_user> before going further:
+ * You can test that it runs correctly with following command (to run as `<my_user>` before going further:
 
     $ gunicorn hello.wsgi:application --bind example.com:8001
 
@@ -233,7 +234,7 @@ Run as root:
 
     $ sudo chmod u+x ~/scripts/gunicorn_start.bash
 
- * You can test script running it as <my_user>:
+ * You can test script running it as `<my_user>`:
 
     # su <my_user>
     <my_user>$ ~/scripts/gunicorn_start.bash
@@ -315,5 +316,3 @@ Run as root:
 
     # ln -s /etc/nginx/sites-available/phiroom /etc/nginx/sites-enabled/phiroom
     # /etc/init.d/nginx restart
-
-    

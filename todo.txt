@@ -18,6 +18,7 @@ Petits bugs de la refactorisation :
 #    - refactoriser les feeds
     - mettre un maximum à la taille de l'avatar dans la vue qui suit la connexion
     - mettre un maximum au logo en haut à gauche des pages
+    - régler le problème des mails qui arrivent en delivery failure
 
 ===== Avant release Béta =====
 #    - déplacer la SECRET_KEY dans devel_settings
@@ -228,6 +229,7 @@ Petits bugs de la refactorisation :
 #		- de portfolios
 #	- Chargement des miniatures en ajax
 #   - Remplir une collection avec le contenu d'un dossier à sa création
+    - Utiliser un multiple choice field pour les dossiers à importer (et en importer plusieurs à la fois)
 	- Chargement des sous-menus de #nav en ajax
 	- Stockage en base de l'état d'ouverture des panneaux
 #	- Ajout d'un indicateur de chargement lors de l'import d'un dossier en ajax
