@@ -32,7 +32,7 @@ Run as root:
 
 ### Quick install for testing or development ###
 
-!!! Do Not Use These Instructions On Production !!!
+__!!! DO NOT USE THESE INSTRUCTIONS IN PRODUCTION !!!__
 
 Use these instructions if you plan to use phiroom in local
 for testing it or to develop it.

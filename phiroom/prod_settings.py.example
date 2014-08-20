@@ -21,7 +21,8 @@ MANAGERS = ADMINS
 
 
 ## Email configuration
-DEFAULT_FROM_EMAIL = 'pro@lavilotte-rolle.fr'
+DEFAULT_FROM_EMAIL = 'pro@lavilotte-rolle.fr' # from email for normal messages
+SERVER_EMAIL = DEFAULT_FROM_EMAIL # from email for error messages
 EMAIL_SUBJECT_PREFIX = '[Phiroom]'
 
 ## for production

@@ -7,7 +7,6 @@
     domain: phiroom.org
     home_page: 1
     comment: Paramètres par défaut
-    date: 2013-07-29 12:41:13.207520
 
 - model: conf.Page
   pk: 1

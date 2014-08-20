@@ -181,7 +181,7 @@ class Conf(models.Model):
             help_text="Un court commentaire concernant les modifications \
                     apportées à la configuration (utile pour se retrouver \
                     dans les vieilles versions).")
-    date = models.DateTimeField(auto_now_add=True, auto_now=False,
+    date = models.DateTimeField(auto_now_add=True, auto_now=True, null=True,
             verbose_name="Date d'enregistrement")
     
 

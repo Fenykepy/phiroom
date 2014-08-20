@@ -13,8 +13,20 @@ from user.models import User
 class LoginForm(AuthenticationForm):
     """Login form with placeholder labels"""
 
-    username = forms.CharField(max_length=254, widget=forms.TextInput(attrs={'placeholder': 'Nom d\'utilisateur', 'required': 'required'}))
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={'placeholder': 'Mot de passe', 'required': 'required'}))
+    username = forms.CharField(
+            max_length=254,
+            widget=forms.TextInput(attrs={
+                'placeholder': 'Nom d\'utilisateur',
+                'required': 'required'
+            }
+        ))
+    password = forms.CharField(
+            label=_("Password"),
+            widget=forms.PasswordInput(attrs={
+                'placeholder': 'Mot de passe',
+                'required': 'required'
+            }
+        ))
 
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
@@ -23,8 +35,8 @@ class LoginForm(AuthenticationForm):
 
 class SuscriptionForm(ModelForm):
     """
-    A form that creates a user, with no privileges, from the given username and
-    password.
+    A form that creates a user, with no privileges,
+    from the given username and password.
     """
 
     error_messages = {
@@ -43,11 +55,21 @@ class SuscriptionForm(ModelForm):
         error_messages={
                 'invalid': _("This value may contain only letters, numbers and "
                     "@/./+/-/_ characters.")})
-    email = forms.EmailField(label=_("Email"), widget=forms.EmailInput(attrs={'placeholder': 'Email', 'required': 'required'}))
+    email = forms.EmailField(
+            label=_("Email"),
+            widget=forms.EmailInput(attrs={
+                'placeholder': 'Email',
+                'required': 'required'
+            }
+        ))
     password1 = forms.CharField(label=_("Password"),
-        widget=forms.PasswordInput(attrs={'placeholder': 'Mot de passe', 'required': 'required'}))
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Mot de passe',
+            'required': 'required'}))
     password2 = forms.CharField(label=_("Password confirmation"),
-        widget=forms.PasswordInput(attrs={'placeholder': 'Confirmation du mot de passe', 'required': 'required'}),
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Confirmation du mot de passe',
+            'required': 'required'}),
         help_text=_("Enter the same password as above, for verification."))
 
     class Meta:
@@ -95,7 +117,17 @@ class ProfilForm(ModelForm):
     """Profil edition form."""
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'avatar', 'author_name', 'signature', 'web_site', 'weblog_mail_newsletter')
+        fields = ('email', 'first_name', 'last_name', 'avatar', 'author_name',
+                'signature', 'web_site', 'weblog_mail_newsletter')
+
+class StaffMemberProfilForm(ProfilForm):
+    """Profil edition form for staff users."""
+    class Meta:
+        model = User
+        # !!! add mail_comment to the list when comments will work
+        fields = ('email', 'first_name', 'last_name', 'avatar', 'author_name',
+                'signature', 'web_site', 'weblog_mail_newsletter',
+                'mail_contact', 'mail_registration')
 
 
 

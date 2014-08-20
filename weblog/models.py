@@ -4,11 +4,10 @@ from django.utils import timezone
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
-from django.core.mail import send_mail
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
-from user.models import User
+from user.models import User, mail_newsletter
 from conf.models import Conf
 from weblog.slug import unique_slugify
 from stats.models import View
@@ -111,17 +110,21 @@ class Entry(models.Model):
     # mails management
     def mail_followers(self):
         conf = Conf.objects.latest('date')
-        followers = User.objects.filter(weblog_mail_newsletter = True)
-        mails = [follower.email for follower in followers]
-        subject = 'Nouvelle publication sur {0}'.format(conf.title)
+        subject = '[{0}] Nouvelle publication'.format(conf.domain)
         message = (
                 "{0}\n\n"
                 "http://{1}\n\n"
-                "{2} vous informe des dernières activités du site.\n"
-                "Pour modifier vos notifications, rendez-vous sur votre page de profil :\n"
+                "[{2}] vous informe des dernières activités du site.\n"
+                "Pour modifier vos notifications, rendez-vous sur votre "
+                "page de profil :\n"
                 "http://{3}\n"
-                ).format(self.title, conf.domain + self.absolute_url, conf.title, conf.domain + reverse('user_profil'))
-        send_mail(subject, message, None, mails)
+                ).format(
+                        self.title,
+                        conf.domain + self.absolute_url,
+                        conf.domain,
+                        conf.domain + reverse('user_profil')
+                    )
+        mail_newsletter(subject, message)
         self.is_published = True
         self.save()
 

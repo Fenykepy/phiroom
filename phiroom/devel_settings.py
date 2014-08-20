@@ -14,7 +14,7 @@ CACHES = {
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
-    ('Lavilotte-Rolle Frédéric', 'webmaster@lavilotte-rolle.fr'),
+    ('Lavilotte-Rolle Frédéric', 'pro@lavilotte-rolle.fr'),
 )
 
 MANAGERS = ADMINS

@@ -2,16 +2,18 @@ import json
 
 from django.views.generic import TemplateView, UpdateView, CreateView, \
         ListView, DetailView
-from django.core.mail import send_mail, mail_managers
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 
+from phiroom.settings import DEFAULT_FROM_EMAIL
 from weblog.views import WeblogMixin, AjaxableResponseMixin
 from weblog.utils import format_content
 from contact.forms import MessageForm, AuthenticatedMessageForm, ContactForm
 from contact.models import Message, Description
+from user.models import mail_contactmembers
 
 
 class ContactMixin(WeblogMixin):
@@ -50,6 +52,7 @@ class ViewContact(CreateView, ContactMixin):
             self.object.user = self.request.user
             self.object.name = self.request.user.username
             self.object.mail = self.object.user.email
+            self.object.website = self.object.user.web_site
 
         # definition of IP
         self.object.ip = self.request.META.get('REMOTE_ADDR')
@@ -59,10 +62,35 @@ class ViewContact(CreateView, ContactMixin):
 
         # forward mail to sender if necessary
         if self.object.forward:
-            send_mail(self.object.subject, self.object.message, None, [self.object.mail])
+            subject = "[{0}] {1}".format(
+                    self.conf.domain,
+                    self.object.subject
+                )
+            send_mail(
+                    subject,
+                    self.object.message,
+                    DEFAULT_FROM_EMAIL,
+                    [self.object.mail]
+                )
 
-        # send to 
-        mail_managers(self.object.subject, self.object.message)
+        # send to superusers
+        subject = "[{0}] Nouveau message".format(self.conf.domain)
+        message = (
+                "Nom : {0}\n"
+                "Email : {1}\n"
+                "Site web : http://{2}\n\n"
+                "vous a envoyé un message.\n\n"
+                "Objet : {3}\n"
+                "Message:\n"
+                "{4}\n"
+                ).format(
+                        self.object.name,
+                        self.object.mail,
+                        self.object.website,
+                        self.object.subject,
+                        self.object.message
+                    )
+        mail_contactmembers(subject, message)
 
         return redirect(self.get_success_url())
 
