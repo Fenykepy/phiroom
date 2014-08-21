@@ -52,7 +52,7 @@
                 {% spaceless %}
                 <p class="center-align">
                 {% if entry.n_pict %}
-                    <a href="{{ entry.absolute_url }}#/lightbox/{{ entry.get_n_first_pictures_id|slice:":1" }}/" rel="canonical">
+                    <a href="{{ entry.absolute_url }}#/lightbox/{{ entry.get_n_first_pictures_id.0 }}/" rel="canonical">
                 {% else %}
                     <a href="{{ entry.absolute_url }}" rel="canonical">
                 {% endif %}
