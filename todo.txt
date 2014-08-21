@@ -43,7 +43,12 @@ Petits bugs de la refactorisation :
 #    - changer la qualité des miniatures dans librairy.utils
 #        -> 261.jpg (square 500 139kb, 100%) (large, 352kb 1024px, 100%)
 #        -> 261.jpg (square 500 16.3kb, 70%) (large, 82.2kb 1024px, 90%)
-    - Voir pour le bug de ralentissement du portfolio
+#    - Voir pour le bug de ralentissement du weblog
+#        - 1021 requêtes en 600ms, 7s de chargement pour la page
+#        - puis: 574 requêtes en 160.55ms, 4s de chargement pour la page
+#        - enfin: 74 requêtes en 30.66ms, 560ms de chargement pour la page
+    - Voir pour le ralentissement d'affichage des Entrys avec images
+    - Voir pour le ralentissement d'affichage des Portfolios
 
 ===== Avant release Béta =====
 #    - déplacer la SECRET_KEY dans devel_settings

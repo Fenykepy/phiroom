@@ -157,8 +157,26 @@ class Entry(models.Model):
         self.absolute_url = self.get_absolute_url()
         super(Entry, self).save()
 
+
+
+    def get_n_first_pictures_id(self, n=6):
+        """Returns a list with Id's of the n first picture of entry."""
+        if self.reversed_order:
+            prefix = '-'
+        else:
+            prefix = ''
+
+        if self.order == 'custom':
+            return [entry.picture.id for entry in
+                    Entry_pictures.objects.filter(entry=self)
+                    .order_by(prefix + 'order')[:n]]
+        else:
+            return [picture.id for picture in
+                    self.pictures.order_by(prefix + self.order)[:n]]
+
+
+
     # Pictures ordering function
-    @property
     def get_sorted_pictures(self):
         """Returns Picture objects queryset order by 'self.order'
         and reversed if 'self.reversed_order'"""
@@ -167,6 +185,7 @@ class Entry(models.Model):
         else:
             prefix = ''
 
+        # !!! Slow and even very slow !!!
         if self.order == 'custom':
             return [entry.picture for entry in
                     Entry_pictures.objects.filter(entry=self)

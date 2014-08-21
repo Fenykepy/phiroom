@@ -393,7 +393,8 @@ class UpdateEntry(CreateEntry, UpdateView):
         date = self.kwargs['date'].replace("/", "-", 2)
         return Entry.objects.get(
                 slug=self.kwargs['slug'],
-                pub_date__startswith=date)
+                pub_date__startswith=date,
+                portfolio=False)
 
 
 
@@ -426,7 +427,8 @@ class DeleteEntry(DeleteView, WeblogMixin):
         date = self.kwargs['date'].replace("/", "-", 2)
         return Entry.objects.get(
                 slug=self.kwargs['slug'],
-                pub_date__startswith=date)
+                pub_date__startswith=date,
+                portfolio=False)
 
 
     def delete(self, request, *args, **kwargs):

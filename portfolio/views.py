@@ -67,6 +67,13 @@ class UpdatePortfolio(CreatePortfolio, UpdateView):
         return context
 
 
+    def get_object(self, queryset=None):
+        return Entry.objects.get(
+                slug=self.kwargs['slug'],
+                portfolio=True)
+
+
+
 class DeletePortfolio(PortfolioMixin, DeleteEntry):
     """Class to delete a portfolio."""
     def get_context_data(self, **kwargs):
@@ -78,3 +85,10 @@ class DeletePortfolio(PortfolioMixin, DeleteEntry):
             context['tempinclude'] = 'weblog/weblog_delete.html'
 
         return context
+
+    def get_object(self, queryset=None):
+        return Entry.objects.get(
+                slug=self.kwargs['slug'],
+                portfolio=True)
+
+

@@ -38,10 +38,10 @@
 		            {{ entry.abstract|safe }}
                     <h6 class="author"><a class="author small_caps" href="{{ entry.author.web_site}}" rel="author">{{ entry.author.author_name }}</a></h6>
                 </figcaption>
-                {% if entry.get_sorted_pictures %} 
+                {% if entry.n_pict %} 
                 <div class="gallery">
                     <ul>
-                        {% for picture in entry.get_sorted_pictures|slice:":6" %}<li><a href="{{ entry.absolute_url }}#/lightbox/{{ picture.id }}/" rel="canonical"><img class="thumbs" src="{{ MEDIA_URL }}images/previews/square-500/{{ picture.id }}.jpg" alt="{{ picture.title }}" {#title="{{ picture.title }}"#} /></a></li>{% endfor %}
+                        {% for id in entry.get_n_first_pictures_id|slice:":6" %}<li><a href="{{ entry.absolute_url }}#/lightbox/{{ id }}/" rel="canonical"><img class="thumbs" src="{{ MEDIA_URL }}images/previews/square-500/{{ id }}.jpg" alt="{{ entry.title }}" /></a></li>{% endfor %}
                     </ul>
                 </div>{#gallery#}
                 <hr />
@@ -51,8 +51,8 @@
             <footer>
                 {% spaceless %}
                 <p class="center-align">
-                {% if entry.get_sorted_pictures %}
-                    <a href="{{ entry.absolute_url }}#/lightbox/{{ entry.get_sorted_pictures.0.id }}/" rel="canonical">
+                {% if entry.n_pict %}
+                    <a href="{{ entry.absolute_url }}#/lightbox/{{ entry.get_n_first_pictures_id|slice:":1" }}/" rel="canonical">
                 {% else %}
                     <a href="{{ entry.absolute_url }}" rel="canonical">
                 {% endif %}
