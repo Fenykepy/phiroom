@@ -584,7 +584,8 @@ def AddPict2Entry(request, date, slug):
     """Fonction to add a picture to a entry"""
     if request.is_ajax():
         date = date.replace("/", "-", 2)
-        entry = get_object_or_404(Entry, slug=slug, pub_date__startswith=date)
+        entry = get_object_or_404(Entry, slug=slug, pub_date__startswith=date,
+                portfolio=False)
         for n in request.POST.getlist('arr'):
             pict = get_object_or_404(Picture, id=int(n))
             try:
@@ -610,7 +611,8 @@ def AddOrder2Entry(request, date, slug):
     """Fonction to add order to a entry's pictures"""
     if request.is_ajax():
         date = date.replace("/", "-", 2)
-        entry = get_object_or_404(Entry, slug=slug, pub_date__startswith=date)
+        entry = get_object_or_404(Entry, slug=slug, pub_date__startswith=date,
+                portfolio=False)
         for i, n in enumerate(request.POST.getlist('arr')):
             try:
                 entrypict = Entry_pictures.objects.get(

@@ -31,6 +31,19 @@ Petits bugs de la refactorisation :
         - à chaque publication envois un mail à tous les mails de la base
         - à la réception d'un lien unique de désinscription supprime l'entrée
     - passer les abonnements mails sans inscription (avec un lien envoyé par mail comme désinscription)
+#    - ajouter une fixture avec la date dans la conf (sinon erreur de sélection de la dernière conf)
+    - si un portfolio est créer en brouillon, le compteur d'images ne marche pas
+    - lors du déplacement d'images dans un portfolio, elles s'ajoutent dans certains posts
+    - à la suppression d'une image d'un portfolio elle s'ajoute dans un post (visiblement le dernier, à tester)
+    - le formulaire d'importation de liste pas les sous-dossiers des liens
+    - rediriger vers la bibliothèque si un post / portfolio est brouillon
+    - ne pas envoyer le mail si l'entrée est en brouillon
+    - 404 sur jquery.min.map
+    - la lightbox attend que toutes les miniatures soient chargées avant d'afficher la première image
+#    - changer la qualité des miniatures dans librairy.utils
+#        -> 261.jpg (square 500 139kb, 100%) (large, 352kb 1024px, 100%)
+#        -> 261.jpg (square 500 16.3kb, 70%) (large, 82.2kb 1024px, 90%)
+    - Voir pour le bug de ralentissement du portfolio
 
 ===== Avant release Béta =====
 #    - déplacer la SECRET_KEY dans devel_settings

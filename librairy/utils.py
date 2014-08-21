@@ -86,18 +86,20 @@ def create_tag_hierarchy(tags):
 
 
 
-def save_thumbnail(img, dst):
+def save_thumbnail(img, dst, quality=70):
     """Function to save a thumbnail.
 
     keyword arguments:
     img -- Image instance
     outpathname -- full path to the output image
     """
+    if quality == None:
+        quality = 70
     try:
         img.save(
                 dst,
                 "JPEG",
-                quality=100,
+                quality=quality,
                 optimize=True,
                 progressive=True
             )
@@ -106,14 +108,14 @@ def save_thumbnail(img, dst):
         img.save(
                 dst,
                 "JPEG",
-                quality=100,
+                quality=quality,
                 optimize=True,
                 progressive=True
         )
 
 
 
-def mk_thumb(src, dst, max_size):
+def mk_thumb(src, dst, max_size, quality=None):
     """Function to create thumbnail from a file.
 
     keyword arguments:
@@ -130,12 +132,12 @@ def mk_thumb(src, dst, max_size):
     # creating thumbnail
     img.thumbnail(size, Image.ANTIALIAS)
     # save thumbnail
-    save_thumbnail(img, dst)
+    save_thumbnail(img, dst, quality)
 
     return dst, img.size[0], img.size[1]
 
 
-def mk_thumb_square(src, dst, side):
+def mk_thumb_square(src, dst, side, quality=None):
     """Function to create a square thumbnail from a file.
 
     keyword arguments:
@@ -180,7 +182,7 @@ def mk_thumb_square(src, dst, side):
     # crop image
     img = img.crop((left, upper, right, lower)) 
     # save thumbnail
-    save_thumbnail(img, dst)
+    save_thumbnail(img, dst, quality)
 
     return dst, img.size[0], img.size[1]
 
@@ -304,7 +306,8 @@ def save_picture(path, pict, previews=True, metadatas=True):
             (file_large, w_large, h_large) = mk_thumb(
                 pathname,
                 outpathname,
-                conf.large_previews_size)
+                conf.large_previews_size,
+                90)
 
         ## 500px max preview generation
         outdirname = os.path.join(

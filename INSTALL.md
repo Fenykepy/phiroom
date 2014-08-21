@@ -256,6 +256,15 @@ Run as root:
         stdout_logfile = /var/log/supervisor/phiroom.log
         redirect_stderr = true
 
+ * Edit configuration file:
+
+        # vim /etc/supervisor/supervisord.conf
+
+ * Add or change these lines (according to your locale):
+
+        [supervisord]
+        environment = LANG=fr_FR.UTF-8, LC_ALL=fr_FR.UTF-8, LC_LANG=fr_FR.UTF-8
+
  * Relaunch supervisor:
 
         # supervisorctl reread

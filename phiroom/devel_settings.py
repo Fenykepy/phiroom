@@ -1,4 +1,5 @@
 # Settings de développement
+#DEBUG = True
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 #TEMPLATE_DEBUG = False
