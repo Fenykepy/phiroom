@@ -82,12 +82,14 @@ Run as root:
     # pip3 install psycopg2
     # su - postgres
     postgres@server:~$ createdb phiroom
-    postgres@server:~$ createuser -P
-    Enter name of role to add: phiroom
-    Enter password for new role:
-    Shall the new role be a superuser? (y/n) n
-    Shall the new role be allowed to create databases? (y/n) n
-    Shall the new role be allowed to create more new roles? (y/n) n
+    postgres@server:~$ createuser --interactive -P
+    Saisir le nom du rôle à ajouter : phiroom
+    Saisir le mot de passe pour le nouveau rôle : 
+    Le saisir de nouveau : 
+    Le nouveau rôle est-il super-utilisateur ? (o/n) n
+    Le nouveau rôle est-il autorisé à créer des bases de données ? (o/n) n
+    Le nouveau rôle est-il autorisé à créer de nouveaux rôles ? (o/n) n
+
     postgres@server:~$ psql
     psql (9.1.9)
     Type "help" for help.
@@ -108,6 +110,14 @@ Fix those options in `/etc/postgresql/9.1/main/postgresql.conf`:
      client_encoding = 'UTF8'
      default_transaction_isolation = 'read committed'
      timezone = 'UTC'
+
+Fix those options in `/etc/postgresql/9.4/main/pg_hba.conf`:
+
+     # vim /etc/postgresql/9.4/main/pg_hba.conf
+
+     local   all             all                                     trust
+     host    all             all             127.0.0.1/32            trust
+
 
 Relaunch postgresql:
 
@@ -290,6 +300,12 @@ Run as root:
 
  * Complete it as follow:
 
+        upstream phiroom_app_server {
+            # fail_timeout=0 means we always retry an upstream even if it failed
+            # te return a good HTTP response (in case the Unicorn master nukes a
+            # single worker for timing out).
+            server unix:/var/www/phiroom/run/gunicorn.sock fail_timeout=0
+        }
         server {
             listen 80 default;
             server_name phiroom.org;
