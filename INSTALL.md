@@ -13,7 +13,7 @@ On a debian like system, run as root:
     # apt-get update
     # apt-get safe-upgrade
     # apt-get install python3 python3-markdown python3-pip python3-yaml python3-setuptools libpng12-dev libjpeg8-dev exempi git
-    # pip3 install Django==1.6.5
+    # pip3 install Django==1.6.6
     # pip3 install django-mptt
     # pip3 install Pillow==2.5.3
     # pip3 install pytz

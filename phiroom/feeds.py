@@ -12,12 +12,16 @@ class WeblogFeed(Feed):
 
     def __init__(self, *args, **kwargs):
         super(WeblogFeed, self).__init__(*args, **kwargs)
-        self.conf = Conf.objects.latest('date')
-        self.title = self.conf.feed_title
-        self.subtitle = self.conf.feed_description
+        self.conf = Conf.objects.values(
+                'feed_title',
+                'feed_description',
+                'feed_number'
+            ).latest()
+        self.title = self.conf['feed_title']
+        self.subtitle = self.conf['feed_description']
 
     def items(self):
-        return Entry.published.order_by('-pub_date')[:self.conf.feed_number]
+        return Entry.published.all()[:self.conf['feed_number']]
 
     def item_title(self, item):
         return item.title

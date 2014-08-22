@@ -10,7 +10,7 @@
 {% spaceless %}
 {% for picture in pictures %}
 <article class="thumb" data-selectable="thumb" data-draggable="thumb" 
-    {% if entry or portfolio or collection %}
+    {% if post or portfolio or collection %}
     data-sortable="thumb"
     {% endif %}
 id="{{ picture.id }}">
@@ -30,8 +30,8 @@ id="{{ picture.id }}">
                 {% if collection %}
                 <li><a class="del" target="blank" data-url="{% url "librairy_collection" collection.0 collection.1 %}" href="{% url "librairy_delete_pict_from_collection" collection.0 collection.1 picture.id %}">Supprimer de la collection</a></li>
 				<hr />
-                {% elif entry %}
-                <li><a class="del" data-url="{% url "librairy_entry" entry.0 entry.1 %}" href="{% url "librairy_delete_pict_from_entry" entry.0 entry.1 picture.id %}">Supprimer du post</a></li>
+                {% elif post %}
+                <li><a class="del" data-url="{% url "librairy_post" post.0 post.1 %}" href="{% url "librairy_delete_pict_from_post" post.0 post.1 picture.id %}">Supprimer du post</a></li>
 				<hr />
                 {% elif portfolio %}
                 <li><a class="del" data-url="{% url "librairy_portfolio" portfolio %}" href="{% url "librairy_delete_pict_from_portfolio" portfolio picture.id %}">Supprimer du portfolio</a></li>

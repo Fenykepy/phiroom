@@ -13,25 +13,79 @@ from weblog.slug import unique_slugify
 from stats.models import View
 from librairy.models import Picture, PICTURES_ORDERING_CHOICES
 
+
+
 ## managers
+class PostsManager(models.Manager):
+    """Returns a queryset with all posts."""
+    def get_query_set(self):
+        return super(PostsManager, self).get_query_set().filter(
+                portfolio=False)
+
+
+
+class PortfoliosManager(models.Manager):
+    """Returns a queryset with all posts."""
+    def get_query_set(self):
+        return super(PortfoliosManager, self).get_query_set().filter(
+                portfolio=True)
+
+
+
 class PublishedManager(models.Manager):
-    """Returns a queryset with all published objects
+    """Returns a queryset with all published entrys
     ordered by update date (nor draft, nor auto-draft, nor future pub_date)
     (for users lists)."""
     def get_query_set(self):
         return super(PublishedManager, self).get_query_set().filter(
                 pub_date__lte = timezone.now,
                 draft=False,
-                auto_draft=False).order_by('-pub_update')
+                auto_draft=False)
+
+
+
+class PublishedPostsManager(PublishedManager):
+    """Returns a queryset with all published posts"""
+    def get_query_set(self):
+        return super(PublishedPostsManager, self).get_query_set().filter(
+                portfolio=False)
+
+
+
+
+class PublishedPortfoliosManager(PublishedManager):
+    """Returns a queryset with all published portfolios"""
+    def get_query_set(self):
+        return super(PublishedPortfoliosManager, self).get_query_set().filter(
+                portfolio=True)
+
 
 
 class NotDraftManager(models.Manager):
-    """Returns a queryset with all objects which are not draft,
+    """Returns a queryset with all entrys which are not draft,
     ordered by update date (for admins lists)."""
     def get_query_set(self):
         return super(NotDraftManager, self).get_query_set().filter(
                 draft=False,
-                auto_draft=False).order_by('-pub_update')
+                auto_draft=False)
+
+
+
+class NotDraftPostsManager(models.Manager):
+    """Returns a queryset with all posts which are not draft,
+    ordered by update date (for admins views)."""
+    def get_query_set(self):
+        return super(NotDraftPostsManager, self).get_query_set().filter(
+                portfolio=False)
+
+
+
+class NotDraftPortfoliosManager(models.Manager):
+    """Returns a queryset with all portfolios which are not draft,
+    ordered by update date (for admins views)."""
+    def get_query_set(self):
+        return super(NotDraftPortfoliosManager, self).get_query_set().filter(
+                portfolio=True)
 
 
 
@@ -39,7 +93,7 @@ class NotDraftManager(models.Manager):
 class Entry(models.Model):
     """Table for all weblog entrys (weblog posts and portfolios)."""
     title = models.CharField(max_length=254, verbose_name="Titre")
-    slug = models.SlugField(max_length=254)
+    slug = models.SlugField(max_length=254, db_index=True)
     abstract = models.TextField(null=True, blank=True, verbose_name="Résumé")
     content = models.TextField(null=True, blank=True, verbose_name="Contenu")
     source = models.TextField(null=True, blank=True, verbose_name="Contenu du post")
@@ -55,10 +109,10 @@ class Entry(models.Model):
             verbose_name="Classement décroissant")
     author = models.ForeignKey(User)
 
-    portfolio = models.BooleanField(default=False,
+    portfolio = models.BooleanField(default=False, db_index=True,
             verbose_name="Le post est un portfolio")
-    draft = models.BooleanField(default=False, verbose_name="Brouillon")
-    auto_draft = models.BooleanField(default=True,
+    draft = models.BooleanField(default=False, db_index=True, verbose_name="Brouillon")
+    auto_draft = models.BooleanField(default=True, db_index=True,
             verbose_name="Brouillon automatique")
     is_published = models.BooleanField(default=False,
             verbose_name="Le post a été publiée")
@@ -70,7 +124,7 @@ class Entry(models.Model):
     date_update = models.DateTimeField(auto_now_add=True,
             auto_now=True,
             verbose_name="Date de modification") # date of last modification
-    pub_date = models.DateTimeField(blank=True,
+    pub_date = models.DateTimeField(blank=True, db_index=True,
             verbose_name="Date de publication") # date entry will be published
     # pub_update date entry was officially modified :
     #   a distinction is done between date_update, which change automatically
@@ -81,8 +135,18 @@ class Entry(models.Model):
 
     # managers
     objects = models.Manager()
+    posts = PostsManager()
+    portfolios = PortfoliosManager()
     published = PublishedManager()
+    published_posts = PublishedPostsManager()
+    published_portfolios = PublishedPortfoliosManager()
     not_draft = NotDraftManager()
+    not_draft_posts = NotDraftPostsManager()
+    not_draft_portfolios = NotDraftPortfoliosManager()
+
+    class Meta:
+        ordering = ['-pub_update']
+
 
     # views counter
     def get_n_view(self):
@@ -158,26 +222,7 @@ class Entry(models.Model):
         super(Entry, self).save()
 
 
-
-    def get_n_first_pictures_id(self, n=6):
-        """Returns a list with Id's of the n first picture of entry."""
-        if self.reversed_order:
-            prefix = '-'
-        else:
-            prefix = ''
-
-        if self.order == 'custom':
-            return [entry.picture.id for entry in
-                    Entry_pictures.objects.filter(entry=self)
-                    .order_by(prefix + 'order')[:n]]
-        else:
-            return [picture.id for picture in
-                    self.pictures.order_by(prefix + self.order)[:n]]
-
-
-
-    # Pictures ordering function
-    def get_sorted_pictures(self):
+    def get_sorted_pictures_full(self):
         """Returns Picture objects queryset order by 'self.order'
         and reversed if 'self.reversed_order'"""
         if self.reversed_order:
@@ -192,6 +237,25 @@ class Entry(models.Model):
                     .order_by(prefix + 'order')]
         else:
             return self.pictures.order_by(prefix + self.order)
+
+    def get_sorted_pictures(self):
+        """Returns Picture objects queryset order by 'self.order'
+        and reversed if 'self.reversed_order'"""
+        if self.reversed_order:
+            prefix = '-'
+        else:
+            prefix = ''
+
+        return Entry_pictures.objects.filter(
+                    entry=self
+                ).order_by(
+                    prefix + 'order'
+                ).select_related(
+                    'picture'
+                ).values(
+                    'picture__id',
+                    'picture__title',
+                )
 
 
     def __str__(self):
@@ -220,16 +284,29 @@ class Entry_pictures(models.Model):
     order = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('order',)
+        ordering = ['order']
+
+
+
+class UsedManager(models.Manager):
+    """Returns a queryset with all used tags
+    number of entrys"""
+    def get_query_set(self):
+        return super(UsedManager, self).get_query_set().filter(
+                n_entry__gt=0).order_by('-n_entry')
 
 
 
 class Tag(models.Model):
     """Entry's tags table."""
     name = models.CharField(max_length=50, verbose_name="Mot clé", unique=True)
-    slug = models.SlugField(max_length=60, unique=True)
-    n_entry = models.IntegerField(default=0)
+    slug = models.SlugField(max_length=60, unique=True, db_index=True)
+    n_entry = models.IntegerField(default=0, db_index=True)
     absolute_url = models.URLField(verbose_name="Url absolue")
+
+    ## managers
+    objects = models.Manager()
+    used = UsedManager()
 
     class Meta:
         ordering = ['name']

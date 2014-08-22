@@ -45,16 +45,19 @@ class User(AbstractUser):
         )
     mail_contact = models.BooleanField(
             default=False,
+            db_index=True,
             verbose_name="Reçevoir les mail de contact",
             help_text="Pour recevoir les mails envoyés via la page de contact."
         )
     mail_comment = models.BooleanField(
             default=False,
+            db_index=True,
             verbose_name="Reçevoir les mails de commentaires",
             help_text="Pour recevoir un mail à chaque nouveau commentaire."
         )
     mail_registration = models.BooleanField(
             default=False,
+            db_index=True,
             verbose_name="Reçevoir les mails des inscriptions",
             help_text="Pour recevoir un mail à chaque nouvelle inscription."
         )

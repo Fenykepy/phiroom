@@ -26,7 +26,7 @@
 		<header role="banner">
 		<h1 class="hidden">{{ conf.title }}</h1>
 			<p id="logo">
-            <a href="{% url conf.home_page.reverse_url %}">
+            <a href="{% url conf.get_home_page_url %}">
                 <img src="{% if conf.site_logo %}{{ MEDIA_URL }}{{ conf.site_logo }}{% else %}/assets/images/structure/phiroom.png{% endif %}" alt="{{ conf.title }} logo" />
 				</a>
 			</p>

@@ -4,9 +4,8 @@ from django.db import models
 
 from librairy.models import LARGE_PREVIEWS_SIZE_CHOICES
 
-# conf table
 class Conf(models.Model):
-    # main configuration of site
+    """Main configuration of phiroom."""
     domain = models.CharField(max_length=100, default="phiroom.org",
             verbose_name="Domaine", help_text="Le nom de domaine du site \
                     (ex: phiroom.com, ou www.phiroom.org).")
@@ -181,27 +180,85 @@ class Conf(models.Model):
             help_text="Un court commentaire concernant les modifications \
                     apportées à la configuration (utile pour se retrouver \
                     dans les vieilles versions).")
-    date = models.DateTimeField(auto_now_add=True, auto_now=True,
+    date = models.DateTimeField(auto_now_add=True, auto_now=True, db_index=True,
             verbose_name="Date d'enregistrement")
+
+    class Meta:
+        get_latest_by = 'date'
     
+
+    def get_home_page_url(self):
+        return self.home_page.reverse_url
+
 
     def __str__(self):
         return "%s" %self.comment
 
-# page tables
+
+
+class HomeMenuManager(models.Manager):
+    """Returns a queryset with ordered pages which are
+    in home page menu."""
+    def get_query_set(self):
+        return super(HomeMenuManager, self).get_query_set().filter(
+                is_in_home_menu=True).values(
+                        'reverse_url',
+                        'name',
+                        'title',
+                    ).order_by(
+                        'position_in_home_menu',
+                        'pk'
+                    )
+
+
+
+class MainMenuManager(models.Manager):
+    """Returns a queryset with ordered pages whiche are
+    in main menu."""
+    def get_query_set(self):
+        return super(MainMenuManager, self).get_query_set().filter(
+                is_in_main_menu=True).values(
+                        'reverse_url',
+                        'name',
+                        'title',
+                    ).order_by(
+                        'position_in_main_menu',
+                        'pk',
+                    )
+
+
+
+class PageInfoManager(models.Manager):
+    """Returns a queryset with page infos."""
+    def get_query_set(self):
+        return super(PageInfoManager, self).get_query_set().values(
+                'title',
+                'name',
+            )
+
+
+
 class Page(models.Model):
+    """All static pages infos."""
     title = models.CharField(max_length=100, verbose_name="Titre")
-    name = models.CharField(max_length=100, verbose_name="Nom")
-    is_in_main_menu = models.BooleanField(default=False,
+    name = models.CharField(max_length=100, verbose_name="Nom", db_index=True)
+    is_in_main_menu = models.BooleanField(default=False, db_index=True,
             verbose_name="Afficher dans le menu principal")
     position_in_main_menu = models.PositiveSmallIntegerField(default=100)
-    is_in_home_menu = models.BooleanField(default=False, 
+    is_in_home_menu = models.BooleanField(default=False, db_index=True,
             verbose_name="Afficher dans le menu de la page d'accueil")
     position_in_home_menu = models.PositiveSmallIntegerField(default=100)
     is_active = models.BooleanField(default=True, verbose_name="Activer")
     content = models.TextField(null=True, verbose_name="Contenu", blank=True)
     source = models.TextField(null=True, verbose_name="Source", blank=True)
     reverse_url = models.CharField(max_length=254)
+
+    # managers
+    objects = models.Manager()
+    home_menu = HomeMenuManager()
+    main_menu = MainMenuManager()
+    info = PageInfoManager()
+
 
 
     def __str__(self):

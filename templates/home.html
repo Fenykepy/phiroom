@@ -27,7 +27,7 @@
 					{% empty %}
 					<li>Pas de menus :( </li>
 					{% endfor %}
-					{% if user.is_staff %}
+                    {% if user.is_staff %}
 					<li><a href="{% url "librairy_home" %}">Bibliothèque</a></li>
 					{% endif %}
 				</ul>

@@ -32,10 +32,8 @@ class LibrairyMixin(ConfMixin):
         context['collectionsensembles'] = CollectionsEnsemble.objects.all()
         # get root collections for lateral menu
         context['collections'] = Collection.objects.filter(ensemble=None)
-        context['entrys'] = Entry.objects.filter(
-                portfolio=False).order_by('-pub_date')
-        context['portfolios'] = Entry.objects.filter(
-                portfolio=True).order_by('-pub_update')
+        context['posts'] = Entry.posts.all()
+        context['portfolios'] = Entry.portfolios.all()
         context['tags'] = Tag_weblog.objects.all()
 
         return context
@@ -113,20 +111,20 @@ class ListCollection(ListPictures):
 
 
 
-class ListEntry(ListPictures):
+class ListPost(ListPictures):
     """Class to list all pictures of a blog post entry"""
     def get_queryset(self):
         date = self.kwargs['date'].replace("/", "-", 2)
         # if entry doesn't exists raise 404
-        entry = get_object_or_404(Entry, slug=self.kwargs['slug'],
+        post = get_object_or_404(Entry, slug=self.kwargs['slug'],
                 date__startswith=date)
 
-        return entry.get_sorted_pictures
+        return post.get_sorted_pictures_full
 
 
     def get_context_data(self, **kwargs):
-        context = super(ListEntry, self).get_context_data(**kwargs)
-        context['entry'] = [self.kwargs['date'], self.kwargs['slug']]
+        context = super(ListPost, self).get_context_data(**kwargs)
+        context['post'] = [self.kwargs['date'], self.kwargs['slug']]
         return context
 
 
@@ -139,7 +137,7 @@ class ListPortfolio(ListPictures):
                 portfolio=True,
                 slug=self.kwargs['slug'])
 
-        return portfolio.get_sorted_pictures
+        return portfolio.get_sorted_pictures_full
 
 
     def get_context_data(self, **kwargs):
@@ -396,12 +394,12 @@ class DeleteTag(LibrairyFormView):
 
 
 
-class ChooseEntryToUpdate(LibrairyFormView):
+class ChoosePostToUpdate(LibrairyFormView):
     """Class to choose an entry to update"""
-    form_class = ChooseEntryToUpdateForm
+    form_class = ChoosePostToUpdateForm
 
     def get_context_data(self, **kwargs):
-        context = super(ChooseEntryToUpdate, self).get_context_data(**kwargs)
+        context = super(ChoosePostToUpdate, self).get_context_data(**kwargs)
         context['title'] = "Sélectionner le post à mettre à jour"
         context['action'] = reverse_lazy('librairy_choose_update_entry')
         context['button'] = "Sélectionner"
@@ -424,12 +422,12 @@ class ChooseEntryToUpdate(LibrairyFormView):
 
 
 
-class ChooseEntryToDelete(LibrairyFormView):
+class ChoosePostToDelete(LibrairyFormView):
     """Class to choose an entry to delete"""
-    form_class = ChooseEntryToDeleteForm
+    form_class = ChoosePostToDeleteForm
 
     def get_context_data(self, **kwargs):
-        context = super(ChooseEntryToDelete, self).get_context_data(**kwargs)
+        context = super(ChoosePostToDelete, self).get_context_data(**kwargs)
         context['title'] = "Sélectionner le post à supprimer"
         context['action'] = reverse_lazy('librairy_choose_delete_entry')
         context['button'] = "Supprimer"
@@ -580,7 +578,7 @@ def AddOrder2Collection(request, pk, slug):
 
 
 
-def AddPict2Entry(request, date, slug):
+def AddPict2Post(request, date, slug):
     """Fonction to add a picture to a entry"""
     if request.is_ajax():
         date = date.replace("/", "-", 2)
@@ -607,7 +605,7 @@ def AddPict2Entry(request, date, slug):
 
 
 
-def AddOrder2Entry(request, date, slug):
+def AddOrder2Post(request, date, slug):
     """Fonction to add order to a entry's pictures"""
     if request.is_ajax():
         date = date.replace("/", "-", 2)
@@ -672,6 +670,7 @@ def AddOrder2Portfolio(request, slug):
                 portfolio=True,
                 slug=slug)
         for i, n in enumerate(request.POST.getlist('arr')):
+            print(n)
             try:
                 portfoliopict = Entry_pictures.objects.get(
                         entry=portfolio,
@@ -690,7 +689,7 @@ def AddOrder2Portfolio(request, slug):
 
 
 
-def DeletePictFromEntry(request, date, slug, pict_pk):
+def DeletePictFromPost(request, date, slug, pict_pk):
     """Fonction to delete a picture from a entry"""
     if request.is_ajax():
         date = date.replace("/", "-", 2)

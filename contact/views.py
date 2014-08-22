@@ -28,7 +28,8 @@ class ViewContact(CreateView, ContactMixin):
 
     def get_context_data(self, **kwargs):
         context = super(ViewContact, self).get_context_data(**kwargs)
-        context['entry'] = Description.objects.latest('date_update')
+        context['entry'] = Description.objects.values(
+                'content', 'title').latest()
 
         return context
 
@@ -121,7 +122,7 @@ class UpdateContact(AjaxableResponseMixin, UpdateView, ContactMixin):
 
     def get_object(self, queryset=None):
         """Returns the object view is displaying."""
-        return Description.objects.latest('date_update')
+        return Description.objects.latest()
 
     def form_valid(self, form):
         """If form is valid, save associated model."""
@@ -139,15 +140,28 @@ class UpdateContact(AjaxableResponseMixin, UpdateView, ContactMixin):
             self.object.save()
             # redirect user
             if self.request.is_ajax():
-                return HttpResponse(content=json.dumps({'redirect': self.get_success_url()}), content_type='application/json')
+                return HttpResponse(
+                    content=json.dumps({'redirect': self.get_success_url()}),
+                    content_type='application/json')
             return redirect(self.get_success_url())
 
         elif 'contact_preview' in form.data:
             # return form and object for preview
             if self.request.is_ajax():
-                html =  render_to_string(self.get_template_names(), self.get_context_data(form=form, contact_preview=self.object, request=self.request))
-                return self.render_to_json_response({'form': html, 'moveto': '#preview'})
-            return self.render_to_response(self.get_context_data(form=form, contact_preview=self.object, request=self.request))
+                html =  render_to_string(
+                    self.get_template_names(),
+                    self.get_context_data(form=form,
+                        contact_preview=self.object,
+                        request=self.request))
+                return self.render_to_json_response({
+                    'form': html,
+                    'moveto': '#preview'
+                })
+            return self.render_to_response(self.get_context_data(
+                form=form,
+                contact_preview=self.object,
+                request=self.request
+            ))
 
 
     

@@ -22,7 +22,7 @@ class ListPortfolios(ListView, PortfolioMixin):
     template_name = 'portfolios/portfolio_list.html'
 
     def get_queryset(self):
-        return Entry.published.filter(portfolio=True)
+        return Entry.published_portfolios.all()
 
 
 
@@ -34,11 +34,9 @@ class ViewPortfolio(DetailView, PortfolioMixin):
     
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Entry.not_draft.filter(slug=self.kwargs['slug'],
-                    portfolio=True)
+            return Entry.not_draft_portfolios.filter(slug=self.kwargs['slug'])
         else:
-            return Entry.published.filter(slug=self.kwargs['slug'],
-                    portfolio=True)
+            return Entry.published_portfolios.filter(slug=self.kwargs['slug'])
 
 
 
@@ -68,9 +66,7 @@ class UpdatePortfolio(CreatePortfolio, UpdateView):
 
 
     def get_object(self, queryset=None):
-        return Entry.objects.get(
-                slug=self.kwargs['slug'],
-                portfolio=True)
+        return Entry.portfolios.get(slug=self.kwargs['slug'])
 
 
 
@@ -87,8 +83,6 @@ class DeletePortfolio(PortfolioMixin, DeleteEntry):
         return context
 
     def get_object(self, queryset=None):
-        return Entry.objects.get(
-                slug=self.kwargs['slug'],
-                portfolio=True)
+        return Entry.portfolios.get(slug=self.kwargs['slug'])
 
 

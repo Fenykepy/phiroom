@@ -44,7 +44,7 @@ class SetNewSettings(AjaxableResponseMixin, UpdateView, SettingsMixin):
 
     def get_object(self, queryset=None):
         """Returns the object view is displaying."""
-        return Conf.objects.latest('date')
+        return Conf.objects.latest()
 
     def form_valid(self, form):
         """If form is correct, save new conf object."""

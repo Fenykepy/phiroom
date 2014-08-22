@@ -29,14 +29,13 @@ class ConfMixin(ContextMixin):
 
     def __init__(self, *args, **kwargs):
         super(ConfMixin, self).__init__(*args, **kwargs)
-        self.conf = Conf.objects.latest('date')
+        self.conf = Conf.objects.latest()
 
     def get_context_data(self, **kwargs):
         context = super(ConfMixin, self).get_context_data(**kwargs)
         context['conf'] = self.conf
-        context['page_info'] = Page.objects.get(name = self.page_name)
-        context['menu'] = Page.objects.filter(is_in_main_menu=True).order_by(
-                'position_in_main_menu', 'pk')
+        context['page_info'] = Page.info.get(name = self.page_name)
+        context['menu'] = Page.main_menu.all()
         context['phiroom'] = PHIROOM
 
         return context
@@ -49,11 +48,19 @@ class WeblogMixin(ConfMixin):
 
     def get_context_data(self, **kwargs):
         context = super(WeblogMixin, self).get_context_data(**kwargs)
-        context['entrys_menu'] = Entry.published.all(
-                )[:self.conf.n_last_entrys_menu]
-        context['portfolios_menu'] = Entry.published.filter(
-                portfolio=True)
-        context['tags'] = Tag.objects.filter(n_entry__gt=0).order_by('-n_entry')
+        context['posts_menu'] = Entry.published_posts.values(
+                'slug',
+                'title',
+                'pub_date'
+            )[:self.conf.n_last_entrys_menu]
+        context['portfolios_menu'] = Entry.published_portfolios.values(
+                'slug',
+                'title',
+            )
+        context['tags'] = Tag.used.values(
+                'slug',
+                'name',
+            )
         context['login_form'] = LoginForm()
         # for pagination links max and min
         if 'page' in self.kwargs:
@@ -103,14 +110,14 @@ class ListEntrys(ListView, WeblogMixin):
         return self.conf.n_entrys_per_page
 
     def get_queryset(self):
-        return Entry.published.all()
+        return Entry.published.all().select_related('author')
 
 
 
 class ListPortfolios(ListEntrys):
     """List all weblog portfolios by pub_update."""
     def get_queryset(self):
-        return Entry.published.filter(portfolio=True)
+        return Entry.published_portfolios.all().select_related('author')
 
 
 
@@ -124,7 +131,10 @@ class ListEntrysByTag(ListEntrys):
 
 
     def get_queryset(self):
-         return Entry.published.filter(tags__slug = self.kwargs['slug'])
+         return Entry.published.filter(
+                 tags__slug = self.kwargs['slug']
+            ).select_related('author')
+
 
 
 
@@ -139,9 +149,10 @@ class ListEntrysByPostsPicture(ListEntrys):
 
 
     def get_queryset(self):
-        return Entry.published.filter(
-                entry_pictures__picture__id = self.kwargs['pk'],
-                portfolio=False)
+        return Entry.published_posts.filter(
+                entry_pictures__picture__id = self.kwargs['pk']
+            ).select_related('author')
+
 
 
 
@@ -156,9 +167,10 @@ class ListEntrysByPortfoliosPicture(ListEntrys):
 
 
     def get_queryset(self):
-        return Entry.published.filter(
-                entry_pictures__picture__id = self.kwargs['pk'],
-                portfolio=True)
+        return Entry.published_portfolios.filter(
+                entry_pictures__picture__id = self.kwargs['pk']
+            ).select_related('author')
+
 
 
 
@@ -172,20 +184,24 @@ class ViewEntry(DetailView, WeblogMixin):
         context = super(ViewEntry, self).get_context_data(**kwargs)
         # try to get previous post
         if self.request.user.is_staff:
-            previous_entry = Entry.not_draft.filter(portfolio=False,
+            previous_entry = Entry.not_draft_posts.values(
+                    'absolute_url').filter(
                     pub_update__lt=self.object.pub_update)
         else:
-            previous_entry = Entry.published.filter(portfolio=False,
+            previous_entry = Entry.published_posts.values(
+                    'absolute_url').filter(
                     pub_update__lt=self.object.pub_update)
         if previous_entry:
             context['previous'] = previous_entry[0]
         # try to get nex post
         if self.request.user.is_staff:
-            next_entry = Entry.not_draft.filter(portfolio=False,
+            next_entry = Entry.not_draft_posts.values(
+                    'absolute_url').filter(
                     pub_update__gt=self.object.pub_update).order_by(
                             'pub_update')
         else:
-            next_entry = Entry.published.filter(portfolio=False,
+            next_entry = Entry.published_posts.values(
+                    'absolute_url').filter(
                     pub_update__gt=self.object.pub_update).order_by(
                             'pub_update')
         if next_entry:
@@ -197,14 +213,16 @@ class ViewEntry(DetailView, WeblogMixin):
     def get_queryset(self):
         date = self.kwargs['date'].replace("/", "-", 2)
         if self.request.user.is_staff:
-            return Entry.not_draft.filter(
-                    portfolio=False,
+            return Entry.not_draft_posts.filter(
                     slug=self.kwargs['slug'],
-                    pub_date__startswith=date)
-        return Entry.published.filter(
-                    portfolio=False,
+                    pub_date__startswith=date
+                ).select_related('author')
+
+        return Entry.published_posts.filter(
                     slug=self.kwargs['slug'],
-                    pub_date__startswith=date)
+                    pub_date__startswith=date
+                ).select_related('author')
+
 
 
 class CreateEntry(AjaxableResponseMixin, CreateView, WeblogMixin):
@@ -391,10 +409,10 @@ class UpdateEntry(CreateEntry, UpdateView):
 
     def get_object(self, queryset=None):
         date = self.kwargs['date'].replace("/", "-", 2)
-        return Entry.objects.get(
+        return Entry.posts.get(
                 slug=self.kwargs['slug'],
                 pub_date__startswith=date,
-                portfolio=False)
+            )
 
 
 
@@ -425,10 +443,10 @@ class DeleteEntry(DeleteView, WeblogMixin):
 
     def get_object(self, queryset=None):
         date = self.kwargs['date'].replace("/", "-", 2)
-        return Entry.objects.get(
+        return Entry.posts.get(
                 slug=self.kwargs['slug'],
                 pub_date__startswith=date,
-                portfolio=False)
+            )
 
 
     def delete(self, request, *args, **kwargs):

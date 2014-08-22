@@ -284,7 +284,7 @@ def save_picture(path, pict, previews=True, metadatas=True):
         
         ## Large preview generation
         # get latest conf to have large preview's size
-        conf = Conf.objects.latest('date')
+        conf = Conf.objects.latest()
         # set output folder
         outdirname = os.path.join(
                 BASE_DIR,

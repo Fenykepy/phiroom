@@ -82,16 +82,16 @@
 <li class="togglesubmenu"><a class="arrow arrow-plus" href="#">Posts</a><a class="plus" href="#"><span class="hidden">menu de l'onglet</span></a>
 	<ul class="popover">
 		<li><a class="popup" href="{% url "entry_create" %}">Nouveau post</a></li>
-		<li><a class="popup" href="{% url "librairy_choose_update_entry" %}">Éditer un post</a></li>
+		<li><a class="popup" href="{% url "librairy_choose_update_post" %}">Éditer un post</a></li>
 		<hr />
-		<li><a class="popup" href="{% url "librairy_choose_delete_entry" %}">Supprimer un post</a></li>
+		<li><a class="popup" href="{% url "librairy_choose_delete_post" %}">Supprimer un post</a></li>
 	</ul>
 
 	<div class="cadre2">
 	<div class="cadre2b">
 		<ul class="submenu">
-			{% for item in entrys %}
-            <li><a class="dia load" data-target="content" data-droppable="thumb" href="{% url "librairy_entry" item.pub_date|date:"Y/m/d" item.slug %}">{{ item.title|truncatechars:28 }}<span class="count">{{ item.n_pict }}</span></a></li>
+			{% for item in posts %}
+            <li><a class="dia load" data-target="content" data-droppable="thumb" href="{% url "librairy_post" item.pub_date|date:"Y/m/d" item.slug %}">{{ item.title|truncatechars:28 }}<span class="count">{{ item.n_pict }}</span></a></li>
 			{% empty %}
 			<li><a class="dia popup" href="{% url "entry_create" %}">Aucun posts</a></li>
 			{% endfor %}

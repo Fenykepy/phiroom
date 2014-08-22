@@ -658,36 +658,32 @@ class DeleteTagForm(Form):
 
             
 
-class ChooseEntryToUpdateForm(Form):
+class ChoosePostToUpdateForm(Form):
     """Form to choose a blog entry to update"""
     entry = forms.ModelChoiceField(
-            queryset=Entry.objects.filter(
-                portfolio=False).order_by('-pub_update'), 
+            queryset=Entry.posts.all(), 
             label="Post à éditer", required=True)
  
 
 
-class ChooseEntryToDeleteForm(Form):
+class ChoosePostToDeleteForm(Form):
     """Form to choose a blog entry to delete"""
     entry = forms.ModelChoiceField(
-            queryset=Entry.objects.filter(
-                portfolio=False).order_by('-pub_update'),
+            queryset=Entry.posts.all(),
             label="Post à supprimer", required=True)
 
 
 
 class ChoosePortfolioToUpdateForm(Form):
     """Form to choose a portfolio to update"""
-    entry = forms.ModelChoiceField(queryset=Entry.objects.filter(
-        portfolio=True).order_by('-pub_update'),
+    entry = forms.ModelChoiceField(queryset=Entry.portfolios.all(),
         label="Portfolio à éditer", required=True)
  
 
 
 class ChoosePortfolioToDeleteForm(Form):
     """Form to choose a portfolio to delete"""
-    entry = forms.ModelChoiceField(queryset=Entry.objects.filter(
-        portfolio=True).order_by('-pub_update'),
+    entry = forms.ModelChoiceField(queryset=Entry.portfolios.all(),
         label="Portfolio à supprimer", required=True)
 
 

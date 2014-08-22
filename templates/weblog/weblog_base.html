@@ -10,27 +10,6 @@
 {% block left_panel %}
 <nav id="left_panel" role="navigation">
 <ul id="nav">
-<li class="togglesubmenu"><a class="arrow arrow-doc" href="#">Derniers posts</a>
-    <div class="cadre2">
-    <div class="cadre2b">
-        <ul class="submenu">
-            {% if entrys_menu %}
-            <li><a class="doc" href="{% url "weblog_home" %}">Lister les posts</a></li>
-            {% endif %}
-            {% for item in entrys_menu %}
-            <li><a class="doc" href="{% url "entry_view" item.pub_date|date:"Y/m/d" item.slug %}">{{ item.title|truncatechars:28 }}</a></li>
-            {% empty %}
-            <li><a class="doc" href="#">Aucun posts</a></li>
-            {% endfor %}
-            {% if user.is_staff %}
-            <li.button><a class="popup" href="{% url "entry_create" %}">
-                <button type="button">Nouveau post</button>
-            </a></li>
-            {% endif %}
-        </ul><!-- submenu -->
-    </div><!-- cadre2b -->
-    </div><!-- cadre2 -->
-</li><!-- togglesubmenu -->
 
 
 <li class="togglesubmenu"><a class="arrow arrow-dia" href="#">Portfolios</a>
@@ -53,6 +32,29 @@
 		</ul><!-- submenu -->
 	</div><!-- cadre2b -->
 	</div><!-- cadre2 -->
+</li><!-- togglesubmenu -->
+
+
+<li class="togglesubmenu"><a class="arrow arrow-doc" href="#">Derniers posts</a>
+    <div class="cadre2">
+    <div class="cadre2b">
+        <ul class="submenu">
+            {% if posts_menu %}
+            <li><a class="doc" href="{% url "weblog_home" %}">Lister les posts</a></li>
+            {% endif %}
+            {% for item in posts_menu %}
+            <li><a class="doc" href="{% url "entry_view" item.pub_date|date:"Y/m/d" item.slug %}">{{ item.title|truncatechars:28 }}</a></li>
+            {% empty %}
+            <li><a class="doc" href="#">Aucun posts</a></li>
+            {% endfor %}
+            {% if user.is_staff %}
+            <li.button><a class="popup" href="{% url "entry_create" %}">
+                <button type="button">Nouveau post</button>
+            </a></li>
+            {% endif %}
+        </ul><!-- submenu -->
+    </div><!-- cadre2b -->
+    </div><!-- cadre2 -->
 </li><!-- togglesubmenu -->
 
 

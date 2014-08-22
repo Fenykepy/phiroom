@@ -107,30 +107,30 @@ urlpatterns = patterns('',
         name="librairy_delete_tag"),
 
     ## weblog posts managment
-    # librairy entry updating view
-    url(r'^entry/update/$',
-        user_passes_test(user_is_staff)(ChooseEntryToUpdate.as_view()),
-        name="librairy_choose_update_entry"),
-    # librairy entry deleting view
-    url(r'^entry/delete/$',
-        user_passes_test(user_is_staff)(ChooseEntryToDelete.as_view()),
-        name="librairy_choose_delete_entry"),
-    # librairy entry's pictures adding view
-    url(r'^entry/(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/add/$',
-        user_passes_test(user_is_staff)(AddPict2Entry),
-        name="librairy_add_pict_2_entry"),
-    # librairy entry's pictures ordering view
-    url(r'^entry/(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/order/$',
-        user_passes_test(user_is_staff)(AddOrder2Entry),
-        name="librairy_add_order_2_entry"),
-    # librairy entry's pictures deleting view
-    url(r'^entry/(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/(?P<pict_pk>\d+)/delete/$',
-        user_passes_test(user_is_staff)(DeletePictFromEntry),
-        name="librairy_delete_pict_from_entry"),
-    # librairy entry list view
-    url(r'^entry/(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/$',
-        user_passes_test(user_is_staff)(ListEntry.as_view()),
-        name="librairy_entry"),
+    # librairy post updating view
+    url(r'^post/update/$',
+        user_passes_test(user_is_staff)(ChoosePostToUpdate.as_view()),
+        name="librairy_choose_update_post"),
+    # librairy post deleting view
+    url(r'^post/delete/$',
+        user_passes_test(user_is_staff)(ChoosePostToDelete.as_view()),
+        name="librairy_choose_delete_post"),
+    # librairy post's pictures adding view
+    url(r'^post/(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/add/$',
+        user_passes_test(user_is_staff)(AddPict2Post),
+        name="librairy_add_pict_2_post"),
+    # librairy post's pictures ordering view
+    url(r'^post/(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/order/$',
+        user_passes_test(user_is_staff)(AddOrder2Post),
+        name="librairy_add_order_2_post"),
+    # librairy post's pictures deleting view
+    url(r'^post/(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/(?P<pict_pk>\d+)/delete/$',
+        user_passes_test(user_is_staff)(DeletePictFromPost),
+        name="librairy_delete_pict_from_post"),
+    # librairy post list view
+    url(r'^post/(?P<date>\d{4}/\d{2}/\d{2})/(?P<slug>[-\w]+)/$',
+        user_passes_test(user_is_staff)(ListPost.as_view()),
+        name="librairy_post"),
     
     ## portfolios managment
     # librairy portfolio updating view

@@ -18,7 +18,7 @@ Petits bugs de la refactorisation :
 #    - refactoriser les feeds
     - mettre un maximum à la taille de l'avatar dans la vue qui suit la connexion
     - mettre un maximum au logo en haut à gauche des pages
-    - passer un get_object dans weblog.views.UpdateEntry
+#    - passer un get_object dans weblog.views.UpdateEntry
 #    - régler le problème des mails qui arrivent en delivery failure
 #    - changer les mail_managers() en mail_staff_members()
     - créer un application « news_letter » qui :
@@ -47,8 +47,13 @@ Petits bugs de la refactorisation :
 #        - 1021 requêtes en 600ms, 7s de chargement pour la page
 #        - puis: 574 requêtes en 160.55ms, 4s de chargement pour la page
 #        - enfin: 74 requêtes en 30.66ms, 560ms de chargement pour la page
-    - Voir pour le ralentissement d'affichage des Entrys avec images
-    - Voir pour le ralentissement d'affichage des Portfolios
+#        - et encore 32 requêtes en 21.92ms, 240ms de chargement pour la page
+#    - Voir pour le ralentissement d'affichage des Entrys avec images
+#    - Voir pour le ralentissement d'affichage des Portfolios
+    - Voir pour le ralentissement de la bibliothèque
+    - compléter les feeds avec la première image
+    - voir pour l'enregistrement des entry (entrer l'ordre par nom ou autre dans la table through)
+#    - get_related sur les nom d'auteur des articles
 
 ===== Avant release Béta =====
 #    - déplacer la SECRET_KEY dans devel_settings
@@ -148,6 +153,9 @@ Petits bugs de la refactorisation :
 
 ==== Le cache ====
 
+    - !!! Cacher la requête de configuration !!!
+    - !!! Cacher la requête de session !!!
+
 === La partie publique ===
     - L'idée de base est de servir au maximum des fichiers statiques
     - mais peut être de continuer de passer par le résolver django
@@ -195,12 +203,84 @@ Petits bugs de la refactorisation :
 #	- passer l'image de fond de la page d'accueil du css vers l'html (pour pouvoir la changer dynamiquement)
 #	- revoir l'organisation des modules conf / user
 #	- revoir l'organisation des templates par modules
-	- tests du module weblog
-    - tests du module portfolio
+	- tests du module weblog:
+        - création d'un post
+        - création d'un post avec images
+        - création d'un post de même date et même titre
+        - création d'un post de même titre et date différente
+        - création d'un post sans images et sans contenu -> auto draft
+        - création d'un post avec images et avec contenu
+        - création d'un post sans images et avec contenu
+        - création d'un post avec images et sans contenu
+        - création d'un post avec draft
+        - création avec images de collection
+        - création avec images de dossier
+        - création avec date de publication future
+        - mise à jour d'un post draft
+        - mise à jour d'un post auto-draft
+        - mise à jour de l'ordre des images
+        - mise à jour ajout de mots-clés existants
+        - mise à jour ajout de motes-clés neufs
+        - mise à jour modificatino mineure
+        - mise à jour suppression de mots-clés
+        - mise à jour du titre ->_vérifier l'url
+        -
+        
+    - tests du module portfolio:
+        - création d'un portfolio
+        - création d'un portfolio avec images
+        - création d'un portfolio de même titre
+        - création d'un portfolio sans images et sans contenu -> auto draft
+        - création d'un portfolio avec images et avec contenu
+        - création d'un portfolio sans images et avec contenu -> auto draft
+        - création d'un portfolio avec images et sans contenu
+        - création d'un portfolio avec draft
+        - création avec images de collection
+        - création avec images de dossier
+        - création avec date de publication future
+        - mise à jour d'un portfolio draft
+        - mise à jour d'un portfolio auto-draft
+        - mise à jour de l'ordre des images
+        - mise à jour ajout de mots-clés existants
+        - mise à jour ajout de motes-clés neufs
+        - mise à jour modificatino mineure
+        - mise à jour suppression de mots-clés
+        - mise à jour du titre -> vérifier l'url
+        - listing des portfolios -> vérifier ordre, l'ordre des images, que les non publiés ne s'affichent pas
+        - vue d'un portfolio -> vérifier que seul un publié s'affiche, ou un non draft si c'est un super user
+        - suppression d'un portfolio
+ 
+        
     - tests du module contact
+        - création d'un nouveau contenu
+        - récupération du dernier contenu
+        - envoi d'un message comme user connecté
+        - envoi d'un message comme anonyme
+
     - tests du module stats
+        - vérifier que les pages se logguent bien
+        - vérifier que /data/ et /assets/ ne loggue pas
+        - vérifier que les utilisateurs sont loggués
+        - vérifier que si l'utilisateur est staff c'est loggué
+
 	- tests du module conf
+        - création d'une nouvelle conf
+        - récupération de la dernière conf
+        - changement de la page d'accueil
+        - affichage des liens follows demandés uniquement
+    
+    - tests des feeds
+    - tests des sitemaps
+
 	- tests du module user
+        - création d'un user
+        - login de l'user
+        - modification du profil
+        - logout de l'user
+
+    - pas de tests du module bibliothèque :
+        - il va être refait en angularjs
+
 #    - fixer le bug du choix de la page d'accueil
     - ajouter un diaporama automatique en accueil
 #	- passer le queryset conf ailleurs que dans une variable de classe (pour sa mise à jour)
