@@ -37,6 +37,12 @@ __!!! DO NOT USE THESE INSTRUCTIONS IN PRODUCTION !!!__
 Use these instructions if you plan to use phiroom in local
 for testing it or to develop it.
 
+#### to run unit tests ####
+
+Run as root:
+
+    # pip3 install mock
+    # pip3 install selenium
 
 #### Set up database ####
 
