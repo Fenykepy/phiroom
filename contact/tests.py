@@ -6,7 +6,7 @@ from contact.models import Description, Message
 
 
 class ContactTest(TestCase):
-    """Contact url tests."""
+    """Contact tests."""
 
     def setUp(self):
         self.user = User.objects.create_user(
@@ -28,6 +28,19 @@ class ContactTest(TestCase):
         self.user2.save()
 
         self.client = Client()
+
+    def test_fixtures(self):
+        """Test that fixtures are correctly set up."""
+        description = Description.objects.latest()
+        self.assertEqual(description.title, 'Page de Contact')
+        self.assertEqual(description.content,
+                '<p>Description de la page de contact.</p>')
+        self.assertEqual(description.source,
+                'Description de la page de contact.')
+        date = False
+        if description.date_update:
+            date = True
+        self.assertEqual(date, True)
 
 
     def test_urls(self):
@@ -63,7 +76,7 @@ class ContactTest(TestCase):
         # Tartempion goes to contact page
         response = self.client.get('/contact/')
         # Tartempion sees default title and content
-        self.assertEqual('Description de la page de contact',
+        self.assertEqual('<p>Description de la page de contact.</p>',
                 response.context['entry']['content'])
         self.assertEqual('Page de Contact', response.context['entry']['title'])
 

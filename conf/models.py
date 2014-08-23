@@ -89,7 +89,7 @@ class Conf(models.Model):
             help_text="L'url pointant vers votre page facebook, nécessaire si \
                     « me suivre sur facebook » est activé.")
 
-    no_fb = models.BooleanField(default=True,
+    no_fb = models.BooleanField(default=False,
             verbose_name="Activer « Vous ne me trouverez pas sur facebook »",
             help_text="""Un petit logo amusant pour les militants \
                     anti-facebook (et consorts)(<a href="http://www.framablog\

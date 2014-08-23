@@ -12,8 +12,7 @@ from user.views import user_is_staff
 
 urlpatterns = patterns('',
         url(r'^$', user_passes_test(user_is_staff)(SetNewSettings.as_view()), name="conf_settings"),
-        url(r'^old/$', user_passes_test(user_is_staff)(ListSettings.as_view()), name="list_settings"),
-        url(r'^profil/$', login_required(ListEntrys.as_view()), name="conf_profil"),
+        url(r'^list/$', user_passes_test(user_is_staff)(ListSettings.as_view()), name="list_settings"),
 )
 
 

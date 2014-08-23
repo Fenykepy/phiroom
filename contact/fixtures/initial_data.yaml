@@ -2,8 +2,8 @@
   pk: 1
   fields:
     title: Page de Contact
-    content: Description de la page de contact
-    source: Description de la page de contact
+    content: <p>Description de la page de contact.</p>
+    source: Description de la page de contact.
     date_update: 2014-08-15 13:58:25.000000+0000
 
 
