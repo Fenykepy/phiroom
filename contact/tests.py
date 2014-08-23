@@ -4,22 +4,6 @@ from django.core import mail
 from user.models import User
 from contact.models import Description, Message
 
-## What to test
-
-## Description
-# Check that source is properly transposed to html
-# Check that user is properly given as author
-# Check that contact url return good template
-
-## Message
-# Check that if bottrap field exists post is rejected
-# Check that authenticated user receive good form
-# Check that un_authenticated user receive good form
-# Check that authenticated user fieds are well completed
-    # (user, username, mail, website)
-# Check that a mail is send to user if forward field is true
-# Check that no mail is send to user if forward field is false
-# Check that a mail si send to contact members or to staff members if no contacts ones
 
 class ContactTest(TestCase):
     """Contact url tests."""
@@ -40,6 +24,8 @@ class ContactTest(TestCase):
             email='tartempion@tartempion.fr',
             password='toto'
         )
+        self.user2.web_site = 'mysite@tartempion.fr'
+        self.user2.save()
 
         self.client = Client()
 
@@ -163,11 +149,77 @@ class ContactTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, ['jacob@toto.com'])
         mail.outbox = []
+        
+        # assert that user mail and website has been save in db
+        message = Message.objects.get(pk=1)
+        self.assertEqual(message.mail, 'tartempion@tartempion.fr')
+        self.assertEqual(message.website, 'mysite@tartempion.fr')
+        self.assertEqual(message.user, self.user2)
+        self.assertEqual(message.name, 'tartempion')
+
+
 
         # tartempion has been redirected to '/contact/sent/' page
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
                 'contact/contact_sent.html')
+
+
+    def test_sent_no_contact_user(self):
+        """Assert that if no "contact users", "staff members" receive mails."""
+        # delete contact user  
+        self.user.mail_contact = False
+        self.user.save()
+
+        # login with tartempion
+        login = self.client.login(username='tartempion', password='toto')
+        self.assertEqual(login, True)
+
+        # post a message
+        response = self.client.post('/contact/', {
+            'subject': 'This mail is to staff members',
+            'message': 'Body',
+            }
+        )
+        
+        # assert mail has been stored in db
+        messages = Message.objects.all().count()
+        self.assertEqual(messages, 1)
+
+        # assert mail has been sent
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, ['jacob@toto.com'])
+        mail.outbox = []
+
+
+    def test_sent_no_staff_member(self):
+        """Assert that if no "contact users", "staff members" receive mails."""
+        # delete contact user  
+        self.user.mail_contact = False
+        self.user.is_staff = False
+        self.user.save()
+
+        # login with tartempion
+        login = self.client.login(username='tartempion', password='toto')
+        self.assertEqual(login, True)
+
+        # post a message
+        response = self.client.post('/contact/', {
+            'subject': 'This mail is to superusers',
+            'message': 'Body',
+            }
+        )
+        
+        # assert mail has been stored in db
+        messages = Message.objects.all().count()
+        self.assertEqual(messages, 1)
+
+        # assert mail has been sent
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, ['jacob@toto.com'])
+        mail.outbox = []
+
+
 
 
     def test_update_description(self):
@@ -194,10 +246,17 @@ class ContactTest(TestCase):
         
         # assert last description is the new one
         contact = Description.objects.latest()
+        
         self.assertEqual(contact.title, 'Une page contact de test')
         self.assertEqual(contact.content,
                 '<p>le source du contenu de la page contact</p>'
             )
+        # assert author has been saved
+        self.assertEqual(contact.author, self.user)
+        self.assertEqual(contact.source,
+                'le source du contenu de la page contact'
+            )
+
 
 
     def test_update_description_preview(self):
