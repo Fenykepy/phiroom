@@ -53,6 +53,7 @@ Petits bugs de la refactorisation :
     - Voir pour le ralentissement de la bibliothèque
     - compléter les feeds avec la première image
     - voir pour l'enregistrement des entry (entrer l'ordre par nom ou autre dans la table through)
+    - ajouter le domain entré dans la conf dans l'app site, et faire un clear du cache (pour éviter les feeds avec exemple.com)
 #    - get_related sur les nom d'auteur des articles
 
 ===== Avant release Béta =====
