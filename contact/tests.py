@@ -1,10 +1,4 @@
-import mock
-
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from pprint import pprint
-
-from django.test import TestCase, Client, LiveServerTestCase
+from django.test import TestCase, Client
 from django.core import mail
 
 from user.models import User
@@ -27,8 +21,8 @@ from contact.models import Description, Message
 # Check that no mail is send to user if forward field is false
 # Check that a mail si send to contact members or to staff members if no contacts ones
 
-class ContactTest(LiveServerTestCase):
-    """Contact url tests"""
+class ContactTest(TestCase):
+    """Contact url tests."""
 
     def setUp(self):
         self.user = User.objects.create_user(
@@ -38,13 +32,7 @@ class ContactTest(LiveServerTestCase):
         self.user.mail_contact =True
         self.user.save()
         self.client = Client()
-        self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)
 
-
-    def tearDown(self):
-        self.browser.quit()
-        
 
     def test_urls(self):
         """Test urls and their templates."""
@@ -56,7 +44,8 @@ class ContactTest(LiveServerTestCase):
                 },
                 {
                     'url': '/contact/edit/',
-                    'status': 302, # should redirect as user is not staff
+                    # should redirect to login page as user is not staff
+                    'status': 302,
                     'template': 'weblog/weblog_forms.html',
                 },
                 {
@@ -71,52 +60,52 @@ class ContactTest(LiveServerTestCase):
             self.assertEqual(response.status_code, elem['status'])
             response = self.client.get(elem['url'], follow=True)
             self.assertEqual(response.templates[0].name, elem['template'])
-    
+
+
     def test_contact_page(self):
         """Assert that a normal client get contact description and form."""
-        # Gertrude opens her web browser, and goes to the contact page
-        self.browser.get(self.live_server_url + '/contact/')
-        # She sees the default contact page title and content
-        body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('Description de la page de contact', body.text)
-        self.assertIn('Page de Contact', body.text)
-        # She sees the form to leave a message and fullfill it
-        name_field = self.browser.find_element_by_name('name')
-        name_field.send_keys('Gertrude')
-        mail_field = self.browser.find_element_by_name('mail')
-        mail_field.send_keys('Gertrude@jocelyn.fr')
-        website_field = self.browser.find_element_by_name('website')
-        website_field.send_keys('http://gertrude-jocelyn.fr')
-        subject_field = self.browser.find_element_by_name('subject')
-        subject_field.send_keys('Message de test')
-        message_field = self.browser.find_element_by_name('message')
-        message_field.send_keys('Corps du message de test ' +
-                'envoyé par gertrude')
-        # she submit the form
-        message_field.submit()
+        # Tartempion goes to contact page
+        response = self.client.get('/contact/')
+        # Tartempion sees default title and content
+        self.assertEqual('Description de la page de contact', response.context['entry']['content'])
+        self.assertEqual('Page de Contact', response.context['entry']['title'])
+
+
+    def test_send_message(self):
+        """Assert that a normal client can send a message."""
+        # Tartempion posts a message
+        response = self.client.post('/contact/', {
+            'name': 'Tartempion',
+            'mail': 'tartempion@tartempion.fr',
+            'website': 'http://tartempion.fr',
+            'subject': 'Test message',
+            'message': 'Body of test message',
+            'forward': 'on',
+            }, follow=True
+        )
 
         # assert here that mails have been save in db
         messages = Message.objects.all().count()
         self.assertEqual(messages, 1)
         
         # assert that mails have been sent
-        mails = (mail.outbox[0].to, mail.outbox[1].to)
-        self.assertEqual(mails, (['Gertrude@jocelyn.fr'], ['jacob@toto.com']))
         self.assertEqual(len(mail.outbox), 2)
+        mails = (mail.outbox[0].to, mail.outbox[1].to)
+        self.assertEqual(mails, (['tartempion@tartempion.fr'], ['jacob@toto.com']))
 
         # empty mailbox
         mail.outbox = []
 
-        # she is redirected to '/contact/sent/' page
-        body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('Votre message a bien été envoyé !', body.text)
+        # Tartempion has been redirected to '/contact/sent/' page
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.templates[0].name, 'contact/contact_sent.html')
 
 
 
     def test_update_description(self):
         """test description update"""
         pass
-
+        # HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         # mock superuser
         #mock_request = mock.Mock()
         #mock_request.user = mock.Mock()

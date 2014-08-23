@@ -63,18 +63,28 @@ class ViewContact(CreateView, ContactMixin):
 
         # forward mail to sender if necessary
         if self.object.forward:
-            subject = "[{0}] {1}".format(
-                    self.conf.domain,
-                    self.object.subject
-                )
+            subject = (
+                    "[{0}] Votre message a bien été envoyé."
+                    ).format(
+                        self.conf.domain
+                    )
+            message = (
+                    "Vous avez envoyé le message suivant sur {0} :\n\n"
+                    "Objet : {1}\n"
+                    "Message :\n"
+                    "{2}\n\n"
+                ).format(
+                        self.conf.domain,
+                        self.object.subject,
+                        self.object.message
+                    )
             send_mail(
                     subject,
-                    self.object.message,
+                    message,
                     DEFAULT_FROM_EMAIL,
                     [self.object.mail]
                 )
 
-        # send to superusers
         subject = "[{0}] Nouveau message".format(self.conf.domain)
         message = (
                 "Nom : {0}\n"
