@@ -37,18 +37,42 @@ class StatusTest(TestCase):
 
     def test_urls(self):
         """test urls and their templates"""
-        urls = [{'url': '/account/login/', 'status': 200, 'template': 'weblog/weblog_forms.html'},
-            #{'url': '/account/logout/', 'status': 302, 'template': 'weblog/weblog_forms.html'},
-            {'url': '/account/suscription/', 'status': 200, 'template': 'weblog/weblog_forms.html'},
-            #{'url': '/account/profil/', 'status': 200, 'template': 'weblog/weblog_forms.html'},
-            {'url': '/account/recovery/', 'status': 200, 'template': 'weblog/weblog_forms.html'},
+        urls = [
+                {
+                    'url': '/account/login/',
+                    'status': 200,
+                    'template': 'weblog/weblog_forms.html'
+                },
+                {
+                    'url': '/account/logout/',
+                    'status': 302,
+                    'template': 'weblog/weblog_forms.html'
+                },
+                {
+                    'url': '/account/suscription/',
+                    'status': 200,
+                    'template': 'weblog/weblog_forms.html'
+                },
+                {
+                    'url': '/account/profil/',
+                    'status': 302, # redirect to login page
+                    'template': 'weblog/weblog_forms.html'
+                },
+                {
+                    'url': '/account/recovery/',
+                    'status': 200,
+                    'template': 'weblog/weblog_forms.html'
+                },
         ]
+
         for elem in urls: # for each urls of the list
             response = self.client.get(elem['url'])
             print(elem['url'])
-            self.assertEqual(response.status_code, elem['status']) # check if good status code is return
+            # check if good status code is return
+            self.assertEqual(response.status_code, elem['status']) 
             response = self.client.get(elem['url'], follow=True)
-            self.assertEqual(response.templates[0].name, elem['template']) # check if good template is return
+            # check if good template is return
+            self.assertEqual(response.templates[0].name, elem['template'])
     
     def test_create_user(self):
         """test user creation"""
@@ -59,7 +83,8 @@ class StatusTest(TestCase):
             'email': 'john@me.fr',
             }, follow=True # create user john
         )
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_forms.html') # check if redirection is ok
+        # check if redirection is ok
+        self.assertEqual(response.templates[0].name, 'weblog/weblog_forms.html') 
 
         user = User.objects.get(username = 'john')
         self.assertEqual(user.username, 'john') # check if user john exists

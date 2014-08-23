@@ -36,6 +36,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+*.swp
 
 # Installer logs
 pip-log.txt
