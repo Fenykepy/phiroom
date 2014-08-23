@@ -25,7 +25,7 @@ class statsTest(TestCase):
         self.user.is_staff = True
         self.user.save()
 
-        self.user = User.objects.create_user(
+        self.user2 = User.objects.create_user(
             username='tartempion',
             email='tartempion@tartempion.fr',
             password='toto'
@@ -88,7 +88,6 @@ class statsTest(TestCase):
         # login with user tartempion
         login = self.client.login(username='tartempion', password='toto')
         self.assertEqual(login, True)
-        user = User.objects.get(username='tartempion')
         response = self.client.get('/weblog/')
         response = self.client.get('/contact/')
         response = self.client.get('/portfolio/')
@@ -102,7 +101,7 @@ class statsTest(TestCase):
         self.assertEqual(count, 0)
 
         # views shouldn't be with authenticated
-        count = View.objects.filter(user=user).count()
+        count = View.objects.filter(user=self.user2).count()
         self.assertEqual(count, 3)
 
 
@@ -111,7 +110,6 @@ class statsTest(TestCase):
         # login with user tartempion
         login = self.client.login(username='jacob', password='top_secret')
         self.assertEqual(login, True)
-        user = User.objects.get(username='jacob')
         response = self.client.get('/weblog/')
         response = self.client.get('/contact/')
         response = self.client.get('/portfolio/')
@@ -125,7 +123,7 @@ class statsTest(TestCase):
         self.assertEqual(count, 3)
 
         # views shouldn't be with authenticated
-        count = View.objects.filter(user=user).count()
+        count = View.objects.filter(user=self.user).count()
         self.assertEqual(count, 3)
 
 
