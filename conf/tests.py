@@ -30,7 +30,7 @@ class ConfTest(TestCase):
 
 
     def test_fixtures(self):
-        """Test that fixture are correctly set up."""
+        """Test that fixtures are correctly set up."""
         # get home page
         home = Page.objects.get(name='home')
         # get last configuration
@@ -96,7 +96,7 @@ class ConfTest(TestCase):
             'sub_title_home': 'Photographie, nature et poésie',
             'home_page': '1',
             'mail_profil': 'on',
-            'mail_suscription': 'on',
+            'mail_registration': 'on',
             'n_entrys_per_page': '5',
             'large_previews_size': '1024',
             'feed_title': 'phiroom',

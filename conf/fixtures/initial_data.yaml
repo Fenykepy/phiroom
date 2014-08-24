@@ -97,13 +97,13 @@
   pk: 8
   fields:
     title: Inscription
-    name: suscription
+    name: registration
     is_in_main_menu: False
     position_in_main_menu: 100
     is_in_home_menu: False
     position_in_home_menu: 100
     is_active: True
-    reverse_url: user_suscription
+    reverse_url: user_registration
 
 - model: conf.Page
   pk: 9

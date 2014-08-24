@@ -14,7 +14,7 @@ class SettingsForm(ModelForm):
                 'home_logo', 
                 'home_page',
                 'mail_profil', 
-                'mail_suscription', 
+                'mail_registration', 
                 'n_entrys_per_page',
                 'large_previews_size',
                 'follow_fb',

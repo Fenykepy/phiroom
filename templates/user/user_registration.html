@@ -29,7 +29,7 @@
 			<p><a href="{% url "user_logout" %}">Se déconnecter</a></p>
 
 	{% else %}
-		<form method="post" action="{% url "user_suscription" %}">
+		<form method="post" action="{% url "user_registration" %}">
             <p><span id="red"><span class="red">*</span></span> : Champs obligatoires.</p>
 			{% csrf_token %}
             {{ form.non_field_errors }}

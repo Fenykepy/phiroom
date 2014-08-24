@@ -7,7 +7,7 @@ from django.views.generic import FormView, UpdateView
 from django.core.urlresolvers import reverse_lazy, reverse
 
 from user.models import User, mail_registrationmembers
-from user.forms import LoginForm, SuscriptionForm, ProfilForm, \
+from user.forms import LoginForm, RegistrationForm, ProfilForm, \
         StaffMemberProfilForm
 from weblog.views import WeblogMixin, AjaxableResponseMixin
 from conf.models import Conf
@@ -54,28 +54,28 @@ def logout_view(request):
     logout(request)
     return redirect(reverse('user_login'))
 
-# suscription class
-class SuscriptionView(FormView,WeblogMixin):
-    form_class = SuscriptionForm
-    success_url = reverse_lazy('user_suscription')
-    page_name = 'suscription'
+# registration class
+class RegistrationView(FormView,WeblogMixin):
+    form_class = RegistrationForm
+    success_url = reverse_lazy('user_registration')
+    page_name = 'registration'
 
     def get_context_data(self, **kwargs):
-        context = super(SuscriptionView, self).get_context_data(**kwargs)
+        context = super(RegistrationView, self).get_context_data(**kwargs)
         if not self.request.is_ajax():
-            context['tempinclude'] = 'user/user_suscription.html'
+            context['tempinclude'] = 'user/user_registration.html'
 
         return context
 
     def get_template_names(self, **kwargs):
         if self.request.is_ajax():
-            return 'user/user_suscription.html'
+            return 'user/user_registration.html'
         else:
             return 'weblog/weblog_forms.html'
 
 
     def __init__(self, *args, **kwargs):
-        super(SuscriptionView, self).__init__(*args, **kwargs)
+        super(RegistrationView, self).__init__(*args, **kwargs)
         self.conf = Conf.objects.latest('date')
 
     def form_valid(self, form):
@@ -107,7 +107,7 @@ class SuscriptionView(FormView,WeblogMixin):
                 )
             user.send_mail(subject, message)
 
-            if self.conf.mail_suscription:
+            if self.conf.mail_registration:
                 subject = "[{0}]Nouvelle inscription.".format(self.conf.domain)
                 message = (
                     "Un nouvel utilisateur s'est inscrit sur {0}\n"
@@ -132,7 +132,7 @@ class SuscriptionView(FormView,WeblogMixin):
                     )
                 mail_registrationmembers(subject, message)
 
-        return super(SuscriptionView, self).form_valid(form)
+        return super(RegistrationView, self).form_valid(form)
 
 class ProfilView(AjaxableResponseMixin, UpdateView, WeblogMixin):
     """Class to update user's profil."""
@@ -171,5 +171,5 @@ class ProfilView(AjaxableResponseMixin, UpdateView, WeblogMixin):
 
 
 
-class RecoveryView(SuscriptionView):
+class RecoveryView(RegistrationView):
     pass

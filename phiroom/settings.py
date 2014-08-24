@@ -15,7 +15,7 @@ DEFAULT_CHARSET = 'utf-8'
 AUTH_USER_MODEL = 'user.User'
 
 # login page
-LOGIN_URL = '/account/login/'
+LOGIN_URL = '/login/'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.

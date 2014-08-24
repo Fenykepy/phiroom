@@ -33,7 +33,7 @@ class LoginForm(AuthenticationForm):
         self.label_suffix=''
 
 
-class SuscriptionForm(ModelForm):
+class RegistrationForm(ModelForm):
     """
     A form that creates a user, with no privileges,
     from the given username and password.
@@ -101,7 +101,7 @@ class SuscriptionForm(ModelForm):
 
 
     def save(self, commit=True):
-        user = super(SuscriptionForm, self).save(commit=False)
+        user = super(RegistrationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         user.email = self.cleaned_data["email"]
         if commit:
@@ -109,7 +109,7 @@ class SuscriptionForm(ModelForm):
         return user
 
     def __init__(self, *args, **kwargs):
-        super(SuscriptionForm, self).__init__(*args, **kwargs)
+        super(RegistrationForm, self).__init__(*args, **kwargs)
         self.fields['email'].required = True
 
 

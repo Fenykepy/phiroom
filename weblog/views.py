@@ -29,7 +29,7 @@ class ConfMixin(ContextMixin):
 
     def __init__(self, *args, **kwargs):
         super(ConfMixin, self).__init__(*args, **kwargs)
-        self.conf = Conf.objects.latest()
+        self.conf = Conf.objects.select_related().latest()
 
     def get_context_data(self, **kwargs):
         context = super(ConfMixin, self).get_context_data(**kwargs)

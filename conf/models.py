@@ -53,7 +53,7 @@ class Conf(models.Model):
             verbose_name="Mail profil",
             help_text="Cocher pour que les administrateurs reçoivent un mail \
                     chaque fois qu'un utilisateur modifie son profil.")
-    mail_suscription = models.BooleanField(default=True,
+    mail_registration = models.BooleanField(default=True,
     verbose_name="Mail inscription",
     help_text="Cocher pour que les administrateurs \
             reçoivent un mail chaque fois qu'un nouvel utilisateur s'inscrit.")

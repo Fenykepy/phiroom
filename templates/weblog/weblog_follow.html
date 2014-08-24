@@ -27,7 +27,7 @@
     <a id="rss" href="{% url "feed" %}" title="S'abonner au flux rss"><li>S'abonner au flux rss</li></a>
     {% endif %}
     {% if conf.follow_mail %}
-    <a id="mail" class="popup" href="{% if user.is_authenticated %}{% url "user_profil" %}#id_weblog_mail_newsletter{% else %}{% url "user_suscription"%}{% endif %}" title="S'abonner aux mails"><li>S'abonner aux mails"</li></a>
+    <a id="mail" class="popup" href="{% if user.is_authenticated %}{% url "user_profil" %}#id_weblog_mail_newsletter{% else %}{% url "user_registration"%}{% endif %}" title="S'abonner aux mails"><li>S'abonner aux mails"</li></a>
     {% endif %}
     {% if next %}
     <a id="next" href="{{ next.absolute_url}}" title="Post suivant" rel="next"><li><span class="hidden">Post suivant</span>&gt;</li></a>

@@ -252,32 +252,32 @@ Petits bugs de la refactorisation :
         - suppression d'un portfolio
  
         
-    - tests du module contact
-        - création d'un nouveau contenu
-        - récupération du dernier contenu
-        - envoi d'un message comme user connecté
-        - envoi d'un message comme anonyme
+#    - tests du module contact
+#        - création d'un nouveau contenu
+#        - récupération du dernier contenu
+#        - envoi d'un message comme user connecté
+#        - envoi d'un message comme anonyme
 
-    - tests du module stats
-        - vérifier que les pages se logguent bien
-        - vérifier que /data/ et /assets/ ne loggue pas
-        - vérifier que les utilisateurs sont loggués
-        - vérifier que si l'utilisateur est staff c'est loggué
+#    - tests du module stats
+#        - vérifier que les pages se logguent bien
+#        - vérifier que /data/ et /assets/ ne loggue pas
+#        - vérifier que les utilisateurs sont loggués
+#        - vérifier que si l'utilisateur est staff c'est loggué
 
-	- tests du module conf
-        - création d'une nouvelle conf
-        - récupération de la dernière conf
-        - changement de la page d'accueil
-        - affichage des liens follows demandés uniquement
+#	- tests du module conf
+#        - création d'une nouvelle conf
+#        - récupération de la dernière conf
+#        - changement de la page d'accueil
+#        - affichage des liens follows demandés uniquement
     
     - tests des feeds
     - tests des sitemaps
 
 	- tests du module user
         - création d'un user
-        - login de l'user
-        - modification du profil
-        - logout de l'user
+#        - login de l'user
+#        - modification du profil
+#        - logout de l'user
 
     - pas de tests du module bibliothèque :
         - il va être refait en angularjs
@@ -488,6 +488,11 @@ Petits bugs de la refactorisation :
 	- formulaire de réinitialisation du mot de passe
 	- formulaire de récupération de mot de passe
     - ajouter un cookie secure (n'envoyer le cookie que par https)
+#    - changer les urls :
+#        /login
+#        /register
+#        /logout
+#        /profil
 
 ==== Module Conf ====
 #	- form d'upload pour modifier l'image de titre
@@ -496,6 +501,7 @@ Petits bugs de la refactorisation :
     - form de sélection d'une ancienne version de la conf
     - ajouter mail_comment au form après l'activation des commentaires
     - ajouter les icones share si besoins:
+        - pinterest
     - revoir la présentation du form de modification:
         - grouper les éléments par logique
 #        - ajouter (beaucoup) de help_text

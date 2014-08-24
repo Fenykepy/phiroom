@@ -38,7 +38,7 @@ class StaticSitemap(Sitemap):
                 'portfolio_home',
                 'contact_home',
                 'user_login',
-                'user_suscription',
+                'user_registration',
         ]
 
     def location(self, item):
