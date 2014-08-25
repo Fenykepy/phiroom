@@ -4,11 +4,6 @@ from user.models import User
 
 
 # à tester:
-#   - Enregistrement d'un nouvel utilisateur
-#       - Erreur si le mail est absent
-#       - Erreur si le nom existe déjà
-#       - Erreur si les mots de passes sont différents
-#       - Erreur si le mot de passe est vide
 #   - Profil d'un user
 #       - Vérifie le bon upload de l'avatar
 #   - Perte de mot de passe
@@ -280,6 +275,8 @@ class StatusTest(TestCase):
         """Assert that user is nor created nor logged in with
         wrong parameters.
         """
+        ## test that it's not possible to have differents
+        ## password and confirmation password
         response = self.client.post('/register/', {
             'username': 'toto',
             'email': 'toto@tata.com',
@@ -301,7 +298,8 @@ class StatusTest(TestCase):
                 'weblog/weblog_forms.html')
 
 
-
+        ## test that it's not possible to have a
+        ## not valid email
         response = self.client.post('/register/', {
             'username': 'toto',
             'email': 'toto',
@@ -321,7 +319,8 @@ class StatusTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
                 'weblog/weblog_forms.html')
-
+        
+        ## test that it's not possible to have no mail
         response = self.client.post('/register/', {
             'username': 'toto',
             'password1': 'kirikiki',
@@ -340,9 +339,10 @@ class StatusTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
                 'weblog/weblog_forms.html')
-
+        
+        ## test that it's not possible to have no username
         response = self.client.post('/register/', {
-            'email': 'toto',
+            'email': 'toto@toto.com',
             'password1': 'kirikiki',
             'password2': 'kirikiki',
             }, follow=True
@@ -362,6 +362,8 @@ class StatusTest(TestCase):
 
 
 
+        ## test that it's not possible to have only
+        ## confirmation password
         response = self.client.post('/register/', {
             'username': 'toto',
             'email': 'toto@tata.com',
@@ -382,8 +384,8 @@ class StatusTest(TestCase):
                 'weblog/weblog_forms.html')
 
 
-
-
+        ## test that it's not possible to have no
+        ## confirmation password
         response = self.client.post('/register/', {
             'username': 'toto',
             'email': 'toto@tata.com',
@@ -404,9 +406,7 @@ class StatusTest(TestCase):
                 'weblog/weblog_forms.html')
 
 
-
-    
-
+        ## test that it's not possible to have no passwords
         response = self.client.post('/register/', {
             'username': 'toto',
             'email': 'toto@tata.com',
@@ -424,5 +424,56 @@ class StatusTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
                 'weblog/weblog_forms.html')
+
+
+        ## test that it's not possible to have empty strings
+        ## as passwords
+        response = self.client.post('/register/', {
+            'username': 'toto',
+            'email': 'toto@toto.com',
+            'password1': '',
+            'password2': '',
+            }, follow=True
+        )
+
+        # assert user has not been created in db
+        user = User.objects.filter(username='toto').count()
+        self.assertEqual(user, 0)
+
+        # assert user has not been logged in
+        self.assertNotEqual(response.context['user'], 'toto')
+
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
+        ## Test that it's not possible to have to user with
+        ## same username
+
+        # create a 'toto' user
+        self.test_user_registration()
+
+        # try to create second 'toto' user
+        response = self.client.post('/register/', {
+            'username': 'toto',
+            'email': 'toto@titi.com',
+            'password1': 'taratata',
+            'password2': 'taratata',
+            }, follow=True
+        )
+
+        # assert user has not been created in db
+        user = User.objects.filter(username='toto').count()
+        self.assertEqual(user, 1)
+
+        # assert user has not been logged in
+        self.assertNotEqual(response.context['user'], 'toto')
+
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
 
 
