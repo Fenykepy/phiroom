@@ -56,10 +56,13 @@ class ConfTest(TestCase):
         response = self.client.get('/settings/',)
         # should redirect as user is not staff
         self.assertEqual(response.status_code, 302)
-        response = self.client.get('/settings/',
-                follow=True)
+        response = self.client.get(
+                '/settings/',
+                HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                follow=True
+        )
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_login.html')
 
         # should redirect as simple user
         login = self.client.login(username='tartempion', password='toto')
@@ -67,10 +70,13 @@ class ConfTest(TestCase):
         response = self.client.get('/settings/',)
         # should redirect as user is not staff
         self.assertEqual(response.status_code, 302)
-        response = self.client.get('/settings/',
-                follow=True)
+        response = self.client.get(
+                '/settings/',
+                HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                follow=True
+        )
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_login.html')
 
         # should get page as user is staff member 
         login = self.client.login(username='jacob', password='top_secret')
@@ -78,10 +84,13 @@ class ConfTest(TestCase):
         response = self.client.get('/settings/',)
         # should not redirect as user is staff
         self.assertEqual(response.status_code, 200)
-        response = self.client.get('/settings/',
-                follow=True)
+        response = self.client.get(
+                '/settings/',
+                HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                follow=True
+        )
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'settings/settings_form.html')
 
     def test_update_conf(self):
         """Conf update tests."""

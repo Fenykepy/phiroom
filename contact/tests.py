@@ -7,7 +7,6 @@ from contact.models import Description, Message
 
 class ContactTest(TestCase):
     """Contact tests."""
-
     def setUp(self):
         self.user = User.objects.create_user(
             username='jacob',
@@ -28,6 +27,7 @@ class ContactTest(TestCase):
         self.user2.save()
 
         self.client = Client()
+
 
     def test_fixtures(self):
         """Test that fixtures are correctly set up."""
@@ -55,7 +55,7 @@ class ContactTest(TestCase):
                     'url': '/contact/edit/',
                     # should redirect to login page as user is not staff
                     'status': 302,
-                    'template': 'weblog/weblog_forms.html',
+                    'template': 'user/user_login.html',
                 },
                 {
                     'url': '/contact/sent/',
@@ -67,7 +67,10 @@ class ContactTest(TestCase):
         for elem in urls:
             response = self.client.get(elem['url'])
             self.assertEqual(response.status_code, elem['status'])
-            response = self.client.get(elem['url'], follow=True)
+            response = self.client.get(
+                    elem['url'],
+                    HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                    follow=True)
             self.assertEqual(response.templates[0].name, elem['template'])
 
 

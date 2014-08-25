@@ -28,22 +28,22 @@ class StatusTest(TestCase):
                 {
                     'url': '/login/',
                     'status': 200,
-                    'template': 'weblog/weblog_forms.html'
+                    'template': 'user/user_login.html'
                 },
                 {
                     'url': '/logout/',
                     'status': 302,
-                    'template': 'weblog/weblog_forms.html'
+                    'template': 'user/user_login.html'
                 },
                 {
                     'url': '/register/',
                     'status': 200,
-                    'template': 'weblog/weblog_forms.html'
+                    'template': 'user/user_registration.html'
                 },
                 {
                     'url': '/profil/',
                     'status': 302, # redirect to login page
-                    'template': 'weblog/weblog_forms.html'
+                    'template': 'user/user_login.html'
                 },
                 #{
                 #    'url': '/account/recovery/',
@@ -57,7 +57,11 @@ class StatusTest(TestCase):
             print(elem['url'])
             # check if good status code is return
             self.assertEqual(response.status_code, elem['status']) 
-            response = self.client.get(elem['url'], follow=True)
+            response = self.client.get(
+                    elem['url'],
+                    HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                    follow=True
+            )
             # check if good template is return
             self.assertEqual(response.templates[0].name, elem['template'])
   
@@ -70,10 +74,13 @@ class StatusTest(TestCase):
             'password1': 'tata',
             'password2': 'tata',
             'email': 'john@me.fr',
-            }, follow=True # create user john
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True # create user john
         )
         # check if redirection is ok
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_forms.html') 
+        self.assertEqual(response.templates[0].name,
+                'user/user_registration.html') 
 
         user = User.objects.get(username = 'john')
         self.assertEqual(user.username, 'john') # check if user john exists
@@ -86,10 +93,17 @@ class StatusTest(TestCase):
         response = self.client.post('/login/', {
             'username': 'john',
             'password': 'tata',
-            }, follow=True # try to login user john
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True # try to login user john
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'].username, 'john') # check if user is connected
+        # check if redirection is ok
+        self.assertEqual(response.templates[0].name,
+                'user/user_login.html') 
+
+
 
 
     def test_fail_login(self):
@@ -98,20 +112,24 @@ class StatusTest(TestCase):
         response = self.client.post('/login/', {
             'username': 'Gérard',
             'password': 'tata',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_forms.html')
+        self.assertEqual(response.templates[0].name, 'user/user_login.html')
         self.assertNotEqual(response.context['user'].username, 'Gérard')
 
 
         response = self.client.post('/login/', {
             'username': 'john',
             'password': 'titi',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_forms.html')
+        self.assertEqual(response.templates[0].name, 'user/user_login.html')
         self.assertNotEqual(response.context['user'].username, 'Gérard')
 
 
@@ -122,11 +140,15 @@ class StatusTest(TestCase):
         login = self.client.login(username='john', password='tata')
         self.assertEqual(login, True)
 
-        response = self.client.get('/logout/', follow=True)
+        response = self.client.get('/logout/',
+                HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                follow=True
+        )
 
         # assert user is logged out
         self.assertEqual(response.status_code, 200)
         self.assertNotEqual(response.context['user'].username, 'john')
+        self.assertEqual(response.templates[0].name, 'user/user_login.html')
 
 
 
@@ -141,8 +163,9 @@ class StatusTest(TestCase):
             'signature': 'John Master',
             'web_site': 'http://john.master.com',
             'weblog_mail_newsletter': 'on',
-
-            }, follow=True
+            },
+            #HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert redirection is correct
@@ -186,7 +209,9 @@ class StatusTest(TestCase):
             'mail_contact': 'on',
             'mail_registration': 'on',
 
-            }, follow=True
+            },
+            #HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert redirection is correct
@@ -255,13 +280,15 @@ class StatusTest(TestCase):
             'email': 'toto@tata.com',
             'password1': 'kirikiki',
             'password2': 'kirikiki',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
 
         # assert user has been created in db
         user = User.objects.get(username='toto')
@@ -282,7 +309,9 @@ class StatusTest(TestCase):
             'email': 'toto@tata.com',
             'password1': 'kirikiki',
             'password2': 'kirikiko',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert user has not been created in db
@@ -295,7 +324,7 @@ class StatusTest(TestCase):
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
 
 
         ## test that it's not possible to have a
@@ -305,7 +334,9 @@ class StatusTest(TestCase):
             'email': 'toto',
             'password1': 'kirikiki',
             'password2': 'kirikiki',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert user has not been created in db
@@ -318,14 +349,16 @@ class StatusTest(TestCase):
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
         
         ## test that it's not possible to have no mail
         response = self.client.post('/register/', {
             'username': 'toto',
             'password1': 'kirikiki',
             'password2': 'kirikiki',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert user has not been created in db
@@ -338,14 +371,16 @@ class StatusTest(TestCase):
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
         
         ## test that it's not possible to have no username
         response = self.client.post('/register/', {
             'email': 'toto@toto.com',
             'password1': 'kirikiki',
             'password2': 'kirikiki',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert user has not been created in db
@@ -358,7 +393,7 @@ class StatusTest(TestCase):
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
 
 
 
@@ -368,7 +403,9 @@ class StatusTest(TestCase):
             'username': 'toto',
             'email': 'toto@tata.com',
             'password2': 'kirikiko',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert user has not been created in db
@@ -381,7 +418,7 @@ class StatusTest(TestCase):
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
 
 
         ## test that it's not possible to have no
@@ -390,7 +427,9 @@ class StatusTest(TestCase):
             'username': 'toto',
             'email': 'toto@tata.com',
             'password1': 'kirikiko',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert user has not been created in db
@@ -403,14 +442,16 @@ class StatusTest(TestCase):
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
 
 
         ## test that it's not possible to have no passwords
         response = self.client.post('/register/', {
             'username': 'toto',
             'email': 'toto@tata.com',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert user has not been created in db
@@ -423,7 +464,7 @@ class StatusTest(TestCase):
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
 
 
         ## test that it's not possible to have empty strings
@@ -433,7 +474,9 @@ class StatusTest(TestCase):
             'email': 'toto@toto.com',
             'password1': '',
             'password2': '',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert user has not been created in db
@@ -446,7 +489,7 @@ class StatusTest(TestCase):
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
 
         ## Test that it's not possible to have to user with
         ## same username
@@ -460,7 +503,9 @@ class StatusTest(TestCase):
             'email': 'toto@titi.com',
             'password1': 'taratata',
             'password2': 'taratata',
-            }, follow=True
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            follow=True
         )
 
         # assert user has not been created in db
@@ -473,7 +518,7 @@ class StatusTest(TestCase):
         # assert redirection is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name,
-                'weblog/weblog_forms.html')
+                'user/user_registration.html')
 
 
 
