@@ -276,5 +276,153 @@ class StatusTest(TestCase):
 
 
 
+    def test_user_registration_fail(self):
+        """Assert that user is nor created nor logged in with
+        wrong parameters.
+        """
+        response = self.client.post('/register/', {
+            'username': 'toto',
+            'email': 'toto@tata.com',
+            'password1': 'kirikiki',
+            'password2': 'kirikiko',
+            }, follow=True
+        )
+
+        # assert user has not been created in db
+        user = User.objects.filter(username='toto').count()
+        self.assertEqual(user, 0)
+
+        # assert user has not been logged in
+        self.assertNotEqual(response.context['user'], 'toto')
+
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
+
+
+        response = self.client.post('/register/', {
+            'username': 'toto',
+            'email': 'toto',
+            'password1': 'kirikiki',
+            'password2': 'kirikiki',
+            }, follow=True
+        )
+
+        # assert user has not been created in db
+        user = User.objects.filter(username='toto').count()
+        self.assertEqual(user, 0)
+
+        # assert user has not been logged in
+        self.assertNotEqual(response.context['user'], 'toto')
+
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
+        response = self.client.post('/register/', {
+            'username': 'toto',
+            'password1': 'kirikiki',
+            'password2': 'kirikiki',
+            }, follow=True
+        )
+
+        # assert user has not been created in db
+        user = User.objects.filter(username='toto').count()
+        self.assertEqual(user, 0)
+
+        # assert user has not been logged in
+        self.assertNotEqual(response.context['user'], 'toto')
+
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
+        response = self.client.post('/register/', {
+            'email': 'toto',
+            'password1': 'kirikiki',
+            'password2': 'kirikiki',
+            }, follow=True
+        )
+
+        # assert user has not been created in db
+        user = User.objects.filter(username='toto').count()
+        self.assertEqual(user, 0)
+
+        # assert user has not been logged in
+        self.assertNotEqual(response.context['user'], 'toto')
+
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
+
+
+        response = self.client.post('/register/', {
+            'username': 'toto',
+            'email': 'toto@tata.com',
+            'password2': 'kirikiko',
+            }, follow=True
+        )
+
+        # assert user has not been created in db
+        user = User.objects.filter(username='toto').count()
+        self.assertEqual(user, 0)
+
+        # assert user has not been logged in
+        self.assertNotEqual(response.context['user'], 'toto')
+
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
+
+
+
+        response = self.client.post('/register/', {
+            'username': 'toto',
+            'email': 'toto@tata.com',
+            'password1': 'kirikiko',
+            }, follow=True
+        )
+
+        # assert user has not been created in db
+        user = User.objects.filter(username='toto').count()
+        self.assertEqual(user, 0)
+
+        # assert user has not been logged in
+        self.assertNotEqual(response.context['user'], 'toto')
+
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
+
 
     
+
+        response = self.client.post('/register/', {
+            'username': 'toto',
+            'email': 'toto@tata.com',
+            }, follow=True
+        )
+
+        # assert user has not been created in db
+        user = User.objects.filter(username='toto').count()
+        self.assertEqual(user, 0)
+
+        # assert user has not been logged in
+        self.assertNotEqual(response.context['user'], 'toto')
+
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
+
