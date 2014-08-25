@@ -9,7 +9,6 @@ from user.models import User
 #       - Erreur si le nom existe déjà
 #       - Erreur si les mots de passes sont différents
 #       - Erreur si le mot de passe est vide
-#       - Succes dans les autres cas
 #   - Profil d'un user
 #       - Vérifie le bon upload de l'avatar
 #   - Perte de mot de passe
@@ -232,7 +231,6 @@ class StatusTest(TestCase):
             'weblog_mail_newsletter': 'on',
             'mail_contact': 'on',
             'mail_registration': 'on',
-
             }, follow=True
         )
 
@@ -256,8 +254,25 @@ class StatusTest(TestCase):
 
 
     def test_user_registration(self):
-        pass
+        """Assert that new users can register correctly."""
+        response = self.client.post('/register/', {
+            'username': 'toto',
+            'email': 'toto@tata.com',
+            'password1': 'kirikiki',
+            'password2': 'kirikiki',
+            }, follow=True
+        )
 
+        # assert redirection is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name,
+                'weblog/weblog_forms.html')
+
+        # assert user has been created in db
+        user = User.objects.get(username='toto')
+        
+        # assert user is logged in
+        self.assertEqual(response.context['user'].username, 'toto')
 
 
 
