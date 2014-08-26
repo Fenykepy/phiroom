@@ -61,7 +61,7 @@ Petits bugs de la refactorisation :
 #    - déplacer la SECRET_KEY dans devel_settings
 
 
-    - ajouter des index dans les tables
+#    - ajouter des index dans les tables
 #    - form de modification de la configuration
         - liste des anciennes configurations
 #        - revoir le form avec les nouveau champs relatifs aux rss
@@ -274,8 +274,8 @@ Petits bugs de la refactorisation :
     - tests des feeds
     - tests des sitemaps
 
-	- tests du module user
-        - création d'un user
+#	- tests du module user
+#        - création d'un user
 #        - login de l'user
 #        - modification du profil
 #        - logout de l'user
