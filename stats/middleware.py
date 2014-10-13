@@ -10,7 +10,7 @@ class StatsMiddleware(object):
 
 
         # don't log access to media and assets (server does it better)
-        if (request.path[:self.media_len] != MEDIA_URL or
+        if (request.path[:self.media_len] != MEDIA_URL and
             request.path[:self.static_len] != STATIC_URL):
             
             # add an entry in the logs
