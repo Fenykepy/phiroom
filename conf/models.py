@@ -199,8 +199,8 @@ class Conf(models.Model):
 class HomeMenuManager(models.Manager):
     """Returns a queryset with ordered pages which are
     in home page menu."""
-    def get_query_set(self):
-        return super(HomeMenuManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(HomeMenuManager, self).get_queryset().filter(
                 is_in_home_menu=True).values(
                         'reverse_url',
                         'name',
@@ -215,8 +215,8 @@ class HomeMenuManager(models.Manager):
 class MainMenuManager(models.Manager):
     """Returns a queryset with ordered pages whiche are
     in main menu."""
-    def get_query_set(self):
-        return super(MainMenuManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(MainMenuManager, self).get_queryset().filter(
                 is_in_main_menu=True).values(
                         'reverse_url',
                         'name',
@@ -230,8 +230,8 @@ class MainMenuManager(models.Manager):
 
 class PageInfoManager(models.Manager):
     """Returns a queryset with page infos."""
-    def get_query_set(self):
-        return super(PageInfoManager, self).get_query_set().values(
+    def get_queryset(self):
+        return super(PageInfoManager, self).get_queryset().values(
                 'title',
                 'name',
             )

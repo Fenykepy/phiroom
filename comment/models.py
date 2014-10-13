@@ -6,8 +6,8 @@ from user.models import User
 
 class NotDeletedManager(models.Manager):
     """Returns a queryset with all not deleted comments."""
-    def get_query_set(self):
-        return super(NotDeletedManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(NotDeletedManager, self).get_queryset().filter(
                 is_deleted=False,
                 ).order_by('date')
 

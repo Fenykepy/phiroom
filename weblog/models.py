@@ -18,16 +18,16 @@ from librairy.models import Picture, PICTURES_ORDERING_CHOICES
 ## managers
 class PostsManager(models.Manager):
     """Returns a queryset with all posts."""
-    def get_query_set(self):
-        return super(PostsManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(PostsManager, self).get_queryset().filter(
                 portfolio=False)
 
 
 
 class PortfoliosManager(models.Manager):
     """Returns a queryset with all posts."""
-    def get_query_set(self):
-        return super(PortfoliosManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(PortfoliosManager, self).get_queryset().filter(
                 portfolio=True)
 
 
@@ -36,8 +36,8 @@ class PublishedManager(models.Manager):
     """Returns a queryset with all published entrys
     ordered by update date (nor draft, nor auto-draft, nor future pub_date)
     (for users lists)."""
-    def get_query_set(self):
-        return super(PublishedManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(
                 pub_date__lte = timezone.now,
                 draft=False,
                 auto_draft=False)
@@ -46,8 +46,8 @@ class PublishedManager(models.Manager):
 
 class PublishedPostsManager(PublishedManager):
     """Returns a queryset with all published posts"""
-    def get_query_set(self):
-        return super(PublishedPostsManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(PublishedPostsManager, self).get_queryset().filter(
                 portfolio=False)
 
 
@@ -55,8 +55,8 @@ class PublishedPostsManager(PublishedManager):
 
 class PublishedPortfoliosManager(PublishedManager):
     """Returns a queryset with all published portfolios"""
-    def get_query_set(self):
-        return super(PublishedPortfoliosManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(PublishedPortfoliosManager, self).get_queryset().filter(
                 portfolio=True)
 
 
@@ -64,8 +64,8 @@ class PublishedPortfoliosManager(PublishedManager):
 class NotDraftManager(models.Manager):
     """Returns a queryset with all entrys which are not draft,
     ordered by update date (for admins lists)."""
-    def get_query_set(self):
-        return super(NotDraftManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(NotDraftManager, self).get_queryset().filter(
                 draft=False,
                 auto_draft=False)
 
@@ -74,8 +74,8 @@ class NotDraftManager(models.Manager):
 class NotDraftPostsManager(models.Manager):
     """Returns a queryset with all posts which are not draft,
     ordered by update date (for admins views)."""
-    def get_query_set(self):
-        return super(NotDraftPostsManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(NotDraftPostsManager, self).get_queryset().filter(
                 portfolio=False)
 
 
@@ -83,8 +83,8 @@ class NotDraftPostsManager(models.Manager):
 class NotDraftPortfoliosManager(models.Manager):
     """Returns a queryset with all portfolios which are not draft,
     ordered by update date (for admins views)."""
-    def get_query_set(self):
-        return super(NotDraftPortfoliosManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(NotDraftPortfoliosManager, self).get_queryset().filter(
                 portfolio=True)
 
 
@@ -291,8 +291,8 @@ class Entry_pictures(models.Model):
 class UsedManager(models.Manager):
     """Returns a queryset with all used tags
     number of entrys"""
-    def get_query_set(self):
-        return super(UsedManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(UsedManager, self).get_queryset().filter(
                 n_entry__gt=0).order_by('-n_entry')
 
 
