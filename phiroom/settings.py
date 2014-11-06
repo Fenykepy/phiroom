@@ -78,7 +78,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware', # comment for prod
+    #'debug_toolbar.middleware.DebugToolbarMiddleware', # comment for prod
     'stats.middleware.StatsMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -112,7 +112,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'debug_toolbar', # comment for prod
+    #'debug_toolbar', # comment for prod
     #'south',
     'mptt',
     'weblog',

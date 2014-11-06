@@ -155,13 +155,9 @@ $(document).ready(function ready() { // lorsque le dom est prêt
 			$(this).parent().find('ul.submenu').slideUp('normal');
 
         }
-        // Si le sous-menu est caché, on ferme les autres
-        // et on l'affiche  en lui donnant la classe "selected":
+        // Si le sous-menu est caché,
+        // on l'affiche  en lui donnant la classe "selected":
         else {
-			// On ferme les menus
-			$('#nav ul.submenu').slideUp('normal');
-			// On leur enlève la class sélected
-			$('#nav li.togglesubmenu > a:not(a.plus)').removeClass('selected');
 			// On ajoute la classe selected au menu cliqué
 			$(this).addClass('selected');
 			// On ouvre le menu cliqué
@@ -584,6 +580,7 @@ $(document).ready(function ready() { // lorsque le dom est prêt
     var draggable;
     var mousex;
     var mousey;
+    var src;
     var lasthover; // last element hovered during drag
     var sort_space = 15; // space in px to put between sortable elements on hover
     var coordinates = [];
@@ -738,6 +735,7 @@ $(document).ready(function ready() { // lorsque le dom est prêt
         // reset variables
         mousedown = false;
         draggable = null;
+        src = null;
         lasthovered = null;
         mousex = 0;
         mousey = 0;
@@ -774,14 +772,16 @@ $(document).ready(function ready() { // lorsque le dom est prêt
         $('[data-droppable="' + draggable + '"]').not($(this)).each(function() {
             var lefttop = $(this).offset();
             // save them for later access
-            coordinates.push({
-                dom: $(this),
-                left: lefttop.left,
-                top: lefttop.top,
-                right: lefttop.left + $(this).width(),
-                bottom: lefttop.top + $(this).height(),
-                droppable: true
-            });
+            if ($(this).is(':visible')) {
+                coordinates.push({
+                    dom: $(this),
+                    left: lefttop.left,
+                    top: lefttop.top,
+                    right: lefttop.left + $(this).width(),
+                    bottom: lefttop.top + $(this).height(),
+                    droppable: true
+                });
+            }
         });
 
         // find coordinates of sortable elements

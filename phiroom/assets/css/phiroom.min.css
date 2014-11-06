@@ -27,7 +27,7 @@ form:invalid,form:invalid:hover,form:invalid:focus,:invalid{box-shadow:none}
 input,textarea,select,option,:invalid,:valid{outline:none;display:block}
 div.field_wrapper{margin-bottom:25px}
 header#form{max-width:650px}
-form{max-width:650px;margin-top:2em;margin-bottom:1em}form span.help_text{display:block;margin-top:5px;margin-bottom:5px;color:#222}
+form{max-width:650px;margin-top:1em;margin-bottom:1em}form span.help_text{display:block;margin-top:5px;margin-bottom:5px;color:#222}
 input,option,select,button,textarea,ul.errorlist li{width:100%;border-radius:4px;background:#585858;border:1px solid #313131;font-size:14px;color:#000;text-align:left;padding:6px 12px;margin-top:5px;box-sizing:border-box}
 textarea{resize:vertical;line-height:20px}
 select{background:#585858;background:-webkit-linear-gradient(#666, #505050);background:-moz-linear-gradient(#666, #505050);background:-ms-linear-gradient(#666, #505050);background:-o-linear-gradient(#666, #505050);background:linear-gradient(#666, #505050)}
