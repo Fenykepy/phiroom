@@ -59,31 +59,6 @@ def create_directory_hierarchy(path):
 
 
 
-def create_tag_hierarchy(tags):
-    """Function to create a hierarchy of tags in db.
-
-    keyword argument:
-    tags -- list of tuple containing hierarchical keywords
-        (givent by XmapInfo.get_hierarchical_keywords())
-
-    return: list of leafs tags
-    """
-    leafs = []
-    for elem in tags:
-        # initialise parent with None (to start from root tag)
-        parent = None
-        index_end = len(elem) - 1
-        for index, tag in enumerate(elem):
-            parent, created = Tag.objects.get_or_create(
-                    name=tag,
-                    slug=slugify(tag), parent=parent)
-
-            # if we get a leaf tag
-            if index == index_end:
-                leafs.append(parent)
-
-    return leafs
-
 
 
 def save_thumbnail(img, dst, quality=70):
@@ -211,73 +186,6 @@ def save_picture(path, pict, previews=True, metadatas=True):
 
     pathname = os.path.join(path, pict.name)
 
-    # if metadatas, read metadatas from file
-    if metadatas:
-        img = Image.open(pathname)
-        # get width and height of picture
-        width, height = img.size
-        # get size (in bytes) of picture
-        size = os.path.getsize(pathname)
-        format = img.format
-        # delete picture object
-        del img
-
-        # load xmp object
-        xmp = XmpInfo(pathname)
-
-        # set picture attributes
-        pict.title = xmp.get_title()[:140]
-        pict.legend = xmp.get_legend()
-        pict.name_origin = pict.name
-        pict.type = format[:30]
-        pict.size = size
-        pict.width = width
-        pict.height = height
-        if height > width:
-            pict.landscape = False
-        pict.camera = xmp.get_camera()[:140]
-        pict.lens = xmp.get_lens()[:140]
-        pict.speed = xmp.get_speed()[:30]
-        pict.aperture = xmp.get_aperture()[:30]
-        pict.iso = xmp.get_iso()
-        pict.note = xmp.get_rate()
-        label = xmp.get_label()[:150]
-        if label:
-            label, created = Label.objects.get_or_create(
-                    name=label,
-                    slug=slugify(label))
-            pict.label = label
-        copyright = xmp.get_copyright()
-        copyright_state = xmp.get_copyright_state()
-        copyright_description = xmp.get_usage_terms()
-        copyright_url = xmp.get_copyright_url()
-        # get or create licence (without name and slug (not in xmp))
-        licence, created = Licence.objects.get_or_create(
-                state=copyright_state,
-                copyright=copyright,
-                description=copyright_description,
-                url=copyright_url)
-        pict.licence = licence
-        pict.date_origin = xmp.get_date_origin()
-        pict.date = xmp.get_date_created()
-
-        # save image in db
-        pict.save()
-        # add ManyToMany relations
-        hierarchical_tags = xmp.get_hierarchical_keywords()
-        if hierarchical_tags:
-            tags = create_tag_hierarchy(hierarchical_tags)
-            for tag in tags:
-                pict.tags.add(tag)
-        else:
-            tags = xmp.get_keywords()
-            for elem in tags:
-                tag, created = Tag.objects.get_or_create(
-                        name=elem,
-                        slug=slugify(elem),
-                        parent=None)
-                pict.tags.add(tag)
-
     if previews:
         ## previews generations
         previewname = str(pict.id) + ".jpg"
@@ -372,29 +280,31 @@ def recursive_import(path, previews, metadatas):
             # check if picture with same name and same directory exists in db
             try:
                 pict = Picture.objects.get(name=file, directory=dir)
-                update = True
+                # if hash has changed
+                if md5 != pict.md5:
+                    # update md5
+                    pict.md5 = md5
+                    # reload metadatas
+                    pict.load_metadatas()
+                    metadatas = False
+                    # regenerate previews
+                    pict.generate_previews()
+                    previews = False
+                if metadatas:
+                    pict.load_metadatas()
+                if previews:
+                    pict.generate_previews()
+
             except Picture.DoesNotExist:
+                # create new picture
                 pict = Picture()
                 pict.md5 = md5
                 pict.directory = dir
                 pict.name = file
+                pict.name_origin = file
                 pict.name_import = file
-                update = False
-            # if picture exists compare path then md5sum
-            # if picture has been modified, update it,
-            # if metadatas update them
-            # if previews regenerate them
-            if update:
-                if md5 != pict.md5:
-                    # update md5
-                    pict.md5 = md5
-                    save_picture(path, pict)
-                if previews or metadatas:
-                    # update picture previews or metadatas
-                    save_picture(path, pict, previews, metadatas)
-            else:
-                # save new pict
-                save_picture(path, pict)
+                pict.load_metadatas()
+                pict.generate_previews()
 
         # if file is a directory
         elif os.path.isdir(os.path.join(path, file)):
@@ -406,35 +316,4 @@ def recursive_import(path, previews, metadatas):
 
 
 
-def delete_previews(id):
-    """Function to delete previews files of a given image id
-    keyword argument:
 
-    id: image id
-    """
-    # path where to search previews directorys
-    path = os.path.join(BASE_DIR, "phiroom/data/images/previews/")
-    # preview filename
-    filename = str(id) + ".jpg"
-    # search for previews directorys
-    for files in os.listdir(path):
-        # if file is a directory
-        if os.path.isdir(os.path.join(path, files)):
-            try:
-                # remove preview file from directory
-                os.remove(os.path.join(path, files, filename))
-            except FileNotFoundError:
-                pass
-
-
-
-def delete_file(pict):
-    """Function to delete original file of a given picture object
-    keyword argument:
-    pict: picture object
-    """
-    try:
-        os.remove(os.path.join(LIBRAIRY,
-            pict.get_relative_pathname().strip('/')))
-    except FileNotFoundError:
-        pass

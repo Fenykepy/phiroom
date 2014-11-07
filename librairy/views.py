@@ -14,7 +14,7 @@ from django.db.models import Q
 from django.template import RequestContext
 
 from librairy.forms import *
-from librairy.utils import recursive_import, delete_previews, delete_file
+from librairy.utils import recursive_import
 from weblog.models import Tag as Tag_weblog, Entry, Entry_pictures
 from librairy.models import Picture, Directory, Tag, Label, Licence, Collection, CollectionsEnsemble, Collection_pictures
 from weblog.views import ConfMixin, AjaxableResponseMixin
@@ -761,9 +761,9 @@ class RemovePicture(DeleteView, LibrairyMixin, AjaxableResponseMixin):
         self.object = self.get_object()
         self.id = self.object.id
         # delete previews
-        delete_previews(self.object.id)
+        self.object.delete_previews()
         # delete original file
-        delete_file(self.object)
+        self.object.delete_file()
         # delete from database
         self.object.delete()
 

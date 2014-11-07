@@ -5,6 +5,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # location of librairy data (images files)
 LIBRAIRY = os.path.join(BASE_DIR, "phiroom/data/images/librairy")
+PREVIEWS_DIR = os.path.join(BASE_DIR, "phiroom/data/images/previews")
 PHIROOM = 'http://phiroom.org'
 
 

@@ -2,11 +2,17 @@
 import os
 from datetime import datetime
 
-from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
-from django.db.models import Q
+from wand.image import Image
 
-from phiroom.settings import LIBRAIRY_URL
+from django.db import models
+from django.db.models import Q
+from django.template.defaultfilters import slugify
+
+from mptt.models import MPTTModel, TreeForeignKey
+
+from librairy.xmpinfo import XmpInfo
+
+from phiroom.settings import LIBRAIRY_URL, LIBRAIRY, PREVIEWS_DIR
 
 PICTURES_ORDERING_CHOICES = (
         ('name', 'Nom'),
@@ -31,6 +37,33 @@ LARGE_PREVIEWS_SIZE_CHOICES = (
         (1024, '1024px pour le grand côté'),
         (2048, '20148px pour le grand côté'),
     )
+
+
+
+def create_tag_hierarchy(tags):
+    """Function to create a hierarchy of tags in db.
+
+    keyword argument:
+    tags -- list of tuple containing hierarchical keywords
+        (givent by XmapInfo.get_hierarchical_keywords())
+
+    return: list of leafs tags
+    """
+    leafs = []
+    for elem in tags:
+        # initialise parent with None (to start from root tag)
+        parent = None
+        index_end = len(elem) - 1
+        for index, tag in enumerate(elem):
+            parent, created = Tag.objects.get_or_create(
+                    name=tag,
+                    slug=slugify(tag), parent=parent)
+
+            # if we get a leaf tag
+            if index == index_end:
+                leafs.append(parent)
+
+    return leafs
 
 
 
@@ -128,6 +161,97 @@ class Picture(models.Model):
             return True
         return False
 
+    def load_metadatas(self):
+        """Loads metadatas from picture and save them in db."""
+        pathname = os.path.join(LIBRAIRY, self.get_relative_pathname().lstrip('/'))
+        print(LIBRAIRY)
+        print(self.get_relative_pathname())
+        print(pathname)
+        img = Image(filename=pathname)
+        width, height = img.size
+        format = img.format
+        # delete picture object
+        del img
+
+        # load xmp object
+        xmp = XmpInfo(pathname)
+
+        self.title = xmp.get_title()[:140]
+        self.legend = xmp.get_legend()
+        self.size = os.path.getsize(pathname)
+        self.width = width
+        self.height = height
+        if height > width:
+            self.landscape = False
+        self.camera = xmp.get_camera()[:140]
+        self.lens = xmp.get_lens()[:140]
+        self.speed = xmp.get_speed()[:30]
+        self.aperture = xmp.get_aperture()[:30]
+        self.iso = xmp.get_iso()
+        self.note = xmp.get_rate()
+        label = xmp.get_label()[:150]
+        if label:
+            label, created = Label.objects.get_or_create(
+                    name=label,
+                    slug=slugify(label))
+            self.label = label
+        copyright = xmp.get_copyright()
+        copyright_state = xmp.get_copyright_state()
+        copyright_description = xmp.get_usage_terms()
+        copyright_url = xmp.get_copyright_url()
+        # get or create licence (without name and slug (not in xmp))
+        licence, created = Licence.objects.get_or_create(
+                state=copyright_state,
+                copyright=copyright,
+                description=copyright_description,
+                url=copyright_url)
+        self.licence = licence
+        self.date_origin = xmp.get_date_origin()
+        self.date = xmp.get_date_created()
+
+        # save image in db
+        self.save()
+        # add m2m relations
+        hierarchical_tags = xmp.get_hierarchical_keywords()
+        if hierarchical_tags:
+            tags = create_tag_hierarchy(hierarchical_tags)
+            for tag in tags:
+                self.tags.add(tag)
+        else:
+            tags = xmp.get_keywords()
+            for elem in tags:
+                tag, created = Tag.objects.get_or_create(
+                        name=elem,
+                        slug=slugify(elem),
+                        parent=None)
+                self.tags.add(tag)
+    
+    def delete_previews(self):
+        """Delete previews file."""
+        # preview filename
+        filename = "{}.jpg".format(self.id)
+        # search for previews directorys
+        for file in os.listdir(PREVIEWS_DIR):
+            # if file is a directory
+            if os.path.isdir(os.path.join(PREVIEWS_DIR, file)):
+                try:
+                    # remove file from directory
+                    os.remove(os.path.join(PREVIEWS_DIR, file, filename))
+                except FileNotFoundError:
+                    pass
+
+    def delete_picture(self):
+        """Delete original picture file."""
+        try:
+            os.remove(os.path.join(LIBRAIRY,
+                self.get_relative_pathname().strip('/')))
+        except FileNotFoundError:
+            pass
+
+
+    def generate_previews(self):
+        "Create thumbs for the picture."""
+        pass
 
     def save(self, **kwargs):
         """Get absolute url then save"""
