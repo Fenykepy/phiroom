@@ -12,22 +12,29 @@ On a debian like system, run as root:
 
     # apt-get update
     # apt-get safe-upgrade
-    # apt-get install python3 python3-markdown python3-pip python3-yaml python3-setuptools libpng12-dev libjpeg8-dev exempi git
-    # pip3 install Django==1.6.6
-    # pip3 install django-mptt
-    # pip3 install Pillow==2.5.3
-    # pip3 install pytz
-    # pip3 install python-xmp-toolkit==2.0.1
+    # apt-get install python3 python3-markdown python3-pip python3-yaml python3-setuptools libpng12-dev libjpeg8-dev exempi git python3-virtualenv libmagickwand-dev
 
-### Get sources ###
+### Set environement up ###
 
 Run as root:
 
-    # mkdir /var/www
-    # cd /var/www
-    # git clone https://github.com/Fenykepy/phiroom.git
-    # chown -r phiroom <my_user>:<my_user>
+    # mkdir -p /var/www/phiroom_env
+    # chown <my_user> /var/www/phiroom_env
 
+Run as `<my_user>`:
+
+    $ cd /var/www/phiroom_env
+    $ virtualenv .
+
+    New python executable in phiroom_env/bin/python
+    Installing distribute..............done.
+    Installing pip.....................done.
+
+    $ source bin/activate
+    $ git clone https://github.com/Fenykepy/phiroom.git
+    $ cd phiroom
+    $ git checkout master
+    $ pip3 install -r requirements.txt
 
 
 ### Quick install for testing or development ###
@@ -37,18 +44,11 @@ __!!! DO NOT USE THESE INSTRUCTIONS IN PRODUCTION !!!__
 Use these instructions if you plan to use phiroom in local
 for testing it or to develop it.
 
-#### to run unit tests ####
-
-Run as root:
-
-    # pip3 install mock
-    # pip3 install selenium
-
 #### Set up database ####
 
 Run as root:
 
-    # aptitude install python-sqlite
+    # apt-get install python-sqlite
 
 Run as `<my_user>` (replace `<my_user>` by your user name):
 
@@ -56,6 +56,10 @@ Run as `<my_user>` (replace `<my_user>` by your user name):
     $ python3 manage.py syncdb
 
  * Answer questions to create a superuser.
+
+#### to run unit tests ####
+
+    $ pip3 manage.py test
 
 
 #### Launch development server ####
@@ -196,25 +200,24 @@ Run as root:
 
  * You can test that it runs correctly with following command (to run as `<my_user>` before going further:
 
-        $ gunicorn hello.wsgi:application --bind example.com:8001
+        $ gunicorn phiroom.wsgi:application --bind example.com:8001
 
  * Replace `example.com` by your hostname.
  * You should now be able to access the Gunicorn server from http://example.com:8001
 
  * Create a shell script to launch gunicorn with some parameters:
 
-        $ mkdir ~/scripts
-        $ vim ~/scripts/gunicorn_start.bash
+        $ vim /var/www/phiroom_env/bingunicorn_start
 
  * Complete it as follow:
 
         #!/bin/bash
-        NAME="phiroom"                               # Name of the application
-        DJANGODIR=/var/www/phiroom                   # Django project directory
-        SOCKFILE=/var/www/phiroom/run/gunicorn.sock  # we will communicte using this unix socket
-        USER=<my_user>                               # the user to run as
-        GROUP=<my_group>                             # the group to run as
-        NUM_WORKERS=3                                # how many worker processes should Gunicorn spawn
+        NAME="phiroom"                                  # Name of the application
+        DJANGODIR=/var/www/phiroom_env/phiroom          # Django project directory
+        SOCKFILE=/var/www/phiroom_env/run/gunicorn.sock # we will communicte using this unix socket
+        USER=<my_user>                                  # the user to run as
+        GROUP=<my_group>                                # the group to run as
+        NUM_WORKERS=3                                   # how many worker processes should Gunicorn spawn
         DJANGO_SETTINGS_MODULE=phiroom.settings      # which settings file should Django use
         DJANGO_WSGI_MODULE=phiroom.wsgi              # WSGI module name
         TIMEOUT=300000
@@ -222,12 +225,14 @@ Run as root:
         echo "Starting $NAME as `whoami`"
         ## Activate the virtual environment
         cd $DJANGODIR
-        #source ../bin/activate
+        source ../bin/activate
         export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
         export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
         ## Create the run directory if it doesn't exist
         RUNDIR=$(dirname $SOCKFILE)
         test -d $RUNDIR || mkdir -p $RUNDIR
+        
         ## Start your Django Unicorn
         # Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
         exec gunicorn ${DJANGO_WSGI_MODULE}:application \
@@ -242,12 +247,12 @@ Run as root:
 
  * Give execution rights to our script:
 
-        $ sudo chmod u+x ~/scripts/gunicorn_start.bash
+        $ sudo chmod u+x /var/www/phiroom_env/bin/gunicorn_start
 
  * You can test script running it as `<my_user>`:
 
         # su <my_user>
-        <my_user>$ ~/scripts/gunicorn_start.bash
+        <my_user>$ /var/www/phiroom_env/bin/gunicorn_start
  
  * Quit with `ctrl+C`
 
@@ -269,7 +274,7 @@ Run as root:
         user = <my_user>
         autostart = true
         autorestart = true
-        stdout_logfile = /var/log/supervisor/phiroom.log
+        stdout_logfile = /var/www/phiroom_env/bin/gunicorn_supervisor.log
         redirect_stderr = true
 
  * Edit configuration file:
@@ -310,8 +315,10 @@ Run as root:
             # fail_timeout=0 means we always retry an upstream even if it failed
             # te return a good HTTP response (in case the Unicorn master nukes a
             # single worker for timing out).
-            server unix:/var/www/phiroom/run/gunicorn.sock fail_timeout=0
+            server unix:/var/www/phiroom_env/run/gunicorn.sock fail_timeout=0
         }
+
+
         server {
             listen 80 default;
             server_name phiroom.org;
@@ -321,12 +328,15 @@ Run as root:
             client_max_body_size 4G;
             access_log /var/log/nginx/phiroom-access.log;
             error_log /var/log/nginx/phiroom-error.log;
+
             location /assets/ {
-                alias /var/www/phiroom/phiroom/assets/;
+                alias /var/www/phiroom_env/phiroom/phiroom/assets/;
             }
+
             location /data/ {
-                alias /var/www/phiroom/phiroom/data/;
+                alias /var/www/phiroom_env/phiroom/phiroom/data/;
             }
+
             location / {
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header Host $http_host;
