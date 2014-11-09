@@ -9,6 +9,47 @@ PREVIEWS_DIR = os.path.join(BASE_DIR, "phiroom/data/images/previews")
 PHIROOM = 'http://phiroom.org'
 
 
+# Previews generation settings
+# JPEG quality shouldn't be more than 95 and less than 50.
+# 90 for big previews and 70 for small seems to be good values.
+
+# choices available in conf for big previews
+LARGE_PREVIEWS_SIZE_CHOICES = (
+        (0, 'Taille réelle'),
+        (700, '700px pour le grand côté'),
+        (1024, '1024px pour le grand côté'),
+        (2048, '20148px pour le grand côté'),
+    )
+
+# default previews size for big previews (must also
+# be in LARGE_PREVIEWS_CHOICES), leave 0 for full size
+DEFAULT_LARGE_PREVIEWS_SIZE = 1024
+
+# large previews destination folder (relative to PREVIEWS_DIR)
+LARGE_PREVIEWS_FOLDER = 'large'
+LARGE_PREVIEWS_QUALITY = 90
+
+## croped previews for blog posts
+# (quality, destination folder (relative to PREVIEWS_DIR), width, height)
+PREVIEWS_CROP = [
+        (70, 'square-500', 500, 500),
+]
+
+## previews by width for blog (in case it's need in design)
+# (quality, destination folder (relative to PREVIEWS_DIR), width)
+PREVIEWS_WIDTH = []
+
+## previews by width for blog (in case it's need in design)
+# (quality, destination folder (relative to PREVIEWS_DIR), height)
+PREVIEWS_HEIGHT = []
+
+
+##  max resized previews for librairy
+# (quality, destination folder (relative to PREVIEWS_DIR), largest side)
+PREVIEWS_MAX = [
+        (70, 'max-500', 500),
+]
+
 # Pour avoir de l'utf-8
 DEFAULT_CHARSET = 'utf-8'
 

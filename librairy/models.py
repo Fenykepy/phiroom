@@ -12,7 +12,13 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from librairy.xmpinfo import XmpInfo
 
-from phiroom.settings import LIBRAIRY_URL, LIBRAIRY, PREVIEWS_DIR
+from conf.models import Conf
+from phiroom.settings import LIBRAIRY_URL, LIBRAIRY, PREVIEWS_DIR, \
+        LARGE_PREVIEWS_SIZE_CHOICES, PREVIEWS_CROP, PREVIEWS_MAX, \
+        PREVIEWS_WIDTH, PREVIEWS_HEIGHT, LARGE_PREVIEWS_FOLDER, \
+        LARGE_PREVIEWS_QUALITY
+from thumbnail import ThumbnailFactory
+
 
 PICTURES_ORDERING_CHOICES = (
         ('name', 'Nom'),
@@ -30,14 +36,6 @@ PICTURES_ORDERING_CHOICES = (
         ('size', 'Poids'),
         ('note', 'Note'),
     )
-
-LARGE_PREVIEWS_SIZE_CHOICES = (
-        (0, 'Taille réelle'),
-        (700, '700px pour le grand côté'),
-        (1024, '1024px pour le grand côté'),
-        (2048, '20148px pour le grand côté'),
-    )
-
 
 
 def create_tag_hierarchy(tags):
@@ -64,6 +62,13 @@ def create_tag_hierarchy(tags):
                 leafs.append(parent)
 
     return leafs
+
+
+
+def get_or_create_directory(dirpath):
+    """test if given directory exists, create it if necessary."""
+    if not os.path.exists(dirpath):
+        os.makedirs(dirpath)
 
 
 
@@ -251,7 +256,85 @@ class Picture(models.Model):
 
     def generate_previews(self):
         "Create thumbs for the picture."""
-        pass
+        preview_name = "{}.jpg".format(self.id)
+        source_pathname = os.path.join(LIBRAIRY,
+                self.get_relative_pathname().strip('/'))
+        conf = Conf.objects.latest()
+        # if original is smaller than large preview size or 
+        # if large preview size is full size, symlink original
+        if (conf.large_previews_size == 0 or (
+                self.width < conf.large_previews_size and
+                self.height < conf.large_previews_size)):
+            preview_path = os.path.join(PREVIEWS_DIR, LARGE_PREVIEWS_FOLDER)
+            preview_pathname = os.path.join(preview_path, preview_name)
+            get_or_create_directory(preview_path)
+            os.symlink(source_pathname, preview_pathname)
+        # else add large preview size to PREVIEWS_MAX
+        else:
+            PREVIEWS_MAX.append(
+                    (
+                        LARGE_PREVIEWS_QUALITY,
+                        LARGE_PREVIEWS_FOLDER,
+                        conf.large_previews_size,
+                    )
+            )
+
+        # generate width based previews
+        for preview in PREVIEWS_WIDTH:
+            quality = preview[0]
+            preview_path = os.path.join(PREVIEWS_DIR, preview[1])
+            preview_pathname = os.path.join(preview_path, preview_name)
+            width = preview[2]
+            get_or_create_directory(preview_path)
+
+            with ThumbnailFactory(filename=source_pathname) as img:
+                img.resize_width(width)
+                img.save(filename=preview_pathname, format="pjpeg",
+                        quality=quality)
+
+
+        # generate height based previews
+        for preview in PREVIEWS_HEIGHT:
+            quality = preview[0]
+            preview_path = os.path.join(PREVIEWS_DIR, preview[1])
+            preview_pathname = os.path.join(preview_path, preview_name)
+            height = preview[2]
+            get_or_create_directory(preview_path)
+
+            with ThumbnailFactory(filename=source_pathname) as img:
+                img.resize_height(height)
+                img.save(filename=preview_pathname, format="pjpeg",
+                        quality=quality)
+
+
+        # generate height and width based previews
+        for preview in PREVIEWS_CROP:
+            quality = preview[0]
+            preview_path = os.path.join(PREVIEWS_DIR, preview[1])
+            preview_pathname = os.path.join(preview_path, preview_name)
+            width = preview[2]
+            height = preview[3]
+            get_or_create_directory(preview_path)
+
+            with ThumbnailFactory(filename=source_pathname) as img:
+                img.resize_crop(width, height)
+                img.save(filename=preview_pathname, format="pjpeg",
+                        quality=quality)
+
+
+        # generate max side based previews
+        for preview in PREVIEWS_MAX:
+            quality = preview[0]
+            preview_path = os.path.join(PREVIEWS_DIR, preview[1])
+            preview_pathname = os.path.join(preview_path, preview_name)
+            max_side = preview[2]
+            get_or_create_directory(preview_path)
+
+            with ThumbnailFactory(filename=source_pathname) as img:
+                img.resize_max(max_side)
+                img.save(filename=preview_pathname, format="pjpeg",
+                        quality=quality)
+
 
     def save(self, **kwargs):
         """Get absolute url then save"""

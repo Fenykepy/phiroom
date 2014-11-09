@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from librairy.models import LARGE_PREVIEWS_SIZE_CHOICES
+from phiroom.settings import LARGE_PREVIEWS_SIZE_CHOICES, DEFAULT_LARGE_PREVIEWS_SIZE
 
 class Conf(models.Model):
     """Main configuration of phiroom."""
@@ -40,7 +40,7 @@ class Conf(models.Model):
     # configuration des aperçus
     large_previews_size = models.PositiveIntegerField(
             choices=LARGE_PREVIEWS_SIZE_CHOICES,
-            default=1024,
+            default=DEFAULT_LARGE_PREVIEWS_SIZE,
             verbose_name="Taille des plus grands aperçus publics",
             help_text="Une régénération des aperçus de chaque image " +
             "est nécessaire après chaque changement (en réimportant les " +

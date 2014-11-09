@@ -163,11 +163,6 @@ def mk_thumb_square(src, dst, side, quality=None):
 
 
 
-def get_or_create_directory(dirpath):
-    """test if given directory exists, create it if necessary."""
-    if not os.path.exists(dirpath):
-        os.makedirs(dirpath)
-
 
 
 def save_picture(path, pict, previews=True, metadatas=True):
