@@ -4,15 +4,11 @@ import time
 import logging
 
 from functools import partial
-from PIL import Image, ImageFile
 
 from django.template.defaultfilters import slugify
 
-from librairy.models import Picture, Directory, Tag, Label, Licence, \
-        ancestors2list
-from librairy.xmpinfo import XmpInfo
-from phiroom.settings import LIBRAIRY, BASE_DIR
-from conf.models import Conf
+from librairy.models import Picture, Directory
+from phiroom.settings import LIBRAIRY
 
 #logging.basicConfig(level=logging.INFO)
 logging.basicConfig(level=logging.DEBUG)

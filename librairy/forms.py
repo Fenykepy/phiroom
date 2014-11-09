@@ -11,8 +11,8 @@ from phiroom.settings import LIBRAIRY
 
 from weblog.forms import Form
 from weblog.models import Tag, Entry
-from librairy.models import Picture, Directory, CollectionsEnsemble, Collection, Collection_pictures, PICTURES_ORDERING_CHOICES
-from librairy.utils import ancestors2list 
+from librairy.models import Picture, Directory, CollectionsEnsemble, \
+    Collection, Collection_pictures, PICTURES_ORDERING_CHOICES, ancestors2list 
 
 
 

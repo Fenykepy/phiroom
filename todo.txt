@@ -33,8 +33,8 @@ Petits bugs de la refactorisation :
     - passer les abonnements mails sans inscription (avec un lien envoyé par mail comme désinscription)
 #    - ajouter une fixture avec la date dans la conf (sinon erreur de sélection de la dernière conf)
     - si un portfolio est créer en brouillon, le compteur d'images ne marche pas
-    - lors du déplacement d'images dans un portfolio, elles s'ajoutent dans certains posts
-    - à la suppression d'une image d'un portfolio elle s'ajoute dans un post (visiblement le dernier, à tester)
+#    - lors du déplacement d'images dans un portfolio, elles s'ajoutent dans certains posts
+#    - à la suppression d'une image d'un portfolio elle s'ajoute dans un post (visiblement le dernier, à tester)
     - le formulaire d'importation de liste pas les sous-dossiers des liens
     - rediriger vers la bibliothèque si un post / portfolio est brouillon
     - ne pas envoyer le mail si l'entrée est en brouillon
@@ -50,13 +50,14 @@ Petits bugs de la refactorisation :
 #        - et encore 32 requêtes en 21.92ms, 240ms de chargement pour la page
 #    - Voir pour le ralentissement d'affichage des Entrys avec images
 #    - Voir pour le ralentissement d'affichage des Portfolios
-    - Voir pour le ralentissement de la bibliothèque
+#    - Voir pour le ralentissement de la bibliothèque
     - compléter les feeds avec la première image
     - voir pour l'enregistrement des entry (entrer l'ordre par nom ou autre dans la table through)
     - ajouter le domain entré dans la conf dans l'app site, et faire un clear du cache (pour éviter les feeds avec exemple.com)
 #    - get_related sur les nom d'auteur des articles
     - voir quel est le problème avec feed.py et la création de la bdd de départ
     - create a clone function in thumbnail.ThumbnailFactory to avoid reloading file for each preview (long operation)
+    - migrer les fonctions d'imports dans le modèle Directory
 
 ===== Avant release Béta =====
 #    - déplacer la SECRET_KEY dans devel_settings
