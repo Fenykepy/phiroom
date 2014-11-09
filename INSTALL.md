@@ -54,6 +54,8 @@ Run as `<my_user>` (replace `<my_user>` by your user name):
 
     $ cd /var/www/phiroom/
     $ python3 manage.py syncdb
+    $ python3 manage.py migrate
+    $ python3 manage.py makemigrations
 
  * Answer questions to create a superuser.
 
@@ -196,7 +198,7 @@ Run as `<my_user>`:
 
 Run as root:
 
-    # pip3 install gunicorn==18
+    # pip3 install gunicorn
 
  * You can test that it runs correctly with following command (to run as `<my_user>` before going further:
 
@@ -207,7 +209,7 @@ Run as root:
 
  * Create a shell script to launch gunicorn with some parameters:
 
-        $ vim /var/www/phiroom_env/bingunicorn_start
+        $ vim /var/www/phiroom_env/bin/gunicorn_start
 
  * Complete it as follow:
 
@@ -270,7 +272,7 @@ Run as root:
  * Complete it as follow:
 
         [program:phiroom]
-        command = /home/<my_user>/scripts/gunicorn_start.bash
+        command = /var/www/phiroom_env/bin/gunicorn_start.bash
         user = <my_user>
         autostart = true
         autorestart = true

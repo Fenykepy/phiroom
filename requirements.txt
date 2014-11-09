@@ -4,3 +4,5 @@ pillow==2.5.3                   # pillow imaging librairy
 wand                            # Imaging librairy
 pytz                            # time manipulation librairy
 python-xmp-toolkit==2.0.1       # xmp librairy
+markdown
+PyYAML
