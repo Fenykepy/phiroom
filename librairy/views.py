@@ -763,7 +763,7 @@ class RemovePicture(DeleteView, LibrairyMixin, AjaxableResponseMixin):
         # delete previews
         self.object.delete_previews()
         # delete original file
-        self.object.delete_file()
+        self.object.delete_picture()
         # delete from database
         self.object.delete()
 

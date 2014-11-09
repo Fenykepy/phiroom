@@ -13,6 +13,10 @@ PHIROOM = 'http://phiroom.org'
 # JPEG quality shouldn't be more than 95 and less than 50.
 # 90 for big previews and 70 for small seems to be good values.
 
+# For faster generation, previews MUST be sorted in tuples from bigger
+# to smaller size. (like this it reuse previous preview if possible
+# instead of loading full size again
+
 # choices available in conf for big previews
 LARGE_PREVIEWS_SIZE_CHOICES = (
         (0, 'Taille réelle'),
@@ -31,21 +35,25 @@ LARGE_PREVIEWS_QUALITY = 90
 
 ## croped previews for blog posts
 # (quality, destination folder (relative to PREVIEWS_DIR), width, height)
+# sould be sorted from bigger to smaller in tupple
 PREVIEWS_CROP = [
         (70, 'square-500', 500, 500),
 ]
 
 ## previews by width for blog (in case it's need in design)
 # (quality, destination folder (relative to PREVIEWS_DIR), width)
+# MUST be sorted from bigger to smaller in tupple
 PREVIEWS_WIDTH = []
 
 ## previews by width for blog (in case it's need in design)
 # (quality, destination folder (relative to PREVIEWS_DIR), height)
+# MUST be sorted from bigger to smaller in tupple
 PREVIEWS_HEIGHT = []
 
 
 ##  max resized previews for librairy
 # (quality, destination folder (relative to PREVIEWS_DIR), largest side)
+# MUST be sorted from bigger to smaller in tupple
 PREVIEWS_MAX = [
         (70, 'max-500', 500),
 ]

@@ -56,6 +56,7 @@ Petits bugs de la refactorisation :
     - ajouter le domain entré dans la conf dans l'app site, et faire un clear du cache (pour éviter les feeds avec exemple.com)
 #    - get_related sur les nom d'auteur des articles
     - voir quel est le problème avec feed.py et la création de la bdd de départ
+    - create a clone function in thumbnail.ThumbnailFactory to avoid reloading file for each preview (long operation)
 
 ===== Avant release Béta =====
 #    - déplacer la SECRET_KEY dans devel_settings

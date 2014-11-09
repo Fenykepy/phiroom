@@ -1,8 +1,11 @@
 #-*- coding: utf-8 -*-
 import os
+import time
+import logging
 from datetime import datetime
 
 from wand.image import Image
+from PIL import Image as PilImage
 
 from django.db import models
 from django.db.models import Q
@@ -19,6 +22,8 @@ from phiroom.settings import LIBRAIRY_URL, LIBRAIRY, PREVIEWS_DIR, \
         LARGE_PREVIEWS_QUALITY
 from thumbnail import ThumbnailFactory
 
+#logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 PICTURES_ORDERING_CHOICES = (
         ('name', 'Nom'),
@@ -143,7 +148,7 @@ class Picture(models.Model):
 
 
     def __str__(self):
-        return "id: %s, %s" % (self.id, self.name)
+        return "id: {}, {}".format(self.id, self.name)
 
 
     def get_relative_pathname(self):
@@ -168,26 +173,27 @@ class Picture(models.Model):
 
     def load_metadatas(self):
         """Loads metadatas from picture and save them in db."""
+        i = time.time()
         pathname = os.path.join(LIBRAIRY, self.get_relative_pathname().lstrip('/'))
-        print(LIBRAIRY)
-        print(self.get_relative_pathname())
-        print(pathname)
-        img = Image(filename=pathname)
-        width, height = img.size
-        format = img.format
+        # we use Pil here to read format, width and height of image because wand
+        # loads all image in memory to read them and it's slow (0.5s arround with wand
+        # against less than 0.2 with Pil for a Canon 5DIII full size picture)
+        img = PilImage.open(pathname)
+        self.width, self.height = img.size
+        self.type = img.format
+        if self.height > self.width:
+            self.landscape = False
         # delete picture object
         del img
+        j = time.time()
 
         # load xmp object
         xmp = XmpInfo(pathname)
+        k = time.time()
 
         self.title = xmp.get_title()[:140]
         self.legend = xmp.get_legend()
         self.size = os.path.getsize(pathname)
-        self.width = width
-        self.height = height
-        if height > width:
-            self.landscape = False
         self.camera = xmp.get_camera()[:140]
         self.lens = xmp.get_lens()[:140]
         self.speed = xmp.get_speed()[:30]
@@ -213,9 +219,10 @@ class Picture(models.Model):
         self.licence = licence
         self.date_origin = xmp.get_date_origin()
         self.date = xmp.get_date_created()
-
+        l = time.time()
         # save image in db
         self.save()
+        m = time.time()
         # add m2m relations
         hierarchical_tags = xmp.get_hierarchical_keywords()
         if hierarchical_tags:
@@ -230,6 +237,16 @@ class Picture(models.Model):
                         slug=slugify(elem),
                         parent=None)
                 self.tags.add(tag)
+        n = time.time()
+        logging.info('Metadatas loaded in {}s.'.format(n - i))
+        logging.info('IMG loaded in {}s.'.format(j - i))
+        logging.info('xmp object created in {}s.'.format(k - j))
+        logging.info('metadatas read in {}s.'.format(l - k))
+        logging.info('metadatas read in {}s.'.format(l - k))
+        logging.info('object saved in {}s.'.format(m - l))
+        logging.info('hieararchical tags loaded in {}s.'.format(n - m))
+        
+
     
     def delete_previews(self):
         """Delete previews file."""
@@ -256,10 +273,15 @@ class Picture(models.Model):
 
     def generate_previews(self):
         "Create thumbs for the picture."""
+        # we use wand to generate previews because Pil sucks with colors.
         preview_name = "{}.jpg".format(self.id)
         source_pathname = os.path.join(LIBRAIRY,
                 self.get_relative_pathname().strip('/'))
+        i = time.time()
         conf = Conf.objects.latest()
+        j = time.time()
+        logging.info('latest conf object loaded in {}s.'.format(j - i))
+        MAX = []
         # if original is smaller than large preview size or 
         # if large preview size is full size, symlink original
         if (conf.large_previews_size == 0 or (
@@ -271,43 +293,71 @@ class Picture(models.Model):
             os.symlink(source_pathname, preview_pathname)
         # else add large preview size to PREVIEWS_MAX
         else:
-            PREVIEWS_MAX.append(
+            MAX.append(
                     (
                         LARGE_PREVIEWS_QUALITY,
                         LARGE_PREVIEWS_FOLDER,
                         conf.large_previews_size,
                     )
             )
+        MAX.extend(PREVIEWS_MAX)
 
-        # generate width based previews
-        for preview in PREVIEWS_WIDTH:
-            quality = preview[0]
-            preview_path = os.path.join(PREVIEWS_DIR, preview[1])
-            preview_pathname = os.path.join(preview_path, preview_name)
-            width = preview[2]
-            get_or_create_directory(preview_path)
 
-            with ThumbnailFactory(filename=source_pathname) as img:
-                img.resize_width(width)
+
+        i = time.time()
+        # generate max side based previews from bigger to smaller
+        with ThumbnailFactory(filename=source_pathname) as img:
+            for preview in MAX:
+                k = time.time()
+                quality = preview[0]
+                preview_path = os.path.join(PREVIEWS_DIR, preview[1])
+                preview_pathname = os.path.join(preview_path, preview_name)
+                max_side = preview[2]
+                get_or_create_directory(preview_path)
+
+                img.resize_max(max_side)
                 img.save(filename=preview_pathname, format="pjpeg",
                         quality=quality)
+                l = time.time()
+                logging.info('{} max preview generated in {}.'.format(
+                    preview[2], l - k))
+            l = time.time()
+            logging.info('max previews generated in {}.'.format(l - i))
 
+        # generate width based previews from bigger to smaller
+        m = time.time()
+        with ThumbnailFactory(filename=source_pathname) as img:
+            for preview in PREVIEWS_WIDTH:
+                quality = preview[0]
+                preview_path = os.path.join(PREVIEWS_DIR, preview[1])
+                preview_pathname = os.path.join(preview_path, preview_name)
+                width = preview[2]
+                get_or_create_directory(preview_path)
 
-        # generate height based previews
-        for preview in PREVIEWS_HEIGHT:
-            quality = preview[0]
-            preview_path = os.path.join(PREVIEWS_DIR, preview[1])
-            preview_pathname = os.path.join(preview_path, preview_name)
-            height = preview[2]
-            get_or_create_directory(preview_path)
+                img.resize_width(width)
+                img.save(filename=preview_pathname, format="pjpeg",
+                    quality=quality)
+        n = time.time()
+        logging.info('width previews generated in {}s.'.format(n - m))
 
-            with ThumbnailFactory(filename=source_pathname) as img:
+        # generate height based previews from bigger to smaller
+        m = time.time()
+        with ThumbnailFactory(filename=source_pathname) as img:
+            for preview in PREVIEWS_HEIGHT:
+                quality = preview[0]
+                preview_path = os.path.join(PREVIEWS_DIR, preview[1])
+                preview_pathname = os.path.join(preview_path, preview_name)
+                height = preview[2]
+                get_or_create_directory(preview_path)
+
                 img.resize_height(height)
                 img.save(filename=preview_pathname, format="pjpeg",
                         quality=quality)
+        n = time.time()
+        logging.info('height previews generated in {}s.'.format(n - m))
 
-
-        # generate height and width based previews
+        # generate height and width based previews from full size each time
+        m = time.time()
         for preview in PREVIEWS_CROP:
             quality = preview[0]
             preview_path = os.path.join(PREVIEWS_DIR, preview[1])
@@ -319,21 +369,11 @@ class Picture(models.Model):
             with ThumbnailFactory(filename=source_pathname) as img:
                 img.resize_crop(width, height)
                 img.save(filename=preview_pathname, format="pjpeg",
-                        quality=quality)
+                    quality=quality)
 
-
-        # generate max side based previews
-        for preview in PREVIEWS_MAX:
-            quality = preview[0]
-            preview_path = os.path.join(PREVIEWS_DIR, preview[1])
-            preview_pathname = os.path.join(preview_path, preview_name)
-            max_side = preview[2]
-            get_or_create_directory(preview_path)
-
-            with ThumbnailFactory(filename=source_pathname) as img:
-                img.resize_max(max_side)
-                img.save(filename=preview_pathname, format="pjpeg",
-                        quality=quality)
+        j = time.time()
+        logging.info('crop previews generated in {}s.'.format(j - m))
+        logging.info('previews generated in {}s.'.format(j - i))
 
 
     def save(self, **kwargs):
