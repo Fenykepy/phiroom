@@ -1,0 +1,26 @@
+Petit rappel sur les dates avec django :
+
+from django.utils import timezone
+timezone.now()
+datetime.datetime(2013, 11, 11, 10, 6, 11, 18330, tzinfo=<UTC>)
+
+from datetime import datetime
+datetime.now()
+datetime.datetime(2013, 11, 11, 11, 6, 32, 755755)
+
+
+
+from django.utils.timezone import utc
+datetime.utcnow().replace(tzinfo=utc)
+datetime.datetime(2013, 11, 11, 10, 5, 49, 184932, tzinfo=<UTC>)
+
+
+
+Conclusion :
+    datetime.now() retourne l'heure système suivant le fuseau horaire, sans indication de timezone (11h06 en france en hiver)
+    timezone.now() retourne l'heure utc actuelle (10h06 alors qu'il est 11h06 en france en hiver)
+    datetime.utcnow().replace(tzinfo=utc) retourne exactement la même chose de timezone.now()
+
+
+
+https://docs.djangoproject.com/en/1.6/topics/i18n/timezones/
