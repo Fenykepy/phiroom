@@ -3,11 +3,11 @@
 import markdown
 import re
 
-def format_lettrine(string):
-    """format lettrine delimited by "<lettrine></lettrine>"
+def format_drop_cap(string):
+    """format drop_cap delimited by "<drop-cap></drop-cap>"
     from escaped html string"""
-    string = re.sub("<p>&lt;lettrine&gt;(.+)&lt;/lettrine&gt;",
-            r'<p class="article"><span class="sc">\1</span>' , string)
+    string = re.sub("&lt;drop-cap&gt;(.+)&lt;/drop-cap&gt;",
+            r'<span class="drop-cap">\1</span>' , string)
     return string
 
 
