@@ -4,6 +4,9 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 #TEMPLATE_DEBUG = False
 
+## Pagination of weblog posts
+WEBLOG_POSTS_PAGINATION = 3
+
 ## Cache configuration
 ## for debug
 CACHES = {

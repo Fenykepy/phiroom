@@ -1,0 +1,37 @@
+{% extends "weblog/weblog_base.html" %}
+
+{% block content %}
+
+{% for post in posts %}
+<article class="abstract">
+    <header>
+        <time datetime="{{ post.pub_date|date:"c" }}" pubdate="pubdate">
+            {{ post.pub_date|date:"M j, Y" }}
+        </time>
+        <h1><a href="{% url "post_view" post.slug %}">{{ post.title }}</a></h1>
+    </header>
+    <p>{{ post.abstract|safe }}
+    <footer>
+        <a href="{% url "post_view" post.slug %}">Read post</a>
+    </footer>
+</article>
+{% empty %}
+<article class="abstract">
+    <header>
+        <h1>Nothing published yet…</h1>
+    </header>
+    {% if user.is_staff %}
+        <button type="button">Write a post !</button>
+    {% endif %}
+</article>
+{% endfor %}
+<p id="pagination">
+    {% load extra_tag %}
+    {% if page_obj.has_previous %}
+    <a href="{{ request|get_paginate_url:page_obj.previous_page_number }}">« Recent posts</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="{{ request|get_paginate_url:page_obj.next_page_number }}">Older posts »</a>
+    {% endif %}
+</p>
+{% endblock %}
