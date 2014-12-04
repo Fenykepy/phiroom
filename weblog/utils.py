@@ -21,7 +21,7 @@ def format_abstract(source, delimiter="[...]"):
     # parse markdown
     abstract = markdown.markdown(abstract, safe_mode="escape")
     # parse lettrine
-    abstract = format_lettrine(abstract)
+    abstract = format_drop_cap(abstract)
 
     return abstract
 
@@ -34,7 +34,7 @@ def format_content(source, delimiter="[...]"):
     # parse markdown
     content = markdown.markdown(content, safe_mode="escape")
     # parse lettrine
-    content = format_lettrine(content)
+    content = format_drop_cap(content)
 
     return content
 
