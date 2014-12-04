@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     url(r'^page/(?P<page>\d+)/$', ListPosts.as_view(), name="weblog_list"),
 
     ## posts list by tags
-    url(r'^tag/(?P<slug>[-\w]+)/$', ListPostsByTag.as_view()),
+    url(r'^tag/(?P<slug>[-\w]+)/$', ListPostsByTag.as_view(), name="weblog_tag"),
     url(r'^tag/(?P<slug>[-\w]+)/page/(?P<page>\d+)/$', ListPostsByTag.as_view(),
         name="weblog_tag"),
 

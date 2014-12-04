@@ -22,7 +22,7 @@ class ListPostsByTag(ListPosts):
 
     def get_queryset(self):
         return Post.published.filter(
-                tag__slug = self.kwargs['slug']
+                tags__slug = self.kwargs['slug']
             )
 
 

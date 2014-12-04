@@ -8,6 +8,9 @@ from weblog.models import Post, Tag
 from weblog.utils import format_content, format_abstract, format_drop_cap
 
 
+
+
+
 def create_test_users(instance):
     """Create two users for tests."""
     instance.user = User.objects.create_user(
@@ -68,6 +71,7 @@ def create_test_posts(instance):
     instance.post3 = Post(
             title="My third title",
             description="",
+            draft=True,
             source="some text [...] end of abstract",
             author= instance.user
         )
@@ -81,6 +85,13 @@ def create_test_posts(instance):
         )
     instance.post4.save()
 
+    instance.post5 = Post(
+            title="My fifth title",
+            description="",
+            source="some text [...] end of abstract",
+            author= instance.user
+        )
+    instance.post5.save()
 
 class UtilsTest(TestCase):
     """Utils functions test."""
@@ -238,7 +249,7 @@ class PostModelTest(TestCase):
         self.assertEqual(post.get_absolute_url(), url)
 
         # assert previous post is set
-        prev_url = '/weblog/{}/my-fourth-title/'.format(date)
+        prev_url = '/weblog/{}/my-fifth-title/'.format(date)
         self.assertEqual(post.prev_post_url(), prev_url)
         # assert next post isn't set
         self.assertEqual(post.next_post_url(), None)
@@ -265,7 +276,7 @@ class PostModelTest(TestCase):
 
         # assert it isn't anymore in published manager results
         n_posts = Post.published.all().count()
-        self.assertEqual(n_posts, 3)
+        self.assertEqual(n_posts, 4)
 
         # assert post2 next post is post 4 and not 3
         self.assertEqual(self.post2.next_post_url(), self.post4.absolute_url)
@@ -279,7 +290,147 @@ class PostModelTest(TestCase):
 
         # assert post2 isn't anymore in published results
         n_posts = Post.published.all().count()
-        self.assertEqual(n_posts, 2)
+        self.assertEqual(n_posts, 3)
+
+
+
+class PostsViewsTest(TestCase):
+    """Post listing test class."""
+
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create tags
+        create_test_tags(self)
+        # create posts
+        create_test_posts(self)
+
+        self.post.tags.add(self.tag)
+        self.post2.tags.add(self.tag)
+        self.post3.tags.add(self.tag2) # draft
+        self.post3.tags.add(self.tag) # draft
+        self.post4.tags.add(self.tag)
+        self.post5.tags.add(self.tag)
+
+
+    def test_urls(self):
+        urls = [
+            {
+                'url': '/weblog/tag/test2/',
+                'status': 200,
+                'template': 'weblog/weblog_list.html',
+            },
+            {
+                'url': '/weblog/tag/test2/page/1/',
+                'status': 200,
+                'template': 'weblog/weblog_list.html',
+            },
+            {
+                'url': self.post.absolute_url,
+                'status': 200,
+                'template': 'weblog/weblog_view.html',
+            }
+        ]
+
+    def test_list_posts(self):
+        # assert url without pagination and template are good
+        response = self.client.get('/weblog/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
+        # assert only published posts are listed, 4 published, one on page two
+        self.assertEqual(len(response.context['posts']), 3)
+        
+        # assert url with pagination and template are good
+        response = self.client.get('/weblog/page/1/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
+        self.assertFalse(response.context['page_obj'].has_previous())
+        self.assertTrue(response.context['page_obj'].has_next())
+        response = self.client.get('/weblog/page/2/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
+        self.assertTrue(response.context['page_obj'].has_previous())
+        self.assertFalse(response.context['page_obj'].has_next())
+        self.assertEqual(len(response.context['posts']), 1)
+
+
+    def test_list_posts_by_tags(self):
+        # assert url without pagination and template are good
+        response = self.client.get('/weblog/tag/test/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
+        # assert only published posts are listed, 4 published, one on page two
+        self.assertEqual(len(response.context['posts']), 3)
+
+        # assert url with pagination and template are good
+        response = self.client.get('/weblog/tag/test/page/1/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
+        self.assertFalse(response.context['page_obj'].has_previous())
+        self.assertTrue(response.context['page_obj'].has_next())
+        response = self.client.get('/weblog/tag/test/page/2/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
+        self.assertTrue(response.context['page_obj'].has_previous())
+        self.assertFalse(response.context['page_obj'].has_next())
+        self.assertEqual(len(response.context['posts']), 1)
+        
+        # should be no result for test2 because it's post is draft
+        response = self.client.get('/weblog/tag/test2/')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['page_obj'].has_previous())
+        self.assertFalse(response.context['page_obj'].has_next())
+        self.assertEqual(len(response.context['posts']), 0)
+
+
+    def test_view_post(self):
+        # assert url and templates are ok
+        response = self.client.get(self.post2.absolute_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'weblog/weblog_view.html')
+        self.assertEqual(response.context['post'], self.post2)
+        self.assertTrue(response.context['prev'])
+        self.assertTrue(response.context['next'])
+
+        response = self.client.get(self.post.absolute_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'weblog/weblog_view.html')
+        self.assertEqual(response.context['post'], self.post)
+        self.assertFalse(response.context['prev'])
+        self.assertTrue(response.context['next'])
+        
+        # assert draft post are not visible by normal users
+        response = self.client.get(self.post3.absolute_url)
+        self.assertEqual(response.status_code, 404)
+
+        # assert future pub_date posts are not visible by normal users
+        self.post.pub_date = timezone.now() + timedelta(hours=24)
+        self.post.save()
+        response = self.client.get(self.post.absolute_url)
+        self.assertEqual(response.status_code, 404)
+
+        # login with staff member
+        login(self, self.user)
+        # assert staff members can see draft posts
+        response = self.client.get(self.post3.absolute_url)
+        self.assertEqual(response.status_code, 200)
+
+        # assert staff members can see future pub_date posts
+        response = self.client.get(self.post.absolute_url)
+        self.assertEqual(response.status_code, 200)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
