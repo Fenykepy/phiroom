@@ -2,7 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.dispatch import receiver
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, m2m_changed
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
@@ -150,6 +150,7 @@ class Tag(models.Model):
 
 @receiver(post_save, sender=Post)
 @receiver(post_delete, sender=Post)
+@receiver(m2m_changed, sender=Post.tags.through)
 def update_tags_n_posts(**kwargs):
     """Update tag's number of posts after post save or delete."""
     for tag in Tag.objects.all():

@@ -1,0 +1,133 @@
+# vim: syntax=note
+
+Todo list for phiroom
+=====================
+
+Weblog
+------
+Concept:
+    - a list of blog posts by reverse chrono order
+    - a list of blog posts by tags
+    - simple pagination (prev next) number define in settings
+    - simple design with beautiful typo
+    - a view for blog posts with link to prev and next post
+    - markdown or html writting
+    - auto separation of abstract and content with "[...]" marker
+    - support of draft
+    - support of differed pubdate
+    - url composed of slug with date : "weblog/YYYY/MM/DD/my-beautiful-title/"
+    - tag cloud in side panel
+    - a way to include by id image from librairy in text
+    - a way to link a bench of images from librairy to create a lightbox
+
+Backend:
+    - add a "html" boolean field in Post
+    with a default setting.WEBLOG_POSTS_FORMAT (html - md)
+    - integration of drf for administration
+
+CSS:
+    - everything to do
+
+
+JS:
+    - integration of angularjs for administration
+
+
+
+Portfolios
+----------
+Concept:
+    - a portfolio is a gallery with or without a small description
+    where pictures are predominant on text
+    - very sober presentation
+    - lightbox with legend
+    - hiddable description
+    - a main portfolio open by default
+
+Backend:
+    - everything to do
+
+CSS:
+    - everything to do
+
+JS:
+    - lightbox
+    - integration of angularjs for administration
+
+
+
+Contact
+-------
+Concept:
+    - page with some markdown or html presentation / contact editable text.
+    - a form with no captcha anti-spam system to send a mail to staff members.
+
+Backend:
+    - everything to do
+
+CSS:
+    - in weblog app style
+
+JS:
+    - eventually hide all fields except "message",
+    show them when "message" get focus
+    - integration of angularjs for administration
+
+
+
+User
+----
+Concept:
+    - extend of django user model
+    - add a "mail" method
+    - add mail to admin and / or staff members method
+    - add some fields for user profil
+    - add a way to reset password
+
+Backend:
+    - everything to do
+
+CSS:
+    - everything to do
+
+JS:
+    - integration of angularjs for administration
+
+
+
+Librairy
+--------
+Concept:
+    - main app of phiroom
+    - allow upload of pictures from computer
+    - allow upload of pictures from server
+    - allow upload of preview pictures
+        (add an image field for preview, fullfield with
+        uploaded or generation image)
+    - automatically generate previews
+    - automatically add a given filigranne on previews
+    - keep originals intact (except maybe name)
+    - read metadatas from images
+    - allow modification of some metadatas (title, legend, tags, name)
+    - support of tags
+    - support of rating
+    - support of color labels
+    - support of flags
+    - ordering in "collections"
+    - allow user to read some collections
+    - creation of downloadable archives from a set of pictures
+        - originals
+        - previews
+        - reset original name if change
+        - with expiration date ?
+
+Backend:
+    - everything to do
+    - fully drf driven
+
+CSS:
+    - lightroom design, to improve
+
+JS:
+    - fully angularjs driven
+

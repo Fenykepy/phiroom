@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta
+
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from weblog.models import Post, Tag
 from weblog.utils import format_content, format_abstract, format_drop_cap
@@ -50,7 +53,7 @@ def create_test_posts(instance):
             title="My first title",
             description="",
             source="some text [...] end of abstract",
-            user= instance.user
+            author= instance.user
         )
     instance.post.save()
 
@@ -58,7 +61,7 @@ def create_test_posts(instance):
             title="My second title",
             description="",
             source="some text [...] end of abstract",
-            user= instance.user
+            author= instance.user
         )
     instance.post2.save()
 
@@ -66,7 +69,7 @@ def create_test_posts(instance):
             title="My third title",
             description="",
             source="some text [...] end of abstract",
-            user= instance.user
+            author= instance.user
         )
     instance.post3.save()
 
@@ -74,7 +77,7 @@ def create_test_posts(instance):
             title="My fourth title",
             description="",
             source="some text [...] end of abstract",
-            user= instance.user
+            author= instance.user
         )
     instance.post4.save()
 
@@ -84,7 +87,7 @@ class UtilsTest(TestCase):
     test_string = (
                 "A beautiful brandnew article, with a [link](http://test.com) "
                 "going somewhere and an image ![Alt text](/path/to/img.jpg) "
-                "end of the abstract here[...] and text of content. ## title ## "
+                "end of the abstract here[...] and text of content. \n## title ##\n"
                 "a second paragraph delimiter which should stay[...]\n"
                 "\"Optional title\")\n Some list: \n* item\n* item \n\n"
                 "Some code:\n\n    1 < 4\n    print(\"test.py\")\n"
@@ -123,7 +126,7 @@ class UtilsTest(TestCase):
             '<a href="http://test.com">link</a> going '
             'somewhere and an image <img alt="Alt text" '
             'src="/path/to/img.jpg" /> end of the abstract '
-            'here and text of content. ## title ## a second '
+            'here and text of content. </p>\n<h2>title</h2>\n<p>a second '
             'paragraph delimiter which should stay[...]\n"Optional '
             'title")\n Some list: \n<em> item\n</em> item </p>\n<p>'
             'Some code:</p>\n<pre><code>1 &lt; 4\nprint("test.py")\n'
@@ -132,3 +135,157 @@ class UtilsTest(TestCase):
         )
 
         self.assertEqual(string, result)
+
+class TagModelTest(TestCase):
+    """Tag model test class."""
+
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create tags
+        create_test_tags(self)
+        # create posts
+        create_test_posts(self)
+
+
+    def test_tag_creation(self):
+        tag = Tag(name='test name with spaces')
+        tag.save()
+
+        self.assertEqual(tag.slug, 'test-name-with-spaces')
+        self.assertEqual(tag.n_posts, 0)
+
+        # assert new tag doesn't appear in used tags
+        n_used = Tag.used.all().count()
+        self.assertEqual(n_used, 0)
+        
+        # add tag to a post
+        self.post.tags.add(tag)
+        # reload tag from db
+        tag = Tag.objects.get(id=tag.id)
+ 
+        # assert tag's n_post has been updated
+        self.assertEqual(tag.n_posts, 1)
+
+        # assert tag is now in "used" manager
+        n_used = Tag.used.all().count()
+        self.assertEqual(n_used, 1)
+       
+        # try to create a new tag with same name
+        try:
+            tag2 = Tag(name='test name with spaces')
+            tag2.save()
+            result=False
+        except:
+            result = True
+        self.assertTrue(result)
+
+
+class PostModelTest(TestCase):
+    """Post model test class."""
+
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create tags
+        create_test_tags(self)
+        # create posts
+        create_test_posts(self)
+
+    def test_post_creation(self):
+        post = Post(
+            title="My title",
+            description="A short description",
+            source="some text [...] end of abstract",
+            author= self.user
+        )
+        post.save()
+
+        # add tags
+        post.tags.add(self.tag)
+        post.tags.add(self.tag2)
+        
+        # assert slug is correctly generated
+        date = timezone.now().strftime("%Y/%m/%d")
+        target_slug = '{}/{}'.format(date, 'my-title')
+        self.assertEqual(post.slug, target_slug)
+
+        # assert abstract is correctly generated
+        string = '<p>some text …</p>'
+        self.assertEqual(post.abstract, string)
+
+        # assert content is correctly generated
+        string = '<p>some text  end of abstract</p>'
+        self.assertEqual(post.content, string)
+
+        # assert tags have correctly been added
+        n_tags = post.tags.all().count()
+        self.assertEqual(n_tags, 2)
+
+        # assert absolute url has been set
+        url = '/weblog/{}/'.format(target_slug)
+        self.assertEqual(post.absolute_url, url)
+
+        # assert post is in published manager
+        n_posts = Post.published.all().count()
+        self.assertEqual(n_posts, 5)
+
+        # assert published manager delivers last post first
+        posts = Post.published.all()
+        self.assertEqual(post, posts[0])
+
+        # assert get_absolute_url works
+        self.assertEqual(post.get_absolute_url(), url)
+
+        # assert previous post is set
+        prev_url = '/weblog/{}/my-fourth-title/'.format(date)
+        self.assertEqual(post.prev_post_url(), prev_url)
+        # assert next post isn't set
+        self.assertEqual(post.next_post_url(), None)
+
+        # create a new post
+        post2 = Post(
+            title="My title",
+            description="A short description",
+            source="some text [...] end of abstract",
+            author= self.user
+        )
+        post2.save()
+
+        # assert slugs are unique
+        self.assertTrue(post2.slug != post.slug)
+
+        # assert post now have a next one
+        self.assertEqual(post.next_post_url(), post2.absolute_url)
+
+
+    def test_draft_future_posts(self):
+        self.post3.draft = True
+        self.post3.save()
+
+        # assert it isn't anymore in published manager results
+        n_posts = Post.published.all().count()
+        self.assertEqual(n_posts, 3)
+
+        # assert post2 next post is post 4 and not 3
+        self.assertEqual(self.post2.next_post_url(), self.post4.absolute_url)
+
+        # assert post4 prev post is post 2 and not 3
+        self.assertEqual(self.post4.prev_post_url(), self.post2.absolute_url)
+
+        # pass post2 in future
+        self.post2.pub_date = timezone.now() + timedelta(hours=24)
+        self.post2.save()
+
+        # assert post2 isn't anymore in published results
+        n_posts = Post.published.all().count()
+        self.assertEqual(n_posts, 2)
+
+
+
+
+
+
+
+
+
