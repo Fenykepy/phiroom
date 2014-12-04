@@ -21,13 +21,78 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'phiroom/statics')
 STATIC_URL = '/assets/'
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'phiroom/assets/'),
     os.path.join(BASE_DIR, 'templates/assets/'),
+    os.path.join(BASE_DIR, 'phiroom/assets/'),
 )
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates/'),
 )
+
+
+# location of librairy data (images files)
+LIBRAIRY = os.path.join(BASE_DIR, "phiroom/data/images/librairy")
+PREVIEWS_DIR = os.path.join(BASE_DIR, "phiroom/data/images/previews")
+PHIROOM = 'http://phiroom.org'
+
+
+
+# Previews generation settings
+# JPEG quality shouldn't be more than 95 and less than 50.
+# 90 for big previews and 70 for small seems to be good values.
+
+# For faster generation, previews MUST be sorted in tuples from bigger
+# to smaller size. (like this it reuse previous preview if possible
+# instead of loading full size again
+
+# choices available in conf for big previews
+LARGE_PREVIEWS_SIZE_CHOICES = (
+        (0, 'Taille réelle'),
+        (700, '700px pour le grand côté'),
+        (1024, '1024px pour le grand côté'),
+        (2048, '20148px pour le grand côté'),
+    )
+
+# default previews size for big previews (must also
+# be in LARGE_PREVIEWS_CHOICES), leave 0 for full size
+DEFAULT_LARGE_PREVIEWS_SIZE = 1024
+
+# large previews destination folder (relative to PREVIEWS_DIR)
+LARGE_PREVIEWS_FOLDER = 'large'
+LARGE_PREVIEWS_QUALITY = 90
+
+## croped previews for blog posts
+# (quality, destination folder (relative to PREVIEWS_DIR), width, height)
+# sould be sorted from bigger to smaller in tupple
+PREVIEWS_CROP = [
+        (70, 'square-500', 500, 500),
+]
+
+## previews by width for blog (in case it's need in design)
+# (quality, destination folder (relative to PREVIEWS_DIR), width)
+# MUST be sorted from bigger to smaller in tupple
+PREVIEWS_WIDTH = []
+
+## previews by width for blog (in case it's need in design)
+# (quality, destination folder (relative to PREVIEWS_DIR), height)
+# MUST be sorted from bigger to smaller in tupple
+PREVIEWS_HEIGHT = []
+
+
+##  max resized previews for librairy
+# (quality, destination folder (relative to PREVIEWS_DIR), largest side)
+# MUST be sorted from bigger to smaller in tupple
+PREVIEWS_MAX = [
+        (70, 'max-500', 500),
+]
+
+DEFAULT_CHARSET = 'utf-8'
+
+## Users configuration
+#AUTH_USER_MODEL = 'user.User'
+
+# login page
+#LOGIN_URL = '/login/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -44,6 +109,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'weblog',
+    'conf',
 )
 
 MIDDLEWARE_CLASSES = (

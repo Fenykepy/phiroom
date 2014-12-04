@@ -1,6 +1,5 @@
 from django.views.generic import ListView, DetailView
 
-import phiroom.settings as settings
 
 from weblog.models import Post
 
@@ -10,7 +9,7 @@ class ListPosts(ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'weblog/weblog_list.html'
-    paginate_by = settings.WEBLOG_POSTS_PAGINATION
+    paginate_by = 3
 
     def get_queryset(self):
         return Post.published.all()

@@ -1,0 +1,22 @@
+[
+  {
+    "model": "conf.Conf",
+    "pk": 1,
+    "fields": {
+      "comment": "Paramètres par défaut"
+    }
+  },
+  {
+    "model": "conf.Page",
+    "pk": 1,
+    "fields": {
+      "name": "portfolios",
+      "title": "Portfolios",
+      "is_in_main_menu": true,
+      "position_in_main_menu": 1,
+      "url_name": "portfolios_home"
+    }
+  }
+    
+]
+
