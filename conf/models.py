@@ -75,6 +75,27 @@ class Conf(models.Model):
 
 
 
+class MainMenuManager(models.Manager):
+    """Returns a queryset with ordered pages which are in main menu."""
+    def get_queryset(self):
+        return super(MainMenuManager, self).get_queryset().filter(
+                is_in_main_menu=True).values(
+                        'url_name',
+                        'name',
+                        'title',
+                    )
+
+
+class PageInfoManager(models.Manager):
+    """Returns a queryset with page infos."""
+    def get_queryset(self):
+        return super(PageInfoManager, self).get_queryset().values(
+                'title',
+                'name',
+            )
+
+
+
 class Page(models.Model):
     """Static pages configuration."""
     name = models.CharField(max_length=100, verbose_name="Name",
@@ -87,6 +108,15 @@ class Page(models.Model):
     content = models.TextField(null=True, verbose_name="Contenu", blank=True)
     source = models.TextField(null=True, verbose_name="Source", blank=True)
     url_name = models.CharField(max_length=254)
+
+    ## managers
+    objects = models.Manager()
+    main_menu = MainMenuManager()
+    page_info = PageInfoManager()
+
+
+    class Meta:
+        order_by = ('position_in_main_menu', 'pk')
 
     def __str__(self):
         return "%s" % self.title

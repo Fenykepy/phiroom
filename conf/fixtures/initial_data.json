@@ -16,7 +16,39 @@
       "position_in_main_menu": 1,
       "url_name": "portfolios_home"
     }
+  },
+  {
+    "model": "conf.Page",
+    "pk": 2,
+    "fields": {
+      "name": "weblog",
+      "title": "Weblog",
+      "is_in_main_menu": true,
+      "position_in_main_menu": 2,
+      "url_name": "weblog_home"
+    }
+  },
+  {
+    "model": "conf.Page",
+    "pk": 3,
+    "fields": {
+      "name": "contact",
+      "title": "Contact",
+      "is_in_main_menu": true,
+      "position_in_main_menu": 3,
+      "url_name": "contact_home"
+    }
+  },
+  {
+    "model": "conf.Page",
+    "pk": 4,
+    "fields": {
+      "name": "librairy",
+      "title": "Librairy",
+      "is_in_main_menu": false,
+      "position_in_main_menu": 0,
+      "url_name": "librairy_home"
+    }
   }
-    
 ]
 

@@ -5,8 +5,8 @@ from weblog.views import *
 
 urlpatterns = patterns('',
     ## posts list
-    url(r'^$', ListPosts.as_view(), name="weblog_list"),
-    url(r'^page/(?P<page>\d+)/$', ListPosts.as_view(), name="weblog_list"),
+    url(r'^$', ListPosts.as_view(), name="weblog_home"),
+    url(r'^page/(?P<page>\d+)/$', ListPosts.as_view(), name="weblog_home"),
 
     ## posts list by tags
     url(r'^tag/(?P<slug>[-\w]+)/$', ListPostsByTag.as_view(), name="weblog_tag"),
