@@ -117,7 +117,7 @@ class Page(models.Model):
     ## managers
     objects = models.Manager()
     main_menu = MainMenuManager()
-    page_info = PageInfoManager()
+    info = PageInfoManager()
 
 
     class Meta:

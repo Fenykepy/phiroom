@@ -101,6 +101,10 @@ DEFAULT_CHARSET = 'utf-8'
 
 # Application definition
 
+# To add slash at url ends
+APPEND_SLASH = True
+
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -108,6 +112,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'weblog',
     'conf',
 )
@@ -136,6 +141,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ROOT_URLCONF = 'phiroom.urls'
 
 WSGI_APPLICATION = 'phiroom.wsgi.application'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10
+}
 
 
 # Internationalization

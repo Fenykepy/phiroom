@@ -85,6 +85,8 @@ class PageModelTest(TestCase):
             self.assertEqual(page.url_name,
                     initial[index]['url_name'])
             index += 1
+        # assert no untested pages are here
+        self.assertEqual(len(pages), 4)
         
     def test_main_menu_manager(self):
         # assert main_menu_manager returns good results
@@ -99,7 +101,7 @@ class PageModelTest(TestCase):
 
     def test_page_info_manager(self):
         # assert page info manager returns good results
-        pages = Page.page_info.filter(name='portfolios')
+        pages = Page.info.filter(name='portfolios')
         self.assertEqual(len(pages), 1)
         self.assertEqual(pages[0]['name'], 'portfolios')
         self.assertEqual(pages[0]['title'], 'Portfolios')

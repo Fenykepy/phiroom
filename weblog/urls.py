@@ -1,7 +1,13 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
+from rest_framework import routers
+
 from weblog.views import *
 
 
+router = routers.DefaultRouter()
+router.register(r'posts', PostViewSet)
+router.register(r'tags', TagViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = patterns('',
     ## posts list
@@ -17,4 +23,6 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>\d{4}/\d{2}/\d{2}/[-\w]+)/$', ViewPost.as_view(),
         name="post_view"),
 
+    ## drf api
+    url(r'api/', include(router.urls)),
 )

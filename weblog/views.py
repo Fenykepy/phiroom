@@ -1,15 +1,44 @@
+from django.conf import settings
 from django.views.generic import ListView, DetailView
+from django.views.generic.base import ContextMixin
+from django.contrib.auth.models import User
+
+from rest_framework import viewsets
+from weblog.serializers import PostSerializer, TagSerializer, UserSerializer
+
+from weblog.models import Post, Tag
+from conf.models import Conf, Page
 
 
-from weblog.models import Post
+class ConfMixin(ContextMixin):
+    """Mixin to get site configuration in context."""
+    page_name = 'weblog'
+
+    def __init__(self, *args, **kwargs):
+        super(ConfMixin, self).__init__(*args, **kwargs)
+        self.conf = Conf.objects.select_related().latest()
+
+    def get_context_data(self, **kwargs):
+        context = super(ConfMixin, self).get_context_data(**kwargs)
+        context['conf'] = self.conf
+        context['page_info'] = Page.info.get(
+                name=self.page_name)
+        context['phiroom'] = settings.PHIROOM
+
+        return context
 
 
-class ListPosts(ListView):
+
+class ListPosts(ListView, ConfMixin):
     """List all weblog posts by pub_date."""
     model = Post
     context_object_name = 'posts'
     template_name = 'weblog/weblog_list.html'
-    paginate_by = 3
+
+    def get_paginate_by(self, queryset):
+        """Get the number of items to paginate by,
+        or None for no pagination."""
+        return self.conf.n_posts_per_page
 
     def get_queryset(self):
         return Post.published.all()
@@ -48,3 +77,31 @@ class ViewPost(DetailView):
         context['next'] = self.object.next_post_url()
 
         return context
+
+
+
+class PostViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows posts to be viewed or edited.
+    """
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows tags to be viewed or edited.
+    """
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+ 
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows tags to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
