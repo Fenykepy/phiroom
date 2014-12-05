@@ -66,8 +66,13 @@ class Conf(models.Model):
         get_latest_by = 'date'
 
 
-    def get_home_page_url(self):
+    def get_home_page_url_name(self):
         return self.home_page.url_name
+
+    def save(self, **kwargs):
+        """Always save as a new conf entry."""
+        self.pk = None
+        super(Conf, self).save()
 
 
     def __str__(self):
@@ -116,7 +121,7 @@ class Page(models.Model):
 
 
     class Meta:
-        order_by = ('position_in_main_menu', 'pk')
+        ordering = ['position_in_main_menu', 'pk']
 
     def __str__(self):
         return "%s" % self.title
