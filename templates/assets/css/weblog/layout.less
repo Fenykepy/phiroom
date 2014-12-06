@@ -100,6 +100,7 @@ section[role="main"] {
 
 // articles
 article {
+    position: relative;
     margin-top: 4em;
     time {
         color: @time;
@@ -111,10 +112,72 @@ article {
     p {
         margin-bottom: 1.125em;
         &.description {
-            color: @time;
+            color: @desc;
+        }
+    }
+    #tags {
+        margin-top: 4em;
+        margin-bottom: 1.125em;
+        text-align: center; 
+        li {
+            display: inline-block;
+            &:after {
+                display: inline-block;
+                content: "\2022";
+                margin: 0 10px;
+                //font-size: 1.5em;
+                //line-height: 1em;
+                color: @tags;
+            }
+            &:last-child:after {
+                content: "";
+            }
+        }
+        a {
+            text-decoration: none;
+            color: @tags;
+            &:hover, &:active, &:focus {
+                color: @links-h;
+            }
         }
     }
 
+}
+
+div.content {
+    ul {
+        padding-left: 30px;
+        list-style-type: disc;
+    }
+    ol {
+        padding-left: 30px;
+        list-style-type: decimal;
+    }
+}
+
+// author indication
+h6.author {
+    font-weight: normal;
+    font-style: italic;
+    text-align: right;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    height: 0px;
+    border-top: 1px solid @hr;
+    padding-right: 8%;
+    a {
+        display: inline-block;
+        position: relative;
+        top: -0.96em;
+        background: @bg;
+        padding-right: 10px;
+        padding-left: 10px;
+        color: @text;
+        font-variant: small-caps;
+        &:visited, &:hover, &:active {
+            color: @text;
+        }
+    }
 }
 
 // footer
@@ -124,6 +187,24 @@ footer[role="contentinfo"] {
     padding: 30px 0 30px 0;
 }
 
+pre {
+    background-color: @code-bg;
+    border: 1px solid @code-border;
+    border-radius: 5px;
+    padding: 1em 1.5em;
+    margin: 1em 0;
+    overflow: auto;
+    box-shadow: 0 0 3px @code-bg,
+}
+code {
+    background-color: @code-bg;
+    color: @code;
+    font-family: @mono;
+    border-radius: 4px;
+    padding: 0px 5px;
+}
+
+
 // Powered by
 #powered {
     font-family: @serif;
@@ -131,4 +212,13 @@ footer[role="contentinfo"] {
     a {
         text-decoration: none;
     }
+}
+
+
+// Administration
+#edit {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
 }

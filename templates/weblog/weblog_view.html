@@ -4,23 +4,36 @@
 
 <article>
     <header>
+        {% if user == post.author %}
+        <a id="edit" href="">Edit</a>
+        {% endif %}
+        
         <time datetime="{{ post.pub_date|date:"c" }}" pubdate="pubdate">
             {{ post.pub_date|date:"M j, Y" }}
         </time>
         <h1>{{ post.title }}</h1>
-        {% if post.description %}
-        {% endif %}
+        <p class="description">{{ post.description }}</p>
     </header>
-    <p class="description">{{ post.description }}</p>
-    <p>{{ post.content|safe }}</p>
+    <div class="content">
+    {{ post.content|safe }}
+    </div>
+    <h6 class="author"><a href="{{ post.author.web_site}}" rel="author">{{ post.author.author_name|default:"Frédéric Lavilotte-Rolle" }}</a></h6>
     <footer>
-    {% if prev %}
-    <a href="{{ prev }}">« Previous post</a>
-    {% endif %}
-    {% if next %}
-    <a href="{{ next }}">Next posts »</a>
-    {% endif %}
+        {% spaceless %}
+        <ul id="tags">
+            {% for tag in post.tags.all %}
+            <li><a href="{% url "weblog_tag" tag.slug %}" title="See all &#34;{{ tag.name }}&#34; related posts.">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endspaceless %}
     </footer>
 </article>
-
+<nav id="pagination">
+    {% if prev %}
+    <a id="prev" href="{{ prev }}">Previous post »</a>
+    {% endif %}
+    {% if next %}
+    <a id="next" href="{{ next }}">« Next post</a>
+    {% endif %}
+</nav>
 {% endblock %}

@@ -10,7 +10,9 @@
         </time>
         <h1><a href="{% url "post_view" post.slug %}">{{ post.title }}</a></h1>
     </header>
+    <div class="content">
     {{ post.abstract|safe }}
+    </div>
     <footer>
         <p><a href="{% url "post_view" post.slug %}">Read post</a></p>
     </footer>
