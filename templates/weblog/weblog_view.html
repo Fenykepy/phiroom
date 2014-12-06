@@ -1,17 +1,17 @@
 {% extends "weblog/weblog_base.html" %}
 
-{% block content %}
+{% block main %}
 
-<article id="main">
+<article>
     <header>
         <time datetime="{{ post.pub_date|date:"c" }}" pubdate="pubdate">
             {{ post.pub_date|date:"M j, Y" }}
         </time>
         <h1>{{ post.title }}</h1>
         {% if post.description %}
-        <h2>{{ post.description }}</h2>
         {% endif %}
     </header>
+    <p class="description">{{ post.description }}</p>
     <p>{{ post.content|safe }}</p>
     <footer>
     {% if prev %}

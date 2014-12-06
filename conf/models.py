@@ -8,9 +8,12 @@ class Conf(models.Model):
             verbose_name="Domain name",
             help_text="Website's domain name, e.g. phiroom.com, \
                     or www.phiroom.org.")
-    title = models.CharField(max_length=100, default="Phiroom",
+    title = models.CharField(max_length=254, default="Phiroom",
             verbose_name="Title",
-            help_text="Website's main title, will be set under page logo.",)
+            help_text="Website's main title, will be display in page header.",)
+    subtitle = models.CharField(max_length=254, default="Le cms des photographes…",
+            verbose_name="Subtitle", null=True, blank=True,
+            help_text="Website's main subtitle, will be display in page header.",)
     logo = models.ImageField(null=True, blank=True,
             upload_to="images/logos/",
             verbose_name="Website's logo.",

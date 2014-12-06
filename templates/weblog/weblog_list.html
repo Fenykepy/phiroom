@@ -1,6 +1,6 @@
 {% extends "weblog/weblog_base.html" %}
 
-{% block content %}
+{% block main %}
 
 {% for post in posts %}
 <article class="abstract">
@@ -10,9 +10,9 @@
         </time>
         <h1><a href="{% url "post_view" post.slug %}">{{ post.title }}</a></h1>
     </header>
-    <p>{{ post.abstract|safe }}
+    {{ post.abstract|safe }}
     <footer>
-        <a href="{% url "post_view" post.slug %}">Read post</a>
+        <p><a href="{% url "post_view" post.slug %}">Read post</a></p>
     </footer>
 </article>
 {% empty %}
@@ -25,13 +25,13 @@
     {% endif %}
 </article>
 {% endfor %}
-<p id="pagination">
+<nav id="pagination">
     {% load extra_tag %}
     {% if page_obj.has_previous %}
-    <a href="{{ request|get_paginate_url:page_obj.previous_page_number }}">« Recent posts</a>
+    <a id="prev" href="{{ request|get_paginate_url:page_obj.previous_page_number }}">Recent posts »</a>
     {% endif %}
     {% if page_obj.has_next %}
-    <a href="{{ request|get_paginate_url:page_obj.next_page_number }}">Older posts »</a>
+    <a id="next" href="{{ request|get_paginate_url:page_obj.next_page_number }}">« Older posts</a>
     {% endif %}
-</p>
+</nav>
 {% endblock %}

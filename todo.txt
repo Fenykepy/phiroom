@@ -26,13 +26,17 @@ Backend:
     - integration of drf for administration
 
 CSS:
-    - everything to do
+#    - everything to do
+    - design of post detail 
+    - add some effects on logo display (transition, y translation)
+    - add some "social" icons in the footer
 
 
 JS:
     - integration of angularjs for administration
 
-
+Bugs:
+    - articles with no abstract delimiter are not surrounded by <p> tag.
 
 Portfolios
 ----------

@@ -14,6 +14,11 @@ urlpatterns = patterns('',
     url(r'^$', ListPosts.as_view(), name="weblog_home"),
     url(r'^page/(?P<page>\d+)/$', ListPosts.as_view(), name="weblog_home"),
 
+    # provisional urls
+    url(r'^$', ListPosts.as_view(), name="portfolios_home"),
+    url(r'^$', ListPosts.as_view(), name="contact_home"),
+    url(r'^$', ListPosts.as_view(), name="librairy_home"),
+
     ## posts list by tags
     url(r'^tag/(?P<slug>[-\w]+)/$', ListPostsByTag.as_view(), name="weblog_tag"),
     url(r'^tag/(?P<slug>[-\w]+)/page/(?P<page>\d+)/$', ListPostsByTag.as_view(),

@@ -23,6 +23,7 @@ class ConfMixin(ContextMixin):
         context['conf'] = self.conf
         context['page_info'] = Page.info.get(
                 name=self.page_name)
+        context['menu'] = Page.main_menu.all()
         context['phiroom'] = settings.PHIROOM
 
         return context
@@ -55,7 +56,7 @@ class ListPostsByTag(ListPosts):
 
 
 
-class ViewPost(DetailView):
+class ViewPost(DetailView, ConfMixin):
     """Detail view for a specific weblog post."""
     model = Post
     context_object_name = 'post'
