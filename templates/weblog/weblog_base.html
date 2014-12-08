@@ -22,10 +22,6 @@
         />
     </head>
     <body ng-controller="weblogAdminCtrl">
-        {% if user.is_staff %}
-        {% block admin %}
-        {% endblock %}
-        {% endif %}
         <header role="banner">
             {% spaceless %}
             {% block header %}
@@ -71,6 +67,8 @@
 
         {# for developpment, remove on production #}
         <script src="{% static 'scripts/angular.min.js' %}"></script>{# local angularjs #}
+        <script src="{% static 'scripts/weblog/weblog-app.js' %}"></script>
+        <script src="{% static 'scripts/weblog/controllers/weblogAdminCtrl.js' %}"></script>
 
         {% endif %}
 

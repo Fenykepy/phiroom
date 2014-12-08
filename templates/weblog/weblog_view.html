@@ -1,52 +1,13 @@
 {% extends "weblog/weblog_base.html" %}
 
-{% block admin %}
-{% verbatim %}
-<section id="admin" ng-show="edit">
-    <article>
-        <h1>Update a post</h1>
-        <form spellcheck="true">
-        <p><span id="red"><span class="red">*</span></span> : Champs obligatoires.</p>
-        <div class="field-wrapper">
-            <label for="id_title">Title</label><span class="red"> *</span>
-            <input id="id_title" maxlength="254" name="title" required="required" type="text" ng-model="post.title" placeholder="Title" />
-        </div>
-        <div class="field-wrapper">
-            <label for="id_description">Description</label>
-            <input id="id_description" maxlength="254" name="description" type="text" ng-model="post.description" placeholder="Description" />
-        </div>
-        <div class="field-wrapper">
-            <label for="id_pub_date">Publication date</label>
-            <input id="id_pub_date" maxlength="254" name="pub_date" type="text" ng-model="post.pub_date" placeholder="Publication date" />
-        </div>
-        <div class="field-wrapper">
-            <label for="id_source">Post content</label>
-            <textarea id="id_source" maxlength="254" name="pub_source" type="text" ng-model="post.source" placeholder="Post content, using makrdown syntax."></textarea>
-        </div>
-        <div class="field_wrapper checkbox">
-            <label for="id_draft">Draft</label>
-            <input id="id_draft" name="draft" type="checkbox" ng-model="post.draft" />
-        </div>
-        <div class="field-wrapper">
-            <label for="id_tags">Tags</label>
-            <select multiple="multiple" id="id_tags" name="tags" ng-model="post.tags">
-                <option value="4" selected="selected">Digital</option>
-            </select>
-        </div>
-        <button ng-click="save()">Add Post</button>
-        
-        
-        </form>
-    </article>
-</section>
-{% endverbatim %}
-{% endblock %}
 {% block main %}
 
 <article>
     <header>
         {% if user == post.author %}
-        <a id="edit" href="">Edit</a>
+        <ul id="admin-links">
+            <li><a ng-click="edit = true" href="">Edit</a></li>
+        </ul>
         {% endif %}
         
         <time datetime="{{ post.pub_date|date:"c" }}" pubdate="pubdate">

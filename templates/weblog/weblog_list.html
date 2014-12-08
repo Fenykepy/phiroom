@@ -5,6 +5,11 @@
 {% for post in posts %}
 <article class="abstract">
     <header>
+        {% if user == post.author %}
+        <ul id="admin-links">
+            <li><a ng-click="new = true" href="">New</a></li>
+        </ul>
+        {% endif %}
         <time datetime="{{ post.pub_date|date:"c" }}" pubdate="pubdate">
             {{ post.pub_date|date:"M j, Y" }}
         </time>
