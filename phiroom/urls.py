@@ -1,12 +1,26 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+from rest_framework import routers
+from weblog.views import *
+
+router = routers.DefaultRouter()
+router.register(r'posts', PostViewSet)
+router.register(r'tags', TagViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'phiroom.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+    ## django admin interface
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^weblog/', include('weblog.urls')),
+
+    ## drf api
+    url(r'api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns(
+            'django.contrib.staticfiles.views',
+            url(r'^weblog/', 'serve', kwargs={'path': 'weblog_index.html'}),
+    )

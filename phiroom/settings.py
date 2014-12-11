@@ -21,7 +21,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'phiroom/statics')
 STATIC_URL = '/assets/'
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'templates/assets/'),
+    os.path.join(BASE_DIR, 'frontend/app/'),
     os.path.join(BASE_DIR, 'phiroom/assets/'),
 )
 

@@ -6,8 +6,11 @@ __pycache__/
 *.so
 
 # bdd
-phiroom.sql
 db.sqlite3
+
+# bower and node files
+frontend/node_modules/
+frontend/app/bower_components/
 
 # data files
 phiroom/data/images/librairy/*/
