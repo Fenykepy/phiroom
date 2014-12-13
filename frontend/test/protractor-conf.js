@@ -6,12 +6,12 @@ exports.config = {
   ],
 
   capabilities: {
-    'browserName': 'chromium'
+    'browserName': 'chrome'
   },
 
   chromeOnly: true,
 
-  baseUrl: 'http://localhost:8000/',
+  baseUrl: 'http://localhost:8008/',
 
   framework: 'jasmine',
 
