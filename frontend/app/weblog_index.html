@@ -32,6 +32,7 @@
 <script src="/assets/bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="/assets/js/weblog/weblogApp.js"></script>
 <script src="/assets/js/weblog/controllers/weblogListCtrl.js"></script>
+<script src="/assets/js/weblog/controllers/weblogDetailCtrl.js"></script>
 <!-- remove on production -->
 <script src="/assets/bower_components/less/dist/less.min.js" type="text/javascript"></script><!-- DEVEL less compilation client side -->
 
@@ -58,28 +59,7 @@
     </nav>
 </header>
 
-<section role="main" ng-controller="weblogListCtrl">
-    <article class="abstract"
-        ng-repeat="post in posts">
-        <header>
-        <ul id="admin-links">
-            <li><a  href="">New</a></li>
-        </ul>
-        <time datetime="{{ post.pub_date }}" pubdate="pubdate">
-            {{ post.pub_date | date :'MMM d, yyyy' }}
-        </time>
-        <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
-        </header>
-        <div class="content" ng-bind-html="post.abstract"></div>
-        <footer>
-            <p><a href="{{ post.url }}">Read post</a></p>
-        </footer>
-        </article>
-    <nav id="pagination">
-        <a id="prev" href="">Recent posts »</a>
-        <a id="next" href="">« Older posts</a>
-    </nav>
-</section>
+<section role="main" ng-view></section>
 
 <footer role="contentinfo">
     <p id="powered"><a target="_blank" href="http://phiroom.org">Powered by Phiroom</a></p>

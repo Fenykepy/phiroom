@@ -1,0 +1,23 @@
+<article class="abstract">
+    <header>
+    <ul id="admin-links">
+        <li><a  href="">Edit</a></li>
+    </ul>
+    <ng-include src="'/assets/partials/weblog/weblog_time.html'"></ng-include>
+    <h1>{{ post.title }}</h1>
+    <p class="description">{{ post.description }}</p>
+    </header>
+    <div class="content" ng-bind-html="post.content"></div>
+    <h6 class="author"><a href="" rel="author">"Frédéric Lavilotte-Rolle"</a></h6>
+    <footer>
+        <ul id="tags">
+            <li ng-repeat="tag in post.tags"><a href=""
+                title="See all &#34;{{ tag.name }}&#34; related posts.">{{ tag.name }}</a></li>
+        </ul>
+    </footer>
+    </article>
+<nav id="pagination">
+    <a ng-if="prev" id="prev" href="">Previous post »</a>
+    <a ng-if="next" id="next" href="">« Next post</a>
+</nav>
+
