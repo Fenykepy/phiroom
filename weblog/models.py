@@ -150,7 +150,7 @@ class Tag(models.Model):
 
 @receiver(post_save, sender=Post)
 @receiver(post_delete, sender=Post)
-@receiver(m2m_changed, sender=Post.tags.through)
+#@receiver(m2m_changed, sender=Post.tags.through)
 def update_tags_n_posts(**kwargs):
     """Update tag's number of posts after post save or delete."""
     for tag in Tag.objects.all():
