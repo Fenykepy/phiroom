@@ -5,7 +5,7 @@ from rest_framework import serializers
 from weblog.models import Post, Tag
 
 
-class PostSerializer(serializers.HyperlinkedModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     abstract = serializers.CharField(read_only=True)
     content = serializers.CharField(read_only=True)
     slug = serializers.CharField(read_only=True)

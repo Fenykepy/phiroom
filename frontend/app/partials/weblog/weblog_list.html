@@ -13,7 +13,7 @@
     </footer>
     </article>
 <nav id="pagination">
-    <a id="prev" href="">Recent posts »</a>
-    <a id="next" href="">« Older posts</a>
+    <a ng-if="prev" id="prev" ng-href="{{ prev }}">Recent posts »</a>
+    <a ng-if="next" id="next" ng-href="{{ next }}">« Older posts</a>
 </nav>
 

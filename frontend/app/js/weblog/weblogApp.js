@@ -18,6 +18,10 @@ weblogApp.config(['$routeProvider',
                 templateUrl: '/assets/partials/weblog/weblog_list.html',
                 controller: 'weblogListCtrl'
             }).
+            when('/page/:pageID', {
+                templateUrl: '/assets/partials/weblog/weblog_list.html',
+                controller: 'weblogListCtrl'
+            }).
             when('/:postID', {
                 templateUrl: '/assets/partials/weblog/weblog_detail.html',
                 controller: 'weblogDetailCtrl'
