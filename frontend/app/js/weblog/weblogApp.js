@@ -11,18 +11,20 @@ var weblogApp = angular.module('weblogApp', [
 var weblogControllers = angular.module('weblogControllers', ['ngSanitize']);
 
 
-weblogApp.config(['$routeProvider',
-    function($routeProvider) {
+weblogApp.config(['$routeProvider', '$locationProvider',
+    function($routeProvider, $locationProvider) {
+        $locationProvider.html5Mode(true);
+        $locationProvider.hashPrefix('!');
         $routeProvider.
             when('/', {
                 templateUrl: '/assets/partials/weblog/weblog_list.html',
                 controller: 'weblogListCtrl'
             }).
-            when('/page/:pageID', {
+            when('/page/:pageID/', {
                 templateUrl: '/assets/partials/weblog/weblog_list.html',
                 controller: 'weblogListCtrl'
             }).
-            when('/:postID', {
+            when('/:postID/', {
                 templateUrl: '/assets/partials/weblog/weblog_detail.html',
                 controller: 'weblogDetailCtrl'
             }).

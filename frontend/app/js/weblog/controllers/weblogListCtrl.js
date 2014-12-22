@@ -20,11 +20,11 @@ weblogControllers.controller('weblogListCtrl', ['$scope', '$http',
         var id;
         if (data.next) {
             id = parseInt($routeParams.pageID) + 1;
-            $scope.next = '#/page/' + id + '/';
+            $scope.next = 'page/' + id + '/';
         }
         if (data.previous) {
             id = parseInt($routeParams.pageID) - 1;
-            $scope.prev = '#/page/' + id + '/';
+            $scope.prev = 'page/' + id + '/';
         }
     });
 }]);
