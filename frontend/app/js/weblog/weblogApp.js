@@ -24,6 +24,14 @@ weblogApp.config(['$routeProvider', '$locationProvider',
                 templateUrl: '/assets/partials/weblog/weblog_list.html',
                 controller: 'weblogListCtrl'
             }).
+            when('/tag/:tagslug/', {
+                templateUrl: '/assets/partials/weblog/weblog_list.html',
+                controller: 'weblogListCtrl'
+            }).
+            when('/tag/:tagslug/page/:pageID/', {
+                templateUrl: '/assets/partials/weblog/weblog_list.html',
+                controller: 'weblogListCtrl'
+            }).
             when('/:postID/', {
                 templateUrl: '/assets/partials/weblog/weblog_detail.html',
                 controller: 'weblogDetailCtrl'

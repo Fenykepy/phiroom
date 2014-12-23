@@ -15,7 +15,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     ## drf api
-    url(r'api/', include(router.urls)),
+    url('^api/posts-by-tag/(?P<slug>[-\w]+)/$', PostsListByTag.as_view()),
+    url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )
 

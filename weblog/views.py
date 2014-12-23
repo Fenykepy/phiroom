@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 from django.contrib.auth.models import User
 
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from weblog.serializers import PostSerializer, TagSerializer, UserSerializer
 
 from weblog.models import Post, Tag
@@ -85,7 +85,7 @@ class PostViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows posts to be viewed or edited.
     """
-    queryset = Post.objects.all()
+    queryset = Post.published.all()
     serializer_class = PostSerializer
 
 
@@ -97,6 +97,18 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
  
+
+
+class PostsListByTag(generics.ListAPIView):
+    """
+    API endpoint that allows to list posts by tags.
+    """
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        return Post.published.filter(tags__slug=self.kwargs['slug'])
+
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
