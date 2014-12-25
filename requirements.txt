@@ -1,6 +1,7 @@
 django==1.7                     # django framework
 django-mptt                     # hierarchical models for django
 djangorestframework             # django rest framework
+django-debug-toolbar            # django profiling tool
 pillow==2.5.3                   # pillow imaging librairy
 wand                            # Imaging librairy
 pytz                            # time manipulation librairy

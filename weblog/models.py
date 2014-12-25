@@ -63,10 +63,6 @@ class Post(models.Model):
     class Meta:
         ordering = ['-pub_date']
 
-    def get_absolute_url(self):
-        return reverse('post_view', kwargs={
-            'slug': self.slug})
-
 
     def prev_post_url(self):
         prev = Post.published.values('absolute_url').filter(
@@ -100,9 +96,6 @@ class Post(models.Model):
 
         self.abstract = format_abstract(self.source)
         self.content = format_content(self.source)
-
-        self.absolute_url = self.get_absolute_url()
-
 
         super(Post, self).save()
 

@@ -1,8 +1,12 @@
 from datetime import datetime, timedelta
+from pprint import pprint
 
-from django.test import TestCase, Client
+from collections import OrderedDict
+from django.test import TestCase
 from django.contrib.auth.models import User
 from django.utils import timezone
+
+from rest_framework.test import APIClient, APITestCase
 
 from weblog.models import Post, Tag
 from weblog.utils import format_content, format_abstract, format_drop_cap
@@ -291,6 +295,107 @@ class PostModelTest(TestCase):
         # assert post2 isn't anymore in published results
         n_posts = Post.published.all().count()
         self.assertEqual(n_posts, 3)
+
+
+class TagAPITest(APITestCase):
+    """Tag API test."""
+
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create tags
+        create_test_tags(self)
+        # create posts
+        create_test_posts(self)
+
+        self.client = APIClient()
+
+
+    def test_list_tags(self):
+        # login with staff member
+        login(self, self.user)
+
+        data = {'count': 2,
+                'next': None,
+                'previous': None,
+                'results': [{'name': 'test',
+                            'n_posts': 0,
+                            'slug': 'test'},
+                            {'name': 'test2',
+                            'n_posts': 0,
+                            'slug': 'test2'}]} 
+
+        response = self.client.get('/api/tags/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, data)
+
+
+    def test_tag_detail(self):
+        # login with staff member
+        login(self, self.user)
+        
+        data = {'name': 'test', 'n_posts': 0, 'slug': 'test'}
+
+        response = self.client.get('/api/tags/1/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, data)
+
+
+
+class PostAPITest(APITestCase):
+    """Post API Test."""
+
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create tags
+        create_test_tags(self)
+        # create posts
+        create_test_posts(self)
+
+        self.client = APIClient()
+
+        self.post.tags.add(self.tag)
+        self.post2.tags.add(self.tag)
+        self.post3.tags.add(self.tag2) # draft
+        self.post3.tags.add(self.tag) # draft
+        self.post4.tags.add(self.tag)
+        self.post5.tags.add(self.tag)
+
+
+    def test_post_list(self):
+        # login with staff member
+        login(self, self.user)
+        response = self.client.get('/api/posts/')
+        self.assertEqual(response.status_code, 200)
+        print(Post.published.all().count())
+        print(Post.objects.all().count())
+        print(response.data)
+
+
+    def test_posts_by_tag(self):
+        # login with staff member
+        login(self, self.user)
+        
+        url = '/api/posts-by-tag/{}/'.format(self.tag.slug)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['count'], 4)
+        data0 ={'url': 'http://testserver/api/posts/5/',
+              'title': 'My fifth title',
+              'description': '',
+              'source': 'some text [...] end of abstract',
+              'author': 1,
+              'draft': False,
+              'content': '<p>some text  end of abstract</p>',
+              'abstract': '<p>some text …</p>',
+             'pk': 5} 
+        for key in data0:
+            self.assertEqual(response.data['results'][0][key], data0[key])
+
+        self.assertTrue(response.data['results'][0]['pub_date'])
+        self.assertTrue(response.data['results'][0]['tags'])
+        self.assertTrue(response.data['results'][0]['slug'])
 
 
 
