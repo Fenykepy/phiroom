@@ -33,7 +33,7 @@ class Message(models.Model):
         "une copie en retour)")
     date = models.DateTimeField(auto_now_add=True, auto_now=True,
             verbose_name="Date d'envoi")
-    ip = models.GenericIPAddressField(null=True, blank=True)
+    ip = models.CharField(max_length=39)
     unread = models.BooleanField(default=True)
 
 
