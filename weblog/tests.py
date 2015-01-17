@@ -363,7 +363,7 @@ class PostAPITest(APITestCase):
         self.post5.tags.add(self.tag)
 
 
-    def test_post_list(self):
+    def test_posts_list(self):
         # login with staff member
         login(self, self.user)
         response = self.client.get('/api/posts/')
@@ -371,6 +371,7 @@ class PostAPITest(APITestCase):
         print(Post.published.all().count())
         print(Post.objects.all().count())
         print(response.data)
+        self.assertEqual(response.data['count'], 4)
 
 
     def test_posts_by_tag(self):
