@@ -3,7 +3,7 @@
 /* jasmine specs for controllers go here */
 
 
-describe('weblogControllers', function() {
+describe('weblogApp controllers', function() {
     beforeEach(module('weblogApp'));
 
     describe('weblogListCtrl', function() {
@@ -51,8 +51,9 @@ describe('weblogControllers', function() {
                                 "abstract": "<p>Lorem ipsum </p>", 
                                 "slug": "2014/12/06/et-encore-un-autre-post", 
                                 "pk": 7
-                            }]};
-
+            }]
+        };
+        beforeEach(module('weblogControllers'));
 
         beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
             $httpBackend = _$httpBackend_;
@@ -67,8 +68,8 @@ describe('weblogControllers', function() {
             expect(scope.posts).toEqualData([]);
             $httpBackend.flush();
 
-            expect(scope.posts.toEqualData(posts_list.results);
-
-        }
+            expect(scope.posts).toEqualData(posts_list.results);
+        });
+    });
 });
 
