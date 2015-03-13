@@ -89,7 +89,7 @@ PREVIEWS_MAX = [
 DEFAULT_CHARSET = 'utf-8'
 
 ## Users configuration
-#AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'user.User'
 
 # login page
 #LOGIN_URL = '/login/'
@@ -115,6 +115,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'rest_framework',
     'weblog',
+    'user',
     'conf',
 )
 

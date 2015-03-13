@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete, m2m_changed
-from django.contrib.auth.models import User
+from user.models import User
 from django.template.defaultfilters import slugify
 
 from weblog.slug import unique_slugify

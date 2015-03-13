@@ -1,5 +1,3 @@
-from django.contrib.auth.models import User
-
 from rest_framework import serializers
 
 from weblog.models import Post, Tag
@@ -24,8 +22,3 @@ class PostSerializer(serializers.ModelSerializer):
                   'content', 'abstract', 'slug', 'pk',
             )
 
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')

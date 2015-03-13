@@ -1,10 +1,9 @@
 from django.conf import settings
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
-from django.contrib.auth.models import User
 
 from rest_framework import viewsets, generics
-from weblog.serializers import PostSerializer, TagSerializer, UserSerializer
+from weblog.serializers import PostSerializer, TagSerializer
 
 from weblog.models import Post, Tag
 from conf.models import Conf, Page
@@ -109,12 +108,3 @@ class PostsListByTag(generics.ListAPIView):
         return Post.published.filter(tags__slug=self.kwargs['slug'])
 
 
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows tags to be viewed or edited.
-    """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    

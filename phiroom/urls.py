@@ -4,6 +4,7 @@ from django.contrib import admin
 
 from rest_framework import routers
 from weblog.views import *
+from user.views import *
 
 router = routers.DefaultRouter()
 router.register(r'posts', PostViewSet)

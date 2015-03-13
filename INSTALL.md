@@ -54,8 +54,8 @@ Run as `<my_user>` (replace `<my_user>` by your user name):
 
     $ cd /var/www/phiroom/
     $ python3 manage.py migrate
-    $ python3 manage.py createsuperuser
     $ python3 manage.py makemigrations
+    $ python3 manage.py createsuperuser
 
  * Answer questions to create a superuser.
 
