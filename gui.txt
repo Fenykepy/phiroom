@@ -1,0 +1,48 @@
+###############################
+###         admin           ###
+###############################
+
+
+- Interface de gestion ressemblant à lightroom ;
+    - collections
+    - posts
+    - portfolios
+    - tags
+- Import des photos via http ou un dossier dédié sur le serveur
+- lecture des métadonnées uniquement
+- modification du titre
+- modification du nom
+- modification du libellé et de la notation
+- visionnage en vignettes
+- visionnage en plein écran
+- stockage par hash de l'original
+- autorisations d'accès au collections ou ensembles de collections
+- téléchargement de zips créés à la volée
+
+###############################
+###      portfolios         ###
+###############################
+
+    - arrivée direct sur un portfolio "à l'honneur"
+    - lien au rollover d'un petit bouton vers les autres portfolios
+    - défilement horizontal + lightbox
+    - diapo "what next" avec liens vers les autres portfolios à la fin
+    - diapo "présentation" avec un descriptif optionnel au début :
+        http://paulinedarley.com/labyrinth/
+    - design très épuré
+
+
+###############################
+###         posts           ###
+###############################
+    - liste de mots clés
+    - une photo résumé, largeur fixe
+    - design épuré
+
+###############################
+###         contact         ###
+###############################
+
+- un formulaire web redirigeant sur un mail
+- une zone éditable contenant du texte
+

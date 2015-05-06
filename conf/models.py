@@ -62,7 +62,7 @@ class Conf(models.Model):
     comment = models.TextField(verbose_name="Comment", default='',
             help_text = "A short word about changements given to this \
                     configuration.")
-    date = models.DateTimeField(auto_now_add=True, auto_now=True, null=True,
+    date = models.DateTimeField(auto_now=True, null=True,
             blank=True, db_index=True, verbose_name="Configuration date")
 
     class Meta:

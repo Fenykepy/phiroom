@@ -1,9 +1,9 @@
-django==1.7                     # django framework
+django==1.8                     # django framework
 django-mptt                     # hierarchical models for django
 djangorestframework             # django rest framework
 django-debug-toolbar            # django profiling tool
-pillow==2.5.3                   # pillow imaging librairy
+pillow                   # pillow imaging librairy
 wand                            # Imaging librairy
 pytz                            # time manipulation librairy
-python-xmp-toolkit==2.0.1       # xmp librairy
+python-xmp-toolkit       # xmp librairy
 markdown

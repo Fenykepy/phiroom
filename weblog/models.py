@@ -38,15 +38,15 @@ class Post(models.Model):
             verbose_name="Content")
     source = models.TextField(null=True, blank=True,
         verbose_name="Post content, in markdown")
-    tags = models.ManyToManyField('Tag', null=True, blank=True,
+    tags = models.ManyToManyField('Tag', blank=True,
             verbose_name="Tags")
     author = models.ForeignKey(User)
     draft = models.BooleanField(default=False, db_index=True,
-        verbose_name="Draft")
+            verbose_name="Draft")
     create_date = models.DateTimeField(auto_now_add=True,
-        auto_now=False, verbose_name="First redaction date")
-    update_date = models.DateTimeField(auto_now_add=True,
-        auto_now=True, verbose_name="Last modification date")
+            verbose_name="First redaction date")
+    update_date = models.DateTimeField(auto_now=True,
+            verbose_name="Last modification date")
     pub_date = models.DateTimeField(blank=True, null=True, db_index=True,
         verbose_name="Publication date")
     absolute_url = models.URLField(blank=True, null=True,
