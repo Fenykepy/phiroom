@@ -5,11 +5,18 @@ from django.contrib import admin
 from rest_framework import routers
 from weblog.views import *
 from user.views import *
+from librairy.views import *
 
 router = routers.DefaultRouter()
 router.register(r'posts', PostViewSet)
 router.register(r'tags', TagViewSet)
 router.register(r'users', UserViewSet)
+router.register(r'pictures', PictureViewSet)
+router.register(r'directorys', DirectoryViewSet)
+router.register(r'collections', CollectionViewSet)
+router.register(r'collectionsEnsembles', CollectionsEnsembleViewSet)
+router.register(r'picturesTags', PicturesTagViewSet)
+
 
 urlpatterns = patterns('',
     ## django admin interface

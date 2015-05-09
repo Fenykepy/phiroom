@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     'weblog',
     'user',
     'conf',
+    'librairy',
 )
 
 MIDDLEWARE_CLASSES = (

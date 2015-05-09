@@ -5,6 +5,8 @@ from django.core.files.storage import FileSystemStorage
 
 from mptt.models import MPTTModel, TreeForeignKey
 
+from phiroom.settings import LIBRAIRY
+
 
 from thumbnail import ThumbnailFactory
 
@@ -26,8 +28,7 @@ def set_picturename(instance, filename):
     """Set pathname under form
     full/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext."""
     return os.path.join(
-            'previews',
-            'full',
+            LIBRAIRY,
             instance.sha1[0:2],
             instance.sha1[2:4],
             instance.sha1 + '.' + instance.type
@@ -76,7 +77,7 @@ class Picture(models.Model):
             verbose_name="Aperture")
     iso = models.PositiveSmallIntegerField(null=True, blank=True,
             verbose_name="Iso sensibility")
-    tags = models.ManyToManyField('Tag', null=True, blank=True,
+    tags = models.ManyToManyField('PicturesTag', null=True, blank=True,
             verbose_name="Keywords")
     label= models.ForeignKey('Label',null=True, blank=True,
             verbose_name="Label")
@@ -100,7 +101,7 @@ class Picture(models.Model):
 
 
 
-class Tag(models.Model):
+class PicturesTag(models.Model):
     """Table for all pictures."""
     name = models.CharField(max_length=150, unique=True,
             verbose_name="Name")

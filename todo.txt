@@ -24,6 +24,7 @@ Backend:
     - add a "html" boolean field in Post
     with a default setting.WEBLOG_POSTS_FORMAT (html - md)
     - integration of drf for administration
+    - add a "anchored" boolean in post model, if true, il will always be desplay on top
 
 CSS:
 #    - everything to do
