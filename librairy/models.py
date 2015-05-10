@@ -5,8 +5,12 @@ from django.core.files.storage import FileSystemStorage
 
 from mptt.models import MPTTModel, TreeForeignKey
 
-from phiroom.settings import LIBRAIRY
+from phiroom.settings import LIBRAIRY, PREVIEWS_DIR, \
+        PREVIEWS_CROP, PREVIEWS_MAX, PREVIEWS_HEIGHT, \
+        PREVIEWS_WIDTH, LARGE_PREVIEWS_FOLDER, \
+        LARGE_PREVIEWS_QUALITY
 
+from librairy.xmpinfo import XmpInfo
 
 from thumbnail import ThumbnailFactory
 
@@ -95,6 +99,31 @@ class Picture(models.Model):
             verbose_name="Copyright description")
     copyright_url = models.URLField(null=True, blank=True,
             verbose_name="Copyright url")
+
+    class Meta:
+        ordering = ['importation_date']
+
+
+    def _set_previews_filename(self):
+        """Create preview filename from sha1."""
+        return '{}.jpg'.format(self.sha1)
+
+
+    def _set_previews_subdirs(self):
+        """Create previews path with two subdirectorys from sha1."""
+        return '{}/{}/'.format(
+                self.sha1[0:2],
+                self.sha1[2:4]
+        )
+
+    def load_metadatas(self):
+        """Loads metadatas from picture file and store them in db."""
+
+
+    def generate_previews(self):
+        """Create thumbnails for picture."""
+        # we use wand to generate previews because Pillow sucks with colors.
+        preview_name = "{}.jpg"
 
 
 
