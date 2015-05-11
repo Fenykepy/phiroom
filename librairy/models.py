@@ -27,15 +27,12 @@ class PictureFileSystemStorage(FileSystemStorage):
         return super(PictureFileSystemStorage, self)._save(name, content)
 
 
-
 def set_picturename(instance, filename):
     """Set pathname under form
-    full/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext."""
+    <LIBRAIRY>/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext."""
     return os.path.join(
             LIBRAIRY,
-            instance.sha1[0:2],
-            instance.sha1[2:4],
-            instance.sha1 + '.' + instance.type
+            instance._set_subdirs + instance.sha1 + '.' + instance.type
     )
 
 
@@ -51,6 +48,8 @@ class Picture(models.Model):
     source_file = models.ImageField(upload_to=set_picturename,
             storage=PictureFileSystemStorage()
     )
+    previews_path = models.CharField(max_length=254,
+            blank=True, null=True)
     directory = models.ForeignKey('Directory', verbose_name="Folder")
     title = models.CharField(max_length=140, null=True, blank=True,
             verbose_name="Title")
@@ -81,7 +80,7 @@ class Picture(models.Model):
             verbose_name="Aperture")
     iso = models.PositiveSmallIntegerField(null=True, blank=True,
             verbose_name="Iso sensibility")
-    tags = models.ManyToManyField('PicturesTag', null=True, blank=True,
+    tags = models.ManyToManyField('PicturesTag', blank=True,
             verbose_name="Keywords")
     label= models.ForeignKey('Label',null=True, blank=True,
             verbose_name="Label")
@@ -104,26 +103,137 @@ class Picture(models.Model):
         ordering = ['importation_date']
 
 
-    def _set_previews_filename(self):
-        """Create preview filename from sha1."""
-        return '{}.jpg'.format(self.sha1)
-
-
-    def _set_previews_subdirs(self):
-        """Create previews path with two subdirectorys from sha1."""
+    def _set_subdirs(self):
+        """Create path with two subdirectorys named from sha1."""
         return '{}/{}/'.format(
                 self.sha1[0:2],
                 self.sha1[2:4]
         )
 
+
     def load_metadatas(self):
         """Loads metadatas from picture file and store them in db."""
+        pass
 
 
     def generate_previews(self):
         """Create thumbnails for picture."""
         # we use wand to generate previews because Pillow sucks with colors.
-        preview_name = "{}.jpg"
+        # set preview name
+        filename = "{}.jpg".format(self.sha1)
+        subdirs = self._set_subdirs()
+        source_pathname = os.path.join(LIBRAIRY, subdirs,
+                self.sha1 + "." + self.type
+        )
+
+        def mk_subdirs(main_subdir_name):
+            """
+            create preview subdirs if they don't exist.
+            return full preview pathname.
+            """
+            destination_path = os.path.join(
+                    PREVIEWS_DIR,
+                    main_subdir_name,
+                    subdirs
+            )
+            if not os.path.exists(destination_path):
+                os.makedirs(destination_path)
+            # def destination pathname
+            return os.path.join(destination_path, filename)
+
+
+        # generate width based previews
+        width_source = source_pathname
+        for preview in PREVIEWS_WIDTH:
+            ## preview[0] -- int JPEG quality
+            ## preview[1] -- string name of subfolder
+            ## preview[2] -- int width of preview
+            
+            # mk subdirs if necessary
+            destination = mk_subdirs(preview[1])
+            # create thumbnail
+            with ThumbnailFactory(filename=width_source) as img:
+                img.resize_width(preview[2])
+                img.save(filename=destination,
+                        format='pjpeg',
+                        quality=preview[0]
+                )
+            # set just created preview as source for next one (faster)
+            width_source = destination
+
+
+        # generate height based previews
+        height_source = source_pathname
+        for preview in PREVIEWS_HEIGHT:
+            ## preview[0] -- int JPEG quality
+            ## preview[1] -- string name of subfolder
+            ## preview[2] -- int height of preview
+            
+            # mk subdirs if necessary
+            destination = mk_subdirs(preview[1])
+            # create thumbnail
+            with ThumbnailFactory(filename=height_source) as img:
+                img.resize_height(preview[2])
+                img.save(filename=destination,
+                        format='pjpeg',
+                        quality=preview[0]
+                )
+            # set just created preview as source for next one (faster)
+            height_source = destination
+
+
+        # generate max side based previews
+        max_source = source_pathname
+        for preview in PREVIEWS_MAX:
+            ## preview[0] -- int JPEG quality
+            ## preview[1] -- string name of subfolder
+            ## preview[2] -- int largest side of preview
+            
+            # mk subdirs if necessary
+            destination = mk_subdirs(preview[1])
+            # create thumbnail
+            with ThumbnailFactory(filename=max_source) as img:
+                img.resize_max(preview[2])
+                img.save(filename=destination,
+                        format='pjpeg',
+                        quality=preview[0]
+                )
+            # set just created preview as source for next one (faster)
+            max_source = destination
+
+
+        # generate width and height based previews
+        crop_source = source_pathname
+        last_crop_width = 1000000
+        last_crop_height = 1000000
+        for preview in PREVIEWS_CROP:
+            ## preview[0] -- int JPEG quality
+            ## preview[1] -- string name of subfolder
+            ## preview[2] -- int width of preview
+            ## preview[3] -- int height of preview
+            
+            # mk subdirs if necessary
+            destination = mk_subdirs(preview[1])
+            # check if previous generated preview is enought big
+            if preview[2] > last_crop_width or preview[3] > last_crop_height:
+                crop_source = source_pathname
+            # create thumbnail
+            with ThumbnailFactory(filename=crop_source) as img:
+                img.resize_crop(preview[2], preview[3])
+                img.save(filename=destination,
+                        format='pjpeg',
+                        quality=preview[0]
+                )
+            # set just created preview as source for next one (faster)
+            crop_source = destination
+            last_crop_width = preview[2]
+            last_crop_height = preview[3]
+
+
+
+                
+
+
 
 
 
@@ -187,7 +297,7 @@ class Collection(models.Model):
     ensemble = models.ForeignKey('CollectionsEnsemble', null=True,
             blank=True)
     pictures = models.ManyToManyField(Picture,
-            through='Collection_pictures', null=True, blank=True,
+            through='Collection_pictures', blank=True,
             verbose_name="Pictures")
     n_pict = models.PositiveIntegerField(default=0,
             verbose_name="Pictures number")
