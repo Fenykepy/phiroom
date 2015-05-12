@@ -81,7 +81,7 @@ PREVIEWS_HEIGHT = []
 
 ##  max resized previews for librairy
 # (quality, destination folder (relative to PREVIEWS_DIR), largest side)
-# MUST be sorted from bigger to smaller in tupple
+# MUST be sorted from bigger to smaller in tupple,
 PREVIEWS_MAX = [
         (70, 'max-500', 500),
 ]

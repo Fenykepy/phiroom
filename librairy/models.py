@@ -4,6 +4,7 @@ from django.db import models
 from django.core.files.storage import FileSystemStorage
 
 from mptt.models import MPTTModel, TreeForeignKey
+from thumbnail import ThumbnailFactory
 
 from phiroom.settings import LIBRAIRY, PREVIEWS_DIR, \
         PREVIEWS_CROP, PREVIEWS_MAX, PREVIEWS_HEIGHT, \
@@ -11,8 +12,7 @@ from phiroom.settings import LIBRAIRY, PREVIEWS_DIR, \
         LARGE_PREVIEWS_QUALITY
 
 from librairy.xmpinfo import XmpInfo
-
-from thumbnail import ThumbnailFactory
+from conf.models import Conf
 
 
 class PictureFileSystemStorage(FileSystemStorage):
@@ -125,6 +125,9 @@ class Picture(models.Model):
         source_pathname = os.path.join(LIBRAIRY, subdirs,
                 self.sha1 + "." + self.type
         )
+        resize_max = []
+        # !!! use cache here
+        conf = Conf.objects.latest()
 
         def mk_subdirs(main_subdir_name):
             """
@@ -141,9 +144,28 @@ class Picture(models.Model):
             # def destination pathname
             return os.path.join(destination_path, filename)
 
+        # if original is smaller than larg preview size
+        # or if large preview size equal original, symlink it
+        if (conf.large_previews_size == 0 or (
+                self.width < conf.large_previews_size and
+                self.height < conf.large_previews_size)):
+            preview_pathname = mk_subdirs(LARGE_PREVIEWS_FOLDER)
+            os.symlink(source_pathname, preview_pathname)
+        # else add large preview to PREVIEWS_MAX
+        else:
+            resize_max.append(
+                    (
+                        LARGE_PREVIEWS_QUALITY,
+                        LARGE_PREVIEWS_FOLDER,
+                        conf.large_previews_size,
+                    )
+            )
+        resize_max.extend(PREVIEWS_MAX)
+
 
         # generate width based previews
         width_source = source_pathname
+        last_width = 1000000
         for preview in PREVIEWS_WIDTH:
             ## preview[0] -- int JPEG quality
             ## preview[1] -- string name of subfolder
@@ -151,6 +173,9 @@ class Picture(models.Model):
             
             # mk subdirs if necessary
             destination = mk_subdirs(preview[1])
+            # check if previous generated preview is enought big
+            if preview[2] > last_max_side:
+                width_source = source_pathname
             # create thumbnail
             with ThumbnailFactory(filename=width_source) as img:
                 img.resize_width(preview[2])
@@ -160,10 +185,12 @@ class Picture(models.Model):
                 )
             # set just created preview as source for next one (faster)
             width_source = destination
+            last_width = preview[2]
 
 
         # generate height based previews
         height_source = source_pathname
+        last_height = 1000000
         for preview in PREVIEWS_HEIGHT:
             ## preview[0] -- int JPEG quality
             ## preview[1] -- string name of subfolder
@@ -171,6 +198,10 @@ class Picture(models.Model):
             
             # mk subdirs if necessary
             destination = mk_subdirs(preview[1])
+            # check if previous generated preview is enought big
+            if preview[2] > last_height:
+                height_source = source_pathname
+
             # create thumbnail
             with ThumbnailFactory(filename=height_source) as img:
                 img.resize_height(preview[2])
@@ -180,17 +211,22 @@ class Picture(models.Model):
                 )
             # set just created preview as source for next one (faster)
             height_source = destination
+            last_height = preview[2]
 
 
         # generate max side based previews
         max_source = source_pathname
-        for preview in PREVIEWS_MAX:
+        last_max_side = 1000000
+        for preview in resize_max:
             ## preview[0] -- int JPEG quality
             ## preview[1] -- string name of subfolder
             ## preview[2] -- int largest side of preview
             
             # mk subdirs if necessary
             destination = mk_subdirs(preview[1])
+            # check if previous generated preview is enought big
+            if preview[2] > last_max_side:
+                max_source = source_pathname
             # create thumbnail
             with ThumbnailFactory(filename=max_source) as img:
                 img.resize_max(preview[2])
@@ -200,6 +236,7 @@ class Picture(models.Model):
                 )
             # set just created preview as source for next one (faster)
             max_source = destination
+            last_max_side = preview[2]
 
 
         # generate width and height based previews
