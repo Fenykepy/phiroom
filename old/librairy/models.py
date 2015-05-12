@@ -122,7 +122,7 @@ class Picture(models.Model):
     iso = models.PositiveSmallIntegerField(null=True, blank=True,
             verbose_name="Sensibilité iso")
     tags = models.ManyToManyField('Tag', null=True, blank=True,
-            verbose_name="Mots clés")
+            verbose_name="Mots clés", related_name="tags")
     note = models.PositiveSmallIntegerField(default=0, verbose_name="Note")
     label= models.ForeignKey('Label', verbose_name="Libellé", null=True,
             blank=True)

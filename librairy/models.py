@@ -1,18 +1,47 @@
 import os
 
+from PIL import Image as PilImage
+
 from django.db import models
 from django.core.files.storage import FileSystemStorage
 
 from mptt.models import MPTTModel, TreeForeignKey
 from thumbnail import ThumbnailFactory
 
-from phiroom.settings import LIBRAIRY, PREVIEWS_DIR, \
+from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
         PREVIEWS_CROP, PREVIEWS_MAX, PREVIEWS_HEIGHT, \
         PREVIEWS_WIDTH, LARGE_PREVIEWS_FOLDER, \
         LARGE_PREVIEWS_QUALITY
 
 from librairy.xmpinfo import XmpInfo
+from librairy.utils import get_sha1_hexdigest
 from conf.models import Conf
+
+
+def create_tag_hierarchy(tags):
+    """Function to create a hierarchy of tags in db.
+    keyword argument:
+    tags -- list of tuple containing hierarchical keywords
+    (given by XmapInfo.get_hierarchical_keywords())
+
+    return: list of leafs tags
+    """
+    leafs = []
+    for elem in tags:
+        # initialise parent with None (to start from root tag)
+        parent = None
+        index_end = len(elem) - 1
+        for index, tag in enumerate(elem):
+            parent, created = Tag.objects.get_or_create(
+                    name=tag,
+                    slug=slugify(tag), parent=parent)
+
+            # if we get a leaf tag
+            if index == index_end:
+                leafs.append(parent)
+
+    return leafs
+
 
 
 class PictureFileSystemStorage(FileSystemStorage):
@@ -27,14 +56,15 @@ class PictureFileSystemStorage(FileSystemStorage):
         return super(PictureFileSystemStorage, self)._save(name, content)
 
 
-def set_picturename(instance, filename):
-    """Set pathname under form
-    <LIBRAIRY>/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext."""
-    return os.path.join(
-            LIBRAIRY,
-            instance._set_subdirs + instance.sha1 + '.' + instance.type
-    )
 
+def set_picturename(instance, filename):
+    """
+    Set picture's pathname under form
+    <librairy>/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext.
+    """
+    return os.path.join(LIBRAIRY, instance._set_subdirs(),
+                instance.sha1 + "." + self.type
+            )
 
 
 
@@ -64,10 +94,10 @@ class Picture(models.Model):
     width = models.PositiveIntegerField(verbose_name="File width")
     height = models.PositiveIntegerField(verbose_name="File height")
     # false if landscape or square
-    portrait_orientation = models.BooleanField(
+    portrait_orientation = models.BooleanField(default=False,
             verbose_name="Portrait orientation")
     # false if portrait or square
-    landscape_orientation = models.BooleanField(
+    landscape_orientation = models.BooleanField(default=False,
             verbose_name="Landscape orientation")
     color = models.BooleanField(default=True, verbose_name="Color picture")
     camera = models.CharField(max_length=300, null=True, blank=True,
@@ -80,7 +110,7 @@ class Picture(models.Model):
             verbose_name="Aperture")
     iso = models.PositiveSmallIntegerField(null=True, blank=True,
             verbose_name="Iso sensibility")
-    tags = models.ManyToManyField('PicturesTag', blank=True,
+    tags = models.ManyToManyField('Tag', blank=True,
             verbose_name="Keywords")
     label= models.ForeignKey('Label',null=True, blank=True,
             verbose_name="Label")
@@ -98,9 +128,37 @@ class Picture(models.Model):
             verbose_name="Copyright description")
     copyright_url = models.URLField(null=True, blank=True,
             verbose_name="Copyright url")
+    # True when metadatas must be reloaded on save
+    reload_metadatas = models.BooleanField(default=False)
+    # True when previews must be regenerated on save
+    regenerate_previews = models.BooleanField(default=False)
+
 
     class Meta:
         ordering = ['importation_date']
+
+
+    def save(self, **kwargs):
+        # store infos
+        reload = self.reload_metadatas
+        regenerate = self.regenerate_previews
+        created = False
+        if not self.pk:
+            created = True
+            self.sha1 = 
+        # reset infos
+        self.reload_metadatas = False
+        self.regenerate_previews = False
+        super(Picture, self).save()
+        # reload metadatas if necessary (creation or client order)
+        if created or reload:
+            self.load_metadatas()
+        # regenerate previews if necessary (creation or client order)
+        if created or regenerate:
+            self.generate_previews()
+
+
+
 
 
     def _set_subdirs(self):
@@ -111,9 +169,76 @@ class Picture(models.Model):
         )
 
 
+
+    def _get_pathname(self):
+        """Returns absolute pathname of picture'source like :
+        <LIBRAIRY>/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext.
+        """
+        return os.path.join(MEDIA_ROOT, LIBRAIRY, self._set_subdirs(),
+                self.sha1 + "." + self.type
+        )
+
+
+
     def load_metadatas(self):
         """Loads metadatas from picture file and store them in db."""
-        pass
+        source_pathname = self._get_pathname()
+        # we use Pil here to read format, width and height of image because wand
+        # loads all image in memory to read them and it's slow (0.5s arround with wand
+        # against less than 0.2 with Pil for a Canon 5DIII full size picture)
+        img = PilImage.open(source_pathname)
+        self.width, self.height = img.size
+        self.type = img.format
+        if self.height > self.width:
+            self.portrait_orientation = True
+        elif self.width > self.height:
+            self.landscape_orientation = True
+        # delete picture object
+        del img
+
+        # load XMP object
+        xmp = XmpInfo(source_pathname)
+
+        self.title = xmp.get_title()[:140]
+        self.legend = xmp.get_legend()
+        self.weight = os.path.getsize(pathname)
+        self.camera = xmp.get_camera()[:140]
+        self.lens = xmp.get_lens()[:140]
+        self.speed = xmp.get_speed()[:30]
+        self.aperture = xmp.get_aperture()[:30]
+        self.iso = xmp.get_iso()
+        self.rate = xmp.get_rate()
+        label = xmp.get_label()[:150]
+        if label:
+            # get or create label
+            label, created = Label.objects.get_or_create(
+                    name=label,
+                    slug=slugify(label))
+            self.label = label
+        self.copyright = xmp.get_copyright()
+        self.copyright_state = xmp.get_copyright_state()
+        self.copyright_description = xmp.get_usage_terms()
+        self.copyright_url = xmp.get_copyright_url()
+        self.exif_origin_date = xmp.get_date_origin()
+        self.exif_date = xmp.get_date_created()
+        # save metadatas in db
+        self.save()
+        # add m2m relations
+        hierarchical_tags = xmp.get_hierarchical_keywords()
+        if hierarchical_tags:
+            tags = create_tag_hierarchy(hierarchical_tags)
+            for tag in tags:
+                self.tags.add(tag)
+        else:
+            tags = xmp.get_keywords()
+            for elem in tags:
+                tag, created = Tag.objects.get_or_create(
+                        name=elem,
+                        slug=slugify(elem),
+                        parent=None
+                )
+                self.tags.add(tag)
+
 
 
     def generate_previews(self):
@@ -122,9 +247,9 @@ class Picture(models.Model):
         # set preview name
         filename = "{}.jpg".format(self.sha1)
         subdirs = self._set_subdirs()
-        source_pathname = os.path.join(LIBRAIRY, subdirs,
-                self.sha1 + "." + self.type
-        )
+        source_pathname = self._get_pathname()
+        self.previews_path = os.path.join(subdirs, filename)
+        self.save()
         resize_max = []
         # !!! use cache here
         conf = Conf.objects.latest()
@@ -268,21 +393,42 @@ class Picture(models.Model):
 
 
 
-                
+        def delete_previews(self):
+            """Delete previews file."""
+            # search for previews directorys
+            for file in os.listdir(PREVIEWS_DIR):
+                # if file is a directory
+                if os.path.isdir(os.path.join(PREVIEWS_DIR, file)):
+                    try:
+                        # remove file from directory
+                        os.remove(os.path.join(PREVIEWS_DIR, file,
+                            self.previews_path)
+                        )
+                    except FileNotFoundError:
+                        pass
 
 
 
+        def delete_picture(self):
+            """Delete original picture file."""
+            try:
+                os.remove(self._get_pathname())
+            except FileNotFoundError:
+                pass
 
 
 
-
-
-class PicturesTag(models.Model):
-    """Table for all pictures."""
+class Tag(MPTTModel):
+    """Table for all tags."""
     name = models.CharField(max_length=150, unique=True,
             verbose_name="Name")
     slug = models.SlugField(max_length=150, db_index=True, unique=True,
             verbose_name="Slug")
+    parent = models.ForeignKey('Tag', null=True, blank=True)
+
+    class Meta:
+        unique_together = ('parent', 'name')
+        ordering = ['name']
 
     def __str__(self):
         return self.name

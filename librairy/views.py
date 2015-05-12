@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics
 
 from librairy.serializers import *
-from librairy.models import PicturesTag, Collection, CollectionsEnsemble, \
+from librairy.models import Tag, Collection, CollectionsEnsemble, \
         Label, Directory, Picture
 
 
@@ -11,8 +11,8 @@ class PicturesTagViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows tags to be viewed or edited.
     """
-    queryset = PicturesTag.objects.all()
-    serializer_class = PicturesTagSerializer
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
 
 

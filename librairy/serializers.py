@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from librairy.models import Picture, PicturesTag, Label, Directory, \
+from librairy.models import Picture, Tag, Label, Directory, \
         Collection, CollectionsEnsemble
 
 
-class PicturesTagSerializer(serializers.HyperlinkedModelSerializer):
+class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = PicturesTag
+        model = Tag
         fields = ('name', 'slug')
 
 
@@ -54,7 +54,7 @@ class PictureSerializer(serializers.HyperlinkedModelSerializer):
     aperture = serializers.CharField(read_only=True)
     iso = serializers.CharField(read_only=True)
     type = serializers.CharField(read_only=True)
-    tags = PicturesTagSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
     label = LabelSerializer()
     rate = serializers.IntegerField(read_only=True, min_value=0,
             max_value=5)

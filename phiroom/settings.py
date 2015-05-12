@@ -31,7 +31,8 @@ TEMPLATE_DIRS = (
 
 
 # location of librairy data (images files)
-LIBRAIRY = os.path.join(BASE_DIR, "phiroom/data/images/librairy")
+# relative to MEDIA_ROOT
+LIBRAIRY = "images/librairy"
 PREVIEWS_DIR = os.path.join(BASE_DIR, "phiroom/data/images/previews")
 PHIROOM = 'http://phiroom.org'
 
