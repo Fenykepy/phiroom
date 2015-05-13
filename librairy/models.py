@@ -4,6 +4,8 @@ from PIL import Image as PilImage
 
 from django.db import models
 from django.core.files.storage import FileSystemStorage
+from django.http import Http404
+from django.core.files.images import ImageFile
 
 from mptt.models import MPTTModel, TreeForeignKey
 from thumbnail import ThumbnailFactory
@@ -128,36 +130,10 @@ class Picture(models.Model):
             verbose_name="Copyright description")
     copyright_url = models.URLField(null=True, blank=True,
             verbose_name="Copyright url")
-    # True when metadatas must be reloaded on save
-    reload_metadatas = models.BooleanField(default=False)
-    # True when previews must be regenerated on save
-    regenerate_previews = models.BooleanField(default=False)
 
 
     class Meta:
         ordering = ['importation_date']
-
-
-    def save(self, **kwargs):
-        # store infos
-        reload = self.reload_metadatas
-        regenerate = self.regenerate_previews
-        created = False
-        if not self.pk:
-            created = True
-            self.sha1 = 
-        # reset infos
-        self.reload_metadatas = False
-        self.regenerate_previews = False
-        super(Picture, self).save()
-        # reload metadatas if necessary (creation or client order)
-        if created or reload:
-            self.load_metadatas()
-        # regenerate previews if necessary (creation or client order)
-        if created or regenerate:
-            self.generate_previews()
-
-
 
 
 
@@ -174,9 +150,7 @@ class Picture(models.Model):
         """Returns absolute pathname of picture'source like :
         <LIBRAIRY>/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext.
         """
-        return os.path.join(MEDIA_ROOT, LIBRAIRY, self._set_subdirs(),
-                self.sha1 + "." + self.type
-        )
+        return os.path.join(MEDIA_ROOT, self.source_file.name)
 
 
 
@@ -201,7 +175,7 @@ class Picture(models.Model):
 
         self.title = xmp.get_title()[:140]
         self.legend = xmp.get_legend()
-        self.weight = os.path.getsize(pathname)
+        self.weight = self.source_file.size
         self.camera = xmp.get_camera()[:140]
         self.lens = xmp.get_lens()[:140]
         self.speed = xmp.get_speed()[:30]
@@ -547,4 +521,53 @@ class CollectionsEnsemble(MPTTModel):
     def __str__(self):
         return self.name
 
-    
+
+
+
+class PictureFactory(object):
+    """Class to create new pictures objects."""
+
+    def __init__(self, file=None, directory_id=None):
+        """
+        Make a picture object from given file.
+        file: pathname. It MUST be an image file.
+        directory: directory id.
+        """
+        self.picture = Picture()
+        if not os.path.isfile(file):
+            raise Http404
+        self.pathname = file
+        self.picture.sha1 = _get_file_sha1(file)
+        self.picture.directory = _get_directory(directory_id)
+        # save picture object
+        self.picture.save()
+        # load metadatas
+        self.picture.load_metadatas()
+        # generate previews
+        self.picture.generate_previews()
+       
+        # return picture object
+        return self.picture
+
+
+    def _get_directory(self, directory_id):
+        """Return directory object or None."""
+        try:
+            directory = Directory.objects.get(pk=directory_id)
+        except:
+            return None
+        return directory
+
+
+
+    def _get_file_sha1(self):
+        """Return sha1 hash from file."""
+        try:
+            self.picture.sha1 = get_sha1_hexdigest(self.pathname)
+        except AttributeError:
+             with open(self.pathname, 'rb') as f:
+                 self.picture.sha1 = get_sha1_hexdigest(ImageFile(f))
+        return
+
+
+
