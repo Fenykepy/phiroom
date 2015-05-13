@@ -65,7 +65,7 @@ def set_picturename(instance, filename):
     <librairy>/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext.
     """
     return os.path.join(LIBRAIRY, instance._set_subdirs(),
-                instance.sha1 + "." + self.type
+                instance.sha1 + "." + instance.type
             )
 
 
@@ -76,13 +76,14 @@ class Picture(models.Model):
             verbose_name="Importation date")
     last_update = models.DateTimeField(auto_now=True,
             verbose_name="Last update date")
-    sha1 = models.CharField(max_length=42, unique=True, db_index=True)
+    sha1 = models.CharField(max_length=42)
     source_file = models.ImageField(upload_to=set_picturename,
             storage=PictureFileSystemStorage()
     )
     previews_path = models.CharField(max_length=254,
             blank=True, null=True)
-    directory = models.ForeignKey('Directory', verbose_name="Folder")
+    directory = models.ForeignKey('Directory', verbose_name="Folder",
+            null=True, blank=True)
     title = models.CharField(max_length=140, null=True, blank=True,
             verbose_name="Title")
     legend = models.TextField(null=True, blank=True,
@@ -91,10 +92,14 @@ class Picture(models.Model):
             verbose_name="Importation name")
     name = models.CharField(max_length=140,
             verbose_name="Name")
-    type = models.CharField(max_length=30, verbose_name="File type")
-    weight = models.PositiveIntegerField(verbose_name="File weight")
-    width = models.PositiveIntegerField(verbose_name="File width")
-    height = models.PositiveIntegerField(verbose_name="File height")
+    type = models.CharField(max_length=30, null=True, blank=True,
+            verbose_name="File type")
+    weight = models.PositiveIntegerField(null=True, blank=True,
+            verbose_name="File weight")
+    width = models.PositiveIntegerField(null=True, blank=True,
+            verbose_name="File width")
+    height = models.PositiveIntegerField(null=True, blank=True,
+            verbose_name="File height")
     # false if landscape or square
     portrait_orientation = models.BooleanField(default=False,
             verbose_name="Portrait orientation")
@@ -114,10 +119,10 @@ class Picture(models.Model):
             verbose_name="Iso sensibility")
     tags = models.ManyToManyField('Tag', blank=True,
             verbose_name="Keywords")
-    label= models.ForeignKey('Label',null=True, blank=True,
+    label= models.ForeignKey('Label', null=True, blank=True,
             verbose_name="Label")
-    rate = models.PositiveSmallIntegerField(default=0,
-            verbose_name="Rating")
+    rate = models.PositiveSmallIntegerField(default=0, null=True,
+            blank=True, verbose_name="Rating")
     exif_date = models.DateTimeField(auto_now_add=False, auto_now=False,
         null=True, blank=True, verbose_name="Exif date")
     exif_origin_date = models.DateTimeField(auto_now_add=False,
@@ -134,6 +139,7 @@ class Picture(models.Model):
 
     class Meta:
         ordering = ['importation_date']
+        get_latest_by = 'importation_date'
 
 
 
@@ -150,6 +156,7 @@ class Picture(models.Model):
         """Returns absolute pathname of picture'source like :
         <LIBRAIRY>/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext.
         """
+        print(self.source_file.name)
         return os.path.join(MEDIA_ROOT, self.source_file.name)
 
 
@@ -157,25 +164,18 @@ class Picture(models.Model):
     def load_metadatas(self):
         """Loads metadatas from picture file and store them in db."""
         source_pathname = self._get_pathname()
-        # we use Pil here to read format, width and height of image because wand
-        # loads all image in memory to read them and it's slow (0.5s arround with wand
-        # against less than 0.2 with Pil for a Canon 5DIII full size picture)
-        img = PilImage.open(source_pathname)
-        self.width, self.height = img.size
-        self.type = img.format
+
         if self.height > self.width:
             self.portrait_orientation = True
         elif self.width > self.height:
             self.landscape_orientation = True
-        # delete picture object
-        del img
 
         # load XMP object
         xmp = XmpInfo(source_pathname)
 
         self.title = xmp.get_title()[:140]
         self.legend = xmp.get_legend()
-        self.weight = self.source_file.size
+        self.weight = os.path.getsize(source_pathname)
         self.camera = xmp.get_camera()[:140]
         self.lens = xmp.get_lens()[:140]
         self.speed = xmp.get_speed()[:30]
@@ -537,37 +537,50 @@ class PictureFactory(object):
         if not os.path.isfile(file):
             raise Http404
         self.pathname = file
-        self.picture.sha1 = _get_file_sha1(file)
-        self.picture.directory = _get_directory(directory_id)
-        # save picture object
-        self.picture.save()
-        # load metadatas
+        self.picture.name_import = os.path.basename(file)
+        self.picture.name = self.picture.name_import
+        self.picture.type = self._get_picture_type()
+        self.picture.directory = self._get_directory(
+                directory_id
+        )
+        with open(self.pathname, 'rb') as f:
+            file = ImageFile(f)
+            self.picture.sha1 = get_sha1_hexdigest(file)
+            self.picture.source_file = file
+            self.picture.size = file.size
+            self.picture.width = file.width
+            self.picture.height = file.height
+            self.picture.save()
+        # load metadatas (and save)
         self.picture.load_metadatas()
         # generate previews
         self.picture.generate_previews()
        
-        # return picture object
-        return self.picture
+        return
 
 
     def _get_directory(self, directory_id):
         """Return directory object or None."""
         try:
-            directory = Directory.objects.get(pk=directory_id)
+            directory = Directory.objects.get(
+                    pk=directory_id
+            )
         except:
             return None
         return directory
 
 
+    def _get_picture_type(self):
+        """Return image type."""
+        # we use Pil here to read format of image because wand
+        # loads all image in memory to read them and it's slow (0.5s arround with wand
+        # against less than 0.2 with Pil for a Canon 5DIII full size picture)
+        img = PilImage.open(self.pathname)
+        type = img.format
+        del img
+        
+        return type.lower()
 
-    def _get_file_sha1(self):
-        """Return sha1 hash from file."""
-        try:
-            self.picture.sha1 = get_sha1_hexdigest(self.pathname)
-        except AttributeError:
-             with open(self.pathname, 'rb') as f:
-                 self.picture.sha1 = get_sha1_hexdigest(ImageFile(f))
-        return
 
 
 
