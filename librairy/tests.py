@@ -15,6 +15,87 @@ from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
 PICT_FILE = 'librairy/test_files/FLR_15_2822.jpg'
 PICT_PATH = os.path.join(BASE_DIR, PICT_FILE)
 
+class PictureFactoryTest(TestCase):
+    """Picture factory test class."""
+
+    def test_picture_factory(self):
+        """PictureFactory test."""
+
+        # create a test Directory
+        dir = Directory(name="Test")
+        dir.save()
+        
+        # create a first Picture from test file with factory
+        # without directory
+        factory = PictureFactory(file=PICT_PATH)
+        self.assertEqual(factory.cloned, False) 
+        
+        # assert picture has been created
+        pict = Picture.objects.get(pk=factory.picture.pk)
+        # assert sha1 is ok
+        self.assertEqual(len(pict.sha1), 40)
+        # assert metadatas have been loaded
+        self.assertEqual(pict.weight, 13468551)
+        self.assertEqual(pict.width, 3840)
+        self.assertEqual(pict.height, 5120)
+        self.assertEqual(pict.type, 'jpeg')
+        self.assertEqual(pict.name_import, 'FLR_15_2822.jpg')
+        self.assertEqual(pict.name, 'FLR_15_2822.jpg')
+        self.assertEqual(pict.source_file.name,
+            os.path.join(LIBRAIRY, 'ae/2b/ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092.jpeg')
+        )
+        self.assertEqual(pict.lens, '150mm')
+        self.assertEqual(pict.directory, None)
+        # get large preview path
+        preview_path = os.path.join(
+                PREVIEWS_DIR,
+                LARGE_PREVIEWS_FOLDER,
+                'ae/2b/ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092.jpg'
+            )
+        # assert previews have been generated
+        self.assertTrue(os.path.isfile(preview_path))
+
+        # store preview last modification time to ensure they are not
+        # generated again when a clone is detected
+        mod_time = os.path.getmtime(preview_path)
+
+        
+        # create a second Picture from test file with factory
+        # use given directory
+        factory = PictureFactory(file=PICT_PATH, directory_id=dir.pk)
+        self.assertEqual(factory.cloned, True)
+
+        # assert new picture has been created
+        pict2 = Picture.objects.get(pk=factory.picture.pk)
+        # assert it has same sha1 than first Picture
+        self.assertEqual(pict.sha1, pict2.sha1)
+        # assert metadatas are same
+        self.assertEqual(pict2.weight, 13468551)
+        self.assertEqual(pict2.width, 3840)
+        self.assertEqual(pict2.height, 5120)
+        self.assertEqual(pict2.type, 'jpeg')
+        self.assertEqual(pict2.name_import, 'FLR_15_2822.jpg')
+        self.assertEqual(pict2.name, 'FLR_15_2822.jpg')
+        self.assertEqual(pict2.source_file.name,
+            os.path.join(LIBRAIRY, 'ae/2b/ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092.jpeg')
+        )
+        self.assertEqual(pict2.lens, '150mm')
+        # assert directory is good one
+        self.assertEqual(pict2.directory, dir)
+        # assert previews haven't been regenerated
+        new_mod_time = os.path.getmtime(preview_path)
+        self.assertEqual(mod_time, new_mod_time)
+        # assert preview still exists
+        self.assertTrue(os.path.isfile(preview_path))
+
+        
+
+
+        
+
+
+
+
 
 
 class PictureTest(TestCase):
@@ -26,7 +107,8 @@ class PictureTest(TestCase):
             
         with open(PICT_PATH, 'rb') as f:
             file = ImageFile(f)
-            self.pict.sha1 = 'ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092'
+            # false sha1 for testing
+            self.pict.sha1 = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
             self.pict.source_file = file
             self.pict.weight = 13468551
             self.pict.width = 3840
@@ -76,8 +158,6 @@ class PictureTest(TestCase):
             portrait_orientation = True
         else:
             portrait_orientation = False
-
-
 
         def set_preview_path(dir):
             return os.path.join(
@@ -201,6 +281,7 @@ class PictureTest(TestCase):
         self.assertEqual(count_previews(preview_name), 0)
 
 
+
     def test_delete_picture(self):
         """Checks that picture file is correctly deleted."""
         # assert file exists
@@ -211,4 +292,16 @@ class PictureTest(TestCase):
 
         # assert file has been removed
         self.assertEqual(os.path.isfile(self.pict._get_pathname()), False)
+
+
+
+    def tearDown(self):
+        """Remove remaining files from tests."""
+        for root, dirs, files in os.walk(MEDIA_ROOT):
+            for file in files:
+                if file[0:40] == self.pict.sha1:
+                    #print('remove' + os.path.join(root, file))
+                    os.remove(os.path.join(root, file))
+
+
         

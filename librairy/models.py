@@ -78,7 +78,7 @@ class Picture(models.Model):
             verbose_name="Importation date")
     last_update = models.DateTimeField(auto_now=True,
             verbose_name="Last update date")
-    sha1 = models.CharField(max_length=42)
+    sha1 = models.CharField(max_length=42, db_index=True)
     source_file = models.ImageField(upload_to=set_picturename,
             storage=PictureFileSystemStorage()
     )
@@ -158,7 +158,7 @@ class Picture(models.Model):
         """Returns absolute pathname of picture'source like :
         <LIBRAIRY>/4a/52/4a523fe9c50a2f0b1dd677ae33ea0ec6e4a4b2a9.ext.
         """
-        print(self.source_file.name)
+        #print(self.source_file.name)
         return os.path.join(MEDIA_ROOT, self.source_file.name)
 
 
@@ -187,8 +187,7 @@ class Picture(models.Model):
         if label:
             # get or create label
             label, created = Label.objects.get_or_create(
-                    name=label,
-                    slug=slugify(label)
+                    name=label
             )
             self.label = label
         self.copyright = xmp.get_copyright()
@@ -210,7 +209,6 @@ class Picture(models.Model):
             for elem in tags:
                 tag, created = Tag.objects.get_or_create(
                         name=elem,
-                        slug=slugify(elem),
                         parent=None
                 )
                 self.tags.add(tag)
@@ -410,6 +408,14 @@ class Tag(MPTTModel):
         return self.name
 
 
+    def save(self, **kwargs):
+        """Set slug from name then save."""
+        self.slug = slugify(self.name)
+        super(Tag, self).save()
+
+
+
+
 
 class Label(models.Model):
     """Table for all labels."""
@@ -420,6 +426,14 @@ class Label(models.Model):
 
     def __str__(self):
         return self.name
+
+
+    def save(self, **kwargs):
+        """Set slug from name then save."""
+        self.slug = slugify(self.name)
+        super(Label, self).save()
+
+
 
 
 
@@ -446,6 +460,14 @@ class Directory(MPTTModel):
 
     def __str__(self):
         return self.name
+
+
+    def save(self, **kwargs):
+        """Set slug from name then save."""
+        self.slug = slugify(self.name)
+        super(Directory, self).save()
+
+
     
 
 
@@ -473,6 +495,14 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
+
+
+    def save(self, **kwargs):
+        """Set slug from name then save."""
+        self.slug = slugify(self.name)
+        super(Collection, self).save()
+
+
 
 
 class Collection_pictures(models.Model):
@@ -524,6 +554,12 @@ class CollectionsEnsemble(MPTTModel):
         return self.name
 
 
+    def save(self, **kwargs):
+        """Set slug from name then save."""
+        self.slug = slugify(self.name)
+        super(CollectionsEnsemble, self).save()
+
+
 
 
 class PictureFactory(object):
@@ -536,6 +572,7 @@ class PictureFactory(object):
         directory: directory id.
         """
         self.picture = Picture()
+        self.cloned = False
         if not os.path.isfile(file):
             raise Http404
         self.pathname = file
@@ -552,13 +589,40 @@ class PictureFactory(object):
             self.picture.weight = file.size
             self.picture.width = file.width
             self.picture.height = file.height
+
+            # try to get a clone
+            clone = self._get_clone(self.picture.sha1)
+            if clone:
+                # use it's attributes to create new Picture
+                # no need to create previews and load metadatas
+                clone.pk = None
+                clone.name_import = self.picture.name_import
+                clone.name = clone.name_import
+                clone.directory = self.picture.directory
+                self.picture = clone
+                self.picture.save()
+                self.cloned = True
+
+                return 
+
+            # if no clone save, generate previews and load metadatas
             self.picture.save()
+        
         # load metadatas (and save)
         self.picture.load_metadatas()
         # generate previews
         self.picture.generate_previews()
        
         return
+
+
+    def _get_clone(self, sha1):
+        """Search image with same sha1, returns it or None."""
+        try:
+            clone = Picture.objects.get(sha1=sha1)
+        except:
+            return None
+        return clone
 
 
     def _get_directory(self, directory_id):
