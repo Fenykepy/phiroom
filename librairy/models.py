@@ -369,28 +369,28 @@ class Picture(models.Model):
 
 
 
-        def delete_previews(self):
-            """Delete previews file."""
-            # search for previews directorys
-            for file in os.listdir(PREVIEWS_DIR):
-                # if file is a directory
-                if os.path.isdir(os.path.join(PREVIEWS_DIR, file)):
-                    try:
-                        # remove file from directory
-                        os.remove(os.path.join(PREVIEWS_DIR, file,
-                            self.previews_path)
-                        )
-                    except FileNotFoundError:
-                        pass
+    def delete_previews(self):
+        """Delete previews file."""
+        # search for previews directorys
+        for file in os.listdir(PREVIEWS_DIR):
+            # if file is a directory
+            if os.path.isdir(os.path.join(PREVIEWS_DIR, file)):
+                try:
+                    # remove file from directory
+                    os.remove(os.path.join(PREVIEWS_DIR, file,
+                        self.previews_path)
+                    )
+                except FileNotFoundError:
+                    pass
 
 
 
-        def delete_picture(self):
-            """Delete original picture file."""
-            try:
-                os.remove(self._get_pathname())
-            except FileNotFoundError:
-                pass
+    def delete_picture(self):
+        """Delete original picture file."""
+        try:
+            os.remove(self._get_pathname())
+        except FileNotFoundError:
+            pass
 
 
 

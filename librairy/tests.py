@@ -19,19 +19,20 @@ PICT_PATH = os.path.join(BASE_DIR, PICT_FILE)
 
 class PictureTest(TestCase):
     """Picture test class."""
-    
-    # create Picture object for all tests
-    pict = Picture()
+
+    def setUp(self): 
+        # create Picture object for all tests
+        self.pict = Picture()
             
-    with open(PICT_PATH, 'rb') as f:
-        file = ImageFile(f)
-        pict.sha1 = 'ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092'
-        pict.source_file = file
-        pict.weight = 13468551
-        pict.width = 3840
-        pict.height = 5120
-        pict.type = 'jpg'
-        pict.save()
+        with open(PICT_PATH, 'rb') as f:
+            file = ImageFile(f)
+            self.pict.sha1 = 'ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092'
+            self.pict.source_file = file
+            self.pict.weight = 13468551
+            self.pict.width = 3840
+            self.pict.height = 5120
+            self.pict.type = 'jpg'
+            self.pict.save()
 
     
     def test_set_subdirs(self):
@@ -175,11 +176,39 @@ class PictureTest(TestCase):
         self.assertEqual(self.pict.tags.count(), 4)
 
 
+
     def test_delete_previews(self):
         """Checks that previews files are correctly deleted."""
-        pass
+        preview_name = "{}.jpg".format(self.pict.sha1)
+        
+        def count_previews(preview_name):
+            # count existing previews
+            count = 0
+            for root, dirs, files in os.walk(PREVIEWS_DIR):
+                for file in files:
+                    if file == preview_name:
+                        count += 1
+            return count
+        # generate previews
+        self.pict.generate_previews()
+        # ensure at least one preview exists
+        self.assertTrue(count_previews(preview_name) > 0)
+
+        # delete previews
+        self.pict.delete_previews()
+        
+        # assert no preview remain
+        self.assertEqual(count_previews(preview_name), 0)
 
 
     def test_delete_picture(self):
         """Checks that picture file is correctly deleted."""
-        pass
+        # assert file exists
+        self.assertTrue(os.path.isfile(self.pict._get_pathname()))
+
+        # delete picture
+        self.pict.delete_picture()
+
+        # assert file has been removed
+        self.assertEqual(os.path.isfile(self.pict._get_pathname()), False)
+        
