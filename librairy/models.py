@@ -1,11 +1,13 @@
 import os
 
-from PIL import Image as PilImage
+from PIL import Image
 
 from django.db import models
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
 from django.core.files.images import ImageFile
+from django.template.defaultfilters import slugify
+
 
 from mptt.models import MPTTModel, TreeForeignKey
 from thumbnail import ThumbnailFactory
@@ -175,7 +177,6 @@ class Picture(models.Model):
 
         self.title = xmp.get_title()[:140]
         self.legend = xmp.get_legend()
-        self.weight = os.path.getsize(source_pathname)
         self.camera = xmp.get_camera()[:140]
         self.lens = xmp.get_lens()[:140]
         self.speed = xmp.get_speed()[:30]
@@ -187,7 +188,8 @@ class Picture(models.Model):
             # get or create label
             label, created = Label.objects.get_or_create(
                     name=label,
-                    slug=slugify(label))
+                    slug=slugify(label)
+            )
             self.label = label
         self.copyright = xmp.get_copyright()
         self.copyright_state = xmp.get_copyright_state()
@@ -547,7 +549,7 @@ class PictureFactory(object):
             file = ImageFile(f)
             self.picture.sha1 = get_sha1_hexdigest(file)
             self.picture.source_file = file
-            self.picture.size = file.size
+            self.picture.weight = file.size
             self.picture.width = file.width
             self.picture.height = file.height
             self.picture.save()
@@ -575,7 +577,7 @@ class PictureFactory(object):
         # we use Pil here to read format of image because wand
         # loads all image in memory to read them and it's slow (0.5s arround with wand
         # against less than 0.2 with Pil for a Canon 5DIII full size picture)
-        img = PilImage.open(self.pathname)
+        img = Image.open(self.pathname)
         type = img.format
         del img
         
