@@ -249,7 +249,8 @@ class Picture(models.Model):
                 self.width < conf.large_previews_size and
                 self.height < conf.large_previews_size)):
             preview_pathname = mk_subdirs(LARGE_PREVIEWS_FOLDER)
-            os.symlink(source_pathname, preview_pathname)
+            if not os.path.exists(preview_pathname):
+                os.symlink(source_pathname, preview_pathname)
         # else add large preview to PREVIEWS_MAX
         else:
             resize_max.append(
@@ -394,9 +395,8 @@ class Picture(models.Model):
 
 class Tag(MPTTModel):
     """Table for all tags."""
-    name = models.CharField(max_length=150, unique=True,
-            verbose_name="Name")
-    slug = models.SlugField(max_length=150, db_index=True, unique=True,
+    name = models.CharField(max_length=150, verbose_name="Name")
+    slug = models.SlugField(max_length=150, db_index=True,
             verbose_name="Slug")
     parent = models.ForeignKey('Tag', null=True, blank=True)
 
@@ -406,13 +406,6 @@ class Tag(MPTTModel):
 
     def __str__(self):
         return self.name
-
-
-    def save(self, **kwargs):
-        """Set slug from name then save."""
-        self.slug = slugify(self.name)
-        super(Tag, self).save()
-
 
 
 

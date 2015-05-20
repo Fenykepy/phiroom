@@ -9,9 +9,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from librairy import views
 
 
-urlpatterns = patterns('',
+urlpatterns = [
         url(r'^pictures/$', views.PicturesList.as_view()),
-)
+]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
 
 
 # To get static files during development

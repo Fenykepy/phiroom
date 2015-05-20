@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 
 from librairy.serializers import *
 from librairy.models import Tag, Collection, CollectionsEnsemble, \
@@ -13,21 +13,25 @@ from librairy.models import Tag, Collection, CollectionsEnsemble, \
 
 
 
-class PicturesList(APIView):
+class PicturesList(generics.ListCreateAPIView):
     """
-    Create a new Picture through PictureFactory or list all pictures.
+    This view presents a list of all pictures and allows new pictures
+    to be created.
     """
-    def get(self, request, format=None):
+    serializer_class = PictureSerializer
+
+
+    def list(self, request):
         pictures = Picture.objects.all()
         serializer = PictureSerializer(pictures, many=True)
         return Response(serializer.data)
 
 
-    def post(self, request, format=None):
+    def create(self, request, format=None):
         serializer = PictureUploadSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            data = serializer.save()
+            return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
