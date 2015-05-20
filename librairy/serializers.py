@@ -39,12 +39,14 @@ class CollectionsEnsembleSerializer(serializers.HyperlinkedModelSerializer):
 
 class PictureUploadSerializer(serializers.Serializer):
     """A serializer to upload a picture through HTTP."""
-    picture = serializers.ImageField(write_only=True)
+    file = serializers.ImageField(write_only=True)
     directory_id = serializers.IntegerField(write_only=True, required=False)
 
     def create(self, validated_data):
         """Create a new Picture instance through PictureFactory."""
         return PictureFactory(**validated_data)
+
+
 
 
 class PictureSerializer(serializers.HyperlinkedModelSerializer):

@@ -573,47 +573,70 @@ class PictureFactory(object):
         """
         self.picture = Picture()
         self.cloned = False
-        if not os.path.isfile(file):
-            raise Http404
-        self.pathname = file
-        self.picture.name_import = os.path.basename(file)
-        self.picture.name = self.picture.name_import
-        self.picture.type = self._get_picture_type()
         self.picture.directory = self._get_directory(
                 directory_id
         )
-        with open(self.pathname, 'rb') as f:
-            file = ImageFile(f)
-            self.picture.sha1 = get_sha1_hexdigest(file)
-            self.picture.source_file = file
-            self.picture.weight = file.size
-            self.picture.width = file.width
-            self.picture.height = file.height
+        # if we got an in memory openned file (from upload)
+        if not isinstance(file, str):
+            self._scan_image(file)
+        # if we got a pathname, open file then readit
+        else:
+            # file should be a pathname
+            if not os.path.isfile(file):
+                raise Http404
+            with open(file, 'rb') as f:
+                self._scan_image(f)
 
-            # try to get a clone
-            clone = self._get_clone(self.picture.sha1)
-            if clone:
-                # use it's attributes to create new Picture
-                # no need to create previews and load metadatas
-                clone.pk = None
-                clone.name_import = self.picture.name_import
-                clone.name = clone.name_import
-                clone.directory = self.picture.directory
-                self.picture = clone
-                self.picture.save()
-                self.cloned = True
-
-                return 
-
-            # if no clone save, generate previews and load metadatas
-            self.picture.save()
+        if not self.cloned:
+            self._load_metadatas()
+            self._generate_previews()
         
-        # load metadatas (and save)
-        self.picture.load_metadatas()
-        # generate previews
-        self.picture.generate_previews()
+        return
+
+
+    def _scan_image(self, f):
+        """Scan info from image file."""
+        file = ImageFile(f)
+        # get file name
+        self.picture.name_import = os.path.basename(f.name)
+        self.picture.name = self.picture.name_import
+        # get image format
+        self.picture.type = self._get_picture_type(f)
+        # get sha1, file, weight, height and width
+        self.picture.sha1 = get_sha1_hexdigest(file)
+        self.picture.source_file = file
+        self.picture.weight = file.size
+        self.picture.width = file.width
+        self.picture.height = file.height
+        # try to get a clone
+        clone = self._get_clone(self.picture.sha1)
+        if clone:
+            # use it's attributes to create new Picture
+            # no need to create previews and load metadatas
+            clone.pk = None
+            clone.name_import = self.picture.name_import
+            clone.name = clone.name_import
+            clone.directory = self.picture.directory
+            self.picture = clone
+            self.picture.save()
+            self.cloned = True
+
+            return 
+
+        # if no clone save
+        self.picture.save()
        
         return
+
+
+    def _generate_previews(self):
+        """generate picture's previews."""
+        self.picture.generate_previews()
+
+
+    def _load_metadatas(self):
+        """load picture's metadatas."""
+        self.picture.load_metadatas()
 
 
     def _get_clone(self, sha1):
@@ -636,12 +659,12 @@ class PictureFactory(object):
         return directory
 
 
-    def _get_picture_type(self):
+    def _get_picture_type(self, file):
         """Return image type."""
         # we use Pil here to read format of image because wand
         # loads all image in memory to read them and it's slow (0.5s arround with wand
         # against less than 0.2 with Pil for a Canon 5DIII full size picture)
-        img = Image.open(self.pathname)
+        img = Image.open(file)
         type = img.format
         del img
         
