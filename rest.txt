@@ -20,8 +20,8 @@ url prefix : /api/
 ---       Pictures        --- (staff only)
 -----------------------------
 
-- librairy/pictures/                (get)       -> list of all pictures (paginated)
-- librairy/pictures/                (post)      -> create a new picture, http upload or directory scan on server
+#- librairy/pictures/                (get)       -> list of all pictures (paginated)
+#- librairy/pictures/                (post)      -> create a new picture, http upload or directory scan on server
 - librairy/pictures/pk/             (get)       -> view a specific picture
 - librairy/pictures/pk/             (put)       -> update a picture (rate, name, legend, etc.)
 - librairy/pictures/pk/             (delete)    -> delete a picture (from server)

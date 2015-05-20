@@ -11,6 +11,7 @@ from librairy import views
 
 urlpatterns = [
         url(r'^pictures/$', views.PicturesList.as_view()),
+        url(r'^pictures/(?P<pk>[0-9]+)/$', views.PictureDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

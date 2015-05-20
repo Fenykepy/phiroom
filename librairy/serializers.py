@@ -78,7 +78,7 @@ class PictureSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Picture
-        fields = ('importation_date', 'last_update', 'source_file',
+        fields = ('pk', 'importation_date', 'last_update', 'source_file',
                 'title', 'legend', 'name_import', 'name', 'type',
                 'weight','width', 'height', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
