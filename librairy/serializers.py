@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from librairy.models import Picture, Tag, Label, Directory, \
-        Collection, CollectionsEnsemble
+        Collection, CollectionsEnsemble, PictureFactory
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
@@ -36,6 +36,15 @@ class CollectionsEnsembleSerializer(serializers.HyperlinkedModelSerializer):
         model = CollectionsEnsemble
         fields = ('name', 'slug')
     
+
+class PictureUploadSerializer(serializers.Serializer):
+    """A serializer to upload a picture through HTTP."""
+    picture = serializers.ImageField(write_only=True)
+    directory_id = serializers.IntegerField(write_only=True, required=False)
+
+    def create(self, validated_data):
+        """Create a new Picture instance through PictureFactory."""
+        return PictureFactory(**validated_data)
 
 
 class PictureSerializer(serializers.HyperlinkedModelSerializer):
