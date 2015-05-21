@@ -40,15 +40,23 @@ class CollectionsEnsembleSerializer(serializers.HyperlinkedModelSerializer):
 class PictureUploadSerializer(serializers.Serializer):
     """A serializer to upload a picture through HTTP."""
     file = serializers.ImageField(write_only=True)
-    directory_id = serializers.IntegerField(required=False)
+    directory_id = serializers.IntegerField(
+            write_only=True,
+            required=False,
+            allow_null=True,
+            default=None
+    )
 
-    def create(self, validated_data):
+    def save(self, **kwargs):
         """Create a new Picture instance through PictureFactory."""
+        validated_data = dict(
+            list(self.validated_data.items()) +
+            list(kwargs.items())
+        )
         # create Picture with factory
         factory = PictureFactory(**validated_data)
         # serialize created object
-        serializer = PictureSerializer(factory.picture)
-        return serializer.data
+        return PictureSerializer(factory.picture, context=self.context)
 
 
 
@@ -56,6 +64,7 @@ class PictureUploadSerializer(serializers.Serializer):
 class PictureSerializer(serializers.HyperlinkedModelSerializer):
     importation_date = serializers.DateTimeField(read_only=True)
     last_update = serializers.DateTimeField(read_only=True)
+    source_file = serializers.CharField(read_only=True)
     name_import = serializers.CharField(read_only=True)
     type = serializers.CharField(read_only=True)
     weight = serializers.IntegerField(read_only=True)
@@ -70,7 +79,7 @@ class PictureSerializer(serializers.HyperlinkedModelSerializer):
     iso = serializers.CharField(read_only=True)
     type = serializers.CharField(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
-    label = LabelSerializer()
+    label = LabelSerializer(read_only=True)
     rate = serializers.IntegerField(read_only=True, min_value=0,
             max_value=5)
     exif_date = serializers.DateTimeField(read_only=True)
@@ -78,13 +87,13 @@ class PictureSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Picture
-        fields = ('pk', 'importation_date', 'last_update', 'source_file',
+        fields = ('pk', 'url', 'importation_date', 'last_update', 'source_file',
                 'title', 'legend', 'name_import', 'name', 'type',
                 'weight','width', 'height', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
                 'speed', 'aperture', 'iso', 'tags', 'label', 'rate',
                 'exif_date', 'exif_origin_date', 'copyright',
-                'copyright_state', 'copyright_url'
+                'copyright_state', 'copyright_url',
             )
 
 

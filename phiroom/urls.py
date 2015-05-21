@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+
 from rest_framework import routers
 from weblog.views import *
 from user.views import *
@@ -23,8 +24,9 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     ## drf api
-    url('^api/posts-by-tag/(?P<slug>[-\w]+)/$', PostsListByTag.as_view()),
+    url('^api/$', api_root),
     url(r'^api/librairy/', include('librairy.urls')), # librairy API
+    url('^api/posts-by-tag/(?P<slug>[-\w]+)/$', PostsListByTag.as_view()),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )
