@@ -40,17 +40,6 @@ class PicturesList(generics.ListCreateAPIView):
         return PictureSerializer
 
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        picture = serializer.save()
-        # create new serializer with PictureSerializer
-        kwargs['context'] = self.get_serializer_context()
-        serializer = PictureSerializer(picture, **kwargs)
-        return Response(serializer.data, status=status.HTTP_201_CREATED) 
-
-
-
 
 class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
     """

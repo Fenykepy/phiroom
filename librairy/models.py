@@ -558,7 +558,7 @@ class CollectionsEnsemble(MPTTModel):
 class PictureFactory(object):
     """Class to create new pictures objects."""
 
-    def __init__(self, file=None, directory_id=None):
+    def __init__(self, file=None, directory_id=None, **kwargs):
         """
         Make a picture object from given file.
         file: pathname. It MUST be an image file.

@@ -37,29 +37,6 @@ class CollectionsEnsembleSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', 'slug')
     
 
-class PictureUploadSerializer(serializers.Serializer):
-    """A serializer to upload a picture through HTTP."""
-    file = serializers.ImageField(write_only=True)
-    directory_id = serializers.IntegerField(
-            write_only=True,
-            required=False,
-            allow_null=True,
-            default=None
-    )
-
-    def save(self, **kwargs):
-        """Create a new Picture instance through PictureFactory."""
-        validated_data = dict(
-            list(self.validated_data.items()) +
-            list(kwargs.items())
-        )
-        # create Picture with factory
-        factory = PictureFactory(**validated_data)
-        # serialize created object
-        return PictureSerializer(factory.picture, context=self.context)
-
-
-
 
 class PictureSerializer(serializers.HyperlinkedModelSerializer):
     importation_date = serializers.DateTimeField(read_only=True)
@@ -80,8 +57,7 @@ class PictureSerializer(serializers.HyperlinkedModelSerializer):
     type = serializers.CharField(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
     label = LabelSerializer(read_only=True)
-    rate = serializers.IntegerField(read_only=True, min_value=0,
-            max_value=5)
+    rate = serializers.IntegerField(min_value=0, max_value=5)
     exif_date = serializers.DateTimeField(read_only=True)
     exif_origin_date = serializers.DateTimeField(read_only=True)
 
@@ -95,5 +71,51 @@ class PictureSerializer(serializers.HyperlinkedModelSerializer):
                 'exif_date', 'exif_origin_date', 'copyright',
                 'copyright_state', 'copyright_url',
             )
+
+
+
+class PictureUploadSerializer(PictureSerializer):
+    """A serializer to upload a picture through HTTP."""
+    file = serializers.ImageField(write_only=True)
+    directory_id = serializers.IntegerField(
+            write_only=True,
+            required=False,
+            allow_null=True,
+            default=None
+    )
+    name = serializers.CharField(read_only=True)
+    copyright_url = serializers.CharField(read_only=True)
+    copyright_state = serializers.CharField(read_only=True)
+    copyright = serializers.CharField(read_only=True)
+    title = serializers.CharField(read_only=True)
+    legend = serializers.CharField(read_only=True)
+    rate = serializers.IntegerField(read_only=True)
+    color = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = Picture
+        fields = ('pk', 'url', 'importation_date', 'last_update', 'source_file',
+                'title', 'legend', 'name_import', 'name', 'type',
+                'weight','width', 'height', 'portrait_orientation',
+                'landscape_orientation', 'color', 'camera', 'lens',
+                'speed', 'aperture', 'iso', 'tags', 'label', 'rate',
+                'exif_date', 'exif_origin_date', 'copyright',
+                'copyright_state', 'copyright_url', 'file', 'directory_id'
+        )
+
+    def save(self, **kwargs):
+        """Create a new Picture instance through PictureFactory."""
+        validated_data = dict(
+            list(self.validated_data.items()) +
+            list(kwargs.items())
+        )
+        # create Picture with factory
+        factory = PictureFactory(**validated_data)
+        # serialize created object
+        print(factory.picture)
+        self.instance = factory.picture
+        return self.instance
+
+
 
 
