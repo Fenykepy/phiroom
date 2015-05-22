@@ -15,6 +15,8 @@ from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
 PICT_FILE = 'librairy/test_files/FLR_15_2822.jpg'
 PICT_PATH = os.path.join(BASE_DIR, PICT_FILE)
 
+
+
 class PictureFactoryTest(TestCase):
     """Picture factory test class."""
 
@@ -292,6 +294,44 @@ class PictureTest(TestCase):
 
         # assert file has been removed
         self.assertEqual(os.path.isfile(self.pict._get_pathname()), False)
+
+
+    def test_keep_or_delete_picturefiles(self):
+        """Checks that picture file deleted when last Picture object
+        with one sha1 is deleted."""
+        # generate two Picture objects with same source file
+        factory = PictureFactory(file=PICT_PATH)
+        self.pict2 = factory.picture
+        # generate two Picture objects with same source file
+        factory = PictureFactory(file=PICT_PATH)
+        self.pict3 = factory.picture
+        # store files path
+        source_file = self.pict2._get_pathname()
+        preview_file = self.pict2.previews_path
+        
+        def picture_files_exist(bool):
+            """asserts pictures object files exit or not."""
+            self.assertEqual(os.path.isfile(source_file), bool)
+            self.assertEqual(os.path.isfile(os.path.join(
+                PREVIEWS_DIR,
+                LARGE_PREVIEWS_FOLDER,
+                preview_file
+            )), bool)
+        # assert picture source and large preview files exist
+        picture_files_exist(True)
+        picture_files_exist(True)
+        # delete pict2
+        self.pict2.delete()
+        # assert picture source and large preview files still exist
+        picture_files_exist(True)
+        picture_files_exist(True)
+        # delete pict3
+        self.pict3.delete()
+        # assert picture source and large preview files have been deleted
+        picture_files_exist(False)
+        picture_files_exist(False)
+
+
 
 
 

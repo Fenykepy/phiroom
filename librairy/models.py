@@ -7,7 +7,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import Http404
 from django.core.files.images import ImageFile
 from django.template.defaultfilters import slugify
-from django.models.signals import pre_delete
+from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
 
