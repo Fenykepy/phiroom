@@ -7,6 +7,8 @@ from django.core.files.storage import FileSystemStorage
 from django.http import Http404
 from django.core.files.images import ImageFile
 from django.template.defaultfilters import slugify
+from django.models.signals import pre_delete
+from django.dispatch import receiver
 
 
 from mptt.models import MPTTModel, TreeForeignKey
@@ -551,6 +553,25 @@ class CollectionsEnsemble(MPTTModel):
         """Set slug from name then save."""
         self.slug = slugify(self.name)
         super(CollectionsEnsemble, self).save()
+
+
+
+
+@receiver(pre_delete, sender=Picture)
+def keep_or_delete_picturefiles(sender, instance, **kwargs):
+    """
+    Delete picture's related files (original, previews), when
+    last Picture object using picture's sha1 will be deleted.
+    """
+    # count remaining pictures with instance sha1
+    nb = Picture.objects.filter(sha1=instance.sha1).count()
+    if nb == 1:
+        # last Picture object relying to files will be deleted,
+        # delete files too
+        instance.delete_picture()
+        instance.delete_previews()
+
+    return
 
 
 
