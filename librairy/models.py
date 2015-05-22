@@ -437,7 +437,7 @@ class Directory(MPTTModel):
     name = models.CharField(max_length=150, verbose_name="Name")
     slug = models.SlugField(max_length=150, verbose_name="Slug")
     parent = TreeForeignKey('self', null=True, blank=True,
-            related_name="Children")
+            related_name="children")
 
     def get_children_pictures(self):
         """Returns all pictures of a directory and its sub directorys."""

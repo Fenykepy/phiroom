@@ -4,6 +4,16 @@ from librairy.models import Picture, Tag, Label, Directory, \
         Collection, CollectionsEnsemble, PictureFactory
 
 
+
+class RecursiveField(serializers.Serializer):
+    """Field wich returns children of self nested models."""
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
+
+
+
+
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Tag
@@ -17,10 +27,26 @@ class LabelSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', 'slug', 'color')
 
 
+
 class DirectorySerializer(serializers.HyperlinkedModelSerializer):
+    """Directory objects serializer."""
+    slug = serializers.CharField(read_only=True)
+    children = serializers.HyperlinkedRelatedField(
+            many=True,
+            read_only=True,
+            view_name='directory-detail'
+    )
     class Meta:
         model = Directory
-        fields = ('name', 'slug')
+        fields = ('url', 'pk', 'name', 'slug', 'parent', 'children')
+
+
+
+class DirectorysListSerializer(DirectorySerializer):
+    """Serializer for tree of directory objects."""
+    children = RecursiveField(many=True, read_only=True)
+
+
 
 
 
@@ -63,7 +89,7 @@ class PictureSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Picture
-        fields = ('pk', 'url', 'importation_date', 'last_update', 'source_file',
+        fields = ('url', 'pk', 'importation_date', 'last_update', 'source_file',
                 'title', 'legend', 'name_import', 'name', 'type',
                 'weight','width', 'height', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
@@ -94,7 +120,7 @@ class PictureUploadSerializer(PictureSerializer):
 
     class Meta:
         model = Picture
-        fields = ('pk', 'url', 'importation_date', 'last_update', 'source_file',
+        fields = ('url', 'pk', 'importation_date', 'last_update', 'source_file',
                 'title', 'legend', 'name_import', 'name', 'type',
                 'weight','width', 'height', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',

@@ -17,6 +17,7 @@ from librairy.models import Tag, Collection, CollectionsEnsemble, \
 def api_root(request, format=None):
     return Response({
         'pictures': reverse('picture-list', request=request, format=format),
+        'directorys': reverse('directory-list', request=request, format=format),
     })
 
 
@@ -49,6 +50,24 @@ class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Picture.objects.all()
     serializer_class = PictureSerializer
 
+
+
+class DirectorysList(generics.ListCreateAPIView):
+    """
+    This view presents a hierarchical tree (list) of all directorys
+    and allows to create new directorys.
+    """
+    queryset = Directory.objects.filter(parent=None)
+    serializer_class = DirectorysListSerializer
+
+
+class DirectoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    This view presents a specific directory and allows to update or delete it.
+    """
+
+    queryset = Directory.objects.all()
+    serializer_class = DirectorySerializer
 
 
 

@@ -22,8 +22,8 @@ url prefix : /api/
 
 #- librairy/pictures/                (get)       -> list of all pictures (paginated)
 #- librairy/pictures/                (post)      -> create a new picture, http upload or directory scan on server
-- librairy/pictures/pk/             (get)       -> view a specific picture
-- librairy/pictures/pk/             (put)       -> update a picture (rate, name, legend, etc.)
+#- librairy/pictures/pk/             (get)       -> view a specific picture
+#- librairy/pictures/pk/             (put)       -> update a picture (rate, name, legend, etc.)
 - librairy/pictures/pk/             (delete)    -> delete a picture (from server)
 
 
@@ -32,14 +32,14 @@ url prefix : /api/
 ---       Directorys      --- (staff only)
 -----------------------------
 
-- librairy/folders/                 (get)       -> recursive list of directorys (name, slug, pk, parent)
-- librairy/folders/                 (post)      -> create a new directory (name, parent)
-- librairy/folders/pk-slug/         (get)       -> list of directory's pictures
-- librairy/folders/pk-slug/         (put)       -> update a directory (name)
-- librairy/folders/pk-slug/         (delete)    -> delete a directory
-- librairy/folders/pk-slug/pk/      (get)       -> view specific picture in directory
-- librairy/folders/pk-slug/pk/      (post)      -> add a picture to directory
-- librairy/folders/pk-slug/pk/      (delete)    -> delete a picture from directory
+#- librairy/directory/                 (get)       -> recursive list of directorys (name, slug, pk, parent)
+#- librairy/directory/                 (post)      -> create a new directory (name, parent)
+- librairy/directory/pk-slug/         (get)       -> list of directory's pictures
+#- librairy/directory/pk-slug/         (put)       -> update a directory (name, parent)
+#- librairy/directory/pk-slug/         (delete)    -> delete a directory (and its sub-directorys)
+- librairy/directory/pk-slug/pk/      (get)       -> view specific picture in directory
+- librairy/directory/pk-slug/pk/      (post)      -> add a picture to directory
+- librairy/directory/pk-slug/pk/      (delete)    -> delete a picture from directory
 
 
 
