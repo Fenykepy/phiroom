@@ -2,9 +2,13 @@ import os
 
 from PIL import Image
 
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.core.files.images import ImageFile
+from django.core.urlresolvers import reverse
 
+from rest_framework.test import APIClient, APITestCase
+
+from user.models import User
 from librairy.models import Picture, Collection, CollectionsEnsemble, \
         Label, Tag, Directory, PictureFactory, set_picturename
 
@@ -344,4 +348,114 @@ class PictureTest(TestCase):
                     os.remove(os.path.join(root, file))
 
 
+
+
+class APITest(APITestCase):
+    """Class to test rest API."""
+
+    def setUp(self):
+        # create test users
+        self.user = User.objects.create_user(
+                username="tom",
+                email="tom@lavilotte-rolle.fr",
+                password="foo",
+        )
+        self.user.save()
+        # create staff user
+        self.staffuser = User.objects.create_user(
+                username="flr",
+                email="pro@lavilotte-rolle.fr",
+                password="foo",
+        )
+        self.staffuser.is_staff = True
+        self.staffuser.save()
+
+
+        # setup client
+        self.client = APIClient()
+
+
+
+    def test_directorys(self):
+        url = reverse('directory-list')
+        # try to get directory list without login
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # try to post a new directory without login
+        data = {"name":"root directory"}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to put without login
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to delete without login
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+        # login with normal user
+        self.client.login(username='tom', password='foo')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # try to post with normal user
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to put with normal user
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to delete with normal user
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
         
+        # only admin should access to directory
+        # login with staff user
+        self.client.login(username='flr', password='foo')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['results'], [])
+        # try to post a new directory
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['name'], 'root directory')
+        self.assertEqual(response.data['slug'], 'root-directory')
+        self.assertEqual(response.data['parent'], None)
+        self.assertEqual(response.data['children'], [])
+        pk = response.data['pk']
+        # assert directory has been stored in db
+        dir = Directory.objects.get(pk=pk)
+        self.assertEqual(dir.name, 'root directory')
+        # try to update directory
+        data = {"name":"first directory"}
+        url2 = reverse('directory-detail', kwargs={'pk': pk})
+        response = self.client.put(url2, data, format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name'], 'first directory')
+        self.assertEqual(response.data['slug'], 'first-directory')
+        # assert change has been stored in db
+        dir = Directory.objects.get(pk=pk)
+        self.assertEqual(dir.name, 'first directory')
+        # create a second directory to test hierarchy
+        data = {"name": "child directory", "parent": dir.pk}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['name'], 'child directory')
+        self.assertEqual(response.data['slug'], 'child-directory')
+        self.assertEqual(response.data['parent'], dir.pk)
+        pk2 = response.data['pk']
+        dir2 = Directory.objects.get(pk=pk2)
+        # assert directory has been stored in db
+        self.assertEqual(dir2.name, 'child directory')
+        self.assertEqual(dir2.parent, dir)
+        # list directorys and verify hierarchy
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # only root directory should be listed
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['results'][0]['pk'], dir.pk)
+        # child directory should be in children
+        self.assertEqual(response.data['results'][0]['children'][0]['pk'], dir2.pk)
+
+
+
+
+
+

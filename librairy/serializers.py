@@ -14,21 +14,21 @@ class RecursiveField(serializers.Serializer):
 
 
 
-class TagSerializer(serializers.HyperlinkedModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('name', 'slug')
 
 
 
-class LabelSerializer(serializers.HyperlinkedModelSerializer):
+class LabelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Label
         fields = ('name', 'slug', 'color')
 
 
 
-class DirectorySerializer(serializers.HyperlinkedModelSerializer):
+class DirectorySerializer(serializers.ModelSerializer):
     """Directory objects serializer."""
     slug = serializers.CharField(read_only=True)
     children = serializers.HyperlinkedRelatedField(
@@ -50,21 +50,21 @@ class DirectorysListSerializer(DirectorySerializer):
 
 
 
-class CollectionSerializer(serializers.HyperlinkedModelSerializer):
+class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
         fields = ('name', 'slug')
 
 
 
-class CollectionsEnsembleSerializer(serializers.HyperlinkedModelSerializer):
+class CollectionsEnsembleSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollectionsEnsemble
         fields = ('name', 'slug')
     
 
 
-class PictureSerializer(serializers.HyperlinkedModelSerializer):
+class PictureSerializer(serializers.ModelSerializer):
     importation_date = serializers.DateTimeField(read_only=True)
     last_update = serializers.DateTimeField(read_only=True)
     source_file = serializers.CharField(read_only=True)
