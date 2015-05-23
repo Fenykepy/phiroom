@@ -36,6 +36,7 @@ class DirectorySerializer(serializers.ModelSerializer):
             read_only=True,
             view_name='directory-detail'
     )
+
     class Meta:
         model = Directory
         fields = ('url', 'pk', 'name', 'slug', 'parent', 'children')
@@ -139,7 +140,6 @@ class PictureUploadSerializer(PictureSerializer):
         # create Picture with factory
         factory = PictureFactory(**validated_data)
         # serialize created object
-        print(factory.picture)
         self.instance = factory.picture
         return self.instance
 

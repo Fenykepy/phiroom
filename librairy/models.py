@@ -382,9 +382,10 @@ class Picture(models.Model):
             if os.path.isdir(os.path.join(PREVIEWS_DIR, file)):
                 try:
                     # remove file from directory
-                    os.remove(os.path.join(PREVIEWS_DIR, file,
-                        self.previews_path)
-                    )
+                    if self.previews_path:
+                        os.remove(os.path.join(PREVIEWS_DIR, file,
+                            self.previews_path)
+                        )
                 except FileNotFoundError:
                     pass
 

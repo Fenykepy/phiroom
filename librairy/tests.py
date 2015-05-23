@@ -515,6 +515,15 @@ class APITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
 
+        # create a picture to test null directory's pictures list
+        pict3 = create_test_picture()
+        # test null directory's pictures listing
+        url = reverse('directory-pictures-list', kwargs={'pk': '-'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]['pk'], pict3.pk)
+        self.assertEqual(len(response.data), 1)
+
         # try to delete first directory
         response = self.client.delete(url2)
         self.assertEqual(response.status_code, 204)
@@ -526,38 +535,145 @@ class APITest(APITestCase):
 
     
     def test_picturesAPI(self):
-        url = reverse('picture-list')
-        # create a directory for tests
+        url_list = reverse('picture-list')
+        # create directory and picture for tests
         dir = Directory.objects.create(name="test")
+        pict = create_test_picture()
+        pict.directory = dir
+        pict.save()
+        url_detail = reverse('picture-detail', kwargs={'pk': pict.pk})
 
         # try to get pictures list without login
-        response = self.client.get(url)
+        response = self.client.get(url_list)
         self.assertEqual(response.status_code, 403)
         # try to post a new picture without login
         data = {"name":"root directory"}
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(url_list, data, format='json')
         self.assertEqual(response.status_code, 403)
         # try to put without login
-        response = self.client.put(url, data, format='json')
+        response = self.client.put(url_list, data, format='json')
         self.assertEqual(response.status_code, 403)
         # try to delete without login
-        response = self.client.delete(url)
+        response = self.client.delete(url_list)
+        self.assertEqual(response.status_code, 403)
+        # try to get pictures list without login
+        response = self.client.get(url_detail)
+        self.assertEqual(response.status_code, 403)       
+        # try to post a new picture without login
+        response = self.client.post(url_detail, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to put without login
+        response = self.client.put(url_detail, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to delete without login
+        response = self.client.delete(url_detail)
         self.assertEqual(response.status_code, 403)
 
         # login with normal user
         self.client.login(username='tom', password='foo')
-        response = self.client.get(url)
+        response = self.client.get(url_list)
         self.assertEqual(response.status_code, 403)
         # try to post with normal user
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(url_list, data, format='json')
         self.assertEqual(response.status_code, 403)
         # try to put with normal user
-        response = self.client.put(url, data, format='json')
+        response = self.client.put(url_list, data, format='json')
         self.assertEqual(response.status_code, 403)
         # try to delete with normal user
-        response = self.client.delete(url)
+        response = self.client.delete(url_list)
         self.assertEqual(response.status_code, 403)
+        # try to get pictures list with normal user
+        response = self.client.get(url_detail)
+        self.assertEqual(response.status_code, 403)       
+        # try to post a new picture with normal user
+        response = self.client.post(url_detail, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to put with normal user
+        response = self.client.put(url_detail, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to delete with normal user
+        response = self.client.delete(url_detail)
+        self.assertEqual(response.status_code, 403)
+
+        # only admin should access to pictures (except in allowed collections
+        # not implemenented yet)
+        # login with staff user
+        self.client.login(username='flr', password='foo')
+        response = self.client.get(url_list)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data['results']), 1)
+        # post a picture
+        with open(PICT_PATH, 'rb') as file:
+            response = self.client.post(url_list, {
+                'file':file,
+                'directory': dir.pk
+            })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['directory'], 1)
+        self.assertEqual(response.data['pk'], 2)
+        self.assertEqual(response.data['name_import'], 'FLR_15_2822.jpg')
+        # assert picture has been saved in db
+        n_pict = Picture.objects.all().count()
+        self.assertEqual(n_pict, 2)
+        # post a picture with no directory
+        with open(PICT_PATH, 'rb') as file:
+            response = self.client.post(url_list, {
+                'file':file,
+            })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['directory'], None)
+        self.assertEqual(response.data['pk'], 3)
+        self.assertEqual(response.data['name_import'], 'FLR_15_2822.jpg')
+        # assert picture has been saved in db
+        n_pict = Picture.objects.all().count()
+        self.assertEqual(n_pict, 3)
+        # test patch pict.rate=0
+        response = self.client.patch(url_detail, {'rate': 5})
+        self.assertEqual(response.status_code, 200)
+        # assert it has been saved in db
+        pict = Picture.objects.get(pk=pict.pk)
+        self.assertEqual(pict.rate, 5)
+        # test put picture
+        response = self.client.put(url_detail, {
+            'title': 'My beautiful title',
+            'legend': 'My beautiful legend',
+            'name': 'my_name.jpg',
+            'rate': 4,
+            'directory': 1,
+            'color': True,
+            'copyright': 'LAVILOTTE-ROLLE Frédéric',
+            'copyright_state': True,
+            'copyright_url': 'http://lavilotte-rolle.fr',
+        })
+        self.assertEqual(response.status_code, 200)
+        # assert it has been saved in db
+        pict = Picture.objects.get(pk=pict.pk)
+        self.assertEqual(pict.title, 'My beautiful title')
+        self.assertEqual(pict.legend, 'My beautiful legend')
+        self.assertEqual(pict.name, 'my_name.jpg')
+        self.assertEqual(pict.rate, 4)
+        self.assertEqual(pict.directory, dir)
+        self.assertEqual(pict.color, True)
+        # test get picture
+        response = self.client.get(url_detail)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['rate'], 4)
+        # test delete picture
+        response = self.client.delete(url_detail)
+        self.assertEqual(response.status_code, 204)
+        # assert it has been deleted
+        n_pict = Picture.objects.filter(pk=pict.pk).count()
+        self.assertEqual(n_pict, 0)
+
+
+
         
+
+        
+
+
+
+
 
 
 

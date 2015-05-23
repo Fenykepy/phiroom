@@ -85,14 +85,18 @@ class DirectoryPicturesList(generics.ListAPIView):
     def list(self, request, pk, format=None):
         """
         returns a list of all pictures in a directory.
+        "-" pk will return pictures with no directory.
         """
+        if pk == '-':
+            pictures = Picture.objects.filter(directory=None)
         # get related directory
-        try:
-            dir = Directory.objects.get(pk=pk)
-        except:
-            raise Http404
+        else:
+            try:
+                dir = Directory.objects.get(pk=pk)
+                pictures = dir.get_children_pictures()
+            except:
+                raise Http404
         # get directory's pictures
-        pictures = dir.get_children_pictures()
         serializer = PictureSerializer(pictures, many=True,
                 context={'request': request}
         )
