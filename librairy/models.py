@@ -2,6 +2,8 @@ import os
 
 from PIL import Image
 
+from itertools import chain
+
 from django.db import models
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
@@ -185,6 +187,8 @@ class Picture(models.Model):
         self.aperture = xmp.get_aperture()[:30]
         self.iso = xmp.get_iso()
         self.rate = xmp.get_rate()
+        if not self.rate in range(0, 6):
+            self.rate = 0
         label = xmp.get_label()[:150]
         if label:
             # get or create label
@@ -445,9 +449,11 @@ class Directory(MPTTModel):
         """Returns all pictures of a directory and its sub directorys."""
         # if dir is leaf node, return query
         if self.is_leaf_node():
-            return self.pictures.all()
+            return self.picture_set.all()
         # if not, search descendants
         dir_descendants = self.get_descendants(include_self=True)
+        lists = [item.picture_set.all() for item in dir_descendants]
+        return list(chain.from_iterable(lists))
 
 
     class MPTTMeta:
@@ -579,17 +585,16 @@ def keep_or_delete_picturefiles(sender, instance, **kwargs):
 class PictureFactory(object):
     """Class to create new pictures objects."""
 
-    def __init__(self, file=None, directory_id=None, **kwargs):
+    def __init__(self, file=None, directory=None, **kwargs):
         """
         Make a picture object from given file.
         file: pathname. It MUST be an image file.
-        directory: directory id.
+        directory: directory object.
         """
         self.picture = Picture()
         self.cloned = False
-        self.picture.directory = self._get_directory(
-                directory_id
-        )
+        if directory and isinstance(directory, Directory):
+            self.picture.directory = directory
         # if we got an in memory openned file (from upload)
         if not isinstance(file, str):
             self._scan_image(file)

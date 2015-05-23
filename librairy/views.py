@@ -52,6 +52,10 @@ class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+
+
+
+
 class DirectorysList(generics.ListCreateAPIView):
     """
     This view presents a hierarchical tree (list) of all directorys
@@ -61,6 +65,7 @@ class DirectorysList(generics.ListCreateAPIView):
     serializer_class = DirectorysListSerializer
 
 
+
 class DirectoryDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     This view presents a specific directory and allows to update or delete it.
@@ -68,6 +73,35 @@ class DirectoryDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Directory.objects.all()
     serializer_class = DirectorySerializer
+
+
+
+class DirectoryPicturesList(generics.ListAPIView):
+    """
+    This view presents a list of all pictures related to one directory.
+    """
+    serializer_class = PictureSerializer
+
+    def list(self, request, pk, format=None):
+        """
+        returns a list of all pictures in a directory.
+        """
+        # get related directory
+        try:
+            dir = Directory.objects.get(pk=pk)
+        except:
+            raise Http404
+        # get directory's pictures
+        pictures = dir.get_children_pictures()
+        serializer = PictureSerializer(pictures, many=True,
+                context={'request': request}
+        )
+
+        return Response(serializer.data)
+
+
+
+
 
 
 

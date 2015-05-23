@@ -38,8 +38,6 @@ url prefix : /api/
 #- librairy/directory/pk/              (put)       -> update a directory (name, parent)
 #- librairy/directory/pk/              (delete)    -> delete a directory (and its sub-directorys)
 - librairy/directory/pk/pictures/       (get)       -> list of directory's pictures
-- librairy/directory/pk/pictures/pk/      (post)      -> add a picture to directory
-- librairy/directory/pk/pictures/pk/      (delete)    -> delete a picture from directory
 
 
 

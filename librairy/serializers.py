@@ -83,14 +83,15 @@ class PictureSerializer(serializers.ModelSerializer):
     type = serializers.CharField(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
     label = LabelSerializer(read_only=True)
-    rate = serializers.IntegerField(min_value=0, max_value=5)
+    rate = serializers.IntegerField(min_value=0, max_value=5, default=0,
+            allow_null=True, required=False)
     exif_date = serializers.DateTimeField(read_only=True)
     exif_origin_date = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Picture
         fields = ('url', 'pk', 'importation_date', 'last_update', 'source_file',
-                'title', 'legend', 'name_import', 'name', 'type',
+                'title', 'legend', 'name_import', 'name', 'type', 'directory',
                 'weight','width', 'height', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
                 'speed', 'aperture', 'iso', 'tags', 'label', 'rate',
@@ -103,11 +104,11 @@ class PictureSerializer(serializers.ModelSerializer):
 class PictureUploadSerializer(PictureSerializer):
     """A serializer to upload a picture through HTTP."""
     file = serializers.ImageField(write_only=True)
-    directory_id = serializers.IntegerField(
-            write_only=True,
+    directory = serializers.PrimaryKeyRelatedField(
+            queryset = Directory.objects.all(),
             required=False,
             allow_null=True,
-            default=None
+            default=None,
     )
     name = serializers.CharField(read_only=True)
     copyright_url = serializers.CharField(read_only=True)
@@ -121,12 +122,12 @@ class PictureUploadSerializer(PictureSerializer):
     class Meta:
         model = Picture
         fields = ('url', 'pk', 'importation_date', 'last_update', 'source_file',
-                'title', 'legend', 'name_import', 'name', 'type',
+                'title', 'legend', 'name_import', 'name', 'type', 'directory',
                 'weight','width', 'height', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
                 'speed', 'aperture', 'iso', 'tags', 'label', 'rate',
                 'exif_date', 'exif_origin_date', 'copyright',
-                'copyright_state', 'copyright_url', 'file', 'directory_id'
+                'copyright_state', 'copyright_url', 'file'
         )
 
     def save(self, **kwargs):

@@ -68,7 +68,7 @@ class PictureFactoryTest(TestCase):
         
         # create a second Picture from test file with factory
         # use given directory
-        factory = PictureFactory(file=PICT_PATH, directory_id=dir.pk)
+        factory = PictureFactory(file=PICT_PATH, directory=dir)
         self.assertEqual(factory.cloned, True)
 
         # assert new picture has been created
@@ -99,6 +99,25 @@ class PictureFactoryTest(TestCase):
 
         
 
+def create_test_picture(sha1='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'):
+    """
+    Create a test picture object without generating previews (long),
+    or loading metadatas.
+    """
+
+    pict = Picture()            
+    with open(PICT_PATH, 'rb') as f:
+        file = ImageFile(f)
+        # false sha1 for testing
+        pict.sha1 = sha1
+        pict.source_file = file
+        pict.weight = 13468551
+        pict.width = 3840
+        pict.height = 5120
+        pict.type = 'jpg'
+        pict.save()
+    
+    return pict
 
 
 
@@ -109,19 +128,7 @@ class PictureTest(TestCase):
 
     def setUp(self): 
         # create Picture object for all tests
-        self.pict = Picture()
-            
-        with open(PICT_PATH, 'rb') as f:
-            file = ImageFile(f)
-            # false sha1 for testing
-            self.pict.sha1 = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-            self.pict.source_file = file
-            self.pict.weight = 13468551
-            self.pict.width = 3840
-            self.pict.height = 5120
-            self.pict.type = 'jpg'
-            self.pict.save()
-
+        self.pict = create_test_picture()
     
     def test_set_subdirs(self):
         """Check that subdirs are correctly set."""
@@ -300,6 +307,7 @@ class PictureTest(TestCase):
         self.assertEqual(os.path.isfile(self.pict._get_pathname()), False)
 
 
+
     def test_keep_or_delete_picturefiles(self):
         """Checks that picture file deleted when last Picture object
         with one sha1 is deleted."""
@@ -376,8 +384,12 @@ class APITest(APITestCase):
 
 
 
-    def test_directorys(self):
+    def test_directorysAPI(self):
+        directory = Directory.objects.create(name="test")
+
         url = reverse('directory-list')
+        url2 = reverse('directory-detail', kwargs={'pk': directory.pk})
+        url3 = reverse('directory-pictures-list', kwargs={'pk': directory.pk})
         # try to get directory list without login
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -392,6 +404,24 @@ class APITest(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, 403)
 
+        # try to get particular directory without login
+        response = self.client.get(url2)
+        # try to post to particular directory without login
+        response = self.client.post(url2, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to put  particular directory without login
+        response = self.client.put(url2, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to delete particular directory without login
+        response = self.client.delete(url2)
+        self.assertEqual(response.status_code, 403)
+        # try to get particular directory's pictures list without login
+        response = self.client.get(url3)
+        self.assertEqual(response.status_code, 403)
+
+        
+
+
         # login with normal user
         self.client.login(username='tom', password='foo')
         response = self.client.get(url)
@@ -405,6 +435,25 @@ class APITest(APITestCase):
         # try to delete with normal user
         response = self.client.delete(url)
         self.assertEqual(response.status_code, 403)
+
+        # try to get particular directory with normal user
+        response = self.client.get(url2)
+        # try to post to particular directory with normal user
+        response = self.client.post(url2, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to put  particular directory with normal user
+        response = self.client.put(url2, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to delete particular directory with normal user
+        response = self.client.delete(url2)
+        self.assertEqual(response.status_code, 403)
+        # try to get particular directory's pictures list with normal user
+        response = self.client.get(url3)
+        self.assertEqual(response.status_code, 403)
+
+
+        # delete test directory
+        directory.delete()
         
         # only admin should access to directory
         # login with staff user
@@ -454,6 +503,61 @@ class APITest(APITestCase):
         # child directory should be in children
         self.assertEqual(response.data['results'][0]['children'][0]['pk'], dir2.pk)
 
+        #test directory's pictures listing
+        url = reverse('directory-pictures-list', kwargs={'pk': dir.pk})
+        pict = create_test_picture()
+        pict2 = create_test_picture()
+        pict.directory = dir
+        pict.save()
+        pict2.directory = dir2
+        pict2.save()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 2)
+
+        # try to delete first directory
+        response = self.client.delete(url2)
+        self.assertEqual(response.status_code, 204)
+        # assert both directory and children are deleted from db
+        n_dir = Directory.objects.all().count()
+        self.assertEqual(n_dir, 0)
+
+
+
+    
+    def test_picturesAPI(self):
+        url = reverse('picture-list')
+        # create a directory for tests
+        dir = Directory.objects.create(name="test")
+
+        # try to get pictures list without login
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # try to post a new picture without login
+        data = {"name":"root directory"}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to put without login
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to delete without login
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+        # login with normal user
+        self.client.login(username='tom', password='foo')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # try to post with normal user
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to put with normal user
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to delete with normal user
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+        
 
 
 

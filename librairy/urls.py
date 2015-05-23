@@ -18,6 +18,8 @@ urlpatterns = [
             name="directory-list"),
         url(r'^directorys/(?P<pk>[0-9]+)/$', views.DirectoryDetail.as_view(),
             name="directory-detail"),
+        url(r'^directorys/(?P<pk>[0-9]+)/pictures/$', views.DirectoryPicturesList.as_view(),
+            name="directory-pictures-list"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
