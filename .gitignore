@@ -10,8 +10,8 @@ db.sqlite3
 db.sqlite3*
 
 # bower and node files
-frontend/node_modules/
-frontend/app/bower_components/
+node_modules/
+statics/bower_components/
 
 # data files
 phiroom/data/images/librairy/*/
@@ -20,10 +20,6 @@ phiroom/data/images/avatars/
 phiroom/data/images/logos/
 phiroom/data/images/previews/
 
-# allow sample files
-!phiroom/data/images/librairy/sample1/
-!phiroom/data/images/librairy/sample2/
-!phiroom/data/images/librairy/sample3/
 
 # Distribution / packaging
 .Python

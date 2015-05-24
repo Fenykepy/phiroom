@@ -33,6 +33,7 @@ urlpatterns = patterns('',
 
 if settings.DEBUG:
     urlpatterns += patterns(
+            # serve angularjs root template
             'django.contrib.staticfiles.views',
-            url(r'^weblog/', 'serve', kwargs={'path': 'weblog_index.html'}),
+            url(r'^$', 'serve', kwargs={'path': 'index.html'}),
     )
