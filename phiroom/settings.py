@@ -17,7 +17,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'phiroom/data')
 MEDIA_URL = '/media/'
 
 # Static files
-STATIC_ROOT = os.path.join(BASE_DIR, 'phiroom/statics')
+STATIC_ROOT = os.path.join(BASE_DIR, 'statics/')
 STATIC_URL = '/assets/'
 # Additional locations of static files
 STATICFILES_DIRS = (

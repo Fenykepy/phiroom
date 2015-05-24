@@ -1,9 +1,0 @@
-<div class="tags"><h3 class="hidden">Mots-clés :</h3>
-    <ul>
-        {% if entry.tags.all %}
-        {%for item in entry.tags.all %}<div class="join"></div><a href="{% url "weblog_tag" item.slug %}"><li class="tag">{{ item.name }}</li></a>{% endfor %}
-        {% else %}
-        <div class="join"></div><li class="tag">Aucun mots clés…</li>
-        {% endif %}
-    </ul>
-</div>
