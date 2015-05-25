@@ -35,5 +35,5 @@ if settings.DEBUG:
     urlpatterns += patterns(
             # serve angularjs root template
             'django.contrib.staticfiles.views',
-            url(r'^$', 'serve', kwargs={'path': 'index.html'}),
+            url(r'^', 'serve', kwargs={'path': 'index.html'}),
     )

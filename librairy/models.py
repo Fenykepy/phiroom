@@ -14,7 +14,7 @@ from django.dispatch import receiver
 
 
 from mptt.models import MPTTModel, TreeForeignKey
-from thumbnail import ThumbnailFactory
+from librairy.thumbnail import ThumbnailFactory
 
 from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
         PREVIEWS_CROP, PREVIEWS_MAX, PREVIEWS_HEIGHT, \
