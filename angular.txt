@@ -1,0 +1,84 @@
+##############################################
+###      Angular rooting architecture      ###
+##############################################
+
+
+- /portfolios/      -> portfolios home page (portfolios list)
+- /weblog/          -> weblog home page (posts list)
+- /contact/         -> contact home page (description, form)
+- /librairy/        -> librairy home page
+- /login/           -> login page
+- /register/        -> register page
+
+Routing with $location and ng-switch for these base urls
+
+
+
+=======================================
+===           Portfolios            ===
+=======================================
+
+- /portfolios/                      -> list of all portfolios
+- /portfolios/:slug/                -> view a particular portfolio (keeping list in parent scope)
+- /portfolios/:slug/picture/:pk     -> view a particular picture in lightbox (anchor)
+- /portfolios/add/                  -> on overlay form to post new portfolio
+- /portfolios/:slug/edit/           -> on overlay form to update a portfolio
+
+
+
+=======================================
+===             Weblog              ===
+=======================================
+
+- /weblog/                          -> list of all posts
+- /weblog/page/:pageID/             -> list of all posts (other pages)
+- /weblog/tag/:slug/                -> list of all posts corresponding to a tag
+- /weblog/tag/:slug/page/:pageID    -> list of all posts corresponding to a tag (other pages)
+- /weblog/:slug/                    -> view a particular post
+- /weblog/:slug/picture/:pk         -> view a particular picture in lightbox (anchor)
+- /weblog/add/                      -> on overlay form to post a new post
+- /weblog/:slug/edit/               -> on overlay form to update a post
+
+
+
+=======================================
+===             Contact             ===
+=======================================
+
+- /contact/                         -> contact home page (with description and form)
+- /contact/edit/                    -> on overlay form to update description
+
+
+=======================================
+===            Librairy             ===
+=======================================
+
+- /librairy/                        -> empty librairy view
+- /librairy/folder/:pk/             -> folder pictures list
+- /librairy/collection/:pk/         -> collections or collection ensemble pictures list
+- /librairy/post/:slug/             -> post pictures list
+- /librairy/portfolio/:slug/        -> portfolio pictures list
+- /librairy/tags/:pk-slug/          -> tag pictures list
+- /librairy/settings/               -> phiroom in db settings (on overlay form)
+- /librairy/profile/                -> logged in user profile (on overlay form)
+
+
+- no url based :
+    - right click, edit folder (on overlay form)
+    - right click, new folder (on overlay form)
+    - right click, edit collection (on overlay form)
+    - right click, new collection (on overlay form)
+    - right click, edit collection ensemble (on overlay form)
+    - right click, new collection ensemble (on overlay form)
+    - right click, new post (on overlay form)
+    - right click, edit post (on overlay form)
+    - right click, new portfolio (on overlay form)
+    - right click, edit portfolio (on overlay form)
+
+
+- users management : (staff only)
+    - users list with :
+        - status (active, staff, etc.)
+        - name
+        - rights on collections
+

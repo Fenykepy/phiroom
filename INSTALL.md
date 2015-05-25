@@ -35,6 +35,8 @@ Run as `<my_user>`:
     $ cd phiroom
     $ git checkout master
     $ pip3 install -r requirements.txt
+    $ npm install
+    $ bower install
 
 
 ### Quick install for testing or development ###
@@ -54,7 +56,6 @@ Run as `<my_user>` (replace `<my_user>` by your user name):
 
     $ cd /var/www/phiroom/
     $ python3 manage.py migrate
-    $ python3 manage.py makemigrations
     $ python3 manage.py createsuperuser
 
  * Answer questions to create a superuser.
@@ -189,9 +190,11 @@ Run as `<my_user>`:
 
  * Now create tables:
 
-        $ python3 manage.py syncdb
+        $ python3 manage.py migrate
 
- * Answer questions to create a superuser.
+ * Create a superuser:
+
+        $ python3 manage.py createsuperuser
 
 
 #### Set up gunicorn ####
@@ -332,14 +335,18 @@ Run as root:
             error_log /var/log/nginx/phiroom-error.log;
 
             location /assets/ {
-                alias /var/www/phiroom_env/phiroom/phiroom/assets/;
+                alias /var/www/phiroom_env/phiroom/phiroom/statics/;
             }
 
-            location /data/ {
+            location /media/ {
                 alias /var/www/phiroom_env/phiroom/phiroom/data/;
             }
 
             location / {
+                alias /var/www/phiroom_env/phiroom/phiroom/statics/index.html;
+            }
+
+            location /api {
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header Host $http_host;
                 proxy_read_timeout 300000;

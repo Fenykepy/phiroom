@@ -51,7 +51,7 @@ LARGE_PREVIEWS_SIZE_CHOICES = (
         (700, '700px pour le grand côté'),
         (1024, '1024px pour le grand côté'),
         (2048, '20148px pour le grand côté'),
-    )
+)
 
 # default previews size for big previews (must also
 # be in LARGE_PREVIEWS_CHOICES), leave 0 for full size

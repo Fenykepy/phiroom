@@ -2,16 +2,18 @@
 
 /* App module */
 
-var weblogApp = angular.module('weblogApp', [
+var phiroomApp = angular.module('phiroomApp', [
         'ngRoute',
+        'librairyControllers',
         'weblogControllers'
 ]);
 
 // instantiate modules 
+var librairyControllers = angular.module('librairyControllers', []);
 var weblogControllers = angular.module('weblogControllers', ['ngSanitize']);
 
 
-weblogApp.config(['$routeProvider', '$locationProvider',
+phiroomApp.config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
@@ -35,6 +37,10 @@ weblogApp.config(['$routeProvider', '$locationProvider',
             when('/:postID/', {
                 templateUrl: '/assets/partials/weblog/weblog_detail.html',
                 controller: 'weblogDetailCtrl'
+            }).
+            when('/librairy/', {
+                templateUrl: '/assets/partials/librairy/librairy_base.html',
+                controller: 'librairyListCtrl'
             }).
             otherwise({
                 redirectTo: '/'

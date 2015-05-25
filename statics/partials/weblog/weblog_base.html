@@ -1,0 +1,27 @@
+<body>
+<header role="banner">
+    <div id="logo">
+        <a href="/"><img src="/assets/img/phiroom-favicon.png" alt="Phiroom, le CMS des photographes" /></a>
+    </div>
+    <h1>Phiroom</h1>
+    <h2>Les cms des photographes</h2>
+    <nav role="navigation">
+    <ul id="menu">
+        <li><a href="/portfolios/">Portfolios</a></li>
+        <li><a href="/weblog">Weblog</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/librairy/">Librairy</a></li>
+        <li><a href="/admin/">Admin</a></li>
+    </ul>
+    </nav>
+</header>
+
+<section role="main" ng-view></section>
+
+<footer role="contentinfo">
+    <p id="powered"><a target="_blank" href="http://phiroom.org">Powered by Phiroom</a></p>
+</footer>
+<div id="admin-overlay" ng-show="admin"></div>
+
+</body>
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" ng-app="weblogApp">
+<html lang="fr" ng-app="phiroomApp">
 <head>
     <title>Weblog, Phiroom, le CMS des photographes</title>
     <meta charset="utf-8" />
@@ -31,7 +31,7 @@
 <script src="/assets/bower_components/angular-route/angular-route.js"></script>
 <script src="/assets/bower_components/angular-resource/angular-resource.js"></script>
 <script src="/assets/bower_components/angular-sanitize/angular-sanitize.js"></script>
-<script src="/assets/js/weblog/weblogApp.js"></script>
+<script src="/assets/js/phiroomApp.js"></script>
 <script src="/assets/js/weblog/controllers/weblogListCtrl.js"></script>
 <script src="/assets/js/weblog/controllers/weblogDetailCtrl.js"></script>
 <!-- remove on production -->
@@ -42,31 +42,5 @@
 
 
 </head>
-<body>
-<header role="banner">
-    <div id="logo">
-        <a href="/"><img src="/assets/img/phiroom-favicon.png" alt="Phiroom, le CMS des photographes" /></a>
-    </div>
-    <h1>Phiroom</h1>
-    <h2>Les cms des photographes</h2>
-    <nav role="navigation">
-    <ul id="menu">
-        <li><a href="/portfolios/">Portfolios</a></li>
-        <li><a href="/weblog">Weblog</a></li>
-        <li><a href="/contact/">Contact</a></li>
-        <li><a href="/librairy/">Librairy</a></li>
-        <li><a href="/admin/">Admin</a></li>
-    </ul>
-    </nav>
-</header>
-
-<section role="main" ng-view></section>
-
-<footer role="contentinfo">
-    <p id="powered"><a target="_blank" href="http://phiroom.org">Powered by Phiroom</a></p>
-</footer>
-<div id="admin-overlay" ng-show="admin"></div>
-
-</body>
 </html>
 
