@@ -6,9 +6,9 @@ var weblogControllers = angular.module('weblogControllers');
 
 
 weblogControllers.controller('weblogListCtrl', ['$scope', '$http',
-        '$routeParams', function($scope, $http, $routeParams) {
+        function($scope, $http) {
     var url = '/api/posts/?page_size=3';
-    var route = '';
+    /*var route = '';
     if ($routeParams.tagslug) {
         url = '/api/posts-by-tag/' + $routeParams.tagslug + '?page_size=3';
         route = 'tag/' + $routeParams.tagslug + '/';
@@ -33,5 +33,6 @@ weblogControllers.controller('weblogListCtrl', ['$scope', '$http',
             $scope.prev = route + 'page/' + id + '/';
         }
     });
+    */
 }]);
 

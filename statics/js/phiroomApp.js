@@ -19,16 +19,18 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         $locationProvider.hashPrefix('!');
         $stateProvider.
             state('librairy', {
+                url: '/librairy',
                 templateUrl: 'partials/librairy_base.html',
                 controller: 'librairyCtrl'
             }).
             state('librairy.list', {
+                url: '/:source/:pk',
                 templateUrl: 'partials/librairy_list.html',
                 controller: 'librairyListCtrl'
             }).
-            state('librairy.detail', {
+            state('librairy.list.detail', {
+                url: '/:picture',
                 templateUrl: 'partials/librairy_detail.html',
                 controller: 'librairyDetailCtrl'
             })
-
 }]);
