@@ -17,6 +17,7 @@ class Conf(models.Model):
     logo = models.ImageField(null=True, blank=True,
             upload_to="images/logos/",
             verbose_name="Website's logo.",
+            default='images/default/default_logo.png',
             help_text="The logo you can see on each page header. \
                     Leave blank to use default one.")
     n_posts_per_page = models.PositiveSmallIntegerField(default=3,

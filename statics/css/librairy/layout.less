@@ -1,0 +1,132 @@
+// Librairy layout
+
+body#librairy {
+    margin: 0 20px 0 20px;
+    color: @lib-text;
+    background-color: @lib-bg;
+
+    // links
+    a {
+        color: @lib-links;
+        &:hover, &:active, &:focus {
+            color: @lib-links-hover;
+        }
+    }
+
+    // selected text !!! doesn't work in chrome
+    ::selection, ::-moz-selection {
+        background: @lib-selected-text-bg;
+        color: @lib-selected-text;
+    }
+
+    header[role="banner"] {
+        border: none;
+        // title image (up left)
+        #logo {
+            position: fixed;
+        }
+        // horizontal navigation menu
+        #menu {
+            position: fixed;
+            // selected links
+            a.selected {
+                color: @lib-selected-links;
+                &:hover, &:active, &:focus {
+                    color: @lib-links-hover;
+                }
+            }
+        }
+    }
+    // panel's hidding links & page up
+    #right, #left, #pageup {
+        display: block;
+        position: fixed;
+    }
+    #right, #left {
+        width: 20px;
+        top: 70px;
+        bottom: 20px;
+    }
+    #left {
+        left: 0px;
+        &::before {
+            .arrow-right;
+            left: 5px;
+            top: 50%;
+            margin-top: -9px;
+        }
+        &:hover:before, &:focus:before { .arrow-right(@lib-panel-toggle-arrows); }
+    }
+    #right {
+        right: 0px;
+        &::before {
+            .arrow-left;
+            right: 5px;
+            top: 50%;
+            margin-top: -9px;
+        }
+        &:hover:before, &:focus:before { .arrow-left(@lib-panel-toggle-arrows); }
+    }
+    #pageup {
+        height: 20px;
+        bottom: 0px;
+        right: 20px;
+        left: 20px;
+        &::before {
+            .arrow-up;
+            left: 50%;
+            margin-left: -7px; // to bring back to center
+            top: 4px;
+        }
+        &:hover:before, &:focus:before { .arrow-up(@lib-panel-toggle-arrows); }
+    }
+
+    // grey frame arround
+    #frame {
+        position: fixed;
+        top: 70px;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        border: 1px solid @lib-frame;
+        overflow: hidden;
+    }
+
+    // left panel
+    #left_panel {
+        background: @lib-panels-bg;
+        position: absolute;
+        overflow: hidden;
+        width: 300px;
+        top: 3px;
+        left: 3px;
+        bottom: 3px;
+        margin-right: 3px;
+        padding: 0 5px 30px;
+
+        // first level menu li link
+        #nav > li > a {
+            position: relative;
+            display: inline-block;
+            width: 270px;
+            height: 32px;
+            line-height: 32px;
+            margin: 0 0 0 15px;
+            text-indent: 30px;
+            
+        }
+        // submenus
+        #nav > li .submenu-inframe {
+            border-right: 1px solid @lib-submenus-inframe;
+            border-bottom: 1px solid @lib-submenus-inframe;
+        }
+        #nav > li .submenu-frame {
+            border: 1px solid @lib-submenus-frame;
+        }
+        #nav > li .submenu-outframe {
+            border-right: 1px solid @lib-submenus-outframe;
+            border-bottom: 1px solid @lib-submenus-outframe;
+        }
+    }
+}
+

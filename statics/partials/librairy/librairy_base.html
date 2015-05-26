@@ -1,5 +1,5 @@
 <header role="banner">
-    <h1 class="hidden">{{ conf.title }}, {{ conf.subtitle }}</h1>
+    <h1 class="accessibility">{{ conf.title }}, {{ conf.subtitle }}</h1>
     <p id="logo">
     <a ng-if="conf.home_page_state" ui-sref="{{ conf.home_page_state }}">
             <img ng-src="{{ conf.logo }}" alt="{{ conf.title }}" />
@@ -18,21 +18,27 @@
     <!-- left panel -->
     <nav id="left_panel" role="navigation">
         <ul id="nav">
-            <li id="directorys"
-                class="togglesubmenu"
+            <li class="togglesubmenu"
                 ng-if="directorys"
-                ng-click="showDirectorys = ! showDirectorys"><div class="arrow arrow-plus"
-                            ng-class="{selected: showDirectorys}">Folders</div><div class="plus">Tab menu</div>
+
+                ng-click="showDirectorys = ! showDirectorys"><a class="arrow arrow-plus"
+                                                                  ng-class="{selected: showDirectorys}">Folders</a><a class="plus"><span class="accessibility">Tab menu</span></a>
                     <ul class="popover">
                         <li><a ui-sref="librairy">Import pictures</a></li>
                         <li><a ui-sref="librairy">New directory</a></li>
                     </ul>
+                <div class="submenu-outframe">
+                <div class="submenu-frame">
+                <div class="submenu-inframe">
                 <ul class="submenu"
                     ng-show="showDirectorys"
                     ng-click="$event.stopPropagation()">
                     <li ng-repeat="item in directorys" ng-include="'/assets/partials/librairy/librairy_recursive_directorys.html'"></li>
                     <li ng-if="! directorys"><a class="doc popup" href="">Aucun dossier</a></li>
                 </ul><!-- submenu -->
+                </div><!-- submenu-inframe -->
+                </div><!-- submenu-frame -->
+                </div><!-- submenu-outframe -->
             </li><!-- tooglesubmenu -->
         </ul><!-- nav -->
     </nav>
