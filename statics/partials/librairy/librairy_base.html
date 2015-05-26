@@ -24,14 +24,14 @@
                 ng-click="showDirectorys = ! showDirectorys"><div class="arrow arrow-plus"
                             ng-class="{selected: showDirectorys}">Folders</div><div class="plus">Tab menu</div>
                     <ul class="popover">
-                        <li><a ui-sref="">Import pictures</a></li>
-                        <li><a ui-sref="">New directory</a></li>
+                        <li><a ui-sref="librairy">Import pictures</a></li>
+                        <li><a ui-sref="librairy">New directory</a></li>
                     </ul>
                 <ul class="submenu"
                     ng-show="showDirectorys"
                     ng-click="$event.stopPropagation()">
-                    <li ng-repeat="item in directorys.items" ng-include="'partials/librairy/librairy_recursive_directorys.html'"></li>
-                    <li ng-if="! directorys.items"><a class="doc popup" href="">Aucun dossier</a></li>
+                    <li ng-repeat="item in directorys" ng-include="'/assets/partials/librairy/librairy_recursive_directorys.html'"></li>
+                    <li ng-if="! directorys"><a class="doc popup" href="">Aucun dossier</a></li>
                 </ul><!-- submenu -->
             </li><!-- tooglesubmenu -->
         </ul><!-- nav -->

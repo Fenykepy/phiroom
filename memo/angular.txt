@@ -6,7 +6,7 @@
 - /portfolios/      -> portfolios home page (portfolios list)
 - /weblog/          -> weblog home page (posts list)
 - /contact/         -> contact home page (description, form)
-- /librairy/        -> librairy home page
+#- /librairy/        -> librairy home page
 - /login/           -> login page
 - /register/        -> register page
 
@@ -53,7 +53,7 @@ Routing with $location and ng-switch for these base urls
 ===            Librairy             ===
 =======================================
 
-- /librairy/                        -> empty librairy view
+#- /librairy/                        -> empty librairy view
 - /librairy/folder/:pk/             -> folder pictures list
 - /librairy/collection/:pk/         -> collections or collection ensemble pictures list
 - /librairy/post/:slug/             -> post pictures list

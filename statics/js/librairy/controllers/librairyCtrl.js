@@ -11,6 +11,23 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$http',
                 title: 'Librairy',
                 name: 'librairy'
             }
+            /* get folders hierarchy */
+            $http.get('/api/librairy/directorys/').
+                success(function(data) {
+                    $scope.directorys = data.results;
+            });
+
+
+            /* get collections hierarchy */
+
+
+            /* get portfolios list */
+
+            
+            /* get posts list */
+
+            
+            /* get tags list */
 
 
 }]);
