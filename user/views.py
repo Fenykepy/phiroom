@@ -1,17 +1,17 @@
-from django.conf import settings
-from django.views.generic import ListView, DetailView
-from django.views.generic.base import ContextMixin
-from user.models import User
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
-from rest_framework import viewsets, generics
-from user.serializers import UserSerializer
+from user.serializers import *
 
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class RequestUser(generics.RetrieveUpdateAPIView):
     """
-    API endpoint that allows tags to be viewed or edited.
+    This views presents request's user and allows to update it.
     """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+    serializer_class = SafeUserSerializer
+
+    def get_object(self):
+        return self.request.user
     

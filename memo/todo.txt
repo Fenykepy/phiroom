@@ -3,6 +3,23 @@
 Todo list for phiroom
 =====================
 
+
+- tests for conf serializer and view
+- tests for user serializer and view
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Weblog
 ------
 Concept:

@@ -13,16 +13,6 @@ from librairy.models import Tag, Collection, CollectionsEnsemble, \
 
 
 
-@api_view(('GET',))
-def api_root(request, format=None):
-    return Response({
-        'pictures': reverse('picture-list', request=request, format=format),
-        'directorys': reverse('directory-list', request=request, format=format),
-    })
-
-
-
-
 class PicturesList(generics.ListCreateAPIView):
     """
     This view presents a list of all pictures and allows new pictures

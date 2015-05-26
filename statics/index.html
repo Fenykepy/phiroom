@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="fr" ng-app="phiroomApp">
+<html lang="fr" ng-app="phiroomApp" ng-controller="mainCtrl">
 <head>
-    <title>Weblog, Phiroom, le CMS des photographes</title>
+    <title>{{ page_info.title }}, {{ conf.title }}, {{ conf.subtitle }}</title>
     <meta charset="utf-8" />
     <base href="/">
 
@@ -32,6 +32,7 @@
 <script src="/assets/bower_components/angular-resource/angular-resource.js"></script>
 <script src="/assets/bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="/assets/js/phiroomApp.js"></script>
+<script src="/assets/js/mainCtrl.js"></script>
 <script src="/assets/js/weblog/controllers/weblogListCtrl.js"></script>
 <script src="/assets/js/weblog/controllers/weblogDetailCtrl.js"></script>
 <script src="/assets/js/librairy/controllers/librairyCtrl.js"></script>
@@ -41,9 +42,9 @@
 <script src="/assets/bower_components/less/dist/less.min.js" type="text/javascript"></script><!-- DEVEL less compilation client side -->
 
 <body>
-<ui-view>
+<div ui-view>
     <i>Some content will load here!</i>
-</ui-view>
+</div>
 
 </body>
 

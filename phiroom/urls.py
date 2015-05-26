@@ -2,21 +2,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-
-from rest_framework import routers
-from weblog.views import *
-from user.views import *
-from librairy.views import *
-
-router = routers.DefaultRouter()
-router.register(r'posts', PostViewSet)
-router.register(r'tags', TagViewSet)
-router.register(r'users', UserViewSet)
-#router.register(r'pictures', PictureViewSet)
-#router.register(r'directorys', DirectoryViewSet)
-router.register(r'collections', CollectionViewSet)
-router.register(r'collectionsEnsembles', CollectionsEnsembleViewSet)
-router.register(r'picturesTags', PicturesTagViewSet)
+from phiroom.views import api_root
 
 
 urlpatterns = patterns('',
@@ -26,8 +12,8 @@ urlpatterns = patterns('',
     ## drf api
     url('^api/$', api_root),
     url(r'^api/librairy/', include('librairy.urls')), # librairy API
-    url('^api/posts-by-tag/(?P<slug>[-\w]+)/$', PostsListByTag.as_view()),
-    url(r'^api/', include(router.urls)),
+    url(r'^api/users/', include('user.urls')), # users API
+    url(r'^api/settings/', include('conf.urls')), # settings API
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )
 

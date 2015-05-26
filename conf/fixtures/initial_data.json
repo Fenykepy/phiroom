@@ -14,7 +14,7 @@
       "title": "Portfolios",
       "is_in_main_menu": true,
       "position_in_main_menu": 1,
-      "url_name": "portfolios_home"
+      "state": "portfolios"
     }
   },
   {
@@ -25,7 +25,7 @@
       "title": "Weblog",
       "is_in_main_menu": true,
       "position_in_main_menu": 2,
-      "url_name": "weblog_home"
+      "state": "weblog"
     }
   },
   {
@@ -36,7 +36,7 @@
       "title": "Contact",
       "is_in_main_menu": true,
       "position_in_main_menu": 3,
-      "url_name": "contact_home"
+      "state": "contact"
     }
   },
   {
@@ -47,7 +47,7 @@
       "title": "Librairy",
       "is_in_main_menu": false,
       "position_in_main_menu": 0,
-      "url_name": "librairy_home"
+      "state": "librairy"
     }
   }
 ]

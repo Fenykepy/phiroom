@@ -69,8 +69,8 @@ class Conf(models.Model):
         get_latest_by = 'date'
 
 
-    def get_home_page_url_name(self):
-        return self.home_page.url_name
+    def get_home_page_state(self):
+        return self.home_page.state
 
     def save(self, **kwargs):
         """Always save as a new conf entry."""
@@ -88,7 +88,7 @@ class MainMenuManager(models.Manager):
     def get_queryset(self):
         return super(MainMenuManager, self).get_queryset().filter(
                 is_in_main_menu=True).values(
-                        'url_name',
+                        'state',
                         'name',
                         'title',
                     )
@@ -115,7 +115,7 @@ class Page(models.Model):
     is_active = models.BooleanField(default=True, verbose_name="Activate")
     content = models.TextField(null=True, verbose_name="Contenu", blank=True)
     source = models.TextField(null=True, verbose_name="Source", blank=True)
-    url_name = models.CharField(max_length=254)
+    state = models.CharField(max_length=254)
 
     ## managers
     objects = models.Manager()

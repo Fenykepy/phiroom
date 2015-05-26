@@ -1,3 +1,44 @@
-New librairy content
+<header role="banner">
+    <h1 class="hidden">{{ conf.title }}, {{ conf.subtitle }}</h1>
+    <p id="logo">
+    <a ng-if="conf.home_page_state" ui-sref="{{ conf.home_page_state }}">
+            <img ng-src="{{ conf.logo }}" alt="{{ conf.title }}" />
+        </a>
+    </p>
+    <!-- main navigation menu -->
+    <nav role="navigation" ng-include="'/assets/partials/main_nav.html'">
+    </nav>
+</header>
 
-<ui-view/>
+<!-- 1px grey frame arround main area -->
+<div id="frame">
+    <!-- buttons to show / hide side panels -->
+    <a id="left" href="" title="afficher / masquer le panneau"></a>
+    <a id="right" href="" title="afficher / masquer le panneau"></a>
+    <!-- left panel -->
+    <nav id="left_panel" role="navigation">
+        <ul id="nav">
+            <li id="directorys"
+                class="togglesubmenu"
+                ng-if="directorys"
+                ng-click="showDirectorys = ! showDirectorys"><div class="arrow arrow-plus"
+                            ng-class="{selected: showDirectorys}">Folders</div><div class="plus">Tab menu</div>
+                    <ul class="popover">
+                        <li><a ui-sref="">Import pictures</a></li>
+                        <li><a ui-sref="">New directory</a></li>
+                    </ul>
+                <ul class="submenu"
+                    ng-show="showDirectorys"
+                    ng-click="$event.stopPropagation()">
+                    <li ng-repeat="item in directorys.items" ng-include="'partials/librairy/librairy_recursive_directorys.html'"></li>
+                    <li ng-if="! directorys.items"><a class="doc popup" href="">Aucun dossier</a></li>
+                </ul><!-- submenu -->
+            </li><!-- tooglesubmenu -->
+        </ul><!-- nav -->
+    </nav>
+
+<!-- main content area -->
+<section id="content" ui-view>
+</section>
+
+</div><!-- frame -->
