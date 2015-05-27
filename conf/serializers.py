@@ -8,10 +8,21 @@ class ConfSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Conf
-        fields = ('domain', 'title', 'subtitle', 'logo', 'n_posts_per_page',
-                'home_page', 'fb_link', 'twitter_link', 'gplus_link',
-                'flickr_link', 'vk_link', 'registration_mail', 'comment',
-                'home_page_state',
+        fields = ('domain',
+                  'title',
+                  'subtitle',
+                  'weblog_logo',
+                  'librairy_logo', 
+                  'n_posts_per_page',
+                  'home_page',
+                  'fb_link',
+                  'twitter_link',
+                  'gplus_link',
+                  'flickr_link',
+                  'vk_link',
+                  'registration_mail',
+                  'comment',
+                  'home_page_state',
         )
 
     def get_home_page_state(self, obj):

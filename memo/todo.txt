@@ -7,8 +7,8 @@ Todo list for phiroom
 - tests for conf serializer and view
 - tests for user serializer and view
 - add a field with default for favicon in conf.models
-- add a field for librairy logo
-- rename logo field to weblog logo
+#- add a field for librairy logo
+#- rename logo field to weblog logo
 - add a field for portfolios logo
 
 

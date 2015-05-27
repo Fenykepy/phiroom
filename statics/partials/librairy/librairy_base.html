@@ -2,7 +2,7 @@
     <h1 class="accessibility">{{ conf.title }}, {{ conf.subtitle }}</h1>
     <p id="logo">
     <a ng-if="conf.home_page_state" ui-sref="{{ conf.home_page_state }}">
-            <img ng-src="{{ conf.logo }}" alt="{{ conf.title }}" />
+            <img ng-src="{{ conf.librairy_logo }}" alt="{{ conf.title }}" />
         </a>
     </p>
     <!-- main navigation menu -->
@@ -27,9 +27,7 @@
          ng-hide="hide_left_panel">
         <ul id="nav">
             <li class="togglesubmenu"
-                ng-if="directorys"
-
-                ><a class="arrow arrow-plus"
+                ng-if="directorys"><a class="arrow arrow-plus"
                     ng-click="showDirectorys = ! showDirectorys"
                     ng-class="{selected: showDirectorys}">Folders</a><a 
                             class="plus"
@@ -52,6 +50,27 @@
                 </div><!-- submenu-frame -->
                 </div><!-- submenu-outframe -->
             </li><!-- tooglesubmenu -->
+            
+            
+            <li class="togglesubmenu"><a class="arrow arrow-plus"
+                    ng-click="showAccount = ! showAccount"
+                    ng-class="{selected: showAccount}">Account</a>
+                <div class="submenu-outframe">
+                <div class="submenu-frame">
+                <div class="submenu-inframe">
+                <ul class="submenu"
+                    ng-show="showAccount"
+                    ng-click="$event.stopPropagation()">
+                    <li>{{ user.avatar }}{{ user.username }}</li>
+                    <li>Profil</li>
+                    <li ng-if="user.is_staff">Settings</li>
+                    <li>Sign out</li>
+                </ul><!-- submenu -->
+                </div><!-- submenu-inframe -->
+                </div><!-- submenu-frame -->
+                </div><!-- submenu-outframe -->
+            </li><!-- tooglesubmenu -->
+
         </ul><!-- nav -->
     </nav>
 

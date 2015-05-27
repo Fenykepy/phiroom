@@ -4,10 +4,8 @@
 
 var librairyControllers = angular.module('librairyControllers');
 
-librairyControllers.controller('librairySingleCtrl', ['$scope', '$http', '$stateParams', '$filter',
-        function($scope, $http, $stateParams, $filter) {
-            console.log($scope);
-            console.log($scope.picts);
+librairyControllers.controller('librairySingleCtrl', ['$scope', '$stateParams', '$filter',
+        function($scope, $stateParams, $filter) {
             // hide librairy template
             $scope.single = true;
             // get requested picture

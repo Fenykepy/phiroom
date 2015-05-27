@@ -1,6 +1,6 @@
 <!-- filtering menu -->
 <div ui-view></div>
-<div ng-hide="single"><!-- grid wrapper -->
+<div ng-if="! single"><!-- grid wrapper -->
 <menu type="toolbar"
     ng-show="show_filter_bar">
     Search: <input ng-model="query">

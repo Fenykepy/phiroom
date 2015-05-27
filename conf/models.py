@@ -14,11 +14,18 @@ class Conf(models.Model):
     subtitle = models.CharField(max_length=254, default="Le cms des photographes…",
             verbose_name="Subtitle", null=True, blank=True,
             help_text="Website's main subtitle, will be display in page header.",)
-    logo = models.ImageField(null=True, blank=True,
+    weblog_logo = models.ImageField(null=True, blank=True,
             upload_to="images/logos/",
-            verbose_name="Website's logo.",
+            verbose_name="Weblog's logo.",
             default='images/default/default_logo.png',
-            help_text="The logo you can see on each page header. \
+            help_text="The logo you can see on each weblog's page header. \
+                    Leave blank to use default one.")
+    librairy_logo = models.ImageField(null=True, blank=True,
+            upload_to="images/logos/",
+            verbose_name="Librairy's logo.",
+            default='images/default/librairy_default_logo.png',
+            help_text="The logo you can see on librairy page header. \
+                    Idealy 50px height. \
                     Leave blank to use default one.")
     n_posts_per_page = models.PositiveSmallIntegerField(default=3,
             verbose_name="Paginate by",

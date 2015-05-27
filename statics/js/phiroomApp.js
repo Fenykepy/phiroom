@@ -38,7 +38,12 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             state('librairy.grid', {
                 url: '{source:folder|collection|post|portfolio|tag}/{pk:int}/',
                 templateUrl: '/assets/partials/librairy/librairy_grid.html',
-                controller: 'librairyGridCtrl'
+                controller: 'librairyGridCtrl',
+                resolve: {
+                    pictures: function($stateParams, phListPictures) {
+                        return phListPictures.get($stateParams);
+                    }
+                }
             }).
             state('librairy.grid.single', {
                 url: 'single/{picture:int}/',
