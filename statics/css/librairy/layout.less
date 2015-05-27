@@ -49,23 +49,50 @@ body#librairy {
     }
     #left {
         left: 0px;
-        &::before {
-            .arrow-right;
-            left: 5px;
-            top: 50%;
-            margin-top: -9px;
+        &.open {
+            // left pannel toggle arrow when panel is open
+            &:before {
+                .arrow-right;
+                left: 5px;
+                top: 50%;
+                margin-top: -9px;
+            }
+            &:hover:before, &:focus:before { .arrow-right(@lib-panel-toggle-arrows); }
         }
-        &:hover:before, &:focus:before { .arrow-right(@lib-panel-toggle-arrows); }
+        &.closed {
+            // left pannel toggle arrow when panel is closed
+            &:before {
+                .arrow-left;
+                left: 5px;
+                top: 50%;
+                margin-top: -9px;
+            }
+            &:hover:before, &:focus:before { .arrow-left(@lib-panel-toggle-arrows); }
+        }
     }
     #right {
-        right: 0px;
-        &::before {
-            .arrow-left;
-            right: 5px;
-            top: 50%;
-            margin-top: -9px;
+        // right pannel toggle arrow when panel is open
+        &.open {
+            right: 0px;
+            &:before {
+                .arrow-left;
+                right: 5px;
+                top: 50%;
+                margin-top: -9px;
+            }
+            &:hover:before, &:focus:before { .arrow-left(@lib-panel-toggle-arrows); }
         }
-        &:hover:before, &:focus:before { .arrow-left(@lib-panel-toggle-arrows); }
+        // right pannel toggle arrow when panel is closed
+        &.closed {
+            right: 0px;
+            &:before {
+                .arrow-right;
+                right: 5px;
+                top: 50%;
+                margin-top: -9px;
+            }
+            &:hover:before, &:focus:before { .arrow-right(@lib-panel-toggle-arrows); }
+        }
     }
     #pageup {
         height: 20px;
@@ -98,6 +125,7 @@ body#librairy {
         position: absolute;
         overflow: hidden;
         width: 300px;
+        box-sizing: border-box;
         top: 3px;
         left: 3px;
         bottom: 3px;
@@ -113,7 +141,48 @@ body#librairy {
             line-height: 32px;
             margin: 0 0 0 15px;
             text-indent: 30px;
-            
+            // nav tabs
+            &.arrow {
+                &:before {
+                    left: 0px;
+                    top: 10px;
+                    .arrow-right(@lib-tabs, 6px, 11px)
+                }
+                &:hover, &:focus, &.hover, &.selected {
+                    &:before {
+                        .arrow-right(@lib-tabs-hover, 6px, 11px)
+                    }
+                    color: @lib-tabs-hover;
+                }
+                // open tab
+                &.selected {
+                    &:before {
+                        .arrow-down(@lib-tabs-hover, 6px, 11px)
+                    }
+                }
+            }
+            &.arrow-plus {
+                width: 240px;
+            }
+            // contextual menu plus button
+            &.plus {
+                position: relative;
+                width: 21px;
+                float: right;
+                text-indent: 0px;
+                margin: 0 15px 0 0;
+                //.out-screen;
+                &:before {
+                    top: 8px;
+                    //.sprite-padded(22, @line2, @grid2, 21px, 17px);
+                }
+                &:hover, &:focus {
+                    &:before {
+                        top: 8px;
+                        //.sprite-padded(24, @line2, @grid2, 21px, 17px);
+                    }
+                }
+            }
         }
         // submenus
         #nav > li .submenu-inframe {
@@ -127,6 +196,128 @@ body#librairy {
             border-right: 1px solid @lib-submenus-outframe;
             border-bottom: 1px solid @lib-submenus-outframe;
         }
-    }
-}
+        ul.submenu {
+            background-color: @lib-submenus-bg;
+        }
+    } // left panel
+    // main area
+    section#content {
+        position: absolute;
+        overflow: auto;
+        overflow-x:hidden;
+        top: 3px;
+        right: 3px;
+        bottom: 3px;
+        left: 306px;
+        background: @lib-content-bg;
+        padding-bottom: 3px;
+        // thumbnails
+        article.thumb {
+            position: relative;
+            display: inline-block;
+            margin: 3px 0px 0px 3px;
+            padding: 0px;
+            background: @lib-thumb-bg;
+            box-shadow: 0 0 8px @lib-thumb-shadow;
+
+            header {
+                height: 50px;
+                position: relative;
+                margin: 0px;
+                border-top: 1px solid @lib-thumb-header-border-top;
+                border-bottom: 1px solid @lib-thumb-header-border-bottom;
+                background: @lib-thumb-header-bg;
+                padding: 10px;
+                box-shadow: none;
+
+                div.line1, div.line2 {
+                    font-weight: bold;
+                    height: 25px;
+                    color: @lib-thumb-header-line1;
+                    span {
+                        max-width: 50%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+                div.line2 {
+                    color: @lib-thumb-header-line2;
+                    font-size: 0.9em;
+                }
+            }
+
+            div.thumb-container {
+                position: relative;
+                height: 324px;
+                width: 324px;
+                line-height: 324px;
+                border-top: 1px solid @lib-thumb-header-border-top;
+                border-bottom: 1px solid @lib-thumb-header-border-bottom;
+                text-align: center;
+
+                img.thumbnail {
+                    border: 2px solid @lib-thumb-img-border;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-right: auto;
+                    margin-left: auto;
+                    box-shadow: 0 0 15px @lib-thumb-img-shadow;
+                    max-height: 300px;
+                    max-width: 300px;
+                }
+                & > div {
+                    display: inline-block;
+                    line-height: 1.1em;
+                    position: relative;
+                }
+                div.published {
+                    position: absolute;
+                    bottom: 1px;
+                    right: 1px;
+                    height: 15px;
+                    text-align: right;
+                }
+                div.post-icon {
+                    display: inline-block;
+                    height: 15px;
+                    width: 15px;
+                    //.sprite-replace(16, @line2, @grid2);
+                    &:focus, &:hover {
+                        //.sprite-replace(17, @line2, @grid2);
+                    }
+                }
+                div.portfolio-icon {
+                    display: inline-block;
+                    height: 15px;
+                    width: 15px;
+                    //.sprite-replace(14, @line2, @grid2);
+                    &:focus, &:hover {
+                        //.sprite-replace(15, @line2, @grid2);
+                    }
+                }
+            }
+
+            footer {
+                height: 40px;
+                border-top: 1px solid @lib-thumb-header-border-top;
+                position: relative;
+                margin: 0px;
+                line-height: 40px;
+                text-align: center;
+                vertical-align: middle;
+                ul li {
+                    display: inline-block;
+                    height: 25px;
+                    width: 25px;
+                }
+                a.point {
+                    //.sprite-replace(28, @line2, @grid2);
+                }
+                a.star {
+                    //.sprite-replace(26, @line2, @grid2);
+                }
+            }
+        } // article.thumb
+    } // section#content
+} // body
 

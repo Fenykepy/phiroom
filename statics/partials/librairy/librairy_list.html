@@ -1,3 +1,45 @@
-New librairy list content
+<!-- filtering menu -->
+<div ui-view>
+<menu type="toolbar"
+    ng-show="show_filter_bar">
+    Search: <input ng-model="query">
+</menu>
+<!-- top-scroll anchor -->
+<div id="top"></div>
 
-<div ui-view></div>
+<!-- thumbnails list -->
+<article id="{{ pict.id }}"
+         class="thumb"
+         ng-class="{selected: pict.selected, active: pict.active}"
+         ng-repeat="pict in picts">
+    <header>
+        <div class="line1">
+            <span class="float-right">{{ pict.name| limitTo : 20 : 0 }}</span>
+            {{ pict.pk }}
+        </div>
+        <div class="line2">
+            <span class="float-right">{{ pict.type }}</span>
+            {{ pict.width }} x {{ pict.height }}
+        </div>
+    </header>
+    <!-- square container for image -->
+    <div class="thumb-container">
+        <!-- image itself wrapper, for published icone to be at right place -->
+        <div>
+            <img class="thumbnail"
+                 ng-src="/media/images/previews/max-500/{{ pict.previews_path }}"
+                 ng-dblclick="$state.go('.detail', {'picture': pict.pk})"
+                 alt="{{ pict.title }}" />
+        </div><!-- image wrapper -->
+        <div class="published"></div>
+    </div><!-- thumb-container -->
+    <footer>
+        <ul>
+            <!-- display inline else ng-repeat add spaces… -->
+         <!--   <li ng-repeat="i in [] | range:pict.rate track by $index"><button class="star" 
+                ng-click="setRate(thumb, $index, true, true);$event.stopPropagation()">{{$index + 1}} étoiles</button></li><li 
+                ng-repeat="i in [] | range:(5 - pict.rate) track by $index"><button class="point" 
+                ng-click="setRate(pict, $index + pict.rate, false, true);$event.stopPropagation()">{{$index + pict.rate + 1}} étoiles</button></li>-->
+        </ul>
+    </footer>
+</article></div>

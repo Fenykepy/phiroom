@@ -88,6 +88,7 @@ class PictureSerializer(serializers.ModelSerializer):
             allow_null=True, required=False)
     exif_date = serializers.DateTimeField(read_only=True)
     exif_origin_date = serializers.DateTimeField(read_only=True)
+    previews_path = serializers.ReadOnlyField()
 
     class Meta:
         model = Picture
@@ -97,7 +98,7 @@ class PictureSerializer(serializers.ModelSerializer):
                 'landscape_orientation', 'color', 'camera', 'lens',
                 'speed', 'aperture', 'iso', 'tags', 'label', 'rate',
                 'exif_date', 'exif_origin_date', 'copyright',
-                'copyright_state', 'copyright_url',
+                'copyright_state', 'copyright_url', 'previews_path',
             )
 
 

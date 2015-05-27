@@ -13,17 +13,29 @@
 <!-- 1px grey frame arround main area -->
 <div id="frame">
     <!-- buttons to show / hide side panels -->
-    <a id="left" href="" title="afficher / masquer le panneau"></a>
-    <a id="right" href="" title="afficher / masquer le panneau"></a>
+    <div id="left" href=""
+       title="show / hide panel"
+       ng-click="hide_left_panel = ! hide_left_panel"
+       ng-class="{closed: hide_left_panel, open: ! hide_left_panel}"></div>
+    <div id="right"
+       title="show / hide panel"
+       ng-click="hide_right_panel = ! hide_right_panel"
+       ng-class="{closed: hide_right_panel, open: ! hide_right_panel}"></div>
     <!-- left panel -->
-    <nav id="left_panel" role="navigation">
+    <nav id="left_panel" 
+         role="navigation"
+         ng-hide="hide_left_panel">
         <ul id="nav">
             <li class="togglesubmenu"
                 ng-if="directorys"
 
-                ng-click="showDirectorys = ! showDirectorys"><a class="arrow arrow-plus"
-                                                                  ng-class="{selected: showDirectorys}">Folders</a><a class="plus"><span class="accessibility">Tab menu</span></a>
-                    <ul class="popover">
+                ><a class="arrow arrow-plus"
+                    ng-click="showDirectorys = ! showDirectorys"
+                    ng-class="{selected: showDirectorys}">Folders</a><a 
+                            class="plus"
+                            ng-click="directorys_menu = ! directorys_menu"><span class="accessibility">Tab menu</span></a>
+                    <ul class="popover"
+                        ng-show="directorys_menu">
                         <li><a ui-sref="librairy">Import pictures</a></li>
                         <li><a ui-sref="librairy">New directory</a></li>
                     </ul>

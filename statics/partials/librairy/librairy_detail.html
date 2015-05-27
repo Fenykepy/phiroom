@@ -1,1 +1,7 @@
-New librairy detail content
+<img ng-src="/media/images/previews/large/{{ pict.previews_path }}"
+     alt="{{ pict.title }}" />
+<menu type="toolbar"
+    ng-hide="hide_toolbar">
+    <button id="grid" 
+            ng-click="$state.go('^')">Grid</button>
+</menu>
