@@ -3,10 +3,12 @@
 /* App module */
 
 var phiroomApp = angular.module('phiroomApp', [
+        'ngAnimate',
         'ui.router',
         'librairyControllers',
         'librairyFilters',
         'librairyServices',
+        'librairyAnimations',
         'weblogControllers'
 ]);
 
@@ -14,6 +16,7 @@ var phiroomApp = angular.module('phiroomApp', [
 var librairyControllers = angular.module('librairyControllers', []);
 var librairyFilters = angular.module('librairyFilters', []);
 var librairyServices = angular.module('librairyServices', []);
+var librairyAnimations = angular.module('librairyAnimations', []);
 var weblogControllers = angular.module('weblogControllers', ['ngSanitize']);
 
 

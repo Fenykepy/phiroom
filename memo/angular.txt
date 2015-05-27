@@ -54,7 +54,7 @@ Routing with $location and ng-switch for these base urls
 =======================================
 
 #- /librairy/                        -> empty librairy view
-- /librairy/folder/:pk/             -> folder pictures list
+#- /librairy/folder/:pk/             -> folder pictures list
 - /librairy/collection/:pk/         -> collections or collection ensemble pictures list
 - /librairy/post/:slug/             -> post pictures list
 - /librairy/portfolio/:slug/        -> portfolio pictures list

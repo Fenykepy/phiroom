@@ -1,6 +1,6 @@
 <!-- filtering menu -->
-<div ui-view></div>
-<div ng-if="! single"><!-- grid wrapper -->
+<div ui-view>
+<div><!-- wrapper add element to fix bug with ng-repeat as direct child of ui-view -->
 <menu type="toolbar"
     ng-show="show_filter_bar">
     Search: <input ng-model="query">
@@ -44,4 +44,5 @@
         </ul>
     </footer>
 </article>
-</div><!-- grid wrapper -->
+</div><!-- wrapper -->
+</div><!-- ui-view -->
