@@ -1,5 +1,6 @@
 <!-- filtering menu -->
-<div ui-view>
+<div ui-view></div>
+<div ng-hide="single"><!-- grid wrapper -->
 <menu type="toolbar"
     ng-show="show_filter_bar">
     Search: <input ng-model="query">
@@ -28,7 +29,7 @@
         <div>
             <img class="thumbnail"
                  ng-src="/media/images/previews/max-500/{{ pict.previews_path }}"
-                 ng-dblclick="$state.go('.detail', {'picture': pict.pk})"
+                 ng-dblclick="$state.go('.single', {'picture': pict.pk})"
                  alt="{{ pict.title }}" />
         </div><!-- image wrapper -->
         <div class="published"></div>
@@ -36,10 +37,11 @@
     <footer>
         <ul>
             <!-- display inline else ng-repeat add spaces… -->
-         <!--   <li ng-repeat="i in [] | range:pict.rate track by $index"><button class="star" 
+            <li ng-repeat="i in [] | range:pict.rate track by $index"><button class="star" 
                 ng-click="setRate(thumb, $index, true, true);$event.stopPropagation()">{{$index + 1}} étoiles</button></li><li 
                 ng-repeat="i in [] | range:(5 - pict.rate) track by $index"><button class="point" 
-                ng-click="setRate(pict, $index + pict.rate, false, true);$event.stopPropagation()">{{$index + pict.rate + 1}} étoiles</button></li>-->
+                ng-click="setRate(pict, $index + pict.rate, false, true);$event.stopPropagation()">{{$index + pict.rate + 1}} étoiles</button></li>
         </ul>
     </footer>
-</article></div>
+</article>
+</div><!-- grid wrapper -->

@@ -4,7 +4,7 @@
 
 var librairyControllers = angular.module('librairyControllers');
 
-librairyControllers.controller('librairyListCtrl', ['$scope', '$http', '$stateParams',
+librairyControllers.controller('librairyGridCtrl', ['$scope', '$http', '$stateParams',
         function($scope, $http, $stateParams) {
             var url;
             if ($stateParams.source == 'folder') {
