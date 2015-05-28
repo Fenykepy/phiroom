@@ -12,7 +12,16 @@ var librairyServices = angular.module('librairyServices');
  * all -> boolean, true if all selected elements must be rated
  *
  */
-librairyServices.factory('phRate', ['phSelection', function(phSelection) {
+librairyServices.factory('phRate', ['phSelection', '$http',
+        function(phSelection, $http) {
+
+    function setRate(element, rate) {
+        var data = {"rate":rate};
+        $http.patch(element.url, data)
+            .success(function() {
+            element.rate = rate;
+        })
+    }
     return function (element, pos, star, all) {
         // if no element given, return (when no element selected in grid mode
         if (! element) {
@@ -29,13 +38,13 @@ librairyServices.factory('phRate', ['phSelection', function(phSelection) {
             new_rate = pos;
         }
         if (! element.selected || ! all) {
-            element.rate = new_rate;
+            setRate(element, new_rate);
         }
         else {
             var selected = phSelection.getSelected();
             // rate all selected elements
             for (var i=0, len=selected.objects.length; i < len; i++) {
-                selected.objects[i].rate = new_rate;
+                setRate(selected.objects[i], new_rate);
             }
         }
     };

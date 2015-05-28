@@ -36,6 +36,14 @@
 @grid1: 45px;
 @grid2: 20px;
 
+
+// out screen text (for semantic, screen readers and bots)
+.out-screen {
+    text-indent: -999em;
+    letter-spacing: -999em;
+    overflow: hidden;
+}
+
 // basic sprite
 .sprite(@x, @y, @grid-width) {
     background: url("@{base-image}phiroom-sprite.png") no-repeat;

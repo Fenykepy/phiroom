@@ -1,14 +1,14 @@
-<!-- filtering menu -->
-<div ui-view>
-<div><!-- wrapper add element to fix bug with ng-repeat as direct child of ui-view -->
-<menu type="toolbar"
-    ng-show="show_filter_bar">
-    Search: <input ng-model="query">
-</menu>
 <!-- top-scroll anchor -->
 <div id="top"></div>
 
-<!-- thumbnails list -->
+<!-- view for single state -->
+<div ui-view>
+<div><!-- wrapper add element to fix bug with ng-repeat as direct child of ui-view -->
+<!-- filtering menu -->
+<menu type="toolbar"
+    ng-show="show_filter_bar">
+    Search: <input ng-model="query">
+</menu><!-- thumbnails list -->
 <article id="{{ pict.id }}"
          class="thumb"
          ng-class="{selected: pict.selected, active: pict.active}"
@@ -38,7 +38,7 @@
         <ul>
             <!-- display inline else ng-repeat add spaces… -->
             <li ng-repeat="i in [] | range:pict.rate track by $index"><button class="star" 
-                ng-click="setRate(thumb, $index, true, true);$event.stopPropagation()">{{$index + 1}} étoiles</button></li><li 
+                ng-click="setRate(pict, $index, true, true);$event.stopPropagation()">{{$index + 1}} étoiles</button></li><li 
                 ng-repeat="i in [] | range:(5 - pict.rate) track by $index"><button class="point" 
                 ng-click="setRate(pict, $index + pict.rate, false, true);$event.stopPropagation()">{{$index + pict.rate + 1}} étoiles</button></li>
         </ul>
@@ -46,3 +46,4 @@
 </article>
 </div><!-- wrapper -->
 </div><!-- ui-view -->
+

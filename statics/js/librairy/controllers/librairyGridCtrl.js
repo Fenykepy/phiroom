@@ -4,7 +4,8 @@
 
 var librairyControllers = angular.module('librairyControllers');
 
-librairyControllers.controller('librairyGridCtrl', ['$scope', 'pictures',
-        function($scope, pictures) {
+librairyControllers.controller('librairyGridCtrl', ['$scope', 'pictures', 'phRate',
+        function($scope, pictures, phRate) {
             $scope.picts = pictures.data;
+            $scope.setRate = phRate; 
 }]);

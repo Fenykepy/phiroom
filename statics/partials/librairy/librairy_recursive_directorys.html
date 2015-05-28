@@ -1,7 +1,7 @@
 <a class="doc"
     ui-sref="librairy.grid({source: 'folder', pk: item.pk})"
     ng-class="{active: $state.includes('librairy.grid', {source: 'folder', pk: item.pk})}"
-    href="">{{ item.name }}</a>
+    >{{ item.name }}</a>
 <ul ng-if="item.children">
     <li ng-repeat="item in item.children" ng-include="'/assets/partials/librairy/librairy_recursive_directorys.html'"></li>
 </ul>

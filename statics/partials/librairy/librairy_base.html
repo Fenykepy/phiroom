@@ -27,7 +27,33 @@
          ng-hide="hide_left_panel">
         <ul id="nav">
             <li class="togglesubmenu"
-                ng-if="directorys"><a class="arrow arrow-plus"
+                ng-if="user.is_staff"><a class="arrow arrow-plus"
+                    ng-click="showCatalog = ! showCatalog"
+                    ng-class="{selected: showCatalog}">Catalog</a><a 
+                            class="plus"
+                            ng-click="catalog_menu = ! catalog_menu"><span class="accessibility">Tab menu</span></a>
+                    <ul class="popover"
+                        ng-show="catalog_menu">
+                        <li><a ui-sref="librairy">Import pictures</a></li>
+                        <li><a ui-sref="librairy">New directory</a></li>
+                    </ul>
+                <div class="submenu-outframe">
+                <div class="submenu-frame">
+                <div class="submenu-inframe">
+                <ul class="submenu"
+                    ng-show="showCatalog"
+                    ng-click="$event.stopPropagation()">
+                    <!-- <li><a class="doc" ui-sref="librairy.grid({source: 'folder', pk: '-'})">All pictures</a></li>-->
+                    <!-- <li><a class="doc" ui-sref="librairy.grid({source: 'folder', pk: '-'})">Last importation</a></li>-->
+                    <li><a class="doc" ui-sref="librairy.grid({source: 'folder', pk: '-'})">Folder less</a></li>
+                </ul><!-- submenu -->
+                </div><!-- submenu-inframe -->
+                </div><!-- submenu-frame -->
+                </div><!-- submenu-outframe -->
+            </li><!-- tooglesubmenu -->
+ 
+            <li class="togglesubmenu"
+                ng-if="user.is_staff"><a class="arrow arrow-plus"
                     ng-click="showDirectorys = ! showDirectorys"
                     ng-class="{selected: showDirectorys}">Folders</a><a 
                             class="plus"
@@ -62,9 +88,10 @@
                     ng-show="showAccount"
                     ng-click="$event.stopPropagation()">
                     <li>{{ user.avatar }}{{ user.username }}</li>
-                    <li>Profil</li>
-                    <li ng-if="user.is_staff">Settings</li>
-                    <li>Sign out</li>
+                    <li><a class="doc">Profil</a></li>
+                    <li ng-if="user.is_staff"><a class="doc">Settings</a></li>
+                    <li ng-if="user.is_staff"><a class="doc" href="/api/" target="_blank">API browser</a></li>
+                    <li><a class="doc">Sign out</a></li>
                 </ul><!-- submenu -->
                 </div><!-- submenu-inframe -->
                 </div><!-- submenu-frame -->
@@ -77,5 +104,8 @@
 <!-- main content area -->
 <section id="content" ui-view>
 </section>
+
+<!-- page up link -->
+<a id="pageup" href="#top" title="haut de page"><span class="accessibility">haut de page</span></a>
 
 </div><!-- frame -->

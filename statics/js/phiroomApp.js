@@ -28,9 +28,17 @@ phiroomApp.run(['$rootScope', '$state', '$stateParams',
 
 
 phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
-    function($stateProvider, $urlRouterProvider, $locationProvider) {
+        '$httpProvider',
+    function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+        // http configuration X-CSRF-Token
+        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+        // html5 mode (no hash '#' in urls
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
+
+        // rooter config
         $urlRouterProvider.otherwise("/librairy");
         $stateProvider.
             state('librairy', {
@@ -39,7 +47,7 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 controller: 'librairyCtrl'
             }).
             state('librairy.grid', {
-                url: '{source:folder|collection|post|portfolio|tag}/{pk:int}/',
+                url: '{source:folder|collection|post|portfolio|tag}/{pk:[0-9]+|-}/',
                 templateUrl: '/assets/partials/librairy/librairy_grid.html',
                 controller: 'librairyGridCtrl',
                 resolve: {
