@@ -29,7 +29,8 @@
             <li class="togglesubmenu"
                 ng-if="user.is_staff"><a class="arrow arrow-plus"
                     ng-click="showCatalog = ! showCatalog"
-                    ng-class="{selected: showCatalog}">Catalog</a><a 
+                    ng-class="{selected: showCatalog}"
+                    href="">Catalog</a><a 
                             class="plus"
                             ng-click="catalog_menu = ! catalog_menu"><span class="accessibility">Tab menu</span></a>
                     <ul class="popover"
@@ -45,7 +46,10 @@
                     ng-click="$event.stopPropagation()">
                     <!-- <li><a class="doc" ui-sref="librairy.grid({source: 'folder', pk: '-'})">All pictures</a></li>-->
                     <!-- <li><a class="doc" ui-sref="librairy.grid({source: 'folder', pk: '-'})">Last importation</a></li>-->
-                    <li><a class="doc" ui-sref="librairy.grid({source: 'folder', pk: '-'})">Folder less</a></li>
+                    <li><a class="doc"
+                            ui-sref="librairy.grid({source: 'folder', pk: '-'})"
+                            ng-class="{active: $state.includes('librairy.grid', {source: 'folder', pk: item.pk})}"
+                            >Folder less</a></li>
                 </ul><!-- submenu -->
                 </div><!-- submenu-inframe -->
                 </div><!-- submenu-frame -->
@@ -55,7 +59,8 @@
             <li class="togglesubmenu"
                 ng-if="user.is_staff"><a class="arrow arrow-plus"
                     ng-click="showDirectorys = ! showDirectorys"
-                    ng-class="{selected: showDirectorys}">Folders</a><a 
+                    ng-class="{selected: showDirectorys}"
+                    href="">Folders</a><a 
                             class="plus"
                             ng-click="directorys_menu = ! directorys_menu"><span class="accessibility">Tab menu</span></a>
                     <ul class="popover"
@@ -80,7 +85,7 @@
             
             <li class="togglesubmenu"><a class="arrow arrow-plus"
                     ng-click="showAccount = ! showAccount"
-                    ng-class="{selected: showAccount}">Account</a>
+                    ng-class="{selected: showAccount}" href="">Account</a>
                 <div class="submenu-outframe">
                 <div class="submenu-frame">
                 <div class="submenu-inframe">

@@ -198,6 +198,28 @@ body#librairy {
         }
         ul.submenu {
             background-color: @lib-submenus-bg;
+            li {
+                min-height: 20px;
+                display: block;
+                //padding: 1px 0;
+                a {
+                    display: block;
+                    height: 18px;
+                    line-height: 18px;
+                    margin: 1px 0;
+                    font-size: 0.8em;
+                    //padding-top: 3px;
+                    text-indent: 40px;
+                    &:hover, &:focus {
+                        background-color: @lib-submenu-hover-bg;
+                        color: @lib-submenu-hover;
+                    }
+                    &:active, &.active {
+                        background-color: @lib-submenu-active-bg;
+                        color: @lib-submenu-active;
+                    }
+                }
+            }
         }
     } // left panel
     // main area
@@ -211,6 +233,33 @@ body#librairy {
         left: 306px;
         background: @lib-content-bg;
         padding-bottom: 3px;
+        // toolbars
+        // -> filter bar
+        menu[type="toolbar"].filter-bar {
+            margin: 2px;
+            height: 30px;
+            line-height: 30px;
+            text-indent: 30px;
+            background: @lib-filter-bar-bg;
+            overflow: hidden;
+            border-bottom: 1px solid #737373;
+            border-top: 1px solid #737373;
+            input {
+                height: 24px;
+                margin: 0;
+                width: auto;
+                display: inline-block;
+                border: 1px solid #444444;
+                background: #737373;
+                border-radius: 0;
+                color: #000;
+                &:focus, &:hover {
+                    box-shadow: none;
+                    border: 1px solid #222;
+
+                }
+            }
+        }
         // thumbnails
         article.thumb {
             position: relative;

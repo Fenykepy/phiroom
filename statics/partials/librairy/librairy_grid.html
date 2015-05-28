@@ -3,16 +3,17 @@
 
 <!-- view for single state -->
 <div ui-view>
-<div><!-- wrapper add element to fix bug with ng-repeat as direct child of ui-view -->
+    <div><!-- wrapper add element to fix bug with ng-repeat as direct child of ui-view -->
 <!-- filtering menu -->
 <menu type="toolbar"
+    class="filter-bar"
     ng-show="show_filter_bar">
-    Search: <input ng-model="query">
+    Filter: <input ng-model="query">
 </menu><!-- thumbnails list -->
 <article id="{{ pict.id }}"
          class="thumb"
          ng-class="{selected: pict.selected, active: pict.active}"
-         ng-repeat="pict in picts">
+         ng-repeat="pict in picts | filter:query">
     <header>
         <div class="line1">
             <span class="float-right">{{ pict.name| limitTo : 20 : 0 }}</span>
