@@ -12,15 +12,12 @@ var librairyServices = angular.module('librairyServices');
  * all -> boolean, true if all selected elements must be rated
  *
  */
-librairyServices.factory('phRate', ['phSelection', '$http',
-        function(phSelection, $http) {
+librairyServices.factory('phRate', ['phSelection', 'phPatcher',
+        function(phSelection, phPatcher) {
 
     function setRate(element, rate) {
         var data = {"rate":rate};
-        $http.patch(element.url, data)
-            .success(function() {
-            element.rate = rate;
-        })
+        phPatcher(element, data);
     }
     return function (element, pos, star, all) {
         // if no element given, return (when no element selected in grid mode
