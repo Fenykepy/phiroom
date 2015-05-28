@@ -10,3 +10,5 @@ librairyControllers.controller('librairyGridCtrl', ['$scope', 'pictures', 'phRat
             $scope.show_filter_bar = true;
             $scope.setRate = phRate; 
 }]);
+
+
