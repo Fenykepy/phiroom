@@ -23,7 +23,6 @@ librairyServices.factory('phListPictures', ['$http', function($http) {
     }
     function get_list(params) {
         // returns a promise with pictures list
-        console.log('get pictures list');
         return $http.get(set_url(params))
     }
 

@@ -41,7 +41,7 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
         $locationProvider.hashPrefix('!');
 
         // rooter config
-        $urlRouterProvider.otherwise("/librairy");
+        $urlRouterProvider.otherwise("/librairy/");
         $stateProvider.
             state('librairy', {
                 url: '/librairy/',

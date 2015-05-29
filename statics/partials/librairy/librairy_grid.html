@@ -30,9 +30,8 @@
         <!-- image itself wrapper, for published icone to be at right place -->
         <div>
             <img class="thumbnail"
-                 ph-drag="pict/pk"
-                 drag-data="{{ pict.pk }}"
-                 drag-effect="all"
+                 ph-drag="librairy/pict"
+                 drag-data="{{ pict }}"
                  drag-style="selected"
                  ng-src="/media/images/previews/max-500/{{ pict.previews_path }}"
                  ng-dblclick="$state.go('.single', {'picture': pict.pk})"

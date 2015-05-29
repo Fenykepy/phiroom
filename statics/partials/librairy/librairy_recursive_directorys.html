@@ -1,6 +1,10 @@
 <a class="doc"
     ui-sref="librairy.grid({source: 'folder', pk: item.pk})"
     ng-class="{active: $state.includes('librairy.grid', {source: 'folder', pk: item.pk})}"
+    ph-drop="librairy/folder"
+    drop-data="{{ item }}"
+    drop-accept="librairy/pict librairy/folder"
+    drop-style="droppable"
     >{{ item.name }}</a>
 <ul ng-if="item.children">
     <li ng-repeat="item in item.children" ng-include="'/assets/partials/librairy/librairy_recursive_directorys.html'"></li>

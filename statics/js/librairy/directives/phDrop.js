@@ -8,15 +8,38 @@ var librairyDirectives = angular.module('librairyDirectives');
 
 librairyDirectives.directive('phDrop', ['$rootScope',
         function($rootScope) {
-    function dragEnter(evt, element, dropStyle) {
+
+    function contains(list, value) {
+        for (var i = 0; i < list.length; ++i) {
+            if(list[i] === value) return true;
+        }
+        return false;
+    };
+    function containsFromList(list, value_list) {
+        /* returns true if one of value_list item is in list */
+        for (var i = 0; i < list.length; ++i) {
+            if (contains(list, value_list[i])) return i;
+        }
+        return false;
+    };
+    function dragEnter(evt, element, drop) {
+        var goodType = containsFromList(evt.originalEvent.dataTransfer.types,
+                drop.accepted_types);
+        /* use === false else 0 index is considered as false too */
+        if (goodType === false) {
+            return;
+        }
+        drop.dragged_type = drop.accepted_types[goodType];
         evt.preventDefault();
-        element.addClass(dropStyle);
+        element.addClass(drop.style);
     };
     function dragLeave(evt, element, dropStyle) {
         element.removeClass(dropStyle);
     };
-    function dragOver(evt) {
-        evt.preventDefault();
+    function dragOver(evt, drop) {
+        if ("dragged_type" in drop) {
+            evt.preventDefault();
+        }
     };
     function drop(evt, element, dropStyle) {
         evt.preventDefault();
@@ -26,20 +49,44 @@ librairyDirectives.directive('phDrop', ['$rootScope',
     return {
         restrict: 'A',
         link: function(scope, element, attrs)  {
-            scope.dropData = attrs["phDrop"];
-            scope.dropStyle = attrs["dropStyle"];
+            /*
+             * phDrop: drop element type
+             * dropData: data to identifie drop element
+             * dropStyle: class added to drop element when drop is valid
+             * dropAccept: white space separated list of accepted dragged type
+             * dropEffect: value for drop effect, can be : "copy", "move", "link"
+             *          default : copy
+             */
+            scope.drop = {};
+            scope.drop.type = attrs["phDrop"];
+            scope.drop.data = attrs["dropData"];
+            scope.drop.style = attrs["dropStyle"];
+            scope.drop.accepted_types = attrs["dropAccept"].split(" ");
+            if (attrs["dropEffect"]) {
+                scope.drop.effect = attrs["dropEffect"];
+            } else {
+                scope.drop.effect = "copy";
+            }
             element.bind('dragenter', function(evt) {
-                dragEnter(evt, element, scope.dropStyle);
+                dragEnter(evt, element, scope.drop);
             });
             element.bind('dragleave', function(evt) {
-                dragLeave(evt, element, scope.dropStyle);
+                dragLeave(evt, element, scope.drop.style);
             });
-            element.bind('dragover', dragOver);
+            element.bind('dragover', function(evt) {
+                dragOver(evt, scope.drop);
+            });
             element.bind('drop', function(evt) {
-                drop(evt, element, scope.dropStyle);
-                $rootScope.$broadcast('dropEvent', $rootScope.draggedElement, scope.dropData);
-                console.log(scope.dropData);
-                console.log($rootScope.draggedElement);
+                drop(evt, element, scope.drop.style);
+                var basket = {
+                    type: scope.drop.type,
+                    data: scope.drop.data
+                };
+                var dropped = {
+                    type: scope.drop.dragged_type,
+                    data: evt.originalEvent.dataTransfer.getData(scope.drop.dragged_type)
+                };
+                $rootScope.$broadcast('dropEvent', basket, dropped);
             });
         }
     }
