@@ -10,6 +10,7 @@
     ng-show="show_filter_bar">
     Filter: <input ng-model="query">
 </menu><!-- thumbnails list -->
+<img src="" id="dragimage" />
 <article id="{{ pict.id }}"
          class="thumb"
          ng-class="{selected: pict.selected, active: pict.active}"
@@ -29,6 +30,10 @@
         <!-- image itself wrapper, for published icone to be at right place -->
         <div>
             <img class="thumbnail"
+                 ph-drag="pict"
+                 drag-data="{{ pict.pk }}"
+                 drag-effect="all"
+                 drag-style="selected"
                  ng-src="/media/images/previews/max-500/{{ pict.previews_path }}"
                  ng-dblclick="$state.go('.single', {'picture': pict.pk})"
                  alt="{{ pict.title }}" />

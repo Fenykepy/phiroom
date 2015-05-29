@@ -8,14 +8,16 @@ var phiroomApp = angular.module('phiroomApp', [
         'librairyControllers',
         'librairyFilters',
         'librairyServices',
+        'librairyDirectives',
         'librairyAnimations',
         'weblogControllers'
 ]);
 
 // instantiate modules 
 var librairyControllers = angular.module('librairyControllers', []);
-var librairyFilters = angular.module('librairyFilters', []);
 var librairyServices = angular.module('librairyServices', []);
+var librairyDirectives = angular.module('librairyDirectives', []);
+var librairyFilters = angular.module('librairyFilters', []);
 var librairyAnimations = angular.module('librairyAnimations', []);
 var weblogControllers = angular.module('weblogControllers', ['ngSanitize']);
 

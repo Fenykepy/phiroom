@@ -260,6 +260,16 @@ body#librairy {
                 }
             }
         }
+        // drag image model
+        img#dragimage {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            max-width: 150px;
+            max-height: 150px;
+            border: 3px solid #FFF;
+            z-index: -10; 
+        }
         // thumbnails
         article.thumb {
             position: relative;
@@ -313,6 +323,12 @@ body#librairy {
                     box-shadow: 0 0 15px @lib-thumb-img-shadow;
                     max-height: 300px;
                     max-width: 300px;
+                }
+                img.dragged {
+                    max-height: 150px;
+                    max-width: 150px;
+                    opacity: 1;
+                    border: 3px solid #FFF;
                 }
                 & > div {
                     display: inline-block;

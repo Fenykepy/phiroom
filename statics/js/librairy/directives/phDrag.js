@@ -6,10 +6,16 @@ var librairyDirectives = angular.module('librairyDirectives');
 
 librairyDirectives.directive('phDrag', ['$rootScope',
         function($rootScope) {
-    function dragStart(evt, element, dragStyle) {
-        element.addClass(dragStyle);
-        evt.dataTransfer.setData("id", evt.target.id);
-        evt.dataTransfer.effectAllowed = 'copy';
+    function dragStart(evt, element, drag) {
+        element.addClass(drag.style);
+        evt.originalEvent.dataTransfer.setData(drag.type, drag.data);
+        evt.originalEvent.dataTransfer.effectAllowed = drag.effect;
+        if (drag.type == "pict") {
+            var dragImage = document.getElementById("dragimage");
+            dragImage.src = element[0].src;
+            console.log(dragImage);
+            evt.originalEvent.dataTransfer.setDragImage(dragImage, 50, 50);
+        }
     };
     function dragEnd(evt, element, dragStyle) {
         element.removeClass(dragStyle);
@@ -18,15 +24,28 @@ librairyDirectives.directive('phDrag', ['$rootScope',
     return {
         restrict: 'A',
         link: function(scope, element, attrs)  {
+            /* 
+             * drageffect can be :
+             *  "move", "copy", "link", "copyMove",
+             *  "copyLink", "linkMove", "all"
+             *
+             * dragtype: type of dragged data
+             * dragdata: value given to drop element
+             * dragstyle: css style applyed to drag element during drag
+             *
+             */
             attrs.$set('draggable', 'true');
-            scope.dragData = scope[attrs["drag"]];
-            scope.dragStyle = attrs["dragstyle"];
+            scope.drag = {};
+            scope.drag.data = attrs["dragData"];
+            scope.drag.type = attrs["phDrag"];
+            scope.drag.style = attrs["dragStyle"];
+            scope.drag.effect = attrs["dragEffect"];
             element.bind('dragstart', function(evt) {
-                $rootScope.draggedElement = scope.dragData;
-                dragStart(evt, element, scope.dragStyle);
+                $rootScope.draggedElement = scope.drag;
+                dragStart(evt, element, scope.drag);
             });
             element.bind('dragend', function(evt) {
-                dragEnd(evt, element, scope.dragStyle);
+                dragEnd(evt, element, scope.drag.style);
             });
         }
     }
