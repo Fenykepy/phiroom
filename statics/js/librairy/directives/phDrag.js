@@ -13,7 +13,6 @@ librairyDirectives.directive('phDrag', ['$rootScope',
         if (drag.type == "pict") {
             var dragImage = document.getElementById("dragimage");
             dragImage.src = element[0].src;
-            console.log(dragImage);
             evt.originalEvent.dataTransfer.setDragImage(dragImage, 50, 50);
         }
     };
@@ -50,3 +49,5 @@ librairyDirectives.directive('phDrag', ['$rootScope',
         }
     }
 }]);
+
+
