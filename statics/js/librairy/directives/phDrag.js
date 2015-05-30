@@ -4,7 +4,7 @@
 var librairyDirectives = angular.module('librairyDirectives');
 
 
-librairyDirectives.directive('phDrag', [function() {
+librairyDirectives.directive('phDrag', ['$rootScope', function($rootScope) {
     function dragStart(evt, element, drag) {
         element.addClass(drag.style);
         evt.originalEvent.dataTransfer.setData(drag.type, drag.data);
@@ -21,6 +21,9 @@ librairyDirectives.directive('phDrag', [function() {
 
     return {
         restrict: 'A',
+        scope: {
+            dragData: '=',
+        },
         link: function(scope, element, attrs)  {
             /* 
              * dragEffect can be :
@@ -35,7 +38,7 @@ librairyDirectives.directive('phDrag', [function() {
             attrs.$set('draggable', 'true');
             scope.drag = {};
             scope.drag.type = attrs["phDrag"];
-            scope.drag.data = attrs["dragData"];
+            scope.drag.data = scope.dragData.pk;
             scope.drag.style = attrs["dragStyle"];
             if (attrs["dragEffect"]) {
                 scope.drag.effect = attrs["dragEffect"];
@@ -43,6 +46,12 @@ librairyDirectives.directive('phDrag', [function() {
                 scope.drag.effect = "all";
             }
             element.bind('dragstart', function(evt) {
+                /*
+                 * we store dragged object in root scope
+                 * because if we use dataTransfer.getData() we
+                 * get only a serialized string.
+                 */
+                $rootScope.draggedElement = scope.dragData;
                 dragStart(evt, element, scope.drag);
             });
             element.bind('dragend', function(evt) {

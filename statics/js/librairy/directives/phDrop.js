@@ -84,7 +84,7 @@ librairyDirectives.directive('phDrop', ['$rootScope',
                 };
                 var dropped = {
                     type: scope.drop.dragged_type,
-                    data: evt.originalEvent.dataTransfer.getData(scope.drop.dragged_type)
+                    data: $rootScope.draggedElement
                 };
                 $rootScope.$broadcast('dropEvent', basket, dropped);
             });

@@ -5,8 +5,8 @@
 var librairyControllers = angular.module('librairyControllers');
 
 librairyControllers.controller('librairyGridCtrl', ['$scope', '$rootScope', 'pictures',
-        'phRate', 'phPatcher'
-        function($scope, $rootScope, pictures, phRate, phPather) {
+        'phRate', 'phPatcher',
+        function($scope, $rootScope, pictures, phRate, phPatcher) {
     $scope.picts = pictures.data;
     $scope.show_filter_bar = true;
     $scope.setRate = phRate;
@@ -24,13 +24,18 @@ librairyControllers.controller('librairyGridCtrl', ['$scope', '$rootScope', 'pic
             if (basket.type != "librairy/folder") throw 'Drag & drop error with folder';
             /* change folder parent */
             var data;
-            if (basket == '-') {
+            if (basket.data == '-') {
                 /* set parent folder as null */
                 data = {"parent": null};
             } else {
-                var data = {"parent": basket.pk};
+                var data = {"parent": basket.data.pk};
             }
             /* save server side */
+            console.log(basket.data);
+            console.log(basket.data['pk']);
+            console.log(data);
+            console.log(folder);
+            console.log(typeof(folder));
             phPatcher(folder, data);
             /* reload folders hierarchy (for left panel tab) */
             
@@ -45,7 +50,6 @@ librairyControllers.controller('librairyGridCtrl', ['$scope', '$rootScope', 'pic
             /* not handled dropped object type */
             console.log('dropEvent: not supported dropped object: ' + dropped.type);
         }
-
     });
 
     
