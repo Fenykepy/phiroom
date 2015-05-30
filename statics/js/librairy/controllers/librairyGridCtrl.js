@@ -12,6 +12,7 @@ librairyControllers.controller('librairyGridCtrl', ['$scope', '$rootScope', 'pic
     $scope.setRate = phRate;
     /* listen drag & drop events */
     $rootScope.$on('dropEvent', function(evt, basket, dropped) {
+        console.log('drop ' + dropped.type + ' ' + dropped.data + ' in ' + basket.type + ' ' + basket.data);
         function dropPicture(basket, pict) {
             /* if element is folder, update picture folder */
 
@@ -31,7 +32,7 @@ librairyControllers.controller('librairyGridCtrl', ['$scope', '$rootScope', 'pic
                 var data = {"parent": basket.data.pk};
             }
             /* save server side */
-            console.log(basket.data);
+          /*  console.log(basket.data);
             console.log(basket.data['pk']);
             console.log(data);
             console.log(folder);

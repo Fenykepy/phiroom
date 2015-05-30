@@ -31,8 +31,8 @@
         <div>
             <img class="thumbnail"
                  ph-drag="librairy/pict"
-                 drag-data="pict"
-                 drag-style="selected"
+                 ph-drag-data="{{ pict.pk }}"
+                 ph-drag-style="selected"
                  ng-src="/media/images/previews/max-500/{{ pict.previews_path }}"
                  ng-dblclick="$state.go('.single', {'picture': pict.pk})"
                  alt="{{ pict.title }}" />

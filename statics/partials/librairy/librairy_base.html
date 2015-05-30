@@ -48,9 +48,9 @@
                     <!-- <li><a class="doc" ui-sref="librairy.grid({source: 'folder', pk: '-'})">Last importation</a></li>-->
                     <li><a class="doc"
                             ph-drop="librairy/folder"
-                            drop-data="'-'"
-                            drop-accept="librairy/pict librairy/folder"
-                            drop-style="droppable"
+                            ph-drop-data="'-'"
+                            ph-drop-accept="librairy/pict librairy/folder"
+                            ph-drop-style="droppable"
                             ui-sref="librairy.grid({source: 'folder', pk: '-'})"
                             ng-class="{active: $state.includes('librairy.grid', {source: 'folder', pk: item.pk})}"
                             >Folder less</a></li>

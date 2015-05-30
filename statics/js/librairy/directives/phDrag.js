@@ -4,7 +4,7 @@
 var librairyDirectives = angular.module('librairyDirectives');
 
 
-librairyDirectives.directive('phDrag', ['$rootScope', function($rootScope) {
+librairyDirectives.directive('phDrag', [function() {
     function dragStart(evt, element, drag) {
         element.addClass(drag.style);
         evt.originalEvent.dataTransfer.setData(drag.type, drag.data);
@@ -21,37 +21,29 @@ librairyDirectives.directive('phDrag', ['$rootScope', function($rootScope) {
 
     return {
         restrict: 'A',
-        scope: {
-            dragData: '=',
-        },
         link: function(scope, element, attrs)  {
             /* 
-             * dragEffect can be :
+             * phDragEffect can be :
              *  "move", "copy", "link", "copyMove",
              *  "copyLink", "linkMove", "all"
+             *  default: "all"
              *
-             * phType: type of dragged data
-             * dragData: value given to drop element
-             * dragStyle: css style applyed to drag element during drag
+             * phDrag: type of dragged data
+             * phDragData: value given to drop element (object pk for example)
+             * phDragStyle: css style applyed to drag element during drag
              *
              */
             attrs.$set('draggable', 'true');
             scope.drag = {};
             scope.drag.type = attrs["phDrag"];
-            scope.drag.data = scope.dragData.pk;
-            scope.drag.style = attrs["dragStyle"];
-            if (attrs["dragEffect"]) {
-                scope.drag.effect = attrs["dragEffect"];
+            scope.drag.data = attrs["phDragData"];
+            scope.drag.style = attrs["phDragStyle"];
+            if (attrs["phDragEffect"]) {
+                scope.drag.effect = attrs["phDragEffect"];
             } else {
                 scope.drag.effect = "all";
             }
             element.bind('dragstart', function(evt) {
-                /*
-                 * we store dragged object in root scope
-                 * because if we use dataTransfer.getData() we
-                 * get only a serialized string.
-                 */
-                $rootScope.draggedElement = scope.dragData;
                 dragStart(evt, element, scope.drag);
             });
             element.bind('dragend', function(evt) {
