@@ -4,12 +4,8 @@
 
 var librairyServices = angular.module('librairyServices');
 
-/* defines a rate service :
- *
- * element -> element object to be rate, must have a 'rate' key
- * pos -> int, button clicked 0 to 4
- * star -> boolean, true if button is star, false otherwise (point)
- * all -> boolean, true if all selected elements must be rated
+/* :
+ * get: returns a list of pictures from given directory
  *
  */
 librairyServices.factory('phListPictures', ['$http', function($http) {

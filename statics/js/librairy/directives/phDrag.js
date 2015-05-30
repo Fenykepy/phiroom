@@ -4,7 +4,7 @@
 var librairyDirectives = angular.module('librairyDirectives');
 
 
-librairyDirectives.directive('phDrag', [function() {
+librairyDirectives.directive('phDrag', ['$rootScope', function($rootScope) {
     function dragStart(evt, element, drag) {
         element.addClass(drag.style);
         evt.originalEvent.dataTransfer.setData(drag.type, drag.data);
@@ -13,6 +13,10 @@ librairyDirectives.directive('phDrag', [function() {
             var dragImage = document.getElementById("dragimage");
             dragImage.src = element[0].src;
             evt.originalEvent.dataTransfer.setDragImage(dragImage, 50, 50);
+        }
+        if (drag.type == "librairy/folder") {
+            var dragImage = element.closest('li')[0];
+            evt.originalEvent.dataTransfer.setDragImage(dragImage, 120, 10);
         }
     };
     function dragEnd(evt, element, dragStyle) {
@@ -36,7 +40,13 @@ librairyDirectives.directive('phDrag', [function() {
             attrs.$set('draggable', 'true');
             scope.drag = {};
             scope.drag.type = attrs["phDrag"];
-            scope.drag.data = attrs["phDragData"];
+            scope.drag.object = scope[attrs["phDragData"]];
+            /* if dragged object has pk, use it for serialisation */
+            if (scope.drag.object.hasOwnProperty('pk')) {
+                scope.drag.data = scope.drag.object.pk;
+            } else {
+                scope.drag.data = scope.drag.object;
+            }
             scope.drag.style = attrs["phDragStyle"];
             if (attrs["phDragEffect"]) {
                 scope.drag.effect = attrs["phDragEffect"];
@@ -44,6 +54,10 @@ librairyDirectives.directive('phDrag', [function() {
                 scope.drag.effect = "all";
             }
             element.bind('dragstart', function(evt) {
+                /* store dragged object in root scope because
+                 * data transfert allows only string type
+                 */
+                $rootScope.draggedObject = scope.drag.object;
                 dragStart(evt, element, scope.drag);
             });
             element.bind('dragend', function(evt) {

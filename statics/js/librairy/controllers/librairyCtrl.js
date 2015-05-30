@@ -4,30 +4,74 @@
 
 var librairyControllers = angular.module('librairyControllers');
 
-librairyControllers.controller('librairyCtrl', ['$scope', '$http',
-        function($scope, $http) {
-            /* set page infos */
-            $scope.$parent.page_info = {
-                title: 'Librairy',
-                name: 'librairy'
+librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', '$http', 'phPatcher',
+        function($scope, $rootScope, $http, phPatcher) {
+    /* set page infos */
+    $scope.$parent.page_info = {
+        title: 'Librairy',
+        name: 'librairy'
+    }
+    /* get folders hierarchy */
+    $http.get('/api/librairy/directorys/').
+        success(function(data) {
+            $scope.directorys = data.results;
+    });
+
+    /* create a false root directory 
+     * (to have an object for drag & drop
+     */
+    $scope.rootDir = {
+        pk: null,
+        name: 'Root directory'
+    };
+
+
+    /* get collections hierarchy */
+
+
+    /* get portfolios list */
+
+    
+    /* get posts list */
+
+    
+    /* get tags list */
+    
+            
+    /* listen drag & drop events */
+    $rootScope.$on('dropEvent', function(evt, basket, dropped) {
+        console.log('drop ' + dropped.type + ' ' + dropped.data.pk + ' in ' + basket.type + ' ' + basket.data.pk);
+        function dropPicture(basket, pict) {
+            /* if element is folder, update picture folder */
+
+            /* if element is collection, copy picture to collection */
+            /* if element is post, add element to post */
+            /* if element is portfolio, add element to portfolio */
+        }
+        function dropFolder(basket, folder) {
+            /* folder can only be dropped in another folder*/
+            if (basket.type != "librairy/folder") throw 'Drag & drop error with folder';
+            /* change folder parent */
+            /* save server side */
+            var data = {
+                parent: basket.data.pk
             }
-            /* get folders hierarchy */
-            $http.get('/api/librairy/directorys/').
-                success(function(data) {
-                    $scope.directorys = data.results;
-            });
+            phPatcher(folder, data);
+            /* reload folders hierarchy
+             * (for left panel tab, more easy than to update hierarchy)
+             */
 
+        }
+        if (dropped.type == "librairy/pict") {
+            dropPicture(basket, dropped.data);
+        } else if (dropped.type == "librairy/folder") {
+            dropFolder(basket, dropped.data);
+        } else {
+            /* not handled dropped object type */
+            console.log('dropEvent: not supported dropped object: ' + dropped.type);
+        }
+    });
 
-            /* get collections hierarchy */
-
-
-            /* get portfolios list */
-
-            
-            /* get posts list */
-
-            
-            /* get tags list */
 
 
 }]);

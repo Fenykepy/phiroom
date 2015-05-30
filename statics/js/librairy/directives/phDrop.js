@@ -70,6 +70,7 @@ librairyDirectives.directive('phDrop', ['$rootScope',
              */
             scope.drop = {};
             scope.drop.type = attrs["phDrop"];
+            scope.drop.object = scope[attrs["phDropData"]];
             scope.drop.data = attrs["phDropData"];
             scope.drop.style = attrs["phDropStyle"];
             scope.drop.accepted_types = attrs["phDropAccept"].split(" ");
@@ -91,14 +92,15 @@ librairyDirectives.directive('phDrop', ['$rootScope',
                 drop(evt, element, scope.drop.style);
                 var basket = {
                     type: scope.drop.type,
-                    data: scope.drop.data
+                    data: scope.drop.object
                 };
                 var dropped = {
                     type: scope.drop.drag_type,
-                    data: evt.originalEvent.dataTransfer.getData(scope.drop.drag_type)
+                    data: $rootScope.draggedObject
                 };
                 if (basket.type == dropped.type && basket.data == dropped.data) {
                     // emit dropEvent only if object isn't dragged on itself
+                    console.warn('object dropped on itself: abort.');
                     return
                 }
                 $rootScope.$broadcast('dropEvent', basket, dropped);

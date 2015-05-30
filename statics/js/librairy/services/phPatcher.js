@@ -22,9 +22,6 @@ librairyServices.factory('phPatcher', ['$http',
         // delete elements that haven't change from data
         for (var k in data) {
             if (element[k] === data[k]) {
-                console.log('delete:');
-                console.log(element[k]);
-                console.log(data[k]);
                 delete data[k];
             }
         }
