@@ -4,26 +4,21 @@
 
 var librairyControllers = angular.module('librairyControllers');
 
-librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', '$http', 'phPatcher',
-        function($scope, $rootScope, $http, phPatcher) {
+librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phPatcher',
+        function($scope, $rootScope, phFolder, phPatcher) {
     /* set page infos */
     $scope.$parent.page_info = {
         title: 'Librairy',
         name: 'librairy'
     }
     /* get folders hierarchy */
-    $http.get('/api/librairy/directorys/').
-        success(function(data) {
-            $scope.directorys = data.results;
-    });
+    $scope.directorys = phFolder.getDirectorys();
+
 
     /* create a false root directory 
      * (to have an object for drag & drop
      */
-    $scope.rootDir = {
-        pk: null,
-        name: 'Root directory'
-    };
+    $scope.rootDir = phFolder.rootDir;
 
 
     /* get collections hierarchy */
