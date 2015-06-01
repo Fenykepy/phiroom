@@ -49,7 +49,6 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
                 if (phListPictures.listType == 'folder') {
                     /* if basket folder is not a child of active one */
                     if (phFolder.isChild(basket.data.pk, phListPictures.pk) === false) {
-                        console.log('basket is not child of active, delete pict');
                         /* then picture shouldn't be in list anymore, delete it */
                         // get index of picture object in list
                         var index = phUtils.getObjectIndexByKey(phListPictures.picts, 'pk', pict.pk);
