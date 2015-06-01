@@ -19,7 +19,7 @@ librairyServices.factory('phUtils', function() {
     };
 
     phUtils.listContainsFromList = function(list, value_list) {
-        /* returns index if one of value_list item is in list
+        /* returns index of value_list if one of value_list item is in list
          * returns false otherwise
          */
         for (var i=0; i <list.length; i++) {

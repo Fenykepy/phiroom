@@ -2,7 +2,7 @@
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
-describe('weblog App', function () {
+/*describe('weblog App', function () {
 
     describe('weblog list', function () {
         beforeEach(function() {
@@ -14,4 +14,4 @@ describe('weblog App', function () {
             expect(browser().location().url()).toBe('/weblog/8/');
         });
     });
-});
+});*/

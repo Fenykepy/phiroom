@@ -36,7 +36,7 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
             
     /* listen drag & drop events */
     $rootScope.$on('dropEvent', function(evt, basket, dropped) {
-        console.log('drop ' + dropped.type + ' ' + dropped.data.pk + ' in ' + basket.type + ' ' + basket.data.pk);
+        //console.log('drop ' + dropped.type + ' ' + dropped.data.pk + ' in ' + basket.type + ' ' + basket.data.pk);
         function dropPicture(basket, pict) {
             /* if element is a folder, and is not picture's one: */
             if (basket.type == "librairy/folder" && basket.data.pk != pict.directory) {
@@ -48,7 +48,8 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
                 // if we are in folder list
                 if (phListPictures.listType == 'folder') {
                     /* if basket folder is not a child of active one */
-                    if (! phFolder.isChild(basket.data.pk, phListPictures.pk)) {
+                    if (phFolder.isChild(basket.data.pk, phListPictures.pk) === false) {
+                        console.log('basket is not child of active, delete pict');
                         /* then picture shouldn't be in list anymore, delete it */
                         // get index of picture object in list
                         var index = phUtils.getObjectIndexByKey(phListPictures.picts, 'pk', pict.pk);

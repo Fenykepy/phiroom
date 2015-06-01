@@ -46,10 +46,12 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', function($http, phUtil
         if (! startdir) {
             startdir = phFolder.directorys;
         }
+        console.log(startdir);
+
         function scanChildren(dir) {
             for (var i=0; i < dir.length; i++) {
                 // if it's good object, return it
-                if (phUtils.objectKeyEqual(dir[i], 'pk', dirpk)) {
+                if (phUtils.objectKeyEqual(dir[i], 'pk', Number(dirpk))) {
                     return dir[i];
                 }
                 // if object has children, recurse on them
