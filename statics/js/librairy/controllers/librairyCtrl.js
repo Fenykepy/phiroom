@@ -12,8 +12,8 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
         name: 'librairy'
     }
     /* get folders hierarchy */
-    $scope.directorys = phFolder.getDirectorys();
-
+    $scope.directorys = phFolder.directorys;
+    phFolder.getDirectorys();
 
     /* create a false root directory 
      * (to have an object for drag & drop
@@ -55,6 +55,10 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
             /* reload folders hierarchy
              * (for left panel tab, more easy than to update hierarchy)
              */
+            phFolder.getDirectorys();
+            //console.log(phFolder.directorys);
+            console.log('in scope');
+            console.log($scope.directorys);
 
         }
         if (dropped.type == "librairy/pict") {
