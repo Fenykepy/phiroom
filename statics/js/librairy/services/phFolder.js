@@ -21,11 +21,8 @@ librairyServices.factory('phFolder', ['$http', function($http) {
      * http://www.justinobney.com/keeping-angular-service-list-data-in-sync-among-multiple-controllers/
      */
     phFolder.getDirectorys = function() {
-        $http.get(url).success(function(data, status) {
+        $http.get(url).success(function(data) {
             angular.copy(data.results, phFolder.directorys);
-            console.log(status);
-            console.log(data);
-            console.log(phFolder.directorys);
         });
     };
     // create a fake root directory to be able to drag a folder to root

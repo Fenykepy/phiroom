@@ -51,15 +51,17 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
             var data = {
                 parent: basket.data.pk
             }
-            phPatcher(folder, data);
+            var promise = phPatcher(folder, data);
             /* reload folders hierarchy
              * (for left panel tab, more easy than to update hierarchy)
              */
-            phFolder.getDirectorys();
-            //console.log(phFolder.directorys);
-            console.log('in scope');
-            console.log($scope.directorys);
-
+            if (promise) {
+                // promise is false if no patch occur
+                promise.then(function() {
+                    // reload directorys
+                    phFolder.getDirectorys();
+                });
+            }
         }
         if (dropped.type == "librairy/pict") {
             dropPicture(basket, dropped.data);

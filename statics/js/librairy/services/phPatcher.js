@@ -31,9 +31,9 @@ librairyServices.factory('phPatcher', ['$http',
     return function (element, data) {
         // check if patch is necessary
         var n_updates = is_different(element, data);
-        // patch data if necessary
+        // patch data if necessary and return promise
         if (n_updates) {
-            $http.patch(element.url, data)
+            return $http.patch(element.url, data)
                 .success(function() {
                     // update element
                     var keys = Object.keys(data);
@@ -43,6 +43,8 @@ librairyServices.factory('phPatcher', ['$http',
                     }
             });
         }
+        // return false if no patch was necessary
+        return false;
     }
 }]);
 
