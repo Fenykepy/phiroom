@@ -29,7 +29,7 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', function($http, phUtil
 
     // create a fake root directory to be able to drag a folder to root
     phFolder.rootDir = {
-        name: 'Root directory',
+        name: 'Root folder',
         pk: null
     };
 
@@ -43,26 +43,40 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', function($http, phUtil
 
     // returns position of given directory object from it's pk in directorys hierarchy, false if not found
     phFolder.getDirectory = function(dirpk, startdir) {
+        //console.log('search object: ' + dirpk);
         if (! startdir) {
             startdir = phFolder.directorys;
         }
-        console.log(startdir);
 
         function scanChildren(dir) {
             for (var i=0; i < dir.length; i++) {
                 // if it's good object, return it
+                //console.log('found pk ' + dir[i].pk);
                 if (phUtils.objectKeyEqual(dir[i], 'pk', Number(dirpk))) {
+                    //console.log('object found, return it:');
+                    //console.log(dir[i]);
                     return dir[i];
                 }
                 // if object has children, recurse on them
-                if (dir[i].children.length > 0) {
-                    scanChildren(dir[i].children);
+                else if (dir[i].children.length > 0) {
+                    //console.log('object has children, scan them.'); 
+                    var child_scan = scanChildren(dir[i].children);
+                    // return children if it matches
+                    if (child_scan) {
+                       return child_scan;
+                    }
                 }
             }
-            // nothing found
-            return false;
         };
-        return scanChildren(startdir);
+
+        var dir = scanChildren(startdir);
+        if (dir) {
+            return dir;
+        }
+        else {
+            return false;
+        }
     };
+
     return phFolder;
 }]);
