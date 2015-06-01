@@ -5,7 +5,8 @@
 var librairyControllers = angular.module('librairyControllers');
 
 librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phPatcher',
-        function($scope, $rootScope, phFolder, phPatcher) {
+        'phListPictures', 'phUtils',
+        function($scope, $rootScope, phFolder, phPatcher, phListPictures, phUtils) {
     /* set page infos */
     $scope.$parent.page_info = {
         title: 'Librairy',
@@ -37,7 +38,25 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
     $rootScope.$on('dropEvent', function(evt, basket, dropped) {
         console.log('drop ' + dropped.type + ' ' + dropped.data.pk + ' in ' + basket.type + ' ' + basket.data.pk);
         function dropPicture(basket, pict) {
-            /* if element is folder, update picture folder */
+            /* if element is a folder, and is not picture's one: */
+            if (basket.type == "librairy/folder" && basket.data.pk != pict.directory) {
+                // update picture folder
+                var data = {
+                    directory: basket.data.pk
+                }
+                var promise = phPatcher(pict, data);
+                // if we are in folder list
+                if (phListPictures.listType == 'folder') {
+                    /* if basket folder is not a child of active one */
+                    if (! phFolder.isChild(basket.data.pk, phListPictures.pk)) {
+                        /* then picture shouldn't be in list anymore, delete it */
+                        // get index of picture object in list
+                        var index = phUtils.getObjectIndexByKey(phListPictures.picts, 'pk', pict.pk);
+                        // delete object from array
+                        phListPictures.picts.splice(index, 1);
+                    }
+                }
+            }
 
             /* if element is collection, copy picture to collection */
             /* if element is post, add element to post */

@@ -9,6 +9,7 @@ var librairyServices = angular.module('librairyServices');
  *
  */
 librairyServices.factory('phListPictures', ['$http', function($http) {
+    var phListPictures = {};
     // set url from parameters
     function set_url(params) {
         if (params.source == "folder") {
@@ -17,14 +18,22 @@ librairyServices.factory('phListPictures', ['$http', function($http) {
         }
         return url
     }
-    function get_list(params) {
-        // returns a promise with pictures list
-        return $http.get(set_url(params))
-    }
+    phListPictures.listType = '';
+    phListPictures.pk = '';
+    phListPictures.picts = [];
+    phListPictures.get = function(params) {
+        // store params (to know which list is displayed from other services
+        phListPictures.listType = params.source;
+        phListPictures.pk = params.pk;
 
-    return {
-       get: get_list
-    }
+        // returns a promise with pictures list
+        return $http.get(set_url(params)).success(function(data) {
+            // store pictures list in service
+            phListPictures.picts = data;
+        });
+    };
+
+    return phListPictures;
 }]);
 
 

@@ -6,25 +6,12 @@ var librairyDirectives = angular.module('librairyDirectives');
 
 
 
-librairyDirectives.directive('phDrop', ['$rootScope',
-        function($rootScope) {
+librairyDirectives.directive('phDrop', ['$rootScope', 'phUtils',
+        function($rootScope, phUtils) {
 
-    function contains(list, value) {
-        for (var i = 0; i < list.length; ++i) {
-            if(list[i] === value) return true;
-        }
-        return false;
-    };
-    function containsFromList(list, value_list) {
-        /* returns true if one of value_list item is in list */
-        for (var i = 0; i < list.length; ++i) {
-            if (contains(list, value_list[i])) return i;
-        }
-        return false;
-    };
     function dragEnter(evt, element, drop) {
         drop.drop_allowed = false;
-        var goodType = containsFromList(evt.originalEvent.dataTransfer.types,
+        var goodType = phUtils.listContainsFromList(evt.originalEvent.dataTransfer.types,
                 drop.accepted_types);
         /* use === false else 0 index is considered as false too */
         if (goodType === false) {
