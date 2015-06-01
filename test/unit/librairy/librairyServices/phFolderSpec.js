@@ -47,18 +47,18 @@ describe('phFolder', function() {
         });
     });
 
+    var dirs = [
+        {pk: 1, name: "rootDir 1", children: []},
+        {pk: 2, name: "rootDir 2", children: [
+            {pk: 4, name: "childDir 1", children: [
+                {pk: 6, name: "rootDir 2", children: []}
+            ]},
+            {pk: 5, name: "childDir 2", children: []}
+        ]},
+        {pk: 3, name: "rootDir 3", children: []}
+    ];
 
     describe('phFolder.getDirectory', function() {
-        var dirs = [
-            {pk: 1, name: "rootDir 1", children: []},
-            {pk: 2, name: "rootDir 2", children: [
-                {pk: 4, name: "childDir 1", children: [
-                    {pk: 6, name: "rootDir 2", children: []}
-                ]},
-                {pk: 5, name: "childDir 2", children: []}
-            ]},
-            {pk: 3, name: "rootDir 3", children: []}
-        ];
 
 
         it('should return false when not in list pk is requested', function() {
@@ -90,6 +90,43 @@ describe('phFolder', function() {
         it('should return directory corresponding to requested pk', function() {
             result = phFolder.getDirectory(6, dirs);
             expect(result.pk).toBe(6);
+        });
+    });
+
+
+    describe('phFolder.isChild', function() {
+        beforeEach(function() {
+            phFolder.directorys = dirs;
+        });
+
+        it('should return true when dir1 is child of dir2', function() {
+            result = phFolder.isChild(5, 2);
+            expect(result).toBe(true);
+        });
+
+        it('should return true when dir1 is grandchild of dir2', function() {
+            result = phFolder.isChild(6, 2);
+            expect(result).toBe(true);
+        });
+
+        it('should return false when dir1 is brother of dir2', function() {
+            result = phFolder.isChild(4, 5);
+            expect(result).toBe(false);
+        });
+
+        it('should return false when dir1 is brother of dir2', function() {
+            result = phFolder.isChild(1, 3);
+            expect(result).toBe(false);
+        });
+
+        it('should return false when dir1 is parent of dir2', function() {
+            result = phFolder.isChild(2, 6);
+            expect(result).toBe(false);
+        });
+
+        it('should return false when dir1 is parent of dir2', function() {
+            result = phFolder.isChild(2, 4);
+            expect(result).toBe(false);
         });
     });
 });

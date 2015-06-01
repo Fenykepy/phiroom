@@ -33,49 +33,42 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', function($http, phUtil
         pk: null
     };
 
-    // function to know if given directory (pk) is children of second directory
-    phFolder.isChild = function(dirPk, parentPk) {
+    // function to know if given dir1 directory (pk) is children of dir2 directory (pk)
+    phFolder.isChild = function(dirPk, dir2Pk) {
         // search parent in directory list
-        parent = phFolder.getDirectory(parentPk);
+        parent = phFolder.getDirectory(dir2Pk);
         // search child from parent in hierarchy
-        return phFolder.getDirectory(dirPk, parent);
+        if (phFolder.getDirectory(dirPk, parent.children)) {
+            return true;
+        }
+        return false;
     };
 
-    // returns position of given directory object from it's pk in directorys hierarchy, false if not found
-    phFolder.getDirectory = function(dirpk, startdir) {
-        //console.log('search object: ' + dirpk);
+    // returns directory object from it's pk in directorys hierarchy, false if not found
+    phFolder.getDirectory = function(dirPk, startdir) {
         if (! startdir) {
+            // if no start point given, use whole directorys hierarchy
             startdir = phFolder.directorys;
         }
-
-        function scanChildren(dir) {
+        
+        var matched = false;
+        function scanDir(dir) {
             for (var i=0; i < dir.length; i++) {
                 // if it's good object, return it
-                //console.log('found pk ' + dir[i].pk);
-                if (phUtils.objectKeyEqual(dir[i], 'pk', Number(dirpk))) {
-                    //console.log('object found, return it:');
-                    //console.log(dir[i]);
-                    return dir[i];
+                if (phUtils.objectKeyEqual(dir[i], 'pk', Number(dirPk))) {
+                    matched = dir[i];
+                    return;
                 }
-                // if object has children, recurse on them
-                else if (dir[i].children.length > 0) {
-                    //console.log('object has children, scan them.'); 
-                    var child_scan = scanChildren(dir[i].children);
-                    // return children if it matches
-                    if (child_scan) {
-                       return child_scan;
-                    }
+                // if object has children, scan them
+                if (dir[i].children.length > 0) {
+                    scanDir(dir[i].children);
                 }
             }
         };
+        // launch scan
+        scanDir(startdir);
 
-        var dir = scanChildren(startdir);
-        if (dir) {
-            return dir;
-        }
-        else {
-            return false;
-        }
+        return matched;
     };
 
     return phFolder;
