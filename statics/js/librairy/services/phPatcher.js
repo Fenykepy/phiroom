@@ -39,7 +39,10 @@ librairyServices.factory('phPatcher', ['$http',
                     var keys = Object.keys(data);
                     for (var i=0; i < keys.length; i++) {
                         var k = keys[i];
-                        element[k] = data[k];
+                        // check if element has key
+                        if (element.hasOwnProperty(k)) {
+                            element[k] = data[k];
+                        }
                     }
             });
         }
