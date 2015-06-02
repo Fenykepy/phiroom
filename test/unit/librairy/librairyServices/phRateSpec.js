@@ -5,7 +5,7 @@ describe('phRate', function() {
         module(function($provide) {
             $provide.factory('phPatcher', function() {
                 return function (elem, data) {
-                    console.log(data.rate);
+                    //console.log(data.rate);
                     elem.rate = data.rate;
                 };
             });

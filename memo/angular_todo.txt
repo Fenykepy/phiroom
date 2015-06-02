@@ -30,7 +30,7 @@
 #- test mainCtrl
 #- test librairyCtrl
     - to finish after services refactoring
-- test librairyGridCtrl
+#- test librairyGridCtrl
 - test librairySingleCtrl
 
 
