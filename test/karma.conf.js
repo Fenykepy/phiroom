@@ -8,7 +8,6 @@ module.exports = function(config){
       'statics/bower_components/angular-animate/angular-animate.js',
       'statics/bower_components/angular-mocks/angular-mocks.js',
       'statics/bower_components/angular-ui-router/release/angular-ui-router.min.js',
-      'statics/bower_components/angular-resource/angular-resource.js',
       'statics/bower_components/angular-sanitize/angular-sanitize.js',
       'statics/js/phiroomApp.js',
       'statics/js/mainCtrl.js',
