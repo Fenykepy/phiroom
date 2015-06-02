@@ -36,12 +36,14 @@
 <script src="/assets/bower_components/ui-router-extras/release/modular/ct-ui-router-extras.sticky.min.js"></script>
 <script src="/assets/bower_components/ui-router-extras/release/modular/ct-ui-router-extras.previous.min.js"></script>
 <script src="/assets/js/phiroomApp.js"></script>
-<script src="/assets/js/mainCtrl.js"></script>
+<script src="/assets/js/common/mainCtrl.js"></script>
+<script src="/assets/js/common/services/phModal.js"></script>
 <script src="/assets/js/weblog/controllers/weblogListCtrl.js"></script>
 <script src="/assets/js/weblog/controllers/weblogDetailCtrl.js"></script>
 <script src="/assets/js/librairy/controllers/librairyCtrl.js"></script>
 <script src="/assets/js/librairy/controllers/librairyGridCtrl.js"></script>
 <script src="/assets/js/librairy/controllers/librairySingleCtrl.js"></script>
+<script src="/assets/js/librairy/controllers/librairyCreateFolderCtrl.js"></script>
 <script src="/assets/js/librairy/services/phUtils.js"></script>
 <script src="/assets/js/librairy/services/phListPictures.js"></script>
 <script src="/assets/js/librairy/services/phFolder.js"></script>
@@ -56,20 +58,26 @@
 <!-- remove on production -->
 <script src="/assets/bower_components/less/dist/less.min.js" type="text/javascript"></script><!-- DEVEL less compilation client side -->
 
-<body id="{{ page_info.name }}">
+<body id="{{ page_info.name }}" >
     <ui-view></ui-view>
-        <section id="modal" ng-show="modal.show">
+
+        <section id="modal" ng-show="modal.show"
+            ng-class="{max_modal: modal.max_window, small_modal: modal.small_window, large_modal: modal.large_window }">
             <header>
-                <h1>Modal</h1>
-                <button class="close" ng-click="modal.show = false">×</button>
+                <h1>{{ modal.title }}</h1>
+                <button class="close" ng-click="modal.close()" ng-if="modal.closable">×</button>
             </header>
             <div id="modal-content">
-                my nice content
+                <div ng-include="modal.templateUrl"></div>
             </div>
             <footer>
+                <div class="buttons-wrapper" ng-if="modal.buttons">
+                    <button ng-click="modal.close()" ng-if="modal.closable">{{ modal.cancel_label }}</button>
+                    <button ng-click="modal.validate()">{{ modal.save_label }}</button>
+                </div><!-- buttons wrapper -->
             </footer>
         </section><!-- admin-modal -->
-    <div id="modal-overlay" ng-show="modal.show" ng-click="modal.show = false"></div>
+    <div id="modal-overlay" ng-show="modal.show"></div>
 </body>
 
 

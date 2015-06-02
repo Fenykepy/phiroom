@@ -36,7 +36,6 @@
                     <ul class="popover"
                         ng-show="catalog_menu">
                         <li><a ui-sref="librairy">Import pictures</a></li>
-                        <li><a ui-sref="librairy">New directory</a></li>
                     </ul>
                 <div class="submenu-outframe">
                 <div class="submenu-frame">
@@ -70,7 +69,7 @@
                     <ul class="popover"
                         ng-show="directorys_menu">
                         <li><a ui-sref="librairy">Import pictures</a></li>
-                        <li><a ui-sref="librairy">New directory</a></li>
+                        <li><a ng-click="mkdir()" href="">New folder</a></li>
                     </ul>
                 <div class="submenu-outframe">
                 <div class="submenu-frame">
@@ -98,7 +97,7 @@
                     ng-click="$event.stopPropagation()">
                     <li>{{ user.avatar }}{{ user.username }}</li>
                     <li><a class="doc">Profil</a></li>
-                    <li ng-if="user.is_staff"><a class="doc">Settings</a></li>
+                    <li ng-if="user.is_staff"><a class="doc" ng-click="modal.show = true">Settings</a></li>
                     <li ng-if="user.is_staff"><a class="doc" href="/api/" target="_blank">API browser</a></li>
                     <li><a class="doc">Sign out</a></li>
                 </ul><!-- submenu -->

@@ -10,7 +10,7 @@ module.exports = function(config){
       'statics/bower_components/angular-ui-router/release/angular-ui-router.min.js',
       'statics/bower_components/angular-sanitize/angular-sanitize.js',
       'statics/js/phiroomApp.js',
-      'statics/js/mainCtrl.js',
+      'statics/js/common/mainCtrl.js',
       'statics/js/weblog/controllers/weblogListCtrl.js',
       'statics/js/weblog/controllers/weblogDetailCtrl.js',
       'statics/js/librairy/controllers/librairyCtrl.js',

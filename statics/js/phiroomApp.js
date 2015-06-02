@@ -5,6 +5,7 @@
 var phiroomApp = angular.module('phiroomApp', [
         'ngAnimate',
         'ui.router',
+        'commonServices',
         'librairyControllers',
         'librairyFilters',
         'librairyServices',
@@ -14,6 +15,7 @@ var phiroomApp = angular.module('phiroomApp', [
 ]);
 
 // instantiate modules 
+var commonServices = angular.module('commonServices', []);
 var librairyControllers = angular.module('librairyControllers', []);
 var librairyServices = angular.module('librairyServices', []);
 var librairyDirectives = angular.module('librairyDirectives', []);

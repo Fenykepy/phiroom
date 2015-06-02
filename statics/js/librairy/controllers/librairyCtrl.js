@@ -16,6 +16,8 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
     $scope.directorys = phFolder.directorys;
     phFolder.getDirectorys();
 
+    $scope.mkdir = phFolder.mkdir;
+
     /* create a false root directory 
      * (to have an object for drag & drop
      */

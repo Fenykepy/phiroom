@@ -10,7 +10,7 @@
 var librairyServices = angular.module('librairyServices');
 
 
-librairyServices.factory('phFolder', ['$http', 'phUtils', function($http, phUtils) {
+librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($http, phUtils, phModal) {
     // hierarchical folder list url:
     var url = '/api/librairy/directorys/';
     var phFolder = {};
@@ -42,6 +42,20 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', function($http, phUtil
             return true;
         }
         return false;
+    };
+
+    // function to make a new directory
+    phFolder.mkdir = function() {
+        console.log('mkdir');
+        function validate() {
+            console.log('validate !');
+            return true;
+        };
+        phModal.templateUrl = "/assets/partials/librairy/librairy_create_folder.html"
+        phModal.title = "Create new folder";
+        phModal.save_label = "Create";
+        phModal.callback = validate;
+        phModal.show = true;
     };
 
     // returns directory object from it's pk in directorys hierarchy, false if not found

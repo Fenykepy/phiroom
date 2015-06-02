@@ -4,13 +4,10 @@
 
 var phiroomApp = angular.module('phiroomApp');
 
-phiroomApp.controller('mainCtrl', ['$scope', '$http',
-        function($scope, $http) {
+phiroomApp.controller('mainCtrl', ['$scope', '$http', 'phModal',
+        function($scope, $http, phModal) {
 
-        $scope.modal = {
-            show: true,
-            templateUrl: ''
-        }
+        $scope.modal = phModal;
         
         /* get conf object */
         $http.get('/api/settings/latest/').
