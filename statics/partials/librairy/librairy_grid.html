@@ -42,9 +42,9 @@
     <footer>
         <ul>
             <!-- display inline else ng-repeat add spaces… -->
-            <li ng-repeat="i in [] | range:pict.rate track by $index"><button class="star" 
+            <li ng-repeat="i in [] | phRange:pict.rate track by $index"><button class="star" 
                 ng-click="setRate(pict, $index, true, true);$event.stopPropagation()">{{$index + 1}} étoiles</button></li><li 
-                ng-repeat="i in [] | range:(5 - pict.rate) track by $index"><button class="point" 
+                ng-repeat="i in [] | phRange:(5 - pict.rate) track by $index"><button class="point" 
                 ng-click="setRate(pict, $index + pict.rate, false, true);$event.stopPropagation()">{{$index + pict.rate + 1}} étoiles</button></li>
         </ul>
     </footer>

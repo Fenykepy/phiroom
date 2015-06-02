@@ -4,8 +4,14 @@
 
 var librairyFilters = angular.module('librairyFilters');
 
-// returns 'Z/A' if input, else 'A/Z'
-librairyFilters.filter('range', function() {
+/* returns input given array fullfill with total indexes
+ *
+ * exemple: []|phRange:5 returns [0,1,2,3,4]
+ *
+ * input: must be an array, empty or not
+ * total: number of indexes to add to array
+ */
+librairyFilters.filter('phRange', function() {
     return function(input, total) {
         total = parseInt(total);
         for (var i=0; i<total; i++) {

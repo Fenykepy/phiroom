@@ -25,8 +25,8 @@ module.exports = function(config){
       'statics/js/librairy/services/phRate.js',
       'statics/js/librairy/directives/phDrag.js',
       'statics/js/librairy/directives/phDrop.js',
-      'statics/js/librairy/filters/range.js',
-      'statics/js/librairy/filters/ordermark.js',
+      'statics/js/librairy/filters/phRange.js',
+      'statics/js/librairy/filters/phOrdermark.js',
       'statics/js/librairy/animations/toogleAnimation.js',
       'statics/js/**/*.js',
       'test/unit/**/*.js'

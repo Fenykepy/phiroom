@@ -31,7 +31,7 @@
 #- test librairyCtrl
     - to finish after services refactoring
 #- test librairyGridCtrl
-- test librairySingleCtrl
+#- test librairySingleCtrl
 
 
 - test phSelection service
@@ -41,7 +41,7 @@
 #- test phListPictures service
 #- test phFolder service
 
-- test phRange filter
+#- test phRange filter
 - test phOrdermark filter
 
 - test phDrag directive
