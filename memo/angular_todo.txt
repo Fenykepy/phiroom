@@ -1,0 +1,48 @@
+############################################################
+###            Todo list for angular frontend            ###
+############################################################
+
+
+- create a phSettings service:
+    - a function to get settings
+    - a function to get main menu
+    - a function to update settings
+    
+    -> store mainCtrl http request in this
+
+- create a phUser service:
+    - a function to get current user
+    - a function to update user's profil
+    - a function to register user
+    - a function to log user in
+    - a function to log user out
+    - a function to change user password
+    - a function to recover user password
+
+    -> store mainCtrl http request in this
+
+- create a phDroppedEvent service:
+    - store librairyGridCtrl drop event functions in it
+
+- activate phSelection service
+
+
+#- test mainCtrl
+#- test librairyCtrl
+    - to finish after services refactoring
+- test librairyGridCtrl
+- test librairySingleCtrl
+
+
+- test phSelection service
+#- test phRate service
+    - test phRate service with selection
+#- test phPatcher service
+#- test phListPictures service
+#- test phFolder service
+
+- test phRange filter
+- test phOrdermark filter
+
+- test phDrag directive
+- test phDrop directive
