@@ -42,7 +42,7 @@
 #- test phFolder service
 
 #- test phRange filter
-- test phOrdermark filter
+#- test phOrdermark filter -> filter removed
 
 - test phDrag directive
 - test phDrop directive
