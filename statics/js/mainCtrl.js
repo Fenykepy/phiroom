@@ -6,6 +6,11 @@ var phiroomApp = angular.module('phiroomApp');
 
 phiroomApp.controller('mainCtrl', ['$scope', '$http',
         function($scope, $http) {
+
+        $scope.modal = {
+            show: true,
+            templateUrl: ''
+        }
         
         /* get conf object */
         $http.get('/api/settings/latest/').
@@ -29,5 +34,4 @@ phiroomApp.controller('mainCtrl', ['$scope', '$http',
             title: '',
             name: '',
         }
-
 }]);

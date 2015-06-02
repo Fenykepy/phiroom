@@ -21,6 +21,8 @@
 
     -> store mainCtrl http request in this
 
+- create a picture upload service:
+
 - create a phDroppedEvent service:
     - store librairyGridCtrl drop event functions in it
 

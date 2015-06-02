@@ -4,6 +4,7 @@ body {
     font-size: 100%;
     line-height: 1.5em;
     font-family: @sans;
+    overflow: hidden;
 }
 
 
@@ -27,14 +28,17 @@ body {
     float: left;
 }
 
-#overlay {
-    display: none;
+/* #modal-overlay for modal window
+ * #overlay for lightboxes
+ */
+#overlay, #modal-overlay {
+    //display: none;
     position: fixed;
     top: 0px;
     bottom: 0px;
     right: 0px;
     left: 0px;
-    background-color: @lib-bg;
+    background-color: @lib-overlay-bg;
     opacity: 0.6;
     z-index: 999;
     &.dark {
@@ -45,6 +49,62 @@ body {
     }
 }
 
+section#modal {
+    position: relative;
+    width: 700px;
+    margin: 40px auto;
+    background: @lib-modal-bg;
+    border: 1px solid @lib-modal-border;
+    border-radius: 4px;
+    box-shadow: 0 0 8px @lib-overlay-bg;
+    z-index: 1000;
+    header {
+        padding: 22px;
+        border-bottom: 1px solid @lib-modal-inborder;
+        h1 {
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        button.close {
+            position: absolute;
+            right: 17px;
+            font-size: 24px;
+            font-weight: 700;
+            top: 17px;
+            line-height: 25px;
+            vertical-align: top;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            box-shadow: none;
+            height: 25px;
+            width: 25px;
+            min-width: 0;
+            color: @lib-modal-close-cross;
+            &:hover, &:focus, &:active {
+                color: @lib-modal-close-cross-hover;
+            }
+        }
+    }
+    div#modal-content {
+        padding: 22px;
+    }
+    footer {
+        padding: 22px;
+        //border-top: 1px solid @lib-modal-inborder;
+    }
+    &.max-modal {
+        width: auto;
+        margin: 40px;
+    }
+    &.small-modal {
+        width: 500px;
+    }
+    &.large-modal {
+        width: 900px;
+    }
+}
 
 
 // main header

@@ -8,10 +8,10 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
         'phListPictures', 'phUtils',
         function($scope, $rootScope, phFolder, phPatcher, phListPictures, phUtils) {
     /* set page infos */
-    $scope.$parent.page_info = {
-        title: 'Librairy',
-        name: 'librairy'
-    }
+    $scope.page_info.title = 'Librairy';
+    $scope.page_info.name = 'librairy';
+    
+    
     /* get folders hierarchy */
     $scope.directorys = phFolder.directorys;
     phFolder.getDirectorys();

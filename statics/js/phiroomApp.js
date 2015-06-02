@@ -46,7 +46,8 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             state('librairy', {
                 url: '/librairy/',
                 templateUrl: '/assets/partials/librairy/librairy_base.html',
-                controller: 'librairyCtrl'
+                controller: 'librairyCtrl',
+                sticky: true
             }).
             state('librairy.grid', {
                 url: '{source:folder|collection|post|portfolio|tag}/{pk:[0-9]+|-}/',

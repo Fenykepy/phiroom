@@ -4,11 +4,9 @@ describe('librairyCtrl', function() {
         module('phiroomApp');
         inject(function($controller) {
             scope = {
-                $parent: {
-                    page_info: {
+                page_info: {
                         title: '',
                         name: '',
-                    }
                 }
             };
             ctrl = $controller('librairyCtrl', {$scope:scope});
@@ -17,8 +15,8 @@ describe('librairyCtrl', function() {
 
 
     it('should populate parent "page_info" model, with good infos', function() {
-        expect(scope.$parent.page_info.title).toBe('Librairy');
-        expect(scope.$parent.page_info.name).toBe('librairy');
+        expect(scope.page_info.title).toBe('Librairy');
+        expect(scope.page_info.name).toBe('librairy');
     });
 
 });
