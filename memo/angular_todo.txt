@@ -21,10 +21,23 @@
 
     -> store mainCtrl http request in this
 
-- create a picture upload service:
+#- create a picture upload service:
+    - add multiple file upload system
+    - add preview in window before upload
+    - add sha1sum function with upload only if not in db
+    - add support of other fields than file.
+
+- add a notifications service:
+    - with timeoutable notifications
+    - with closable notifications
+    - and status :
+        - success, info, warn, error
 
 - create a phDroppedEvent service:
     - store librairyGridCtrl drop event functions in it
+
+- create a phModal directive:
+    - include template automatically
 
 - activate phSelection service
 
@@ -41,10 +54,11 @@
 
 
 #- test mainCtrl
-#- test librairyCtrl
+- test librairyCtrl
     - to finish after services refactoring
 #- test librairyGridCtrl
 #- test librairySingleCtrl
+- test librairyCreateFolderCtrl
 
 
 - test phSelection service
@@ -52,7 +66,7 @@
     - test phRate service with selection
 #- test phPatcher service
 #- test phListPictures service
-#- test phFolder service
+- test phFolder service
 
 #- test phRange filter
 #- test phOrdermark filter -> filter removed

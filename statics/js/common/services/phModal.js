@@ -3,13 +3,6 @@
 /*
  * define a Modal service :
  *
- * store state of modal window (open or not)
- * store template to include in window
- * store if window has buttons
- * store validation or cancellation buttons label
- *
- * define a "close" function
- *
  */
 
 var commonServices = angular.module('commonServices');
@@ -17,23 +10,80 @@ var commonServices = angular.module('commonServices');
 
 commonServices.factory('phModal', function () {
     
+    /*
+     * all values should be set before passing "show" to true
+     * (while modal isn't displayed)
+     */
     var default_values = {
-        show: false,    // wherever or not window is visible
-        templateUrl: '',    // templateUrl to include
-        title: 'Modal', // window title
-        closable: true,  // if window is closable without validation
-        buttons: true,  // if buttons are displayed
-        save_label: 'Save', // save button label
-        cancel_label: 'Cancel', // cancel button label
-        max_window: false, // max size window
-        large_window: false, // large size window
-        small_window: false, // small size window
-        callback: false, // validating function (must return true)
+        /* 
+         * wherever or not window is visible
+         * (change for true to display modal window)
+         */
+        show: false,
+        /*
+         * templateUrl to include
+         * (optionnal but if not set, modal will be empty)
+         */
+        templateUrl: '',
+        /*
+         * window title 
+         * (optionnal)
+         */
+        title: 'Modal',
+        /*
+         * if set to false, modal window won't be closable
+         * without validation
+         * (must be set to true by validation function, right
+         * after passing "show" to false)
+         */
+        closable: true,
+        /*
+         * if footer buttons are displayed
+         * (in case modal shows some informations
+         * which doen't need user validation)
+         */
+        buttons: true,
+        /* validation button label*/
+        validate_label: 'Save',
+        /* cancellation button label */
+        cancel_label: 'Cancel',
+        /* 
+         * if true modal will be displayed in "max" mode:
+         * it takes all available screen place
+         * (with small margins)
+         */
+        max_window: false,
+        /*
+         * if true modal will be displayed in "large" mode:
+         * fix width of arround 900px
+         * (normal mode is arround 700px width) 
+         */
+        large_window: false,
+        /* 
+         * if true modal will be displayed in "small" mode:
+         * fix width of arround 500px
+         * (normal mode is arround 700px width) 
+         */
+        small_window: false,
+        /*
+         * function which is called when validation button is clicked
+         * (required, must be a function)
+         * it should call phModal.close() itself, after some promise
+         * resolution for example
+         */
+        validate_callback: false,
+        /* 
+         * function which is called when modal window is closed
+         * without validation.
+         * (optionnal, if set must be a function)
+         * (useful to reset a form for example)
+         */
+        close_callback: false, // cancellation function (optionnal)
     };
     
     var phModal = {};
     
-
+    // close modal window and restore default parameters
     phModal.close = function() {
         // if window is not closable (forced validation) return
         if (this.closable === false) {
@@ -42,6 +92,10 @@ commonServices.factory('phModal', function () {
         }
         // first hide window
         this.show = false;
+        // run cancellation function if set
+        if (this.close_callback) {
+            this.close_callback();
+        }
         // then restaure values to default
         for (var prop in default_values) {
             if (default_values.hasOwnProperty(prop)) {
@@ -50,12 +104,12 @@ commonServices.factory('phModal', function () {
         }
     };
 
+    // run validation callback (on save button click),
     phModal.validate = function() {
-        // execute callback (on save button click),
-        // if it returns true, close.
-        this.callback()
-        return
+        this.validate_callback();
+        return;
     }
+
     // set values to default at init
     phModal.close();
 

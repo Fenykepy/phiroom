@@ -4,9 +4,9 @@
 
 var librairyControllers = angular.module('librairyControllers');
 
-librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phPatcher',
+librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUploader', 'phPatcher',
         'phListPictures', 'phUtils',
-        function($scope, $rootScope, phFolder, phPatcher, phListPictures, phUtils) {
+        function($scope, $rootScope, phFolder, phUploader, phPatcher, phListPictures, phUtils) {
     /* set page infos */
     $scope.page_info.title = 'Librairy';
     $scope.page_info.name = 'librairy';
@@ -17,6 +17,9 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
 
     /* load directorys hierarchy */
     phFolder.getDirectorys();
+
+    /* publish phUploader */
+    $scope.phUploader = phUploader;
 
     /* get collections hierarchy */
 

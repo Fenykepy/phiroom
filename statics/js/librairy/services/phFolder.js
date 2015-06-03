@@ -4,6 +4,8 @@
  *
  * gets a hierarchical list of directorys,
  * store it
+ 
+ * create, edit and delete directorys
  * 
  * */
 
@@ -61,10 +63,6 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
                 // if directory has children, add them to options
                 if (dirs[i].children.length > 0) {
                     var prefix_body = prefix.trim().replace('>', '--');
-                    if (prefix == '') {
-                        prefix_body = '|';
-                    }
-
                     var new_prefix = prefix_body + base_prefix;
                     scanDirList(dirs[i].children, new_prefix);
                 }
@@ -80,6 +78,7 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
     phFolder.mkdir = function() {
         // store options (ng-options doesn't like function as options list)
         phFolder.dirsOptions = dirsSelect();
+        // modal validation function
         function validate() {
             return $http.post(url, phFolder.newDir)
                 .success(function(status, data) {
@@ -91,10 +90,19 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
                     phFolder.errors = data;
                 });
         };
+        // modal close function
+        function close() {
+            /* reset parameters like errors array before
+             * closing modal window
+             */
+            phFolder.errors = null;
+        }
+
         phModal.templateUrl = "/assets/partials/librairy/librairy_create_folder.html"
         phModal.title = "Create new folder";
-        phModal.save_label = "Create";
-        phModal.callback = validate;
+        phModal.validate_label = "Create";
+        phModal.validate_callback = validate;
+        phModal.close_callback = close;
         phModal.show = true;
     };
 

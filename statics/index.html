@@ -38,15 +38,19 @@
 <script src="/assets/js/phiroomApp.js"></script>
 <script src="/assets/js/common/mainCtrl.js"></script>
 <script src="/assets/js/common/services/phModal.js"></script>
+<script src="/assets/js/common/services/phFileUpload.js"></script>
+<script src="/assets/js/common/directives/phFileModel.js"></script>
 <script src="/assets/js/weblog/controllers/weblogListCtrl.js"></script>
 <script src="/assets/js/weblog/controllers/weblogDetailCtrl.js"></script>
 <script src="/assets/js/librairy/controllers/librairyCtrl.js"></script>
 <script src="/assets/js/librairy/controllers/librairyGridCtrl.js"></script>
 <script src="/assets/js/librairy/controllers/librairySingleCtrl.js"></script>
 <script src="/assets/js/librairy/controllers/librairyCreateFolderCtrl.js"></script>
+<script src="/assets/js/librairy/controllers/librairyUploaderCtrl.js"></script>
 <script src="/assets/js/librairy/services/phUtils.js"></script>
 <script src="/assets/js/librairy/services/phListPictures.js"></script>
 <script src="/assets/js/librairy/services/phFolder.js"></script>
+<script src="/assets/js/librairy/services/phUploader.js"></script>
 <script src="/assets/js/librairy/services/phPatcher.js"></script>
 <script src="/assets/js/librairy/services/phSelection.js"></script>
 <script src="/assets/js/librairy/services/phRate.js"></script>
@@ -73,7 +77,7 @@
             <footer>
                 <div class="buttons-wrapper" ng-if="modal.buttons">
                     <button ng-click="modal.close()" ng-if="modal.closable">{{ modal.cancel_label }}</button>
-                    <button ng-click="modal.validate()">{{ modal.save_label }}</button>
+                    <button ng-click="modal.validate()">{{ modal.validate_label }}</button>
                 </div><!-- buttons wrapper -->
             </footer>
         </section><!-- admin-modal -->
