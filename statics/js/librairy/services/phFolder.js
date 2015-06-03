@@ -51,7 +51,7 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
     // function to create a hierarchical of dirs for selects
     function dirsSelect() {
         var options = [{key: null, value: '--------'}];
-        var base_prefix = "-- ";
+        var base_prefix = "--> ";
 
         function scanDirList(dirs, prefix) {
             for (var i=0; i < dirs.length; i++) {
@@ -60,7 +60,13 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
                 );
                 // if directory has children, add them to options
                 if (dirs[i].children.length > 0) {
-                    scanDirList(dirs[i].children, prefix.trim() + base_prefix);
+                    var prefix_body = prefix.trim().replace('>', '');
+                    if (prefix == '') {
+                        prefix_body = '|';
+                    }
+
+                    var new_prefix = prefix_body + base_prefix;
+                    scanDirList(dirs[i].children, new_prefix);
                 }
             }
         }
