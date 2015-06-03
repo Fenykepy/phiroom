@@ -37,7 +37,7 @@ commonServices.factory('phModal', function () {
     phModal.close = function() {
         // if window is not closable (forced validation) return
         if (this.closable === false) {
-            console.log(this.closable);
+            console.log('Modal is not closable');
             return;
         }
         // first hide window
@@ -53,14 +53,7 @@ commonServices.factory('phModal', function () {
     phModal.validate = function() {
         // execute callback (on save button click),
         // if it returns true, close.
-        if (this.callback()) {
-            // hide window first to do not show buttons
-            // if no ones displayed
-            this.show = false;
-            // make window closable and close it
-            this.closable = true;
-            this.close();
-        }
+        this.callback()
         return
     }
     // set values to default at init

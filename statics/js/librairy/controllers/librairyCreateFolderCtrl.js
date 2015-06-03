@@ -9,5 +9,6 @@ librairyControllers.controller('librairyCreateFolderCtrl', ['$scope', 'phFolder'
             // publish new directory in scope
             $scope.new_dir = phFolder.newDir;
             $scope.dirsOptions = phFolder.dirsOptions;
+            $scope.phFolder = phFolder;
 }]);
 

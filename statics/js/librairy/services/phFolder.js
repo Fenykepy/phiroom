@@ -68,7 +68,6 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
             }
         }
         scanDirList(phFolder.directorys, '');
-        console.log(options);
 
         return options;
     };
@@ -79,8 +78,16 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
         // store options (ng-options doesn't like function as options list)
         phFolder.dirsOptions = dirsSelect();
         function validate() {
-            console.log('validate !');
-            return true;
+            return $http.post(url, phFolder.newDir)
+                .success(function(status, data) {
+                    // reload dirs hierarchy
+                    phModal.close();
+                    phFolder.getDirectorys();
+                    return true;
+                }).error(function(data) {
+                    phFolder.errors = data;
+                    console.log(phFolder.errors);
+                });
         };
         phModal.templateUrl = "/assets/partials/librairy/librairy_create_folder.html"
         phModal.title = "Create new folder";
