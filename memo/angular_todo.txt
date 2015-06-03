@@ -28,6 +28,17 @@
 
 - activate phSelection service
 
+==========================
+===       bugs         ===
+==========================
+    - drop picture from folder less to another : picture is not removed
+#    - drag and drop directives don't parse data attribute when it contains a dot
+#        exemple : ph-drop-data="mypicture" -> {pk: 1, …} object is get
+#                  ph-drop-data="pictures.mypicture" -> undefined object is not get
+#        look at solution using $parse or $eval
+#        - fix in phDrop
+                    
+
 
 #- test mainCtrl
 #- test librairyCtrl

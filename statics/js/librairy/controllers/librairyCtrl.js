@@ -12,17 +12,11 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
     $scope.page_info.name = 'librairy';
     
     
-    /* get folders hierarchy */
-    $scope.directorys = phFolder.directorys;
+    /* get folders service */
+    $scope.phFolder = phFolder;
+
+    /* load directorys hierarchy */
     phFolder.getDirectorys();
-
-    $scope.mkdir = phFolder.mkdir;
-
-    /* create a false root directory 
-     * (to have an object for drag & drop
-     */
-    $scope.rootDir = phFolder.rootDir;
-
 
     /* get collections hierarchy */
 
@@ -39,7 +33,9 @@ librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolde
     /* listen drag & drop events */
     $rootScope.$on('dropEvent', function(evt, basket, dropped) {
         //console.log('drop ' + dropped.type + ' ' + dropped.data.pk + ' in ' + basket.type + ' ' + basket.data.pk);
+        //console.log(basket);
         function dropPicture(basket, pict) {
+            //console.log(basket);
             /* if element is a folder, and is not picture's one: */
             if (basket.type == "librairy/folder" && basket.data.pk != pict.directory) {
                 // update picture folder

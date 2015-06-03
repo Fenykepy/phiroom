@@ -4,7 +4,8 @@
 var librairyDirectives = angular.module('librairyDirectives');
 
 
-librairyDirectives.directive('phDrag', ['$rootScope', function($rootScope) {
+librairyDirectives.directive('phDrag', ['$rootScope', '$parse', 
+        function($rootScope, $parse) {
     function dragStart(evt, element, drag) {
         element.addClass(drag.style);
         evt.originalEvent.dataTransfer.setData(drag.type, drag.data);
@@ -40,7 +41,8 @@ librairyDirectives.directive('phDrag', ['$rootScope', function($rootScope) {
             attrs.$set('draggable', 'true');
             scope.drag = {};
             scope.drag.type = attrs["phDrag"];
-            scope.drag.object = scope[attrs["phDragData"]];
+            var model = $parse(attrs.phDragData);
+            scope.drag.object = model(scope);
             /* if dragged object has pk, use it for serialisation */
             if (scope.drag.object.hasOwnProperty('pk')) {
                 scope.drag.data = scope.drag.object.pk;

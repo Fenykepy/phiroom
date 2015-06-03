@@ -17,19 +17,16 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
     // store directorys hierarchical list here
     phFolder.directorys = [];
 
-    /* get directorys hierarchical list
-     * and keep it sync like explained here:
-     * http://www.justinobney.com/keeping-angular-service-list-data-in-sync-among-multiple-controllers/
-     */
+    /* get directorys hierarchical list */
     phFolder.getDirectorys = function() {
         $http.get(url).success(function(data) {
-            angular.copy(data.results, phFolder.directorys);
+            phFolder.directorys = data.results;
         });
     };
 
     // create a fake root directory to be able to drag a folder to root
     phFolder.rootDir = {
-        name: 'Root folder',
+        name: 'Folder less pictures',
         pk: null
     };
 

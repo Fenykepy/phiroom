@@ -6,8 +6,8 @@ var librairyDirectives = angular.module('librairyDirectives');
 
 
 
-librairyDirectives.directive('phDrop', ['$rootScope', 'phUtils',
-        function($rootScope, phUtils) {
+librairyDirectives.directive('phDrop', ['$rootScope', 'phUtils', '$parse',
+        function($rootScope, phUtils, $parse) {
 
     function dragEnter(evt, element, drop) {
         drop.drop_allowed = false;
@@ -57,7 +57,8 @@ librairyDirectives.directive('phDrop', ['$rootScope', 'phUtils',
              */
             scope.drop = {};
             scope.drop.type = attrs["phDrop"];
-            scope.drop.object = scope[attrs["phDropData"]];
+            var model = $parse(attrs.phDropData);
+            scope.drop.object = model(scope);
             scope.drop.data = attrs["phDropData"];
             scope.drop.style = attrs["phDropStyle"];
             scope.drop.accepted_types = attrs["phDropAccept"].split(" ");

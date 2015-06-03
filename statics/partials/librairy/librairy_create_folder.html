@@ -1,22 +1,18 @@
-<div ng-controller="librairyCreateFolderCtrl">
-    <p><span id="red"><span class="red">*</span></span> Required fields</p>
-    <div class="field_wrapper">
-    <div>
-    <div class="field_wrapper">
-        <label for="id_name">Name: <span class="red"> *</span></label>
-        <ul class="errorlist">
-            <li ng-repeat="item in phFolder.errors.name">{{ item }}</li>
-        </ul>
-        <input id="id_name" ng-model="phFolder.newDir.name">
-    </div>
-    <div class="field_wrapper">
-        <label for="id_parent">Parent:</label>
-        <ul class="errorlist">
-            <li ng-repeat="item in phFolder.errors.parent">{{ item }}</li>
-        </ul>
-        <select id="id_parent" 
-                ng-model="phFolder.newDir.parent" 
-                ng-options="item.key as item.value for item in phFolder.dirsOptions"></select> 
-    </div>
-
+<p><span id="red"><span class="red">*</span></span> Required fields</p>
+<div class="field_wrapper"><div>
+<div class="field_wrapper">
+    <label for="id_name">Name: <span class="red"> *</span></label>
+    <ul class="errorlist">
+        <li ng-repeat="item in phFolder.errors.name">{{ item }}</li>
+    </ul>
+    <input id="id_name" ng-model="phFolder.newDir.name">
+</div>
+<div class="field_wrapper">
+    <label for="id_parent">Parent:</label>
+    <ul class="errorlist">
+        <li ng-repeat="item in phFolder.errors.parent">{{ item }}</li>
+    </ul>
+    <select id="id_parent" 
+            ng-model="phFolder.newDir.parent" 
+            ng-options="item.key as item.value for item in phFolder.dirsOptions"></select> 
 </div>

@@ -47,12 +47,12 @@
                     <!-- <li><a class="doc" ui-sref="librairy.grid({source: 'folder', pk: '-'})">Last importation</a></li>-->
                     <li><a class="doc"
                             ph-drop="librairy/folder"
-                            ph-drop-data="rootDir"
+                            ph-drop-data="phFolder.rootDir"
                             ph-drop-accept="librairy/pict librairy/folder"
                             ph-drop-style="droppable"
                             ui-sref="librairy.grid({source: 'folder', pk: '-'})"
                             ng-class="{active: $state.includes('librairy.grid', {source: 'folder', pk: item.pk})}"
-                            >{{ rootDir.name }}</a></li>
+                            >{{ phFolder.rootDir.name }}</a></li>
                 </ul><!-- submenu -->
                 </div><!-- submenu-inframe -->
                 </div><!-- submenu-frame -->
@@ -69,7 +69,7 @@
                     <ul class="popover"
                         ng-show="folders_menu">
                         <li><a ui-sref="librairy">Import pictures</a></li>
-                        <li><a ng-click="mkdir();folders_menu=false" href="">New folder</a></li>
+                        <li><a ng-click="phFolder.mkdir();folders_menu=false" href="">New folder</a></li>
                     </ul>
                 <div class="submenu-outframe">
                 <div class="submenu-frame">
@@ -77,8 +77,8 @@
                 <ul class="submenu"
                     ng-show="showDirectorys"
                     ng-click="$event.stopPropagation()">
-                    <li ng-repeat="item in directorys" ng-include="'/assets/partials/librairy/librairy_recursive_directorys.html'"></li>
-                    <li ng-if="! directorys"><a class="doc popup" href="">Aucun dossier</a></li>
+                    <li ng-repeat="item in phFolder.directorys" ng-include="'/assets/partials/librairy/librairy_recursive_directorys.html'"></li>
+                    <li ng-if="! phFolder.directorys"><a class="doc popup" href="">Aucun dossier</a></li>
                 </ul><!-- submenu -->
                 </div><!-- submenu-inframe -->
                 </div><!-- submenu-frame -->
