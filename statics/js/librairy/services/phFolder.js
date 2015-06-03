@@ -86,7 +86,6 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
                     return true;
                 }).error(function(data) {
                     phFolder.errors = data;
-                    console.log(phFolder.errors);
                 });
         };
         phModal.templateUrl = "/assets/partials/librairy/librairy_create_folder.html"
