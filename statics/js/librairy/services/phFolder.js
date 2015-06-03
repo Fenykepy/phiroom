@@ -33,6 +33,13 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
         pk: null
     };
 
+
+    // create an empty object for new directorys
+    phFolder.newDir = {
+        name: '',
+        parent: null
+    };
+
     // function to know if given dir1 directory (pk) is children of dir2 directory (pk)
     phFolder.isChild = function(dirPk, dir2Pk) {
         // search parent in directory list
@@ -44,9 +51,33 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
         return false;
     };
 
+    // function to create a hierarchical of dirs for selects
+    function dirsSelect() {
+        var options = [{key: null, value: '--------'}];
+        var base_prefix = "-- ";
+
+        function scanDirList(dirs, prefix) {
+            for (var i=0; i < dirs.length; i++) {
+                options.push(
+                    {key: dirs[i].pk, value: prefix + dirs[i].name}
+                );
+                // if directory has children, add them to options
+                if (dirs[i].children.length > 0) {
+                    scanDirList(dirs[i].children, prefix.trim() + base_prefix);
+                }
+            }
+        }
+        scanDirList(phFolder.directorys, '');
+        console.log(options);
+
+        return options;
+    };
+
+
     // function to make a new directory
     phFolder.mkdir = function() {
-        console.log('mkdir');
+        // store options (ng-options doesn't like function as options list)
+        phFolder.dirsOptions = dirsSelect();
         function validate() {
             console.log('validate !');
             return true;

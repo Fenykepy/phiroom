@@ -65,11 +65,11 @@
                     ng-class="{selected: showDirectorys}"
                     href="">Folders</a><a 
                             class="plus"
-                            ng-click="directorys_menu = ! directorys_menu"><span class="accessibility">Tab menu</span></a>
+                            ng-click="folders_menu = ! folders_menu"><span class="accessibility">Tab menu</span></a>
                     <ul class="popover"
-                        ng-show="directorys_menu">
+                        ng-show="folders_menu">
                         <li><a ui-sref="librairy">Import pictures</a></li>
-                        <li><a ng-click="mkdir()" href="">New folder</a></li>
+                        <li><a ng-click="mkdir();folders_menu=false" href="">New folder</a></li>
                     </ul>
                 <div class="submenu-outframe">
                 <div class="submenu-frame">
