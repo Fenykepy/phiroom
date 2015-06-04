@@ -23,12 +23,20 @@ librairyServices.factory('phUploader', ['$http', 'phModal', 'phFileUpload', func
         // modal validation function
         function validate() {
             console.log(phUploader.files);
-            // upload file
-            var filePromise = phFileUpload.uploadFileToUrl(
-                    phUploader.files, url
-            ).success(function(data) {
-                phModal.close();
-            });
+            var files = phUploader.files
+            // upload files
+            for( var i=0; i < files.length; i++) {
+                phFileUpload.uploadFileToUrl(
+                    phUploader.files[i], url
+                ).success(function(data) {
+                    console.log('successfully uploaded file:');
+                    console.log(data);
+                }).error(function(data) {
+                    console.log('error uploading file:');
+                    console.log(data);
+                });
+            }
+            phModal.close();
         };
         function close() {
             /* reset parameters like selected files array

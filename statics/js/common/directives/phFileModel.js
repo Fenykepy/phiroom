@@ -9,10 +9,15 @@ commonDirectives.directive('phFileModel', ['$parse', function ($parse) {
         restrict: 'A',
         link: function (scope, element, attrs) {
             var model = $parse(attrs.phFileModel);
+            var multiple = attrs.multiple;
             var modelSetter = model.assign;
             element.bind('change', function(){
                 scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
+                    if (multiple) {
+                        modelSetter(scope, element[0].files);
+                    } else {
+                        modelSetter(scope, element[0].files[0]);
+                    }
                 });
             });
         }
