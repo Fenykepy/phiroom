@@ -22,7 +22,6 @@ librairyServices.factory('phUploader', ['$http', 'phModal', 'phFileUpload', func
     phUploader.open = function() {
         // modal validation function
         function validate() {
-            console.log(phUploader.files);
             var files = phUploader.files
             // upload files
             for( var i=0; i < files.length; i++) {
