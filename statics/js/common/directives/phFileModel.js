@@ -23,7 +23,7 @@ commonDirectives.directive('phFileModel', ['$parse', function ($parse) {
             var model = $parse(attrs.phFileModel);
             var handleFile = model(scope);
             element.bind('change', function() {
-                handleFile(element[0].files);
+                scope.$apply(handleFile(element[0].files));
             });
         }
     };

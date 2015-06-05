@@ -57,7 +57,7 @@ commonDirectives.directive('phDropFile', ['$parse',
                 var files = dt.files;
                 drop(evt, element, style);
 
-                handleFiles(files);
+                scope.$apply(handleFiles(files));
             });
         }
     }
