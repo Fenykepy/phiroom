@@ -24,10 +24,7 @@ librairyServices.factory('phUploader', ['$http', 'phModal', 'phFileUpload', func
         // add file to list of files
         for (var i=0; i < files.length; i++) {
             phUploader.files.push(files[i]);
-            console.log('handle file:');
-            console.log(files[i]);
         }
-        console.log(phUploader.files);
     };
 
     // function to open new uploader modal window

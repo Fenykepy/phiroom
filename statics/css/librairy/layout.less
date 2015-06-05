@@ -410,9 +410,9 @@ body#librairy {
         section.files_previews {
             padding: 15px;
             border-radius: 6px;
-            border: 1px solid #222;
+            border: 1px solid @lib-uploader-preview-area-border;
             box-shadow: 0 0 1px #000;
-            background: #505050;
+            background: @lib-uploader-preview-area-bg;
             min-height: 180px;
             p.helper {
                 margin: 20px auto;
@@ -420,21 +420,25 @@ body#librairy {
                 text-align: center;
             }
             &.dragover {
-                background: #383838;
+                background: @lib-uploader-preview-area-bg-hover;
                 box-shadow: 0 0 3px #000;
             }
         }
         // preview images
         .file_preview {
-            padding: 3px;
+            font-size: 0;
+            margin: 3px;
+            border-radius: 3px;
             display: inline-block;
             width: 150px;
             height: 150px;
+            overflow: hidden;
             line-height: 150px;
             text-align: center;
-            vertical-align: middle;
-            border: 1px solid #222;
+            border: 1px solid @lib-uploader-file-preview-border;
+            background: @lib-uploader-file-preview-bg;
             img {
+                vertical-align: middle;
                 max-width: 100%;
                 max-height: 100%;
             }
