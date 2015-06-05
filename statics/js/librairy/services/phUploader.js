@@ -20,11 +20,13 @@ librairyServices.factory('phUploader', ['$http', 'phModal', 'phFileUpload', func
 
 
     // function to hundle new files
-    phUploader.handleFile = function(file) {
-        console.log('handle file:');
-        console.log(file);
+    phUploader.handleFile = function(files) {
         // add file to list of files
-        phUploader.files.push(file);
+        for (var i=0; i < files.length; i++) {
+            phUploader.files.push(files[i]);
+            console.log('handle file:');
+            console.log(files[i]);
+        }
         console.log(phUploader.files);
     };
 

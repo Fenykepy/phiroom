@@ -12,7 +12,7 @@ var commonDirectives = angular.module('commonDirectives');
  * ph-file-model="handleFileFunction"
  *
  * handleFileFunction must be a function.
- * it will be called for each file added to the input element
+ * it will be called with array containing files added to input element.
  *
  */
 
@@ -23,9 +23,7 @@ commonDirectives.directive('phFileModel', ['$parse', function ($parse) {
             var model = $parse(attrs.phFileModel);
             var handleFile = model(scope);
             element.bind('change', function() {
-                for (var i=0; i < element[0].files.length; i++) {
-                    handleFile(element[0].files[i]);
-                }
+                handleFile(element[0].files);
             });
         }
     };

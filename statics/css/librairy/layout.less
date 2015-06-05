@@ -401,11 +401,38 @@ body#librairy {
         } // article.thumb
     } // section#content
     #librairy_uploader {
+        .field_wrapper {
+            text-align: right;
+            button {
+                display: inline-block;
+            }
+        }
+        section.files_previews {
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #222;
+            box-shadow: 0 0 1px #000;
+            background: #505050;
+            min-height: 180px;
+            p.helper {
+                margin: 20px auto;
+                font-style: italic;
+                text-align: center;
+            }
+            &.dragover {
+                background: #383838;
+                box-shadow: 0 0 3px #000;
+            }
+        }
         // preview images
         .file_preview {
+            padding: 3px;
             display: inline-block;
             width: 150px;
             height: 150px;
+            line-height: 150px;
+            text-align: center;
+            vertical-align: middle;
             border: 1px solid #222;
             img {
                 max-width: 100%;

@@ -46,7 +46,6 @@ commonDirectives.directive('phHiddenFileModel', function () {
             var id = attrs.id + "hidden-file-input";
             var input = document.getElementById(id);
             element.bind('click', function(event) {
-            console.log(input);
                 if (input) {
                     input.click();
                 }
