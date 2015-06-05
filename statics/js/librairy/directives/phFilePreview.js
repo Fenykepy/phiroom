@@ -12,7 +12,7 @@ librairyDirectives.directive('phFilePreview', function() {
             // return when file is not an image
             if (! file.type.match(imageType)) {
                 console.log('File not supported:');
-                console.log(file);
+                //console.log(file);
                 return;
             }
             var reader = new FileReader();
