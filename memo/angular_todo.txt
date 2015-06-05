@@ -40,6 +40,10 @@
 - create a phModal directive:
     - include template automatically
 
+- create a phJustify directive:
+    - automatically set width of class selected children
+    according to a given max-width
+
 - activate phSelection service
 
 ==========================

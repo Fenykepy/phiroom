@@ -4,7 +4,6 @@ body {
     font-size: 100%;
     line-height: 1.5em;
     font-family: @sans;
-    overflow: hidden;
 }
 
 
@@ -28,6 +27,27 @@ body {
     float: left;
 }
 
+/* default close button */
+
+button.close {
+    position: absolute;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 25px;
+    vertical-align: top;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    height: 25px;
+    width: 25px;
+    min-width: 0;
+    color: @lib-modal-close-cross;
+    &:hover, &:focus, &:active {
+        color: @lib-modal-close-cross-hover;
+    }
+}
 /* #modal-overlay for modal window
  * #overlay for lightboxes
  */
@@ -66,25 +86,8 @@ section#modal {
             font-weight: bold;
         }
         button.close {
-            position: absolute;
             right: 17px;
-            font-size: 24px;
-            font-weight: 700;
             top: 17px;
-            line-height: 25px;
-            vertical-align: top;
-            background: none;
-            border: none;
-            padding: 0;
-            margin: 0;
-            box-shadow: none;
-            height: 25px;
-            width: 25px;
-            min-width: 0;
-            color: @lib-modal-close-cross;
-            &:hover, &:focus, &:active {
-                color: @lib-modal-close-cross-hover;
-            }
         }
     }
     div#modal-content {

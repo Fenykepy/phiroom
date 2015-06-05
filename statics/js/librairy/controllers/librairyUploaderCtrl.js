@@ -9,5 +9,6 @@ librairyControllers.controller('librairyUploaderCtrl', ['$scope', 'phUploader',
             // publish uploader service in scope
             $scope.files = phUploader.files;
             $scope.handleFile = phUploader.handleFile;
+            $scope.delFile = phUploader.delFile;
 }]);
 

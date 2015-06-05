@@ -27,6 +27,11 @@ librairyServices.factory('phUploader', ['$http', 'phModal', 'phFileUpload', func
         }
     };
 
+    // function to delete a file from list
+    phUploader.delFile = function(index) {
+        phUploader.files.splice(index, 1);
+    };
+
     // function to open new uploader modal window
     phUploader.open = function() {
         // modal validation function
