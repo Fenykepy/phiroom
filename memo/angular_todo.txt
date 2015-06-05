@@ -46,7 +46,7 @@
 ===       bugs         ===
 ==========================
     - drop picture from folder less to another : picture is not removed
-    - drag image not seen when grid list is scroll down (because invisible
+#    - drag image not seen when grid list is scroll down (because invisible
 #    - drag and drop directives don't parse data attribute when it contains a dot
 #        exemple : ph-drop-data="mypicture" -> {pk: 1, …} object is get
 #                  ph-drop-data="pictures.mypicture" -> undefined object is not get
