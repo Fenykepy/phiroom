@@ -20,7 +20,11 @@ describe('librairyGridCtrl', function() {
         expect(scope.picts.length).toBe(2);
     });
 
-    it('should populate setRate model as true', function() {
+    it('should publish setRate model service', function() {
         expect(scope.setRate).toBe('phRateServiceHere');
+    });
+
+    it('should populate show_filter_bar model as true', function() {
+        expect(scope.show_filter_bar).toBe(true);
     });
 });

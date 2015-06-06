@@ -63,11 +63,12 @@
 ==========================
 
 #- test mainCtrl
-- test librairyCtrl
-    - to finish after services refactoring
+#- test librairyCtrl
+    - to finish after services refactoring (phDropEvent)
 #- test librairyGridCtrl
 #- test librairySingleCtrl
-- test librairyCreateFolderCtrl
+#- test librairyCreateFolderCtrl
+#- test librairyUploaderCtrl
 
 
 - test phSelection service
@@ -76,6 +77,10 @@
 #- test phPatcher service
 #- test phListPictures service
 #- test phFolder service
+#- test phUtils service
+- test phModal service
+- test phUploader service
+- test phFileUpload service
 
 #- test phRange filter
 #- test phOrdermark filter -> filter removed
@@ -83,7 +88,7 @@
 
 - test phDrag directive
 - test phDrop directive
-- test phHiddenFile directive
+- test phHiddenFileModel directive
 - test phFileModel directive
 - test phDropFile
 - test phFilePreview directive

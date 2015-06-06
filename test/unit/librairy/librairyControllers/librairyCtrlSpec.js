@@ -19,4 +19,14 @@ describe('librairyCtrl', function() {
         expect(scope.page_info.name).toBe('librairy');
     });
 
+    it('should publish phUploader service in scope', function() {
+        expect(angular.isFunction(scope.phUploader.open)).toBe(true)
+    });
+
+    it('should publish phFolder service in scope', function() {
+        expect(scope.phFolder.directorys).toEqual([]);
+        expect(scope.phFolder.rootDir).not.toEqual(undefined);
+        expect(angular.isFunction(scope.phFolder.mkDir)).toBe(true)
+    });
+
 });
