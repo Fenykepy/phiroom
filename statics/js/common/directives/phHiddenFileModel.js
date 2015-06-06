@@ -16,9 +16,9 @@ var commonDirectives = angular.module('commonDirectives');
  * On click on element, browser window to upload file will popup.
  * 
  * attach directive like this to the element
- * <a ph-hidden-file-model="handleFileFunction" multiple id="file-input-1"></a>
+ * <a ph-hidden-file-model="handleFilesFunction" multiple id="file-input-1"></a>
  *
- * handleFileFunction must be a function.
+ * handleFilesFunction must be a function.
  * it will be called for each file added to the
  * subjacent input element
  *

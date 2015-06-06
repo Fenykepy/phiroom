@@ -9,9 +9,9 @@ var commonDirectives = angular.module('commonDirectives');
  * element can be multiple or not.
  * 
  * attach directive like this to the element
- * ph-file-model="handleFileFunction"
+ * ph-file-model="handleFilesFunction"
  *
- * handleFileFunction must be a function.
+ * handleFilesFunction must be a function.
  * it will be called with array containing files added to input element.
  *
  */
@@ -21,9 +21,9 @@ commonDirectives.directive('phFileModel', ['$parse', function ($parse) {
         restrict: 'A',
         link: function (scope, element, attrs) {
             var model = $parse(attrs.phFileModel);
-            var handleFile = model(scope);
+            var handleFiles = model(scope);
             element.bind('change', function() {
-                scope.$apply(handleFile(element[0].files));
+                scope.$apply(handleFiles(element[0].files));
             });
         }
     };

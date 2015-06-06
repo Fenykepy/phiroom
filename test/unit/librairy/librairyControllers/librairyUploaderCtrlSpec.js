@@ -11,7 +11,7 @@ describe('librairyUploaderCtrl', function() {
 
     it('should publish phUploader service in scope', function() {
         expect(scope.files).toEqual([]);
-        expect(angular.isFunction(scope.handleFile)).toBe(true);
+        expect(angular.isFunction(scope.handleFiles)).toBe(true);
         expect(angular.isFunction(scope.delFile)).toBe(true);
     });
 

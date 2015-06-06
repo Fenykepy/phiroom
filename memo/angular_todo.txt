@@ -79,7 +79,7 @@
 #- test phFolder service
 #- test phUtils service
 #- test phModal service
-- test phUploader service
+#- test phUploader service
 - test phFileUpload service
 
 #- test phRange filter

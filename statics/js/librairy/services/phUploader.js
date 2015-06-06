@@ -10,7 +10,7 @@
 var librairyServices = angular.module('librairyServices');
 
 
-librairyServices.factory('phUploader', ['$http', 'phModal', 'phFileUpload', function($http, phModal, phFileUpload) {
+librairyServices.factory('phUploader', ['phModal', 'phFileUpload', function(phModal, phFileUpload) {
     // hierarchical folder list url:
     var url = '/api/librairy/pictures/';
     var phUploader = {};
@@ -20,7 +20,7 @@ librairyServices.factory('phUploader', ['$http', 'phModal', 'phFileUpload', func
 
 
     // function to hundle new files
-    phUploader.handleFile = function(files) {
+    phUploader.handleFiles = function(files) {
         // add file to list of files
         for (var i=0; i < files.length; i++) {
             phUploader.files.push(files[i]);

@@ -1,6 +1,6 @@
 <div ng-controller="librairyUploaderCtrl" id="librairy_uploader">
     <section class="files_previews"
-             ph-drop-file="handleFile" 
+             ph-drop-file="handleFiles" 
              ph-drop-file-style="dragover"
              title="You can add picture's files here by drag and drop or clicking on 'Add pictures button', then deactivate the ones you don't want to upload and click 'upload' button.">
         <div class="file_preview"
@@ -11,7 +11,7 @@
                 ng-click="delFile($index)">×</button><img src="" ph-file-preview="file" /></div>
         <p class="helper">Drag some pictures here or click "Add pictures" button.</p>
     <div class="field_wrapper">
-        <button id="id_files" ph-hidden-file-model="handleFile" multiple>Add pictures</button>
+        <button id="id_files" ph-hidden-file-model="handleFiles" multiple>Add pictures</button>
     </div>
     </section>
 </div>
