@@ -78,7 +78,7 @@
 #- test phListPictures service
 #- test phFolder service
 #- test phUtils service
-- test phModal service
+#- test phModal service
 - test phUploader service
 - test phFileUpload service
 
