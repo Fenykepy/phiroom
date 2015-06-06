@@ -58,6 +58,9 @@
 #        - fix in phDrop
                     
 
+==========================
+===       tests        ===
+==========================
 
 #- test mainCtrl
 - test librairyCtrl
@@ -72,10 +75,15 @@
     - test phRate service with selection
 #- test phPatcher service
 #- test phListPictures service
-- test phFolder service
+#- test phFolder service
 
 #- test phRange filter
 #- test phOrdermark filter -> filter removed
+- test phBytes filter
 
 - test phDrag directive
 - test phDrop directive
+- test phHiddenFile directive
+- test phFileModel directive
+- test phDropFile
+- test phFilePreview directive

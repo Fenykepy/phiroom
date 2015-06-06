@@ -75,7 +75,7 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
 
 
     // function to make a new directory
-    phFolder.mkdir = function() {
+    phFolder.mkDir = function() {
         // store options (ng-options doesn't like function as options list)
         phFolder.dirsOptions = dirsSelect();
         // modal validation function
@@ -85,7 +85,6 @@ librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($h
                     // reload dirs hierarchy
                     phModal.close();
                     phFolder.getDirectorys();
-                    return true;
                 }).error(function(data) {
                     phFolder.errors = data;
                 });

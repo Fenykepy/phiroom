@@ -1,10 +1,12 @@
 describe('phFolder', function() {
-    var phFolder, $httpBackend;
+    var phFolder, $httpBackend, phModal;
     beforeEach(function() {
         module('phiroomApp');
-        inject(function(_phFolder_, _$httpBackend_) {
+        inject(function(_phFolder_, _$httpBackend_, _phModal_) {
             phFolder = _phFolder_;
             $httpBackend = _$httpBackend_;
+            // mock phModal service
+            phModal = _phModal_;
         });
     });
 
@@ -24,26 +26,27 @@ describe('phFolder', function() {
         expect(angular.isFunction(phFolder.getDirectorys)).toBe(true);
     });
 
+    it('should have a mkDir function', function() {
+        expect(angular.isFunction(phFolder.mkDir)).toBe(true);
+    });
+
+
+    describe('phFolder.newDir', function() {
+
+        it('should have a null parent and empty name', function() {
+            var result = phFolder.newDir;
+            expect(result.parent).toBe(null);
+            expect(result.name).toBe('');
+        });
+    });
+
 
     describe('phFolder.rootDir', function() {
 
         it('should have a null pk and a name', function() {
             var result = phFolder.rootDir;
             expect(result.pk).toBe(null);
-            expect(result.name).toBe('Root folder');
-        });
-    });
-
-
-    describe('phFolder.getDirectorys', function() {
-
-        it('should return a list of directorys in phFolder.directorys', function() {
-            $httpBackend.expectGET('/api/librairy/directorys/').
-                respond({results:[{name: 'dir1'}, {name: 'dir2'}]});
-            expect(phFolder.directorys.length).toBe(0);
-            results = phFolder.getDirectorys();
-            $httpBackend.flush();
-            expect(phFolder.directorys.length).toBe(2);
+            expect(result.name).toBe('Folder less pictures');
         });
     });
 
@@ -57,6 +60,98 @@ describe('phFolder', function() {
         ]},
         {pk: 3, name: "rootDir 3", children: []}
     ];
+
+    describe('phFolder.mkDir', function() {
+        var dirsSelect = [
+            {key: null, value: "--------"},
+            {key: 1, value: "rootDir 1"},
+            {key: 2, value: "rootDir 2"},
+            {key: 4, value: "---> childDir 1"},
+            {key: 6, value: "--------> rootDir 2"},
+            {key: 5, value: "---> childDir 2"},
+            {key: 3, value: "rootDir 3"},
+        ]
+
+        it('should set phFolder.dirsOptions with directorys hierarchy', function() {
+            phFolder.directorys = dirs;
+            expect(phFolder.dirsOptions).toBe(undefined);
+            phFolder.mkDir();
+            expect(phFolder.dirsOptions).toEqual(dirsSelect);
+        });
+
+        it('should populate phModal service vars', function() {
+            phFolder.mkDir();
+            expect(phModal.templateUrl).toBe("/assets/partials/librairy/librairy_create_folder.html");
+            expect(phModal.title).toBe("Create new folder");
+            expect(phModal.validate_label).toBe("Create");
+            expect(angular.isFunction(phModal.validate_callback)).toBe(true);
+            expect(angular.isFunction(phModal.close_callback)).toBe(true);
+            expect(phModal.show).toBe(true);
+        });
+
+        it('should delete errors array on phModal.close()', function() {
+            phFolder.mkDir();
+            phFolder.errors = ['my error'];
+            phModal.close();
+            expect(phFolder.errors).toBe(null);
+        });
+
+        it('should complete error array on $http.post.error and leave modal open on validate() failure',
+                function() {
+            var url = '/api/librairy/directorys/';
+            var data = {name: '', parent: null};
+            var respond = [{name: 'this field is required'}];
+            $httpBackend.expectPOST(url, data).respond(400, respond );
+            // set modal
+            phFolder.mkDir();
+            // set model
+            expect(phFolder.errors).toBe(undefined);
+            phFolder.newDir.name = '';
+            phFolder.newDir.parent = null;
+            // send error model
+            phModal.validate(); 
+            $httpBackend.flush();
+            // phModal should be displayed still
+            expect(phModal.show).toBe(true);
+            // phFolder error array should be set
+            expect(phFolder.errors).toEqual(respond);
+        });
+
+        it('should close modal and reload directory list on validate() success', function() {
+            var url = '/api/librairy/directorys/';
+            var data = {name: 'My folder', parent: null};
+            var directorys = [{pk: 1, name: 'My folder'}]
+            $httpBackend.expectPOST(url, data).respond(201, '');
+            $httpBackend.expectGET(url).respond({results: directorys});
+            expect(phFolder.directorys).toEqual([]);
+            // set modal
+            phFolder.mkDir();
+            // set model
+            phFolder.newDir.name = 'My folder';
+            phFolder.newDir.parent = null;
+            // send model
+            phModal.validate();
+            $httpBackend.flush(1);
+            // modal should be closed
+            expect(phModal.show).toBe(false);
+            expect(phFolder.directorys).toEqual([]);
+            $httpBackend.flush();
+            expect(phFolder.directorys).toEqual(directorys);
+        })
+    });
+
+    describe('phFolder.getDirectorys', function() {
+
+        it('should return a list of directorys in phFolder.directorys', function() {
+            $httpBackend.expectGET('/api/librairy/directorys/').
+                respond({results:[{name: 'dir1'}, {name: 'dir2'}]});
+            expect(phFolder.directorys.length).toBe(0);
+            results = phFolder.getDirectorys();
+            $httpBackend.flush();
+            expect(phFolder.directorys.length).toBe(2);
+        });
+    });
+
 
     describe('phFolder.getDirectory', function() {
 
