@@ -80,7 +80,7 @@
 #- test phUtils service
 #- test phModal service
 #- test phUploader service
-- test phFileUpload service
+#- test phFileUpload service
 
 #- test phRange filter
 #- test phOrdermark filter -> filter removed
