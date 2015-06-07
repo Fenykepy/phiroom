@@ -2,10 +2,10 @@
 
 /* service */
 
-var librairyServices = angular.module('librairyServices');
+var commonServices = angular.module('commonServices');
 
 
-librairyServices.factory('phUtils', function() {
+commonServices.factory('phUtils', function() {
     var phUtils = {};
 
     phUtils.listContains = function(list, value) {
