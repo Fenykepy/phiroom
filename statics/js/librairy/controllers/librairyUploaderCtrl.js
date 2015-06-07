@@ -2,9 +2,9 @@
 
 /* controller */
 
-var librairyControllers = angular.module('librairyControllers');
+var phLibrairy = angular.module('phLibrairy');
 
-librairyControllers.controller('librairyUploaderCtrl', ['$scope', 'phUploader',
+phLibrairy.controller('librairyUploaderCtrl', ['$scope', 'phUploader',
         function($scope, phUploader) {
             // publish uploader service in scope
             $scope.files = phUploader.files;

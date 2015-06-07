@@ -5,27 +5,19 @@
 var phiroomApp = angular.module('phiroomApp', [
         'ngAnimate',
         'ui.router',
-        'commonFilters',
-        'commonServices',
-        'commonDirectives',
-        'librairyControllers',
-        'librairyFilters',
-        'librairyServices',
-        'librairyDirectives',
-        'librairyAnimations',
-        'weblogControllers'
+        'phCore',
+        'phLibrairy',
+        'phWeblog',
+        'phContact',
+        'phPortfolio'
 ]);
 
 // instantiate modules 
-var commonServices = angular.module('commonServices', []);
-var commonDirectives = angular.module('commonDirectives', []);
-var commonFilters = angular.module('commonFilters', []);
-var librairyControllers = angular.module('librairyControllers', []);
-var librairyServices = angular.module('librairyServices', []);
-var librairyDirectives = angular.module('librairyDirectives', []);
-var librairyFilters = angular.module('librairyFilters', []);
-var librairyAnimations = angular.module('librairyAnimations', []);
-var weblogControllers = angular.module('weblogControllers', ['ngSanitize']);
+var phCore = angular.module('phCore', []);
+var phLibrairy = angular.module('phLibrairy', []);
+var phWeblog = angular.module('phWeblog', []);
+var phContact = angular.module('phContact', []);
+var phPortfolio = angular.module('phPortfolio', []);
 
 
 phiroomApp.run(['$rootScope', '$state', '$stateParams',

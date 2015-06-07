@@ -2,7 +2,7 @@
 
 /* services */
 
-var librairyServices = angular.module('librairyServices');
+var phLibrairy = angular.module('phLibrairy');
 
 /* defines a selection service for thumbs
  *
@@ -21,7 +21,7 @@ var librairyServices = angular.module('librairyServices');
  *
  */
 
-librairyServices.factory('phSelection', function() {
+phLibrairy.factory('phSelection', function() {
     // initialise object to be return
     var selected = {
         'ids': [],

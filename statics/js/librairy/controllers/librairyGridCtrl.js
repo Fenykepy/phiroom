@@ -2,9 +2,9 @@
 
 /* controller */
 
-var librairyControllers = angular.module('librairyControllers');
+var phLibrairy = angular.module('phLibrairy');
 
-librairyControllers.controller('librairyGridCtrl', ['$scope', 'pictures',
+phLibrairy.controller('librairyGridCtrl', ['$scope', 'pictures',
         'phRate',
         function($scope, pictures, phRate) {
     $scope.picts = pictures.data;

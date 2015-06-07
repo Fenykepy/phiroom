@@ -1,12 +1,12 @@
 'use strict';
 /* directives */
 
-var librairyDirectives = angular.module('librairyDirectives');
+var phLibrairy = angular.module('phLibrairy');
 
 
 
 
-librairyDirectives.directive('phDrop', ['$rootScope', 'phUtils', '$parse',
+phLibrairy.directive('phDrop', ['$rootScope', 'phUtils', '$parse',
         function($rootScope, phUtils, $parse) {
 
     function dragEnter(evt, element, drop) {

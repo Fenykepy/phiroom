@@ -1,10 +1,10 @@
 'use strict';
 /* directives */
 
-var librairyDirectives = angular.module('librairyDirectives');
+var phLibrairy = angular.module('phLibrairy');
 
 
-librairyDirectives.directive('phDrag', ['$rootScope', '$parse', 
+phLibrairy.directive('phDrag', ['$rootScope', '$parse', 
         function($rootScope, $parse) {
     function dragStart(evt, element, drag) {
         element.addClass(drag.style);

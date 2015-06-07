@@ -1,12 +1,12 @@
 'use strict';
 /* directives */
 
-var commonDirectives = angular.module('commonDirectives');
+var phCore = angular.module('phCore');
 
 
 
 
-commonDirectives.directive('phDropFile', ['$parse',
+phCore.directive('phDropFile', ['$parse',
         function($parse) {
 
     function dragEnter(evt, element, style) {

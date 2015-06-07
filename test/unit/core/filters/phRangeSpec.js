@@ -1,7 +1,7 @@
 describe('phRange filter', function() {
     var phRange;
     beforeEach(function() {
-        module('librairyFilters');
+        module('phiroomApp');
         /* phRangeFilter because angular automatically adds 'Filter' at
          * the en of filters providers.
          */

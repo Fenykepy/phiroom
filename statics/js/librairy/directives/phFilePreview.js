@@ -1,8 +1,8 @@
 'use strict'
 
-var librairyDirectives = angular.module('librairyDirectives');
+var phLibrairy = angular.module('phLibrairy');
 
-librairyDirectives.directive('phFilePreview', function() {
+phLibrairy.directive('phFilePreview', function() {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {

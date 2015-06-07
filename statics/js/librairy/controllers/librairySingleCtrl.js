@@ -2,9 +2,9 @@
 
 /* controller */
 
-var librairyControllers = angular.module('librairyControllers');
+var phLibrairy = angular.module('phLibrairy');
 
-librairyControllers.controller('librairySingleCtrl', ['$scope', '$stateParams', '$filter',
+phLibrairy.controller('librairySingleCtrl', ['$scope', '$stateParams', '$filter',
         function($scope, $stateParams, $filter) {
             // get requested picture
             $scope.pict = $filter('filter')($scope.picts, {pk: $stateParams.picture})[0];

@@ -2,7 +2,7 @@
 
 /* services */
 
-var librairyServices = angular.module('librairyServices');
+var phLibrairy = angular.module('phLibrairy');
 
 /* defines a rate service :
  *
@@ -12,7 +12,7 @@ var librairyServices = angular.module('librairyServices');
  * all -> boolean, true if all selected elements must be rated
  *
  */
-librairyServices.factory('phRate', ['phSelection', 'phPatcher',
+phLibrairy.factory('phRate', ['phSelection', 'phPatcher',
         function(phSelection, phPatcher) {
 
     function setRate(element, rate) {

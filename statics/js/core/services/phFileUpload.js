@@ -5,10 +5,10 @@
  *
  */
 
-var commonServices = angular.module('commonServices');
+var phCore = angular.module('phCore');
 
 
-commonServices.service('phFileUpload', ['$http', function ($http) {
+phCore.service('phFileUpload', ['$http', function ($http) {
     this.uploadFileToUrl = function(file, url){
         var fd = new FormData();
         fd.append('file', file);

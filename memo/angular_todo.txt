@@ -48,7 +48,7 @@
 
 #- mv phRange filter to common
 #- mv phUtils service to common
-
+- reorganise modules : (phCore, phLibrairy, phWeblog, phContact, phPortfolio)
 
 ==========================
 ===       bugs         ===

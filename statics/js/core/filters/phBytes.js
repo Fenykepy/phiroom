@@ -2,7 +2,7 @@
 
 /* filters */
 
-var commonFilters = angular.module('commonFilters');
+var phCore = angular.module('phCore');
 
 
 /* 
@@ -10,7 +10,7 @@ var commonFilters = angular.module('commonFilters');
  * https://gist.github.com/thomseddon/3511330
  */
 
-commonFilters.filter('phBytes', function() {
+phCore.filter('phBytes', function() {
     return function(bytes, precision) {
         if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
         if (typeof precision === 'undefined') precision = 1;

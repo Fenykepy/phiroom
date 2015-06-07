@@ -2,9 +2,9 @@
 
 /* controller */
 
-var librairyControllers = angular.module('librairyControllers');
+var phLibrairy = angular.module('phLibrairy');
 
-librairyControllers.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUploader', 'phPatcher',
+phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUploader', 'phPatcher',
         'phListPictures', 'phUtils',
         function($scope, $rootScope, phFolder, phUploader, phPatcher, phListPictures, phUtils) {
     /* set page infos */

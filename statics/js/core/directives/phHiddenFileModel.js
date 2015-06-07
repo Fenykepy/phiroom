@@ -2,7 +2,7 @@
 
 /* directives */
 
-var commonDirectives = angular.module('commonDirectives');
+var phCore = angular.module('phCore');
 
 /*
  * HiddenFileModel can be attached to any element.
@@ -27,7 +27,7 @@ var commonDirectives = angular.module('commonDirectives');
  *
  */
 
-commonDirectives.directive('phHiddenFileModel', function () {
+phCore.directive('phHiddenFileModel', function () {
     return {
         restrict: 'A',
         template: function(element, attrs) {

@@ -2,9 +2,9 @@
 
 /* controller */
 
-var librairyControllers = angular.module('librairyControllers');
+var phLibrairy = angular.module('phLibrairy');
 
-librairyControllers.controller('librairyCreateFolderCtrl', ['$scope', 'phFolder',
+phLibrairy.controller('librairyCreateFolderCtrl', ['$scope', 'phFolder',
         function($scope, phFolder) {
             // publish folder service in scope
             $scope.phFolder = phFolder;

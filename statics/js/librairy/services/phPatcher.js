@@ -2,7 +2,7 @@
 
 /* services */
 
-var librairyServices = angular.module('librairyServices');
+var phLibrairy = angular.module('phLibrairy');
 
 /* defines a path service :
  *
@@ -16,7 +16,7 @@ var librairyServices = angular.module('librairyServices');
  *      patch won't occur (no need)
  *
  */
-librairyServices.factory('phPatcher', ['$http',
+phLibrairy.factory('phPatcher', ['$http',
         function($http) {
     function is_different(element, data) {
         // delete elements that haven't change from data

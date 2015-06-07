@@ -9,10 +9,10 @@
  * 
  * */
 
-var librairyServices = angular.module('librairyServices');
+var phLibrairy = angular.module('phLibrairy');
 
 
-librairyServices.factory('phFolder', ['$http', 'phUtils', 'phModal', function($http, phUtils, phModal) {
+phLibrairy.factory('phFolder', ['$http', 'phUtils', 'phModal', function($http, phUtils, phModal) {
     // hierarchical folder list url:
     var url = '/api/librairy/directorys/';
     var phFolder = {};

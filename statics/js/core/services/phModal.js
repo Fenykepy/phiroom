@@ -5,10 +5,10 @@
  *
  */
 
-var commonServices = angular.module('commonServices');
+var phCore = angular.module('phCore');
 
 
-commonServices.factory('phModal', function () {
+phCore.factory('phModal', function () {
     
     /*
      * all values should be set before passing "show" to true

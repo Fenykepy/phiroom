@@ -2,7 +2,7 @@
 
 /* filters */
 
-var commonFilters = angular.module('commonFilters');
+var phCore = angular.module('phCore');
 
 /* returns input given array fullfill with total indexes
  *
@@ -11,7 +11,7 @@ var commonFilters = angular.module('commonFilters');
  * input: must be an array, empty or not
  * total: number of indexes to add to array
  */
-commonFilters.filter('phRange', function() {
+phCore.filter('phRange', function() {
     return function(input, total) {
         total = parseInt(total);
         for (var i=0; i<total; i++) {

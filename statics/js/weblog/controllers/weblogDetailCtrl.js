@@ -2,10 +2,10 @@
 
 /* controller */
 
-var weblogControllers = angular.module('weblogControllers');
+var phWeblog = angular.module('phWeblog');
 
 
-weblogControllers.controller('weblogDetailCtrl', ['$scope', '$http',
+phWeblog.controller('weblogDetailCtrl', ['$scope', '$http',
      function($scope, $http) {
     /*$scope.postID = $routeParams.postID;
     $http.get('/api/posts/' + $routeParams.postID + '/').

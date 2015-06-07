@@ -2,10 +2,10 @@
 
 /* controller */
 
-var weblogControllers = angular.module('weblogControllers');
+var phWeblog = angular.module('phWeblog');
 
 
-weblogControllers.controller('weblogListCtrl', ['$scope', '$http',
+phWeblog.controller('weblogListCtrl', ['$scope', '$http',
         function($scope, $http) {
     var url = '/api/posts/?page_size=3';
     /*var route = '';

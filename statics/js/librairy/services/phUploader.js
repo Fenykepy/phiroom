@@ -7,10 +7,10 @@
  *
  * */
 
-var librairyServices = angular.module('librairyServices');
+var phLibrairy = angular.module('phLibrairy');
 
 
-librairyServices.factory('phUploader', ['phModal', 'phFileUpload', function(phModal, phFileUpload) {
+phLibrairy.factory('phUploader', ['phModal', 'phFileUpload', function(phModal, phFileUpload) {
     // hierarchical folder list url:
     var url = '/api/librairy/pictures/';
     var phUploader = {};

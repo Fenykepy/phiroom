@@ -2,13 +2,13 @@
 
 /* services */
 
-var librairyServices = angular.module('librairyServices');
+var phLibrairy = angular.module('phLibrairy');
 
 /* :
  * get: returns a list of pictures from given directory
  *
  */
-librairyServices.factory('phListPictures', ['$http', function($http) {
+phLibrairy.factory('phListPictures', ['$http', function($http) {
     var phListPictures = {};
     // set url from parameters
     function set_url(params) {

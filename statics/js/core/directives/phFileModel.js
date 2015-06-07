@@ -2,7 +2,7 @@
 
 /* directives */
 
-var commonDirectives = angular.module('commonDirectives');
+var phCore = angular.module('phCore');
 
 /*
  * file models must be attached to an input[type="file"] element
@@ -16,7 +16,7 @@ var commonDirectives = angular.module('commonDirectives');
  *
  */
 
-commonDirectives.directive('phFileModel', ['$parse', function ($parse) {
+phCore.directive('phFileModel', ['$parse', function ($parse) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {

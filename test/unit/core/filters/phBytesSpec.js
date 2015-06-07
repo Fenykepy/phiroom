@@ -1,11 +1,14 @@
 'use strict';
 
-
+/*
+ * as filter, test comes from here (in comments):
+ * https://gist.github.com/thomseddon/3511330
+ */
 describe('phBytes filter', function() {
     var phBytes;
     beforeEach(function() {
         // load the filter's module
-        module('commonFilters');
+        module('phiroomApp');
         // initialize a new instance of the filter before each test
         inject(function($filter) {
             phBytes = $filter('phBytes');
