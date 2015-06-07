@@ -6,6 +6,7 @@ var phiroomApp = angular.module('phiroomApp', [
         'ngAnimate',
         'ui.router',
         'phCore',
+        'phUser',
         'phLibrairy',
         'phWeblog',
         'phContact',
@@ -14,6 +15,7 @@ var phiroomApp = angular.module('phiroomApp', [
 
 // instantiate modules 
 var phCore = angular.module('phCore', []);
+var phUser = angular.module('phUser', []);
 var phLibrairy = angular.module('phLibrairy', []);
 var phWeblog = angular.module('phWeblog', []);
 var phContact = angular.module('phContact', []);

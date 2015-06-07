@@ -4,8 +4,8 @@
 
 var phiroomApp = angular.module('phiroomApp');
 
-phiroomApp.controller('mainCtrl', ['$scope', '$http', 'phModal',
-        function($scope, $http, phModal) {
+phiroomApp.controller('mainCtrl', ['$scope', 'phUser', 'phModal', '$http',
+        function($scope, phUser, phModal, $http) {
 
         $scope.modal = phModal;
         
@@ -20,11 +20,13 @@ phiroomApp.controller('mainCtrl', ['$scope', '$http', 'phModal',
             success(function(data) {
                 $scope.main_menu = data.results;
         });
-        /* get current user */
-        $http.get('/api/users/current/').
-            success(function(data) {
-                $scope.user = data;
-        });
+        
+        /* publish phUser service in scope */
+        $scope.phUser = phUser;
+
+        /* load current user data */
+        phUser.getCurrentUser();
+
 
         /* set current page data */
         $scope.page_info = {

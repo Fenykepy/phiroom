@@ -14,4 +14,8 @@ describe('mainCtrl', function() {
         expect(scope.page_info.name).toBe('');
     });
 
+    it('should publish phUser service in scope', function() {
+        expect(scope.phUser.user).toEqual({});
+    });
+
 });

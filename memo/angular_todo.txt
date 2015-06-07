@@ -10,16 +10,15 @@
     
     -> store mainCtrl http request in this
 
-- create a phUser service:
-    - a function to get current user
+#- create a phUser service:
+#    - a function to get current user
+    - a function to change user password
     - a function to update user's profil
     - a function to register user
     - a function to log user in
-    - a function to log user out
-    - a function to change user password
     - a function to recover user password
+#    -> store mainCtrl http request in this
 
-    -> store mainCtrl http request in this
 
 #- create a picture upload service:
 #    - add multiple file upload system
@@ -48,7 +47,7 @@
 
 #- mv phRange filter to common
 #- mv phUtils service to common
-- reorganise modules : (phCore, phLibrairy, phWeblog, phContact, phPortfolio)
+#- reorganise modules : (phCore, phLibrairy, phWeblog, phContact, phPortfolio)
 
 ==========================
 ===       bugs         ===

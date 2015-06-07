@@ -27,7 +27,7 @@
          ng-hide="hide_left_panel">
         <ul id="nav">
             <li class="togglesubmenu"
-                ng-if="user.is_staff"><a class="arrow arrow-plus"
+                ng-if="phUser.user.is_staff"><a class="arrow arrow-plus"
                     ng-click="showCatalog = ! showCatalog"
                     ng-class="{selected: showCatalog}"
                     href="">Catalog</a><a 
@@ -60,7 +60,7 @@
             </li><!-- tooglesubmenu -->
  
             <li class="togglesubmenu"
-                ng-if="user.is_staff"><a class="arrow arrow-plus"
+                ng-if="phUser.user.is_staff"><a class="arrow arrow-plus"
                     ng-click="showDirectorys = ! showDirectorys"
                     ng-class="{selected: showDirectorys}"
                     href="">Folders</a><a 
@@ -95,10 +95,10 @@
                 <ul class="submenu"
                     ng-show="showAccount"
                     ng-click="$event.stopPropagation()">
-                    <li>{{ user.avatar }}{{ user.username }}</li>
+                    <li>{{ phUser.user.avatar }}{{ phUser.user.username }}</li>
                     <li><a class="doc">Profil</a></li>
-                    <li ng-if="user.is_staff"><a class="doc" ng-click="modal.show = true">Settings</a></li>
-                    <li ng-if="user.is_staff"><a class="doc" href="/api/" target="_blank">API browser</a></li>
+                    <li ng-if="phUser.user.is_staff"><a class="doc" ng-click="modal.show = true">Settings</a></li>
+                    <li ng-if="phUser.user.is_staff"><a class="doc" href="/api/" target="_blank">API browser</a></li>
                     <li><a class="doc">Sign out</a></li>
                 </ul><!-- submenu -->
                 </div><!-- submenu-inframe -->
