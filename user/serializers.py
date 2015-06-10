@@ -3,7 +3,7 @@ from rest_framework import serializers
 from user.models import User
 
 class UserSerializer(serializers.ModelSerializer):
-    is_authenticated = serializers.SerializerMethodField()
+    password = serializers.CharField(write_only=True, required=False)
     class Meta:
         model = User
         fields = (
@@ -25,14 +25,23 @@ class UserSerializer(serializers.ModelSerializer):
                 'gplus_link',
                 'pinterest_link',
                 'vk_link',
-                'is_authenticated',
                 'mail_newsletter',
                 'mail_contact',
                 'mail_registration',
+                'password',
         )
 
-    def get_is_authenticated(self, object):
-        return object.is_authenticated()
+        def create(self, validated_data):
+            return User.objects.create(**validated_data)
+
+        def update(self, instance, validated_data):
+            password = validated_data.get('password', None)
+
+            if password:
+                instance.set_password(password)
+                instance.save()
+
+            return instance
 
 
 
@@ -62,7 +71,9 @@ class SafeUserSerializer(UserSerializer):
                 'gplus_link',
                 'pinterest_link',
                 'vk_link',
-                'is_authenticated',
                 'mail_newsletter',
+                'password',
         )
+
+
     

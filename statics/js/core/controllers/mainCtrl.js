@@ -23,9 +23,12 @@ phiroomApp.controller('mainCtrl', ['$scope', 'phUser', 'phModal', '$http',
         
         /* publish phUser service in scope */
         $scope.phUser = phUser;
-
-        /* load current user data */
-        phUser.getCurrentUser();
+       
+        /* check if user is authenticated at arrival */
+        if (phUser.isAuthenticated()) {
+            /* load current user data if so */
+            phUser.getCurrentUser();
+        }
 
 
         /* set current page data */

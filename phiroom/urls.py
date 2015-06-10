@@ -16,7 +16,14 @@ urlpatterns = patterns('',
     url(r'^api/librairy/', include('librairy.urls')), # librairy API
     url(r'^api/users/', include('user.urls')), # users API
     url(r'^api/settings/', include('conf.urls')), # settings API
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/token-auth/', 'rest_framework_jwt.views.obtain_jwt_token',
+        name='token-auth'),
+    url(r'^api/token-refresh/', 'rest_framework_jwt.views.refresh_jwt_token',
+        name='token-refresh'),
+    url(r'^api/token-verify/', 'rest_framework_jwt.views.verify_jwt_token',
+        name='token-verify'),
+    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+
 )
 
 urlpatterns += staticfiles_urlpatterns()

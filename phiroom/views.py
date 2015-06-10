@@ -10,6 +10,8 @@ def api_root(request, format=None):
         'directorys': reverse('directory-list', request=request, format=format),
         'settings': reverse('last-conf', request=request, format=format),
         'request-user': reverse('request-user', request=request, format=format),
+        'token-auth': reverse('token-auth', request=request, format=format),
+        'token-refresh': reverse('token-refresh', request=request, format=format),
     })
 
 

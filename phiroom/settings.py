@@ -146,7 +146,13 @@ ROOT_URLCONF = 'phiroom.urls'
 WSGI_APPLICATION = 'phiroom.wsgi.application'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # for api
+        'rest_framework.authentication.SessionAuthentication', # for django rest framework browser
+    ),
     'PAGINATE_BY': 30000,
     'PAGINATE_BY_PARAM': 'page_size',
 }

@@ -2,8 +2,9 @@ django==1.8                     # django framework
 django-mptt                     # hierarchical models for django
 djangorestframework             # django rest framework
 django-debug-toolbar            # django profiling tool
-pillow                   # pillow imaging librairy
+pillow                          # pillow imaging librairy
 wand                            # Imaging librairy
 pytz                            # time manipulation librairy
-python-xmp-toolkit==2.0       # xmp librairy
-markdown
+python-xmp-toolkit==2.0         # xmp librairy
+markdown                        # markdown librairy
+djangorestframework-jwt         # json web token for auth

@@ -3,6 +3,10 @@
 ############################################################
 
 
+- create a phGlobal object
+    - store assets root url in it
+    - store api root url in it
+
 - create a phSettings service:
     - a function to get settings
     - a function to get main menu
@@ -17,7 +21,10 @@
     - a function to register user
     - a function to log user in
     - a function to recover user password
-#    -> store mainCtrl http request in this
+#    -> store mainCtrl http request in this service
+
+
+
 
 
 #- create a picture upload service:

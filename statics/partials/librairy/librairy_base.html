@@ -96,10 +96,10 @@
                     ng-show="showAccount"
                     ng-click="$event.stopPropagation()">
                     <li>{{ phUser.user.avatar }}{{ phUser.user.username }}</li>
-                    <li><a class="doc">Profil</a></li>
-                    <li ng-if="phUser.user.is_staff"><a class="doc" ng-click="modal.show = true">Settings</a></li>
+                    <li><a class="doc" href="">Profil</a></li>
+                    <li ng-if="phUser.user.is_staff"><a class="doc" href="" ng-click="modal.show = true">Settings</a></li>
                     <li ng-if="phUser.user.is_staff"><a class="doc" href="/api/" target="_blank">API browser</a></li>
-                    <li><a class="doc">Sign out</a></li>
+                    <li><a class="doc"  href="" ng-click="phUser.logout()">Sign out</a></li>
                 </ul><!-- submenu -->
                 </div><!-- submenu-inframe -->
                 </div><!-- submenu-frame -->
