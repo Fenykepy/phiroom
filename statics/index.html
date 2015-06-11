@@ -70,7 +70,11 @@
     <ui-view></ui-view>
 
         <section id="modal" ng-show="modal.show"
-            ng-class="{max_modal: modal.max_window, small_modal: modal.small_window, large_modal: modal.large_window }">
+            ng-class="{max_modal: modal.max_window,
+                       small_modal: modal.small_window,
+                       large_modal: modal.large_window, 
+                       opaque: modal.opaque,
+                       dark: modal.dark}">
             <header>
                 <h1>{{ modal.title }}</h1>
                 <button class="close" ng-click="modal.close()" ng-if="modal.closable">×</button>

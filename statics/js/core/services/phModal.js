@@ -79,6 +79,14 @@ phCore.factory('phModal', function () {
          * (useful to reset a form for example)
          */
         close_callback: false, // cancellation function (optionnal)
+        /*
+         * darken modal more than usually
+         */
+        dark: false,
+        /*
+         * make overlay totally black
+         */
+        opaque: false,
     };
     
     var phModal = {};

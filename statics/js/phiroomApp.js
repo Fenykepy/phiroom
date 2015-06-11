@@ -28,19 +28,18 @@ phiroomApp.run(['$rootScope', '$state', '$stateParams', 'phUser',
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
+    // try to authenticate user without credentials (token from previous browser sessions)
+    phUser.authenticate();
+
     // check if login is required on state changement
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var loginRequired = toState.data.loginRequired;
         if (loginRequired && ! phUser.isAuthenticated()) {
             event.preventDefault();
             // open login modal
-            phUser.login();
-
-            // on success
-            return //$state.go(toState.name, toParams);
-            
-            // on close stay in actual state if not login required
-            // else redirect to home page
+            phUser.login(function() {
+                $state.go(toState.name, toParams);
+            });
         }
     });
 }]);
@@ -50,7 +49,7 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     
     // authentication interceptor
-    $httpProvider.interceptors.push(function ($timeout, $q, $injector) {
+    /*$httpProvider.interceptors.push(function ($timeout, $q, $injector) {
         var phUser, $http, $state, $stateParams;
         return {
             responseError: function (rejection) {
@@ -61,12 +60,10 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
 
                 var deferred = $q.defer();
             }
-
-                
-
-
         };
-    });
+    });*/
+
+    // 
 
     // html5 mode (no hash '#' in urls
     $locationProvider.html5Mode(true);

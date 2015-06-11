@@ -29,6 +29,8 @@ describe('phModel', function() {
         expect(phModal.small_window).toBe(false);
         expect(phModal.validate_callback).toBe(false);
         expect(phModal.close_callback).toBe(false);
+        expect(phModal.dark).toBe(false);
+        expect(phModal.opaque).toBe(false);
     };
 
 

@@ -19,7 +19,9 @@
     - a function to change user password
     - a function to update user's profil
     - a function to register user
-    - a function to log user in
+#    - a function to log user in
+#    - a function to log user out
+   - a function to revocate un token (with backend)
     - a function to recover user password
 #    -> store mainCtrl http request in this service
 
