@@ -95,9 +95,9 @@ phLibrairy.factory('phFolder', ['$http', 'phUtils', 'phModal', function($http, p
              * closing modal window
              */
             phFolder.errors = null;
-        }
+        };
 
-        phModal.templateUrl = "/assets/partials/librairy/librairy_create_folder.html"
+        phModal.templateUrl = "/assets/partials/librairy/librairy_create_folder.html";
         phModal.title = "Create new folder";
         phModal.validate_label = "Create";
         phModal.validate_callback = validate;

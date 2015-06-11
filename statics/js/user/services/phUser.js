@@ -4,6 +4,8 @@
  *
  * get logged in user data,
  *
+ * login and logout users
+ *
  * update user profil
  * update user password
  * 
@@ -20,8 +22,18 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
     var phUser = {};
     phUser.user = {};
 
+    /* credentials for login */
+    phUser.credentials = {};
+    /* forms errors */
+    phUser.errors = [];
+
     /* read token */
     function parseJWT(token) {
+        // use string here, because it returns a string :/
+        if (token == "undefined") {
+            console.log('return');
+            return;
+        }
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace('-', '+').replace('_', '/');
         return JSON.parse($window.atob(base64));
@@ -37,7 +49,8 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
     /* check if user is authenticated */
     phUser.isAuthenticated = function() {
         var token = $window.localStorage.getItem('auth_token');
-        if (token) {
+        // use string here, because it returns a string :/
+        if (token != "undefined") {
             // read token here, and check it's expiration date
             var payload = parseJWT(token);
             var now = Date.now() / 1000;
@@ -59,22 +72,47 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
     };
 
     /* login user */
-    phUser.login = function() {
-        var credentials = {username: 'flr',
-                        password: 'foo'};
+    phUser.login = function(callback) {
+        /*
+         * function to login a user
+         * open a modal window with credentials form
+         * on success close window and store auth token
+         * callback: function executed on success
+         */
+        // modal validation function
+        function validate() {
+            // send credentials to server
+            return $http.post(login_url, phUser.credentials)
+                .success(function(response) {
+                    console.log('success');
+                    // store token on local storage
+                    $window.localStorage.setItem('auth_token', response.token);
+                    // configure $http to use token as authentication 
+                    $http.defaults.headers.common['Authorization'] = 'JWT ' + response.token;
+                    phModal.close();
+                    // get user's datas
+                    phUser.getCurrentUser();
+                    console.log(phUser.isAuthenticated());
+                    // execute callback
+                    callback();
+                }).error(function(data) {
+                    phUser.errors = data;
+                });
+        };
+        // modal close function
+        function close() {
+            // errors array and credentials
+            phUser.errors = null;
+            phUser.credentials = {};
+        };
         // open modal Window
-        // send credentials to server
-        $http.post(login_url, credentials).success(function(response) {
-            console.log('success');
-            console.log(response);
-            // store token on local storage
-            $window.localStorage.setItem('auth_token', response.token);
-            // configure $http to use token as authentication 
-            $http.defaults.headers.common['Authorization'] = 'JWT ' + response.token;
-            // get user's datas
-            phUser.getCurrentUser();
-            console.log(phUser.isAuthenticated());
-        });
+        phModal.templateUrl = '/assets/partials/user/user_login.html';
+        phModal.title = "Sign in";
+        phModal.validate_label = "Validate";
+        phModal.validate_callback = validate;
+        phModal.close_callback = close;
+        phModal.show = true;
+        phModal.small_window = true;
     };
 
     /* logout user */

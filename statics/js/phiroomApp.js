@@ -48,6 +48,25 @@ phiroomApp.run(['$rootScope', '$state', '$stateParams', 'phUser',
 
 phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',
         function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+    
+    // authentication interceptor
+    $httpProvider.interceptors.push(function ($timeout, $q, $injector) {
+        var phUser, $http, $state, $stateParams;
+        return {
+            responseError: function (rejection) {
+                // if not 401 status, do nothing
+                if (rejection.status !== 401) {
+                    return rejection;
+                }
+
+                var deferred = $q.defer();
+            }
+
+                
+
+
+        };
+    });
 
     // html5 mode (no hash '#' in urls
     $locationProvider.html5Mode(true);
