@@ -1,22 +1,22 @@
 <div ng-controller="userLoginCtrl">
-    <p><span id="red"><span class="red">*</span></span> Required fields</p>
     <div class="field_wrapper">
         <ul class="errorlist">
             <li ng-repeat="item in phUser.errors.non_field_errors">{{ item }}</li>
         </ul>
-    <div>
-    <div class="field_wrapper">
-        <label for="id_username">Username: <span class="red"> *</span></label>
+    </div>
+    <div class="form-horizontal">
+        <label class="col-4" for="id_username">Username: <span class="red"> *</span></label>
         <ul class="errorlist">
             <li ng-repeat="item in phUser.errors.username">{{ item }}</li>
         </ul>
-        <input id="id_username" ng-model="credentials.username">
+        <input id="id_username" class="col-8" ng-model="credentials.username">
     </div>
-    <div class="field_wrapper">
-        <label for="id_password">Password: <span class="red"> *</span></label>
+    <div class="form-horizontal">
+        <label class="col-4" for="id_password">Password: <span class="red"> *</span></label>
         <ul class="errorlist">
             <li ng-repeat="item in phUser.errors.password">{{ item }}</li>
         </ul>
-        <input id="id_password" type="password" ng-model="credentials.password">
+        <input id="id_password" class="col-8" type="password" ng-model="credentials.password">
     </div>
+    <p class="right"><span id="red"><span class="red">*</span></span> Required fields</p>
 </div>

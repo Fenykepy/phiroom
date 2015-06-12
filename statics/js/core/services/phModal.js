@@ -115,7 +115,7 @@ phCore.factory('phModal', function () {
     // run validation callback (on save button click),
     phModal.validate = function() {
         this.validate_callback();
-        return;
+        return
     }
 
     // set values to default at init

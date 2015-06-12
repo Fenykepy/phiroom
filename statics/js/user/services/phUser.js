@@ -147,11 +147,13 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
             return;
         }
 
+        var promise;
+
 
         // modal validation function
         function validate() {
             // send credentials to server
-            return $http.post(login_url, phUser.credentials)
+            promise = $http.post(login_url, phUser.credentials)
                 .success(function(response) {
                     // store token on local storage
                     setToken(response.token);
@@ -178,7 +180,7 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
              * goto a safe page
              */
         };
-        console.log($state);
+        //console.log($state);
 /*
         if ($state.current.data.loginRequired) {
             phModal.opaque = true;
@@ -191,6 +193,8 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
         phModal.close_callback = close;
         phModal.show = true;
         phModal.small_window = true;
+
+        return promise;
     };
 
     /* logout user */
@@ -206,6 +210,14 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
         //$state.go('login');
         console.log('successfully logued user out');
         console.log(phUser.isAuthenticated());
+        
+        // reload state (so if authentication is needed,
+        // it will ask for)
+        /* !!! as there's a bug actually controllers are not reinitialise
+         * so better go to a safe page, open login and redirect to old on
+         * success.
+         */
+        $state.reload();
     };
 
     /* register user */

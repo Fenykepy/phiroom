@@ -49,21 +49,31 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
         function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     
     // authentication interceptor
-    /*$httpProvider.interceptors.push(function ($timeout, $q, $injector) {
+    $httpProvider.interceptors.push(function ($timeout, $q, $injector) {
         var phUser, $http, $state, $stateParams;
+
+        $timeout(function () {
+            phUser = $injector.get('phUser');
+            $http = $injector.get('$http');
+        });
         return {
             responseError: function (rejection) {
                 // if not 401 status, do nothing
                 if (rejection.status !== 401) {
                     return rejection;
                 }
+                console.log('401');
 
                 var deferred = $q.defer();
+
+                phUser.login().then(function() {
+                    deferred.resolve( $http(rejection.config) );
+                });
+                return deferred.promise;
             }
         };
-    });*/
+    });
 
-    // 
 
     // html5 mode (no hash '#' in urls
     $locationProvider.html5Mode(true);
