@@ -392,32 +392,32 @@ class APITest(APITestCase):
         url3 = reverse('directory-pictures-list', kwargs={'pk': directory.pk})
         # try to get directory list without login
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to post a new directory without login
         data = {"name":"root directory"}
         response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to put without login
         response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to delete without login
         response = self.client.delete(url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
         # try to get particular directory without login
         response = self.client.get(url2)
         # try to post to particular directory without login
         response = self.client.post(url2, data, format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to put  particular directory without login
         response = self.client.put(url2, data, format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to delete particular directory without login
         response = self.client.delete(url2)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to get particular directory's pictures list without login
         response = self.client.get(url3)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
         
 
@@ -545,29 +545,29 @@ class APITest(APITestCase):
 
         # try to get pictures list without login
         response = self.client.get(url_list)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to post a new picture without login
         data = {"name":"root directory"}
         response = self.client.post(url_list, data, format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to put without login
         response = self.client.put(url_list, data, format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to delete without login
         response = self.client.delete(url_list)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to get pictures list without login
         response = self.client.get(url_detail)
-        self.assertEqual(response.status_code, 403)       
+        self.assertEqual(response.status_code, 401)       
         # try to post a new picture without login
         response = self.client.post(url_detail, data, format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to put without login
         response = self.client.put(url_detail, data, format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
         # try to delete without login
         response = self.client.delete(url_detail)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
         # login with normal user
         self.client.login(username='tom', password='foo')
