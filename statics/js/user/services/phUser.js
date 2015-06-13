@@ -14,8 +14,8 @@
 var phUser = angular.module('phUser');
 
 
-phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
-        function($http, $window, phModal, $state) {
+phUser.factory('phUser', ['$http', '$window', 'phModal', '$state', '$q',
+        function($http, $window, phModal, $state, $q) {
     var url = '/api/users/current/';
     var login_url = '/api/token-auth/';
     
@@ -129,7 +129,7 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
     };
 
     /* login user */
-    phUser.login = function(callback) {
+    phUser.login = function() {
         /*
          * function to login a user
          * open a modal window with credentials form
@@ -140,39 +140,38 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
          * if user is already authenticated, just execute callback
          *
          */
-        if (phUser.isAuthenticated()) {
-            if (callback) {
-                callback();
-            }
-            return;
-        }
-
-        var promise;
+        
+        // create promise to return
+        var deferred = $q.defer();
 
 
         // modal validation function
         function validate() {
             // send credentials to server
-            promise = $http.post(login_url, phUser.credentials)
-                .success(function(response) {
+            $http.post(login_url, phUser.credentials)
+                .success(function(response, status) {
                     // store token on local storage
                     setToken(response.token);
                     // close modal
                     phModal.close();
+                    // resolve promise with success
+                    deferred.resolve();
                     // get user's datas
                     phUser.getCurrentUser();
-                    // execute callback
-                    if (callback) {
-                        callback();
-                    }
                     // close modal
                     phModal.close();
+                    // reset credentials
+                    phUser.credentials = {};
+                    phUser.errors = null;
                 }).error(function(data) {
                     phUser.errors = data;
                 });
         };
-        // modal close function
-        function close() {
+        // modal cancel function
+        function cancel() {
+            // reject promise
+            deferred.reject();
+            //console.log('resolve promise');
             // errors array and credentials
             phUser.errors = null;
             phUser.credentials = {};
@@ -180,21 +179,17 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state',
              * goto a safe page
              */
         };
-        //console.log($state);
-/*
-        if ($state.current.data.loginRequired) {
-            phModal.opaque = true;
-        }*/
         // open modal Window
         phModal.templateUrl = '/assets/partials/user/user_login.html';
         phModal.title = "Sign in";
         phModal.validate_label = "Validate";
         phModal.validate_callback = validate;
-        phModal.close_callback = close;
+        phModal.cancel_callback = cancel;
         phModal.show = true;
         phModal.small_window = true;
 
-        return promise;
+        // return promise
+        return deferred.promise;
     };
 
     /* logout user */

@@ -77,14 +77,14 @@
                        dark: modal.dark}">
             <header>
                 <h1>{{ modal.title }}</h1>
-                <button class="close" ng-click="modal.close()" ng-if="modal.closable">×</button>
+                <button class="close" ng-click="modal.cancel()" ng-if="modal.cancellable">×</button>
             </header>
             <div id="modal-content">
                 <div ng-include="modal.templateUrl"></div>
             </div>
             <footer>
                 <div class="buttons-wrapper" ng-if="modal.buttons">
-                    <button ng-click="modal.close()" ng-if="modal.closable">{{ modal.cancel_label }}</button>
+                    <button ng-click="modal.cancel()" ng-if="modal.cancellable">{{ modal.cancel_label }}</button>
                     <button ng-click="modal.validate()">{{ modal.validate_label }}</button>
                 </div><!-- buttons wrapper -->
             </footer>

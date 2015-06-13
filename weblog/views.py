@@ -1,101 +1,50 @@
-from django.conf import settings
-from django.views.generic import ListView, DetailView
-from django.views.generic.base import ContextMixin
-
-from rest_framework import viewsets, generics
+from rest_framework import generics
 from weblog.serializers import PostSerializer, TagSerializer
 
+from rest_framework.permissions import IsAdminUser
+from phiroom.permissions import IsStaffOrReadOnly
+
 from weblog.models import Post, Tag
-from conf.models import Conf, Page
-
-
-class ConfMixin(ContextMixin):
-    """Mixin to get site configuration in context."""
-    page_name = 'weblog'
-
-    def __init__(self, *args, **kwargs):
-        super(ConfMixin, self).__init__(*args, **kwargs)
-        self.conf = Conf.objects.select_related().latest()
-
-    def get_context_data(self, **kwargs):
-        context = super(ConfMixin, self).get_context_data(**kwargs)
-        context['conf'] = self.conf
-        context['page_info'] = Page.info.get(
-                name=self.page_name)
-        context['menu'] = Page.main_menu.all()
-        context['phiroom'] = settings.PHIROOM
-
-        return context
 
 
 
-class ListPosts(ListView, ConfMixin):
-    """List all weblog posts by pub_date."""
-    model = Post
-    context_object_name = 'posts'
-    template_name = 'weblog/weblog_list.html'
-
-    def get_paginate_by(self, queryset):
-        """Get the number of items to paginate by,
-        or None for no pagination."""
-        return self.conf.n_posts_per_page
-
-    def get_queryset(self):
-        return Post.published.all()
-
-
-
-class ListPostsByTag(ListPosts):
-    """List all weblog posts of a given tag."""
-
-    def get_queryset(self):
-        return Post.published.filter(
-                tags__slug = self.kwargs['slug']
-            )
-
-
-
-class ViewPost(DetailView, ConfMixin):
-    """Detail view for a specific weblog post."""
-    model = Post
-    context_object_name = 'post'
-    template_name = 'weblog/weblog_view.html'
-
-    def get_queryset(self):
-        if self.request.user.is_staff:
-            return Post.objects.filter(
-                    slug=self.kwargs['slug'],
-                )
-        else:
-            return Post.published.filter(
-                    slug=self.kwargs['slug'],
-                )
-
-    def get_context_data(self, **kwargs):
-        context = super(ViewPost, self).get_context_data(**kwargs)
-        context['prev'] = self.object.prev_post_url()
-        context['next'] = self.object.next_post_url()
-
-        return context
-
-
-
-class PostViewSet(viewsets.ModelViewSet):
+class PostList(generics.ListCreateAPIView):
     """
-    API endpoint that allows posts to be viewed or edited.
+    API endpoint that presents a list of posts and allows new
+    posts to be created.
     """
     queryset = Post.published.all()
     serializer_class = PostSerializer
+    permission_classes = (IsStaffOrReadOnly,)    
+
+    # allow staff members to list not published posts.
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Post.objects.all()
+        return Post.published.all()
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 
-class TagViewSet(viewsets.ModelViewSet):
+
+
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    API endpoint that allows tags to be viewed or edited.
+    API endpoint that presents a specific post and allows to
+    update or delete it.
     """
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
- 
+    queryset = Post.published.all()
+    serializer_class = PostSerializer
+    permission_classes = (IsStaffOrReadOnly,)
+    
+    # allow staff members to retrieve not published posts.
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Post.objects.all()
+        return Post.published.all()
+
 
 
 class PostsListByTag(generics.ListAPIView):
@@ -103,8 +52,29 @@ class PostsListByTag(generics.ListAPIView):
     API endpoint that allows to list posts by tags.
     """
     serializer_class = PostSerializer
+    permission_classes = (IsStaffOrReadOnly,)
 
     def get_queryset(self):
         return Post.published.filter(tags__slug=self.kwargs['slug'])
 
 
+
+class TagList(generics.ListAPIView):
+    """
+    API endpoint that presents a list of tags.
+    """
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = (IsAdminUser,)
+ 
+
+
+class TagDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that presents a specific tag and allows to
+    update or delete it.
+    """
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = (IsAdminUser,)
+ 

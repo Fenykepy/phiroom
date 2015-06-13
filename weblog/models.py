@@ -49,8 +49,6 @@ class Post(models.Model):
             verbose_name="Last modification date")
     pub_date = models.DateTimeField(blank=True, null=True, db_index=True,
         verbose_name="Publication date")
-    absolute_url = models.URLField(blank=True, null=True,
-            verbose_name="Post url")
 
 
     # add generic relation to pictures
@@ -64,19 +62,6 @@ class Post(models.Model):
         ordering = ['-pub_date']
 
 
-    def prev_post_url(self):
-        prev = Post.published.values('absolute_url').filter(
-                pub_date__lt=self.pub_date)
-        if prev:
-            return prev[0]['absolute_url']
-
-
-    def next_post_url(self):
-        next = Post.published.values('absolute_url').filter(
-                pub_date__gt=self.pub_date).order_by('pub_date')
-        if next:
-            return next[0]['absolute_url']
-
 
     def save(self, **kwargs):
         """
@@ -88,6 +73,7 @@ class Post(models.Model):
         # if create and pubdate hasn't been set by user
         if not self.pub_date:
             self.pub_date = timezone.now()
+        # format slug with date like 2015/06/08/my-post-slug/
         slug = '{}/{}'.format(
                 self.pub_date.strftime("%Y/%m/%d"),
                 slugify(self.title)

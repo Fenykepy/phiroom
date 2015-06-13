@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 
 from conf.serializers import *
 
@@ -9,10 +9,12 @@ class LastConf(generics.RetrieveUpdateAPIView):
     (in fact creating a new one).
     """
 
+    permission_classes = (permissions.AllowAny,)
     serializer_class = ConfSerializer
 
     def get_object(self):
         return Conf.objects.latest()
+
 
 
 class MainMenu(generics.ListAPIView):
@@ -20,5 +22,6 @@ class MainMenu(generics.ListAPIView):
     This view presents pages for main menu.
     """
 
+    permission_classes = (permissions.AllowAny,)
     serializer_class = PageSerializer
     queryset = Page.main_menu.all()

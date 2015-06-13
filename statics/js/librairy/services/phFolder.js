@@ -82,15 +82,16 @@ phLibrairy.factory('phFolder', ['$http', 'phUtils', 'phModal', function($http, p
         function validate() {
             return $http.post(url, phFolder.newDir)
                 .success(function(status, data) {
-                    // reload dirs hierarchy
                     phModal.close();
+                    phFolder.errors = null;
+                    // reload dirs hierarchy
                     phFolder.getDirectorys();
                 }).error(function(data) {
                     phFolder.errors = data;
                 });
         };
-        // modal close function
-        function close() {
+        // modal cancel function
+        function cancel() {
             /* reset parameters like errors array before
              * closing modal window
              */
@@ -101,7 +102,7 @@ phLibrairy.factory('phFolder', ['$http', 'phUtils', 'phModal', function($http, p
         phModal.title = "Create new folder";
         phModal.validate_label = "Create";
         phModal.validate_callback = validate;
-        phModal.close_callback = close;
+        phModal.cancel_callback = cancel;
         phModal.show = true;
     };
 

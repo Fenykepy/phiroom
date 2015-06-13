@@ -49,9 +49,10 @@ phLibrairy.factory('phUploader', ['phModal', 'phFileUpload', function(phModal, p
                     console.log(data);
                 });
             }
+            phUploader.files = [];
             phModal.close();
         };
-        function close() {
+        function cancel() {
             /* reset parameters like selected files array
              * before closing modal window
              */
@@ -63,7 +64,7 @@ phLibrairy.factory('phUploader', ['phModal', 'phFileUpload', function(phModal, p
         phModal.validate_label = "Upload";
         phModal.max_window = true;
         phModal.validate_callback = validate;
-        phModal.close_callback = close;
+        phModal.cancel_callback = cancel;
         phModal.show = true;
     };
 

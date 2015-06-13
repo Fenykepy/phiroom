@@ -36,7 +36,7 @@ phCore.factory('phModal', function () {
          * (must be set to true by validation function, right
          * after passing "show" to false)
          */
-        closable: true,
+        cancellable: true,
         /*
          * if footer buttons are displayed
          * (in case modal shows some informations
@@ -78,7 +78,7 @@ phCore.factory('phModal', function () {
          * (optionnal, if set must be a function)
          * (useful to reset a form for example)
          */
-        close_callback: false, // cancellation function (optionnal)
+        cancel_callback: false, // cancellation function (optionnal)
         /*
          * darken modal more than usually
          */
@@ -90,20 +90,12 @@ phCore.factory('phModal', function () {
     };
     
     var phModal = {};
+
     
     // close modal window and restore default parameters
     phModal.close = function() {
-        // if window is not closable (forced validation) return
-        if (this.closable === false) {
-            console.log('Modal is not closable');
-            return;
-        }
         // first hide window
         this.show = false;
-        // run cancellation function if set
-        if (this.close_callback) {
-            this.close_callback();
-        }
         // then restaure values to default
         for (var prop in default_values) {
             if (default_values.hasOwnProperty(prop)) {
@@ -116,6 +108,21 @@ phCore.factory('phModal', function () {
     phModal.validate = function() {
         this.validate_callback();
         return
+    }
+
+    // run cancellation callback (on cancel button click),
+    phModal.cancel = function() {
+        // if window is not closable (forced validation) return
+        if (this.cancellable === false) {
+            console.log('Modal is not closable');
+            return;
+        }
+        // run cancellation function if set
+        if (this.cancel_callback) {
+            this.cancel_callback();
+        }
+        // close window
+        this.close();
     }
 
     // set values to default at init

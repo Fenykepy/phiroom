@@ -1,9 +1,8 @@
 from django.http import Http404
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.reverse import reverse
-from rest_framework import viewsets, generics, status
+from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
 
 from librairy.serializers import *
 from librairy.models import Tag, Collection, CollectionsEnsemble, \
@@ -19,6 +18,7 @@ class PicturesList(generics.ListCreateAPIView):
     """
 
     queryset = Picture.objects.all()
+    permission_classes = (IsAdminUser,)
 
     def get_serializer_class(self):
         """
@@ -38,10 +38,7 @@ class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Picture.objects.all()
     serializer_class = PictureSerializer
-
-
-
-
+    permission_classes = (IsAdminUser,)
 
 
 
@@ -52,6 +49,7 @@ class DirectorysList(generics.ListCreateAPIView):
     """
     queryset = Directory.objects.filter(parent=None)
     serializer_class = DirectorysListSerializer
+    permission_classes = (IsAdminUser,)
 
 
 
@@ -62,6 +60,7 @@ class DirectoryDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Directory.objects.all()
     serializer_class = DirectorySerializer
+    permission_classes = (IsAdminUser,)
 
 
 
@@ -70,6 +69,7 @@ class DirectoryPicturesList(generics.ListAPIView):
     This view presents a list of all pictures related to one directory.
     """
     serializer_class = PictureSerializer
+    permission_classes = (IsAdminUser,)
 
     def list(self, request, pk, format=None):
         """
@@ -92,52 +92,4 @@ class DirectoryPicturesList(generics.ListAPIView):
 
         return Response(serializer.data)
 
-
-
-
-
-
-
-class PicturesTagViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows tags to be viewed or edited.
-    """
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
-
-
-
-class CollectionViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows collections to be viewed or edited.
-    """
-    queryset = Collection.objects.all()
-    serializer_class = CollectionSerializer
-
-
-
-class CollectionsEnsembleViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows collections ensembles to be viewed or edited.
-    """
-    queryset = CollectionsEnsemble.objects.all()
-    serializer_class = CollectionsEnsembleSerializer
-
-
-
-class DirectoryViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows directorys to be viewed or edited.
-    """
-    queryset = Directory.objects.all()
-    serializer_class = DirectorySerializer
-
-
-
-class PictureViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows picture to be viewed or edited.
-    """
-    queryset = Picture.objects.all()
-    serializer_class = PictureSerializer
 

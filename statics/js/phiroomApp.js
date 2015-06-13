@@ -32,16 +32,25 @@ phiroomApp.run(['$rootScope', '$state', '$stateParams', 'phUser',
     phUser.authenticate();
 
     // check if login is required on state changement
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-        var loginRequired = toState.data.loginRequired;
+    /*$rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+        var loginRequired = toState.data.loginRequired || false;
         if (loginRequired && ! phUser.isAuthenticated()) {
             event.preventDefault();
             // open login modal
-            phUser.login(function() {
+            phUser.login().then(function() {
+                console.log('go to ' + toState.name);
                 $state.go(toState.name, toParams);
+            }).catch(function() {
+                if (! $state.current.data.loginRequired) {        
+                    return $state.go($state.current);
+                }
+                else {
+                    console.log('redirect to safe page 1');
+                    //return $state.go('home');
+                }
             });
         }
-    });
+    });*/
 }]);
 
 
@@ -50,24 +59,31 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
     
     // authentication interceptor
     $httpProvider.interceptors.push(function ($timeout, $q, $injector) {
-        var phUser, $http, $state, $stateParams;
+        var phUser, $http, $state;
 
         $timeout(function () {
             phUser = $injector.get('phUser');
             $http = $injector.get('$http');
+            $state = $injector.get('$state');
         });
         return {
             responseError: function (rejection) {
                 // if not 401 status, do nothing
                 if (rejection.status !== 401) {
-                    return rejection;
+                    console.log('rejection');
+                    return $q.reject(rejection);
                 }
                 console.log('401');
 
                 var deferred = $q.defer();
 
                 phUser.login().then(function() {
-                    deferred.resolve( $http(rejection.config) );
+                    console.log('resolve rejection');
+                    deferred.resolve($http(rejection.config));
+                }).catch(function() {
+                    console.log('redirect to safe page 2');
+                    //$state.go('home');
+                    deferred.reject(rejection);
                 });
                 return deferred.promise;
             }
@@ -82,6 +98,15 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
     // rooter config
     //$urlRouterProvider.otherwise("/librairy/");
     $stateProvider.
+        state('weblog', {
+            url: '/weblog/',
+            templateUrl: '/assets/partials/weblog/weblog_base.html',
+            controller: 'weblogListCtrl',
+            sticky: true,
+            data: {
+                loginRequired: false
+            }
+        }).
         state('librairy', {
             url: '/librairy/',
             templateUrl: '/assets/partials/librairy/librairy_base.html',
