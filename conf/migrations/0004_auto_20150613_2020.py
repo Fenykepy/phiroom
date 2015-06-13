@@ -31,7 +31,7 @@ def pages_default(apps, schema_editor):
     p2.name = "weblog"
     p2.title = "Weblog"
     p2.is_in_main_menu = True
-    p1.position_in_main_menu = 2
+    p2.position_in_main_menu = 2
     p2.state = "weblog"
     p2.save()
 
@@ -40,18 +40,18 @@ def pages_default(apps, schema_editor):
     p3.name = "contact"
     p3.title = "Contact"
     p3.is_in_main_menu = True
-    p1.position_in_main_menu = 3
-    p3.state = "portfolios"
+    p3.position_in_main_menu = 3
+    p3.state = "contact"
     p3.save()
 
-    p3 = Page()
-    p3.pk = 4
-    p3.name = "librairy"
-    p3.title = "Librairy"
-    p3.is_in_main_menu = False
-    p1.position_in_main_menu = 0
-    p3.state = "librairy"
-    p3.save()
+    p4 = Page()
+    p4.pk = 4
+    p4.name = "librairy"
+    p4.title = "Librairy"
+    p4.is_in_main_menu = False
+    p4.position_in_main_menu = 0
+    p4.state = "librairy"
+    p4.save()
 
 
 class Migration(migrations.Migration):

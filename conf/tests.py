@@ -1,4 +1,6 @@
 from django.test import TestCase, Client
+from rest_framework.test import APIClient, APITestCase
+
 from conf.models import Conf, Page
 
 
@@ -27,10 +29,10 @@ class ConfModelTest(TestCase):
         self.assertEqual(conf.pk, 2)
         self.assertEqual(conf.comment, "New configuration")
     
-    def test_get_home_page_url_name(self):
-        # assert get_home_page_url_name returns good one
+    def test_get_home_page_state(self):
+        # assert get_home_page_state returns good one
         conf = Conf.objects.latest()
-        self.assertEqual(conf.get_home_page_url_name(), "portfolios_home")
+        self.assertEqual(conf.get_home_page_state(), "portfolios")
 
 
 
@@ -40,20 +42,12 @@ class PageModelTest(TestCase):
         ## assert fixtures are correctly loaded
         initial = [
             {
-                'pk': 4,
-                'name': 'librairy',
-                'title': 'Librairy',
-                'menu': False,
-                'pos': 0,
-                'url_name': 'librairy_home',
-            },
-            {
                 'pk': 1,
                 'name': 'portfolios',
                 'title': 'Portfolios',
                 'menu': True,
                 'pos': 1,
-                'url_name': 'portfolios_home',
+                'state': 'portfolios',
             },
             {
                 'pk': 2,
@@ -61,7 +55,7 @@ class PageModelTest(TestCase):
                 'title': 'Weblog',
                 'menu': True,
                 'pos': 2,
-                'url_name': 'weblog_home',
+                'state': 'weblog',
             },
             {
                 'pk': 3,
@@ -69,10 +63,18 @@ class PageModelTest(TestCase):
                 'title': 'Contact',
                 'menu': True,
                 'pos': 3,
-                'url_name': 'contact_home',
+                'state': 'contact',
+            },
+            {
+                'pk': 4,
+                'name': 'librairy',
+                'title': 'Librairy',
+                'menu': False,
+                'pos': 0,
+                'state': 'librairy',
             },
         ]
-        pages = Page.objects.all()
+        pages = Page.objects.all().order_by('pk')
         index = 0
         for page in pages:
             self.assertEqual(page.pk, initial[index]['pk'])
@@ -82,8 +84,8 @@ class PageModelTest(TestCase):
                     initial[index]['menu'])
             self.assertEqual(page.position_in_main_menu,
                     initial[index]['pos'])
-            self.assertEqual(page.url_name,
-                    initial[index]['url_name'])
+            self.assertEqual(page.state,
+                    initial[index]['state'])
             index += 1
         # assert no untested pages are here
         self.assertEqual(len(pages), 4)
@@ -93,7 +95,7 @@ class PageModelTest(TestCase):
         pages = Page.main_menu.all()
         self.assertEqual(pages[0]['name'], 'portfolios')
         self.assertEqual(pages[0]['title'], 'Portfolios')
-        self.assertEqual(pages[0]['url_name'], 'portfolios_home')
+        self.assertEqual(pages[0]['state'], 'portfolios')
         self.assertEqual(pages[1]['name'], 'weblog')
         self.assertEqual(pages[2]['name'], 'contact')
         self.assertEqual(len(pages), 3)

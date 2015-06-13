@@ -127,18 +127,18 @@ Librairy
 --------
 Concept:
     - main app of phiroom
-    - allow upload of pictures from computer
+#    - allow upload of pictures from computer
     - allow upload of pictures from server
     - allow upload of preview pictures
         (add an image field for preview, fullfield with
         uploaded or generation image)
-    - automatically generate previews
+#    - automatically generate previews
     - automatically add a given filigranne on previews
-    - keep originals intact (except maybe name)
-    - read metadatas from images
+#    - keep originals intact (except maybe name)
+#    - read metadatas from images
     - allow modification of some metadatas (title, legend, tags, name)
-    - support of tags
-    - support of rating
+#    - support of tags
+#    - support of rating
     - support of color labels
     - support of flags
     - ordering in "collections"
