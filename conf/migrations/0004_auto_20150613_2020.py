@@ -9,7 +9,7 @@ def conf_default(apps, schema_editor):
 
     # create default configuration
     conf = Conf()
-    conf.comment = "Paramètres par défaut"
+    conf.comment = "Default settings"
     conf.save()
 
 

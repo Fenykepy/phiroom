@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics
+from phiroom.permissions import IsStaffOrReadOnly
 
 from conf.serializers import *
 
@@ -9,7 +10,7 @@ class LastConf(generics.RetrieveUpdateAPIView):
     (in fact creating a new one).
     """
 
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (IsStaffOrReadOnly,)
     serializer_class = ConfSerializer
 
     def get_object(self):
@@ -22,6 +23,6 @@ class MainMenu(generics.ListAPIView):
     This view presents pages for main menu.
     """
 
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (IsStaffOrReadOnly,)
     serializer_class = PageSerializer
     queryset = Page.main_menu.all()

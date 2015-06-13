@@ -15,7 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
     slug = serializers.CharField(read_only=True)
     pk = serializers.IntegerField(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
-    author = serializers.CharField(read_only=True)
+    author = serializers.ReadOnlyField(source='author.author_name')
     class Meta:
         model = Post
         fields = ('url', 'title', 'description', 'source',

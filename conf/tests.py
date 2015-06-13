@@ -1,6 +1,8 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from rest_framework.test import APIClient, APITestCase
+from django.core.urlresolvers import reverse
 
+from user.models import User
 from conf.models import Conf, Page
 
 
@@ -12,7 +14,7 @@ class ConfModelTest(TestCase):
         conf = Conf.objects.latest()
 
         self.assertEqual(conf.pk, 1)
-        self.assertEqual(conf.comment, "Paramètres par défaut")
+        self.assertEqual(conf.comment, "Default settings")
 
     def test_save_method(self):
         ## assert save method create a new conf entry
@@ -110,5 +112,105 @@ class PageModelTest(TestCase):
         self.assertEqual(len(pages[0]), 2)
 
 
+class APITest(APITestCase):
+    """Class to test rest API."""
 
+    def setUp(self):
+        #create test users
+        self.user = User.objects.create_user(
+                username="tom",
+                email="tom@lavilotte-rolle.fr",
+                password="foo",
+        )
+        self.user.save()
+        # create staff user
+        self.staffuser = User.objects.create_user(
+                username="flr",
+                email="pro@lavilotte-rolle.fr",
+                password="foo",
+        )
+        self.staffuser.is_staff = True
+        self.staffuser.save()
+
+
+        # setup client
+        self.client = APIClient()
+
+
+    def test_confAPI(self):
+        url = reverse('last-conf')
+
+        # try to get last conf without login
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(response.data['comment'], 'Default settings')
+        self.assertEqual(response.data['home_page_state'], 'portfolios')
+        
+        # try to post data without login
+        data = {'comment': "my comment"}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 401)
+        # try to put without login
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, 401)
+        # try to delete without login
+        response = self.client.delete(url, data, format='json')
+        self.assertEqual(response.status_code, 401)
+
+        # login with normal user
+        self.client.login(username='tom', password='foo')
+        # try to get last conf with normal user
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        
+        # try to post data with normal user
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to put with normal user
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+        # try to delete with normal user
+        response = self.client.delete(url, data, format='json')
+        self.assertEqual(response.status_code, 403)
+
+        # only admin should have write access to settings
+        # login with staff user
+        self.client.login(username='flr', password='foo')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # try to post data with admin user
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 405)
+        # try to put with admin user
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, 200)
+        # try to delete with admin user
+        response = self.client.delete(url, data, format='json')
+        self.assertEqual(response.status_code, 405)
+
+        
+
+
+    def test_pageAPI(self):
+        conf = Conf.objects.latest()
+
+        url = reverse('main-menu')
+        data = {}
+
+        # try to get last conf without login
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(response.data['results'][0]['name'], 'portfolios')
+        self.assertEqual(response.data['results'][1]['name'], 'weblog')
+        self.assertEqual(response.data['results'][2]['name'], 'contact')
+
+        # try to post without login
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 401)
+
+
+
+        
 
