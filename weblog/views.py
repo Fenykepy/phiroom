@@ -59,13 +59,13 @@ class PostsListByTag(generics.ListAPIView):
 
 
 
-class TagList(generics.ListAPIView):
+class TagList(generics.ListCreateAPIView):
     """
     API endpoint that presents a list of tags.
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsStaffOrReadOnly,)
  
 
 

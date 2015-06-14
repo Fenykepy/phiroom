@@ -1,13 +1,13 @@
 from datetime import datetime, timedelta
-from pprint import pprint
 
 from collections import OrderedDict
 from django.test import TestCase
-from django.contrib.auth.models import User
 from django.utils import timezone
+
 
 from rest_framework.test import APIClient, APITestCase
 
+from user.models import User
 from weblog.models import Post, Tag
 from weblog.utils import format_content, format_abstract, format_drop_cap
 
@@ -21,6 +21,7 @@ def create_test_users(instance):
         username="tom",
         email='tom@phiroom.org',
         password='top_secret',
+        author_name='tom phiroom'
     )
     instance.user.is_staff = True
     instance.user.save()
@@ -97,6 +98,11 @@ def create_test_posts(instance):
         )
     instance.post5.save()
 
+
+
+
+
+
 class UtilsTest(TestCase):
     """Utils functions test."""
     test_string = (
@@ -151,6 +157,10 @@ class UtilsTest(TestCase):
 
         self.assertEqual(string, result)
 
+
+
+
+
 class TagModelTest(TestCase):
     """Tag model test class."""
 
@@ -178,7 +188,6 @@ class TagModelTest(TestCase):
         self.post.tags.add(tag)
         # reload tag from db
         tag = Tag.objects.get(id=tag.id)
- 
         # assert tag's n_post has been updated
         self.assertEqual(tag.n_posts, 1)
 
@@ -194,6 +203,13 @@ class TagModelTest(TestCase):
         except:
             result = True
         self.assertTrue(result)
+
+
+
+
+
+
+
 
 
 class PostModelTest(TestCase):
@@ -237,10 +253,6 @@ class PostModelTest(TestCase):
         n_tags = post.tags.all().count()
         self.assertEqual(n_tags, 2)
 
-        # assert absolute url has been set
-        url = '/weblog/{}/'.format(target_slug)
-        self.assertEqual(post.absolute_url, url)
-
         # assert post is in published manager
         n_posts = Post.published.all().count()
         self.assertEqual(n_posts, 5)
@@ -248,15 +260,6 @@ class PostModelTest(TestCase):
         # assert published manager delivers last post first
         posts = Post.published.all()
         self.assertEqual(post, posts[0])
-
-        # assert get_absolute_url works
-        self.assertEqual(post.get_absolute_url(), url)
-
-        # assert previous post is set
-        prev_url = '/weblog/{}/my-fifth-title/'.format(date)
-        self.assertEqual(post.prev_post_url(), prev_url)
-        # assert next post isn't set
-        self.assertEqual(post.next_post_url(), None)
 
         # create a new post
         post2 = Post(
@@ -270,8 +273,6 @@ class PostModelTest(TestCase):
         # assert slugs are unique
         self.assertTrue(post2.slug != post.slug)
 
-        # assert post now have a next one
-        self.assertEqual(post.next_post_url(), post2.absolute_url)
 
 
     def test_draft_future_posts(self):
@@ -282,12 +283,6 @@ class PostModelTest(TestCase):
         n_posts = Post.published.all().count()
         self.assertEqual(n_posts, 4)
 
-        # assert post2 next post is post 4 and not 3
-        self.assertEqual(self.post2.next_post_url(), self.post4.absolute_url)
-
-        # assert post4 prev post is post 2 and not 3
-        self.assertEqual(self.post4.prev_post_url(), self.post2.absolute_url)
-
         # pass post2 in future
         self.post2.pub_date = timezone.now() + timedelta(hours=24)
         self.post2.save()
@@ -295,6 +290,14 @@ class PostModelTest(TestCase):
         # assert post2 isn't anymore in published results
         n_posts = Post.published.all().count()
         self.assertEqual(n_posts, 3)
+
+
+
+
+
+
+
+
 
 
 class TagAPITest(APITestCase):
@@ -313,32 +316,88 @@ class TagAPITest(APITestCase):
 
     def test_list_tags(self):
         # login with staff member
-        login(self, self.user)
+        #login(self, self.user)
 
         data = {'count': 2,
                 'next': None,
                 'previous': None,
                 'results': [{'name': 'test',
                             'n_posts': 0,
-                            'slug': 'test'},
+                            'slug': 'test',
+                            'url': 'http://testserver/api/weblog/tags/1/'},
                             {'name': 'test2',
                             'n_posts': 0,
-                            'slug': 'test2'}]} 
+                            'slug': 'test2',
+                            'url': 'http://testserver/api/weblog/tags/1/'}]} 
 
-        response = self.client.get('/api/tags/')
+        response = self.client.get('/api/weblog/tags/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, data)
+        self.assertEqual(response.data['count'], 2)
+        self.assertEqual(response.data['results'][0]['name'], 'test' )
+        self.assertEqual(response.data['results'][1]['name'], 'test2' )
 
 
     def test_tag_detail(self):
+        url = '/api/weblog/tags/1/'
+        # test without login
+        # it detail shouldn't be accessible
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 401)
+        response = self.client.put(url, {})
+        self.assertEqual(response.status_code, 401)
+        response = self.client.patch(url, {})
+        self.assertEqual(response.status_code, 401)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+        # login with normal user
+        login(self, self.user2)
+        # detail shouldn't be accessible
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 403)
+        response = self.client.put(url, {})
+        self.assertEqual(response.status_code, 403)
+        response = self.client.patch(url, {})
+        self.assertEqual(response.status_code, 403)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+
         # login with staff member
         login(self, self.user)
         
-        data = {'name': 'test', 'n_posts': 0, 'slug': 'test'}
+        data = {'name': 'test', 'n_posts': 0, 'slug': 'test',
+                'url': 'http://testserver/api/weblog/tags/1/'}
 
-        response = self.client.get('/api/tags/1/')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, data)
+
+        data2 = {'name': 'new test'}
+        response = self.client.post(url, data2)
+        self.assertEqual(response.status_code, 405)
+        data2 = {'name': 'new test 2'}
+        response = self.client.put(url, data2)
+        self.assertEqual(response.status_code, 200)
+        data2 = {'name': 'new test 3'}
+        response = self.client.patch(url, {})
+        self.assertEqual(response.status_code, 200)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 204)
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -366,183 +425,34 @@ class PostAPITest(APITestCase):
     def test_posts_list(self):
         # login with staff member
         login(self, self.user)
-        response = self.client.get('/api/posts/')
+        response = self.client.get('/api/weblog/posts/')
         self.assertEqual(response.status_code, 200)
-        print(Post.published.all().count())
-        print(Post.objects.all().count())
-        print(response.data)
-        self.assertEqual(response.data['count'], 4)
+        self.assertEqual(response.data['count'], 5)
 
 
     def test_posts_by_tag(self):
         # login with staff member
         login(self, self.user)
         
-        url = '/api/posts-by-tag/{}/'.format(self.tag.slug)
+        url = '/api/weblog/posts-by-tag/{}/'.format(self.tag.slug)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['count'], 4)
-        data0 ={'url': 'http://testserver/api/posts/5/',
+        data ={'url': 'http://testserver/api/weblog/posts/5/',
               'title': 'My fifth title',
               'description': '',
               'source': 'some text [...] end of abstract',
-              'author': 1,
+              'author': 'tom phiroom',
               'draft': False,
               'content': '<p>some text  end of abstract</p>',
               'abstract': '<p>some text …</p>',
              'pk': 5} 
-        for key in data0:
-            self.assertEqual(response.data['results'][0][key], data0[key])
+        for key in data:
+            self.assertEqual(response.data['results'][0][key], data[key])
 
         self.assertTrue(response.data['results'][0]['pub_date'])
         self.assertTrue(response.data['results'][0]['tags'])
         self.assertTrue(response.data['results'][0]['slug'])
-
-
-
-class PostsViewsTest(TestCase):
-    """Post listing test class."""
-
-    def setUp(self):
-        # create users
-        create_test_users(self)
-        # create tags
-        create_test_tags(self)
-        # create posts
-        create_test_posts(self)
-
-        self.post.tags.add(self.tag)
-        self.post2.tags.add(self.tag)
-        self.post3.tags.add(self.tag2) # draft
-        self.post3.tags.add(self.tag) # draft
-        self.post4.tags.add(self.tag)
-        self.post5.tags.add(self.tag)
-
-
-    def test_urls(self):
-        urls = [
-            {
-                'url': '/weblog/tag/test2/',
-                'status': 200,
-                'template': 'weblog/weblog_list.html',
-            },
-            {
-                'url': '/weblog/tag/test2/page/1/',
-                'status': 200,
-                'template': 'weblog/weblog_list.html',
-            },
-            {
-                'url': self.post.absolute_url,
-                'status': 200,
-                'template': 'weblog/weblog_view.html',
-            }
-        ]
-
-    def test_list_posts(self):
-        # assert url without pagination and template are good
-        response = self.client.get('/weblog/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
-        # assert only published posts are listed, 4 published, one on page two
-        self.assertEqual(len(response.context['posts']), 3)
-        
-        # assert url with pagination and template are good
-        response = self.client.get('/weblog/page/1/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
-        self.assertFalse(response.context['page_obj'].has_previous())
-        self.assertTrue(response.context['page_obj'].has_next())
-        response = self.client.get('/weblog/page/2/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
-        self.assertTrue(response.context['page_obj'].has_previous())
-        self.assertFalse(response.context['page_obj'].has_next())
-        self.assertEqual(len(response.context['posts']), 1)
-
-
-    def test_list_posts_by_tags(self):
-        # assert url without pagination and template are good
-        response = self.client.get('/weblog/tag/test/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
-        # assert only published posts are listed, 4 published, one on page two
-        self.assertEqual(len(response.context['posts']), 3)
-
-        # assert url with pagination and template are good
-        response = self.client.get('/weblog/tag/test/page/1/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
-        self.assertFalse(response.context['page_obj'].has_previous())
-        self.assertTrue(response.context['page_obj'].has_next())
-        response = self.client.get('/weblog/tag/test/page/2/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_list.html')
-        self.assertTrue(response.context['page_obj'].has_previous())
-        self.assertFalse(response.context['page_obj'].has_next())
-        self.assertEqual(len(response.context['posts']), 1)
-        
-        # should be no result for test2 because it's post is draft
-        response = self.client.get('/weblog/tag/test2/')
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.context['page_obj'].has_previous())
-        self.assertFalse(response.context['page_obj'].has_next())
-        self.assertEqual(len(response.context['posts']), 0)
-
-
-    def test_view_post(self):
-        # assert url and templates are ok
-        response = self.client.get(self.post2.absolute_url)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_view.html')
-        self.assertEqual(response.context['post'], self.post2)
-        self.assertTrue(response.context['prev'])
-        self.assertTrue(response.context['next'])
-
-        response = self.client.get(self.post.absolute_url)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name, 'weblog/weblog_view.html')
-        self.assertEqual(response.context['post'], self.post)
-        self.assertFalse(response.context['prev'])
-        self.assertTrue(response.context['next'])
-        
-        # assert draft post are not visible by normal users
-        response = self.client.get(self.post3.absolute_url)
-        self.assertEqual(response.status_code, 404)
-
-        # assert future pub_date posts are not visible by normal users
-        self.post.pub_date = timezone.now() + timedelta(hours=24)
-        self.post.save()
-        response = self.client.get(self.post.absolute_url)
-        self.assertEqual(response.status_code, 404)
-
-        # login with staff member
-        login(self, self.user)
-        # assert staff members can see draft posts
-        response = self.client.get(self.post3.absolute_url)
-        self.assertEqual(response.status_code, 200)
-
-        # assert staff members can see future pub_date posts
-        response = self.client.get(self.post.absolute_url)
-        self.assertEqual(response.status_code, 200)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

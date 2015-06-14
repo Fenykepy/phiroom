@@ -6,7 +6,8 @@ from weblog.models import Post, Tag
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Tag
-        fields = ('name', 'n_posts', 'slug')
+        fields = ('url', 'name', 'n_posts', 'slug')
+        read_only_fields = ('slug', 'n_posts')
 
 
 class PostSerializer(serializers.ModelSerializer):
