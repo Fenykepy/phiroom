@@ -337,6 +337,8 @@ class TagAPITest(APITestCase):
         self.assertEqual(response.data['results'][1]['name'], 'test2' )
 
 
+
+
     def test_tag_detail(self):
         url = '/api/weblog/tags/1/'
         # test without login
@@ -423,18 +425,197 @@ class PostAPITest(APITestCase):
 
 
     def test_posts_list(self):
-        # login with staff member
+        url = '/api/weblog/posts/'
+        data = {'title': 'Post title',
+                'description': 'my post description',
+                'source': 'my post source',
+        }
+        data2 = {'title': 'New post Title'}
+
+        # test without login
+        # client should get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+
+        # test with normal user
+        login(self, self.user2)
+        # client should get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+        # test with staff member
         login(self, self.user)
-        response = self.client.get('/api/weblog/posts/')
+        # client should get posts list
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['count'], 5)
+        # client should be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 201)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+
+
+
+
+
+
+    def test_post_detail(self):
+        url = '/api/weblog/posts/1/'
+        data = {'title': 'Post title',
+                'description': 'my post description',
+                'source': 'my post source',
+        }
+        data2 = {'title': 'New post Title'}
+
+        # test without login
+        # client should get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+
+        # test with normal user
+        login(self, self.user2)
+        # client should get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+        # test with staff member
+        login(self, self.user)
+        # client should get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['title'], 'My first title')
+        # client should be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 204)
 
 
     def test_posts_by_tag(self):
-        # login with staff member
-        login(self, self.user)
-        
         url = '/api/weblog/posts-by-tag/{}/'.format(self.tag.slug)
+        data = {'title': 'Post title',
+                'description': 'my post description',
+                'source': 'my post source',
+        }
+        data2 = {'title': 'New post Title'}
+
+        # test without login
+        # client should get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+
+        # test with normal user
+        login(self, self.user2)
+        # client should get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+        # test with staff member
+        login(self, self.user)
+        # client should be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 201)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+        
+        # client should get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['count'], 4)

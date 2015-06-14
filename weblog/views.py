@@ -47,12 +47,10 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-class PostsListByTag(generics.ListAPIView):
+class PostsListByTag(PostList):
     """
     API endpoint that allows to list posts by tags.
     """
-    serializer_class = PostSerializer
-    permission_classes = (IsStaffOrReadOnly,)
 
     def get_queryset(self):
         return Post.published.filter(tags__slug=self.kwargs['slug'])
