@@ -342,7 +342,7 @@ class TagAPITest(APITestCase):
     def test_tag_detail(self):
         url = '/api/weblog/tags/1/'
         # test without login
-        # it detail shouldn't be accessible
+        # detail shouldn't be accessible
         response = self.client.get(url)
         self.assertEqual(response.status_code, 401)
         response = self.client.post(url, {})

@@ -117,6 +117,20 @@ class User(AbstractUser):
     )
 
 
+    def get_short_name(self):
+        """returns first_name if any or user name."""
+        if self.first_name:
+            return self.first_name
+        return self.username
+
+
+    def get_full_name(self):
+        """returns first_name + last_name or short_name method."""
+        if self.first_name and self.last_name:
+            return '{} {}'.format(self.first_name, self.last_name)
+        return self.get_short_name()
+
+
     def send_mail(self, subject, message):
         """Send a mail to user."""
         return send_mail(
@@ -134,6 +148,8 @@ class User(AbstractUser):
         if not self.pk and self.is_staff:
             self.mail_contact = True
             self.mail_registration = True
+        if not self.author_name and self.is_staff:
+            self.author_name = self.get_full_name()
 
         super(User, self).save()
     

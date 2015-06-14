@@ -19,7 +19,7 @@ Todo list for phiroom
 
 #- tests for conf serializer and view
 #    -> bug with permissions (IsStaffOrReadOnly)
-- tests for user serializer and view
+#- tests for user serializer and view
 #- tests for weblog
 
 
