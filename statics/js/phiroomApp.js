@@ -17,7 +17,7 @@ var phiroomApp = angular.module('phiroomApp', [
 var phCore = angular.module('phCore', []);
 var phUser = angular.module('phUser', []);
 var phLibrairy = angular.module('phLibrairy', []);
-var phWeblog = angular.module('phWeblog', []);
+var phWeblog = angular.module('phWeblog', ['ngSanitize']);
 var phContact = angular.module('phContact', []);
 var phPortfolio = angular.module('phPortfolio', []);
 
@@ -111,6 +111,21 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             url: '/weblog/',
             templateUrl: '/assets/partials/weblog/weblog_list.html',
             controller: 'weblogListCtrl',
+            resolve: {
+                posts: function($stateParams, phListPosts) {
+                    return phListPosts.get($stateParams);
+                }
+            }
+        }).
+        state('weblog.list_paginate', {
+            url: 'page/{page:int}/',
+            templateUrl: '/assets/partials/weblog/weblog_list.html',
+            controller: 'weblogListCtrl',
+            resolve: {
+                posts: function($stateParams, phListPosts) {
+                    return phListPosts.get($stateParams);
+                }
+            }
         }).
         state('librairy', {
             url: '/librairy/',

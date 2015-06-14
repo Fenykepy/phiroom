@@ -557,7 +557,7 @@ class PostAPITest(APITestCase):
 
 
     def test_posts_by_tag(self):
-        url = '/api/weblog/posts-by-tag/{}/'.format(self.tag.slug)
+        url = '/api/weblog/posts/tag/{}/'.format(self.tag.slug)
         data = {'title': 'Post title',
                 'description': 'my post description',
                 'source': 'my post source',

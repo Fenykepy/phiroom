@@ -199,6 +199,7 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state', '$q',
         $window.localStorage.removeItem('auth_token_date');
         // delete user datas
         phUser.user = {};
+        console.log(phUser.user);
         // delete $http auth header
         delete $http.defaults.headers.common['Authorization'];
         // redirect to login if not on safe state

@@ -17,7 +17,7 @@ urlpatterns = [
             name="tag-list"),
         url(r'^tags/(?P<pk>[0-9]+)/$', views.TagDetail.as_view(),
             name="tag-detail"),
-        url('^posts-by-tag/(?P<slug>[-\w]+)/$', views.PostsListByTag.as_view(),
+        url('^posts/tag/(?P<slug>[-\w]+)/$', views.PostsListByTag.as_view(),
             name="post-list-by-tag"),
 ]
 

@@ -5,23 +5,11 @@
 var phWeblog = angular.module('phWeblog');
 
 
-phWeblog.controller('weblogListCtrl', ['$scope', '$http',
-        function($scope, $http) {
-    var url = '/api/posts/?page_size=3';
-
-
-    // request posts list
-    $http.get(url).success(function(data) {
-        $scope.posts = data.results;
-        var id;
-        if (data.next) {
-            id = parseInt($routeParams.pageID) + 1;
-            $scope.next = route + 'page/' + id + '/';
-        }
-        if (data.previous) {
-            id = parseInt($routeParams.pageID) - 1;
-            $scope.prev = route + 'page/' + id + '/';
-        }
-    });
+phWeblog.controller('weblogListCtrl', ['$scope', 'phListPosts', 'posts',
+        function($scope, phListPosts, posts) {
+    $scope.posts = posts.data.results;
+    $scope.next = phListPosts.next;
+    $scope.prev = phListPosts.prev;
+    console.log(posts)
 }]);
 

@@ -37,7 +37,7 @@ url prefix : /api/
 #- librairy/directory/pk/              (get)       -> view a specific directory
 #- librairy/directory/pk/              (put)       -> update a directory (name, parent)
 #- librairy/directory/pk/              (delete)    -> delete a directory (and its sub-directorys)
-- librairy/directory/pk/pictures/       (get)       -> list of directory's pictures
+#- librairy/directory/pk/pictures/       (get)       -> list of directory's pictures
 
 
 
