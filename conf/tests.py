@@ -57,7 +57,7 @@ class PageModelTest(TestCase):
                 'title': 'Weblog',
                 'menu': True,
                 'pos': 2,
-                'state': 'weblog',
+                'state': 'weblog.list',
             },
             {
                 'pk': 3,

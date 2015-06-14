@@ -1,10 +1,10 @@
 <header role="banner">
     <div id="logo">
-        <a ui-sref="{{ conf.home_page_state }}">
+        <a ng-if="conf.home_page_state" ui-sref="{{ conf.home_page_state }}">
             <img src="{{ conf.weblog_logo }}" alt="{{ conf.title }}, {{ conf.subtitle }}" /></a>
     </div>
     <h1>{{ conf.title }}</h1>
-    <h2>{{ conf.subtitle</h2>
+    <h2>{{ conf.subtitle }}</h2>
     <nav role="navigation" ng-include="'/assets/partials/main_nav.html'">
     </nav>
 </header>

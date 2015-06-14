@@ -99,13 +99,18 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
     //$urlRouterProvider.otherwise("/librairy/");
     $stateProvider.
         state('weblog', {
-            url: '/weblog/',
             templateUrl: '/assets/partials/weblog/weblog_base.html',
-            controller: 'weblogListCtrl',
+            controller: 'weblogCtrl',
+            abstract: true,
             sticky: true,
             data: {
                 loginRequired: false
             }
+        }).
+        state('weblog.list', {
+            url: '/weblog/',
+            templateUrl: '/assets/partials/weblog/weblog_list.html',
+            controller: 'weblogListCtrl',
         }).
         state('librairy', {
             url: '/librairy/',
