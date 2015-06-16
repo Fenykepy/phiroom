@@ -22,14 +22,18 @@ describe('phFolder', function() {
         expect(angular.isFunction(phFolder.isChild)).toBe(true);
     });
 
-    it('should have a getDirectorys function', function() {
-        expect(angular.isFunction(phFolder.getDirectorys)).toBe(true);
-    });
 
     it('should have a mkDir function', function() {
         expect(angular.isFunction(phFolder.mkDir)).toBe(true);
     });
 
+    it('should have a mkDirSubmit function', function() {
+        expect(angular.isFunction(phFolder.mkDirSubmit)).toBe(true);
+    });
+
+    it('should have a mkDirCancel function', function() {
+        expect(angular.isFunction(phFolder.mkDirCancel)).toBe(true);
+    });
 
     describe('phFolder.newDir', function() {
 
@@ -83,8 +87,6 @@ describe('phFolder', function() {
             phFolder.mkDir();
             expect(phModal.templateUrl).toBe("/assets/partials/librairy/librairy_create_folder.html");
             expect(phModal.title).toBe("Create new folder");
-            expect(phModal.validate_label).toBe("Create");
-            expect(angular.isFunction(phModal.validate_callback)).toBe(true);
             expect(angular.isFunction(phModal.close_callback)).toBe(true);
             expect(phModal.show).toBe(true);
         });
@@ -96,7 +98,16 @@ describe('phFolder', function() {
             expect(phFolder.errors).toBe(null);
         });
 
-        it('should complete error array on $http.post.error and leave modal open on validate() failure',
+        it('should delete errors array and close modal on phFolder.mkDirCancel()', function() {
+            phFolder.mkDir();
+            phFolder.errors = ['my error'];
+            phFolder.mkDirCancel();
+            expect(phFolder.errors).toBe(null);
+            expect(phModal.show).toBe(false);
+            expect(phModal.title).toBe('Modal');
+        });
+
+        it('should complete error array on $http.post.error and leave modal open on mkDirSubmit() failure',
                 function() {
             var url = '/api/librairy/directorys/';
             var data = {name: '', parent: null};
@@ -109,7 +120,7 @@ describe('phFolder', function() {
             phFolder.newDir.name = '';
             phFolder.newDir.parent = null;
             // send error model
-            phModal.validate(); 
+            phFolder.mkDirSubmit(); 
             $httpBackend.flush();
             // phModal should be displayed still
             expect(phModal.show).toBe(true);
@@ -117,7 +128,7 @@ describe('phFolder', function() {
             expect(phFolder.errors).toEqual(respond);
         });
 
-        it('should close modal and reload directory list on validate() success', function() {
+        it('should close modal and reload directory list on mkDirSubmit() success', function() {
             var url = '/api/librairy/directorys/';
             var data = {name: 'My folder', parent: null};
             var directorys = [{pk: 1, name: 'My folder'}]
@@ -130,7 +141,7 @@ describe('phFolder', function() {
             phFolder.newDir.name = 'My folder';
             phFolder.newDir.parent = null;
             // send model
-            phModal.validate();
+            phFolder.mkDirSubmit();
             $httpBackend.flush(1);
             // modal should be closed
             expect(phModal.show).toBe(false);

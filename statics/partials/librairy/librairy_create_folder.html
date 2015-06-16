@@ -1,4 +1,4 @@
-<div ng-controller="librairyCreateFolderCtrl">
+<form ng-controller="librairyCreateFolderCtrl" ng-submit="phFolder.mkDirSubmit()">
     <p><span id="red"><span class="red">*</span></span> Required fields</p>
     <div class="field_wrapper"><div>
     <div class="field_wrapper">
@@ -17,4 +17,10 @@
                 ng-model="phFolder.newDir.parent" 
                 ng-options="item.key as item.value for item in phFolder.dirsOptions"></select> 
     </div>
-</div>
+    <footer>
+        <div class="buttons-wrapper">
+            <button ng-click="phFolder.mkDirCancel()">Cancel</button>
+            <input type="submit" id="submit" value="Create">
+        </div><!-- buttons wrapper -->
+    </footer>
+</form>

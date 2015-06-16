@@ -184,6 +184,7 @@ phUser.factory('phUser', ['$http', '$window', 'phModal', '$state', '$q',
                 // reset errors
                 phUser.errors = null;
             }).error(function(data) {
+                // show errors in form
                 phUser.errors = data;
             });
         // reset credentials

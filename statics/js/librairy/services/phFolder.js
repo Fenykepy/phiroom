@@ -78,32 +78,38 @@ phLibrairy.factory('phFolder', ['$http', 'phUtils', 'phModal', function($http, p
     phFolder.mkDir = function() {
         // store options (ng-options doesn't like function as options list)
         phFolder.dirsOptions = dirsSelect();
-        // modal validation function
-        function validate() {
-            return $http.post(url, phFolder.newDir)
-                .success(function(status, data) {
-                    phModal.close();
-                    phFolder.errors = null;
-                    // reload dirs hierarchy
-                    phFolder.getDirectorys();
-                }).error(function(data) {
-                    phFolder.errors = data;
-                });
-        };
-        // modal cancel function
-        function cancel() {
-            /* reset parameters like errors array before
-             * closing modal window
-             */
-            phFolder.errors = null;
-        };
 
         phModal.templateUrl = "/assets/partials/librairy/librairy_create_folder.html";
         phModal.title = "Create new folder";
-        phModal.validate_label = "Create";
-        phModal.validate_callback = validate;
-        phModal.cancel_callback = cancel;
+        phModal.close_callback = phFolder.mkDirCancel;
         phModal.show = true;
+    };
+
+
+    phFolder.mkDirSubmit = function() {
+        $http.post(url, phFolder.newDir)
+            .success(function(data) {
+                // reinit modal
+                phModal.init();
+                // reinit errors
+                phFolder.errors = null;
+                // reload folders hierarchy
+                phFolder.getDirectorys();
+            }).error(function(data) {
+                // show errors in form
+                phFolder.errors = data;
+            });
+    };
+
+
+    phFolder.mkDirCancel = function() {
+        // reinit modal
+        phModal.init();
+        /* reinit errors but not newDir
+         * like this on next attempt it's still
+         * in memory
+         */
+        phFolder.errors = null;
     };
 
     // returns directory object from it's pk in directorys hierarchy, false if not found
