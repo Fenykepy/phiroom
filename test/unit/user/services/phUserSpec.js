@@ -14,6 +14,35 @@ describe('phUser', function() {
         expect(angular.isFunction(phUser.getCurrentUser)).toBe(true);
     });
 
+    it('should have an authenticate function', function() {
+        expect(angular.isFunction(phUser.authenticate)).toBe(true);
+    });
+
+    it('should have a isAuthenticated function', function() {
+        expect(angular.isFunction(phUser.isAuthenticated)).toBe(true);
+    });
+
+    it('should have a login function', function() {
+        expect(angular.isFunction(phUser.login)).toBe(true);
+    });
+
+    it('should have a loginSubmit function', function() {
+        expect(angular.isFunction(phUser.loginSubmit)).toBe(true);
+    });
+
+    it('should have an logout function', function() {
+        expect(angular.isFunction(phUser.logout)).toBe(true);
+    });
+
+    it('should have an errors array', function() {
+        expect(phUser.errors).toEqual([]);
+    });
+
+    it('should have a credentials object', function() {
+        expect(phUser.credentials).toEqual({});
+    });
+
+
 
 
     describe('phFolder.getCurrentUser', function() {
