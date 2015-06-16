@@ -11,8 +11,8 @@ describe('phModel', function() {
         expect(angular.isFunction(phModal.close)).toBe(true);
     });
 
-    it('should have a validate function', function() {
-        expect(angular.isFunction(phModal.validate)).toBe(true);
+    it('should have an init function', function() {
+        expect(angular.isFunction(phModal.init)).toBe(true);
     });
 
 
@@ -21,26 +21,22 @@ describe('phModel', function() {
         expect(phModal.templateUrl).toBe('');
         expect(phModal.title).toBe('Modal');
         expect(phModal.closable).toBe(true);
-        expect(phModal.buttons).toBe(true);
-        expect(phModal.validate_label).toBe('Save');
-        expect(phModal.cancel_label).toBe('Cancel');
         expect(phModal.max_window).toBe(false);
         expect(phModal.large_window).toBe(false);
         expect(phModal.small_window).toBe(false);
-        expect(phModal.validate_callback).toBe(false);
         expect(phModal.close_callback).toBe(false);
         expect(phModal.dark).toBe(false);
         expect(phModal.opaque).toBe(false);
     };
 
 
-    describe('phModal.close', function() {
+    describe('phModal.init', function() {
 
         it('should not have default attributes after initialisation', function() {
             is_default();
         });
 
-        it('should reset to default attribute after .close() call', function() {
+        it('should reset to default attribute after .init() call', function() {
             phModal.show = true;
             phModal.title = 'Tests';
             phModal.max_window = true;
@@ -59,16 +55,15 @@ describe('phModel', function() {
             expect(phModal.max_window).toBe(true);
         });
 
-        it('should execute validate_callback on .validate() call', function() {
-            var toto = '';
-
-            var callback = function() {
-                toto = 'toto';
-            }
-
-            phModal.validate_callback = callback;
-            phModal.validate();
-            expect(toto).toBe('toto');
+        it('should reset to default attribute after .init() call if phModal.closable is false', function() {
+            phModal.show = true;
+            phModal.closable = false;
+            phModal.title = 'Tests';
+            phModal.max_window = true;
+            phModal.init();
+            expect(phModal.show).toBe(false);
+            expect(phModal.title).toBe('Modal');
+            expect(phModal.max_window).toBe(false);
         });
 
         it('should execute close_callback on .close() call', function() {

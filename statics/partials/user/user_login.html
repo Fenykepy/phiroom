@@ -1,4 +1,4 @@
-<div ng-controller="userLoginCtrl">
+<form ng-controller="userLoginCtrl" ng-submit="phUser.loginSubmit()">
     <div class="field_wrapper">
         <ul class="errorlist">
             <li ng-repeat="item in phUser.errors.non_field_errors">{{ item }}</li>
@@ -9,14 +9,27 @@
         <ul class="errorlist">
             <li ng-repeat="item in phUser.errors.username">{{ item }}</li>
         </ul>
-        <input id="id_username" class="col-8" ng-model="credentials.username">
+        <input id="id_username"
+               class="col-8"
+               required
+               ng-model="credentials.username">
     </div>
     <div class="form-horizontal">
         <label class="col-4" for="id_password">Password: <span class="red"> *</span></label>
         <ul class="errorlist">
             <li ng-repeat="item in phUser.errors.password">{{ item }}</li>
         </ul>
-        <input id="id_password" class="col-8" type="password" ng-model="credentials.password">
+        <input id="id_password" 
+                class="col-8" 
+                type="password"
+                required
+                ng-model="credentials.password">
     </div>
     <p class="right"><span id="red"><span class="red">*</span></span> Required fields</p>
-</div>
+    <footer>
+        <div class="buttons-wrapper">
+            <button ng-click="phUser.register()">Register</button>
+            <input type="submit" id="submit" value="Sign in">
+        </div><!-- buttons wrapper -->
+    </footer>
+</form>

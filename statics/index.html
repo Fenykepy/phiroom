@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr" ng-app="phiroomApp" ng-controller="mainCtrl">
 <head>
-    <title>{{ page_info.title }}, {{ conf.title }}, {{ conf.subtitle }}</title>
+    <title>{{ page_info.title }}, {{ settings.title }}, {{ settings.subtitle }}</title>
     <meta charset="utf-8" />
     <base href="/">
 
@@ -71,27 +71,20 @@
 
 <body id="{{ page_info.name }}" >
     <ui-view></ui-view>
-
-        <section id="modal" ng-show="modal.show"
-            ng-class="{max_modal: modal.max_window,
-                       small_modal: modal.small_window,
-                       large_modal: modal.large_window, 
-                       opaque: modal.opaque,
-                       dark: modal.dark}">
-            <header>
-                <h1>{{ modal.title }}</h1>
-                <button class="close" ng-click="modal.cancel()" ng-if="modal.cancellable">×</button>
-            </header>
-            <div id="modal-content">
-                <div ng-include="modal.templateUrl"></div>
-            </div>
-            <footer>
-                <div class="buttons-wrapper" ng-if="modal.buttons">
-                    <button ng-click="modal.cancel()" ng-if="modal.cancellable">{{ modal.cancel_label }}</button>
-                    <button ng-click="modal.validate()">{{ modal.validate_label }}</button>
-                </div><!-- buttons wrapper -->
-            </footer>
-        </section><!-- admin-modal -->
+    <section id="modal" ng-show="modal.show"
+        ng-class="{max_modal: modal.max_window,
+                   small_modal: modal.small_window,
+                   large_modal: modal.large_window, 
+                   opaque: modal.opaque,
+                   dark: modal.dark}">
+        <header>
+            <h1>{{ modal.title }}</h1>
+            <button class="close" ng-click="modal.close()" ng-if="modal.cancellable">×</button>
+        </header>
+        <div id="modal-content">
+            <div ng-include="modal.templateUrl"></div>
+        </div>
+    </section><!-- admin-modal -->
     <div id="modal-overlay" ng-show="modal.show"></div>
 </body>
 

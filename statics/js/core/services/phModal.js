@@ -36,17 +36,7 @@ phCore.factory('phModal', function () {
          * (must be set to true by validation function, right
          * after passing "show" to false)
          */
-        cancellable: true,
-        /*
-         * if footer buttons are displayed
-         * (in case modal shows some informations
-         * which doen't need user validation)
-         */
-        buttons: true,
-        /* validation button label*/
-        validate_label: 'Save',
-        /* cancellation button label */
-        cancel_label: 'Cancel',
+        closable: true,
         /* 
          * if true modal will be displayed in "max" mode:
          * it takes all available screen place
@@ -65,20 +55,13 @@ phCore.factory('phModal', function () {
          * (normal mode is arround 700px width) 
          */
         small_window: false,
-        /*
-         * function which is called when validation button is clicked
-         * (required, must be a function)
-         * it should call phModal.close() itself, after some promise
-         * resolution for example
-         */
-        validate_callback: false,
         /* 
          * function which is called when modal window is closed
          * without validation.
          * (optionnal, if set must be a function)
          * (useful to reset a form for example)
          */
-        cancel_callback: false, // cancellation function (optionnal)
+        close_callback: false, // cancellation function (optionnal)
         /*
          * darken modal more than usually
          */
@@ -93,7 +76,7 @@ phCore.factory('phModal', function () {
 
     
     // close modal window and restore default parameters
-    phModal.close = function() {
+    phModal.init = function() {
         // first hide window
         this.show = false;
         // then restaure values to default
@@ -104,29 +87,24 @@ phCore.factory('phModal', function () {
         }
     };
 
-    // run validation callback (on save button click),
-    phModal.validate = function() {
-        this.validate_callback();
-        return
-    }
 
-    // run cancellation callback (on cancel button click),
-    phModal.cancel = function() {
+    // run close callback (on close button click),
+    phModal.close = function() {
         // if window is not closable (forced validation) return
-        if (this.cancellable === false) {
-            console.log('Modal is not closable');
+        if (this.closable === false) {
+            console.warn('Modal is not closable');
             return;
         }
         // run cancellation function if set
-        if (this.cancel_callback) {
-            this.cancel_callback();
+        if (this.close_callback) {
+            this.close_callback();
         }
         // close window
-        this.close();
+        this.init();
     }
 
-    // set values to default at init
-    phModal.close();
+    // set values to default
+    phModal.init();
 
     return phModal;
 });
