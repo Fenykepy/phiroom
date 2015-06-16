@@ -42,6 +42,14 @@ describe('phUploader', function() {
         expect(angular.isFunction(phUploader.open)).toBe(true);
     });
 
+    it('should have a close function', function() {
+        expect(angular.isFunction(phUploader.close)).toBe(true);
+    });
+
+    it('should have a submit function', function() {
+        expect(angular.isFunction(phUploader.submit)).toBe(true);
+    });
+
     it('should have a files attribute', function() {
         expect(phUploader.files).toEqual([]);
     });
@@ -88,9 +96,7 @@ describe('phUploader', function() {
             phUploader.open();
             expect(phModal.templateUrl).toBe('/assets/partials/librairy/librairy_uploader.html');
             expect(phModal.title).toBe('Upload pictures');
-            expect(phModal.validate_label).toBe('Upload');
             expect(phModal.show).toBe(true);
-            expect(angular.isFunction(phModal.validate_callback)).toBe(true);
             expect(angular.isFunction(phModal.close_callback)).toBe(true);
         });
 
@@ -106,7 +112,7 @@ describe('phUploader', function() {
             var array = ['file1', 'file2', 'file3'];
             phUploader.files = array;
             phUploader.open();
-            phModal.validate();
+            phUploader.submit();
             // all files should have been uploaded
             expect(upload_count).toEqual(3);
             // modal window should be closed

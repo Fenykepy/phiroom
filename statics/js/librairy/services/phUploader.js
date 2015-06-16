@@ -34,38 +34,35 @@ phLibrairy.factory('phUploader', ['phModal', 'phFileUpload', function(phModal, p
 
     // function to open new uploader modal window
     phUploader.open = function() {
-        // modal validation function
-        function validate() {
-            var files = phUploader.files
-            // upload files
-            for( var i=0; i < files.length; i++) {
-                phFileUpload.uploadFileToUrl(
-                    phUploader.files[i], url
-                ).success(function(data) {
-                    console.log('successfully uploaded file:');
-                    console.log(data);
-                }).error(function(data) {
-                    console.log('error uploading file:');
-                    console.log(data);
-                });
-            }
-            phUploader.files = [];
-            phModal.close();
-        };
-        function cancel() {
-            /* reset parameters like selected files array
-             * before closing modal window
-             */
-            phUploader.files = [];
-        };
-
         phModal.templateUrl = "/assets/partials/librairy/librairy_uploader.html"
         phModal.title = "Upload pictures";
-        phModal.validate_label = "Upload";
         phModal.max_window = true;
-        phModal.validate_callback = validate;
-        phModal.cancel_callback = cancel;
+        phModal.close_callback = phUploader.close;
         phModal.show = true;
+    };
+
+    phUploader.submit = function() {
+        var files = phUploader.files
+        // upload files
+        for( var i=0; i < files.length; i++) {
+            phFileUpload.uploadFileToUrl(
+                phUploader.files[i], url
+            ).success(function(data) {
+                console.log('successfully uploaded file:');
+                console.log(data);
+            }).error(function(data) {
+                console.log('error uploading file:');
+                console.log(data);
+            });
+        }
+        phUploader.close();
+    };
+
+    phUploader.close = function() {
+        // reset files array
+        phUploader.files = [];
+        // reset modal window
+        phModal.init();
     };
 
 

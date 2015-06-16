@@ -10,5 +10,7 @@ phLibrairy.controller('librairyUploaderCtrl', ['$scope', 'phUploader',
             $scope.files = phUploader.files;
             $scope.handleFiles = phUploader.handleFiles;
             $scope.delFile = phUploader.delFile;
+            $scope.close = phUploader.close;
+            $scope.submit = phUploader.submit;
 }]);
 

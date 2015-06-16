@@ -13,6 +13,8 @@ describe('librairyUploaderCtrl', function() {
         expect(scope.files).toEqual([]);
         expect(angular.isFunction(scope.handleFiles)).toBe(true);
         expect(angular.isFunction(scope.delFile)).toBe(true);
+        expect(angular.isFunction(scope.close)).toBe(true);
+        expect(angular.isFunction(scope.submit)).toBe(true);
     });
 
 
