@@ -7,12 +7,12 @@
     - store assets root url in it
     - store api root url in it
 
-- create a phSettings service:
-    - a function to get settings
-    - a function to get main menu
+#- create a phSettings service:
+#    - a function to get settings
+#    - a function to get main menu
     - a function to update settings
     
-    -> store mainCtrl http request in this
+#    -> store mainCtrl http request in this
 
 #- create a phUser service:
 #    - a function to get current user
@@ -90,9 +90,10 @@
 #- test phListPictures service
 #- test phFolder service
 #- test phUtils service
-#- test phModal service
+- test phModal service
 #- test phUploader service
 #- test phFileUpload service
+- test phSettings service
 
 #- test phRange filter
 #- test phOrdermark filter -> filter removed

@@ -1,8 +1,8 @@
 <header role="banner">
-    <h1 class="accessibility">{{ conf.title }}, {{ conf.subtitle }}</h1>
+    <h1 class="accessibility">{{ settings.title }}, {{ settings.subtitle }}</h1>
     <p id="logo">
-    <a ng-if="conf.home_page_state" ui-sref="{{ conf.home_page_state }}">
-        <img ng-src="{{ conf.librairy_logo }}" alt="{{ conf.title }}, {{ conf.subtitle }}" />
+    <a ng-if="settings.home_page_state" ui-sref="{{ settings.home_page_state }}">
+        <img ng-src="{{ settings.librairy_logo }}" alt="{{ settings.title }}, {{ settings.subtitle }}" />
         </a>
     </p>
     <!-- main navigation menu -->

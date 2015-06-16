@@ -32,7 +32,7 @@ phiroomApp.run(['$rootScope', '$state', '$stateParams', 'phUser',
     phUser.authenticate();
 
     // check if login is required on state changement
-    /*$rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var loginRequired = toState.data.loginRequired || false;
         if (loginRequired && ! phUser.isAuthenticated()) {
             event.preventDefault();
@@ -41,16 +41,16 @@ phiroomApp.run(['$rootScope', '$state', '$stateParams', 'phUser',
                 console.log('go to ' + toState.name);
                 $state.go(toState.name, toParams);
             }).catch(function() {
-                if (! $state.current.data.loginRequired) {        
+                if ($state.current.data && ! $state.current.data.loginRequired) {        
                     return $state.go($state.current);
                 }
                 else {
                     console.log('redirect to safe page 1');
-                    //return $state.go('home');
+                    return $state.go('weblog.list');
                 }
             });
         }
-    });*/
+    });
 }]);
 
 
@@ -70,19 +70,14 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             responseError: function (rejection) {
                 // if not 401 status, do nothing
                 if (rejection.status !== 401) {
-                    console.log('rejection');
                     return $q.reject(rejection);
                 }
-                console.log('401');
-
                 var deferred = $q.defer();
 
                 phUser.login().then(function() {
-                    console.log('resolve rejection');
                     deferred.resolve($http(rejection.config));
                 }).catch(function() {
-                    console.log('redirect to safe page 2');
-                    //$state.go('home');
+                    $state.go('weblog.list');
                     deferred.reject(rejection);
                 });
                 return deferred.promise;
@@ -126,6 +121,18 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
                     return phListPosts.get($stateParams);
                 }
             }
+        }).
+        state('weblog.list.detail', {
+            //parent: ['weblog.list', 'weblog.list_paginate'],
+            url: '{slug:.*}/',
+            templateUrl: '/assets/partials/weblog/weblog_detail.html',
+            controller: 'weblogDetailCtrl'
+        }).
+        state('weblog.list_paginate.detail', {
+            //parent: ['weblog.list', 'weblog.list_paginate'],
+            url: '{slug:.*}/',
+            templateUrl: '/assets/partials/weblog/weblog_detail.html',
+            controller: 'weblogDetailCtrl'
         }).
         state('librairy', {
             url: '/librairy/',

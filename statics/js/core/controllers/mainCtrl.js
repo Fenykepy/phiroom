@@ -4,21 +4,19 @@
 
 var phiroomApp = angular.module('phiroomApp');
 
-phiroomApp.controller('mainCtrl', ['$scope', 'phUser', 'phModal', '$http',
-        function($scope, phUser, phModal, $http) {
+phiroomApp.controller('mainCtrl', ['$scope', 'phUser', 'phModal', 'phSettings',
+        function($scope, phUser, phModal, phSettings) {
 
         $scope.modal = phModal;
-        
-        /* get conf object */
-        $http.get('/api/settings/latest/').
-            success(function(data) {
-                $scope.conf = data;
+
+        /* get settings */
+        phSettings.getSettings().then(function() {
+            $scope.settings = phSettings.settings;
         });
 
-        /* get main menu list */
-        $http.get('/api/settings/main-menu/').
-            success(function(data) {
-                $scope.main_menu = data.results;
+        /* get main menu */
+        phSettings.getMenu().then(function() {
+            $scope.main_menu = phSettings.menu;
         });
         
         /* publish phUser service in scope */
