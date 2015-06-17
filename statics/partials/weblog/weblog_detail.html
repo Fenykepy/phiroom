@@ -17,7 +17,7 @@
     </footer>
     </article>
 <nav id="pagination">
-    <a ng-if="prev_post" id="prev" href="/weblog/{{ prev.slug }}/">« Previous post</a>
-    <a ng-if="next_post" id="next" href="/weblog/{{ next.slug }}/">Next post »</a>
+    <a ng-if="prev_post" id="prev" href="" ng-click="goToPrevPost()">« Previous post</a>
+    <a ng-if="next_post" id="next" href="" ng-click="goToNextPost()">Next post »</a>
 </nav>
 

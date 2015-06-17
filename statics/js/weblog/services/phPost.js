@@ -138,7 +138,7 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
     phPost.goToNextPost = function() {
         if (postHasNext()) {
             var index = postIndex() - 1;
-            slug = phPost.posts[index].slug;
+            var slug = phPost.posts[index].slug;
         }
         phPost.goToPost(slug);
     };
@@ -146,7 +146,7 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
     phPost.goToPrevPost = function() {
         if (postHasPrev()) {
             var index = postIndex() + 1;
-            slug = phPost.posts[index].slug;
+            var slug = phPost.posts[index].slug;
         }
         phPost.goToPost(slug);
     };

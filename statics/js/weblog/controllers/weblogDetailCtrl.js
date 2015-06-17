@@ -10,4 +10,6 @@ phWeblog.controller('weblogDetailCtrl', ['$scope', 'phPost',
     $scope.post = phPost.post;
     $scope.next_post = phPost.next_post;
     $scope.prev_post = phPost.prev_post;
+    $scope.goToPrevPost = phPost.goToPrevPost;
+    $scope.goToNextPost = phPost.goToNextPost;
 }]);
