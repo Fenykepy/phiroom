@@ -6,9 +6,17 @@ var phWebloge = angular.module('phWeblog');
 
 /* :
  * get: returns a list of posts
+ * next_post = more recent post
+ * next_page = next page number, so more old posts in list
+ *
+ * prev_post = more old post
+ * prev_page = prev page number, so more recent posts in list
+ *
+ * next should be displayed right and prev left.
+ *
  */
-phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings',
-        function($http, $location, $stateParams, phSettings) {
+phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', '$filter',
+        function($http, $location, $stateParams, phSettings, $filter) {
     var phPost = {};
 
 
@@ -46,8 +54,35 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings',
     };
 
     function build_frontend_detail_url(params) {
-        var url = buil_frontend_list_url(params);
+        var url = build_frontend_list_url(params);
         return url + params.slug + '/';
+    };
+
+    function buildSlugFromParams(params) {
+        // concatenate params to get slug
+        return params.year + '/' +
+               params.month + '/' +
+               params.day + '/' +
+               params.slug;
+    };
+
+    function postIndex() {
+        // return index of actual detailed post in actual posts list.
+        return phPost.posts.indexOf(phPost.post);
+    };
+
+    function postHasNext() {
+        if (postIndex() > 0) {
+            return true;
+        }
+        return false;
+    };
+
+    function postHasPrev() {
+        if (postIndex() < phPost.posts.length - 1) {
+            return true;
+        }
+        return false
     };
 
 
@@ -68,14 +103,20 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings',
             }
             if (data.previous) {
                 phPost.prev_page = page - 1;
-                console.log(phPost.prev_page);
                 phPost.prev_page_API_url = data.previous;
             }
         });
     };
 
+    phPost.getPostFromList = function(params) {
+        var slug = buildSlugFromParams(params);
+        phPost.post = $filter('filter')(phPost.posts, {slug: slug})[0];
+        phPost.next_post = postHasNext();
+        phPost.prev_post = postHasPrev();
+        return phPost.post;
+    };
+
     phPost.goToPage = function(page) {
-        console.log('go to page:' + page);
         var params = $stateParams;
         params.page = page;
         if (page == 1) {
@@ -83,9 +124,34 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings',
             params.page = null;
         }
         var url = build_frontend_list_url(params);
-        console.log(url);
         $location.path(url);
     };
+
+    phPost.goToPost = function(slug) {
+        var params = $stateParams;
+        params.slug = slug;
+
+        var url = build_frontend_detail_url(params);
+        $location.path(url);
+    };
+
+    phPost.goToNextPost = function() {
+        if (postHasNext()) {
+            var index = postIndex() - 1;
+            slug = phPost.posts[index].slug;
+        }
+        phPost.goToPost(slug);
+    };
+
+    phPost.goToPrevPost = function() {
+        if (postHasPrev()) {
+            var index = postIndex() + 1;
+            slug = phPost.posts[index].slug;
+        }
+        phPost.goToPost(slug);
+    };
+
+
 
     return phPost;
 }]);

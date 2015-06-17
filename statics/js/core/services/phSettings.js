@@ -22,7 +22,6 @@ phCore.factory('phSettings', ['$http', function($http) {
         return $http.get(settings_url).success(function(data) {
             // store settings in service
             phSettings.settings = data;
-            console.log('set settings');
         });
     };
     phSettings.getMenu = function() {
