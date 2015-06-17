@@ -94,15 +94,16 @@ body#weblog {
 
     // main section
     section[role="main"] {
+        position: relative;
         max-width: 782px;
         margin: 1em auto 4em auto;
         nav#pagination {
             margin-top: 5em;
             a#next {
-                float: left;
+                float: right;
             }
             a#prev {
-                float: right;
+                float: left;
             }
             &:after {
                 content: "";
@@ -112,7 +113,12 @@ body#weblog {
             }
         }
     }
-
+    // header
+    header {
+        .admin-links {
+            text-align: right;
+        }
+    }
 
     // footer
     footer[role="contentinfo"] {
@@ -128,10 +134,10 @@ body#weblog {
         margin-top: 4em;
         header {
             .admin-links {
+                display: none;
                 position: absolute;
                 top: 0;
                 right: 0;
-                display: none;
             }
             &:hover .admin-links {
                 display: block;

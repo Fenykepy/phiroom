@@ -1,6 +1,6 @@
 <article class="abstract">
     <header>
-    <ul id="admin-links">
+    <ul class="admin-links">
         <li><a  href="">Edit</a></li>
     </ul>
     <ng-include src="'/assets/partials/weblog/weblog_time.html'"></ng-include>
@@ -17,7 +17,7 @@
     </footer>
     </article>
 <nav id="pagination">
-    <a ng-if="prev" id="prev" href="">Previous post »</a>
-    <a ng-if="next" id="next" href="">« Next post</a>
+    <a ng-if="prev" id="prev" href="/weblog/{{ prev.slug }}/">« Previous post</a>
+    <a ng-if="next" id="next" href="/weblog/{{ next.slug }}/">Next post »</a>
 </nav>
 

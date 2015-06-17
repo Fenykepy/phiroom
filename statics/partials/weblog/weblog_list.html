@@ -1,17 +1,22 @@
+<!-- view for detail state -->
+<div ui-view>
+<header>
+<p ng-if="phUser.user.is_staff" class="admin-links"><a  href="">New post</a></p>
+</header>
 <article class="abstract"
     ng-repeat="post in posts">
     <header>
-    <p ng-if="phUser.user.is_staff" class="admin-links"><a  href="">New post</a></p>
     <ng-include src="'/assets/partials/weblog/weblog_time.html'"></ng-include>
-    <h1><a href="{{ post.pk }}/">{{ post.title }}</a></h1>
+    <h1><a href="/weblog/{{ post.slug }}/">{{ post.title }}</a></h1>
     </header>
     <div class="content" ng-bind-html="post.abstract"></div>
     <footer>
-        <p><a href="{{ post.pk }}/">Read post</a></p>
+        <p><a href="/weblog/{{ post.slug }}/">Read post</a></p>
     </footer>
 </article>
 <nav id="pagination">
     <a ng-if="prev" id="prev" ng-href="{{ prev }}">Recent posts »</a>
     <a ng-if="next" id="next" ng-href="{{ next }}">« Older posts</a>
 </nav>
+</div>
 
