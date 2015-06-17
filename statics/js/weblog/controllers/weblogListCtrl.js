@@ -5,11 +5,11 @@
 var phWeblog = angular.module('phWeblog');
 
 
-phWeblog.controller('weblogListCtrl', ['$scope', 'phListPosts', 'posts',
-        function($scope, phListPosts, posts) {
-    $scope.posts = posts.data.results;
-    $scope.next = phListPosts.next;
-    $scope.prev = phListPosts.prev;
-    console.log(posts)
+phWeblog.controller('weblogListCtrl', ['$scope', 'phPost', 'posts',
+        function($scope, phPost, posts) {
+    $scope.posts = phPost.posts;
+    $scope.next_page = phPost.next_page;
+    $scope.prev_page = phPost.prev_page;
+    $scope.goToPage = phPost.goToPage;
 }]);
 

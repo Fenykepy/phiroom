@@ -7,7 +7,9 @@ var phWeblog = angular.module('phWeblog');
 
 phWeblog.controller('weblogDetailCtrl', ['$scope', '$stateParams', '$filter',
         function($scope, $stateParams, $filter) {
-    $scope.post = $filter('filter')($scope.posts, {slug: $stateParams.slug})[0];
+    var slug = $stateParams.year + '/' + $stateParams.month + '/' + 
+        $stateParams.day + '/' + $stateParams.slug;
+    $scope.post = $filter('filter')($scope.posts, {slug: slug})[0];
     var index = $scope.posts.indexOf($scope.post);
     console.log(index);
     if (index > 0) {

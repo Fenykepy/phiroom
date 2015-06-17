@@ -100,6 +100,11 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             sticky: true,
             data: {
                 loginRequired: false
+            },
+            resolve: {
+                settings: function(phSettings) {
+                    return phSettings.getSettings();
+                }
             }
         }).
         state('weblog.list', {
@@ -107,30 +112,31 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             templateUrl: '/assets/partials/weblog/weblog_list.html',
             controller: 'weblogListCtrl',
             resolve: {
-                posts: function($stateParams, phListPosts) {
-                    return phListPosts.get($stateParams);
+                posts: function($stateParams, phPost, settings) {
+                    return phPost.getPostsList($stateParams);
                 }
+
             }
         }).
         state('weblog.list_paginate', {
-            url: 'page/{page:int}/',
+            url: '/weblog/page/{page:int}/',
             templateUrl: '/assets/partials/weblog/weblog_list.html',
             controller: 'weblogListCtrl',
             resolve: {
-                posts: function($stateParams, phListPosts) {
-                    return phListPosts.get($stateParams);
+                posts: function($stateParams, phPost, settings) {
+                    return phPost.getPostsList($stateParams);
                 }
             }
         }).
         state('weblog.list.detail', {
             //parent: ['weblog.list', 'weblog.list_paginate'],
-            url: '{slug:.*}/',
+            url: '{year:int}/{month:int}/{day:int}/{slug}/',
             templateUrl: '/assets/partials/weblog/weblog_detail.html',
             controller: 'weblogDetailCtrl'
         }).
         state('weblog.list_paginate.detail', {
             //parent: ['weblog.list', 'weblog.list_paginate'],
-            url: '{slug:.*}/',
+            url: '{year:int}/{month:int}/{day:int}/{slug}/',
             templateUrl: '/assets/partials/weblog/weblog_detail.html',
             controller: 'weblogDetailCtrl'
         }).
