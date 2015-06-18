@@ -12,5 +12,6 @@ phWeblog.controller('weblogListCtrl', ['$scope', 'phPost', 'posts',
     $scope.prev_page = phPost.prev_page;
     $scope.goToPage = phPost.goToPage;
     $scope.goToPost = phPost.goToPost;
+    $scope.mkPost = phPost.mkPost;
 }]);
 

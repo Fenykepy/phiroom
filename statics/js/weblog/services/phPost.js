@@ -15,8 +15,8 @@ var phWebloge = angular.module('phWeblog');
  * next should be displayed right and prev left.
  *
  */
-phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', '$filter',
-        function($http, $location, $stateParams, phSettings, $filter) {
+phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', '$filter', 'phModal',
+        function($http, $location, $stateParams, phSettings, $filter, phModal) {
     var phPost = {};
 
 
@@ -97,6 +97,42 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
 
 
     phPost.posts = [];
+
+
+    phPost.newPost = {};
+
+    phPost.mkPost = function() {
+        phModal.templateUrl = "/assets/partials/weblog/weblog_post_form.html";
+        phModal.title = "Write a new blog post";
+        phModal.close_callback = phPost.mkPostInit;
+        phModal.show = true;
+    };
+
+    phPost.mkPostSubmit = function() {
+        var new_post_url = '/api/weblog/posts/';
+        $http.post(new_post_url, phPost.newPost)
+            .success(function(data) {
+                // reinit modal and errors
+                phPost.mkPostInit();
+                // go to newly created post
+                var url = build_frontend_detail_url(
+                        {slug: data.slug}
+                );
+                console.log(url);
+                $location.path(url);
+
+            }).error(function(data) {
+                // show errors in form
+                phPost.errors = data;
+            });
+    };
+
+    phPost.mkPostInit = function() {
+        // reinit modal
+        phModal.init();
+        // reinit errors
+        phPost.errors = null;
+    };
 
     phPost.getPostsList = function(params) {
         // returns a promise with posts list

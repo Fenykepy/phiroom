@@ -1,7 +1,7 @@
 <!-- view for detail state -->
 <div ui-view>
 <header>
-<p ng-if="phUser.user.is_staff" class="admin-links"><a  href="">New post</a></p>
+<p ng-if="phUser.user.is_staff" class="admin-links"><a  href="" ng-click="mkPost()">New post</a></p>
 </header>
 <article class="abstract"
     ng-repeat="post in posts">

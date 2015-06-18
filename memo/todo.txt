@@ -30,16 +30,16 @@ Todo list for phiroom
 Weblog
 ------
 Concept:
-    - a list of blog posts by reverse chrono order
+#    - a list of blog posts by reverse chrono order
     - a list of blog posts by tags
-    - simple pagination (prev next) number define in settings
-    - simple design with beautiful typo
-    - a view for blog posts with link to prev and next post
+#    - simple pagination (prev next) number define in settings
+#    - simple design with beautiful typo
+#    - a view for blog posts with link to prev and next post
     - markdown or html writting
-    - auto separation of abstract and content with "[...]" marker
-    - support of draft
-    - support of differed pubdate
-    - url composed of slug with date : "weblog/YYYY/MM/DD/my-beautiful-title/"
+#    - auto separation of abstract and content with "[...]" marker
+#    - support of draft
+#    - support of differed pubdate
+#    - url composed of slug with date : "weblog/YYYY/MM/DD/my-beautiful-title/"
     - tag cloud in side panel
     - a way to include by id image from librairy in text
     - a way to link a bench of images from librairy to create a lightbox
@@ -52,7 +52,7 @@ Backend:
 
 CSS:
 #    - everything to do
-    - design of post detail 
+#    - design of post detail 
     - add some effects on logo display (transition, y translation)
     - add some "social" icons in the footer
 
