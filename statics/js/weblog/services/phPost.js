@@ -73,14 +73,24 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
 
     function postHasNext() {
         if (postIndex() > 0) {
+            // next post is in current list
             return true;
+        }
+        if (phPost.prev_page) {
+            // next post is on previous page
+            return phPost.prev_page;
         }
         return false;
     };
 
     function postHasPrev() {
         if (postIndex() < phPost.posts.length - 1) {
+            // previous post is in current list
             return true;
+        }
+        if (phPost.next_page) {
+            // previous post in on next page
+            return phPost.next_page;
         }
         return false
     };
@@ -136,19 +146,56 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
     };
 
     phPost.goToNextPost = function() {
-        if (postHasNext()) {
+        var has_next = postHasNext();
+        // post is in current list if true
+        if (has_next === true) {
             var index = postIndex() - 1;
             var slug = phPost.posts[index].slug;
+            phPost.goToPost(slug);
         }
-        phPost.goToPost(slug);
+        // post in on another page if number
+        else if (has_next) {
+            var params = $stateParams;
+            if (phPost.prev_page == 1) {
+                params.page = null;
+            }
+            else {
+                params.page = phPost.prev_page;
+            }
+            $http.get(phPost.prev_page_API_url)
+                .success(function(data) {
+                params.slug = data.results[data.results.length -1].slug;
+                var url = build_frontend_detail_url(params);
+                $location.path(url);
+            });
+        }
     };
 
     phPost.goToPrevPost = function() {
-        if (postHasPrev()) {
+        var has_prev = postHasPrev();
+        // post in in current list if true
+        if (has_prev === true) {
             var index = postIndex() + 1;
             var slug = phPost.posts[index].slug;
+            phPost.goToPost(slug);
         }
-        phPost.goToPost(slug);
+        // post in on another page if number
+        else if (has_prev) {
+            var params = $stateParams;
+            if (phPost.next_page == 1) {
+                params.page = null;
+            }
+            else {
+                params.page = phPost.next_page;
+            }
+            $http.get(phPost.next_page_API_url)
+                .success(function(data) {
+                params.slug = data.results[0].slug;
+                var url = build_frontend_detail_url(params);
+                $location.path(url);
+            });
+        }
+
     };
 
 
