@@ -1,18 +1,18 @@
 // Weblog layout
 
 body#weblog {
-    color: @text;
-    background-color: @bg;
+    color: @blog-text;
+    background-color: @blog-bg;
     font-size: 100%;
     line-height: 1.5em;
     font-family: @sans;
     
     // links
     a {
-        color: @links;
+        color: @blog-links;
         text-decoration: underline;
         &:hover, &:active, &:focus {
-            color: @links-h;
+            color: @blog-links-hover;
         }
     }
 
@@ -20,11 +20,11 @@ body#weblog {
     // headings
     h1, h2, h3, h4, h5, h6 {
         font-weight: bold;
-        color: @headings;
+        color: @blog-headings;
         a {
             text-decoration: none;
             &:hover, &:active, &:focus {
-                color: @headings;
+                color: @blog-headings;
             }
         }
     }
@@ -42,16 +42,13 @@ body#weblog {
         width: auto;
         text-align: center;
         padding: 36px 0 24px 0;
-        border-bottom: 1px solid @hr;
+        border-bottom: 1px solid @blog-hr;
         // logo 
         #logo {
             position: relative;
             left: 0;
             top: 0;
             margin-bottom: 10px;
-            img {
-                max-height: 50px;
-            }
         }
         // main title
         h1, h2 {
@@ -71,21 +68,15 @@ body#weblog {
                 width: auto;
                 top: 0;
                 right: 0;
-                display: inline-block;
-                border-right: 1px solid @text;
-                line-height: 0.9em;
-                height: 1em;
-                padding: 0 10px;
+                border-right: 1px solid @blog-text;
                 &:last-child {
-                    padding-right: 0;
                     border: none;
                 }
-                &:first-child {
-                    padding-left: 0;
-                }
-                a {
-                    vertical-align: top;
-                    text-decoration: none;
+                a.selected {
+                    color: @blog-selected-menu;
+                    &:hover, &:active, &:focus {
+                        color: @blog-links-hover;
+                    }
                 }
             }
         }
@@ -123,7 +114,7 @@ body#weblog {
     // footer
     footer[role="contentinfo"] {
         text-align: center;
-        border-top: 1px solid @hr;
+        border-top: 1px solid @blog-hr;
         padding: 30px 0 30px 0;
     }
 
@@ -140,7 +131,7 @@ body#weblog {
             }
         }
         time {
-            color: @time;
+            color: @blog-time;
             font-size: 0.85em;
             display: block;
             margin-bottom: 0.2em;
@@ -149,7 +140,7 @@ body#weblog {
         p {
             margin-bottom: 1.125em;
             &.description {
-                color: @desc;
+                color: @blog-desc;
             }
         }
         #tags {
@@ -164,7 +155,7 @@ body#weblog {
                     margin: 0 10px;
                     //font-size: 1.5em;
                     //line-height: 1em;
-                    color: @tags;
+                    color: @blog-tags;
                 }
                 &:last-child:after {
                     content: "";
@@ -172,9 +163,9 @@ body#weblog {
             }
             a {
                 text-decoration: none;
-                color: @tags;
+                color: @blog-tags;
                 &:hover, &:active, &:focus {
-                    color: @links-h;
+                    color: @blog-links-hover;
                 }
             }
         }
@@ -200,36 +191,36 @@ body#weblog {
         margin-top: 0.5em;
         margin-bottom: 0.5em;
         height: 0px;
-        border-top: 1px solid @hr;
+        border-top: 1px solid @blog-hr;
         padding-right: 8%;
         a {
             display: inline-block;
             position: relative;
             top: -0.96em;
-            background: @bg;
+            background: @blog-bg;
             padding-right: 10px;
             padding-left: 10px;
-            color: @text;
+            color: @blog-text;
             font-variant: small-caps;
             &:visited, &:hover, &:active {
-                color: @text;
+                color: @blog-text;
             }
         }
     }
 
 
     pre {
-        background-color: @code-bg;
-        border: 1px solid @code-border;
+        background-color: @blog-code-bg;
+        border: 1px solid @blog-code-border;
         border-radius: 5px;
         padding: 1em 1.5em;
         margin: 1em 0;
         overflow: auto;
-        box-shadow: 0 0 3px @code-bg,
+        box-shadow: 0 0 3px @blog-code-bg,
     }
     code {
-        background-color: @code-bg;
-        color: @code;
+        background-color: @blog-code-bg;
+        color: @blog-code-text;
         font-family: @mono;
         border-radius: 4px;
         padding: 0px 5px;

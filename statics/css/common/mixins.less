@@ -33,25 +33,25 @@
     height: 0;
     width: 0;
 }
-.arrow-right(@color: @default-arrow, @height: 9px, @width: 11px) {
+.arrow-right(@color: #444, @height: 9px, @width: 11px) {
     .arrow;
     border-left: @width solid @color;
     border-top: @height solid transparent;
     border-bottom: @height solid transparent;
 }
-.arrow-left(@color: @default-arrow, @height: 9px, @width: 11px) {
+.arrow-left(@color: #444, @height: 9px, @width: 11px) {
     .arrow;
     border-right: @width solid @color;
     border-top: @height solid transparent;
     border-bottom: @height solid transparent;
 }
-.arrow-up(@color: @default-arrow, @height: 9px, @width: 11px) {
+.arrow-up(@color: #444, @height: 9px, @width: 11px) {
     .arrow;
     border-bottom: @width solid @color;
     border-right: @height solid transparent;
     border-left: @height solid transparent;
 }
-.arrow-down(@color: @default-arrow, @height: 9px, @width: 11px) {
+.arrow-down(@color: #444, @height: 9px, @width: 11px) {
     .arrow;
     border-top: @width solid @color;
     border-right: @height solid transparent;
@@ -60,7 +60,7 @@
 
 
 // degraded
-.degrade(@colorstart: @degrade-start, @colorend: @degrade-end, @colorback: @degrade-bg) {
+.degrade(@colorstart: #444, @colorend: #222, @colorback: #222) {
     background: @colorback;
     background: -webkit-linear-gradient(@colorstart, @colorend);
     background:    -moz-linear-gradient(@colorstart, @colorend);

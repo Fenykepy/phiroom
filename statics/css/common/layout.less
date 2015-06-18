@@ -9,6 +9,10 @@ body {
     }
 }
 
+// small caps
+.small-caps {
+    font-variant: small-caps;
+}
 
 .accessibility {
     position: absolute !important;
@@ -46,9 +50,10 @@ button.close {
     height: 25px;
     width: 25px;
     min-width: 0;
-    color: @lib-modal-close-cross;
+    color: @com-modal-close-cross;
     &:hover, &:focus, &:active {
-        color: @lib-modal-close-cross-hover;
+        color: @com-modal-close-cross-hover;
+        box-shadow: none;
     }
 }
 /* #modal-overlay for modal window
@@ -61,8 +66,8 @@ button.close {
     bottom: 0px;
     right: 0px;
     left: 0px;
-    background-color: @lib-overlay-bg;
-    opacity: 0.6;
+    background-color: @com-modal-overlay-bg;
+    opacity: @com-modal-overlay-opacity;
     z-index: 999;
     &.dark {
         opacity: 0.8;
@@ -87,14 +92,14 @@ section#modal {
     width: 700px;
     margin: 40px auto;
     opacity: 1;
-    background: @lib-modal-bg;
-    border: 1px solid @lib-modal-border;
+    background: @com-modal-bg;
+    border: 1px solid @com-modal-border;
     border-radius: 4px;
-    box-shadow: 0 0 8px @lib-overlay-bg;
+    box-shadow: 0 0 15px @com-modal-overlay-bg;
 //    z-index: 1001;
     header {
         padding: 22px;
-        border-bottom: 1px solid @lib-modal-inborder;
+        border-bottom: 1px solid @com-modal-inborder;
         h1 {
             font-size: 1.4em;
             font-weight: bold;
@@ -109,7 +114,7 @@ section#modal {
     }
     footer {
         padding: 22px;
-        //border-top: 1px solid @lib-modal-inborder;
+        //border-top: 1px solid @com-modal-inborder;
         div.buttons-wrapper {
             text-align: center;
             button {
@@ -132,40 +137,21 @@ section#modal {
 
 // main header
 header[role="banner"] {
-    position: absolute;
-    width: 100%;
-    height: 70px;
-    text-align: right;
-    border-bottom: 1px solid @hr;
     // logo 
     #logo {
-        position: absolute;
-        top: 11px;
-        left: 20px;
         img {
             max-height: 50px;
         }
     }
-    // main title
-    h1, h2 {
-        font-weight: normal;
-        font-size: 1.2em;
-    }
     // horizontal navigation menu
     #menu {
-        position: absolute;
-        top: 40px;
-        right: 20px;
-        width: 100%;
         li {
             display: inline-block;
-            border-right: 1px solid @text;
             line-height: 0.9em;
             height: 1em;
             padding: 0 10px;
             &:last-child {
                 padding-right: 0;
-                border: none;
             }
             &:first-child {
                 padding-left: 0;
@@ -173,131 +159,16 @@ header[role="banner"] {
             a {
                 vertical-align: top;
                 text-decoration: none;
-                // selected links
+            }
+             /*   // selected links
                 &.selected {
-                    color: @selected-links;
+                    color: @com-selected-links;
                     &:hover, &:focus, &:active {
-                        color: @links-h;
+                        color: @com-links-hover;
                     }
                 }
-            }
+            }*/
         }
-    }
-}
-
-
-// main section
-section[role="main"] {
-    max-width: 782px;
-    margin: 1em auto 4em auto;
-    nav#pagination {
-        margin-top: 5em;
-        a#next {
-            float: left;
-        }
-        a#prev {
-            float: right;
-        }
-        &:after {
-            content: "";
-            clear: both;
-            height: 1px;
-            display: block;
-        }
-    }
-}
-
-
-// footer
-footer[role="contentinfo"] {
-    text-align: center;
-    border-top: 1px solid @hr;
-    padding: 30px 0 30px 0;
-}
-
-// articles
-article {
-    padding: 0px 16px;
-    position: relative;
-    margin-top: 4em;
-    time {
-        color: @time;
-        font-size: 0.85em;
-        display: block;
-        margin-bottom: 0.2em;
-        text-indent: 0.2em;
-    }
-    p {
-        margin-bottom: 1.125em;
-        &.description {
-            color: @desc;
-        }
-    }
-    #tags {
-        margin-top: 4em;
-        margin-bottom: 1.125em;
-        text-align: center; 
-        li {
-            display: inline-block;
-            &:after {
-                display: inline-block;
-                content: "\2022";
-                margin: 0 10px;
-                //font-size: 1.5em;
-                //line-height: 1em;
-                color: @tags;
-            }
-            &:last-child:after {
-                content: "";
-            }
-        }
-        a {
-            text-decoration: none;
-            color: @tags;
-            &:hover, &:active, &:focus {
-                color: @links-h;
-            }
-        }
-    }
-
-}
-
-div.content {
-    ul {
-        padding-left: 30px;
-        list-style-type: disc;
-    }
-    ol {
-        padding-left: 30px;
-        list-style-type: decimal;
-    }
-}
-
-pre {
-    background-color: @code-bg;
-    border: 1px solid @code-border;
-    border-radius: 5px;
-    padding: 1em 1.5em;
-    margin: 1em 0;
-    overflow: auto;
-    box-shadow: 0 0 3px @code-bg,
-}
-
-code {
-    background-color: @code-bg;
-    color: @code;
-    font-family: @mono;
-    border-radius: 4px;
-    padding: 0px 5px;
-}
-
-
-// Powered by
-#powered {
-    font-family: @serif;
-    font-size: 0.8em;
-    a {
-        text-decoration: none;
     }
 }
 
