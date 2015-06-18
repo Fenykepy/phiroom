@@ -4,6 +4,9 @@ body {
     font-size: 100%;
     line-height: 1.5em;
     font-family: @sans;
+    &.modal_show {
+        overflow: hidden;
+    }
 }
 
 
@@ -68,16 +71,27 @@ button.close {
         opacity: 1;
     }
 }
+#modal-wrapper {
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 1000;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 
 section#modal {
     position: relative;
     width: 700px;
     margin: 40px auto;
+    opacity: 1;
     background: @lib-modal-bg;
     border: 1px solid @lib-modal-border;
     border-radius: 4px;
     box-shadow: 0 0 8px @lib-overlay-bg;
-    z-index: 1000;
+//    z-index: 1001;
     header {
         padding: 22px;
         border-bottom: 1px solid @lib-modal-inborder;

@@ -1,6 +1,6 @@
 <article class="abstract">
     <header>
-    <ul class="admin-links">
+    <ul ng-if="phUser.user.is_staff" class="admin-links">
         <li><a  href="">Edit</a></li>
     </ul>
     <ng-include src="'/assets/partials/weblog/weblog_time.html'"></ng-include>
