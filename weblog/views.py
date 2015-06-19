@@ -77,6 +77,7 @@ class TagList(generics.ListCreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = (IsStaffOrReadOnly,)
+    paginate_by = 100000
  
 
 

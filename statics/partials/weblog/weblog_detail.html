@@ -1,7 +1,7 @@
 <article class="abstract">
     <header>
     <ul ng-if="phUser.user.username == post.author.username" class="admin-links">
-        <li><a  href="">Edit</a></li>
+        <li><a  href="" ng-click="editPost()">Edit</a></li>
     </ul>
     <ng-include src="'/assets/partials/weblog/weblog_time.html'"></ng-include>
     <h1>{{ post.title }}</h1>

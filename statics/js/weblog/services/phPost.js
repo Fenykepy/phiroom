@@ -82,6 +82,7 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
 
 
     phPost.mkPost = function() {
+        phPost.form_status = 'new';
         phModal.templateUrl = "/assets/partials/weblog/weblog_post_form.html";
         phModal.title = "Write a new blog post";
         phModal.close_callback = phPost.mkPostInit;
@@ -97,11 +98,9 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
                 phPost.mkPostInit();
                 // go to newly created post
                 $location.path(buildFrontendPostDetailUrl(data.slug));
-
             }).error(function(data) {
                 // show errors in form
                 phPost.errors = data;
-                console.log(data);
             });
     };
 
@@ -111,6 +110,56 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
         // reinit errors
         phPost.errors = null;
 
+    };
+
+
+    phPost.editPost = function() {
+        // if no actual post detail, return 
+        console.log('edit post');
+        if (! phPost.post) { return; }
+        // init edited post object
+        phPost.editedPost = {};
+        phPost.editedPost.title = phPost.post.title;
+        phPost.editedPost.description = phPost.post.description;
+        phPost.editedPost.source = phPost.post.source;
+        phPost.editedPost.title = phPost.post.title;
+        phPost.editedPost.pub_date = new Date(phPost.post.pub_date);
+        phPost.editedPost.draft = phPost.post.draft;
+        // init controller
+        phPost.form_status = 'edit';
+        // init modal
+        phModal.templateUrl = "/assets/partials/weblog/weblog_post_form.html";
+        phModal.title = "Edit blog post";
+        phModal.close_callback = phPost.editPostInit;
+        phModal.show = true;
+    };
+
+
+    phPost.editPostSubmit = function() {
+        var url = buildApiPostDetailUrl($stateParams);
+        console.log(url);
+        $http.put(url, phPost.editedPost)
+            .success(function(data) {
+                // reinit modal, errors and new post
+                phPost.editedPost = {};
+                phPost.editPostInit();
+                if (data.slug == phPost.post.slug) {
+                    console.log('get post');
+                    // no change in url, reload post
+                    angular.copy(data, phPost.post);
+                } else {
+                    console.log('location');
+                    // slug changed, go to new url
+                    $location.path(buildFrontendPostDetailUrl(data.slug));
+                }
+            }).error(function(data) {
+                phPost.errors = data;
+            });
+    };
+
+    phPost.editPostInit = function() {
+        // reinit modal and errors
+        phPost.mkPostInit();
     };
 
 

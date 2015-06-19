@@ -1,47 +1,63 @@
-<form ng-controller="weblogPostFormCtrl" ng-submit="phPost.mkPostSubmit()">
+<form ng-controller="weblogPostFormCtrl" ng-submit="postSubmit()">
+    <datalist id="tags_list">
+        <option ng-repeat="tag in tags_list" value="{{ tag.name }}">
+    </datalist>
     <p><span id="red"><span class="red">*</span></span> Required fields</p>
     <div class="field_wrapper"><div>
     <div class="field_wrapper">
         <label for="id_title">Title: <span class="red"> *</span></label>
         <ul class="errorlist">
-            <li ng-repeat="item in phPost.errors.title">{{ item }}</li>
+            <li ng-repeat="item in errors.title">{{ item }}</li>
         </ul>
-        <input id="id_title" ng-model="phPost.newPost.title" required>
+        <input id="id_title" ng-model="current.title" required>
     </div>
     <div class="field_wrapper">
         <label for="id_description">Description: <span class="red"> *</span></label>
         <ul class="errorlist">
-            <li ng-repeat="item in phPost.errors.description">{{ item }}</li>
+            <li ng-repeat="item in errors.description">{{ item }}</li>
         </ul>
-        <input id="id_description" ng-model="phPost.newPost.description">
+        <input id="id_description" ng-model="current.description">
     </div>
     <div class="field_wrapper">
         <label for="id_source">Post content: <span class="red"> *</span></label>
         <ul class="errorlist">
-            <li ng-repeat="item in phPost.errors.source">{{ item }}</li>
+            <li ng-repeat="item in errors.source">{{ item }}</li>
         </ul>
         <textarea cols="70" rows="15"
             placeholder="Post content, markdown syntax"
             id="id_source"
-            ng-model="phPost.newPost.source"></textarea>
+            ng-model="current.source"></textarea>
     </div>
     <div class="field_wrapper">
         <label for="id_pub_date">Publication date:</label>
         <ul class="errorlist">
-            <li ng-repeat="item in phPost.errors.pub_date">{{ item }}</li>
+            <li ng-repeat="item in errors.pub_date">{{ item }}</li>
         </ul>
-        <input id="id_pub_date" ng-model="phPost.newPost.pub_date" type="datetime-local">
+        <input id="id_pub_date" ng-model="current.pub_date" type="datetime-local" step=".001">
     </div>
     <div class="field_wrapper checkbox">
         <label for="id_draft">Draft:</label>
         <ul class="errorlist">
-            <li ng-repeat="item in phPost.errors.draft">{{ item }}</li>
+            <li ng-repeat="item in errors.draft">{{ item }}</li>
         </ul>
-        <input id="id_draft" ng-model="phPost.newPost.draft" type="checkbox">
+        <input id="id_draft" ng-model="current.draft" type="checkbox">
+    </div>
+    <div class="field_wrapper">
+        <label for="id_pub_date">Publication date:</label>
+        <ul class="errorlist">
+            <li ng-repeat="item in errors.pub_date">{{ item }}</li>
+        </ul>
+        <input id="id_pub_date" ng-model="current.pub_date" type="datetime-local" step=".001">
+    </div>
+    <div class="field_wrapper checkbox">
+        <label for="id_tags">Keywords:</label>
+        <div class="tag_container">
+        <input id="id_tags" ng-model="add_tag" list="tags_list" type="text">
+        </div>
     </div>
     <footer>
         <div class="buttons-wrapper">
-            <button ng-click="phPost.mkPostInit()">Cancel</button>
+            <button ng-click="cancel()">Cancel</button>
             <input type="submit" id="submit" value="Create">
         </div><!-- buttons wrapper -->
     </footer>
