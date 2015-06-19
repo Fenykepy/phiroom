@@ -1,5 +1,5 @@
 from rest_framework import generics
-from weblog.serializers import PostSerializer, TagSerializer
+from weblog.serializers import PostSerializer, PostAbstractSerializer, TagSerializer
 
 from rest_framework.permissions import IsAdminUser
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
@@ -14,17 +14,24 @@ class PostList(generics.ListCreateAPIView):
     posts to be created.
     """
     queryset = Post.published.all()
-    serializer_class = PostSerializer
+    serializer_class = PostAbstractSerializer
     permission_classes = (IsStaffOrReadOnly,)    
 
     # allow staff members to list not published posts.
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Post.objects.all()
-        return Post.published.all()
+            return Post.objects.all().select_related('author')
+        return Post.published.all().select_related('author')
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return PostSerializer
+        return PostAbstractSerializer
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+
 
 
 
@@ -35,15 +42,18 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     API endpoint that presents a specific post and allows to
     update or delete it.
     """
-    queryset = Post.published.all()
+    queryset = Post.published.all().select_related('author'
+            ).prefetch_related('tags')
     serializer_class = PostSerializer
     permission_classes = (IsAuthorOrReadOnly,)
     
     # allow staff members to retrieve not published posts.
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Post.objects.all()
-        return Post.published.all()
+            return Post.objects.all().select_related('author'
+                    ).prefetch_related('tags')
+        return Post.published.all().select_related('author'
+                ).prefetch_related('tags')
 
 
 

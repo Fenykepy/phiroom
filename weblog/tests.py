@@ -575,7 +575,28 @@ class PostAPITest(APITestCase):
         # client should get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['title'], 'My first title')
+        data ={'url': 'http://testserver/api/weblog/posts/1/',
+              'title': 'My first title',
+              'description': '',
+              'source': 'some text [...] end of abstract',
+              'draft': False,
+              'next': '2015/06/19/my-second-title',
+              'previous': None,
+              'content': '<p>some text  end of abstract</p>',
+              'abstract': '<p>some text …</p>',
+              'pk': 1} 
+        for key in data:
+            self.assertEqual(response.data[key], data[key])
+        self.assertEqual(response.data['author']['username'],
+                self.user.username)
+        self.assertEqual(response.data['author']['author_name'],
+                self.user.author_name)
+        self.assertEqual(response.data['author']['website'],
+                self.user.website)
+
+        self.assertTrue(response.data['pub_date'])
+        self.assertTrue(response.data['tags'])
+        self.assertTrue(response.data['slug'])
         # client should be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 405)
@@ -656,11 +677,7 @@ class PostAPITest(APITestCase):
         data ={'url': 'http://testserver/api/weblog/posts/5/',
               'title': 'My fifth title',
               'description': '',
-              'source': 'some text [...] end of abstract',
               'draft': False,
-              'next': '2015/06/19/post-title',
-              'previous': '2015/06/19/my-fourth-title',
-              'content': '<p>some text  end of abstract</p>',
               'abstract': '<p>some text …</p>',
              'pk': 5} 
         for key in data:
@@ -673,7 +690,6 @@ class PostAPITest(APITestCase):
                 self.user.website)
 
         self.assertTrue(response.data['results'][0]['pub_date'])
-        self.assertTrue(response.data['results'][0]['tags'])
         self.assertTrue(response.data['results'][0]['slug'])
 
 

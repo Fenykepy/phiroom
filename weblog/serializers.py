@@ -41,3 +41,10 @@ class PostSerializer(serializers.ModelSerializer):
             return prev.slug
         return None
 
+class PostAbstractSerializer(PostSerializer):
+    class Meta:
+        model = Post
+        fields = ('url', 'title', 'description',
+                'draft', 'pub_date', 'abstract', 'slug',
+                'pk', 'author',
+        )

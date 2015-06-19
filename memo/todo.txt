@@ -10,7 +10,7 @@ Todo list for phiroom
 #- add a field for librairy logo
 #- rename logo field to weblog logo
 - add a field for portfolios logo
-
+- check why there are 16 query for serializing one blog post with no tags
 
 
 =================================
