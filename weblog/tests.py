@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from collections import OrderedDict
 from django.test import TestCase
 from django.utils import timezone
+from datetime import timedelta
 
 
 from rest_framework.test import APIClient, APITestCase
@@ -291,6 +292,39 @@ class PostModelTest(TestCase):
         n_posts = Post.published.all().count()
         self.assertEqual(n_posts, 3)
 
+
+    def test_get_next_previous(self):
+        # make post 4 and 2 not published
+        self.post4.draft = True
+        self.post4.save()
+        self.post2.pub_date = timezone.now() + timedelta(days=7)
+        self.post2.save()
+        # should return post4 even if draft
+        self.assertEqual(self.post3.get_next(), self.post4)
+        # should return post 1 as post 2 has a later publish date
+        self.assertEqual(self.post3.get_previous(), self.post)
+        # should return post2 as it has the last publish date
+        self.assertEqual(self.post5.get_next(), self.post2)
+        # should return None, as post2 has no next post
+        self.assertEqual(self.post2.get_next(), None)
+        # should return None, as post1 has no previous post
+        self.assertEqual(self.post.get_previous(), None)
+
+    
+    def test_get_next_previous_published(self):
+        # make post 4 and 2 not published
+        self.post4.draft = True
+        self.post4.save()
+        self.post2.pub_date = timezone.now() + timedelta(days=7)
+        self.post2.save()
+        # should return post5 as post4 is draft
+        self.assertEqual(self.post3.get_next_published(), self.post5)
+        # should return post 1 as post 2 has a later publish date
+        self.assertEqual(self.post3.get_previous_published(), self.post)
+        # should return None as post2 has the last publish date but is not published
+        self.assertEqual(self.post5.get_next_published(), None)
+        # should return None, as post1 has no previous post
+        self.assertEqual(self.post.get_previous_published(), None)
 
 
 

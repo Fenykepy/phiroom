@@ -69,10 +69,13 @@ class Post(models.Model):
         """
         Returns next published post.
         """
-        return get_next_by_pub_date(
+        try:
+            return self.get_next_by_pub_date(
                 pub_date__lte=timezone.now,
                 draft=False
-        )
+            )
+        except self.DoesNotExist:
+            return None
 
 
 
@@ -80,10 +83,15 @@ class Post(models.Model):
         """
         Returns previous published post
         """
-        return get_previous_by_pub_date(
-                pub_date__lte=timezone.now,
-                draft=False
-        )
+        try:
+            return self.get_previous_by_pub_date(
+                    pub_date__lte=timezone.now,
+                    draft=False
+            )
+        except self.DoesNotExist:
+            return None
+
+
 
 
 
@@ -91,7 +99,12 @@ class Post(models.Model):
         """
         Returns next post, published or not.
         """
-        return get_next_by_pub_date()
+        try:
+            return self.get_next_by_pub_date()
+        except self.DoesNotExist:
+            return None
+
+
 
 
 
@@ -99,7 +112,12 @@ class Post(models.Model):
         """
         Returns previous post, published or not.
         """
-        return get_previous_by_pub_date()
+        try:
+            return self.get_previous_by_pub_date()
+        except self.DoesNotExist:
+            return None
+
+
 
 
 
