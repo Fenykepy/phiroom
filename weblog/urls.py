@@ -11,7 +11,7 @@ from weblog import views
 urlpatterns = [
         url(r'^posts/$', views.PostList.as_view(),
             name="post-list"),
-        url(r'^posts/(?P<pk>[0-9]+)/$', views.PostDetail.as_view(),
+        url(r'^posts/(?P<slug>\d{4}/\d{2}/\d{2}/[-\w]+)/$', views.PostDetail.as_view(),
             name="post-detail"),
         url(r'^tags/$', views.TagList.as_view(),
             name="tag-list"),

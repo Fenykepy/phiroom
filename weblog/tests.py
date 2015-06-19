@@ -527,12 +527,13 @@ class PostAPITest(APITestCase):
 
 
     def test_post_detail(self):
-        url = '/api/weblog/posts/1/'
+        url = '/api/weblog/posts/{}/'.format(self.post.slug)
+        print(url)
         data = {'title': 'Post title',
                 'description': 'my post description',
                 'source': 'my post source',
         }
-        data2 = {'title': 'New post Title'}
+        data2 = {'description': 'New post description'}
 
         # test without login
         # client should get posts list
@@ -575,7 +576,7 @@ class PostAPITest(APITestCase):
         # client should get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        data ={'url': 'http://testserver/api/weblog/posts/1/',
+        data ={'url': 'http://testserver/api/weblog/posts/{}/'.format(self.post.slug),
               'title': 'My first title',
               'description': '',
               'source': 'some text [...] end of abstract',
@@ -674,7 +675,7 @@ class PostAPITest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['count'], 4)
-        data ={'url': 'http://testserver/api/weblog/posts/5/',
+        data ={'url': 'http://testserver/api/weblog/posts/{}/'.format(self.post5.slug),
               'title': 'My fifth title',
               'description': '',
               'draft': False,

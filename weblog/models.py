@@ -25,7 +25,7 @@ class Post(models.Model):
     Table for weblog posts entrys.
     """
     title = models.CharField(max_length=254, verbose_name="Title")
-    slug = models.CharField(max_length=270, db_index=True)
+    slug = models.CharField(max_length=270, db_index=True, unique=True)
     description = models.CharField(max_length=254, null=True, blank=True,
         verbose_name="Description",
         help_text=(

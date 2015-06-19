@@ -16,6 +16,7 @@ class PostList(generics.ListCreateAPIView):
     queryset = Post.published.all()
     serializer_class = PostAbstractSerializer
     permission_classes = (IsStaffOrReadOnly,)    
+    lookup_field = 'slug'
 
     # allow staff members to list not published posts.
     def get_queryset(self):
@@ -46,6 +47,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
             ).prefetch_related('tags')
     serializer_class = PostSerializer
     permission_classes = (IsAuthorOrReadOnly,)
+    lookup_field = 'slug'
     
     # allow staff members to retrieve not published posts.
     def get_queryset(self):

@@ -11,6 +11,7 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ('slug', 'n_posts')
 
 
+
 class PostSerializer(serializers.ModelSerializer):
     abstract = serializers.CharField(read_only=True)
     content = serializers.CharField(read_only=True)
@@ -20,6 +21,10 @@ class PostSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     next = serializers.SerializerMethodField()
     previous = serializers.SerializerMethodField()
+    url = serializers.HyperlinkedIdentityField(
+            view_name='post-detail',
+            lookup_field='slug'
+    )
 
     class Meta:
         model = Post
@@ -27,7 +32,7 @@ class PostSerializer(serializers.ModelSerializer):
                   'tags', 'author', 'draft', 'pub_date',
                   'content', 'abstract', 'slug', 'pk',
                   'next', 'previous',
-            )
+        )
 
     def get_next(self, object):
         next = object.get_next_published()
@@ -41,6 +46,8 @@ class PostSerializer(serializers.ModelSerializer):
             return prev.slug
         return None
 
+
+
 class PostAbstractSerializer(PostSerializer):
     class Meta:
         model = Post
@@ -48,3 +55,4 @@ class PostAbstractSerializer(PostSerializer):
                 'draft', 'pub_date', 'abstract', 'slug',
                 'pk', 'author',
         )
+
