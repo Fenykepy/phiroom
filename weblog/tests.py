@@ -658,6 +658,8 @@ class PostAPITest(APITestCase):
               'description': '',
               'source': 'some text [...] end of abstract',
               'draft': False,
+              'next': '2015/06/19/post-title',
+              'previous': '2015/06/19/my-fourth-title',
               'content': '<p>some text  end of abstract</p>',
               'abstract': '<p>some text …</p>',
              'pk': 5} 

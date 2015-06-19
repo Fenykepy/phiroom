@@ -47,6 +47,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+
 class PostsListByTag(PostList):
     """
     API endpoint that allows to list posts by tags.

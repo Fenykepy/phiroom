@@ -18,11 +18,26 @@ class PostSerializer(serializers.ModelSerializer):
     pk = serializers.IntegerField(read_only=True)
     tags = TagSerializer(many=True, required=False, read_only=True)
     author = AuthorSerializer(read_only=True)
+    next = serializers.SerializerMethodField()
+    previous = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = ('url', 'title', 'description', 'source',
                   'tags', 'author', 'draft', 'pub_date',
                   'content', 'abstract', 'slug', 'pk',
+                  'next', 'previous',
             )
+
+    def get_next(self, object):
+        next = object.get_next_published()
+        if (next):
+            return next.slug
+        return None
+
+    def get_previous(self, object):
+        prev = object.get_previous_published()
+        if (prev):
+            return prev.slug
+        return None
 
