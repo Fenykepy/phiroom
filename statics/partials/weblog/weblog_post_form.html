@@ -1,6 +1,6 @@
 <form ng-controller="weblogPostFormCtrl" ng-submit="postSubmit()">
     <datalist id="tags_list">
-        <option ng-repeat="tag in tags_list" value="{{ tag.name }}">
+        <option ng-repeat="tag in flat_tags_list" value="{{ tag }}">
     </datalist>
     <p><span id="red"><span class="red">*</span></span> Required fields</p>
     <div class="field_wrapper"><div>
@@ -42,18 +42,11 @@
         </ul>
         <input id="id_draft" ng-model="current.draft" type="checkbox">
     </div>
-    <div class="field_wrapper">
-        <label for="id_pub_date">Publication date:</label>
-        <ul class="errorlist">
-            <li ng-repeat="item in errors.pub_date">{{ item }}</li>
-        </ul>
-        <input id="id_pub_date" ng-model="current.pub_date" type="datetime-local" step=".001">
-    </div>
     <div class="field_wrapper checkbox">
         <label for="id_tags">Keywords:</label>
         <div class="tag_container">
             <div class="tag" ng-repeat="tag in current.tags">{{ tag }}</div>
-            <input id="id_tags" ng-model="add_tag" list="tags_list" type="text" placeholder="add tags, press enter...">
+            <input id="id_tags" ph-push-model="current.tags" list="tags_list" type="text" placeholder="add tags...">
         </div>
     </div>
     <footer>
