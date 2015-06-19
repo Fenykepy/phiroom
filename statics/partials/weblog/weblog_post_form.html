@@ -6,7 +6,7 @@
         <ul class="errorlist">
             <li ng-repeat="item in phPost.errors.title">{{ item }}</li>
         </ul>
-        <input id="id_title" ng-model="phPost.newPost.title">
+        <input id="id_title" ng-model="phPost.newPost.title" required>
     </div>
     <div class="field_wrapper">
         <label for="id_description">Description: <span class="red"> *</span></label>

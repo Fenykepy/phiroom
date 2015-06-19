@@ -1,5 +1,3 @@
-<!-- view for detail state -->
-<div ui-view>
 <header>
 <p ng-if="phUser.user.is_staff" class="admin-links"><a  href="" ng-click="mkPost()">New post</a></p>
 </header>
@@ -7,16 +5,15 @@
     ng-repeat="post in posts">
     <header>
     <ng-include src="'/assets/partials/weblog/weblog_time.html'"></ng-include>
-    <h1><a href="" ng-click="goToPost(post.slug)">{{ post.title }}</a></h1>
+    <h1><a href="/weblog/{{ post.slug }}/">{{ post.title }}</a></h1>
     </header>
     <div class="content" ng-bind-html="post.abstract"></div>
     <footer>
-        <p><a href="" ng-click="goToPost(post.slug)">Read post</a></p>
+        <p><a href="/weblog/{{ post.slug }}/">Read post</a></p>
     </footer>
 </article>
 <nav id="pagination">
     <a ng-if="prev_page" id="prev" href="" ng-click="goToPage(prev_page)">« Recent posts</a>
     <a ng-if="next_page" id="next" href="" ng-click="goToPage(next_page)">Older posts »</a>
 </nav>
-</div>
 

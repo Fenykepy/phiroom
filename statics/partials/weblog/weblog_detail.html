@@ -5,7 +5,7 @@
     </ul>
     <ng-include src="'/assets/partials/weblog/weblog_time.html'"></ng-include>
     <h1>{{ post.title }}</h1>
-    <p class="description">{{ post.description }}</p>
+    <p class="description" ng-if="post.description">{{ post.description }}</p>
     </header>
     <div class="content" ng-bind-html="post.content"></div>
     <h6 class="author"><a href="{{ post.author.website }}" rel="author">{{ post.author.author_name }}</a></h6>
@@ -17,7 +17,7 @@
     </footer>
     </article>
 <nav id="pagination">
-    <a ng-if="prev_post" id="prev" href="" ng-click="goToPrevPost()">« Previous post</a>
-    <a ng-if="next_post" id="next" href="" ng-click="goToNextPost()">Next post »</a>
+    <a ng-if="post.previous" id="prev" href="/weblog/{{ post.previous }}/">« Previous post</a>
+    <a ng-if="post.next" id="next" href="/weblog/{{ post.next }}/">Next post »</a>
 </nav>
 

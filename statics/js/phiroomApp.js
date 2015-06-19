@@ -128,25 +128,15 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
                 }
             }
         }).
-        state('weblog.list.detail', {
-            //parent: ['weblog.list', 'weblog.list_paginate'],
-            url: '{year:[0-9]{4}}/{month:[0-9]{2}}/{day:[0-9]{2}}/{slug}/',
+        state('weblog.detail', {
+            // don't use {slug: [0-9]{4}/[0-9]{2}/[0-9]{2}/[-\w]}
+            // because else '/' are url encoded
+            url: '/weblog/{year:[0-9]{4}}/{month:[0-9]{2}}/{day:[0-9]{2}}/{slug}/',
             templateUrl: '/assets/partials/weblog/weblog_detail.html',
             controller: 'weblogDetailCtrl',
             resolve: {
-                post: function($stateParams, phPost, settings, posts) {
-                    return phPost.getPostFromList($stateParams);
-                }
-            }
-        }).
-        state('weblog.list_paginate.detail', {
-            //parent: ['weblog.list', 'weblog.list_paginate'],
-            url: '{year:[0-9]{4}}/{month:[0-9]{2}}/{day:[0-9]{2}}/{slug}/',
-            templateUrl: '/assets/partials/weblog/weblog_detail.html',
-            controller: 'weblogDetailCtrl',
-            resolve: {
-                post: function($stateParams, phPost, settings, posts) {
-                    return phPost.getPostFromList($stateParams);
+                post: function($stateParams, phPost) {
+                    return phPost.getPost($stateParams);
                 }
             }
         }).

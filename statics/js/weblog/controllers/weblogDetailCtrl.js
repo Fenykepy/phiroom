@@ -5,11 +5,7 @@
 var phWeblog = angular.module('phWeblog');
 
 
-phWeblog.controller('weblogDetailCtrl', ['$scope', 'phPost',
-        function($scope, phPost) {
+phWeblog.controller('weblogDetailCtrl', ['$scope', 'phPost', 'post',
+        function($scope, phPost, post) {
     $scope.post = phPost.post;
-    $scope.next_post = phPost.next_post;
-    $scope.prev_post = phPost.prev_post;
-    $scope.goToPrevPost = phPost.goToPrevPost;
-    $scope.goToNextPost = phPost.goToNextPost;
 }]);
