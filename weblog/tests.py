@@ -506,7 +506,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         # client shouldn't be able to post
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 405)
         # client shouldn't be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 401)
@@ -525,7 +525,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         # client shouldn't be able to post
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 405)
         # client shouldn't be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 403)
@@ -623,13 +623,18 @@ class PostAPITest(APITestCase):
               'title': 'My fifth title',
               'description': '',
               'source': 'some text [...] end of abstract',
-              'author': 'tom phiroom',
               'draft': False,
               'content': '<p>some text  end of abstract</p>',
               'abstract': '<p>some text …</p>',
              'pk': 5} 
         for key in data:
             self.assertEqual(response.data['results'][0][key], data[key])
+        self.assertEqual(response.data['results'][0]['author']['username'],
+                self.user.username)
+        self.assertEqual(response.data['results'][0]['author']['author_name'],
+                self.user.author_name)
+        self.assertEqual(response.data['results'][0]['author']['website'],
+                self.user.website)
 
         self.assertTrue(response.data['results'][0]['pub_date'])
         self.assertTrue(response.data['results'][0]['tags'])

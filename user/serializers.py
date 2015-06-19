@@ -76,4 +76,22 @@ class SafeUserSerializer(UserSerializer):
         )
 
 
+class AuthorSerializer(serializers.ModelSerializer):
+    """
+    A serializer to show author datas in posts.
+    Musn't display any private informations.
+    """
+
+    class Meta:
+        model = User
+        fields = (
+            'username', 'author_name', 'avatar',
+            'website', 'facebook_link', 'flickr_link',
+            'px500_link', 'twitter_link', 'gplus_link',
+            'pinterest_link', 'vk_link',
+        )
+        read_only_fields = fields
+
+
+
     

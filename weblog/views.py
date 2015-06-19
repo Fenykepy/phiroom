@@ -2,7 +2,7 @@ from rest_framework import generics
 from weblog.serializers import PostSerializer, TagSerializer
 
 from rest_framework.permissions import IsAdminUser
-from phiroom.permissions import IsStaffOrReadOnly
+from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
 
 from weblog.models import Post, Tag
 
@@ -37,7 +37,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Post.published.all()
     serializer_class = PostSerializer
-    permission_classes = (IsStaffOrReadOnly,)
+    permission_classes = (IsAuthorOrReadOnly,)
     
     # allow staff members to retrieve not published posts.
     def get_queryset(self):

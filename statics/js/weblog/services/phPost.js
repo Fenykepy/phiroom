@@ -124,6 +124,7 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
             }).error(function(data) {
                 // show errors in form
                 phPost.errors = data;
+                console.log(data);
             });
     };
 

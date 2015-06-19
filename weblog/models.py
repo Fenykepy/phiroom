@@ -47,7 +47,7 @@ class Post(models.Model):
             verbose_name="First redaction date")
     update_date = models.DateTimeField(auto_now=True,
             verbose_name="Last modification date")
-    pub_date = models.DateTimeField(blank=True, null=True, db_index=True,
+    pub_date = models.DateTimeField(blank=True, db_index=True,
         verbose_name="Publication date")
 
 
@@ -58,8 +58,48 @@ class Post(models.Model):
     objects = models.Manager()
     published = PublishedManager()
 
+
+
     class Meta:
         ordering = ['-pub_date']
+
+
+
+    def get_next_published(self):
+        """
+        Returns next published post.
+        """
+        return get_next_by_pub_date(
+                pub_date__lte=timezone.now,
+                draft=False
+        )
+
+
+
+    def get_previous_published(self):
+        """
+        Returns previous published post
+        """
+        return get_previous_by_pub_date(
+                pub_date__lte=timezone.now,
+                draft=False
+        )
+
+
+
+    def get_next(self):
+        """
+        Returns next post, published or not.
+        """
+        return get_next_by_pub_date()
+
+
+
+    def get_previous(self):
+        """
+        Returns previous post, published or not.
+        """
+        return get_previous_by_pub_date()
 
 
 
@@ -86,7 +126,7 @@ class Post(models.Model):
         super(Post, self).save()
 
     def __str__(self):
-        return "%s" % self.title
+        return "{} - {}".format(self.pk, self.title)
 
 
 

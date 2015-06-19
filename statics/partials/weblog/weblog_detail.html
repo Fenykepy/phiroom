@@ -1,6 +1,6 @@
 <article class="abstract">
     <header>
-    <ul ng-if="phUser.user.is_staff" class="admin-links">
+    <ul ng-if="phUser.user.username == post.author.username" class="admin-links">
         <li><a  href="">Edit</a></li>
     </ul>
     <ng-include src="'/assets/partials/weblog/weblog_time.html'"></ng-include>
@@ -8,7 +8,7 @@
     <p class="description">{{ post.description }}</p>
     </header>
     <div class="content" ng-bind-html="post.content"></div>
-    <h6 class="author"><a href="" rel="author">Frédéric Lavilotte-Rolle</a></h6>
+    <h6 class="author"><a href="{{ post.author.website }}" rel="author">{{ post.author.author_name }}</a></h6>
     <footer>
         <ul id="tags">
             <li ng-repeat="tag in post.tags"><a href="tag/{{ tag.slug }}"

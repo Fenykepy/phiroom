@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from weblog.models import Post, Tag
+from user.serializers import AuthorSerializer
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
@@ -15,8 +16,9 @@ class PostSerializer(serializers.ModelSerializer):
     content = serializers.CharField(read_only=True)
     slug = serializers.CharField(read_only=True)
     pk = serializers.IntegerField(read_only=True)
-    tags = TagSerializer(many=True, read_only=True)
-    author = serializers.ReadOnlyField(source='author.author_name')
+    tags = TagSerializer(many=True, required=False, read_only=True)
+    author = AuthorSerializer(read_only=True)
+
     class Meta:
         model = Post
         fields = ('url', 'title', 'description', 'source',
