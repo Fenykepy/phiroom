@@ -2,7 +2,7 @@
 
 /* services */
 
-var phWebloge = angular.module('phWeblog');
+var phWeblog = angular.module('phWeblog');
 
 /* :
  * get: returns a list of posts

@@ -426,6 +426,57 @@ class TagAPITest(APITestCase):
         self.assertEqual(response.status_code, 204)
 
 
+    def test_flat_tag_list(self):
+        url = '/api/weblog/flat-tags/'
+        # test without login
+        # detail shouldn't be accessible
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 401)
+        response = self.client.put(url, {})
+        self.assertEqual(response.status_code, 401)
+        response = self.client.patch(url, {})
+        self.assertEqual(response.status_code, 401)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+        # login with normal user
+        login(self, self.user2)
+        # detail shouldn't be accessible
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 403)
+        response = self.client.put(url, {})
+        self.assertEqual(response.status_code, 403)
+        response = self.client.patch(url, {})
+        self.assertEqual(response.status_code, 403)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+
+        # login with staff member
+        login(self, self.user)
+        
+        data = ['test2', 'test']
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0], data[0])
+        self.assertEqual(response.data[1], data[1])
+
+        data2 = {'name': 'new test'}
+        response = self.client.post(url, data2)
+        self.assertEqual(response.status_code, 405)
+        response = self.client.put(url, data2)
+        self.assertEqual(response.status_code, 405)
+        response = self.client.patch(url, {})
+        self.assertEqual(response.status_code, 405)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+
+
 
 
 

@@ -1,7 +1,10 @@
 from rest_framework import generics
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
+
 from weblog.serializers import PostSerializer, PostAbstractSerializer, TagSerializer
 
-from rest_framework.permissions import IsAdminUser
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
 
 from weblog.models import Post, Tag
@@ -69,6 +72,16 @@ class PostsListByTag(PostList):
         return Post.published.filter(tags__slug=self.kwargs['slug'])
 
 
+@api_view(['GET'])
+@permission_classes((IsAdminUser, ))
+def flat_tags_list(request, format=None):
+    """
+    Returns a flat list of all tags name.
+    """
+    tags = Tag.objects.values_list('name', flat=True).order_by('-n_posts')
+
+    return Response(tags)
+
 
 class TagList(generics.ListCreateAPIView):
     """
@@ -77,7 +90,6 @@ class TagList(generics.ListCreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = (IsStaffOrReadOnly,)
-    paginate_by = 100000
  
 
 

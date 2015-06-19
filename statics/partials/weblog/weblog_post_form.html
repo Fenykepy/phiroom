@@ -52,7 +52,8 @@
     <div class="field_wrapper checkbox">
         <label for="id_tags">Keywords:</label>
         <div class="tag_container">
-        <input id="id_tags" ng-model="add_tag" list="tags_list" type="text">
+            <div class="tag" ng-repeat="tag in current.tags">{{ tag }}</div>
+            <input id="id_tags" ng-model="add_tag" list="tags_list" type="text" placeholder="add tags, press enter...">
         </div>
     </div>
     <footer>
