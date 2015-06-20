@@ -254,18 +254,20 @@ body#weblog {
             height: 34px;
             line-height: 20px;
             vertical-align: middle;
-            border: 1px solid @blog-input-border;
+            border: 1px solid @blog-tag-border;
             margin: 5px 0 0 5px;
             padding: 6px 12px;
             border-radius: 4px;
             box-sizing: border-box;
+            color: @blog-tag-color;
+            background: @blog-tag-bg;
             .del {
                 font-size: 22px;
                 margin-left: 12px;
                 float: right;
                 cursor: pointer;
                 &:hover, &:active {
-                    color: @blog-links-hover;
+                    color: @blog-tag-color-hover;
                 }
             }
         }
