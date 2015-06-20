@@ -8,29 +8,29 @@ var phCore = angular.module('phCore');
 phCore.factory('phUtils', function() {
     var phUtils = {};
 
-    phUtils.listContains = function(list, value) {
+    phUtils.indexOf = function(list, value) {
         /* returns index if value is in list
-         * otherwise returns false
+         * otherwise returns -1
          */
         for (var i=0; i < list.length; i++) {
             if (list[i] === value) return i;
         }
-        return false;
+        return -1;
     };
 
-    phUtils.listContainsFromList = function(list, value_list) {
+    phUtils.indexOfFromList = function(list, value_list) {
         /* returns index of value_list if one of value_list item is in list
-         * returns false otherwise
+         * returns -1 otherwise
          */
         for (var i=0; i <list.length; i++) {
-            if (phUtils.listContains(list, value_list[i]) !== false) return i;
+            if (phUtils.indexOf(list, value_list[i]) !== -1) return i;
         }
-        return false;
+        return -1;
     };
 
     phUtils.objectHasKey = function(object, key) {
         /* returns true if object has key */
-        if (phUtils.listContains(Object.keys(object), key) !== false) {
+        if (phUtils.indexOf(Object.keys(object), key) !== -1) {
             return true;
         }
         return false;

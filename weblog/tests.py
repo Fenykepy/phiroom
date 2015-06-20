@@ -632,7 +632,7 @@ class PostAPITest(APITestCase):
               'description': '',
               'source': 'some text [...] end of abstract',
               'draft': False,
-              'next': '2015/06/19/my-second-title',
+              'next': '{}'.format(self.post2.slug),
               'previous': None,
               'content': '<p>some text  end of abstract</p>',
               'abstract': '<p>some text …</p>',

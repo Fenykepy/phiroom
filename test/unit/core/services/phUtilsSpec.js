@@ -7,12 +7,12 @@ describe('phUtils', function() {
         });
     });
 
-    it('should have a listContains function', function() {
-        expect(angular.isFunction(phUtils.listContains)).toBe(true);
+    it('should have a indexOf function', function() {
+        expect(angular.isFunction(phUtils.indexOf)).toBe(true);
     });
 
-    it('should have a listContainsFromList function', function() {
-        expect(angular.isFunction(phUtils.listContainsFromList)).toBe(true);
+    it('should have a indexOfFromList function', function() {
+        expect(angular.isFunction(phUtils.indexOfFromList)).toBe(true);
     });
 
     it('should have a objectHasKey function', function() {
@@ -28,36 +28,36 @@ describe('phUtils', function() {
     });
 
 
-    describe('phUtils.listContains', function() {
+    describe('phUtils.indexOf', function() {
 
         it('should return index when value is in list', function() {
-            var result = phUtils.listContains(['toto', 'bar', 'tom'], 'bar');
+            var result = phUtils.indexOf(['toto', 'bar', 'tom'], 'bar');
             expect(result).toBe(1);
 
-            var result = phUtils.listContains(['toto', 'bar', 'tom'], 'toto');
+            var result = phUtils.indexOf(['toto', 'bar', 'tom'], 'toto');
             expect(result).toBe(0);
         });
 
-        it('should return false when value is not in list', function() {
-            var result = phUtils.listContains(['toto', 'bar', 'tom'], 'tim');
-            expect(result).toBe(false);
+        it('should return -1 when value is not in list', function() {
+            var result = phUtils.indexOf(['toto', 'bar', 'tom'], 'tim');
+            expect(result).toBe(-1);
         });
     });
 
 
-    describe('phUtils.listContainsFromList', function() {
+    describe('phUtils.indexOfFromList', function() {
     
         it('should return index when on value from value_list is in list', function() {
-            var result = phUtils.listContainsFromList(['toto', 'bar', 'tom'], ['tim', 'tam', 'toto']);
+            var result = phUtils.indexOfFromList(['toto', 'bar', 'tom'], ['tim', 'tam', 'toto']);
             expect(result).toBe(2);
 
-            var result = phUtils.listContainsFromList(['toto', 'bar', 'tom', 'tim'], ['tim', 'tam']);
+            var result = phUtils.indexOfFromList(['toto', 'bar', 'tom', 'tim'], ['tim', 'tam']);
             expect(result).toBe(0);
         });
 
-        it('should return false when no value from value_list are in list', function() {
-            var result = phUtils.listContainsFromList(['toto', 'bar', 'tom'], ['tim', 'tam']);
-            expect(result).toBe(false);
+        it('should return -1 when no value from value_list are in list', function() {
+            var result = phUtils.indexOfFromList(['toto', 'bar', 'tom'], ['tim', 'tam']);
+            expect(result).toBe(-1);
         });
     });
     

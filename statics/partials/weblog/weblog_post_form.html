@@ -46,7 +46,7 @@
         <label for="id_tags">Keywords:</label>
         <div class="tag_container">
             <div class="tag" ng-repeat="tag in current.tags">{{ tag }}</div>
-            <input id="id_tags" ph-push-model="current.tags" list="tags_list" type="text" placeholder="add tags...">
+            <input id="id_tags" ph-function-model="addTag" list="tags_list" type="text" placeholder="add tags...">
         </div>
     </div>
     <footer>

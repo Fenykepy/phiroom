@@ -83,6 +83,9 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
 
     phPost.mkPost = function() {
         phPost.form_status = 'new';
+        if (! phPost.newPost.tags) {
+            phPost.newPost.tags = [];
+        }
         phModal.templateUrl = "/assets/partials/weblog/weblog_post_form.html";
         phModal.title = "Write a new blog post";
         phModal.close_callback = phPost.mkPostInit;
@@ -125,6 +128,10 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
         phPost.editedPost.title = phPost.post.title;
         phPost.editedPost.pub_date = new Date(phPost.post.pub_date);
         phPost.editedPost.draft = phPost.post.draft;
+        phPost.editedPost.tags = [];
+        for (var i=0, l = phPost.post.tags.length; i < l; i++) {
+            phPost.editedPost.tags.push(phPost.post.tags.name);
+        }
         // init controller
         phPost.form_status = 'edit';
         // init modal

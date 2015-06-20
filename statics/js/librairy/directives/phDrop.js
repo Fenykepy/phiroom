@@ -11,10 +11,12 @@ phLibrairy.directive('phDrop', ['$rootScope', 'phUtils', '$parse',
 
     function dragEnter(evt, element, drop) {
         drop.drop_allowed = false;
-        var goodType = phUtils.listContainsFromList(evt.originalEvent.dataTransfer.types,
+        var goodType = phUtils.indexOfFromList(evt.originalEvent.dataTransfer.types,
                 drop.accepted_types);
-        /* use === false else 0 index is considered as false too */
-        if (goodType === false) {
+        console.log('goodType:');
+        console.log(goodType);
+        /* use === -1 else 0 index is considered as false too */
+        if (goodType === -1) {
             // cancel drop if dragged element type isn't accepted
             return;
         }
