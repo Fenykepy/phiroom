@@ -29,11 +29,10 @@ phWeblog.controller('weblogPostFormCtrl', ['$scope', 'phPost', 'phTag', 'phUtils
             // create tag list if undefined
             $scope.current.tags = [];
         }
-        if (indexOf($scope.current.tags, tag) == -1) {
+        if (phUtils.indexOf($scope.current.tags, tag) == -1) {
             // push tag if not already in list
             $scope.current.tags.push(tag);
         }
-        console.log($scope);
     };
 
     $scope.cancel = function() {

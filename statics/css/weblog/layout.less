@@ -236,5 +236,40 @@ body#weblog {
         }
     }
 
+    // tags in edition form
+    .tag_container {
+        width: 100%;
+        border: 1px solid @blog-input-border;
+        border-radius: 4px;
+        input {
+            border: none;
+            margin-top: 0;
+            &:hover, &:focus {
+                box-shadow: none;
+                border: none;
+            }
+        }
+        .tag {
+            display: inline-block;
+            height: 34px;
+            line-height: 20px;
+            vertical-align: middle;
+            border: 1px solid @blog-input-border;
+            margin: 5px 0 0 5px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            .del {
+                font-size: 22px;
+                margin-left: 12px;
+                float: right;
+                cursor: pointer;
+                &:hover, &:active {
+                    color: @blog-links-hover;
+                }
+            }
+        }
+    }
+
 
 }

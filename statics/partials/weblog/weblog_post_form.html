@@ -42,10 +42,11 @@
         </ul>
         <input id="id_draft" ng-model="current.draft" type="checkbox">
     </div>
-    <div class="field_wrapper checkbox">
+    <div class="field_wrapper">
         <label for="id_tags">Keywords:</label>
         <div class="tag_container">
-            <div class="tag" ng-repeat="tag in current.tags">{{ tag }}</div>
+            <div class="tag" ng-repeat="tag in current.tags">{{ tag }}<span class="del" ng-click="delTag()" title="remove this tag">×</span></div>
+            
             <input id="id_tags" ph-function-model="addTag" list="tags_list" type="text" placeholder="add tags...">
         </div>
     </div>

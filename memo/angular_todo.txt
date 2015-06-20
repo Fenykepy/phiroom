@@ -68,8 +68,9 @@
 #                  ph-drop-data="pictures.mypicture" -> undefined object is not get
 #        look at solution using $parse or $eval
 #        - fix in phDrop
-    - add a serialized author in post
-    - allow only authors to edit a post
+#    - add a serialized author in post
+#    - allow only authors to edit a post
+    - go to top of articles automatically at load
 
                     
 
