@@ -1,59 +1,62 @@
-<form ng-controller="weblogPostFormCtrl" ng-submit="postSubmit()">
-    <datalist id="tags_list">
-        <option ng-repeat="tag in flat_tags_list" value="{{ tag }}">
-    </datalist>
-    <p><span id="red"><span class="red">*</span></span> Required fields</p>
-    <div class="field_wrapper"><div>
-    <div class="field_wrapper">
-        <label for="id_title">Title: <span class="red"> *</span></label>
-        <ul class="errorlist">
-            <li ng-repeat="item in errors.title">{{ item }}</li>
-        </ul>
-        <input id="id_title" ng-model="current.title" required>
-    </div>
-    <div class="field_wrapper">
-        <label for="id_description">Description: <span class="red"> *</span></label>
-        <ul class="errorlist">
-            <li ng-repeat="item in errors.description">{{ item }}</li>
-        </ul>
-        <input id="id_description" ng-model="current.description">
-    </div>
-    <div class="field_wrapper">
-        <label for="id_source">Post content: <span class="red"> *</span></label>
-        <ul class="errorlist">
-            <li ng-repeat="item in errors.source">{{ item }}</li>
-        </ul>
-        <textarea cols="70" rows="15"
-            placeholder="Post content, markdown syntax"
-            id="id_source"
-            ng-model="current.source"></textarea>
-    </div>
-    <div class="field_wrapper">
-        <label for="id_pub_date">Publication date:</label>
-        <ul class="errorlist">
-            <li ng-repeat="item in errors.pub_date">{{ item }}</li>
-        </ul>
-        <input id="id_pub_date" ng-model="current.pub_date" type="datetime-local" step=".001">
-    </div>
-    <div class="field_wrapper checkbox">
-        <label for="id_draft">Draft:</label>
-        <ul class="errorlist">
-            <li ng-repeat="item in errors.draft">{{ item }}</li>
-        </ul>
-        <input id="id_draft" ng-model="current.draft" type="checkbox">
-    </div>
-    <div class="field_wrapper">
-        <label for="id_tags">Keywords:</label>
-        <div class="tag_container">
-            <div class="tag" ng-repeat="tag in current.tags">{{ tag }}<span class="del" ng-click="delTag()" title="remove this tag">×</span></div>
-            
-            <input id="id_tags" ph-function-model="addTag" list="tags_list" type="text" placeholder="add tags...">
+<div ng-controller="weblogPostFormCtrl">
+    <form ng-submit="postSubmit()" id="post_form">
+        <datalist id="tags_list">
+            <option ng-repeat="tag in suggestions_list" value="{{ tag }}">
+        </datalist>
+        <div class="field_wrapper">
+            <label for="id_title">Title: <span class="red"> *</span></label>
+            <ul class="errorlist">
+                <li ng-repeat="item in errors.title">{{ item }}</li>
+            </ul>
+            <input id="id_title" ng-model="current.title" required>
         </div>
-    </div>
+        <div class="field_wrapper">
+            <label for="id_description">Description: <span class="red"> *</span></label>
+            <ul class="errorlist">
+                <li ng-repeat="item in errors.description">{{ item }}</li>
+            </ul>
+            <input id="id_description" ng-model="current.description">
+        </div>
+        <div class="field_wrapper">
+            <label for="id_source">Post content:</label>
+            <ul class="errorlist">
+                <li ng-repeat="item in errors.source">{{ item }}</li>
+            </ul>
+            <textarea rows="8"
+                placeholder="Post content, markdown syntax"
+                id="id_source"
+                ng-model="current.source"></textarea>
+        </div>
+        <div class="field_wrapper">
+            <label for="id_pub_date">Publication date:</label>
+            <ul class="errorlist">
+                <li ng-repeat="item in errors.pub_date">{{ item }}</li>
+            </ul>
+            <input id="id_pub_date" ng-model="current.pub_date" type="datetime-local" step=".001">
+        </div>
+        <div class="field_wrapper checkbox">
+            <label for="id_draft">Draft:</label>
+            <ul class="errorlist">
+                <li ng-repeat="item in errors.draft">{{ item }}</li>
+            </ul>
+            <input id="id_draft" ng-model="current.draft" type="checkbox">
+        </div>
+        <div class="field_wrapper">
+            <label for="id_tags">Keywords:</label>
+            <div class="tag_container">
+                <div class="tag" ng-repeat="tag in current.tags track by $index">{{ tag }}<span class="del" ng-click="delTag($index)" title="remove this tag">×</span></div>
+                <input id="id_tags" ph-function-model="addTag" list="tags_list" type="text" placeholder="add tags...">
+            </div>
+        </div>
+        <p><span id="red"><span class="red">*</span></span> Required fields</p>
+    </form>
+
+
     <footer>
+        <!-- put buttons out of form, else on enter key press, browser trigger first one, which is cancel… -->
         <div class="buttons-wrapper">
             <button ng-click="cancel()">Cancel</button>
-            <input type="submit" id="submit" value="Create">
+            <button type="submit" form="post_form">Create</button>
         </div><!-- buttons wrapper -->
     </footer>
-</form>
+</div>

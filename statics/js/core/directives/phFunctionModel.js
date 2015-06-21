@@ -6,7 +6,7 @@ var phCore = angular.module('phCore');
 
 /*
  * execute function with content of input
- * at each input change event, then clear input
+ * at each enter or tab key press.
  * and keep focus
  *
  * attach directive like this to the element
@@ -20,9 +20,16 @@ phCore.directive('phFunctionModel', ['$parse', function ($parse) {
         link: function (scope, element, attrs) {
             var model = $parse(attrs.phFunctionModel);
             var callback = model(scope);
-            element.bind('change', function(e) {
-                scope.$apply(callback(element[0].value));
-                element[0].value = '';
+            element.bind("keydown keypress", function (event) {
+                var TAB_KEY = 9;
+                var ENTER_KEY = 13;
+                if((event.which === TAB_KEY || event.which == ENTER_KEY)
+                        && element[0].value) {
+                    scope.$apply(callback(element[0].value));
+                    element[0].focus();
+                    element[0].value = '';
+                    event.preventDefault();
+                }
             });
         }
     };
