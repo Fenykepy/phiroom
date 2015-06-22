@@ -84,7 +84,7 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
     phPost.mkPost = function() {
         phPost.form_status = 'new';
         if (! phPost.newPost.tags) {
-            phPost.newPost.tags = [];
+            phPost.newPost.tags_flat_list = [];
         }
         phModal.templateUrl = "/assets/partials/weblog/weblog_post_form.html";
         phModal.title = "Write a new blog post";
@@ -128,9 +128,9 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
         phPost.editedPost.title = phPost.post.title;
         phPost.editedPost.pub_date = new Date(phPost.post.pub_date);
         phPost.editedPost.draft = phPost.post.draft;
-        phPost.editedPost.tags = [];
+        phPost.editedPost.tags_flat_list = [];
         for (var i=0, l = phPost.post.tags.length; i < l; i++) {
-            phPost.editedPost.tags.push(phPost.post.tags.name);
+            phPost.editedPost.tags_flat_list.push(phPost.post.tags[i].name);
         }
         // init controller
         phPost.form_status = 'edit';
@@ -151,16 +151,15 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
                 phPost.editedPost = {};
                 phPost.editPostInit();
                 if (data.slug == phPost.post.slug) {
-                    console.log('get post');
                     // no change in url, reload post
                     angular.copy(data, phPost.post);
                 } else {
-                    console.log('location');
                     // slug changed, go to new url
                     $location.path(buildFrontendPostDetailUrl(data.slug));
                 }
             }).error(function(data) {
                 phPost.errors = data;
+                console.log(data);
             });
     };
 

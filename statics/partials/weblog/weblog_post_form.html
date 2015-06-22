@@ -1,7 +1,7 @@
 <div ng-controller="weblogPostFormCtrl">
     <form ng-submit="postSubmit()" id="post_form">
         <datalist id="tags_list">
-            <option ng-repeat="tag in suggestions_list" value="{{ tag }}">
+            <option ng-repeat="tag in suggestions_list track by $index" value="{{ tag }}">
         </datalist>
         <div class="field_wrapper">
             <label for="id_title">Title: <span class="red"> *</span></label>
@@ -43,8 +43,11 @@
         </div>
         <div class="field_wrapper">
             <label for="id_tags">Keywords:</label>
+            <ul class="errorlist">
+                <li ng-repeat="item in errors.tags_flat_list">{{ item }}</li>
+            </ul>
             <div class="tag_container">
-                <div class="tag" ng-repeat="tag in current.tags track by $index">{{ tag }}<span class="del" ng-click="delTag($index)" title="remove this tag">×</span></div>
+                <div class="tag" ng-repeat="tag in current.tags_flat_list track by $index">{{ tag }}<span class="del" ng-click="delTag($index)" title="remove this tag">×</span></div>
                 <input id="id_tags" ph-function-model="addTag" list="tags_list" type="text" placeholder="add tags...">
             </div>
         </div>

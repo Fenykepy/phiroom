@@ -28,12 +28,12 @@ phWeblog.controller('weblogPostFormCtrl', ['$scope', 'phPost', 'phTag', 'phUtils
 
     $scope.addTag = function(tag) {
         // create tag list if undefined
-        if ($scope.current.tags == undefined) {
-            $scope.current.tags = [];
+        if ($scope.current.tags_flat_list == undefined) {
+            $scope.current.tags_flat_list = [];
         }
         // push tag if not already in list
-        if (phUtils.indexOf($scope.current.tags, tag) == -1) {
-            $scope.current.tags.push(tag);
+        if (phUtils.indexOf($scope.current.tags_flat_list, tag) == -1) {
+            $scope.current.tags_flat_list.push(tag);
             // remove tag from datalist if it's in
             var index = phUtils.indexOf($scope.suggestions_list, tag);
             if (index  != -1) {
@@ -44,7 +44,7 @@ phWeblog.controller('weblogPostFormCtrl', ['$scope', 'phPost', 'phTag', 'phUtils
 
     $scope.delTag = function(index) {
         // remove tag from list (splice returns an array)
-        var tags = $scope.current.tags.splice(index, 1);
+        var tags = $scope.current.tags_flat_list.splice(index, 1);
         // add back to datalist if it was removed from
         index = phUtils.indexOf(phTag.flat_tags_list, tags[0]);
         if (index != -1) {

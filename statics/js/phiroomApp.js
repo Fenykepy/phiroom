@@ -128,6 +128,27 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
                 }
             }
         }).
+        state('weblog.tag_list', {
+            url: '/weblog/tag/:tag/',
+            templateUrl: '/assets/partials/weblog/weblog_list.html',
+            controller: 'weblogListCtrl',
+            resolve: {
+                posts: function($stateParams, phPost, settings) {
+                    return phPost.getPostsList($stateParams);
+                }
+
+            }
+        }).
+        state('weblog.tag_list_paginate', {
+            url: '/weblog/tag/:tag/page/{page:int}/',
+            templateUrl: '/assets/partials/weblog/weblog_list.html',
+            controller: 'weblogListCtrl',
+            resolve: {
+                posts: function($stateParams, phPost, settings) {
+                    return phPost.getPostsList($stateParams);
+                }
+            }
+        }).
         state('weblog.detail', {
             // don't use {slug: [0-9]{4}/[0-9]{2}/[0-9]{2}/[-\w]}
             // because else '/' are url encoded

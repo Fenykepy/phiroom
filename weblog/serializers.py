@@ -22,6 +22,7 @@ class PostSerializer(serializers.ModelSerializer):
     pk = serializers.IntegerField(read_only=True)
     tags = TagSerializer(many=True, required=False, read_only=True)
     tags_flat_list = serializers.ListField(
+            required=False,
             write_only=True,
             child = serializers.CharField(max_length=50)
     )
@@ -82,6 +83,9 @@ class PostSerializer(serializers.ModelSerializer):
         instance.pub_date = validated_data.get('pub_date', instance.pub_date)
         instance.source = validated_data.get('source', instance.source)
         instance.save()
+        # reload instance here, not efficient but else 
+        # new added tags are not rendered in json
+        instance = Post.objects.get(pk=instance.pk)
 
         return instance
 

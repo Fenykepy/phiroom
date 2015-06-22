@@ -651,10 +651,10 @@ class PostAPITest(APITestCase):
         # client should be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to put
+        # client should be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 200)
-        # client shouldn't be able to patch
+        # client should be able to patch
         response = self.client.patch(url, data2)
         self.assertEqual(response.status_code, 200)
         # client shouldn't be able to delete
@@ -758,6 +758,8 @@ class PostAPITest(APITestCase):
         login(self, self.user)
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, 201)
+        # all created tags should be in response
+        self.assertEqual(len(response.data['tags']), 3)
         # assert tag "test3" has been created
         tag = Tag.objects.filter(name="test3")
         self.assertEqual(len(tag), 1)
@@ -786,6 +788,8 @@ class PostAPITest(APITestCase):
         login(self, self.user)
         response = self.client.put(url, data, format="json")
         self.assertEqual(response.status_code, 200)
+        # all created tags should be in response
+        self.assertEqual(len(response.data['tags']), 3)
         pk = response.data['pk']
         new_post = Post.objects.get(pk=pk)
         # assert tags have been saved and present tags are still there
@@ -802,6 +806,8 @@ class PostAPITest(APITestCase):
         data['tags_flat_list'] = ['test2']
         response = self.client.put(url, data, format="json")
         self.assertEqual(response.status_code, 200)
+        # all created tags should be in response
+        self.assertEqual(len(response.data['tags']), 1)
         pk = response.data['pk']
         new_post = Post.objects.get(pk=pk)
         new_post_tags = new_post.tags.all().values_list('name', flat=True)

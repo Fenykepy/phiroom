@@ -11,7 +11,7 @@
     <h6 class="author"><a href="{{ post.author.website }}" rel="author">{{ post.author.author_name }}</a></h6>
     <footer>
         <ul id="tags">
-            <li ng-repeat="tag in post.tags"><a href="tag/{{ tag.slug }}"
+            <li ng-repeat="tag in post.tags"><a href="/weblog/tag/{{ tag.slug }}/"
                 title="See all &#34;{{ tag.name }}&#34; related posts.">{{ tag.name }}</a></li>
         </ul>
     </footer>
