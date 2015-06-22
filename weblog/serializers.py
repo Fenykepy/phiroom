@@ -21,6 +21,10 @@ class PostSerializer(serializers.ModelSerializer):
     slug = serializers.CharField(read_only=True)
     pk = serializers.IntegerField(read_only=True)
     tags = TagSerializer(many=True, required=False, read_only=True)
+    tags_flat_list = serializers.ListField(
+            write_only=True,
+            child = serializers.CharField(max_length=50)
+    )
     author = AuthorSerializer(read_only=True)
     next = serializers.SerializerMethodField()
     previous = serializers.SerializerMethodField()
@@ -34,8 +38,53 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ('url', 'title', 'description', 'source',
                   'tags', 'author', 'draft', 'pub_date',
                   'content', 'abstract', 'slug', 'pk',
-                  'next', 'previous',
+                  'next', 'previous', 'tags_flat_list',
         )
+
+
+    def add_tags(self, tags_flat_list, instance):
+        for tag_name in tags_flat_list:
+            tag, created = Tag.objects.get_or_create(name=tag_name)
+            instance.tags.add(tag)
+
+
+    def create(self, validated_data):
+        # store tags flat list
+        tags_flat_list = validated_data.get('tags_flat_list', [])
+        # delete tags flat list for it to not to be send to create()
+        del validated_data['tags_flat_list']
+        post = Post.objects.create(**validated_data)
+        self.add_tags(tags_flat_list, post)
+
+        return post
+
+
+    def update(self, instance, validated_data):
+        # actual instance tags
+        tags = instance.tags.all()
+        # store tags flat list
+        tags_flat_list = validated_data.get('tags_flat_list', [])
+        for tag in tags:
+            # remove not used tags
+            if not tag.name in tags_flat_list:
+                instance.tags.remove(tag)
+            # remove name from flat tags list to do not
+            # attempt to add it later (and save one query)
+            else:
+                tags_flat_list.remove(tag.name)
+
+        self.add_tags(tags_flat_list, instance)
+        
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.source = validated_data.get('source', instance.source)
+        instance.draft = validated_data.get('draft', instance.draft)
+        instance.pub_date = validated_data.get('pub_date', instance.pub_date)
+        instance.source = validated_data.get('source', instance.source)
+        instance.save()
+
+        return instance
+
 
     def get_next(self, object):
         next = object.get_next_published()

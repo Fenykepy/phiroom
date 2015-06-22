@@ -579,7 +579,6 @@ class PostAPITest(APITestCase):
 
     def test_post_detail(self):
         url = '/api/weblog/posts/{}/'.format(self.post.slug)
-        print(url)
         data = {'title': 'Post title',
                 'description': 'my post description',
                 'source': 'my post source',
@@ -744,5 +743,73 @@ class PostAPITest(APITestCase):
         self.assertTrue(response.data['results'][0]['pub_date'])
         self.assertTrue(response.data['results'][0]['slug'])
 
+    
+    def test_create_post_with_tags(self):
+        url = '/api/weblog/posts/'
+        data ={
+              'title': 'My test title',
+              'description': '',
+              'source': 'some text [...] end of abstract',
+              'draft': False,
+              'tags_flat_list': ['test', 'test2', 'test3'],
+        }
+
+        # test with staff member
+        login(self, self.user)
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, 201)
+        # assert tag "test3" has been created
+        tag = Tag.objects.filter(name="test3")
+        self.assertEqual(len(tag), 1)
+        pk = response.data['pk']
+        new_post = Post.objects.get(pk=pk)
+        # assert tags have been saved
+        new_post_tags = new_post.tags.all().values_list('name', flat=True)
+        self.assertEqual(len(new_post_tags), 3)
+        self.assertTrue('test' in new_post_tags)
+        self.assertTrue('test2' in new_post_tags)
+        self.assertTrue('test3' in new_post_tags)
+
+
+    def test_update_post_with_tags(self):
+        url = '/api/weblog/posts/{}/'.format(self.post2.slug)
+        # post2 already has self.tag (test) tag
+        data ={
+              'title': 'My test title',
+              'description': '',
+              'source': 'some text [...] end of abstract',
+              'draft': False,
+              'tags_flat_list': ['test', 'test2', 'test3'],
+        }
+
+        # test with staff member
+        login(self, self.user)
+        response = self.client.put(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
+        pk = response.data['pk']
+        new_post = Post.objects.get(pk=pk)
+        # assert tags have been saved and present tags are still there
+        new_post_tags = new_post.tags.all().values_list('name', flat=True)
+        self.assertEqual(len(new_post_tags), 3)
+        self.assertTrue('test' in new_post_tags)
+        self.assertTrue('test2' in new_post_tags)
+        self.assertTrue('test3' in new_post_tags)
+        
+        # reload self.post2 as slug changed
+        self.post2 = Post.objects.get(pk=self.post2.pk)
+        url = '/api/weblog/posts/{}/'.format(self.post2.slug)
+        # test that tags not in list are deleted
+        data['tags_flat_list'] = ['test2']
+        response = self.client.put(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
+        pk = response.data['pk']
+        new_post = Post.objects.get(pk=pk)
+        new_post_tags = new_post.tags.all().values_list('name', flat=True)
+        self.assertEqual(len(new_post_tags), 1)
+        self.assertTrue('test2' in new_post_tags)
+
+
+
+        
 
 
