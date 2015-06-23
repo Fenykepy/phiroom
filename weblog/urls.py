@@ -9,6 +9,9 @@ from weblog import views
 
 
 urlpatterns = [
+
+        url(r'^post-head/$', views.post_head_list,
+            name="post-head-list"),
         url(r'^posts/$', views.PostList.as_view(),
             name="post-list"),
         url(r'^posts/(?P<slug>\d{4}/\d{2}/\d{2}/[-\w]+)/$', views.PostDetail.as_view(),

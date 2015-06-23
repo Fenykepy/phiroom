@@ -511,7 +511,7 @@ class PostAPITest(APITestCase):
 
 
     def test_posts_head_list(self):
-        url = '/api/librairy/posts/'
+        url = '/api/weblog/post-head/'
 
         # test without login
         # client shouln'd receive anything
@@ -524,6 +524,7 @@ class PostAPITest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
+
         # test with admin user
         login(self, self.user)
         # client shouldn't get any posts in list
@@ -533,6 +534,17 @@ class PostAPITest(APITestCase):
         self.assertTrue(response.data[0]['pk'])
         self.assertTrue(response.data[0]['slug'])
         self.assertTrue(response.data[0]['title'])
+        
+        # admin user should only see post he is author of
+        self.user2.is_staff = True
+        self.user2.save()
+        self.post3.author = self.user2
+        self.post3.save()
+        login(self, self.user2)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['pk'], self.post3.pk)
 
 
     def test_posts_list(self):

@@ -7,7 +7,6 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 #import librairy.views
 from librairy import views
-from weblog import views as post_views
 
 
 urlpatterns = [
@@ -22,9 +21,6 @@ urlpatterns = [
             name="directory-detail"),
         url(r'^directorys/(?P<pk>[0-9-]+)/pictures/$', views.DirectoryPicturesList.as_view(),
             name="directory-pictures-list"),
-
-        url(r'^posts/$', post_views.post_head_list,
-            name="post-head-list"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
