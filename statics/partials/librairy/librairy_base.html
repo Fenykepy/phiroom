@@ -85,6 +85,37 @@
                 </div><!-- submenu-outframe -->
             </li><!-- tooglesubmenu -->
             
+ 
+            <li class="togglesubmenu"
+                ng-if="phUser.user.is_staff"><a class="arrow arrow-plus"
+                    ng-click="showPosts = ! showPosts"
+                    ng-class="{selected: showPosts}"
+                    href="">Weblog posts</a><a 
+                            class="plus"
+                            ng-click="posts_menu = ! posts_menu"><span class="accessibility">Tab menu</span></a>
+                    <ul class="popover"
+                        ng-show="posts_menu">
+                        <li><a ng-click="phUploader.open();posts_menu=false" href="">Import pictures</a></li>
+                        <li><a ng-click="phFolder.mkDir();posts_menu=false" href="">New folder</a></li>
+                    </ul>
+                <div class="submenu-outframe">
+                <div class="submenu-frame">
+                <div class="submenu-inframe">
+                <ul class="submenu"
+                    ng-show="showPosts"
+                    ng-click="$event.stopPropagation()">
+                    <li ng-repeat="item in posts_headers"><a class="dia"
+                        ui-sref="librairy.grid({source: 'post', pk: item.pk})"
+                        ph-drop="librairy/folder"
+                        ph-drop-data="item"
+                        ph-drop-accept="librairy/pict"
+                        ph-drop-style="droppable"
+                    >{{ item.title }}</a></li>
+                </ul><!-- submenu -->
+                </div><!-- submenu-inframe -->
+                </div><!-- submenu-frame -->
+                </div><!-- submenu-outframe -->
+            </li><!-- tooglesubmenu -->
             
             <li class="togglesubmenu"><a class="arrow arrow-plus"
                     ng-click="showAccount = ! showAccount"

@@ -168,7 +168,13 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
         phPost.mkPostInit();
     };
 
-
+    // retrieve list of posts headers
+    phPost.getPostHeadList = function() {
+        var url = '/api/weblog/post-head/';
+        return $http.get(url).success(function(data) {
+            phPost.posts_head = data; 
+        });
+    };
     // retrieve list of posts
     phPost.getPostsList = function(params) {
         // returns a promise with posts list

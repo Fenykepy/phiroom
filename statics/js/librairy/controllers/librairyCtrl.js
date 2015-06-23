@@ -5,8 +5,8 @@
 var phLibrairy = angular.module('phLibrairy');
 
 phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUploader', 'phPatcher',
-        'phListPictures', 'phUtils',
-        function($scope, $rootScope, phFolder, phUploader, phPatcher, phListPictures, phUtils) {
+        'phListPictures', 'phUtils', 'phPost',
+        function($scope, $rootScope, phFolder, phUploader, phPatcher, phListPictures, phUtils, phPost) {
     /* set page infos */
     $scope.page_info.title = 'Librairy';
     $scope.page_info.name = 'librairy';
@@ -17,6 +17,11 @@ phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUp
 
     /* load directorys hierarchy */
     phFolder.getDirectorys();
+
+    /* get posts */
+    phPost.getPostHeadList().then(function(data) {
+        $scope.posts_headers = data.data;
+    });
 
     /* publish phUploader */
     $scope.phUploader = phUploader;
