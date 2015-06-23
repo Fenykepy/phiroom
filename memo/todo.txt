@@ -31,7 +31,7 @@ Weblog
 ------
 Concept:
 #    - a list of blog posts by reverse chrono order
-    - a list of blog posts by tags
+#    - a list of blog posts by tags
 #    - simple pagination (prev next) number define in settings
 #    - simple design with beautiful typo
 #    - a view for blog posts with link to prev and next post
@@ -58,7 +58,7 @@ CSS:
 
 
 JS:
-    - integration of angularjs for administration
+#    - integration of angularjs for administration
 
 Bugs:
     - articles with no abstract delimiter are not surrounded by <p> tag.
@@ -107,7 +107,7 @@ JS:
 User
 ----
 Concept:
-    - extend of django user model
+#    - extend of django user model
     - add a "mail" method
     - add mail to admin and / or staff members method
     - add some fields for user profil
