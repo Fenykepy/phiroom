@@ -69,6 +69,15 @@ class Post(models.Model):
         ordering = ['-pub_date']
 
 
+    def get_pictures(self):
+        """
+        Returns all related pictures orders by "PostPicture.order"
+        """
+        return [post_pict.picture for post_pict in 
+                PostPicture.objects.filter(post=self).select_related(
+                'picture')]
+
+
 
     def get_next_published(self):
         """
@@ -162,6 +171,7 @@ class PostPicture(models.Model):
 
     class Meta:
         ordering = ['order']
+
 
 
 

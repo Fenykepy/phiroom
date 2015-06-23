@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from weblog.models import Post, Tag
+from librairy.models import Picture
+from weblog.models import Post, PostPicture, Tag
 from user.serializers import AuthorSerializer
 
 
@@ -112,7 +113,34 @@ class PostAbstractSerializer(PostSerializer):
                 'pk', 'author',
         )
 
+
 class PostHeadSerializer(PostSerializer):
     class Meta:
         model = Post
         fields = ('title', 'slug', 'pk',)
+
+
+class PostPictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostPicture
+        fields = ('picture', 'post', 'order',)
+
+    def create(self, validated_data):
+        """
+        Create a new PostPicture object.
+        """
+        post_picture, created = PostPicture.objects.get_or_create(
+                post=validated_data['post'], 
+                picture=validated_data['picture'])
+        return post_picture
+
+
+    def update(self, instance, validated_data):
+        """
+        Update and return an existing "PostPicture".
+        """
+        # only order should be updatable
+        instance.order = validated_data.get('order', instance.order)
+        instance.save()
+
+        return instance

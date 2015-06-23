@@ -9,10 +9,11 @@ from datetime import timedelta
 from rest_framework.test import APIClient, APITestCase
 
 from user.models import User
-from weblog.models import Post, Tag
+from librairy.models import Picture
+from weblog.models import Post, PostPicture, Tag
 from weblog.utils import format_content, format_abstract, format_drop_cap
 
-
+from librairy.tests import create_test_picture
 
 
 
@@ -331,6 +332,47 @@ class PostModelTest(TestCase):
 
 
 
+class PostPictureModelTest(TestCase):
+    """PostPicture model test class."""
+
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create tags
+        create_test_tags(self)
+        # create posts
+        create_test_posts(self)
+        # create pictures
+        self.pict = create_test_picture()
+        self.pict2 = create_test_picture()
+
+
+    def test_create_PostPicture(self):
+        pp = PostPicture(post=self.post, picture=self.pict)
+        pp.order = 28
+        pp.save()
+        
+        # PostPicture object should have been saved in db
+        p = PostPicture.objects.get(pk=1)
+        self.assertEqual(p.picture, self.pict)
+        self.assertEqual(p.post, self.post)
+        self.assertEqual(p.order, 28)
+
+
+    def test_post_list_picture(self):
+        pp = PostPicture(post=self.post, picture=self.pict)
+        pp.order = 3
+        pp.save()
+        pp2 = PostPicture(post=self.post, picture=self.pict2)
+        pp2.order = 1
+        pp2.save()
+        # picture list should be ordered by "order"
+        picts = self.post.get_pictures()
+        self.assertEqual(picts[0], self.pict2)
+        self.assertEqual(picts[1], self.pict)
+
+
+
 
 
 
@@ -481,7 +523,212 @@ class TagAPITest(APITestCase):
 
 
 
+class PostPictureAPITest(APITestCase):
+    """PostPicture API Test."""
 
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create tags
+        create_test_tags(self)
+        # create posts
+        create_test_posts(self)
+        # create pictures
+        self.pict = create_test_picture()
+        self.pict2 = create_test_picture()
+
+        self.client = APIClient()
+
+
+    def test_post_picture_create(self):
+        url = '/api/librairy/post-pict/'
+        data = {'post': 1, 'picture': 2}
+        data2 = {'order': 76}
+        
+        # try without login
+        # client shouldn't be able to get
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+        # test with normal user
+        login(self, self.user2)
+        # client shouldn't get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+
+        # test with staff member and post owner
+        login(self, self.user)
+        # client shouldn't get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 405)
+        # client should be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 201)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+        
+        # assert PostPicture has been saved in db
+        p = PostPicture.objects.filter(post=self.post, picture=self.pict2).count()
+        self.assertEqual(p, 1)
+
+        # try to post again with same data
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 201)
+
+        # assert PostPicture has not been saved second time in db
+        p = PostPicture.objects.filter(post=self.post, picture=self.pict2).count()
+        self.assertEqual(p, 1)
+
+
+        # make second user staff
+        self.user2.is_staff = True
+        self.user2.save()
+        login(self, self.user2)
+        # try to post with a user not post's owner
+        # shouldn't be possible
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+
+
+
+
+    def test_post_picture_detail(self):
+        PostPicture.objects.create(post=self.post, picture=self.pict)
+        url = '/api/librairy/post-pict/post/1/pict/1/'
+        data = {'post': 1, 'picture': 2}
+        data2 = {'order': 76}
+        
+        # try without login
+        # client shouldn't be able to get
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+        # test with normal user
+        login(self, self.user2)
+        # client shouldn't get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+
+        # test with staff member and post owner
+        login(self, self.user)
+        # client shouldn't get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        data2 = {'order': 78}
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 200)
+        pp = PostPicture.objects.get(pk=1)
+        self.assertEqual(pp.order, 78)
+        # client should be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 204)
+        # object should have been deleted
+        pps = PostPicture.objects.all().count()
+        self.assertEqual(pps, 0)
+        
+        # make second user staff
+        self.user2.is_staff = True
+        self.user2.save()
+        login(self, self.user2)
+        PostPicture.objects.create(post=self.post, picture=self.pict)
+        # try to patch with a user not post's owner
+        # shouldn't be possible
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+
+
+    def test_post_picture_list(self):
+        PostPicture.objects.create(post=self.post, picture=self.pict)
+        url = '/api/librairy/posts/1/pictures/'
+
+        # try without login
+        # client shouldn't be able to get
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+
+        # test with normal user
+        login(self, self.user2)
+        # client shouldn't get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        
+        # make second user staff
+        self.user2.is_staff = True
+        self.user2.save()
+        login(self, self.user2)
+        # client shouldn't get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+        # test with staff member and post owner
+        login(self, self.user)
+        # client shouldn't get posts list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
 
 

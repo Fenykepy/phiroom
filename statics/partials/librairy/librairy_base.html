@@ -105,6 +105,7 @@
                     ng-show="showPosts"
                     ng-click="$event.stopPropagation()">
                     <li ng-repeat="item in posts_headers"><a class="dia"
+                        ng-class="{active: $state.includes('librairy.grid', {source: 'post', pk: item.pk})}"
                         ui-sref="librairy.grid({source: 'post', pk: item.pk})"
                         ph-drop="librairy/folder"
                         ph-drop-data="item"

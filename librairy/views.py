@@ -1,14 +1,17 @@
-from django.http import Http404
+from django.http import Http404, HttpResponseForbidden
 
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
+
 
 from librairy.serializers import *
 from librairy.models import Tag, Collection, CollectionsEnsemble, \
         Label, Directory, Picture
 
-
+from weblog.models import Post, PostPicture
+from weblog.serializers import PostPictureSerializer
 
 
 class PicturesList(generics.ListCreateAPIView):
@@ -91,3 +94,91 @@ class DirectoryPicturesList(generics.ListAPIView):
         )
 
         return Response(serializer.data)
+
+
+class PostPicturesList(generics.ListAPIView):
+    """
+    This view presents a list of all pictures related to one directory,
+    ordered by custom order.
+    """
+    serializer_class = PictureSerializer
+    permissions_classes = (IsAdminUser,)
+
+    def list(self, request, pk, format=None):
+        """ 
+        Returns a list of all pictures within a weblog post.
+        """
+        try:
+            post = Post.objects.get(pk=pk)
+            pictures = post.get_pictures()
+        except:
+            raise Http404
+        # return error if user is not post owner
+        if not request.user == post.author:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        serializer = PictureSerializer(pictures, many=True,
+                context={'request': request}
+        )
+
+        return Response(serializer.data)
+
+
+class PostPictureCreate(APIView):
+    """
+    Create a new post / picture relation.
+    """
+    def post(self, request, format=None):
+        serializer = PostPictureSerializer(data=request.data)
+        if serializer.is_valid():
+            # return error if user is not post owner
+            if not request.user == serializer.validated_data['post'].author:
+                return Response(status=status.HTTP_403_FORBIDDEN)
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+    
+class PostPictureDetail(APIView):
+    """
+    Update or delete post / picture relation.
+    """
+    permission_classes = (IsAdminUser,)
+
+    def get_object(self, post, pict):
+        try:
+            post_pict = PostPicture.objects.get(post=post, picture=pict)
+        except:
+            raise Http404
+        return post_pict
+
+    def is_owner(self, post_pict, user):
+        return post_pict.post.author == user
+
+
+    def delete(self, request, post, pict, format=None):
+        """Delete a PostPicture object."""
+        post_pict = self.get_object(post, pict)
+        if not self.is_owner(post_pict, request.user):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        post_pict.delete()
+        
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+    def patch(self, request, post, pict, format=None):
+        """Update a PostPicture object."""
+        post_pict = self.get_object(post, pict)
+        if not self.is_owner(post_pict, request.user):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        serializer = PostPictureSerializer(post_pict, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            # do not return any data here
+            return Response(status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
