@@ -63,9 +63,12 @@ phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUp
                     }
                 }
             }
+            /* if element is post, add element to post */
+            if (basket.type == "librairy/post") {
+                phPost.addPict2Post(pict.pk, basket.data.pk)
+            }
 
             /* if element is collection, copy picture to collection */
-            /* if element is post, add element to post */
             /* if element is portfolio, add element to portfolio */
         }
         function dropFolder(basket, folder) {

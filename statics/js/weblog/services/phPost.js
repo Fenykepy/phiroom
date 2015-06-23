@@ -219,6 +219,19 @@ phWeblog.factory('phPost', ['$http', '$location', '$stateParams', 'phSettings', 
     };
 
 
+    // add a picture to a post
+    phPost.addPict2Post = function(pictPk, postPk) {
+        var url = '/api/librairy/post-pict/';
+        var data = {
+            picture: pictPk,
+            post: postPk
+        };
+        return $http.post(url, data).error(function(data) {
+            console.log(data);
+        });
+    };
+
+
     return phPost;
 }]);
 

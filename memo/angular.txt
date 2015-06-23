@@ -4,7 +4,7 @@
 
 
 - /portfolios/      -> portfolios home page (portfolios list)
-- /weblog/          -> weblog home page (posts list)
+#- /weblog/          -> weblog home page (posts list)
 - /contact/         -> contact home page (description, form)
 #- /librairy/        -> librairy home page
 - /login/           -> login page
@@ -30,11 +30,11 @@ Routing with $location and ng-switch for these base urls
 ===             Weblog              ===
 =======================================
 
-- /weblog/                          -> list of all posts
-- /weblog/page/:pageID/             -> list of all posts (other pages)
-- /weblog/tag/:slug/                -> list of all posts corresponding to a tag
-- /weblog/tag/:slug/page/:pageID    -> list of all posts corresponding to a tag (other pages)
-- /weblog/:slug/                    -> view a particular post
+#- /weblog/                          -> list of all posts
+#- /weblog/page/:pageID/             -> list of all posts (other pages)
+#- /weblog/tag/:slug/                -> list of all posts corresponding to a tag
+#- /weblog/tag/:slug/page/:pageID    -> list of all posts corresponding to a tag (other pages)
+#- /weblog/:slug/                    -> view a particular post
 - /weblog/:slug/picture/:pk         -> view a particular picture in lightbox (anchor)
 - /weblog/add/                      -> on overlay form to post a new post
 - /weblog/:slug/edit/               -> on overlay form to update a post
@@ -56,7 +56,7 @@ Routing with $location and ng-switch for these base urls
 #- /librairy/                        -> empty librairy view
 #- /librairy/folder/:pk/             -> folder pictures list
 - /librairy/collection/:pk/         -> collections or collection ensemble pictures list
-- /librairy/post/:slug/             -> post pictures list
+#- /librairy/post/:slug/             -> post pictures list
 - /librairy/portfolio/:slug/        -> portfolio pictures list
 - /librairy/tags/:pk-slug/          -> tag pictures list
 - /librairy/settings/               -> phiroom in db settings (on overlay form)

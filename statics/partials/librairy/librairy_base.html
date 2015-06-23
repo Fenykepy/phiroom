@@ -107,7 +107,7 @@
                     <li ng-repeat="item in posts_headers"><a class="dia"
                         ng-class="{active: $state.includes('librairy.grid', {source: 'post', pk: item.pk})}"
                         ui-sref="librairy.grid({source: 'post', pk: item.pk})"
-                        ph-drop="librairy/folder"
+                        ph-drop="librairy/post"
                         ph-drop-data="item"
                         ph-drop-accept="librairy/pict"
                         ph-drop-style="droppable"

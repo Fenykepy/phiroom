@@ -2,6 +2,8 @@
 ###            Todo list for angular frontend            ###
 ############################################################
 
+- add number of pictures in left panel items (folders, posts etc.)
+- add pictures in posts
 
 - create a phGlobal object
     - store assets root url in it
