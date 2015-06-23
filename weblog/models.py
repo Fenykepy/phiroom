@@ -6,6 +6,8 @@ from django.db.models.signals import post_save, post_delete, m2m_changed
 from user.models import User
 from django.template.defaultfilters import slugify
 
+from librairy.models import Picture
+
 from weblog.slug import unique_slugify
 from weblog.utils import format_abstract, format_content
 
@@ -40,6 +42,9 @@ class Post(models.Model):
         verbose_name="Post content, in markdown")
     tags = models.ManyToManyField('Tag', blank=True,
             verbose_name="Tags")
+    pictures = models.ManyToManyField(Picture, blank=True,
+            through='PostPicture',
+            verbose_name="Pictures")
     author = models.ForeignKey(User)
     draft = models.BooleanField(default=False, db_index=True,
             verbose_name="Draft")
@@ -145,6 +150,18 @@ class Post(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.pk, self.title)
+
+
+
+class PostPicture(models.Model):
+    """Through table for post - pictures relation,
+    add an order column"""
+    post = models.ForeignKey(Post)
+    picture = models.ForeignKey(Picture)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
 
 
 

@@ -91,5 +91,3 @@ class DirectoryPicturesList(generics.ListAPIView):
         )
 
         return Response(serializer.data)
-
-

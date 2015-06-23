@@ -16,6 +16,10 @@ phLibrairy.factory('phListPictures', ['$http', function($http) {
             var url = '/api/librairy/directorys/'
                 + params.pk + '/pictures/';
         }
+        if (params.source == "post") {
+            var url = '/api/librairy/posts/'
+                + params.pk + '/pictures/';
+        }
         return url
     }
     phListPictures.listType = '';
