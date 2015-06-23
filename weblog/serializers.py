@@ -112,3 +112,7 @@ class PostAbstractSerializer(PostSerializer):
                 'pk', 'author',
         )
 
+class PostHeadSerializer(PostSerializer):
+    class Meta:
+        model = Post
+        fields = ('title', 'slug', 'pk',)

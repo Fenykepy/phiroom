@@ -509,6 +509,32 @@ class PostAPITest(APITestCase):
         self.post5.tags.add(self.tag)
 
 
+
+    def test_posts_head_list(self):
+        url = '/api/librairy/posts/'
+
+        # test without login
+        # client shouln'd receive anything
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+
+        # test with normal user
+        login(self, self.user2)
+        # client shouldn't receive anything
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+        # test with admin user
+        login(self, self.user)
+        # client shouldn't get any posts in list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 5)
+        self.assertTrue(response.data[0]['pk'])
+        self.assertTrue(response.data[0]['slug'])
+        self.assertTrue(response.data[0]['title'])
+
+
     def test_posts_list(self):
         url = '/api/weblog/posts/'
         data = {'title': 'Post title',

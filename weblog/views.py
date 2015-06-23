@@ -1,9 +1,9 @@
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
-from weblog.serializers import PostSerializer, PostAbstractSerializer, TagSerializer
+from weblog.serializers import *
 
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
 
@@ -73,14 +73,30 @@ class PostsListByTag(PostList):
 
 
 @api_view(['GET'])
-@permission_classes((IsAdminUser, ))
+@permission_classes((IsAuthenticated, IsAdminUser, ))
 def flat_tags_list(request, format=None):
     """
     Returns a flat list of all tags name.
+    without
     """
     tags = Tag.objects.values_list('name', flat=True).order_by('-n_posts')
 
     return Response(tags)
+
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, IsAdminUser, ))
+def post_head_list(request, format=None):
+    """
+    Returns a list of all user's posts headers (slug, pk, name)
+    without pagination.
+    """
+    posts = Post.objects.filter(author= request.user)
+    serializer = PostHeadSerializer(posts, many=True)
+
+    return Response(serializer.data)
+
 
 
 class TagList(generics.ListCreateAPIView):
