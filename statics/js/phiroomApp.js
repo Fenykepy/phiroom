@@ -10,7 +10,8 @@ var phiroomApp = angular.module('phiroomApp', [
         'phLibrairy',
         'phWeblog',
         'phContact',
-        'phPortfolio'
+        'phPortfolio',
+        'phLightbox'
 ]);
 
 // instantiate modules 
@@ -20,6 +21,7 @@ var phLibrairy = angular.module('phLibrairy', []);
 var phWeblog = angular.module('phWeblog', ['ngSanitize']);
 var phContact = angular.module('phContact', []);
 var phPortfolio = angular.module('phPortfolio', []);
+var phLightbox = angular.module('phLightbox', []);
 
 
 phiroomApp.run(['$rootScope', '$state', '$stateParams', 'phUser',
@@ -158,6 +160,16 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             resolve: {
                 post: function($stateParams, phPost) {
                     return phPost.getPost($stateParams);
+                }
+            }
+        }).
+        state('weblog.detail.lb', {
+            url: 'lightbox/{pk:int}/',
+            templateUrl: '/assets/partials/lightbox/lightbox.html',
+            controller: 'lightboxCtrl',
+            resolve: {
+                pictures: function(post) {
+                    return post.data.pictures;
                 }
             }
         }).

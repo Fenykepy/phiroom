@@ -42,6 +42,8 @@
 <script src="/assets/js/core/directives/phFunctionModel.js"></script>
 <script src="/assets/js/core/filters/phBytes.js"></script>
 <script src="/assets/js/core/filters/phRange.js"></script>
+<script src="/assets/js/core/animations/slideUpDownAnimation.js"></script>
+<script src="/assets/js/core/animations/fadeInOutAnimation.js"></script>
 <!-- Phiroom user module -->
 <script src="/assets/js/user/services/phUser.js"></script>
 <script src="/assets/js/user/controllers/userLoginCtrl.js"></script>
@@ -60,7 +62,6 @@
 <script src="/assets/js/librairy/directives/phDrag.js"></script>
 <script src="/assets/js/librairy/directives/phDrop.js"></script>
 <script src="/assets/js/librairy/directives/phFilePreview.js"></script>
-<script src="/assets/js/librairy/animations/toogleAnimation.js"></script>
 <!-- Phiroom weblog module -->
 <script src="/assets/js/weblog/controllers/weblogCtrl.js"></script>
 <script src="/assets/js/weblog/controllers/weblogListCtrl.js"></script>
@@ -68,11 +69,14 @@
 <script src="/assets/js/weblog/controllers/weblogPostFormCtrl.js"></script>
 <script src="/assets/js/weblog/services/phPost.js"></script>
 <script src="/assets/js/weblog/services/phTag.js"></script>
+<script src="/assets/js/lightbox/controllers/lightboxCtrl.js"></script>
+<script src="/assets/js/lightbox/services/phLightbox.js"></script>
+<script src="/assets/js/lightbox/directives/phVisibleMaxHeight.js"></script>
 
 <!-- remove on production -->
 <script src="/assets/bower_components/less/dist/less.min.js" type="text/javascript"></script><!-- DEVEL less compilation client side -->
 
-<body id="{{ page_info.name }}" ng-class="{modal_show: modal.show}">
+<body id="{{ page_info.name }}" ng-class="{blocked: modal.show, blocked: lb.show}">
     <ui-view></ui-view>
     <div id="modal-wrapper" ng-show="modal.show">
     <section id="modal"
@@ -90,7 +94,7 @@
         </div>
     </section><!-- admin-modal -->
     </div><!-- modal-wrapper -->
-    <div id="modal-overlay" ng-show="modal.show"></div>
+    <div id="modal-overlay" class="fade-in-out" ng-show="modal.show"></div>
 </body>
 
 

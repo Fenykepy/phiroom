@@ -66,14 +66,14 @@ LARGE_PREVIEWS_QUALITY = 90
 # (quality, destination folder (relative to PREVIEWS_DIR), width, height)
 # sould be sorted from bigger to smaller in tupple
 PREVIEWS_CROP = [
-        (70, 'square-500', 500, 500), # thumbs in weblog
+        (70, 'square-180', 180, 180), # thumbs in weblog
 ]
 
 ## previews by width for blog (in case it's need in design)
 # (quality, destination folder (relative to PREVIEWS_DIR), width)
 # MUST be sorted from bigger to smaller in tupple
 PREVIEWS_WIDTH = [
-        (70, 'width-600', 600), # main thumb in weblog
+        (70, 'width-750', 750), # main thumb in weblog
 ]
 
 ## previews by width for blog (in case it's need in design)

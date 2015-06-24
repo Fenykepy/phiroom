@@ -9,6 +9,15 @@
     </header>
     <div class="content" ng-bind-html="post.content"></div>
     <h6 class="author"><a href="{{ post.author.website }}" rel="author">{{ post.author.author_name }}</a></h6>
+        <div class="all-thumb-wrapper" ng-if="post.pictures"><a
+                ng-href="/weblog/{{ post.slug }}/lightbox/{{ pict.pk }}/"
+                ng-repeat="pict in post.pictures"><img 
+                ng-if="$first" 
+                ng-src="/media/images/previews/width-750/{{ pict.previews_path }}" /><img
+                ng-if="!$first" 
+                class="square"
+                ng-class="{fourth: $index%4 == 0}"
+                ng-src="/media/images/previews/square-180/{{ pict.previews_path }}" /></a></div>
     <footer>
         <ul id="tags">
             <li ng-repeat="tag in post.tags"><a href="/weblog/tag/{{ tag.slug }}/"
@@ -21,3 +30,4 @@
     <a ng-if="post.next" id="next" href="/weblog/{{ post.next }}/">Next post »</a>
 </nav>
 
+<ui-view></ui-view>

@@ -40,7 +40,7 @@
                 <div class="submenu-outframe">
                 <div class="submenu-frame">
                 <div class="submenu-inframe">
-                <ul class="submenu"
+                <ul class="submenu slide-up-down"
                     ng-show="showCatalog"
                     ng-click="$event.stopPropagation()">
                     <!-- <li><a class="doc" ui-sref="librairy.grid({source: 'folder', pk: '-'})">All pictures</a></li>-->
@@ -74,7 +74,7 @@
                 <div class="submenu-outframe">
                 <div class="submenu-frame">
                 <div class="submenu-inframe">
-                <ul class="submenu"
+                <ul class="submenu slide-up-down"
                     ng-show="showDirectorys"
                     ng-click="$event.stopPropagation()">
                     <li ng-repeat="item in phFolder.directorys" ng-include="'/assets/partials/librairy/librairy_recursive_directorys.html'"></li>
@@ -101,7 +101,7 @@
                 <div class="submenu-outframe">
                 <div class="submenu-frame">
                 <div class="submenu-inframe">
-                <ul class="submenu"
+                <ul class="submenu slide-up-down"
                     ng-show="showPosts"
                     ng-click="$event.stopPropagation()">
                     <li ng-repeat="item in posts_headers"><a class="dia"
@@ -124,7 +124,7 @@
                 <div class="submenu-outframe">
                 <div class="submenu-frame">
                 <div class="submenu-inframe">
-                <ul class="submenu"
+                <ul class="submenu slide-up-down"
                     ng-show="showAccount"
                     ng-click="$event.stopPropagation()">
                     <li>{{ phUser.user.avatar }}{{ phUser.user.username }}</li>

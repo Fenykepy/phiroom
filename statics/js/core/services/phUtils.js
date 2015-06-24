@@ -51,7 +51,7 @@ phCore.factory('phUtils', function() {
                 return i;
             }
         }
-        return false;
+        return -1;
     };
 
     return phUtils;
