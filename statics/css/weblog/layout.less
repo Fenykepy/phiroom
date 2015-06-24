@@ -143,6 +143,21 @@ body#weblog {
                 color: @blog-desc;
             }
         }
+        img {
+            margin: 5px auto;
+            display: block;
+            border: 1px solid @blog-main-thumb-border;
+            &:hover {
+                border: 1px solid @blog-main-thumb-border-hover;
+                box-shadow: 0 0 8px #797979;
+            }
+        }
+        .thumb-wrapper {
+            margin: 10px 0;
+            border-top: 1px solid @blog-hr;
+            border-bottom: 1px solid @blog-hr;
+            padding : 5px 0;
+        }
         #tags {
             margin-top: 4em;
             margin-bottom: 1.125em;

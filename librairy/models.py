@@ -280,7 +280,7 @@ class Picture(models.Model):
             # mk subdirs if necessary
             destination = mk_subdirs(preview[1])
             # check if previous generated preview is enought big
-            if preview[2] > last_max_side:
+            if preview[2] > last_width:
                 width_source = source_pathname
             # create thumbnail
             with ThumbnailFactory(filename=width_source) as img:

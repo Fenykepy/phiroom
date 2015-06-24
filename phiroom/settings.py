@@ -56,7 +56,7 @@ LARGE_PREVIEWS_SIZE_CHOICES = (
 
 # default previews size for big previews (must also
 # be in LARGE_PREVIEWS_CHOICES), leave 0 for full size
-DEFAULT_LARGE_PREVIEWS_SIZE = 1024
+DEFAULT_LARGE_PREVIEWS_SIZE = 1024 # lightbox, single view in librairy
 
 # large previews destination folder (relative to PREVIEWS_DIR)
 LARGE_PREVIEWS_FOLDER = 'large'
@@ -66,25 +66,29 @@ LARGE_PREVIEWS_QUALITY = 90
 # (quality, destination folder (relative to PREVIEWS_DIR), width, height)
 # sould be sorted from bigger to smaller in tupple
 PREVIEWS_CROP = [
-        (70, 'square-500', 500, 500),
+        (70, 'square-500', 500, 500), # thumbs in weblog
 ]
 
 ## previews by width for blog (in case it's need in design)
 # (quality, destination folder (relative to PREVIEWS_DIR), width)
 # MUST be sorted from bigger to smaller in tupple
-PREVIEWS_WIDTH = []
+PREVIEWS_WIDTH = [
+        (70, 'width-600', 600), # main thumb in weblog
+]
 
 ## previews by width for blog (in case it's need in design)
 # (quality, destination folder (relative to PREVIEWS_DIR), height)
 # MUST be sorted from bigger to smaller in tupple
-PREVIEWS_HEIGHT = []
+PREVIEWS_HEIGHT = [
+        (70, 'height-600', 600), # thumbs in portfolios
+]
 
 
 ##  max resized previews for librairy
 # (quality, destination folder (relative to PREVIEWS_DIR), largest side)
 # MUST be sorted from bigger to smaller in tupple,
 PREVIEWS_MAX = [
-        (70, 'max-500', 500),
+        (70, 'max-500', 500), # librairy vignets
 ]
 
 DEFAULT_CHARSET = 'utf-8'

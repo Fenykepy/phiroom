@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from librairy.models import Picture
+from librairy.serializers import PublicPictureSerializer
 from weblog.models import Post, PostPicture, Tag
 from user.serializers import AuthorSerializer
 
@@ -30,6 +31,7 @@ class PostSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     next = serializers.SerializerMethodField()
     previous = serializers.SerializerMethodField()
+    pictures = serializers.SerializerMethodField()
     url = serializers.HyperlinkedIdentityField(
             view_name='post-detail',
             lookup_field='slug'
@@ -41,6 +43,7 @@ class PostSerializer(serializers.ModelSerializer):
                   'tags', 'author', 'draft', 'pub_date',
                   'content', 'abstract', 'slug', 'pk',
                   'next', 'previous', 'tags_flat_list',
+                  'pictures',
         )
 
 
@@ -103,6 +106,11 @@ class PostSerializer(serializers.ModelSerializer):
             return prev.slug
         return None
 
+    def get_pictures(self, object):
+        picts = object.get_pictures()
+        serializer = PublicPictureSerializer(picts, many=True)
+        return serializer.data
+
 
 
 class PostAbstractSerializer(PostSerializer):
@@ -110,7 +118,7 @@ class PostAbstractSerializer(PostSerializer):
         model = Post
         fields = ('url', 'title', 'description',
                 'draft', 'pub_date', 'abstract', 'slug',
-                'pk', 'author',
+                'pk', 'author', 'pictures',
         )
 
 

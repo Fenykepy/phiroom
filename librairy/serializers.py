@@ -102,6 +102,13 @@ class PictureSerializer(serializers.ModelSerializer):
             )
 
 
+class PublicPictureSerializer(PictureSerializer):
+    """A serializer to show some pictures info in public pages."""
+    class Meta:
+        model = Picture
+        fields = ('pk', 'title', 'legend', 'previews_path')
+
+
 
 class PictureUploadSerializer(PictureSerializer):
     """A serializer to upload a picture through HTTP."""
