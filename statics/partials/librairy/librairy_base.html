@@ -51,7 +51,7 @@
                             ph-drop-accept="librairy/pict librairy/folder"
                             ph-drop-style="droppable"
                             ui-sref="librairy.grid({source: 'folder', pk: '-'})"
-                            ng-class="{active: $state.includes('librairy.grid', {source: 'folder', pk: item.pk})}"
+                            ng-class="{active: $state.includes('librairy.grid', {source: 'folder', pk: '-'})}"
                             >{{ phFolder.rootDir.name }}</a></li>
                 </ul><!-- submenu -->
                 </div><!-- submenu-inframe -->
