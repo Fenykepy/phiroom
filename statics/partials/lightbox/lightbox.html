@@ -1,30 +1,35 @@
 <div id="lb-overlay" class="fade-in-out" ng-show="lb.show"></div>
 
-<section id="lb-main" ng-show="lb.show" ng-click="lb.close()" class="fade-in-out">
-    <figure ph-view-port-center="lb.pict">
+<div ng-show="lb.show" class="fade-in-out">
+<section id="lb-main-stage1" ng-show="lb.stage" ng-click="lb.close()" class="fade-in-out">
+    <figure>
         <div class="lb-buttons-wrapper" ng-click="$event.stopPropagation()">
-            <img id="" ng-src="/media/images/previews/large/{{ lb.pict.previews_path }}"
-                 alt="{{ lb.pict.title }}"
-                 ph-visible-max-height="-100"/>
+            <img id="" ng-src="/media/images/previews/large/{{ lb.stage1.pict.previews_path }}"
+                 alt="{{ lb.stage1.pict.title }}"
+                 ph-view-port-max-height="-100"/>
             <button ng-if="lb.prev_pict" id="lb-prev" ng-click="lb.prev()"></button>
             <button ng-if="lb.next_pict"id="lb-next" ng-click="lb.next()"></button>
         </div>
         <figcaption>
-            {{ lb.pict.title }}
-            <p>image {{ lb.index + 1 }} of {{ lb.len}}</p>
-        </figcaption>
-    </figure>
-    <figure ph-view-port-center="lb.pict">
-        <div class="lb-buttons-wrapper" ng-click="$event.stopPropagation()">
-            <img id="" ng-src="/media/images/previews/large/{{ lb.pict.previews_path }}"
-                 alt="{{ lb.pict.title }}"
-                 ph-visible-max-height="-100"/>
-            <button ng-if="lb.prev_pict" id="lb-prev" ng-click="lb.prev()"></button>
-            <button ng-if="lb.next_pict"id="lb-next" ng-click="lb.next()"></button>
-        </div>
-        <figcaption>
-            {{ lb.pict.title }}
-            <p>image {{ lb.index + 1 }} of {{ lb.len}}</p>
+            {{ lb.stage1.pict.title }}
+            <p>image {{ lb.stage1.index + 1 }} of {{ lb.len}}</p>
         </figcaption>
     </figure>
 </section>
+
+<section id="lb-main-stage2" ng-show="lb.stage === false" ng-click="lb.close()" class="fade-in-out">
+    <figure>
+        <div class="lb-buttons-wrapper" ng-click="$event.stopPropagation()">
+            <img id="" ng-src="/media/images/previews/large/{{ lb.stage2.pict.previews_path }}"
+                 alt="{{ lb.stage2.pict.title }}"
+                 ph-view-port-max-height="-100"/>
+            <button ng-if="lb.prev_pict" id="lb-prev" ng-click="lb.prev()"></button>
+            <button ng-if="lb.next_pict"id="lb-next" ng-click="lb.next()"></button>
+        </div>
+        <figcaption>
+            {{ lb.stage2.pict.title }}
+            <p>image {{ lb.stage2.index + 1 }} of {{ lb.len}}</p>
+        </figcaption>
+    </figure>
+</section>
+</div>

@@ -12,11 +12,11 @@ var phLightbox = angular.module('phLightbox');
  *
  */
 
-phCore.directive('phVisibleMaxHeight', ['$window', function ($window) {
+phCore.directive('phViewPortMaxHeight', ['$window', function ($window) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-            var delta = parseInt(attrs['phVisibleMaxHeight'], 10);
+            var delta = parseInt(attrs['phViewPortMaxHeight'], 10);
             function adjust_max_height() {
                 var visible_height = angular.element($window).height() + delta;
                 element.css('max-height', visible_height);
