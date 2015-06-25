@@ -36,6 +36,7 @@
 <script src="/assets/js/core/services/phUtils.js"></script>
 <script src="/assets/js/core/services/phModal.js"></script>
 <script src="/assets/js/core/services/phFileUpload.js"></script>
+<script src="/assets/js/core/services/phPreloader.js"></script>
 <script src="/assets/js/core/directives/phFileModel.js"></script>
 <script src="/assets/js/core/directives/phDropFile.js"></script>
 <script src="/assets/js/core/directives/phHiddenFileModel.js"></script>
@@ -76,7 +77,7 @@
 <!-- remove on production -->
 <script src="/assets/bower_components/less/dist/less.min.js" type="text/javascript"></script><!-- DEVEL less compilation client side -->
 
-<body id="{{ page_info.name }}" ng-class="{blocked: modal.show, blocked: lb.show}">
+<body id="{{ page_info.name }}" ng-class="{freeze: modal.show || lightbox_freeze}">{{ freeze_body }}
     <ui-view></ui-view>
     <div id="modal-wrapper" ng-show="modal.show">
     <section id="modal"

@@ -8,7 +8,7 @@ phiroomApp.controller('mainCtrl', ['$scope', 'phUser', 'phModal', 'phSettings',
         function($scope, phUser, phModal, phSettings) {
 
         $scope.modal = phModal;
-
+        
         /* get settings */
         phSettings.getSettings().then(function() {
             $scope.settings = phSettings.settings;
