@@ -20,8 +20,8 @@ phLightbox.factory('phLightbox', ['phUtils', '$state', '$timeout', 'phPreloader'
     function init() {
         next_index = null;
         prev_index = null;
-        self.next_pict = {};
-        self.prev_pict = {};
+        self.next_pict = null;
+        self.prev_pict = null;
         self.show = false;
         self.stage = null;
         self.index = null;
