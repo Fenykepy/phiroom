@@ -1,9 +1,22 @@
 <div id="lb-overlay" class="fade-in-out" ng-show="lb.show"></div>
 
 <section id="lb-main" ng-show="lb.show" ng-click="lb.close()" class="fade-in-out">
-    <figure>
+    <figure ph-view-port-center="lb.pict">
         <div class="lb-buttons-wrapper" ng-click="$event.stopPropagation()">
-            <img ng-src="/media/images/previews/large/{{ lb.pict.previews_path }}"
+            <img id="" ng-src="/media/images/previews/large/{{ lb.pict.previews_path }}"
+                 alt="{{ lb.pict.title }}"
+                 ph-visible-max-height="-100"/>
+            <button ng-if="lb.prev_pict" id="lb-prev" ng-click="lb.prev()"></button>
+            <button ng-if="lb.next_pict"id="lb-next" ng-click="lb.next()"></button>
+        </div>
+        <figcaption>
+            {{ lb.pict.title }}
+            <p>image {{ lb.index + 1 }} of {{ lb.len}}</p>
+        </figcaption>
+    </figure>
+    <figure ph-view-port-center="lb.pict">
+        <div class="lb-buttons-wrapper" ng-click="$event.stopPropagation()">
+            <img id="" ng-src="/media/images/previews/large/{{ lb.pict.previews_path }}"
                  alt="{{ lb.pict.title }}"
                  ph-visible-max-height="-100"/>
             <button ng-if="lb.prev_pict" id="lb-prev" ng-click="lb.prev()"></button>
