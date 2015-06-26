@@ -12,7 +12,7 @@ On a debian like system, run as root:
 
     # apt-get update
     # apt-get safe-upgrade
-    # apt-get install python3 python3-markdown python3-pip python3-yaml python3-setuptools libpng12-dev libjpeg8-dev exempi git python3-virtualenv libmagickwand-dev
+    # apt-get install python3 python3-markdown python3-pip python3-yaml python3-setuptools libpng12-dev libjpeg8-dev exempi git python3-virtualenv libmagickwand-dev nodejs npm
 
 ### Set environement up ###
 
@@ -95,7 +95,7 @@ Run as root:
     # pip3 install psycopg2
     # su - postgres
     postgres@server:~$ createdb phiroom
-    postgres@server:~$ createuser --interactive -P
+    postgres@server:~$ createuser -P
     Saisir le nom du rôle à ajouter : phiroom
     Saisir le mot de passe pour le nouveau rôle : 
     Le saisir de nouveau : 
@@ -195,6 +195,10 @@ Run as `<my_user>`:
  * Create a superuser:
 
         $ python3 manage.py createsuperuser
+
+ * Collect static files:
+
+        $ python3 manage.py collectstatic
 
 
 #### Set up gunicorn ####
@@ -327,9 +331,13 @@ Run as root:
         server {
             listen 80 default;
             server_name phiroom.org;
+
+            root /var/www/phiroom_env/phiroom/phiroom/statics/;
+
             if ($host = 'www.phiroom.org'){
                 rewrite ^/(.*)$ http://phiroom.org/$1 permanent;
             }
+
             client_max_body_size 4G;
             access_log /var/log/nginx/phiroom-access.log;
             error_log /var/log/nginx/phiroom-error.log;
@@ -342,11 +350,11 @@ Run as root:
                 alias /var/www/phiroom_env/phiroom/phiroom/data/;
             }
 
-            location / {
-                alias /var/www/phiroom_env/phiroom/phiroom/statics/index.html;
+            location = / {
+                index index.html;
             }
 
-            location /api {
+            location / {
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header Host $http_host;
                 proxy_read_timeout 300000;
