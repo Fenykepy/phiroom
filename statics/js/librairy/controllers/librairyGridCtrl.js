@@ -18,15 +18,21 @@ phLibrairy.controller('librairyGridCtrl', ['$scope', 'phListPictures', 'phRate',
     }
     // if post, add remove from post in picture contextual menu
     if ($scope.type == 'post') {
-        $scope.rmPictFrom = function(pict_pk) {
+        $scope.rmPictFrom = function(pict_pk, index) {
+            // close contextual
+            $scope.show_menu[index] = false;
             // remove picture
+            phListPictures.picts.splice(index, 1);
         };
     }
     // if folder, add remove from serve in picture contextual menu
     if ($scope.type == 'folder') {
         $scope.type = 'server';
-        $scope.rmPictFrom = function(pict_pk) {
+        $scope.rmPictFrom = function(pict_pk, index) {
+            // close contextual
+            $scope.show_menu[index] = false;
             // remove picture
+            phListPictures.picts.splice(index, 1);
         };
     }
 }]);

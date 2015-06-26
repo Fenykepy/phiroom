@@ -34,10 +34,9 @@
         <ul ng-show="show_menu[$index]" class="slide-up-down thumb-menu">
             <li><a target="blank" ng-href="/media/images/previews/large/{{ pict.previews_path }}">Open large version</a></li>
             <li><a target="blank" ng-href="/media/{{ pict.source_file }}">Open original</a></li>
-            <li><a target="blank" ng-href="/media/{{ pict.source_file }}">Open original</a></li>
-            <li ng-if="! type == 'server'"><a ui-sref="librairy.grid({source: 'folder', pk: pict.directory || '-'})">Open folder</a></li>
+            <li ng-if="type != 'server'"><a ui-sref="librairy.grid({source: 'folder', pk: pict.directory || '-'})">Open folder</a></li>
             <li class="separator"></li>
-            <li ng-if="rmPictFrom"><a ng-click="rmPictFrom(pict.pk)" href="">Remove from {{ type }}</a></li>
+            <li ng-if="rmPictFrom"><a ng-click="rmPictFrom(pict.pk, $index)" href="">Remove from {{ type }}</a></li>
         </ul>
         <!-- image itself wrapper, for published icone to be at right place -->
         <div>
