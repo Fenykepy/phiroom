@@ -7,7 +7,7 @@
     <ng-include src="'/assets/partials/weblog/weblog_time.html'"></ng-include>
     <h1><a ng-href="/weblog/{{ post.slug }}/">{{ post.title }}</a></h1>
     </header>
-    <div class="thumb-wrapper" ng-if="post.pictures">
+    <div class="thumb-wrapper" ng-if="post.pictures.length > 0">
         <a ng-href="/weblog/{{ post.slug }}/lightbox/{{ post.pictures[0].pk }}/"><img ng-src="/media/images/previews/width-750/{{ post.pictures[0].previews_path }}" /></a>
     </div>
     <div class="content" ng-bind-html="post.abstract"></div>
