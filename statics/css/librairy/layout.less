@@ -303,7 +303,7 @@ body#librairy {
                 border-top: 1px solid @lib-thumb-header-border-top;
                 border-bottom: 1px solid @lib-thumb-header-border-bottom;
                 background: @lib-thumb-header-bg;
-                padding: 10px;
+                padding: 10px 10px 15px;
                 box-shadow: none;
 
                 div.line1, div.line2 {
@@ -320,7 +320,58 @@ body#librairy {
                     color: @lib-thumb-header-line2;
                     font-size: 0.9em;
                 }
+                button.thumb-menu {
+                    display: block;
+                    position: absolute;
+                    right: 13px;
+                    height: 18px;
+                    width: 25px;
+                    bottom: 0px;
+                    &:before {
+                        top: 3px;
+                        right: 0;
+                        .arrow-down(#474747, 8px, 8px);
+                    }
+                    &:hover:before {
+                        .arrow-down(#222222, 8px, 8px);
+                    }
+                }
             }
+                ul.thumb-menu {
+                    position: absolute;
+                    border-radius: 0 0 4px 4px;
+                    box-shadow: 0 0 2px #919191 inset;
+                    box-sizing: border-box;
+                    background: #666;
+                    border: 1px solid #222;
+                    border-top: none;
+                    padding: 7px 0;
+                    right: 8px;
+                    left: 8px;
+                    top: -1px;
+                    z-index: 10;
+                    line-height: normal;
+                    text-align: left;
+                    li {
+                        margin-top: 2px;
+                        &:first-child {
+                            margin: 0;
+                        }
+                        &.separator {
+                            height: 1px;
+                            margin: 6px 0;
+                            background-color: #222;
+                        }
+                    }
+                    a {
+                        text-indent: 18px;
+                        display: block;
+                        color: #000;
+                        &:hover, &:active {
+                            background: #5E5E5E;
+                        }
+                    }
+                }
 
             div.thumb-container {
                 position: relative;

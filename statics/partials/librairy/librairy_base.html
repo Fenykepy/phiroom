@@ -78,7 +78,7 @@
                     ng-show="showDirectorys"
                     ng-click="$event.stopPropagation()">
                     <li ng-repeat="item in phFolder.directorys" ng-include="'/assets/partials/librairy/librairy_recursive_directorys.html'"></li>
-                    <li ng-if="phFolder.directorys.length == 0"><a class="doc popup" href="">Aucun dossier</a></li>
+                    <li ng-if="phFolder.directorys.length == 0"><a class="doc popup" href="">No folders</a></li>
                 </ul><!-- submenu -->
                 </div><!-- submenu-inframe -->
                 </div><!-- submenu-frame -->
@@ -112,6 +112,7 @@
                         ph-drop-accept="librairy/pict"
                         ph-drop-style="droppable"
                     >{{ item.title }}</a></li>
+                    <li ng-if="posts_headers.length == 0"><a class="dia" href="">No blog post</a></li>
                 </ul><!-- submenu -->
                 </div><!-- submenu-inframe -->
                 </div><!-- submenu-frame -->
@@ -142,7 +143,7 @@
     </nav>
 
 <!-- main content area -->
-<section id="content" ui-view>
+<section id="content" ui-view autoscroll>
 </section>
 
 <!-- page up link -->

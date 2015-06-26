@@ -350,11 +350,11 @@ Run as root:
                 alias /var/www/phiroom_env/phiroom/phiroom/data/;
             }
 
-            location = / {
-                index index.html;
+            location / {
+                try_files $uri $uri/ /index.html;
             }
 
-            location / {
+            location /api/ {
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header Host $http_host;
                 proxy_read_timeout 300000;
