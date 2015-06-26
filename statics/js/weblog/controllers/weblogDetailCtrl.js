@@ -5,8 +5,8 @@
 var phWeblog = angular.module('phWeblog');
 
 
-phWeblog.controller('weblogDetailCtrl', ['$scope', 'phPost', 'post',
-        function($scope, phPost, post) {
-    $scope.post = phPost.post;
-    $scope.editPost = phPost.editPost;
+phWeblog.controller('weblogDetailCtrl', ['$scope', 'phPostDetail', 'phPostEdit', 'post',
+        function($scope, phPostDetail, phPostEdit, post) {
+    $scope.post = phPostDetail.post;
+    $scope.editPost = phPostEdit.open;
 }]);

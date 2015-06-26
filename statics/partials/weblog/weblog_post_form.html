@@ -1,5 +1,6 @@
 <div ng-controller="weblogPostFormCtrl">
-    <form ng-submit="postSubmit()" id="post_form">
+    <button ng-if="delete" ng-click="delete(current, url)">Delete</button>
+    <form ng-submit="submit()" id="post_form">
         <datalist id="tags_list">
             <option ng-repeat="tag in suggestions_list track by $index" value="{{ tag }}">
         </datalist>
@@ -11,7 +12,7 @@
             <input id="id_title" ng-model="current.title" required>
         </div>
         <div class="field_wrapper">
-            <label for="id_description">Description: <span class="red"> *</span></label>
+            <label for="id_description">Description:</label>
             <ul class="errorlist">
                 <li ng-repeat="item in errors.description">{{ item }}</li>
             </ul>

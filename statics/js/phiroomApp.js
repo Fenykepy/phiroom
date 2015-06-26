@@ -114,8 +114,8 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             templateUrl: '/assets/partials/weblog/weblog_list.html',
             controller: 'weblogListCtrl',
             resolve: {
-                posts: function($stateParams, phPost, settings) {
-                    return phPost.getPostsList($stateParams);
+                posts: function($stateParams, phPostList, settings) {
+                    return phPostList.getPostsList($stateParams);
                 }
 
             }
@@ -125,8 +125,8 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             templateUrl: '/assets/partials/weblog/weblog_list.html',
             controller: 'weblogListCtrl',
             resolve: {
-                posts: function($stateParams, phPost, settings) {
-                    return phPost.getPostsList($stateParams);
+                posts: function($stateParams, phPostList, settings) {
+                    return phPostList.getPostsList($stateParams);
                 }
             }
         }).
@@ -135,8 +135,8 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             templateUrl: '/assets/partials/weblog/weblog_list.html',
             controller: 'weblogListCtrl',
             resolve: {
-                posts: function($stateParams, phPost, settings) {
-                    return phPost.getPostsList($stateParams);
+                posts: function($stateParams, phPostList, settings) {
+                    return phPostList.getPostsList($stateParams);
                 }
 
             }
@@ -146,8 +146,8 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             templateUrl: '/assets/partials/weblog/weblog_list.html',
             controller: 'weblogListCtrl',
             resolve: {
-                posts: function($stateParams, phPost, settings) {
-                    return phPost.getPostsList($stateParams);
+                posts: function($stateParams, phPostList, settings) {
+                    return phPostList.getPostsList($stateParams);
                 }
             }
         }).
@@ -158,8 +158,8 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             templateUrl: '/assets/partials/weblog/weblog_detail.html',
             controller: 'weblogDetailCtrl',
             resolve: {
-                post: function($stateParams, phPost) {
-                    return phPost.getPost($stateParams);
+                post: function($stateParams, phPostDetail) {
+                    return phPostDetail.getPost($stateParams);
                 }
             }
         }).

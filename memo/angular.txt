@@ -82,3 +82,68 @@ Routing with $location and ng-switch for these base urls
         - name
         - rights on collections
 
+
+
+=======================================
+===            Services             ===
+=======================================
+
+
+
+#=== phPost refactoring ===
+
+#- phPostConfig:
+#    - api_post_pict_relation_base_url   -> string, post / picture relation base url
+#    - api_post_headers_url         -> string, post headers list url
+#    - buildApiPostPictRelationUrl(pict_pk, post_pk) -> build api Post / picture relation detail url
+#    - buildSlugFromParams(params)  -> convert params object to slug:
+#                                        {year:YYYY, month:MM, day:DD, slug:XXXXXXXX} to
+#                                            YYYY/MM/DD/XXXXXXX
+#    - buildApiPostDetailUrl(params)    -> build post api url from params
+#    - buildFrontendPostDetailUrl(slug) -> build frontend list url from post slug
+#    - buildApiPostListUrl(params)          -> build api list url from params
+#    - buildFrontendPostListUrl(params)     -> build frontend list url from params
+
+#- phPostDetail:
+#    - post          -> object
+#    - getPost(params)     -> return a specific post, set all frontend urls (next, prev, tag, lightbox)
+#    - addPict(pict_pk, post_pk)     -> add a picture to a post
+#    - delPict(pict_pk, post_pk)     -> remove a picture from a post
+
+#- phPostList:
+#    - posts            -> array
+#    - getPostsList()        -> return paginated list of posts, sorted by pub_date and
+#                               filtered by tags if necessary
+#    - goToPage(page)                        -> go to given pagination page number
+
+#- phPostHeaderList:
+#    - posts_headers_list       -> array
+#    - getPostsHeadersList()    -> return list of all posts header (for librairy left panel)
+
+#- phPostCreate:
+#    - new_post  -> object
+#    - errors    -> array
+#    - reset()   -> reset errors, and modal
+#    - open()    -> open modal with empty form
+#    - submit()  -> send data to server
+#                -> on success go to new post
+#                -> on error show errors in form
+
+#- phPostEdit:
+#    - edited_post    -> object, deep copy of current post
+#    - errors    -> array
+#    - reset()   -> reset errors, and modal
+#    - open(post)    -> open modal, with form fullfilled with current post
+#    - submit()  -> send data to server
+#                -> on success go to edited post
+#                -> on error show errors in form
+
+#- phPostDelete:
+#    - errors    -> array
+#    - post      -> object
+#    - reset()   -> reset errors, and modal
+#    - open(post)    -> open modal with confirmation dialbox
+#    - submit()  -> on success weblog home
+#                -> on error show errors
+
+

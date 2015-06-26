@@ -4,26 +4,32 @@
 
 var phWeblog = angular.module('phWeblog');
 
-phWeblog.controller('weblogPostFormCtrl', ['$scope', 'phPost', 'phTag', 'phUtils',
-        function($scope, phPost, phTag, phUtils) {
+phWeblog.controller('weblogPostFormCtrl', ['$scope', 'phPostCreate', 'phPostEdit', 'phPostDelete', 'phTag', 'phUtils',
+        function($scope, phPostCreate, phPostEdit,
+            phPostDelete, phTag, phUtils) {
     // get flat tags list
     $scope.suggestions_list = [];
     phTag.getFlatTags().then(function(data) {
         // do a copy because we change the list
         angular.copy(phTag.flat_tags_list, $scope.suggestions_list);
     });
-    $scope.errors = phPost.errors;
+
     // for new post
-    if (phPost.form_status == 'new') {
-        $scope.postSubmit = phPost.mkPostSubmit;
-        $scope.cancel = phPost.mkPostInit;
-        $scope.current = phPost.newPost;
+    if (phPostCreate.active) {
+        $scope.submit = phPostCreate.submit;
+        $scope.cancel = phPostCreate.reset;
+        $scope.current = phPostCreate.post;
+        $scope.errors = phPostCreate.errors;
     }
     // to edit post
-    else if (phPost.form_status == 'edit') {
-        $scope.postSubmit = phPost.editPostSubmit;
-        $scope.cancel = phPost.editPostInit;
-        $scope.current = phPost.editedPost;
+    else if (phPostEdit.active) {
+        $scope.submit = phPostEdit.submit;
+        $scope.cancel = phPostEdit.reset;
+        $scope.current = phPostEdit.post;
+        $scope.errors = phPostEdit.errors;
+        $scope.url = phPostEdit.url;
+        $scope.delete = phPostDelete.open;
+
     }
 
     $scope.addTag = function(tag) {

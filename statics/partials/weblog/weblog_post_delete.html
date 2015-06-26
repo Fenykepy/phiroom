@@ -1,0 +1,11 @@
+<div ng-controller="weblogPostDeleteCtrl">
+    <h4>Are you sure you want to delete post "{{ current.title }}" ?</h4>
+    <p><em>(This operation is irreversible…)</em></p>
+
+    <footer>
+        <div class="buttons-wrapper">
+            <button ng-click="cancel()">Cancel</button>
+            <button ng-click="submit()">Delete post</button>
+        </div><!-- buttons wrapper -->
+    </footer>
+</div>
