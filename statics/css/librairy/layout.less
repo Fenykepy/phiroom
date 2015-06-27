@@ -137,6 +137,7 @@ body#librairy {
         background: @lib-panels-bg;
         position: absolute;
         overflow: hidden;
+        overflow-y: overlay;
         width: 300px;
         box-sizing: border-box;
         top: 3px;
@@ -144,6 +145,13 @@ body#librairy {
         bottom: 3px;
         margin-right: 3px;
         padding: 0 5px 30px;
+        // footer
+        #nav:after {
+            margin-top: 30px;
+            margin-right: auto;
+            margin-left: auto;
+            .sprite-block(0, @line3, @grid2, 162px, 169px);
+        }
 
         // first level menu li link
         #nav > li > a {
@@ -250,6 +258,9 @@ body#librairy {
         left: 306px;
         background: @lib-content-bg;
         padding-bottom: 3px;
+        &.left-panel-close {
+            left: 3px;
+        }
         // toolbars
         // -> filter bar
         menu[type="toolbar"].filter-bar {
@@ -333,7 +344,7 @@ body#librairy {
                         right: 0;
                         .arrow-down(#474747, 8px, 8px);
                     }
-                    &:hover:before {
+                    &:hover:before, &.active:before {
                         .arrow-down(#222222, 8px, 8px);
                     }
                 }

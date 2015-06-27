@@ -143,7 +143,11 @@
     </nav>
 
 <!-- main content area -->
-<section id="content" ui-view autoscroll>
+<section id="content"
+         ng-class="{'left-panel-close': hide_left_panel, 'right-panel-close': hide_right_panel}"
+         ui-view 
+         autoscroll
+         ph-justify-thumbs>
 </section>
 
 <!-- page up link -->

@@ -11,6 +11,9 @@ phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUp
     /* set page infos */
     $scope.page_info.title = 'Librairy';
     $scope.page_info.name = 'librairy';
+
+    /* set panels visibility */
+    $scope.hide_left_panel = false;
     
     
     /* get folders service */

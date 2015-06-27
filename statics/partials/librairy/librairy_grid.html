@@ -27,6 +27,7 @@
         <button 
             class="thumb-menu no-style"
             ng-click="show_menu[$index] = ! show_menu[$index]"
+            ng-class="{active: show_menu[$index]}"
         ><span class="accessibility">menu de l'onglet</span></button>
     </header>
     <!-- square container for image -->
@@ -46,7 +47,8 @@
                  ph-drag-style="selected"
                  ng-src="/media/images/previews/max-500/{{ pict.previews_path }}"
                  ng-dblclick="$state.go('.single', {'picture': pict.pk})"
-                 alt="{{ pict.title }}" />
+                 alt="{{ pict.title }}"
+                 title="Double click me !" />
         </div><!-- image wrapper -->
         <div class="published"></div>
     </div><!-- thumb-container -->

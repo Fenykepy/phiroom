@@ -34,7 +34,6 @@ phLibrairy.factory('phListPictures', ['$http', function($http) {
         return $http.get(set_url(params)).success(function(data) {
             // store pictures list in service
             phListPictures.picts = data;
-            console.log(data);
         });
     };
 
