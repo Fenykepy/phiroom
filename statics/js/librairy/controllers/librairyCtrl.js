@@ -5,8 +5,8 @@
 var phLibrairy = angular.module('phLibrairy');
 
 phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUploader', 'phPatcher',
-        'phListPictures', 'phUtils', 'phPostHeaderList', 'phPostDetail',
-        function($scope, $rootScope, phFolder, phUploader, phPatcher, phListPictures, phUtils, 
+        'phPicture', 'phUtils', 'phPostHeaderList', 'phPostDetail',
+        function($scope, $rootScope, phFolder, phUploader, phPatcher, phPicture, phUtils, 
             phPostHeaderList, phPostDetail) {
     /* set page infos */
     $scope.page_info.title = 'Librairy';
@@ -56,14 +56,14 @@ phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUp
                 }
                 var promise = phPatcher(pict, data);
                 // if we are in folder list
-                if (phListPictures.listType == 'folder') {
+                if (phPicture.container_type == 'folder') {
                     /* if basket folder is not a child of active one */
-                    if (phFolder.isChild(basket.data.pk, phListPictures.pk) === false) {
+                    if (phFolder.isChild(basket.data.pk, phPicture.container_pk) === false) {
                         /* then picture shouldn't be in list anymore, delete it */
                         // get index of picture object in list
-                        var index = phUtils.getObjectIndexByKey(phListPictures.picts, 'pk', pict.pk);
+                        var index = phUtils.getObjectIndexByKey(phPicture.picts, 'pk', pict.pk);
                         // delete object from array
-                        phListPictures.picts.splice(index, 1);
+                        phPicture.picts.splice(index, 1);
                     }
                 }
             }

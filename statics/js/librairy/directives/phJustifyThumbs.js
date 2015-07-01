@@ -5,8 +5,8 @@
 var phLibrairy = angular.module('phLibrairy');
 
 
-phLibrairy.directive('phJustifyThumbs', ['$timeout', '$window', 
-        function($timeout, $window) {
+phLibrairy.directive('phJustifyThumbs', ['$timeout', '$window', '$rootScope',
+        function($timeout, $window, $rootScope) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -39,6 +39,10 @@ phLibrairy.directive('phJustifyThumbs', ['$timeout', '$window',
                 // use timeout else sometimes justify doesn't occur
                 // 10 seems to be a good value.
                 $timeout(justifyThumbs, 10);
+            });
+            // justify when state change (back from single view)
+            $rootScope.$on('$stateChangeSuccess', function() {
+                $timeout(justifyThumbs, 0);
             });
             // bind resize event to window
             angular.element($window).bind("resize", function (event) {

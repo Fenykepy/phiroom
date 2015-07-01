@@ -89,6 +89,46 @@ Routing with $location and ng-switch for these base urls
 =======================================
 
 
+=== phPicture refactoring ===
+
+- phPictureConfig
+
+    - buildApiListUrl(params)
+        (relation or from server)
+
+
+
+- phPicture:
+    - container_type      -> string
+    - container_pk        -> string
+    - picts     -> array
+    - getList(params)                       -> function get list
+    - add(pict_pk, container_pk)        -> function, add a list
+    - order([pict_pk, pict_pk], container_pk)   -> function set order for pictures
+    - delete(pict_pk, container_pk)     -> function, delete picture from list
+    - delete {
+        open function, open modal deletion confirmation window
+        submit function, submit deletion
+        reset function, close deletion modal window
+        (relation or from server)
+
+
+- phNotif:
+    - display a notification to user
+        types: ['error', 'warn', 'success', 'info']
+        message: message to display, (support html ? or just parse urls ?)
+        delay: delay in seconds after which notification disappear
+            if null, notification must be closed by user
+            default: 5s
+
+    - notifs {}
+    - add notif(type, message, delay)
+
+
+
+
+
+
 
 #=== phPost refactoring ===
 

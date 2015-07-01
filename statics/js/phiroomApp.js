@@ -187,8 +187,8 @@ phiroomApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
             templateUrl: '/assets/partials/librairy/librairy_grid.html',
             controller: 'librairyGridCtrl',
             resolve: {
-                pictures: function($stateParams, phListPictures) {
-                    return phListPictures.get($stateParams);
+                pictures: function($stateParams, phPicture) {
+                    return phPicture.getList($stateParams);
                 }
             }
         }).

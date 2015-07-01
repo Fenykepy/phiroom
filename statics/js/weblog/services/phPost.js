@@ -7,7 +7,6 @@ var phWeblog = angular.module('phWeblog');
 phWeblog.factory('phPostConfig', ['phSettings', function(phSettings) {
     return {
         api_post_headers_url: '/api/weblog/post-head/',
-        api_post_pict_relation_base_url: '/api/librairy/post-pict/',
         api_post_list_base_url: '/api/weblog/posts/',
         api_post_detail_base_url: '/api/weblog/posts/',
         frontend_post_list_base_url: '/weblog/',
@@ -70,10 +69,6 @@ phWeblog.factory('phPostConfig', ['phSettings', function(phSettings) {
         },
 
 
-        buildApiPostPictRelationUrl: function(pict_pk, post_pk) {
-            return this.api_post_pict_relation_base_url + 'post/' +
-                post_pk + '/pict/' + pict_pk + '/';
-        }
     };
 }]);
 
@@ -152,26 +147,6 @@ phWeblog.factory('phPostDetail', ['$http', 'phPostConfig',
             }).error(function(data) {
                 console.warn('phPostDetail.getPost: error getting post with params:',
                         params, data); 
-            });
-        },
-        // add a picture to a post
-        addPict: function(pict_pk, post_pk) {
-            var url = phPostConfig.api_post_pict_relation_base_url;
-            var data = {
-                picture: pict_pk,
-                post: post_pk
-            };
-            return $http.post(url, data).error(function(data) {
-                console.warn('phPostDetail.addPict: error adding pict "' + pict_pk +
-                        '" to post "' + post_pk + '".', data); 
-            });
-        },
-        // delete a picture from a post
-        delPict: function(pict_pk, post_pk) {
-            var url = phPostConfig.buildApiPostPictRelationUrl(pict_pk, post_pk);
-            return $http.delete(url).error(function(data) {
-                console.warn('phPostDetail.delPict: error deleting pict "' + pict_pk +
-                        '" from post "' + post_pk + '".', data); 
             });
         }
     };

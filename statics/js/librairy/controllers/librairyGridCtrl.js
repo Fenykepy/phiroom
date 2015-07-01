@@ -4,10 +4,10 @@
 
 var phLibrairy = angular.module('phLibrairy');
 
-phLibrairy.controller('librairyGridCtrl', ['$scope', 'phListPictures', 'phRate',
-        function($scope, phListPictures, phRate) {
-    $scope.type = phListPictures.listType; // folder|collection|post|portfolio|tag
-    $scope.picts = phListPictures.picts;
+phLibrairy.controller('librairyGridCtrl', ['$scope', 'phPicture', 'phRate',
+        function($scope, phPicture, phRate) {
+    $scope.type = phPicture.container_type; // folder|collection|post|portfolio|tag
+    $scope.picts = phPicture.picts;
     $scope.show_filter_bar = true;
     $scope.setRate = phRate;
     // show / hide menu array
@@ -22,7 +22,7 @@ phLibrairy.controller('librairyGridCtrl', ['$scope', 'phListPictures', 'phRate',
             // close contextual
             $scope.show_menu[index] = false;
             // remove picture
-            phListPictures.picts.splice(index, 1);
+            phPicture.picts.splice(index, 1);
         };
     }
     // if folder, add remove from serve in picture contextual menu
@@ -32,7 +32,7 @@ phLibrairy.controller('librairyGridCtrl', ['$scope', 'phListPictures', 'phRate',
             // close contextual
             $scope.show_menu[index] = false;
             // remove picture
-            phListPictures.picts.splice(index, 1);
+            phPicture.picts.splice(index, 1);
         };
     }
 }]);
