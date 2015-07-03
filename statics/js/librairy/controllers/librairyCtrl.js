@@ -5,9 +5,9 @@
 var phLibrairy = angular.module('phLibrairy');
 
 phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUploader', 'phPatcher',
-        'phPicture', 'phUtils', 'phPostHeaderList', 'phPostDetail',
+        'phPicture', 'phUtils', 'phPostHeaderList',
         function($scope, $rootScope, phFolder, phUploader, phPatcher, phPicture, phUtils, 
-            phPostHeaderList, phPostDetail) {
+            phPostHeaderList) {
     /* set page infos */
     $scope.page_info.title = 'Librairy';
     $scope.page_info.name = 'librairy';
@@ -69,7 +69,7 @@ phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUp
             }
             /* if element is post, add element to post */
             if (basket.type == "librairy/post") {
-                phPostDetail.addPict(pict.pk, basket.data.pk)
+                phPicture.add(pict.pk, basket.data.pk, 'post');
             }
 
             /* if element is collection, copy picture to collection */

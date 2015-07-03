@@ -7,6 +7,9 @@ var phLibrairy = angular.module('phLibrairy');
 phLibrairy.controller('librairyGridCtrl', ['$scope', 'phPicture', 'phRate',
         function($scope, phPicture, phRate) {
     $scope.type = phPicture.container_type; // folder|collection|post|portfolio|tag
+    if ($scope.type == 'folder') {
+        $scope.type = 'server';
+    }
     $scope.picts = phPicture.picts;
     $scope.show_filter_bar = true;
     $scope.setRate = phRate;
@@ -16,25 +19,12 @@ phLibrairy.controller('librairyGridCtrl', ['$scope', 'phPicture', 'phRate',
         // all menu are hidden by default
         $scope.show_menu.push(false);
     }
-    // if post, add remove from post in picture contextual menu
-    if ($scope.type == 'post') {
-        $scope.rmPictFrom = function(pict_pk, index) {
-            // close contextual
-            $scope.show_menu[index] = false;
-            // remove picture
-            phPicture.picts.splice(index, 1);
-        };
-    }
-    // if folder, add remove from serve in picture contextual menu
-    if ($scope.type == 'folder') {
-        $scope.type = 'server';
-        $scope.rmPictFrom = function(pict_pk, index) {
-            // close contextual
-            $scope.show_menu[index] = false;
-            // remove picture
-            phPicture.picts.splice(index, 1);
-        };
-    }
+    $scope.rmPict = function(pict, index) {
+        // close contextual
+        $scope.show_menu[index] = false;
+        // remove picture
+        phPicture.del(pict, index);
+    };
 }]);
 
 

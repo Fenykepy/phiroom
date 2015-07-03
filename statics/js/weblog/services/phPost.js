@@ -290,6 +290,7 @@ phWeblog.factory('phPostDelete', ['$http', '$state', 'phModal', function($http, 
             console.log(self.post)
             if (! self.post || ! self.url) {
                 console.warn('phPostDelete: you must run open() before submit');
+                return;
             }
             $http.delete(self.url).success(function(data) {
                 self.reset();
