@@ -1,7 +1,7 @@
 <!-- top-scroll anchor -->
 <div id="top"></div>
 <!-- view for single state -->
-<div ui-view ph-order=".right-basket, .left-basket">
+<div ui-view ph-display-on-drag=".right-basket, .left-basket">
     <div><!-- wrapper add element to fix bug with ng-repeat as direct child of ui-view -->
 <!-- filtering menu -->
 <menu type="toolbar"
@@ -61,16 +61,16 @@
         </ul>
     </footer>
     <div
-        ph-drag-on
-        side="left"
-        ph-drop="librairy/move-left"
+        ph-drop="librairy/pict-left"
         ph-drop-accept="librairy/pict"
+        ph-drop-style="droppable"
+        ph-drop-data="pict"
         class="left-basket"></div>
     <div
-        ph-drag-on
-        side="right"
-        ph-drop="librairy/move-right"
+        ph-drop="librairy/pict-right"
         ph-drop-accept="librairy/pict"
+        ph-drop-style="droppable"
+        ph-drop-data="pict"
         class="right-basket"></div>
 </article>
 </div><!-- wrapper -->

@@ -44,8 +44,8 @@ phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUp
             
     /* listen drag & drop events */
     $rootScope.$on('dropEvent', function(evt, basket, dropped) {
-//        console.log('drop ' + dropped.type + ' ' + dropped.data.pk + ' in ' + basket.type + ' ' + basket.data.pk);
-        console.log('drop ' + dropped.type + ' ' + dropped.data.pk + ' in ' + basket.type);
+        console.log('drop ' + dropped.type + ' ' + dropped.data.pk + ' in ' + basket.type + ' ' + basket.data.pk);
+        //console.log('drop ' + dropped.type + ' ' + dropped.data.pk + ' in ' + basket.type);
         //console.log(basket);
         function dropPicture(basket, pict) {
             //console.log(basket);

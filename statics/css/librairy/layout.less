@@ -479,19 +479,25 @@ body#librairy {
                 position: absolute;
                 top: 0;
                 bottom: 0;
-                width: 50%;
+                width: 55%;
                 margin: 0;
                 box-sizing: border-box;
+                // for border to be above brothers article.thumbs
+                z-index: 500;
             }
             div.right-basket {
-                border: 1px solid green;
-                //background: green;
-                left: 50%;
+                //border: 1px solid green;
+                right: -8px;
+                &.droppable {
+                    border-right: 13px solid #222;
+                }
             }
             div.left-basket {
-                border: 1px solid red;
-                //background: red;
-                right: 50%;
+                //border: 1px solid red;
+                left: -8px;
+                &.droppable {
+                    border-left: 13px solid #222;
+                }
             }
         } // article.thumb
     } // section#content

@@ -57,6 +57,7 @@ phLibrairy.directive('phDrop', ['$rootScope', 'phUtils', '$parse',
              */
             scope.drop = {};
             scope.drop.type = attrs["phDrop"];
+            console.log(scope.drop.type);
             var model = $parse(attrs.phDropData);
             scope.drop.object = model(scope);
             scope.drop.data = attrs["phDropData"];
@@ -68,6 +69,7 @@ phLibrairy.directive('phDrop', ['$rootScope', 'phUtils', '$parse',
                 scope.drop.effect = "copy";
             }
             element.bind('dragenter', function(evt) {
+                console.log(scope.drop.type);
                 dragEnter(evt, element, scope.drop);
             });
             element.bind('dragleave', function(evt) {
