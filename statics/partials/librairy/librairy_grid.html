@@ -1,8 +1,7 @@
 <!-- top-scroll anchor -->
 <div id="top"></div>
-
 <!-- view for single state -->
-<div ui-view>
+<div ui-view ph-order=".right-basket, .left-basket">
     <div><!-- wrapper add element to fix bug with ng-repeat as direct child of ui-view -->
 <!-- filtering menu -->
 <menu type="toolbar"
@@ -17,7 +16,7 @@
          ng-repeat="pict in picts | filter:query track by $index">
     <header>
         <div class="line1">
-            <span class="float-right">{{ pict.name| limitTo : 20 : 0 }}</span>
+            <span class="float-right">{{ pict.name | limitTo : 20 : 0 }}</span>
             {{ pict.pk }}
         </div>
         <div class="line2">
@@ -61,6 +60,18 @@
                 ng-click="setRate(pict, $index + pict.rate, false, true);$event.stopPropagation()">{{$index + pict.rate + 1}} étoiles</button></li>
         </ul>
     </footer>
+    <div
+        ph-drag-on
+        side="left"
+        ph-drop="librairy/move-left"
+        ph-drop-accept="librairy/pict"
+        class="left-basket"></div>
+    <div
+        ph-drag-on
+        side="right"
+        ph-drop="librairy/move-right"
+        ph-drop-accept="librairy/pict"
+        class="right-basket"></div>
 </article>
 </div><!-- wrapper -->
 </div><!-- ui-view -->

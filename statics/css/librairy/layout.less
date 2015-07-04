@@ -474,6 +474,25 @@ body#librairy {
                     .sprite-replace(26, @line2, @grid2);
                 }
             }
+            div.right-basket, div.left-basket {
+                display: none;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 50%;
+                margin: 0;
+                box-sizing: border-box;
+            }
+            div.right-basket {
+                border: 1px solid green;
+                //background: green;
+                left: 50%;
+            }
+            div.left-basket {
+                border: 1px solid red;
+                //background: red;
+                right: 50%;
+            }
         } // article.thumb
     } // section#content
     #librairy_uploader {
