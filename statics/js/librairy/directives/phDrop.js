@@ -57,7 +57,6 @@ phLibrairy.directive('phDrop', ['$rootScope', 'phUtils', '$parse',
              */
             scope.drop = {};
             scope.drop.type = attrs["phDrop"];
-            console.log(scope.drop.type);
             var model = $parse(attrs.phDropData);
             scope.drop.object = model(scope);
             scope.drop.data = attrs["phDropData"];
