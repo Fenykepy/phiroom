@@ -77,11 +77,13 @@ phLibrairy.controller('librairyCtrl', ['$scope', '$rootScope', 'phFolder', 'phUp
             /* if element is portfolio, add element to portfolio */
 
             /* if element is another picture */
-            if (basket.type == "librairy/pict-right") {
-
-            }
             if (basket.type == "librairy/pict-left") {
-
+                //console.log(basket.type);
+                phPicture.move(pict, basket.data, true);
+            }
+            if (basket.type == "librairy/pict-right") {
+                //console.log(basket.type);
+                phPicture.move(pict, basket.data, false);
             }
         }
         function dropFolder(basket, folder) {

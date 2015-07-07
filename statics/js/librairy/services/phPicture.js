@@ -85,6 +85,58 @@ phLibrairy.factory('phPicture', ['$http', 'phPictureDelete',
                 console.warn('phPicture.del: error deleting pict "' + pict_pk +
                     '" from ' + self.container_type + ' "' + self.container_pk + '".', data); 
             });
+        },
+        /* move a picture in the list
+         * 
+         * pict: moved picture object
+         * target: picture object picture has been dropped in
+         * before: boolean, true if picture must be insert before target.
+         */
+        move: function(pict, target, before) {
+            function print_order() {
+                var order = [];
+                for (var i=0, l=self.picts.length; i < l; i++) {
+                    order.push(self.picts[i].pk);
+                };
+                return order;
+            };
+            // optimistically reorder pictures
+            var pict_index = self.picts.indexOf(pict);
+            var target_index = self.picts.indexOf(target);
+            console.log('pict_index', pict_index);
+            console.log('target_index', target_index);
+            console.log('begin', print_order());
+            // if picture is dropped on itself, return
+            if (pict_index == target_index) {
+                console.log('dropped on itself');
+                return;
+            }
+            // if picture is dropped on next one with before
+            if (before && target_index == pict_index + 1) {
+                console.log('dropped on next');
+                return;
+            }
+            // if picture is dropped on previoud one without before
+            if (! before && target_index == pict_index - 1) {
+                console.log('dropped on previous');
+                return;
+            }
+            pict = self.picts.splice(pict_index, 1)[0];
+            var new_index = self.picts.indexOf(target);
+
+            // insert picture
+            if (! before) {
+                console.log('before');
+                new_index = new_index + 1;
+            }
+
+            self.picts.splice(new_index, 0, pict);
+
+            console.log('end', print_order());
+
+            
+            // send modifications to server
+
         }
     };
     return self;
