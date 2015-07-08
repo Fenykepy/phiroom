@@ -7,8 +7,11 @@ var phLibrairy = angular.module('phLibrairy');
 phLibrairy.controller('librairyGridCtrl', ['$scope', 'phPicture', 'phRate',
         function($scope, phPicture, phRate) {
     $scope.type = phPicture.container_type; // folder|collection|post|portfolio|tag
+    $scope.orderable = true;
     if ($scope.type == 'folder') {
         $scope.type = 'server';
+        // no order in folders
+        $scope.orderable = false;
     }
     $scope.picts = phPicture.picts;
     $scope.show_filter_bar = true;

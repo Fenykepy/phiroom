@@ -60,20 +60,22 @@
                 ng-click="setRate(pict, $index + pict.rate, false, true);$event.stopPropagation()">{{$index + pict.rate + 1}} étoiles</button></li>
         </ul>
     </footer>
-    <div
-        ng-show="drag_start"
-        ph-drop="librairy/pict-left"
-        ph-drop-accept="librairy/pict"
-        ph-drop-style="droppable"
-        ph-drop-data="pict"
-        class="left-basket"></div>
-    <div
-        ng-show="drag_start"
-        ph-drop="librairy/pict-right"
-        ph-drop-accept="librairy/pict"
-        ph-drop-style="droppable"
-        ph-drop-data="pict"
-        class="right-basket"></div>
+    <div ng-if="orderable"><!-- orderable -->
+        <div
+            ng-show="drag_start"
+            ph-drop="librairy/pict-left"
+            ph-drop-accept="librairy/pict"
+            ph-drop-style="droppable"
+            ph-drop-data="pict"
+            class="left-basket"></div>
+        <div
+            ng-show="drag_start"
+            ph-drop="librairy/pict-right"
+            ph-drop-accept="librairy/pict"
+            ph-drop-style="droppable"
+            ph-drop-data="pict"
+            class="right-basket"></div>
+    </div><!-- orderable -->
 </article>
 </div><!-- wrapper -->
 </div><!-- ui-view -->

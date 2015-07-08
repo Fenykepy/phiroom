@@ -5,8 +5,8 @@
 var phLibrairy = angular.module('phLibrairy');
 
 
-phLibrairy.factory('phPicture', ['$http', 'phPictureDelete',
-        function($http, phPictureDelete) {
+phLibrairy.factory('phPicture', ['$http', 'phPictureDelete', 'phPatcher',
+        function($http, phPictureDelete, phPatcher) {
     var base_url = '/api/librairy/';
     
     function buildApiListUrl(params) {
@@ -26,6 +26,12 @@ phLibrairy.factory('phPicture', ['$http', 'phPictureDelete',
     function buildApiPostPictRelationUrl(pict_pk, post_pk) {
             return api_post_pict_relation_base_url + 'post/' +
                 post_pk + '/pict/' + pict_pk + '/';
+    };
+
+    function builApiCurrentRelationUrl(pict_pk, container_pk) {
+        if (self.container_type == 'post') {
+            return buildApiPostPictRelationUrl(pict_pk, container_pk);
+        }
     };
 
 
@@ -103,22 +109,20 @@ phLibrairy.factory('phPicture', ['$http', 'phPictureDelete',
             // optimistically reorder pictures
             var pict_index = self.picts.indexOf(pict);
             var target_index = self.picts.indexOf(target);
-            console.log('pict_index', pict_index);
-            console.log('target_index', target_index);
-            console.log('begin', print_order());
+            // keep track of old order to change picture's relations which
+            // have changed
+            // stoped because pictures with default null order where not updated
+            //var old_state = print_order();
             // if picture is dropped on itself, return
             if (pict_index == target_index) {
-                console.log('dropped on itself');
                 return;
             }
             // if picture is dropped on next one with before
             if (before && target_index == pict_index + 1) {
-                console.log('dropped on next');
                 return;
             }
             // if picture is dropped on previoud one without before
             if (! before && target_index == pict_index - 1) {
-                console.log('dropped on previous');
                 return;
             }
             pict = self.picts.splice(pict_index, 1)[0];
@@ -126,17 +130,33 @@ phLibrairy.factory('phPicture', ['$http', 'phPictureDelete',
 
             // insert picture
             if (! before) {
-                console.log('before');
                 new_index = new_index + 1;
             }
 
             self.picts.splice(new_index, 0, pict);
 
-            console.log('end', print_order());
+            var new_state = print_order();
 
             
             // send modifications to server
-
+            for (var i=0, l=self.picts.length; i < l; i++) {
+                // stoped because pictures with default null order where not updated
+                /*if (old_state[i] == new_state[i]) {
+                    // no change, continue
+                    continue;
+                }*/
+                var url = builApiCurrentRelationUrl(
+                        new_state[i], 
+                        self.container_pk
+                );
+                var data = {order: i + 1};
+                console.log('url', url);
+                console.log('data', data);
+                $http.patch(url, data).error(function(msg) {
+                    console.log('phPicture.move: error sending change to server with url:' +
+                            url + ' and data ' + data, msg);
+                });
+            };
         }
     };
     return self;
