@@ -19,8 +19,8 @@
     "watchify": "^3.2.3"
   },
   "scripts": {
-    "start": "watchify -o statics/js/bundle.js -v -d statics/js/app.js",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > statics/js/bundle.min.js",
+    "start": "watchify -o assets/js/bundle.js -v -d js/app.js",
+    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > assets/js/bundle.min.js",
     "test": "jest"
   },
   "browserify": {
@@ -30,6 +30,6 @@
     ]
   },
   "jest": {
-    "rootDir": "./statics/js"
+    "rootDir": "./js"
   }
 }

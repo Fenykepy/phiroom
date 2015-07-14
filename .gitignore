@@ -6,12 +6,10 @@ __pycache__/
 *.so
 
 # bdd
-db.sqlite3
-db.sqlite3*
 
-# bower and node files
+# node files
 node_modules/
-statics/bower_components/
+npm-debug.log
 
 # data files
 phiroom/data/images/librairy/*/

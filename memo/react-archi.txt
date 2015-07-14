@@ -1,0 +1,15 @@
+
+- MainBox
+    - MainMenu
+        - MainMenuItem
+    - Weblog
+        - PostsList
+            - Post
+                - PostDate
+                - PostPicture
+        - PostView (replace PostsList)
+            - PostDate
+            - PostLightbox
+        - FooterMenu
+            - FooterMenuItem
+

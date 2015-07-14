@@ -45,3 +45,20 @@ Librairys to use server side:
 Librairys to use both client and server sides:
     - markdown parser: marked
     - router: https://github.com/rackt/react-router
+    - microevents: https://github.com/jeromeetienne/microevent.js
+
+
+
+
+Starting development:
+
+run:
+  npm install
+  npm run build
+  npm start
+
+
+to clean npm modules remove unnecessary dependencies then:
+  rm -r node_modules
+  npm cache clean
+  npm install
