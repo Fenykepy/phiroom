@@ -5,15 +5,22 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
+var rename = require('gulp-rename');
 var streamify = require('gulp-streamify');
+var less = require('gulp-less');
+var minifyCSS = require('gulp-minify-css');
 
 
 var path = {
     HTML: 'src/index.html',
+    LESS: 'src/less/**/*.{less, css}',
+    LESS_CONTROLLER: 'src/less/controller.less',
     MINIFIED_OUT: 'bundle.min.js',
     OUT: 'bundle.js',
+    OUT_CSS: 'phiroom.min.css',
     DEST: 'assets',
     DEST_JS: 'assets/js',
+    DEST_CSS: 'assets/css/',
     ENTRY_POINT: './src/js/app/app.js'
 };
 
@@ -25,9 +32,19 @@ gulp.task('copy', function(){
 });
 
 
+gulp.task('less', function () {
+    gulp.src(path.LESS_CONTROLLER)
+    .pipe(less())
+    .pipe(minifyCSS())
+    .pipe(rename(path.OUT_CSS))
+    .pipe(gulp.dest(path.DEST_CSS));
+});
+
+
 gulp.task('watch', function() {
     // copy html file when it changes
     gulp.watch(path.HTML, ['copy']);
+    gulp.watch(path.LESS, ['less']);
 
     var watcher  = watchify(browserify({
         entries: [path.ENTRY_POINT],
@@ -70,4 +87,4 @@ gulp.task('replaceHTML', function(){
         .pipe(gulp.dest(path.DEST));
 });
 
-gulp.task('production', ['replaceHTML', 'build']);
+gulp.task('production', ['replaceHTML', 'build', 'less']);

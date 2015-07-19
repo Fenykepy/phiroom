@@ -24,6 +24,7 @@ phiroom/data/images/previews/
 # Distribution / packaging
 assets/index.html
 assets/js/
+assets/css/
 .Python
 env/
 bin/
