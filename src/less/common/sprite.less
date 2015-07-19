@@ -1,0 +1,86 @@
+/**
+* Phiroom
+*
+* Copyright 2013 Lavilotte-Rolle Frédéric
+*
+* @contact <phiroom@lavilotte-rolle.fr>
+*
+*    This file is part of Phiroom.
+*
+*   Phiroom is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   Phiroom is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with Phiroom in COPYING file.
+*   If not, see <http://www.gnu.org/licenses/>.
+*
+*/
+
+
+// sprites
+
+// inpired by :
+// http://coding.smashingmagazine.com/2012/04/11/css-sprites-revisited/
+
+@line1: 0px;
+@line2: 45px;
+@line3: 65px;
+
+@grid1: 45px;
+@grid2: 20px;
+
+
+// out screen text (for semantic, screen readers and bots)
+.out-screen {
+    text-indent: -999em;
+    letter-spacing: -999em;
+    overflow: hidden;
+}
+
+// basic sprite
+.sprite(@x, @y, @grid-width) {
+    background: url("@{base-image}phiroom-sprite.png") no-repeat;
+    background-position: -(@x*@grid-width) -@y;
+}
+
+// basic sprite with text out screen
+.sprite-replace(@x, @y, @grid-width) {
+    .sprite(@x, @y, @grid-width);
+    .out-screen;
+}
+
+// sprite for inline elements
+.sprite-inline(@x, @y, @grid-width, @width, @height) {
+    .sprite(@x, @y, @grid-width);
+    position: relative;
+    display: inline-block;
+    content: "";
+    width: @width;
+    height: @height;
+}
+
+// sprite for block elements
+.sprite-block(@x, @y, @grid-width, @width, @height) {
+    .sprite(@x, @y, @grid-width);
+    position: relative;
+    display: block;
+    content: "";
+    width: @width;
+    height: @height;
+}
+// sprite for padded elements
+.sprite-padded(@x, @y, @grid-width, @width, @height) {
+    .sprite(@x, @y, @grid-width);
+    position: absolute;
+    display: block;
+    content: "";
+    width: @width;
+    height: @height;
+}

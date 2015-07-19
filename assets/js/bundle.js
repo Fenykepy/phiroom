@@ -1,1 +1,0 @@
-console.error("ReactifyError: /home/fred/sites/phiroom-react/phiroom/js/components/PhiroomApp.js: Parse Error: Line 18: Adjacent JSX elements must be wrapped in an enclosing tag while parsing file: /home/fred/sites/phiroom-react/phiroom/js/components/PhiroomApp.js");

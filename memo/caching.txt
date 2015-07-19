@@ -1,0 +1,57 @@
+==========================
+===     API endpoints  ===
+==========================
+
+
+==== Weblog ====
+
+# returns a list of posts ordered by default
+/api/weblog/posts?page=2&page_size=3 -> {
+    count: 3,
+    previous: url,
+    next: null,
+    results: [{short_post_object}, {short_post_object}, {short_post_object}]
+}
+
+# returns a list of posts by a specific tag
+/api/weblog/posts/tag/my_tag/?page=2&page_size=3 -> {
+    count: 3,
+    previous: url,
+    next: null,
+    results: [{short_post_object}, {short_post_object}, {short_post_object}]
+}
+
+# returns a specific post
+/api/weblog/post/2015/07/18/ -> {full_post_object} # author, short_pictures and tag serialized in
+
+# posts head list
+/api/weblog/posts-head/ -> [{title, slug, pk}]
+
+
+===== Caching =====
+
+// init cache
+var posts_cache = {};
+
+var getPost = function(url) {
+    // create new promise
+    var deferred = $q.defer();
+
+    // if post is in cache, returns it
+    if (posts_list_cache[url]) {
+        // resolve promise
+        deferred.resolve(posts_cache[url]);
+        return;
+    };
+    // else fetch post from server
+    $http.get(url).success(function(data) {
+        // store post in cache
+        posts_cache[url] = data;
+        // resolve promise
+        deferred.resolve(data);
+    })
+
+    return deferred.promise;
+}
+
+

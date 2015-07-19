@@ -1,0 +1,593 @@
+// Librairy layout
+
+body#librairy {
+    color: @lib-text;
+    background-color: @lib-bg;
+
+    // links
+    a {
+        color: @lib-links;
+        &:hover, &:active, &:focus {
+            color: @lib-links-hover;
+        }
+    }
+
+    // selected text !!! doesn't work in chrome
+    ::selection, ::-moz-selection {
+        background: @lib-selected-text-bg;
+        color: @lib-selected-text;
+    }
+
+    header[role="banner"] {
+        position: absolute;
+        width: 100%;
+        height: 70px;
+        text-align: right;
+        // title image (up left)
+        #logo {
+            position: fixed;
+            top: 11px;
+            left: 20px;
+        }
+        // horizontal navigation menu
+        #menu {
+            position: fixed;
+            width: 100%;
+            top: 40px;
+            right: 20px;
+            li {
+                border-right: 1px solid @lib-links;
+                &:last-child {
+                    border: none;
+                }
+                // selected links
+                a.selected {
+                    color: @lib-selected-links;
+                    &:hover, &:active, &:focus {
+                        color: @lib-links-hover;
+                    }
+                }
+            }
+        }
+    }
+    // panel's hidding links & page up
+    #right, #left, #pageup {
+        display: block;
+        position: fixed;
+    }
+    #right, #left {
+        width: 20px;
+        top: 70px;
+        bottom: 20px;
+    }
+    #left {
+        left: 0px;
+        &.open {
+            // left pannel toggle arrow when panel is open
+            &:before {
+                .arrow-right;
+                left: 5px;
+                top: 50%;
+                margin-top: -9px;
+            }
+            &:hover:before, &:focus:before { .arrow-right(@lib-panel-toggle-arrows); }
+        }
+        &.closed {
+            // left pannel toggle arrow when panel is closed
+            &:before {
+                .arrow-left;
+                left: 5px;
+                top: 50%;
+                margin-top: -9px;
+            }
+            &:hover:before, &:focus:before { .arrow-left(@lib-panel-toggle-arrows); }
+        }
+    }
+    #right {
+        // right pannel toggle arrow when panel is open
+        &.open {
+            right: 0px;
+            &:before {
+                .arrow-left;
+                right: 5px;
+                top: 50%;
+                margin-top: -9px;
+            }
+            &:hover:before, &:focus:before { .arrow-left(@lib-panel-toggle-arrows); }
+        }
+        // right pannel toggle arrow when panel is closed
+        &.closed {
+            right: 0px;
+            &:before {
+                .arrow-right;
+                right: 5px;
+                top: 50%;
+                margin-top: -9px;
+            }
+            &:hover:before, &:focus:before { .arrow-right(@lib-panel-toggle-arrows); }
+        }
+    }
+    #pageup {
+        height: 20px;
+        bottom: 0px;
+        right: 20px;
+        left: 20px;
+        &::before {
+            .arrow-up;
+            left: 50%;
+            margin-left: -7px; // to bring back to center
+            top: 4px;
+        }
+        &:hover:before, &:focus:before { .arrow-up(@lib-panel-toggle-arrows); }
+    }
+
+    // grey frame arround
+    #frame {
+        position: fixed;
+        top: 70px;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        border: 1px solid @lib-frame;
+        overflow: hidden;
+    }
+
+    // left panel
+    #left_panel {
+        background: @lib-panels-bg;
+        position: absolute;
+        overflow: hidden;
+        overflow-y: overlay;
+        width: 300px;
+        box-sizing: border-box;
+        top: 3px;
+        left: 3px;
+        bottom: 3px;
+        margin-right: 3px;
+        padding: 0 5px 30px;
+        // footer
+        #nav:after {
+            margin-top: 30px;
+            margin-right: auto;
+            margin-left: auto;
+            .sprite-block(0, @line3, @grid2, 162px, 169px);
+        }
+
+        // first level menu li link
+        #nav > li > a {
+            position: relative;
+            display: inline-block;
+            width: 270px;
+            height: 32px;
+            line-height: 32px;
+            margin: 0 0 0 15px;
+            text-indent: 30px;
+            // nav tabs
+            &.arrow {
+                &:before {
+                    left: 0px;
+                    top: 10px;
+                    .arrow-right(@lib-tabs, 6px, 11px)
+                }
+                &:hover, &:focus, &.hover, &.selected {
+                    &:before {
+                        .arrow-right(@lib-tabs-hover, 6px, 11px)
+                    }
+                    color: @lib-tabs-hover;
+                }
+                // open tab
+                &.selected {
+                    &:before {
+                        .arrow-down(@lib-tabs-hover, 6px, 11px)
+                    }
+                }
+            }
+            &.arrow-plus {
+                width: 240px;
+            }
+            // contextual menu plus button
+            &.plus {
+                position: relative;
+                width: 20px;
+                float: right;
+                text-indent: 0px;
+                margin: 0 15px 0 0;
+                .out-screen;
+                &:before {
+                    top: 8px;
+                    .sprite-padded(22, @line2, @grid2, 21px, 17px);
+                }
+                &:hover, &:focus {
+                    &:before {
+                        top: 8px;
+                        .sprite-padded(24, @line2, @grid2, 21px, 17px);
+                    }
+                }
+            }
+        }
+        // submenus
+        #nav > li .submenu-inframe {
+            border-right: 1px solid @lib-submenus-inframe;
+            border-bottom: 1px solid @lib-submenus-inframe;
+        }
+        #nav > li .submenu-frame {
+            border: 1px solid @lib-submenus-frame;
+        }
+        #nav > li .submenu-outframe {
+            border-right: 1px solid @lib-submenus-outframe;
+            border-bottom: 1px solid @lib-submenus-outframe;
+        }
+        ul.submenu {
+            background-color: @lib-submenus-bg;
+            > li {
+                padding-left: 0px;
+            }
+            li {
+                min-height: 20px;
+                display: block;
+                //padding: 1px 0;
+                padding-left: 10px;
+                a {
+                    display: block;
+                    height: 18px;
+                    line-height: 18px;
+                    margin: 1px 0;
+                    font-size: 0.8em;
+                    //padding-top: 3px;
+                    text-indent: 40px;
+                    &:hover, &:focus {
+                        background-color: @lib-submenu-hover-bg;
+                        color: @lib-submenu-hover;
+                    }
+                    &:active, &.active, &.droppable {
+                        background-color: @lib-submenu-active-bg;
+                        color: @lib-submenu-active;
+                    }
+                }
+            }
+        }
+    } // left panel
+    // main area
+    section#content {
+        position: absolute;
+        overflow: auto;
+        overflow-x: hidden;
+        top: 3px;
+        right: 3px;
+        bottom: 3px;
+        left: 306px;
+        background: @lib-content-bg;
+        padding-bottom: 3px;
+        &.left-panel-close {
+            left: 3px;
+        }
+        // toolbars
+        // -> filter bar
+        menu[type="toolbar"].filter-bar {
+            margin: 2px;
+            height: 30px;
+            line-height: 30px;
+            text-indent: 30px;
+            background: @lib-filter-bar-bg;
+            overflow: hidden;
+            border-bottom: 1px solid #737373;
+            border-top: 1px solid #737373;
+            input {
+                height: 24px;
+                margin: 0;
+                width: auto;
+                display: inline-block;
+                border: 1px solid #444444;
+                background: #737373;
+                border-radius: 0;
+                color: #000;
+                &:focus, &:hover {
+                    box-shadow: none;
+                    border: 1px solid #222;
+
+                }
+            }
+        }
+        // drag image model
+        img#dragimage {
+            position: fixed;
+            top: 74px;
+            right: 24px;
+            max-width: 150px;
+            max-height: 150px;
+            border: 3px solid #FFF;
+            z-index: -10; 
+        }
+        // thumbnails
+        article.thumb {
+            position: relative;
+            display: inline-block;
+            margin: 3px 0px 0px 3px;
+            padding: 0px;
+            background: @lib-thumb-bg;
+            box-shadow: 0 0 8px @lib-thumb-shadow;
+
+            header {
+                height: 50px;
+                position: relative;
+                margin: 0px;
+                border-top: 1px solid @lib-thumb-header-border-top;
+                border-bottom: 1px solid @lib-thumb-header-border-bottom;
+                background: @lib-thumb-header-bg;
+                padding: 10px 10px 15px;
+                box-shadow: none;
+
+                div.line1, div.line2 {
+                    font-weight: bold;
+                    height: 25px;
+                    color: @lib-thumb-header-line1;
+                    span {
+                        max-width: 50%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+                div.line2 {
+                    color: @lib-thumb-header-line2;
+                    font-size: 0.9em;
+                }
+                button.thumb-menu {
+                    display: block;
+                    position: absolute;
+                    right: 13px;
+                    height: 18px;
+                    width: 25px;
+                    bottom: 0px;
+                    cursor: pointer;
+                    &:before {
+                        top: 3px;
+                        right: 0;
+                        .arrow-down(#474747, 8px, 8px);
+                    }
+                    &:hover:before, &.active:before {
+                        .arrow-down(#222222, 8px, 8px);
+                    }
+                }
+            }
+                ul.thumb-menu {
+                    position: absolute;
+                    border-radius: 0 0 4px 4px;
+                    box-shadow: 0 0 2px #919191 inset;
+                    box-sizing: border-box;
+                    background: @lib-thumb-contextual-bg;
+                    border: 1px solid @lib-thumb-contextual-border;
+                    border-top: none;
+                    padding: 7px 0;
+                    right: 8px;
+                    left: 8px;
+                    top: -1px;
+                    z-index: 10;
+                    line-height: normal;
+                    text-align: left;
+                    li {
+                        margin-top: 2px;
+                        &:first-child {
+                            margin: 0;
+                        }
+                        &.separator {
+                            height: 1px;
+                            margin: 6px 0;
+                            background-color: @lib-thumb-contextual-border;
+                        }
+                    }
+                    a {
+                        text-indent: 18px;
+                        display: block;
+                        color: @lib-thumb-contextual-text;
+                        &:hover, &:active {
+                            background: @lib-thumb-contextual-hover-bg;
+                        }
+                    }
+                }
+
+            div.thumb-container {
+                position: relative;
+                height: 324px;
+                width: 324px;
+                line-height: 324px;
+                border-top: 1px solid @lib-thumb-header-border-top;
+                border-bottom: 1px solid @lib-thumb-header-border-bottom;
+                text-align: center;
+
+                img.thumbnail {
+                    border: 2px solid @lib-thumb-img-border;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-right: auto;
+                    margin-left: auto;
+                    box-shadow: 0 0 15px @lib-thumb-img-shadow;
+                    max-height: 300px;
+                    max-width: 300px;
+                }
+                img.dragged {
+                    max-height: 150px;
+                    max-width: 150px;
+                    opacity: 1;
+                    border: 3px solid #FFF;
+                }
+                & > div {
+                    display: inline-block;
+                    line-height: 1.1em;
+                    position: relative;
+                }
+                div.published {
+                    position: absolute;
+                    bottom: 1px;
+                    right: 1px;
+                    height: 15px;
+                    text-align: right;
+                }
+                div.post-icon {
+                    display: inline-block;
+                    height: 15px;
+                    width: 15px;
+                    //.sprite-replace(16, @line2, @grid2);
+                    &:focus, &:hover {
+                        //.sprite-replace(17, @line2, @grid2);
+                    }
+                }
+                div.portfolio-icon {
+                    display: inline-block;
+                    height: 15px;
+                    width: 15px;
+                    //.sprite-replace(14, @line2, @grid2);
+                    &:focus, &:hover {
+                        //.sprite-replace(15, @line2, @grid2);
+                    }
+                }
+            }
+
+            footer {
+                height: 40px;
+                border-top: 1px solid @lib-thumb-header-border-top;
+                position: relative;
+                margin: 0px;
+                line-height: 40px;
+                text-align: center;
+                vertical-align: middle;
+                ul li {
+                    display: inline-block;
+                    //height: 25px;
+                    //width: 25px;
+                }
+                button {
+                    margin: 0;
+                    padding: 0;
+                    display: inline-block;
+                    width: 25px;
+                    height: 25px;
+                    min-width: 0;
+                    border: none;
+                    border-radius: 0;
+                    box-shadow: none;
+                }
+
+                button.point {
+                    .sprite-replace(28, @line2, @grid2);
+                }
+                button.star {
+                    .sprite-replace(26, @line2, @grid2);
+                }
+            }
+            div.right-basket, div.left-basket {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 55%;
+                margin: 0;
+                box-sizing: border-box;
+                // for border to be above brothers article.thumbs
+                z-index: 500;
+            }
+            div.right-basket {
+                //border: 1px solid green;
+                right: -8px;
+                &.droppable {
+                    border-right: 13px solid #222;
+                }
+            }
+            div.left-basket {
+                //border: 1px solid red;
+                left: -8px;
+                &.droppable {
+                    border-left: 13px solid #222;
+                }
+            }
+        } // article.thumb
+    } // section#content
+    #librairy_uploader {
+        .field_wrapper {
+            text-align: center;
+            button {
+                display: inline-block;
+            }
+        }
+        section.files_previews {
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid @lib-uploader-preview-area-border;
+            box-shadow: 0 0 1px #000;
+            background: @lib-uploader-preview-area-bg;
+            min-height: 180px;
+            p.helper {
+                margin: 20px auto;
+                font-style: italic;
+                text-align: center;
+            }
+            &.dragover {
+                background: @lib-uploader-preview-area-bg-hover;
+                box-shadow: 0 0 3px #000;
+            }
+        }
+        // preview images
+        .file_preview {
+            position: relative;
+            font-size: 0;
+            margin: 3px;
+            border-radius: 3px;
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            line-height: 150px;
+            text-align: center;
+            border: 1px solid @lib-uploader-file-preview-border;
+            background: @lib-uploader-file-preview-bg;
+            img {
+                vertical-align: middle;
+                max-width: 100%;
+                max-height: 100%;
+            }
+            &:hover .close {
+                display: block;
+            }
+            .close {
+                display: none;
+                position: absolute;
+                top: 0;
+                right: 0;
+                border-radius: 0 0 0 3px;
+                border: 1px solid @lib-uploader-file-preview-border;
+                border-top: none;
+                border-right: none;
+                background: #444;
+                color: #666;
+                &:hover {
+                    color: #222;
+                }
+            }
+        }
+    }
+
+    // default close button
+    button.close {
+        color: @lib-modal-close-cross;
+        &:hover, &:focus, &:active {
+            color: @lib-modal-close-cross-hover;
+        }
+    }
+
+    // modal window
+    section#modal {
+        background: @lib-modal-bg;
+        border: 1px solid @lib-modal-border;
+        box-shadow: 0 0 15px @lib-modal-border;
+        header {
+            border-bottom: 1px solid @lib-modal-inborder;
+        }
+    }
+
+    img.rounded-framed {
+        border: 1px solid @lib-modal-border;
+        box-shadow: 0 0 3px @lib-modal-border;
+        border-radius: 4px;
+        margin: 1em;
+    }
+
+} // body
+

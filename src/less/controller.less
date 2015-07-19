@@ -1,0 +1,89 @@
+
+// client side compilation
+/*
+@base-css: '/assets/css/';
+@base-image: '/assets/images/structure/css/';
+@base-font: '/assets/fonts/';
+*/
+// server side compilation
+
+// 1. comment above client side compilation constants
+// 2. uncomment next server compilation constants
+// 3. run :
+// 3.1     $ cd in phiroom root directory
+// 3.2     $ cd phiroom/assets/css
+// 3.3     $ lessc -x controller.less > phiroom.min.css
+// 3.4     $ gzip phiroom.min.css
+// 4. in template file "templates/base.html"
+// 4.1     comment <link rel="stylesheet/less" href="{% static 'css/controller.less' %}" />
+// 4.2     comment <script src="{% static 'scripts/less-1.4.1.min.js' %}" type="text/javascript"></script>
+// 4.3     uncomment <link rel="stylesheet" href="{% static 'css/phiroom.min.css.gz' %}" />
+// 5. check in your browser if css are displayed correctly
+
+// Some comparaisons :
+//     all less files: 84K (non compiled)
+//        phiroom.css: 60K (compiled)
+//    phiroom.min.css: 40K (compiled, minified)
+//     phiroom.css.gz: 12K (compiled, gzip)
+// phiroom.min.css.gz: 8K (compiled, gzip, minified)
+
+@base-css: './';
+@base-image: '../images/structure/css/';
+@base-font: '../fonts/';
+
+
+//////////////////////////////////////////
+///               commons              ///
+//////////////////////////////////////////
+
+// reset
+@import '@{base-css}common/reset.less';
+
+// grid layout system
+@import '@{base-css}common/grid.less';
+
+// typography
+@import '@{base-css}common/droid-fonts.less';
+
+// mixins
+@import '@{base-css}common/mixins.less';
+
+// sprite
+@import '@{base-css}common/sprite.less';
+
+
+/* Common */
+
+// common palette
+@import '@{base-css}common/palette.less';
+
+// common layout
+@import '@{base-css}common/layout.less';
+
+// common forms
+@import '@{base-css}common/forms.less';
+
+// common lightbox
+@import '@{base-css}common/lightbox.less';
+
+
+
+/* Librairy */
+
+// librairy palette
+@import '@{base-css}librairy/palette.less';
+
+// layout
+@import '@{base-css}librairy/layout.less';
+
+
+
+/*  Weblog */
+
+// weblog palette
+@import '@{base-css}weblog/palette.less';
+
+// layout
+@import '@{base-css}weblog/layout.less';
+
+

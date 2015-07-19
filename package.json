@@ -5,29 +5,32 @@
   "private": true,
   "repository": "https://github.com/Fenykepy/phiroom.git",
   "license": "GPLv3",
-  "main": "js/app.js",
+  "main": "js/app/app.js",
   "dependencies": {
     "flux": "^2.0.3",
-    "react": "^0.13.3"
+    "immutable": "^3.7.4",
+    "microevent": "^1.0.0",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3"
   },
   "devDependencies": {
-    "browserify": "^10.2.6",
+    "browserify": "^11.0.0",
     "envify": "^3.4.0",
+    "gulp": "^3.9.0",
+    "gulp-html-replace": "^1.5.1",
+    "gulp-react": "^3.0.1",
+    "gulp-streamify": "0.0.5",
+    "gulp-uglify": "^1.2.0",
     "less": "^2.5.1",
     "reactify": "^1.1.1",
     "uglify-js": "^2.4.23",
-    "watchify": "^3.2.3"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.3.0"
   },
   "scripts": {
-    "start": "watchify -o assets/js/bundle.js -v -d js/app.js",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > assets/js/bundle.min.js",
+    "start": "gulp",
+    "build": "gulp build",
     "test": "jest"
-  },
-  "browserify": {
-    "transform": [
-      "reactify",
-      "envify"
-    ]
   },
   "jest": {
     "rootDir": "./js"

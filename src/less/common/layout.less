@@ -1,0 +1,206 @@
+// Common layout
+
+body {
+    font-size: 100%;
+    line-height: 1.5em;
+    font-family: @sans;
+    &.freeze {
+        overflow: hidden;
+    }
+}
+
+// emphasis
+em {
+    font-style: italic;
+}
+
+// small caps
+.small-caps {
+    font-variant: small-caps;
+}
+
+// text-centering
+.centered {
+    text-align: center;
+}
+
+// headings
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+.no-style, .no-style:hover, .no-style:active, .no-style:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    font-size: 100%;
+    line-height: normal;
+    background: none;
+    max-width: none;
+    max-height: none;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    min-height: 0;
+}
+
+.accessibility {
+    position: absolute !important;
+    display: none;
+    text-indent: -500000px;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+// float
+.float-right {
+    float: right;
+}
+.float-left {
+    float: left;
+}
+
+/* default close button */
+
+button.close {
+    position: absolute;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 25px;
+    vertical-align: top;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    height: 25px;
+    width: 25px;
+    min-width: 0;
+    color: @com-modal-close-cross;
+    &:hover, &:focus, &:active {
+        color: @com-modal-close-cross-hover;
+        box-shadow: none;
+    }
+}
+/* #modal-overlay for modal window
+ * #overlay for lightboxes
+ */
+#overlay, #modal-overlay {
+    //display: none;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    background-color: @com-modal-overlay-bg;
+    opacity: @com-modal-overlay-opacity;
+    z-index: 999;
+    &.dark {
+        opacity: 0.8;
+    }
+    &.opaque {
+        opacity: 1;
+    }
+}
+#modal-wrapper {
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 1000;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+section#modal {
+    position: relative;
+    width: 700px;
+    margin: 40px auto;
+    opacity: 1;
+    background: @com-modal-bg;
+    border: 1px solid @com-modal-border;
+    border-radius: 4px;
+    box-shadow: 0 0 15px @com-modal-overlay-bg;
+//    z-index: 1001;
+    header {
+        padding: 22px;
+        border-bottom: 1px solid @com-modal-inborder;
+        h1 {
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        button.close {
+            right: 17px;
+            top: 17px;
+        }
+    }
+    div#modal-content {
+        padding: 22px;
+    }
+    footer {
+        padding: 22px;
+        //border-top: 1px solid @com-modal-inborder;
+        div.buttons-wrapper {
+            text-align: center;
+            button {
+                display: inline-block;
+            }
+        }
+    }
+    &.max_modal {
+        width: auto;
+        margin: 40px;
+    }
+    &.small_modal {
+        width: 500px;
+    }
+    &.large_modal {
+        width: 900px;
+    }
+}
+
+
+// main header
+header[role="banner"] {
+    // logo 
+    #logo {
+        img {
+            max-height: 50px;
+        }
+    }
+    // horizontal navigation menu
+    #menu {
+        li {
+            display: inline-block;
+            line-height: 0.9em;
+            height: 1em;
+            padding: 0 10px;
+            &:last-child {
+                padding-right: 0;
+            }
+            &:first-child {
+                padding-left: 0;
+            }
+            a {
+                vertical-align: top;
+                text-decoration: none;
+            }
+             /*   // selected links
+                &.selected {
+                    color: @com-selected-links;
+                    &:hover, &:focus, &:active {
+                        color: @com-links-hover;
+                    }
+                }
+            }*/
+        }
+    }
+}
+
