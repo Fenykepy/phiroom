@@ -1,0 +1,20 @@
+Routes :
+- viewDefaultPortfolio
+- viewOnePortfolio
+
+
+Stores :
+- RouteStore
+    - getCurrentView()
+- PortfolioStore
+    - getCurrentPortfolio()
+    - getPortfolios()
+
+
+Actions :
+ - nexPicture
+ - previousPicture
+ - openLightbox
+ - closeLightbox
+ - loadDefaultPortfolio
+ - loadOnePortfolio
