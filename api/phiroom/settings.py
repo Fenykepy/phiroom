@@ -24,7 +24,6 @@ STATIC_URL = '/assets/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets/'),
 )
-
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates/'),
 )

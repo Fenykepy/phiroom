@@ -14,11 +14,11 @@ node_modules/
 npm-debug.log
 
 # data files
-phiroom/data/images/librairy/*/
-phiroom/data/images/librairy/*
-phiroom/data/images/avatars/
-phiroom/data/images/logos/
-phiroom/data/images/previews/
+api/phiroom/data/images/librairy/*/
+api/phiroom/data/images/librairy/*
+api/phiroom/data/images/avatars/
+api/phiroom/data/images/logos/
+api/phiroom/data/images/previews/
 
 
 # Distribution / packaging
