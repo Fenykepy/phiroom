@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1980"
+   height="1200"
+   viewBox="0 0 1980 1200"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="phiroom-design.svg"
+   inkscape:export-filename="/home/fred/sites/phiroom-env/phiroom/graphics/phiroom-design.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Lightness-Contrast"
+       id="filter4456">
+      <feColorMatrix
+         values="1 0 0 -0.4468 -0 0 1 0 -0.4468 -0 0 0 1 -0.4468 -0 0 0 0 1 0"
+         id="feColorMatrix4458" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Lightness-Contrast"
+       id="filter4554">
+      <feColorMatrix
+         values="1 0 0 -0.4468 -0 0 1 0 -0.4468 -0 0 0 1 -0.4468 -0 0 0 0 1 0"
+         id="feColorMatrix4556" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.40450935"
+     inkscape:cx="1297.6637"
+     inkscape:cy="569.09863"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1918"
+     inkscape:window-height="1184"
+     inkscape:window-x="0"
+     inkscape:window-y="14"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,147.63784)">
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1"
+       id="rect4558"
+       width="1980.3628"
+       height="1200"
+       x="0"
+       y="-147.63783"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3333"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(1.8297551,0,0,1.8297551,-287.67129,-312.89228)"><flowRegion
+         id="flowRegion3335"><rect
+           id="rect3337"
+           width="614.28571"
+           height="261.42856"
+           x="207.14285"
+           y="125.71429" /></flowRegion><flowPara
+         id="flowPara3339"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'LTZapfino One';-inkscape-font-specification:'LTZapfino One, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start">Frédéric LAVILOTTE-ROLLE</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3337"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'Droid Sans';-inkscape-font-specification:'Droid Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#222222;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(0.64830404,0,0,0.64830404,703.62371,-114.85624)"><flowRegion
+         id="flowRegion3339"><rect
+           id="rect3341"
+           width="804.08142"
+           height="72.730988"
+           x="1115.2084"
+           y="96.913422"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'Droid Sans';-inkscape-font-specification:'Droid Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#222222;fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara3343">Portfolios | Weblog | Contact | Llibrairy</flowPara></flowRoot>    <image
+       sodipodi:absref="/home/fred/sites/phiroom-env/phiroom/graphics/Phiroom-test-pictures/2368.jpg"
+       xlink:href="Phiroom-test-pictures/2368.jpg"
+       width="675"
+       height="900"
+       preserveAspectRatio="none"
+       id="image4235"
+       x="653.76801"
+       y="32.36216" />
+    <image
+       sodipodi:absref="/home/fred/sites/phiroom-env/phiroom/graphics/Phiroom-test-pictures/2351.jpg"
+       xlink:href="Phiroom-test-pictures/2351.jpg"
+       style="fill:#000000;fill-opacity:1;opacity:0.782;filter:url(#filter4456)"
+       width="675"
+       height="900"
+       preserveAspectRatio="none"
+       id="image4329"
+       x="1338.7679"
+       y="32.36216" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1"
+       id="rect4396"
+       width="116.50902"
+       height="934.69965"
+       x="1980.0111"
+       y="19.242781" />
+    <image
+       sodipodi:absref="/home/fred/sites/phiroom-env/phiroom/graphics/Phiroom-test-pictures/2378.jpg"
+       xlink:href="Phiroom-test-pictures/2378.jpg"
+       style="filter:url(#filter4554);opacity:0.782"
+       width="675"
+       height="900"
+       preserveAspectRatio="none"
+       id="image4551"
+       x="-31.232"
+       y="32.36216" />
+  </g>
+</svg>

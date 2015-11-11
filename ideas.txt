@@ -55,3 +55,18 @@ Single portfolio :
             lightbox: ON | OFF,
             pict_info: SHOW
         }
+
+
+
+    - Components :
+        - App (smart) :
+            - Logo ;
+            - MainMenu  :
+                - MainMenuItem
+            - Portfolio
+                - Carroussel
+                    - Picture
+                    - SelectedPicture
+                    - Picture info
+                - CarrousselCommand
+                - Lightbox
