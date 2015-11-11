@@ -11,6 +11,6 @@ render(
   //<Provider store={store}>
     <App />,
   //</Provider>,
-  document.body
+  document.getElementById('root')
 )
 
