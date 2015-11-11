@@ -1,0 +1,201 @@
+// Common layout
+
+body {
+    font-size: 100%;
+    line-height: 1.5em;
+    font-family: @sans;
+    &.freeze {
+        overflow: hidden;
+    }
+}
+
+// emphasis
+em {
+    font-style: italic;
+}
+
+// small caps
+.small-caps {
+    font-variant: small-caps;
+}
+
+// text-centering
+.centered {
+    text-align: center;
+}
+
+// headings
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+.no-style, .no-style:hover, .no-style:active, .no-style:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    font-size: 100%;
+    line-height: normal;
+    background: none;
+    max-width: none;
+    max-height: none;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    min-height: 0;
+}
+
+.accessibility {
+    position: absolute !important;
+    display: none;
+    text-indent: -500000px;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+// float
+.float-right {
+    float: right;
+}
+.float-left {
+    float: left;
+}
+
+// white background generalities
+#weblog, #portfolios, #contact {
+    color: @blog-text;
+    background-color: @blog-bg;
+
+    // links
+    a {
+        color: @blog-links;
+        text-decoration: underline;
+        &:hover, &:active, &:focus {
+            color: @blog-links-hover;
+        }
+    }
+
+    // headings
+    h1, h2, h3, h4, h5, h6 {
+        color: @blog-headings;
+        a {
+            text-decoration: none;
+            &:hover, &:active, &:focus {
+                color: @blog-headings;
+            }
+        }
+    }
+    h1 {
+        font-size: 1.5em;
+        line-height: 1.3em;
+        margin-bottom: 0.45em;
+    }
+}
+
+// main header common
+header[role="banner"] {
+    // logo
+    #logo {
+        img {
+            max-height: 50px;
+        }
+    }
+    // main menu
+    #main-menu {
+        li {
+            display: inline-block;
+            line-height: 0.9em;
+            height: 1em;
+            padding: 0 10px;
+            &:last-child {
+                padding-right: 0;
+            }
+            &:first-child {
+                padding-left: 0;
+            }
+            a {
+                vertical-align: top;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+
+// centered main header
+#weblog, #portfolios {
+    header[role="banner"] {
+        position: relative;
+        height: auto;
+        width: auto;
+        text-align: center;
+        padding: 36px 0 24px 0;
+        border-bottom: 1px solid @blog-hr;
+        // logo
+        #logo {
+            position: relative;
+            left: 0;
+            top: 0;
+            margin-bottom: 10px;
+        }
+        // main title
+        h1, h2 {
+            font-weight: normal;
+            font-size: 1.2em;
+        }
+        nav {
+            margin-top: 15px;
+        }
+        #main-menu {
+            position: relative;
+            width: auto;
+            top: 0;
+            li {
+                position: relative;
+                width: auto;
+                top: 0;
+                right: 0;
+                border-right: 1px solid @blog-text;
+                &:last-child {
+                    border: none;
+                }
+                a.selected {
+                    color: @blog-selected-menu;
+                    &:hover, &:active, &:focus {
+                        color: @blog-links-hover;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+// Carousel
+.carousel {
+    margin-top: 24px;
+    max-height: 650px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    li {
+        margin: 0 3px 50px 0;
+        display: inline-block;
+        opacity: 0.6;
+        &.selected {
+            opacity: 1;
+        }
+        &:first-child {
+            margin-left: 200px;
+        }
+        &:last-child {
+            margin-right: 200px;
+        }
+    }
+}
+

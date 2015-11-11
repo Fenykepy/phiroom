@@ -1,0 +1,95 @@
+/* grid system */
+
+/*
+
+container is divided in 12 parts
+each line must be in a div.row
+
+each column must be in a div.col-x
+where x = [1-12]
+the column width will be (container width / 12) * x
+sum of all col-x of a row must equal to 12
+
+example :
+---------
+
+Will create two columns of 50 % width of the container
+<div class="row">
+<div class="col-6"><div><div class="col-6"><div>
+</div>
+
+*/
+
+// float reset
+.clear {
+    &:before {
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+    &:after {
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }    
+}
+
+.row {
+    .clear;
+}
+
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9,
+.col-10, .col-11, .col-12 {
+    float: left;
+    box-sizing: border-box;
+}
+
+@div: 100% / 12;
+
+.col-1 {
+    width: @div;
+}
+.col-2 {
+    width: @div * 2;
+}
+.col-3 {
+    width: @div * 3;
+}
+.col-4 {
+    width: @div * 4;
+}
+.col-5 {
+    width: @div * 5;
+}
+.col-6 {
+    width: @div * 6;
+}
+.col-7 {
+    width: @div * 7;
+}
+.col-8 {
+    width: @div * 8;
+}
+.col-9 {
+    width: @div * 9;
+}
+.col-10 {
+    width: @div * 10;
+}
+.col-11 {
+    width: @div * 11;
+}
+.col-12 {
+    width: 100%;
+}
+
+.pull-right {
+    float: right;
+}
+
+
+

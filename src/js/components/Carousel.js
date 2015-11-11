@@ -20,7 +20,7 @@ export default class Carousel extends Component {
     
   componentDidMount() {
     // go to next picture each 4 seconds
-    this.interval = setInterval(this.goNext.bind(this), slideshow_duration);
+    //this.interval = setInterval(this.goNext.bind(this), slideshow_duration);
   }
 
   componentWillUnmount() {

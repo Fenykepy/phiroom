@@ -10,7 +10,9 @@ var port = 3000;
 var compiler = webpack(config);
 app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath }));
 app.use(webpackHotMiddleware(compiler));
-app.use('/assets', express.static(__dirname + '/../assets'));
+
+// serve statics for developments
+app.use('/assets', express.static(__dirname + '/../../assets'));
 app.use('/media', express.static(__dirname + '/../api/phiroom/data'));
 
 app.get("/", function(req, res) {

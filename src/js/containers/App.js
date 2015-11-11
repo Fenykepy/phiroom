@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import Header from '../components/Header'
 import Portfolio from '../components/Portfolio'
 
-
+var currentModule='portfolios'
+          /*logo={'/media/images/default/inline_default_logo.png'}*/
 
 export default class App extends Component {
   render() {
     return (
-      <div>
+      <div id={currentModule}>
         <Header
-          currentModule={'portfolios'}
-          logo={'/media/images/default/inline_default_logo.png'}
+          currentModule={currentModule}
+          logo={'/media/images/default/default_logo.png'}
           title={'Phiroom'}
           subTitle={'Le cms des photographes…'}
           mainMenu={[
