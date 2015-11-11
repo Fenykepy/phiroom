@@ -29,10 +29,16 @@ var config = {
   module: {
     loaders: [
       {
+        // js files
         test: /\.js$/,
         loaders: ['babel'],
         exclude: '/node_modules/',
         include: __dirname
+      },
+      {
+        // less files
+        test: /\.less$/,
+        loader: 'style-loader!css-loader!less-loader'
       }
     ],
   }
