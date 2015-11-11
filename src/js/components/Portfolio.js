@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import Carousel from './Carousel'
-
+import CarouselInline from './CarouselInline'
 
 var pictures = [
   {
@@ -22,9 +22,34 @@ var pictures = [
 ]
 
 export default class Portfolio extends Component {
+
+
+  constructor(props) {
+    super(props)
+    
+    this.state = {
+      clientside: false
+    }
+  }
+
+
+  componentDidMount() {
+    /*
+     * set clientside = true here because it fires only client side.
+     * like this, server side rendering gives a classical horizontal scroll list
+     * and client side only enable slide show if any js available.
+     */
+    this.setState({
+      //clientside: false
+      clientside: true
+    })
+  }
+
+
   render() {
+    
     return (
-        <Carousel pictures={pictures} />
+        <div>{this.state.clientside ? <Carousel pictures={pictures} /> : <CarouselInline pictures={pictures} />}</div>
     )
   }
 }

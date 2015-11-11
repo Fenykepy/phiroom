@@ -176,20 +176,37 @@ header[role="banner"] {
 }
 
 
-// Carousel
+// Carousel (automatique, client side rendering)
 .carousel {
+    position: absolute;
+    left: 50%;
+    margin-left: -50%;
+    margin-right: -50%;
+    max-width: 100%;
+    //background-color: yellow;
     margin-top: 24px;
-    max-height: 650px;
-    overflow-x: scroll;
-    overflow-y: hidden;
     white-space: nowrap;
+    overflow: hidden;
     li {
-        margin: 0 3px 50px 0;
+        margin: 0 3px;
         display: inline-block;
         opacity: 0.6;
         &.selected {
             opacity: 1;
         }
+    }
+}
+
+// Carousel inline (manual scroll, server side rendering)
+.carousel-inline {
+    margin-top: 24px;
+    max-height: 650px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    li {
+        margin: 0 3px 50px 0;
+        display: inline-block;
         &:first-child {
             margin-left: 200px;
         }

@@ -13,65 +13,68 @@ export default class Carousel extends Component {
     
     this.state = {
       current: 0,
-      previous: this.renderPrevious(0),
-      next: this.renderNext(0)
+      slideshow: true,
     }
   }
     
   componentDidMount() {
-    // go to next picture each 4 seconds
-    //this.interval = setInterval(this.goNext.bind(this), slideshow_duration);
+    // launch slideshow if necessary
+    this.resetInterval()
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   }
 
-  updateState(index) {
+  updateCurrent(index) {
     this.setState({
       current: index,
-      previous: this.renderPrevious(index),
-      next: this.renderNext(index)
-    })
+    }, this.resetInterval)
+    console.log('updateCurrent')
   }
 
-  goNext() {
-    // reset interval, else on user click timer continues
+  resetInterval() {
     clearInterval(this.interval);
+    console.log('resetInterval: ', 'clearinterval')
+    if (this.state.slideshow) {
+      // go to next picture each 4 seconds
+      this.interval = setInterval(this.goNext.bind(this), slideshow_duration);
+    console.log('resetInterval: ', 'setinterval')
+    }
+  }
+
+
+  goNext() {
     var next_index = this.state.current + 1
     if (next_index == this.props.pictures.length) {
       next_index = 0
     }
-    this.updateState(next_index);
-    this.interval = setInterval(this.goNext.bind(this), slideshow_duration);
+    this.updateCurrent(next_index)
+    console.log('goNext');
   }
 
   goPrev() {
-    clearInterval(this.interval);
     var prev_index
     if (this.state.current == 0) {
       prev_index = this.props.pictures.length - 1
     } else {
       prev_index = this.state.current - 1
     }
-    this.updateState(prev_index);
-    this.interval = setInterval(this.goNext.bind(this), slideshow_duration);
+    this.updateCurrent(prev_index)
+    console.log('goPrev');
   }
 
-  renderPrevious(index) {
-    var previous = []
-    var reversed_pictures = this.props.pictures.reverse()
-    var last_index = this.props.pictures.length - 1
-    for (var i=index + 1; i <= last_index; i++) {
-      previous.push(reversed_pictures[i])
-    }
-    for (var i=0; i < index; i++) {
-      previous.push(reversed_pictures[i])
-    }
-    return previous
+  toogleSlideshow() {
+    console.log('toogleSlideshow before', this.state.slideshow)
+    this.setState({
+      slideshow: ! this.state.slideshow
+    }, this.resetInterval)
   }
 
-  renderNext(index) {
+
+  renderOthers(index) {
     var nexts = []
     var last_index = this.props.pictures.length - 1
     for (var i=index + 1; i <= last_index; i++) {
@@ -80,26 +83,32 @@ export default class Carousel extends Component {
     for (var i=0; i < index; i++) {
       nexts.push(this.props.pictures[i])
     }
+    console.log('renderNext', nexts);
     return nexts
   }
 
   render() {
+
+    let others = this.renderOthers(this.state.current)
+    
     return (
         <ul className="carousel">
-          {this.state.previous.map((item) =>
+
+          {others.map((item) =>
             <CarouselItem key={item.previews_path} onClick={this.goPrev.bind(this)} {...item} />
           )}
-          <CarouselSelectedItem {...this.props.pictures[this.state.current]} />
-          {this.state.next.map((item) =>
+          <CarouselSelectedItem {...this.props.pictures[this.state.current]} onClick={this.toogleSlideshow.bind(this)}/>
+          {others.map((item) =>
             <CarouselItem key={item.previews_path} onClick={this.goNext.bind(this)} {...item} />
           )}
+          
         </ul>
     )
   }
 }
 
 
-CarouselItem.PropTypes = {
+Carousel.PropTypes = {
   pictures: PropTypes.arrayOf(PropTypes.shape({
     previews_path: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
