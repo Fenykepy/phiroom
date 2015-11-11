@@ -14,19 +14,16 @@ node_modules/
 npm-debug.log
 
 # data files
-graphics/test/*
-graphics/test/*/
-api/phiroom/data/images/librairy/*/
-api/phiroom/data/images/librairy/*
-api/phiroom/data/images/avatars/
-api/phiroom/data/images/logos/
-api/phiroom/data/images/previews/
+src/graphics/test/*
+src/graphics/test/*/
+src/api/phiroom/data/images/librairy/*/
+src/api/phiroom/data/images/librairy/*
+src/api/phiroom/data/images/avatars/
+src/api/phiroom/data/images/logos/
+src/api/phiroom/data/images/previews/
 
 
 # Distribution / packaging
-assets/index.html
-assets/js/
-assets/css/
 .Python
 env/
 bin/

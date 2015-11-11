@@ -5,7 +5,7 @@
   "private": true,
   "repository": "https://github.com/Fenykepy/phiroom.git",
   "license": "GPLv3",
-  "main": "/js/boot.js",
+  "main": "./",
   "dependencies": {
     "isomorphic-fetch": "^2.2.0",
     "react": "^0.14.2",
@@ -39,6 +39,6 @@
     ]
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node ./src/js/server.js"
   }
 }
