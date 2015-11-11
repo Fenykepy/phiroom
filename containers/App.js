@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import Header from '../components/Header';
+import React, { Component } from 'react'
+import Header from '../components/Header'
+import Portfolio from '../components/Portfolio'
 
 
 
 export default class App extends Component {
-  render(){
+  render() {
     return (
       <div>
         <Header
@@ -17,6 +18,8 @@ export default class App extends Component {
             {name: 'contact', url: '/contact', title: 'Contact'},
           ]}
         />
+        <Portfolio />
+
         </div>
     )
   }
