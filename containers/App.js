@@ -8,9 +8,14 @@ export default class App extends Component {
     return (
       <div>
         <Header
+          currentModule={'portfolios'}
           logo={'/media/images/default/inline_default_logo.png'}
           title={'Phiroom'}
           subTitle={'Le cms des photographes…'}
+          mainMenu={[
+            {name: 'portfolios', url: '/portfolio', title: 'Portfolios'},
+            {name: 'contact', url: '/contact', title: 'Contact'},
+          ]}
         />
         </div>
     )

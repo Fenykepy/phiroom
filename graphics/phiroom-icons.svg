@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="phiroom-icons.svg">
+   sodipodi:docname="phiroom-icons.svg"
+   inkscape:export-filename="/home/fred/sites/phiroom-env/phiroom/api/phiroom/data/images/default/inline_default_logo.png"
+   inkscape:export-xdpi="3"
+   inkscape:export-ydpi="3">
   <defs
      id="defs4">
     <linearGradient
@@ -1255,13 +1258,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.056568542"
-     inkscape:cx="10210.096"
-     inkscape:cy="8043.0348"
+     inkscape:cx="8531.163"
+     inkscape:cy="7958.2144"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1438"
-     inkscape:window-height="884"
+     inkscape:window-width="1918"
+     inkscape:window-height="1184"
      inkscape:window-x="0"
      inkscape:window-y="14"
      inkscape:window-maximized="0" />
@@ -4826,5 +4829,38 @@
              id="rect4165" /></flowRegion><flowPara
            style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:125%;font-family:'TeX Gyre Bonum';-inkscape-font-specification:'TeX Gyre Bonum Italic';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#cccccc;fill-opacity:1"
            id="flowPara4167">room</flowPara></flowRoot>    </g>
+    <rect
+       y="-14413.394"
+       x="8390.2607"
+       height="1728"
+       width="3478.0894"
+       id="rect4136-4"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+    <g
+       id="g4157-7"
+       transform="translate(8128.281,-7694.9572)"
+       inkscape:export-filename="/home/fred/sites/phiroom-env/phiroom/api/phiroom/data/images/default/inline_default_logo.png"
+       inkscape:export-xdpi="3.3232942"
+       inkscape:export-ydpi="3.3232942">
+      <path
+         sodipodi:nodetypes="ccscscccccsccccsssccccccscsc"
+         inkscape:connector-curvature="0"
+         id="path4159-5"
+         d="m 798.71014,-6566.4791 0,35.1039 c -143.6664,37.055 -215.49935,172.9201 -215.49916,407.5958 -1.9e-4,254.1787 89.38471,403.6953 268.1551,448.5503 l 0,-566.5386 c -4.9e-4,-82.5586 5.20003,-142.8528 15.60175,-180.8828 10.40065,-38.0284 33.31568,-71.5072 68.7452,-100.4362 35.42834,-28.9274 78.17067,-43.3915 128.22687,-43.3924 87.7591,9e-4 169.1807,41.2805 244.2649,123.8389 75.0824,82.56 112.6241,190.1469 112.6251,322.7612 0,124.1643 -38.5178,235.0016 -115.5504,332.5123 -77.0345,97.511 -193.2349,153.0921 -348.60164,166.7437 l 0,400.7701 -105.31178,0 0,-400.7701 c -135.21555,-11.7014 -243.6151,-62.2445 -325.19903,-151.6295 -81.58421,-89.3848 -122.37623,-205.5852 -122.37623,-348.6016 0,-128.7139 37.0541,-233.8631 111.16247,-315.4479 74.10808,-81.5833 168.6936,-124.9756 283.75685,-130.1771 z m 157.96772,891.25 c 204.77224,-30.5534 307.15864,-162.8431 307.15944,-396.8695 -8e-4,-107.9116 -21.9408,-198.4342 -65.8199,-271.568 -43.8807,-73.1325 -95.3989,-109.699 -154.5548,-109.6998 -21.453,8e-4 -39.4926,7.6391 -54.11854,22.915 -14.62724,15.2775 -23.72824,33.317 -27.30302,54.1186 -3.57603,20.8031 -5.36376,61.7576 -5.36318,122.8638 z"
+         style="font-style:normal;font-weight:normal;font-size:2050.27807617px;font-family:'Times New Roman';fill:#222222;fill-opacity:0.94117647;stroke:none" />
+      <flowRoot
+         transform="matrix(5.9765944,0,0,5.7791738,-5794.1778,-12707.53)"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:125%;font-family:'TeX Gyre Chorus';-inkscape-font-specification:'TeX Gyre Chorus Italic';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#222222;fill-opacity:0.94117647;stroke:none;"
+         id="flowRoot4161-9"
+         xml:space="preserve"><flowRegion
+           id="flowRegion4163-0"><rect
+             style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:125%;font-family:'TeX Gyre Chorus';-inkscape-font-specification:'TeX Gyre Chorus Italic';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#222222;fill-opacity:0.94117647;"
+             y="1152.7704"
+             x="1160.5541"
+             height="591.55676"
+             width="1862.4011"
+             id="rect4165-1" /></flowRegion><flowPara
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:125%;font-family:'TeX Gyre Bonum';-inkscape-font-specification:'TeX Gyre Bonum Italic';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#222222;fill-opacity:0.94117647;"
+           id="flowPara4167-7">room</flowPara></flowRoot>    </g>
   </g>
 </svg>
