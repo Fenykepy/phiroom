@@ -14,15 +14,20 @@ export default class Carousel extends Component {
     this.state = {
       current: 0,
       slideshow: true,
+      carousel_height: 0,
+      carousel_weight: 0
     }
   }
     
   componentDidMount() {
     // launch slideshow if necessary
     this.resetInterval()
+    window.addEventListener('resize', this.handleResize.bind(this))
+    this.handleResize()
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize)
     if (this.interval) {
       clearInterval(this.interval);
     }
@@ -35,12 +40,22 @@ export default class Carousel extends Component {
     console.log('updateCurrent')
   }
 
+
+  handleResize() {
+    this.setState({
+      carousel_height: document.documentElement.clientHeight - 20,
+      carousel_width: document.documentElement.clientWidth
+    })
+    console.log('handleResize', document.documentElement.clientHeight -20);
+  }
+
+
   resetInterval() {
     clearInterval(this.interval);
     console.log('resetInterval: ', 'clearinterval')
     if (this.state.slideshow) {
       // go to next picture each 4 seconds
-      this.interval = setInterval(this.goNext.bind(this), slideshow_duration);
+      this.interval = setInterval(this.goNext.bind(this), slideshow_duration)
     console.log('resetInterval: ', 'setinterval')
     }
   }
@@ -52,7 +67,7 @@ export default class Carousel extends Component {
       next_index = 0
     }
     this.updateCurrent(next_index)
-    console.log('goNext');
+    console.log('goNext')
   }
 
   goPrev() {
@@ -92,7 +107,7 @@ export default class Carousel extends Component {
     let others = this.renderOthers(this.state.current)
     
     return (
-        <ul className="carousel">
+        <ul className="carousel" style={{maxHeight: this.state.carousel_height + 'px'}}>
 
           {others.map((item) =>
             <CarouselItem key={item.previews_path} onClick={this.goPrev.bind(this)} {...item} />

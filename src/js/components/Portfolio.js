@@ -49,7 +49,7 @@ export default class Portfolio extends Component {
   render() {
     
     return (
-        <div className="carousel-wrapper">{this.state.clientside ? <Carousel pictures={pictures} /> : <CarouselInline pictures={pictures} />}</div>
+        <div>{this.state.clientside ? <Carousel pictures={pictures} /> : <CarouselInline pictures={pictures} />}</div>
     )
   }
 }

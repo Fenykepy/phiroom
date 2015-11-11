@@ -1,5 +1,7 @@
 // Common layout
-
+html {
+    height: 100%;
+}
 body {
     font-size: 100%;
     line-height: 1.5em;
@@ -175,27 +177,30 @@ header[role="banner"] {
     }
 }
 
-// carousel wrapper
-.carousel-wrapper {
-    overflow-x: hidden;
-}
 // Carousel (automatique, client side rendering)
 .carousel {
-    position: absolute;
-    left: 50%;
-    margin-left: -5000px;
-    width: 10000px;
-    text-align: center;
+    position: relative;
+    //position: absolute;
+    //left: 50%;
+    //margin-left: -5000px;
+    //width: 10000px;
+    //text-align: center;
     //background-color: yellow;
     margin-top: 24px;
     white-space: nowrap;
     overflow: hidden;
     li {
+        position: relative;
+        max-height: 100%;
         margin: 0 3px;
         display: inline-block;
         opacity: 0.6;
         &.selected {
             opacity: 1;
+        }
+        img {
+            position: relative;
+            max-height: 100%;
         }
     }
 }
