@@ -15,7 +15,8 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    # pub_date musn't be null=True else get_next_by_pub_date()
+    # pub_date musn't be null=Trueiin model
+    # else get_next_by_pub_date()
     # won't work, so use required=False allow_null=True here
     pub_date = serializers.DateTimeField(required=False, allow_null=True)
     abstract = serializers.CharField(read_only=True)

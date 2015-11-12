@@ -14,7 +14,9 @@ from weblog.utils import format_abstract, format_content
 
 
 class PublishedManager(models.Manager):
-    """Returns a query set with all published posts."""
+    """
+    Returns a query set with all published posts.
+    """
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(
                 pub_date__lte=timezone.now,
@@ -24,7 +26,7 @@ class PublishedManager(models.Manager):
 
 class Post(models.Model):
     """
-    Table for weblog posts entrys.
+    Table for weblog posts entries.
     """
     title = models.CharField(max_length=254, verbose_name="Title")
     slug = models.CharField(max_length=270, db_index=True, unique=True)
@@ -71,7 +73,7 @@ class Post(models.Model):
 
     def get_pictures(self):
         """
-        Returns all related pictures orders by "PostPicture.order"
+        Returns all related pictures ordered by "PostPicture.order"
         """
         return [post_pict.picture for post_pict in 
                 PostPicture.objects.filter(post=self).select_related(
@@ -163,8 +165,10 @@ class Post(models.Model):
 
 
 class PostPicture(models.Model):
-    """Through table for post - pictures relation,
-    add an order column"""
+    """
+    Through table for post - pictures relation,
+    add an order column.
+    """
     post = models.ForeignKey(Post)
     picture = models.ForeignKey(Picture)
     order = models.IntegerField(default=0)
@@ -176,7 +180,9 @@ class PostPicture(models.Model):
 
 
 class UsedManager(models.Manager):
-    """Returns a queryset with all tags with n_posts > 0."""
+    """
+    Returns a queryset with all tags with n_posts > 0.
+    """
     def get_queryset(self):
         return super(UsedManager, self).get_queryset().filter(
                 n_posts__gt= 0).order_by('-n_entry')
@@ -184,7 +190,9 @@ class UsedManager(models.Manager):
 
 
 class Tag(models.Model):
-    """Table for posts' tags."""
+    """
+    Table for posts' tags.
+    """
     name = models.CharField(max_length=50, verbose_name="Tag", unique=True)
     slug = models.SlugField(max_length=65, unique=True, db_index=True)
     n_posts = models.IntegerField(default=0, db_index=True)
