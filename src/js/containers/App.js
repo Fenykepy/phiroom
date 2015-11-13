@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Header from '../components/Header'
 import Portfolio from '../components/Portfolio'
+import Footer from '../components/Footer'
 
 var currentModule='portfolios'
           /*logo={'/media/images/default/inline_default_logo.png'}*/
@@ -20,6 +21,7 @@ export default class App extends Component {
           ]}
         />
         <Portfolio />
+        <Footer />
 
         </div>
     )

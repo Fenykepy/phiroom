@@ -16,6 +16,32 @@ em {
     font-style: italic;
 }
 
+pre {
+    background-color: @blog-code-bg;
+    border: 1px solid @blog-code-border;
+    border-radius: 5px;
+    padding: 1em 1.5em;
+    margin: 1em 0;
+    overflow: auto;
+    box-shadow: 0 0 3px @blog-code-bg,
+}
+code {
+    background-color: @blog-code-bg;
+    color: @blog-code-text;
+    font-family: @mono;
+    border-radius: 4px;
+    padding: 0px 5px;
+}
+
+
+// Powered by
+#powered {
+    font-family: @serif;
+    font-size: 0.8em;
+    a {
+        text-decoration: none;
+    }
+}
 // small caps
 .small-caps {
     font-variant: small-caps;
@@ -128,6 +154,13 @@ header[role="banner"] {
     }
 }
 
+// main footer common
+footer[role="contentinfo"] {
+    text-align: center;
+    border-top: 1px solid @blog-hr;
+    padding: 30px 0 30px 0;
+
+}
 
 // centered main header
 #weblog, #portfolios {
@@ -186,11 +219,13 @@ header[role="banner"] {
     //width: 10000px;
     //text-align: center;
     //background-color: yellow;
-    margin-top: 24px;
-    white-space: nowrap;
+    margin: 24px 0;
+    white-space: nowrap; // for all li to stay inline on overflow
     overflow: hidden;
+    line-height: 0; // to remove white spaces between li
     li {
         position: relative;
+        box-sizing: border-box;
         max-height: 100%;
         margin: 0 3px;
         display: inline-block;
@@ -211,7 +246,8 @@ header[role="banner"] {
     max-height: 650px;
     overflow-x: auto;
     overflow-y: hidden;
-    white-space: nowrap;
+    white-space: nowrap; // for all li to stay inline on overflow
+    line-height: 0; // to remove white spaces between li
     li {
         margin: 0 3px 50px 0;
         display: inline-block;
