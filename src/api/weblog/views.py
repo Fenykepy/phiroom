@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from weblog.serializers import *
+from weblog.models import Post, Tag
 
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
 
-from weblog.models import Post, Tag
 
 
 
@@ -32,6 +32,7 @@ class PostList(generics.ListCreateAPIView):
             return PostSerializer
         return PostAbstractSerializer
 
+    # automatically add author on save
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
@@ -92,7 +93,7 @@ def post_head_list(request, format=None):
     Returns a list of all user's posts headers (slug, pk, name)
     without pagination.
     """
-    posts = Post.objects.filter(author= request.user)
+    posts = Post.objects.filter(author=request.user)
     serializer = PostHeadSerializer(posts, many=True)
 
     return Response(serializer.data)

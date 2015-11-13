@@ -1,7 +1,9 @@
 from django.db import models
 from librairy.models import Picture
 from django.utils import timezone
+from django.template.defaultfilters import slugify
 from user.models import User
+from weblog.slug import unique_slugify
 
 
 
