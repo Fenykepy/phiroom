@@ -16,7 +16,11 @@ export default class App extends Component {
           title={'Phiroom'}
           subTitle={'Le cms des photographes…'}
           mainMenu={[
-            {name: 'portfolios', url: '/portfolio', title: 'Portfolios'},
+            {name: 'portfolios', url: '/portfolio', title: 'Portfolios', subMenu: [
+              {slug: 'portraits', title: 'Portraits', pk: 1},
+              {slug: 'macro', title: 'Quelque part en France', pk: 2},
+              {slug: 'paysages', title: 'Un monde miniature', pk: 3},
+            ]},
             {name: 'contact', url: '/contact', title: 'Contact'},
           ]}
         />

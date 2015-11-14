@@ -205,6 +205,32 @@ footer[role="contentinfo"] {
                         color: @blog-links-hover;
                     }
                 }
+                ul.sub-main-menu { // main menu sub-menu
+                    display: none;
+                    position: absolute;
+                    top: 20px;
+                    left: -15px;
+                    z-index: 50;
+                    //min-width: 100px;
+                    background-color: @blog-bg;
+                    padding: 5px 20px;
+                    border: 1px solid @blog-hr;
+                    border-radius: 3px;
+                    text-align: left;
+                    li {
+                        margin: 10px 0;
+                        border: none;
+                        padding: 0;
+                        width: auto;
+                        white-space: nowrap;
+                        display: inline-block;
+                        position: relative;
+                    }
+
+                }
+                &:hover ul.sub-main-menu {
+                    display: block;
+                }
             }
         }
     }
@@ -219,15 +245,15 @@ footer[role="contentinfo"] {
         position: absolute;
         box-sizing: border-box;
         opacity: 0.6;
-        transition: left 1s ease-in-out, opacity 1s ease-in-out ;
-        -webkit-transition: left 1s ease-in-out, opacity 1s ease-in-out;
+        transition: left 0.4s ease-in-out, opacity 0.4s ease-in-out ;
+        -webkit-transition: left 0.4s ease-in-out, opacity 0.4s ease-in-out;
         &.selected {
             opacity: 1;
         }
         img {
             display: block;
             position: relative;
-            .transition(opacity 1s ease-in-out);
+            .transition(opacity 0.4s ease-in-out);
             &.swiped {
                 opacity: 0;
             }

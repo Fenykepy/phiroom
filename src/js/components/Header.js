@@ -25,4 +25,5 @@ Header.PropTypes = {
     name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }).isRequired).isRequired
+
 }

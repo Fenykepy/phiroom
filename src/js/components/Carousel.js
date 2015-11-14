@@ -50,8 +50,8 @@ var PICT_MARGIN = 6
 // constants
 const NEXT = 'NEXT'
 const PREV = 'PREV'
-const LEFT_TRANSITION = 800
-const SWIPED_TRANSITION = 800
+const LEFT_TRANSITION = 300
+const SWIPED_TRANSITION = 300
 
 export default class Carousel extends Component {
   
@@ -68,7 +68,6 @@ export default class Carousel extends Component {
       viewport_width: 0,
       picture_height: this.props.picture_height,
     }
-    console.log(this.state)
   }
   getNexts(current=0) {
     let nexts = []
@@ -137,7 +136,6 @@ export default class Carousel extends Component {
     this.resetInterval()
     window.addEventListener('resize', this.handleResize.bind(this))
     this.handleResize()
-    console.log(this.state)
   }
 
   componentWillUnmount() {

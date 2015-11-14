@@ -3,10 +3,6 @@ import React, { Component, PropTypes } from 'react'
 
 export default class CarouselItem extends Component {
 
-  componentDidMount () {
-    //console.log(this.refs.offsetWidth)
-    console.log(this.props.position)
-  }
   render() {
     return (
         <li className={this.props.current ? "selected":""}
