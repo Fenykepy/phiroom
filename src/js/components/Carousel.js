@@ -42,14 +42,16 @@ import CarouselItem from './CarouselItem'
 
 
 // default slideshow duration
-var slideshow_duration = 3000
+var SLIDESHOW_DURATION = 3000
 
 // margin between pictures
-var pict_margin = 6
+var PICT_MARGIN = 6
 
 // constants
 const NEXT = 'NEXT'
 const PREV = 'PREV'
+const LEFT_TRANSITION = 800
+const SWIPED_TRANSITION = 800
 
 export default class Carousel extends Component {
   
@@ -61,8 +63,8 @@ export default class Carousel extends Component {
       nexts: this.getNexts(),
       current: 0,
       slideshow: true,
+      swiped: null,
       positions: this.props.pictures.map(() => 0),
-      visibles: this.props.pictures.map(() => false),
       viewport_width: 0,
       picture_height: this.props.picture_height,
     }
@@ -110,27 +112,24 @@ export default class Carousel extends Component {
     let cursor = positions[c]
     for (var i=this.state.prevs.length - 1; i >= 0; i--) {
       let index = this.state.prevs[i]
-      positions[index] = cursor - pict_margin - this.getPictWidth(index)
+      positions[index] = cursor - PICT_MARGIN - this.getPictWidth(index)
       cursor = positions[index]
     }
     // get nexts positions
     cursor = positions[c] + c_width
     for (var i=0, l=this.state.nexts.length; i < l; i++) {
       let index = this.state.nexts[i]
-      positions[index] = cursor + pict_margin
+      positions[index] = cursor + PICT_MARGIN
       cursor = positions[index] + this.getPictWidth(index)
     }
     this.setState({
       positions: positions
-    }, () => {
+    }, () =>
       // we wait for transition effects
         setTimeout(() =>
           this.setState({
-            visibles: this.props.pictures.map(() => true)
-          }), 1000)
-    })
-    console.log('current', this.state.current)
-    console.log('positions', this.state.positions)
+            swiped: null
+          }), LEFT_TRANSITION))
   }
   
   componentDidMount() {
@@ -168,7 +167,6 @@ export default class Carousel extends Component {
     this.setState({
       picture_height: max_height < default_height ? max_height : default_height,
       viewport_width: viewport_width,
-      visibles: this.props.pictures.map(() => false)
     }, this.setPositions)
     //console.log('handleResize', document.documentElement.clientHeight -20);
   }
@@ -178,8 +176,8 @@ export default class Carousel extends Component {
     clearInterval(this.interval);
     //console.log('resetInterval: ', 'clearinterval')
     if (this.state.slideshow) {
-      // go to next picture each slideshow_duration
-      this.interval = setInterval(this.goNext.bind(this), slideshow_duration)
+      // go to next picture each SLIDESHOW_DURATION
+      this.interval = setInterval(this.goNext.bind(this), SLIDESHOW_DURATION)
     //console.log('resetInterval: ', 'setinterval')
     }
   }
@@ -187,25 +185,30 @@ export default class Carousel extends Component {
 
   goNext() {
     let index = this.state.prevs[0]
-    let visibles = Object.assign({}, this.state.visibles)
-    visibles[index] = false
     this.setState({
-      visibles: visibles
-    },() => this.setCurrent(this.state.nexts[0]))
+      swiped: index
+    },() => 
+      // we wait for last item to disappear
+      setTimeout(() =>
+        this.setCurrent(this.state.nexts[0]), SWIPED_TRANSITION
+      )
+    )
     //console.log('goNext')
   }
 
   goPrev() {
     // set first image invisible
     let index = this.state.nexts[this.state.nexts.length -1]
-    let visibles = Object.assign({}, this.state.visibles)
-    visibles[index] = false
     this.setState({
-      visibles: visibles
-    },() => this.setCurrent(this.state.prevs[this.state.prevs.length - 1]))
+      swiped: index
+    },() => 
+      // we wait for last item to disappear
+      setTimeout(() =>
+        this.setCurrent(this.state.prevs[this.state.prevs.length - 1]), SWIPED_TRANSITION
+      )
+    )
     //console.log('goPrev');
   }
-
   toogleSlideshow() {
     //console.log('toogleSlideshow before', this.state.slideshow)
     this.setState({
@@ -237,7 +240,7 @@ export default class Carousel extends Component {
               current={this.state.current == index}
               index={index}
               position={this.state.positions[index]}
-              visible={this.state.visibles[index]}
+              swiped={this.state.swiped == index}
 
               {...pict} />
           )}

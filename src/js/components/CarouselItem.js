@@ -11,10 +11,9 @@ export default class CarouselItem extends Component {
     return (
         <li className={this.props.current ? "selected":""}
             style={{
-              visibility: this.props.visible ? 'visible' : 'hidden',
-              zIndex: this.props.visible ? 'auto' : -1000,
               left: this.props.position
             }}><img
+             className={this.props.swiped ? "swiped": ""}
              src={'/media/images/previews/height-600/' + this.props.previews_path}
              alt={this.props.legend}
              onClick={()=> this.props.onClick(this.props.index)}
