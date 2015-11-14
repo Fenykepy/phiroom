@@ -1,10 +1,55 @@
 import React, { Component, PropTypes } from 'react'
 import CarouselItem from './CarouselItem'
-import CarouselSelectedItem from './CarouselSelectedItem'
+
+
+/*
+ * Infinite carousel :
+ *  - each image appears only once
+ *  - appear disappear effect if first and last image are in viewport
+ *  - infinite rotation effect if first and last image are out of viewport
+ *  - react to window resize
+ *  - height of picture must always be less than viewport height
+ *
+ * on start :
+ *  Step 1 : set visibility hidden to all images
+ *  Step 2 : compute width of each image when they and store it in state
+ *  step 3 : position images with left css parameter
+ *  Step 4 : set visibility visible to all images with transition
+ *
+ * on resize :
+ *  Step 1 : store new image height
+ *  Step 2 : if height is different than actual, run start steps
+ *  Step 3 : else if viewport width is different than actual,
+ *           compute difference and move all queue of it
+ *
+ * on next :
+ *  Step 1 : make hidden first image with transition
+ *  Step 2 : move first image to end of queue
+ *  Step 3 : make new last image visible
+ *  Step 4 : compute step width :
+ *           (half of current image width + margin + half of next image width)
+ *  Step 5 : move all queue backward of step width with transition
+ *
+ * on previous :
+ *  Step 1 : make hidden last image with transition
+ *  Step 2 : move last image to beginning of queue
+ *  Step 3 : make new first image visible
+ *  Step 4 : compute step width :
+ *           (half of current image width + margin + half of previous image width)
+ *  Step 5 : move all queue forward of step width with transition
+ * 
+ */
 
 
 // default slideshow duration
 var slideshow_duration = 3000
+
+// margin between pictures
+var pict_margin = 6
+
+// constants
+const NEXT = 'NEXT'
+const PREV = 'PREV'
 
 export default class Carousel extends Component {
   
@@ -12,18 +57,88 @@ export default class Carousel extends Component {
     super(props)
     
     this.state = {
+      prevs: this.getPrevs(),
+      nexts: this.getNexts(),
       current: 0,
       slideshow: true,
-      carousel_height: 0,
-      carousel_weight: 0
+      positions: this.props.pictures.map(() => 0),
+      visibles: this.props.pictures.map(() => false),
+      viewport_width: 0,
+      picture_height: this.props.picture_height,
     }
+    console.log(this.state)
   }
-    
+  getNexts(current=0) {
+    let nexts = []
+    let max_index = this.props.pictures.length - 1
+    let n_nexts = Math.ceil((max_index) / 2)
+    let index = current + 1
+    for (let i=0; i < n_nexts; i++) {
+      index = index > max_index ? 0 : index
+      nexts.push(index)
+      index ++
+    }
+    return nexts
+  }
+
+
+  getPrevs(current=0) {
+    let prevs = []
+    let max_index = this.props.pictures.length - 1
+    let n_prevs = Math.floor((this.props.pictures.length - 1) / 2)
+    let index = current - 1
+    for (let i=0; i < n_prevs; i++) {
+      index = index < 0 ? max_index : index
+      prevs.unshift(index)
+      index --
+    }
+    return prevs
+  }
+
+  getPictWidth(index) {
+    return Math.round(
+        this.props.pictures[index].ratio * this.state.picture_height)
+  }
+
+  setPositions() {
+    let positions = Object.assign({}, this.state.positions)
+    let c = this.state.current
+    let c_width = this.getPictWidth(c)
+    // get current position
+    positions[c] = Math.round((this.state.viewport_width - c_width) / 2)
+    // get prevs positions
+    let cursor = positions[c]
+    for (var i=this.state.prevs.length - 1; i >= 0; i--) {
+      let index = this.state.prevs[i]
+      positions[index] = cursor - pict_margin - this.getPictWidth(index)
+      cursor = positions[index]
+    }
+    // get nexts positions
+    cursor = positions[c] + c_width
+    for (var i=0, l=this.state.nexts.length; i < l; i++) {
+      let index = this.state.nexts[i]
+      positions[index] = cursor + pict_margin
+      cursor = positions[index] + this.getPictWidth(index)
+    }
+    this.setState({
+      positions: positions
+    }, () => {
+      // we wait for transition effects
+        setTimeout(() =>
+          this.setState({
+            visibles: this.props.pictures.map(() => true)
+          }), 1000)
+    })
+    console.log('current', this.state.current)
+    console.log('positions', this.state.positions)
+  }
+  
   componentDidMount() {
     // launch slideshow if necessary
     this.resetInterval()
     window.addEventListener('resize', this.handleResize.bind(this))
     this.handleResize()
+    console.log(this.state)
   }
 
   componentWillUnmount() {
@@ -33,90 +148,99 @@ export default class Carousel extends Component {
     }
   }
 
-  updateCurrent(index) {
+  setCurrent(index) {
+
     this.setState({
       current: index,
-    }, this.resetInterval)
-    console.log('updateCurrent')
+      nexts: this.getNexts(index),
+      prevs: this.getPrevs(index)
+    }, () =>  {this.resetInterval(), this.setPositions()})
+    //console.log('setCurrent')
   }
 
 
   handleResize() {
+    let max_height = document.documentElement.clientHeight - 20
+    let viewport_width = Math.round(document.documentElement.clientWidth)
+    let default_height = this.props.picture_height
+
+    
     this.setState({
-      carousel_height: document.documentElement.clientHeight - 20,
-      carousel_width: document.documentElement.clientWidth
-    })
-    console.log('handleResize', document.documentElement.clientHeight -20);
+      picture_height: max_height < default_height ? max_height : default_height,
+      viewport_width: viewport_width,
+      visibles: this.props.pictures.map(() => false)
+    }, this.setPositions)
+    //console.log('handleResize', document.documentElement.clientHeight -20);
   }
 
 
   resetInterval() {
     clearInterval(this.interval);
-    console.log('resetInterval: ', 'clearinterval')
+    //console.log('resetInterval: ', 'clearinterval')
     if (this.state.slideshow) {
-      // go to next picture each 4 seconds
+      // go to next picture each slideshow_duration
       this.interval = setInterval(this.goNext.bind(this), slideshow_duration)
-    console.log('resetInterval: ', 'setinterval')
+    //console.log('resetInterval: ', 'setinterval')
     }
   }
 
 
   goNext() {
-    var next_index = this.state.current + 1
-    if (next_index == this.props.pictures.length) {
-      next_index = 0
-    }
-    this.updateCurrent(next_index)
-    console.log('goNext')
+    let index = this.state.prevs[0]
+    let visibles = Object.assign({}, this.state.visibles)
+    visibles[index] = false
+    this.setState({
+      visibles: visibles
+    },() => this.setCurrent(this.state.nexts[0]))
+    //console.log('goNext')
   }
 
   goPrev() {
-    var prev_index
-    if (this.state.current == 0) {
-      prev_index = this.props.pictures.length - 1
-    } else {
-      prev_index = this.state.current - 1
-    }
-    this.updateCurrent(prev_index)
-    console.log('goPrev');
+    // set first image invisible
+    let index = this.state.nexts[this.state.nexts.length -1]
+    let visibles = Object.assign({}, this.state.visibles)
+    visibles[index] = false
+    this.setState({
+      visibles: visibles
+    },() => this.setCurrent(this.state.prevs[this.state.prevs.length - 1]))
+    //console.log('goPrev');
   }
 
   toogleSlideshow() {
-    console.log('toogleSlideshow before', this.state.slideshow)
+    //console.log('toogleSlideshow before', this.state.slideshow)
     this.setState({
       slideshow: ! this.state.slideshow
     }, this.resetInterval)
   }
 
-
-  renderOthers(index) {
-    var nexts = []
-    var last_index = this.props.pictures.length - 1
-    for (var i=index + 1; i <= last_index; i++) {
-      nexts.push(this.props.pictures[i])
-    }
-    for (var i=0; i < index; i++) {
-      nexts.push(this.props.pictures[i])
-    }
-    console.log('renderNext', nexts);
-    return nexts
+  onImageClick(index) {
+    if (index == this.state.current) {
+      this.toogleSlideshow()
+    } else if (this.state.nexts.indexOf(index) != -1) {
+      this.goNext()
+    } else if (this.state.prevs.indexOf(index) != -1) {
+      this.goPrev()
+    } 
   }
+
 
   render() {
 
-    let others = this.renderOthers(this.state.current)
-    
     return (
-        <ul className="carousel" style={{maxHeight: this.state.carousel_height + 'px'}}>
+        <ul className="carousel" style={{height: this.state.picture_height + 'px'}}>
 
-          {others.map((item) =>
-            <CarouselItem key={item.previews_path} onClick={this.goPrev.bind(this)} {...item} />
+          {this.props.pictures.map((pict, index) =>
+            <CarouselItem key={pict.previews_path}
+              onClick={this.onImageClick.bind(this)}
+              height={this.state.picture_height}
+              width={this.getPictWidth(index)}
+              current={this.state.current == index}
+              index={index}
+              position={this.state.positions[index]}
+              visible={this.state.visibles[index]}
+
+              {...pict} />
           )}
-          <CarouselSelectedItem {...this.props.pictures[this.state.current]} onClick={this.toogleSlideshow.bind(this)}/>
-          {others.map((item) =>
-            <CarouselItem key={item.previews_path} onClick={this.goNext.bind(this)} {...item} />
-          )}
-          
         </ul>
     )
   }
@@ -128,5 +252,7 @@ Carousel.PropTypes = {
     previews_path: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     legend: PropTypes.string.isRequired,
-  }).isRequired).isRequired
+    ratio: PropTypes.number.isRequired
+  }).isRequired).isRequired,
+  picture_height: PropTypes.number.isRequired
 }
