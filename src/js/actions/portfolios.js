@@ -1,6 +1,9 @@
 import * as types from '../constants/actionsTypes';
 
 // action creators
+export function displayPortfolio(portfolio) {
+  return {type: types.DISPLAY_PORTFOLIO, portfolio}
+}
 
 export function nextPict() {
   return { type: types.NEXT_PICT }

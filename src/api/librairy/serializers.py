@@ -92,9 +92,9 @@ class PictureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Picture
-        fields = ('url', 'pk', 'importation_date', 'last_update', 'source_file',
+        fields = ('url', 'pk', 'sha1', 'importation_date', 'last_update', 'source_file',
                 'title', 'legend', 'name_import', 'name', 'type', 'directory',
-                'weight','width', 'height', 'portrait_orientation',
+                'weight','width', 'height', 'ratio', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
                 'speed', 'aperture', 'iso', 'tags', 'label', 'rate',
                 'exif_date', 'exif_origin_date', 'copyright',
@@ -106,7 +106,7 @@ class PublicPictureSerializer(PictureSerializer):
     """A serializer to show some pictures info in public pages."""
     class Meta:
         model = Picture
-        fields = ('pk', 'title', 'legend', 'previews_path')
+        fields = ('pk', 'title', 'legend', 'previews_path', 'ratio')
 
 
 

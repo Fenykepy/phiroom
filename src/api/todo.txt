@@ -1,0 +1,16 @@
+################################
+### todo list for django api ###
+################################
+
+conf:
+    - use '/' relatives urls for logos instead of absolute urls
+
+portfolio:
+    - add views
+    - add tests
+
+librairy:
+    - add pictures_full view
+    - add pictures_short view
+    - delete all others except list
+    - test ratio in models

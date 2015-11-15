@@ -1,20 +1,28 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Header from '../components/Header'
 import Portfolio from '../components/Portfolio'
 import Footer from '../components/Footer'
 
-var currentModule='portfolios'
-          /*logo={'/media/images/default/inline_default_logo.png'}*/
 
-export default class App extends Component {
+class App extends Component {
   render() {
+    // Injected by connect() call:
+    const {
+      dispatch,
+      settings,
+      modules,
+      pictures,
+      viewport,
+      portfolios,
+    } = this.props
     return (
-      <div id={currentModule}>
+      <div id={this.props.modules.currentModule}>
         <Header
-          currentModule={currentModule}
-          logo={'/media/images/default/default_logo.png'}
-          title={'Phiroom'}
-          subTitle={'Le cms des photographes…'}
+          currentModule={this.props.modules.currentModule}
+          logo={this.props.settings.weblog_logo}
+          title={this.props.settings.title}
+          subTitle={this.props.settings.subtitle}
           mainMenu={[
             {name: 'portfolios', url: '/portfolio', title: 'Portfolios', subMenu: [
               {slug: 'portraits', title: 'Portraits', pk: 1},
@@ -26,8 +34,16 @@ export default class App extends Component {
         />
         <Portfolio />
         <Footer />
-
-        </div>
+      </div>
     )
   }
 }
+
+
+
+function select(state) {
+  return state
+}
+
+// Wrap the component to inject dispatch and state into it
+export default connect(select)(App)

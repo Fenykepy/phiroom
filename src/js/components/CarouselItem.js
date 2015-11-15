@@ -2,14 +2,17 @@ import React, { Component, PropTypes } from 'react'
 
 
 export default class CarouselItem extends Component {
-
   render() {
+
+    let li_classes = []
+    this.props.current ? li_classes.push("selected") : ""
+    this.props.swaping ? li_classes.push("swaping") : ""
+
     return (
-        <li className={this.props.current ? "selected":""}
+        <li className={li_classes.join(' ')}
             style={{
               left: this.props.position
             }}><img
-             className={this.props.swiped ? "swiped": ""}
              src={'/media/images/previews/height-600/' + this.props.previews_path}
              alt={this.props.legend}
              onClick={()=> this.props.onClick(this.props.index)}

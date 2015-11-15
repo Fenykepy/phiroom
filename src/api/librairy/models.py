@@ -106,6 +106,8 @@ class Picture(models.Model):
             verbose_name="File width")
     height = models.PositiveIntegerField(null=True, blank=True,
             verbose_name="File height")
+    ratio = models.FloatField(null=True, blank=True,
+            verbose_name="Image ratio (width / height)")
     # false if landscape or square
     portrait_orientation = models.BooleanField(default=False,
             verbose_name="Portrait orientation")
@@ -175,6 +177,7 @@ class Picture(models.Model):
             self.portrait_orientation = True
         elif self.width > self.height:
             self.landscape_orientation = True
+        self.ratio = self.width / self.height
 
         # load XMP object
         xmp = XmpInfo(source_pathname)

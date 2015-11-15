@@ -63,7 +63,7 @@ export default class Carousel extends Component {
       nexts: this.getNexts(),
       current: 0,
       slideshow: true,
-      swiped: null,
+      swaping: null,
       positions: this.props.pictures.map(() => 0),
       viewport_width: 0,
       picture_height: this.props.picture_height,
@@ -127,7 +127,7 @@ export default class Carousel extends Component {
       // we wait for transition effects
         setTimeout(() =>
           this.setState({
-            swiped: null
+            swaping: null
           }), LEFT_TRANSITION))
   }
   
@@ -184,7 +184,7 @@ export default class Carousel extends Component {
   goNext() {
     let index = this.state.prevs[0]
     this.setState({
-      swiped: index
+      swaping: index
     },() => 
       // we wait for last item to disappear
       setTimeout(() =>
@@ -198,7 +198,7 @@ export default class Carousel extends Component {
     // set first image invisible
     let index = this.state.nexts[this.state.nexts.length -1]
     this.setState({
-      swiped: index
+      swaping: index
     },() => 
       // we wait for last item to disappear
       setTimeout(() =>
@@ -238,7 +238,7 @@ export default class Carousel extends Component {
               current={this.state.current == index}
               index={index}
               position={this.state.positions[index]}
-              swiped={this.state.swiped == index}
+              swaping={this.state.swaping == index}
 
               {...pict} />
           )}

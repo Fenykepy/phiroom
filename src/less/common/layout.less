@@ -250,13 +250,16 @@ footer[role="contentinfo"] {
         &.selected {
             opacity: 1;
         }
+        &.swaping {
+            .transition(none);
+            img {
+                opacity: 0;
+            }
+        }
         img {
             display: block;
             position: relative;
             .transition(opacity 0.4s ease-in-out);
-            &.swiped {
-                opacity: 0;
-            }
         }
     }
 }

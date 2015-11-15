@@ -32,18 +32,20 @@ var config = {
         // js files
         test: /\.js$/,
         loaders: ['babel'],
-        exclude: '/node_modules/',
+        exclude: path.join( __dirname, '/node_modules/'),
         include: __dirname
       },
       {
         // less files
         test: /\.less$/,
-        loader: 'style-loader!css-loader!less-loader'
+        loader: 'style-loader!css-loader!less-loader',
+        exclude: path.join( __dirname, '/node_modules/'),
       },
       {
         // images and fonts
         test: /\.(png|jpg)$/,
-        loader: 'url-loader?limit=8192' // inline base64 URLs for <=8k images, direct URLs for the rest
+        loader: 'url-loader?limit=8192', // inline base64 URLs for <=8k images, direct URLs for the rest
+        exclude: path.join( __dirname, '/node_modules/'),
       }
     ],
   }
