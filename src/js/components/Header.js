@@ -6,10 +6,18 @@ export default class Header extends Component {
   render () {
     return (
       <header role="banner">
-        <Logo logo={this.props.logo} title={this.props.title} subTitle={this.props.subTitle} />
+        <Logo
+          logo={this.props.logo}
+          title={this.props.title}
+          subTitle={this.props.subTitle}
+        />
         <h1>{this.props.title}</h1>
         <h2>{this.props.subTitle}</h2>
-        <MainMenu mainMenu={this.props.mainMenu} currentModule={this.props.currentModule} />
+        <MainMenu
+          mainMenu={this.props.mainMenu}
+          subMenus={this.props.subMenus}
+          currentModule={this.props.currentModule}
+        />
       </header>
     )
   }

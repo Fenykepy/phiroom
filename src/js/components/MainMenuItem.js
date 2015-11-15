@@ -6,8 +6,8 @@ import SubMainMenu from './SubMainMenu';
 export default class MainMenuItem extends Component {
   render(){
     var submenu
-    if (this.props.subMenu) { // show submenu only if necessary
-      submenu = (<SubMainMenu subMenu={this.props.subMenu || []} />)
+    if (this.props.subMenus[this.props.name].list) { // show submenu only if necessary
+      submenu = (<SubMainMenu subMenu={this.props.subMenus[this.props.name]} />)
     } else {
       submenu = ''
     }

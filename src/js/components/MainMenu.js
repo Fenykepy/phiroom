@@ -8,7 +8,12 @@ export default class MainMenu extends Component {
       <nav role="navigation">
         <ul id="main-menu">
           {this.props.mainMenu.map((item) =>
-              <MainMenuItem key={item.name} {...item} currentModule={this.props.currentModule} />
+              <MainMenuItem
+                key={item.name}
+                {...item}
+                subMenus={this.props.subMenus}
+                currentModule={this.props.currentModule}
+              />
           )}
         </ul>
       </nav>  
