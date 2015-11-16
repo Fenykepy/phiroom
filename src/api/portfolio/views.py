@@ -26,7 +26,7 @@ class PortfolioList(generics.ListCreateAPIView):
         return Portfolio.published.all().select_related('author')
     
     # automatically add author on save
-    def perform_create(self, serialize):
+    def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
 
@@ -38,7 +38,7 @@ class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
     update or delete it.
     """
     queryset = Portfolio.published.all().select_related('author')
-    serializer_class = PostSerializer
+    serializer_class = PortfolioSerializer
     permission_classes = (IsAuthorOrReadOnly,)
     lookup_field = 'slug'
 

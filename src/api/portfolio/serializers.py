@@ -9,12 +9,9 @@ from user.serializers import AuthorSerializer
 
 class PortfolioSerializer(serializers.ModelSerializer):
     pub_date = serializers.DateTimeField(required=False, allow_null=True)
-    slug = serializers.CharField(read_only=True)
-    pk = serializers.IntegerField(read_only=True)
-    author = AuthorSerializer(read_only=True)
     pictures = serializers.SerializerMethodField()
-    url = serializes.HyperlinkedIdentityField(
-            view_name='portfolio_detail',
+    url = serializers.HyperlinkedIdentityField(
+            view_name='portfolio-detail',
             lookup_field='slug'
     )
 
@@ -24,18 +21,25 @@ class PortfolioSerializer(serializers.ModelSerializer):
                   'author', 'pictures',
                   'pub_date', 'slug', 'order',
         )
+        read_only_fields = ('slug', 'author')
+
+
+    def get_pictures(self, object):
+        picts = object.get_pictures()
+        serializer = PublicPictureSerializer(picts, many=True)
+        return serializer.data
 
 
 class PortfolioHeadSerializer(PortfolioSerializer):
     class Meta:
         model = Portfolio
-        fields = ('title', 'slug', 'pk',)
+        fields = ('title', 'slug')
 
 
 
 class PortfolioPictureSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PostPicture
+        model = PortfolioPicture
         fields = ('picture', 'portfolio', 'order',)
 
     def create(self, validated_data):

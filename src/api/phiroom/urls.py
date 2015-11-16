@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     ## drf api
     url('^api/$', api_root),
     url(r'^api/weblog/', include('weblog.urls')), # weblog API
+    url(r'^api/portfolio/', include('portfolio.urls')), # portfolio API
     url(r'^api/librairy/', include('librairy.urls')), # librairy API
     url(r'^api/users/', include('user.urls')), # users API
     url(r'^api/settings/', include('conf.urls')), # settings API
@@ -29,11 +30,4 @@ urlpatterns = patterns('',
 
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-if settings.DEBUG:
-    urlpatterns += patterns(
-            # serve angularjs root template
-            'django.contrib.staticfiles.views',
-            url(r'^', 'serve', kwargs={'path': 'index.html'}),
-    )
 
