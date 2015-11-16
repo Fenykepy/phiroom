@@ -31,7 +31,6 @@ class App extends Component {
       width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight
     }))
-    console.log(this.props.viewport)
   }
 
 
@@ -60,7 +59,17 @@ class App extends Component {
             }
           }}
         />
-        <Portfolio />
+        <Portfolio
+          viewport={this.props.viewport}
+          portfolio={this.props.portfolios.portfolios[
+            this.props.portfolios.current_portfolio
+          ]}
+          carousel={this.props.portfolios.carousel}
+          pictures={this.props.portfolios.portfolios[
+            this.props.portfolios.current_portfolio
+          ].pictures.map((pict) => pictures.pictures_short[pict] )}
+          
+        />
         <Footer />
       </div>
     )
