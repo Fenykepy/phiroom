@@ -15,11 +15,11 @@ urlpatterns = [
         url(r'^pictures/(?P<pk>[0-9]+)/$', views.PictureDetail.as_view(),
             name="picture-detail"),
 
-        url(r'^directorys/$', views.DirectorysList.as_view(),
+        url(r'^directories/$', views.DirectorysList.as_view(),
             name="directory-list"),
-        url(r'^directorys/(?P<pk>[0-9]+)/$', views.DirectoryDetail.as_view(),
+        url(r'^directories/(?P<pk>[0-9]+)/$', views.DirectoryDetail.as_view(),
             name="directory-detail"),
-        url(r'^directorys/(?P<pk>[0-9-]+)/pictures/$', views.DirectoryPicturesList.as_view(),
+        url(r'^directories/(?P<pk>[0-9-]+)/pictures/$', views.DirectoryPicturesList.as_view(),
             name="directory-pictures-list"),
 
         url(r'^posts/(?P<pk>[0-9]+)/pictures/$', views.PostPicturesList.as_view(),

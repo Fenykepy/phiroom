@@ -1,6 +1,6 @@
-###############################
-### Url's for phiroom's API ###
-###############################
+=============================
+== Urls' for phiroom's API ==
+=============================
 
 === root ===
 #- /api/     [GET]
@@ -10,8 +10,8 @@
 #- /api/settings/latest/ [GET]
 #    - last settings
 -/api/settings/modules/ [GET]
--/api/settings/main-menu/ [GET] => to rename
-    - list of main menu items
+#-/api/settings/main-menu/ [GET] => to rename
+#    - list of main menu items
 
 === weblog ===
 #- /api/weblog/posts/ [GET, POST]
@@ -28,24 +28,50 @@
 #    - list of all tags, paginated
 #- /api/weblog/tags/:id/ [GET, PUT, PATCH, DELETE]
 #    - tag detail
+- /api/weblog/posts/:slug/pictures-short/ [GET]
+    - view all public data of a post's pictures (to fetch all at once, server side rendering)
+- /api/weblog/post-picture/ [POST]
+    - create a new post / picture relation
+- /api/weblog/post/:id/picture/:id/ [GET, PUT, PATCH, DELETE]
+    - post-picture detail
 
 
 === portfolio ===
-- /api/portfolio/ [GET, POST][ADMIN]
-    - list of all portfolios, paginated
-- /api/portfolio/:slug/ [GET, PUT, PATCH, DELETE]
-    - portfolio detail
-    
+#- /api/portfolio/ [GET, POST][ADMIN]
+#    - list of all portfolios, paginated
+#- /api/portfolio/:slug/ [GET, PUT, PATCH, DELETE]
+#    - portfolio detail
+- /api/portfolio/:slug/pictures-short/ [GET]
+    - view all public data of a post's pictures (to fetch all at once, server side rendering)
+- /api/portfolio/portfolio-picture/ [POST]
+    - create a new portfolio / picture relation
+- /api/weblog/portfolio/:id/picture/:id/ [GET, PUT, PATCH, DELETE]
+    - portfolio-picture detail
+
 
 === librairy ===
-#- /api/librairy/pictures [GET, POST]
-#    - list of all pictures, paginated
+rename directories to collections (as a picture doesn't really live in a 
+specific directory,
+#- /api/librairy/pictures-full [GET, POST]
+#    - list of all pictures, paginated (full picture data)
 #- /api/librairy/pictures/:id/ [GET, PUT, PATCH, DELETE]
-#    - full picture detail
+#    - picture detail (full picture data)
+- /api/librairy/pictures/:id/short [GET]
+    - picture detail (full picture data)
+#- /api/librairy/directories/ [GET, POST]
+#    - list of all directories
+#- /api/librairy/directories/:id/ [GET, PUT, PATH]
+#    - directory detail
+#- /api/librairy/directories/:id/pictures/ [GET]
+#    - list pictures of a directory (full picture data)
+- /api/librairy/posts/:pk/pictures/[GET] => move to post module
+    - list all pictures
+
 
 === contact ===
 - /api/contact/description/ [GET, PUT, PATCH]
     - contact page description
+
 
 === authentication ===
 #- /api/token-auth/  [POST]
@@ -63,4 +89,57 @@
     - list of all users, paginated
 - /api/users/:id/ [GET, PUT, PATCH, DELETE][ADMIN]
     - user detail
+
+
+================================
+== Urls' for phiroom frontend ==
+================================
+
+=== root ===
+- /
+    - redirect to home module
+
+=== portfolio ===
+- /portfolio/
+    - redirect to first portfolio
+- /portfolio/:slug/
+    - view a specific portfolio
+- /portfolio/:slug/:sha1/
+    - view a picture of a portfolio in lightbox
+
+=== weblog ===
+- /weblog/{page/:n/}
+    - view a list of posts, paginated
+- /weblog/:slug-with-date/
+    - view a specific post
+- /weblog/keyword/:slug/{page/:n}/
+    - view a list of post by tag, paginated
+
+=== contact ===
+- /contact/
+    - view contact page with form and description
+
+=== librairy ===
+- /librairy/
+    - librairy, empty page
+- /librairy/last/
+    - view all pictures, by importation date, infinite scroll ?
+- /librairy/collection/:id-:slug/
+    - view a collection's pictures, infinite scroll
+- /librairy/portfolio/:slug/
+    - view a portfolio's pictures
+- /librairy/post/:slug/
+    - view a post's pictures
+- /librairy/keyword/:slug/
+    - view all pictures corresponding to a tag, infinite scroll
+
+=== user ===
+- /login
+    - login form (on modal on actual page)
+- /logout
+    - logout then redirect to current page or home if it was private
+- /profil
+    - profil form
+
+
 
