@@ -1,0 +1,66 @@
+###############################
+### Url's for phiroom's API ###
+###############################
+
+=== root ===
+#- /api/     [GET]
+    - root api
+
+=== settings ===
+#- /api/settings/latest/ [GET]
+#    - last settings
+-/api/settings/modules/ [GET]
+-/api/settings/main-menu/ [GET] => to rename
+    - list of main menu items
+
+=== weblog ===
+#- /api/weblog/posts/ [GET, POST]
+#    - list of all posts, paginated
+#- /api/weblog/posts/:slug-with-date/ [GET, PUT, PATCH, DELETE]
+#    - post detail
+#- /api/weblog/posts/tag/:slug/ [GET]
+#    - post list by tag
+#- /api/weblog/flat-tags/    [GET]
+#    - list of all tags' name
+#- /api/weblog/post-head/    [GET][ADMIN]
+#    - list of all user's post
+#- /api/weblog/tags/ [GET, POST]
+#    - list of all tags, paginated
+#- /api/weblog/tags/:id/ [GET, PUT, PATCH, DELETE]
+#    - tag detail
+
+
+=== portfolio ===
+- /api/portfolio/ [GET, POST][ADMIN]
+    - list of all portfolios, paginated
+- /api/portfolio/:slug/ [GET, PUT, PATCH, DELETE]
+    - portfolio detail
+    
+
+=== librairy ===
+#- /api/librairy/pictures [GET, POST]
+#    - list of all pictures, paginated
+#- /api/librairy/pictures/:id/ [GET, PUT, PATCH, DELETE]
+#    - full picture detail
+
+=== contact ===
+- /api/contact/description/ [GET, PUT, PATCH]
+    - contact page description
+
+=== authentication ===
+#- /api/token-auth/  [POST]
+#    - authentication form, return jwt
+#- /api/token-refresh/ [POST]
+#    - refresh posted jwt
+#- /api/token-verify/ [POST]
+#    - verify posted jwt
+
+
+=== user ===
+#- /api/users/current/ [GET, PUT, PATCH]
+#    - authenticated user detail
+- /api/users/ [GET, POST][ADMIN]
+    - list of all users, paginated
+- /api/users/:id/ [GET, PUT, PATCH, DELETE][ADMIN]
+    - user detail
+
