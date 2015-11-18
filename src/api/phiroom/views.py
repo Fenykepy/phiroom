@@ -11,7 +11,7 @@ def api_root(request, format=None):
         'pictures': reverse('picture-list', request=request, format=format),
         'tags': reverse('tag-list', request=request, format=format),
         'flat-tags': reverse('flat-tags-list', request=request, format=format),
-        'directorys': reverse('directory-list', request=request, format=format),
+        'directorys': reverse('directories-list', request=request, format=format),
         'settings': reverse('last-conf', request=request, format=format),
         'request-user': reverse('request-user', request=request, format=format),
         'token-auth': reverse('token-auth', request=request, format=format),

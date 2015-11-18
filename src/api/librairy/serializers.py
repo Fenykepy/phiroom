@@ -43,7 +43,7 @@ class DirectorySerializer(serializers.ModelSerializer):
 
 
 
-class DirectorysListSerializer(DirectorySerializer):
+class DirectoriesListSerializer(DirectorySerializer):
     """Serializer for tree of directory objects."""
     children = RecursiveField(many=True, read_only=True)
 
@@ -102,11 +102,11 @@ class PictureSerializer(serializers.ModelSerializer):
             )
 
 
-class PublicPictureSerializer(PictureSerializer):
-    """A serializer to show some pictures info in public pages."""
+class PictureShortSerializer(PictureSerializer):
+    """A serializer to show public data of pictures."""
     class Meta:
         model = Picture
-        fields = ('pk', 'title', 'legend', 'previews_path', 'ratio')
+        fields = ('pk', 'sha1', 'title', 'legend', 'previews_path', 'ratio')
 
 
 

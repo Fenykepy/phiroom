@@ -86,5 +86,9 @@ class PortfolioPicture(models.Model):
     picture = models.ForeignKey(Picture)
     order = models.IntegerField(default=0)
 
+    class Meta:
+        ordering = ['order']
+
+
 
 

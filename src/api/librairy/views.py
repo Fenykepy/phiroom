@@ -5,6 +5,7 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
 
+from phiroom.permissions import IsStaffOrReadOnly
 
 from librairy.serializers import *
 from librairy.models import Tag, Collection, CollectionsEnsemble, \
@@ -44,14 +45,25 @@ class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAdminUser,)
 
 
-
-class DirectorysList(generics.ListCreateAPIView):
+class PictureShortDetail(generics.RetrieveAPIView):
     """
-    This view presents a hierarchical tree (list) of all directorys
-    and allows to create new directorys.
+    This view presents a specific picture's public datas.
+    """
+
+    queryset = Picture.objects.all()
+    serializer_class = PictureShortSerializer
+    permission_classes = (IsStaffOrReadOnly,)
+
+
+
+
+class DirectoriesList(generics.ListCreateAPIView):
+    """
+    This view presents a hierarchical tree (list) of all directories
+    and allows to create new directories.
     """
     queryset = Directory.objects.filter(parent=None)
-    serializer_class = DirectorysListSerializer
+    serializer_class = DirectoriesListSerializer
     permission_classes = (IsAdminUser,)
 
 
