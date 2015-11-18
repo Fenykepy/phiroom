@@ -41,6 +41,7 @@ const initialState = {
     next_pict: [],
     pict_height: 600,
     slideshow: ON,
+    slideshow_duration: 3000,
     swaping: null,
   },
   lightbox: HIDE,
