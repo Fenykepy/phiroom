@@ -66,7 +66,6 @@ export default class Carousel extends Component {
       swaping: null,
       positions: this.props.pictures.map(() => 0),
       viewport_width: 0,
-      picture_height: this.props.picture_height,
     }
   }
   getNexts(current=0) {
@@ -98,7 +97,7 @@ export default class Carousel extends Component {
 
   getPictWidth(index) {
     return Math.round(
-        this.props.pictures[index].ratio * this.state.picture_height)
+        this.props.pictures[index].ratio * this.props.picture_height)
   }
 
   setPositions() {
@@ -132,6 +131,7 @@ export default class Carousel extends Component {
   }
   
   componentDidMount() {
+    console.log(this.props)
     // launch slideshow if necessary
     this.resetInterval()
     window.addEventListener('resize', this.handleResize.bind(this))
@@ -163,7 +163,6 @@ export default class Carousel extends Component {
 
     
     this.setState({
-      picture_height: max_height < default_height ? max_height : default_height,
       viewport_width: viewport_width,
     }, this.setPositions)
     //console.log('handleResize', document.documentElement.clientHeight -20);
@@ -233,7 +232,7 @@ export default class Carousel extends Component {
           {this.props.pictures.map((pict, index) =>
             <CarouselItem key={pict.previews_path}
               onClick={this.onImageClick.bind(this)}
-              height={this.state.picture_height}
+              height={this.props.carousel.picture_height}
               width={this.getPictWidth(index)}
               current={this.state.current == index}
               index={index}
