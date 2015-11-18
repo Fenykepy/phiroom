@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from librairy.models import Picture
-from librairy.serializers import PublicPictureSerializer
+from librairy.serializers import PictureShortSerializer
 from portfolio.models import Portfolio, PortfolioPicture
 from user.serializers import AuthorSerializer
 
@@ -9,7 +9,7 @@ from user.serializers import AuthorSerializer
 
 class PortfolioSerializer(serializers.ModelSerializer):
     pub_date = serializers.DateTimeField(required=False, allow_null=True)
-    pictures = serializers.SerializerMethodField()
+    #pictures = serializers.SerializerMethodField()
     url = serializers.HyperlinkedIdentityField(
             view_name='portfolio-detail',
             lookup_field='slug'
@@ -26,7 +26,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
     def get_pictures(self, object):
         picts = object.get_pictures()
-        serializer = PublicPictureSerializer(picts, many=True)
+        serializer = PictureShortSerializer(picts, many=True)
         return serializer.data
 
 

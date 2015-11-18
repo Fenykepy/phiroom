@@ -30,6 +30,7 @@
 #    - tag detail
 - /api/weblog/posts/:slug/pictures-short/ [GET]
     - view all public data of a post's pictures (to fetch all at once, server side rendering)
+    - no need to get all full pictures at once, as librairy won't be server side rendered
 - /api/weblog/post-picture/ [POST]
     - create a new post / picture relation
 - /api/weblog/post/:id/picture/:id/ [GET, PUT, PATCH, DELETE]
@@ -43,6 +44,7 @@
 #    - portfolio detail
 - /api/portfolio/:slug/pictures-short/ [GET]
     - view all public data of a post's pictures (to fetch all at once, server side rendering)
+    - no need to get all full pictures at once, as librairy won't be server side rendered
 - /api/portfolio/portfolio-picture/ [POST]
     - create a new portfolio / picture relation
 - /api/weblog/portfolio/:id/picture/:id/ [GET, PUT, PATCH, DELETE]
@@ -52,12 +54,12 @@
 === librairy ===
 rename directories to collections (as a picture doesn't really live in a 
 specific directory,
-#- /api/librairy/pictures-full [GET, POST]
+#- /api/librairy/pictures [GET, POST]
 #    - list of all pictures, paginated (full picture data)
 #- /api/librairy/pictures/:id/ [GET, PUT, PATCH, DELETE]
 #    - picture detail (full picture data)
-- /api/librairy/pictures/:id/short [GET]
-    - picture detail (full picture data)
+#- /api/librairy/pictures/:id/short [GET]
+#    - picture detail (public picture data)
 #- /api/librairy/directories/ [GET, POST]
 #    - list of all directories
 #- /api/librairy/directories/:id/ [GET, PUT, PATH]

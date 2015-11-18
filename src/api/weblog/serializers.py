@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from librairy.models import Picture
-from librairy.serializers import PublicPictureSerializer
+from librairy.serializers import PictureShortSerializer
 from weblog.models import Post, PostPicture, Tag
 from user.serializers import AuthorSerializer
 
@@ -109,7 +109,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_pictures(self, object):
         picts = object.get_pictures()
-        serializer = PublicPictureSerializer(picts, many=True)
+        serializer = PictureShortSerializer(picts, many=True)
         return serializer.data
 
 
