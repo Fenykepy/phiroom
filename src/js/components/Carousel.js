@@ -131,11 +131,8 @@ export default class Carousel extends Component {
   }
   
   componentDidMount() {
-    console.log(this.props)
     // launch slideshow if necessary
     this.resetInterval()
-    window.addEventListener('resize', this.handleResize.bind(this))
-    this.handleResize()
   }
 
   componentWillUnmount() {
@@ -153,19 +150,6 @@ export default class Carousel extends Component {
       prevs: this.getPrevs(index)
     }, () =>  {this.resetInterval(), this.setPositions()})
     //console.log('setCurrent')
-  }
-
-
-  handleResize() {
-    let max_height = document.documentElement.clientHeight - 20
-    let viewport_width = Math.round(document.documentElement.clientWidth)
-    let default_height = this.props.picture_height
-
-    
-    this.setState({
-      viewport_width: viewport_width,
-    }, this.setPositions)
-    //console.log('handleResize', document.documentElement.clientHeight -20);
   }
 
 

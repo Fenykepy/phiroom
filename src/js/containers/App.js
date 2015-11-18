@@ -10,6 +10,8 @@ import Header from '../components/Header'
 import Portfolio from '../components/Portfolio'
 import Footer from '../components/Footer'
 
+import mainSelector from '../selectors/mainSelector'
+
 
 
 class App extends Component {
@@ -40,10 +42,10 @@ class App extends Component {
       dispatch,
       settings,
       modules,
-      pictures,
+      portfolio,
       viewport,
-      portfolios,
     } = this.props
+    console.log('props', this.props)
     return (
       <div id={this.props.modules.currentModule}>
         <Header
@@ -78,9 +80,5 @@ class App extends Component {
 
 
 
-function select(state) {
-  return state
-}
-
 // Wrap the component to inject dispatch and state into it
-export default connect(select)(App)
+export default connect(mainSelector)(App)

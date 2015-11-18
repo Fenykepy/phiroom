@@ -36,14 +36,8 @@ const initialState = {
   },
   current_portfolio: 'portraits',
   carousel: {
-    prevs_pict: [],
     current_pict: 0,
-    next_pict: [],
-    positions: [], // left css proporty for each pictures
-    carousel_height: DEFAULT_CAROUSEL_HEIGHT,
     slideshow: ON,
-    slideshow_duration: 3000,
-    swaping: null,
   },
   lightbox: HIDE,
   pict_info: HIDE

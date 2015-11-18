@@ -7,6 +7,7 @@ const initialState = {
   librairy_logo: "/media/images/default/librairy_default_logo.png",
   n_posts_per_page: 3,
   slideshow_duration: 3000,
+  carousel_default_height: 600,
   fb_link: null,
   twitter_link: null,
   gplus_link: null,
