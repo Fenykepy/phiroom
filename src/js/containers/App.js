@@ -10,7 +10,7 @@ import Header from '../components/Header'
 import Portfolio from '../components/Portfolio'
 import Footer from '../components/Footer'
 
-import mainSelector from '../selectors/mainSelector'
+import { mainSelector } from '../selectors/mainSelector'
 
 
 
@@ -77,7 +77,6 @@ class App extends Component {
     )
   }
 }
-
 
 
 // Wrap the component to inject dispatch and state into it
