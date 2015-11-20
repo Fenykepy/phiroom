@@ -35,7 +35,8 @@ LIBRAIRY = "images/librairy"
 PREVIEWS_DIR = os.path.join(BASE_DIR, "phiroom/data/images/previews")
 PHIROOM = 'http://phiroom.org'
 
-
+# words which cannot be used as slug (because they are part of urls)
+RESERVED_WORDS = ['headers',]
 
 # Previews generation settings
 # JPEG quality shouldn't be more than 95 and less than 50.

@@ -24,8 +24,8 @@ class PostList(generics.ListCreateAPIView):
     # allow staff members to list not published posts.
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Post.objects.all().select_related('author')
-        return Post.published.all().select_related('author')
+            return Post.objects.all()
+        return Post.published.all()
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -47,8 +47,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     API endpoint that presents a specific post and allows to
     update or delete it.
     """
-    queryset = Post.published.all().select_related('author'
-            ).prefetch_related('tags')
+    queryset = Post.published.all().prefetch_related('tags')
     serializer_class = PostSerializer
     permission_classes = (IsAuthorOrReadOnly,)
     lookup_field = 'slug'
@@ -56,10 +55,8 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     # allow staff members to retrieve not published posts.
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Post.objects.all().select_related('author'
-                    ).prefetch_related('tags')
-        return Post.published.all().select_related('author'
-                ).prefetch_related('tags')
+            return Post.objects.all().prefetch_related('tags')
+        return Post.published.all().prefetch_related('tags')
 
 
 
@@ -87,13 +84,17 @@ def flat_tags_list(request, format=None):
 
 
 @api_view(['GET'])
-@permission_classes((IsAuthenticated, IsAdminUser, ))
-def post_head_list(request, format=None):
+def posts_headers_list(request, format=None):
     """
-    Returns a list of all user's posts headers (slug, pk, name)
-    without pagination.
+    Returns a list of all posts headers (slug, name) without pagination.
+    All posts are returned if user is admin.
+    Only published ones else.
     """
-    posts = Post.objects.filter(author=request.user)
+    if request.user.is_staff:
+        posts = Post.objects.filter(author=request.user)
+    else:
+        posts = Post.published.all()
+
     serializer = PostHeadSerializer(posts, many=True)
 
     return Response(serializer.data)

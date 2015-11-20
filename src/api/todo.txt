@@ -2,12 +2,18 @@
 ### todo list for django api ###
 ################################
 
+Change slug generation to exclude settings.RESERVED_WORDS
+
 conf:
     - use '/' relatives urls for logos instead of absolute urls
 
 portfolio:
     - add views
     - add tests
+
+weblog:
+    - add pk relation field for pictures instead of nesting
+    - add pk relation field for author instead of nesting
 
 librairy:
     - add pictures_full view

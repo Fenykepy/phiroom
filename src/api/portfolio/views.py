@@ -22,8 +22,8 @@ class PortfolioList(generics.ListCreateAPIView):
     # allow staff members to list not published portfolios
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Portfolio.objects.all().select_related('author')
-        return Portfolio.published.all().select_related('author')
+            return Portfolio.objects.all()
+        return Portfolio.published.all()
     
     # automatically add author on save
     def perform_create(self, serializer):
@@ -37,7 +37,7 @@ class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
     API endpoint that presents a specific portfolio and allows to
     update or delete it.
     """
-    queryset = Portfolio.published.all().select_related('author')
+    queryset = Portfolio.published.all()
     serializer_class = PortfolioSerializer
     permission_classes = (IsAuthorOrReadOnly,)
     lookup_field = 'slug'
@@ -45,18 +45,23 @@ class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
     # allow staff members to retriev not published portfolios.
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Portfolio.objects.all().select_related('author')
-        return Portfolio.published.all().select_related('author')
+            return Portfolio.objects.all()
+        return Portfolio.published.all()
+
 
 
 @api_view(['GET'])
-@permission_classes((IsAuthenticated, IsAdminUser, ))
-def portfolio_head_list(request, format=None):
+def portfolios_headers_list(request, format=None):
     """
-    Returns a list of all user's portfolios headers (slug, pk, title)
-    without pagination.
+    Returns a list of portfolios headers (slug, title) without pagination.
+    All portfolios are returned if user is admin.
+    Only published ones else.
     """
-    portfolios = Portfolio.objects.filter(author=request.user)
+    if request.user.is_staff:
+        portfolios = Portfolio.objects.all()
+    else:
+        portfolios = Portfolio.published.all()
+
     serializer = PortfolioHeadSerializer(portfolios, many=True)
 
     return Response(serializer.data)

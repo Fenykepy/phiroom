@@ -31,10 +31,8 @@
 - /api/weblog/posts/:slug/pictures-short/ [GET]
     - view all public data of a post's pictures (to fetch all at once, server side rendering)
     - no need to get all full pictures at once, as librairy won't be server side rendered
-- /api/weblog/post-picture/ [POST]
-    - create a new post / picture relation
-- /api/weblog/post/:id/picture/:id/ [GET, PUT, PATCH, DELETE]
-    - post-picture detail
+- /api/weblog/posts/:slug/pictures/ [POST]
+    - receive a list of all pictures pk, save it by order ex: [2, 4, 3, 6]
 
 
 === portfolio ===
@@ -45,10 +43,8 @@
 - /api/portfolio/:slug/pictures-short/ [GET]
     - view all public data of a post's pictures (to fetch all at once, server side rendering)
     - no need to get all full pictures at once, as librairy won't be server side rendered
-- /api/portfolio/portfolio-picture/ [POST]
-    - create a new portfolio / picture relation
-- /api/weblog/portfolio/:id/picture/:id/ [GET, PUT, PATCH, DELETE]
-    - portfolio-picture detail
+- /api/portfolio/:slug/pictures/ [POST]
+    - receive a list of all pictures pk, save it by order ex: [2, 4, 3, 6]
 
 
 === librairy ===

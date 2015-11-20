@@ -50,9 +50,7 @@ class Portfolio(models.Model):
         """
         Returns all related pictures ordered by "PortfolioPicture.order"
         """
-        return [portfolio_pict.picture for portfolio_pict in
-                PortfolioPicture.objects.filter(portfolio=self).select_related(
-                    'picture')]
+        return PortfolioPicture.objects.filter(portfolio=self)
 
    
 
