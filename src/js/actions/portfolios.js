@@ -6,15 +6,15 @@ export function displayPortfolio(portfolio) {
 }
 
 export function nextPict() {
-  return { type: types.NEXT_PICT }
+  return { type: types.PORTFOLIO_NEXT_PICT }
 }
 
 export function prevPict() {
-  return { type: types.PREV_PICT }
+  return { type: types.PORTFOLIO_PREV_PICT }
 }
 
 export function toggleSlideshow() {
-  return { type: types.TOGGLE_SLIDESHOW }
+  return { type: types.PORTFOLIO_TOGGLE_SLIDESHOW }
 }
 
 export function toggleLightbox() {

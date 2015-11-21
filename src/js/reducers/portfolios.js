@@ -1,4 +1,4 @@
-import { DISPLAY_PORTFOLIO, NEXT_PICT, PREV_PICT, TOGGLE_SLIDESHOW, TOGGLE_LIGHTBOX, TOGGLE_PICT_INFO, SET_VIEWPORT } from '../constants/actionsTypes.js'
+import { DISPLAY_PORTFOLIO, PORTFOLIO_NEXT_PICT, PORTFOLIO_PREV_PICT, PORTFOLIO_TOGGLE_SLIDESHOW } from '../constants/actionsTypes.js'
 
 import { SHOW, HIDE } from '../constants/showHideStatus.js'
 import { ON, OFF } from '../constants/onOffStatus.js'
@@ -37,7 +37,7 @@ const initialState = {
   current: 'portraits',
   carousel: {
     current_pict: 0,
-    slideshow: false,
+    slideshow: true,
   },
   lightbox: {
     visible: false,
@@ -54,21 +54,32 @@ export default function portfolio(state = initialState, action) {
       return Object.assign({}, state, {
         current_portfolio: action.portfolio
       })
-    case NEXT_PICT:
-      let next_index = state.current_pict + 1;
-      if (next_index == state.portfolios[state.current_portfolio].pictures.length) {
+    case PORTFOLIO_NEXT_PICT:
+      let next_index = state.carousel.current_pict + 1;
+      if (next_index == state.portfolios[state.current].pictures.length) {
         next_index = 0
       }
       return Object.assign({}, state, {
-        current_pict: next_index
+        carousel:  Object.assign({}, state.carousel, {
+          current_pict: next_index
+        })
       })
-    case PREV_PICT:
-      let prev_index = state.current_pict - 1
+    case PORTFOLIO_PREV_PICT:
+      let prev_index = state.carousel.current_pict - 1
       if (prev_index < 0) {
-        prev_index = state.portfolios[state.current_portfolio].pictures.length -1;
+        prev_index = state.portfolios[state.current].pictures.length -1;
       }
       return Object.assign({}, state, {
-        current_pict: prev_index
+        carousel: Object.assign({}, state.carousel, {
+          current_pict: prev_index
+        })
+      })
+    case PORTFOLIO_TOGGLE_SLIDESHOW:
+      let slideshow = state.carousel.slideshow
+      return Object.assign({}, state, {
+        carousel: Object.assign({}, state.carousel, {
+          slideshow: ! slideshow
+        })
       })
     default:
       return state

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 // actions
-import { displayPortfolio } from '../actions/portfolios'
+import { displayPortfolio, nextPict, prevPict, toggleSlideshow } from '../actions/portfolios'
 import { setViewport } from '../actions/viewport'
 
 // components
@@ -50,7 +50,6 @@ class App extends Component {
       viewport,
     } = this.props
 
-    console.log('props', this.props)
 
     return (
       <div id={this.props.modules.current}>
@@ -61,6 +60,9 @@ class App extends Component {
         />
         <Portfolio
           {...this.props.portfolio}
+          toggleSlideshow={() => dispatch(toggleSlideshow())}
+          goNext={() => dispatch(nextPict())}
+          goPrev={() => dispatch(prevPict())}
         />
         <Footer />
       </div>
