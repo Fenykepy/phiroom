@@ -37,6 +37,48 @@ const initialState = {
       previews_path: "63/cf/63cfd11dda6c8b592e47a16c5eb917aacfd2513d.jpg",
       ratio: 0.75,
     },
+    7: {
+      pk: 7,
+      title: "",
+      legend: "",
+      previews_path: "99/1c/991c7a42a8e1a9b49af71a208d41d253e57c47e8.jpg",
+      ratio: 1.3350717079530638,
+    },
+    8: {
+      pk: 8,
+      title: "",
+      legend: "",
+      previews_path: "ac/83/ac83252e55074c7bd6b4ad0168cd1711174218cd.jpg",
+      ratio: 1.2503052503052503,
+    },
+    9: {
+      pk: 9,
+      title: "",
+      legend: "",
+      previews_path: "1d/96/1d969c463dc16d820b169f995606e3488d0ac5e1.jpg",
+      ratio: 1.3333333333333333,
+    },
+    10: {
+      pk: 10,
+      title: "",
+      legend: "",
+      previews_path: "72/df/72dfbfb33411c33ae502e90a4e62111a06863d74.jpg",
+      ratio: 0.7998046875,
+    },
+    11: {
+      pk: 11,
+      title: "",
+      legend: "",
+      previews_path: "63/4a/634a007f90f90dc018c4f61ce73924a588f4d783.jpg",
+      ratio: 1.2503052503052503,
+    },
+    12: {
+      pk: 12,
+      title: "",
+      legend: "",
+      previews_path: "fc/56/fc56ae5d94ef25a956fbc0f1a4896e1135a063cc.jpg",
+      ratio: 1.0,
+    }
   }
 }
 

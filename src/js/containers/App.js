@@ -35,8 +35,13 @@ class App extends Component {
     }))
   }
 
-  setModule(module) {
-    return
+  navigateTo(module=false, complement=false) {
+    switch (module) {
+      case "portfolios":
+        return this.props.dispatch(displayPortfolio(complement))
+      default:
+        return
+    }
   }
 
 
@@ -55,8 +60,8 @@ class App extends Component {
       <div id={this.props.modules.current}>
         <Header
           modules={this.props.modules}
-          setModule={this.setModule}
           settings={this.props.settings}
+          navigateTo={this.navigateTo.bind(this)}
         />
         <Portfolio
           {...this.props.portfolio}

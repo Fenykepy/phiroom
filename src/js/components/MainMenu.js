@@ -12,6 +12,7 @@ export default class MainMenu extends Component {
                 key={item.name}
                 {...item}
                 currentModule={this.props.currentModule}
+                navigateTo={this.props.navigateTo}
               />
           )}
         </ul>

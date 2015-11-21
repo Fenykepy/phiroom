@@ -24,14 +24,14 @@ const initialState = {
       title: 'Un monde miniature',
       order: 1,
       description: '',
-      pictures: [2, 4, 6]
+      pictures: [7, 8, 9]
     },
     paysages: {
       slug: 'paysages',
       title: 'Quelque part en france',
       order: 3,
       description: '',
-      pictures: [3, 5]
+      pictures: [10, 11, 12]
     }
   },
   current: 'portraits',
@@ -51,8 +51,12 @@ const initialState = {
 export default function portfolio(state = initialState, action) {
   switch (action.type) {
     case DISPLAY_PORTFOLIO:
+      if (! action.portfolio) {
+        // display default portfolio if no one is given
+        action.portfolio = state.headers[0].slug
+      }
       return Object.assign({}, state, {
-        current_portfolio: action.portfolio
+        current: action.portfolio
       })
     case PORTFOLIO_NEXT_PICT:
       let next_index = state.carousel.current_pict + 1;
