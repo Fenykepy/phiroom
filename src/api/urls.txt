@@ -2,9 +2,52 @@
 == Urls' for phiroom's API ==
 =============================
 
-=== root ===
-#- /api/     [GET]
-    - root api
+
+
+
+
+
+
+A tree:
+    #[METHODS:(rights)]
+    - view-name: "/url/"
+
+
+#[GET](admin) get a list of urls
+- api-root: "/api/"
+    #[GET:(admin)] get a list of urls
+    - portfolio-root: "/api/portfolio/"
+        #[GET:(any)](published portfolios only except if admin) get a flat list of portfolios
+        - portfolios-headers: "/api/portfolio/portfolios/headers/"
+        #[GET:(admin), POST:(admin)] get a paginated list of portfolios
+        - portfolios-list: "/api/portfolio/portfolios/"
+            #[GET:(any), PUT-PATCH-DELETE:(admin)] get update delete a specific portfolio
+            - portfolio-detail: /api/portfolio/portfolios/:slug/
+                #[GET:(any)] get all pictures of a specific portfolio
+                #[POST:(admin] push a list of pictures's pk to server
+                - portfolio-pictures: /api/portfolio/portfolios/:slug/pictures/
+
+    #[GET:(admin)] get a list of urls
+    - weblog-root: "/api/weblog/"
+        #[GET:(any)](publishde posts only except if admin) get a flat list of all x ten posts
+        - posts-headers: "/api/weblog/posts/headers"
+        #[GET:(any)(published posts only except if admin) get a paginated list of posts
+        - posts-list: "/api/weblog/posts/"
+            #[GET:(any), PUT-PATCH-DELETE:(admin)] get update delete a specific post
+            - post-detail: /api/weblog/posts/:slug-with-date/
+                #[GET:(any)] get all pictures of a specific post
+                #[POST:(admin] push a list of pictures's pk to server
+                - post-pictures: /api/weblog/posts/:slug-with-date/pictures/
+    - contact
+    - librairy
+    - settings
+    - user
+    - auth
+
+
+
+
+
 
 === settings ===
 #- /api/settings/latest/ [GET]
@@ -14,10 +57,6 @@
 #    - list of main menu items
 
 === weblog ===
-#- /api/weblog/posts/ [GET, POST]
-#    - list of all posts, paginated
-#- /api/weblog/posts/:slug-with-date/ [GET, PUT, PATCH, DELETE]
-#    - post detail
 #- /api/weblog/posts/tag/:slug/ [GET]
 #    - post list by tag
 #- /api/weblog/flat-tags/    [GET]
@@ -28,23 +67,6 @@
 #    - list of all tags, paginated
 #- /api/weblog/tags/:id/ [GET, PUT, PATCH, DELETE]
 #    - tag detail
-- /api/weblog/posts/:slug/pictures-short/ [GET]
-    - view all public data of a post's pictures (to fetch all at once, server side rendering)
-    - no need to get all full pictures at once, as librairy won't be server side rendered
-- /api/weblog/posts/:slug/pictures/ [POST]
-    - receive a list of all pictures pk, save it by order ex: [2, 4, 3, 6]
-
-
-=== portfolio ===
-#- /api/portfolio/ [GET, POST][ADMIN]
-#    - list of all portfolios, paginated
-#- /api/portfolio/:slug/ [GET, PUT, PATCH, DELETE]
-#    - portfolio detail
-- /api/portfolio/:slug/pictures-short/ [GET]
-    - view all public data of a post's pictures (to fetch all at once, server side rendering)
-    - no need to get all full pictures at once, as librairy won't be server side rendered
-- /api/portfolio/:slug/pictures/ [POST]
-    - receive a list of all pictures pk, save it by order ex: [2, 4, 3, 6]
 
 
 === librairy ===

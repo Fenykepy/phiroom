@@ -6,7 +6,6 @@ import CarouselInline from './CarouselInline'
 
 export default class Portfolio extends Component {
 
-
   render() { 
     /*
      * viewport.clientside is true only on client side.
@@ -15,15 +14,14 @@ export default class Portfolio extends Component {
      */
 
     let carousel
-    if (this.props.viewport.clientSide) {
+    if (this.props.carousel.dynamic) { // we are client side
       carousel = (<Carousel
         pictures={this.props.pictures}
         carousel={this.props.carousel}
       />)
-    } else {
+    } else { // we are server side
       carousel = <CarouselInline pictures={this.props.pictures} />
     }
-    console.log(this.props)
     
     return (
         <section role="main">{carousel}</section>

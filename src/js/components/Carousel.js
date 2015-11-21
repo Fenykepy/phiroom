@@ -41,17 +41,10 @@ import CarouselItem from './CarouselItem'
  */
 
 
-// default slideshow duration
-var SLIDESHOW_DURATION = 3000
-
-// margin between pictures
-var PICT_MARGIN = 6
-
 // constants
-const NEXT = 'NEXT'
-const PREV = 'PREV'
 const LEFT_TRANSITION = 300
 const SWIPED_TRANSITION = 300
+const PICT_MARGIN = 6
 
 export default class Carousel extends Component {
   
@@ -59,15 +52,12 @@ export default class Carousel extends Component {
     super(props)
     
     this.state = {
-      prevs: this.getPrevs(),
-      nexts: this.getNexts(),
-      current: 0,
-      slideshow: true,
       swaping: null,
-      positions: this.props.pictures.map(() => 0),
       viewport_width: 0,
     }
   }
+
+
   getNexts(current=0) {
     let nexts = []
     let max_index = this.props.pictures.length - 1
@@ -94,40 +84,36 @@ export default class Carousel extends Component {
     }
     return prevs
   }
-
   getPictWidth(index) {
     return Math.round(
-        this.props.pictures[index].ratio * this.props.picture_height)
+        this.props.pictures[index].ratio * this.props.carousel.height)
   }
 
   setPositions() {
-    let positions = Object.assign({}, this.state.positions)
-    let c = this.state.current
-    let c_width = this.getPictWidth(c)
+    let positions = []
+    let prevs = this.props.carousel.prevs
+    let nexts = this.props.carousel.nexts
+    let width = this.props.carousel.width
+    let current = this.props.carousel.current_picture
+    let current_width = this.getPictWidth(current)
     // get current position
-    positions[c] = Math.round((this.state.viewport_width - c_width) / 2)
+    positions[current] = Math.round((width - current_width) / 2)
     // get prevs positions
-    let cursor = positions[c]
-    for (var i=this.state.prevs.length - 1; i >= 0; i--) {
-      let index = this.state.prevs[i]
+    let cursor = positions[current]
+    for (var i=prevs.length - 1; i >= 0; i--) {
+      let index = prevs[i]
       positions[index] = cursor - PICT_MARGIN - this.getPictWidth(index)
       cursor = positions[index]
     }
     // get nexts positions
-    cursor = positions[c] + c_width
-    for (var i=0, l=this.state.nexts.length; i < l; i++) {
-      let index = this.state.nexts[i]
+    cursor = positions[current] + current_width
+    for (var i=0, l=nexts.length; i < l; i++) {
+      let index = nexts[i]
       positions[index] = cursor + PICT_MARGIN
       cursor = positions[index] + this.getPictWidth(index)
     }
-    this.setState({
-      positions: positions
-    }, () =>
-      // we wait for transition effects
-        setTimeout(() =>
-          this.setState({
-            swaping: null
-          }), LEFT_TRANSITION))
+    
+    return positions
   }
   
   componentDidMount() {
@@ -136,30 +122,15 @@ export default class Carousel extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize)
     if (this.interval) {
       clearInterval(this.interval);
     }
   }
 
-  setCurrent(index) {
-
-    this.setState({
-      current: index,
-      nexts: this.getNexts(index),
-      prevs: this.getPrevs(index)
-    }, () =>  {this.resetInterval(), this.setPositions()})
-    //console.log('setCurrent')
-  }
-
-
   resetInterval() {
     clearInterval(this.interval);
-    //console.log('resetInterval: ', 'clearinterval')
-    if (this.state.slideshow) {
-      // go to next picture each SLIDESHOW_DURATION
-      this.interval = setInterval(this.goNext.bind(this), SLIDESHOW_DURATION)
-    //console.log('resetInterval: ', 'setinterval')
+    if (this.props.carousel.slideshow) {
+      this.interval = setInterval(this.goNext.bind(this), this.props.carousel.slideshowDuration)
     }
   }
 
@@ -209,18 +180,20 @@ export default class Carousel extends Component {
 
 
   render() {
+    console.log('carousel', this.props)
 
+    let positions = this.setPositions()
     return (
-        <ul className="carousel" style={{height: this.state.picture_height + 'px'}}>
+        <ul className="carousel" style={{height: this.props.carousel.height + 'px'}}>
 
           {this.props.pictures.map((pict, index) =>
             <CarouselItem key={pict.previews_path}
               onClick={this.onImageClick.bind(this)}
-              height={this.props.carousel.picture_height}
+              height={this.props.carousel.height}
               width={this.getPictWidth(index)}
-              current={this.state.current == index}
+              current={this.props.carousel.current_picture == index}
               index={index}
-              position={this.state.positions[index]}
+              position={positions[index]}
               swaping={this.state.swaping == index}
 
               {...pict} />

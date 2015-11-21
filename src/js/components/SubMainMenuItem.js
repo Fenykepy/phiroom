@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react'
 
 export default class SubMainMenuItem extends Component {
   handleClick(e) {
-    this.props.onClick(this.props.slug)
     e.preventDefault()
+    this.props.onClick(this.props.slug)
   }
   render () {
     return (

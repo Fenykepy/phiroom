@@ -11,7 +11,6 @@ export default class MainMenu extends Component {
               <MainMenuItem
                 key={item.name}
                 {...item}
-                subMenus={this.props.subMenus}
                 currentModule={this.props.currentModule}
               />
           )}

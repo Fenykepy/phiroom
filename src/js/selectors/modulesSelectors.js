@@ -1,8 +1,35 @@
-import { createSelector } from 'reselect'
+import { createSelector, createStructuredSelector } from 'reselect'
 
 
 /*
  * input selectors
  */
 
-export const modulesSelector = state => state.modules
+const portfoliosHeadersSelector = state => state.portfolio.headers
+
+const modulesListSelector = state => state.modules.list
+
+const currentModuleSelector = state => state.modules.current
+
+const mainMenuSelector = createSelector(
+  portfoliosHeadersSelector,
+  modulesListSelector,
+  (portfolios, list) => {
+    return list.map((item) => {
+      switch (item.name) {
+        case "portfolios":
+          item.subMenu = portfolios
+          item.onclick = () => {return} // dispatch here changement of current portfolio
+          return item
+        default:
+          item.subMenu = []
+          return item
+      }
+    })
+  }
+)
+
+export const modulesSelector = createStructuredSelector({
+  current: currentModuleSelector,
+  mainMenu: mainMenuSelector,
+})

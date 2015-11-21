@@ -35,6 +35,10 @@ class App extends Component {
     }))
   }
 
+  setModule(module) {
+    return
+  }
+
 
   render() {
     // Injected by connect() call:
@@ -45,32 +49,18 @@ class App extends Component {
       portfolio,
       viewport,
     } = this.props
+
     console.log('props', this.props)
+
     return (
-      <div id={this.props.modules.currentModule}>
+      <div id={this.props.modules.current}>
         <Header
-          currentModule={this.props.modules.currentModule}
-          setModule={''}
-          logo={this.props.settings.weblog_logo}
-          title={this.props.settings.title}
-          subTitle={this.props.settings.subtitle}
-          mainMenu={this.props.modules.mainMenu}
-          subMenus={{portfolios: {
-              list: this.props.portfolios.portfolios_list,
-              onClick: (portfolio) => dispatch(displayPortfolio(portfolio)),
-            }
-          }}
+          modules={this.props.modules}
+          setModule={this.setModule}
+          settings={this.props.settings}
         />
         <Portfolio
-          viewport={this.props.viewport}
-          portfolio={this.props.portfolios.portfolios[
-            this.props.portfolios.current_portfolio
-          ]}
-          carousel={this.props.portfolios.carousel}
-          pictures={this.props.portfolios.portfolios[
-            this.props.portfolios.current_portfolio
-          ].pictures.map((pict) => pictures.pictures_short[pict] )}
-          
+          {...this.props.portfolio}
         />
         <Footer />
       </div>

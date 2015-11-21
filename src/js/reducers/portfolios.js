@@ -6,7 +6,7 @@ import { ON, OFF } from '../constants/onOffStatus.js'
 const DEFAULT_CAROUSEL_HEIGHT = 600
 
 const initialState = {
-  portfolios_list: [
+  headers: [
     {slug: 'portraits', title: 'Portraits'},
     {slug: 'macro', title: 'Un monde miniature'},
     {slug: 'paysages', title: 'Quelque part en france'},
@@ -34,29 +34,22 @@ const initialState = {
       pictures: [3, 5]
     }
   },
-  current_portfolio: 'portraits',
+  current: 'portraits',
   carousel: {
     current_pict: 0,
-    slideshow: ON,
+    slideshow: false,
   },
-  lightbox: HIDE,
-  pict_info: HIDE
+  lightbox: {
+    visible: false,
+    current_pict: 0,
+    slideshow: false,
+    pict_info: false,
+  }
 }
 
 
-export default function portfolios(state = initialState, action) {
+export default function portfolio(state = initialState, action) {
   switch (action.type) {
-    case SET_VIEWPORT:
-      let new_height = DEFAULT_CAROUSEL_HEIGHT
-      let max_height = action.height - 20
-      if (max_height < DEFAULT_CAROUSEL_HEIGHT) {
-        new_height = max_height
-      }
-      return Object.assign({}, state, {
-        carousel: Object.assign({}, state.carousel, {
-          carousel_height: new_height
-        })
-      })
     case DISPLAY_PORTFOLIO:
       return Object.assign({}, state, {
         current_portfolio: action.portfolio

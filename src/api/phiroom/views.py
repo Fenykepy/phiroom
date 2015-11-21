@@ -6,10 +6,11 @@ from rest_framework.decorators import api_view
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
-        'posts': reverse('post-list', request=request, format=format),
-        'portfolios': reverse('portfolio-list', request=request, format=format),
-        'pictures': reverse('picture-list', request=request, format=format),
-        'tags': reverse('tag-list', request=request, format=format),
+        'portfolio': reverse('portfolio-root', request=request, format=format),
+        
+        'posts': reverse('posts-list', request=request, format=format),
+        'pictures': reverse('pictures-list', request=request, format=format),
+        'tags': reverse('tags-list', request=request, format=format),
         'flat-tags': reverse('flat-tags-list', request=request, format=format),
         'directorys': reverse('directories-list', request=request, format=format),
         'settings': reverse('last-conf', request=request, format=format),

@@ -12,7 +12,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     ## drf api
-    url('^api/$', api_root),
+    url('^api/$', api_root,
+        name="api-root"),
     url(r'^api/weblog/', include('weblog.urls')), # weblog API
     url(r'^api/portfolio/', include('portfolio.urls')), # portfolio API
     url(r'^api/librairy/', include('librairy.urls')), # librairy API

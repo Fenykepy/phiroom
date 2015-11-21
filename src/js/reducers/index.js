@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import settings from './settings'
 import modules from './modules'
 import pictures from './pictures'
-import portfolios from './portfolios'
+import portfolio from './portfolios'
 import viewport from './viewport'
 
 const rootReducer = combineReducers({
@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   modules,
   pictures,
   viewport,
-  portfolios,
+  portfolio,
 })
 
 export default rootReducer

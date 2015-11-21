@@ -1,18 +1,18 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 
 
-//import { carouselSelector } from './carouselSelectors'
+import { carouselSelector } from './carouselSelectors'
 
 
 /*
  * input selectors
  */
 
-const currentPortfolioSelector = state => state.portfolios.portfolios[
-    state.portfolios.current_portfolio
+const currentPortfolioSelector = state => state.portfolio.portfolios[
+    state.portfolio.current
 ]
 
-const picturesShortSelector = state => state.pictures.pictures_short
+const picturesShortSelector = state => state.pictures.short
 
 /*
  * combined selectors
@@ -29,6 +29,6 @@ const portfolioPicturesSelector = createSelector(
 export const portfolioSelector = createStructuredSelector({
   current: currentPortfolioSelector,
   pictures: portfolioPicturesSelector,
-  //carousel: carouselSelector,
+  carousel: carouselSelector,
 })
 

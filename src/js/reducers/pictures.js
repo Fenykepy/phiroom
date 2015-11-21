@@ -1,7 +1,7 @@
 
 const initialState = {
-  pictures_full: {},
-  pictures_short: {
+  full: {},
+  short: {
     6: {
       pk: 6,
       title: "",

@@ -10,9 +10,9 @@ import rootReducer from './reducers'
 
 let store = createStore(rootReducer)
 
-  // Every time the state changes, log it
+// Every time the state changes, log it
 let unsubscribe = store.subscribe(() =>
-  console.log(store.getState())
+  console.log('state', store.getState())
 )
 
 render(

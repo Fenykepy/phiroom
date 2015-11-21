@@ -1,7 +1,7 @@
 
 const initialState = {
-  currentModule: 'portfolios',
-  mainMenu: [
+  current: 'portfolios',
+  list: [
     {name: 'portfolios', url: '/portfolio', title: 'Portfolios'},
     {name: 'contact', url: '/contact', title: 'Contact'},
   ]

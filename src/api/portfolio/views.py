@@ -1,12 +1,20 @@
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from portfolio.serializers import *
 from portfolio.models import Portfolio
 
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
+
+@api_view(('GET',))
+def portfolio_root(request, format=None):
+    return Response({
+        'headers': reverse('portfolios-headers', request=request, format=format), 
+        'list': reverse('portfolios-list', request=request, format=format), 
+    })
 
 
 class PortfolioList(generics.ListCreateAPIView):

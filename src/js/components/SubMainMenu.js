@@ -6,10 +6,10 @@ export default class SubMainMenu extends Component {
   render () {
     return (
         <ul className="sub-main-menu">
-          {this.props.subMenu.list.map((item) =>
+          {this.props.subMenu.map((item) =>
               <SubMainMenuItem
                 key={item.slug}
-                onClick={this.props.subMenu.onClick}
+                onClick={this.props.onClick}
                 {...item}
               />
           )}
