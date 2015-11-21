@@ -1,8 +1,8 @@
 import * as types from '../constants/actionsTypes';
 
 // action creators
-export function displayPortfolio(portfolio) {
-  return {type: types.DISPLAY_PORTFOLIO, portfolio}
+export function selectPortfolio(portfolio) {
+  return {type: types.SELECT_PORTFOLIO, portfolio}
 }
 
 export function nextPict() {

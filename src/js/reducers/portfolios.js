@@ -1,4 +1,4 @@
-import { DISPLAY_PORTFOLIO, PORTFOLIO_NEXT_PICT, PORTFOLIO_PREV_PICT, PORTFOLIO_TOGGLE_SLIDESHOW } from '../constants/actionsTypes.js'
+import { SELECT_PORTFOLIO, PORTFOLIO_NEXT_PICT, PORTFOLIO_PREV_PICT, PORTFOLIO_TOGGLE_SLIDESHOW } from '../constants/actionsTypes.js'
 
 import { SHOW, HIDE } from '../constants/showHideStatus.js'
 import { ON, OFF } from '../constants/onOffStatus.js'
@@ -50,7 +50,7 @@ const initialState = {
 
 export default function portfolio(state = initialState, action) {
   switch (action.type) {
-    case DISPLAY_PORTFOLIO:
+    case SELECT_PORTFOLIO:
       if (! action.portfolio) {
         // display default portfolio if no one is given
         action.portfolio = state.headers[0].slug

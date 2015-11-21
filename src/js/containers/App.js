@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 // actions
-import { displayPortfolio, nextPict, prevPict, toggleSlideshow } from '../actions/portfolios'
+import { selectPortfolio, nextPict, prevPict, toggleSlideshow } from '../actions/portfolios'
 import { setViewport } from '../actions/viewport'
 
 // components
@@ -38,7 +38,7 @@ class App extends Component {
   navigateTo(module=false, complement=false) {
     switch (module) {
       case "portfolios":
-        return this.props.dispatch(displayPortfolio(complement))
+        return this.props.dispatch(selectPortfolio(complement))
       default:
         return
     }
