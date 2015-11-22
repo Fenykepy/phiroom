@@ -26,7 +26,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
     def get_pictures(self, object):
         # because many to many relation order is not respected
         # by drf, we get list manually
-        return object.get_pictures().values_list('id', flat=True)
+        return object.get_pictures().values_list('picture', flat=True)
 
 
 class PortfolioHeadSerializer(PortfolioSerializer):
