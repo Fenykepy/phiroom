@@ -9,3 +9,4 @@ pytz                            # time manipulation librairy
 python-xmp-toolkit==2.0         # xmp librairy
 markdown                        # markdown librairy
 djangorestframework-jwt         # json web token for auth
+django-cors-headers             # CORS headers middleware for django, useful to consume api from other domains
