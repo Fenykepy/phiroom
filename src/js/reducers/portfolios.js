@@ -4,6 +4,7 @@ import {
   REQUEST_PORTFOLIO,
   REQUEST_PORTFOLIO_SUCCESS,
   REQUEST_PORTFOLIO_FAILURE,
+  INVALIDATE_PORTFOLIO,
   SELECT_PORTFOLIO,
   PORTFOLIO_NEXT_PICT,
   PORTFOLIO_PREV_PICT,
@@ -11,7 +12,7 @@ import {
 } from '../constants/actionsTypes.js'
 
 
-function selected(state = 0, action) {
+function selected(state = null, action) {
   switch (action.type) {
     case SELECT_PORTFOLIO:
       return action.portfolio
@@ -21,9 +22,18 @@ function selected(state = 0, action) {
 }
 
 const headersInitialState = [
-    {slug: 'portraits', title: 'Portraits'},
-    {slug: 'macro', title: 'Un monde miniature'},
-    {slug: 'paysages', title: 'Quelque part en france'},
+    {
+      slug: 'portraits',
+      title: 'Portraits',
+    },
+    {
+      slug: 'macro',
+      title: 'Un monde miniature',
+    },
+    {
+      slug: 'paysages',
+      title: 'Quelque part en france',
+    },
 ]
 
 
@@ -59,14 +69,41 @@ const portfoliosInitialState = {
 }
 
 
-function portfolios(state = portfoliosInitialState, action) {
+function portfolios(
+    //state = portfoliosInitialState,
+    state = {},
+    action) {
   switch (action.type) {
+    case INVALIDATE_PORTFOLIO:
+      return Object.assign({}, state, {
+        [action.portfolio]: Object.assign({}, state[action.portfolio], {
+          did_invalidate: true
+        })
+      })
     case REQUEST_PORTFOLIO:
-      return
+      return Object.assign({}, state, {
+        [action.portfolio]: Object.assign({}, state[action.portfolio], {
+          is_fetching: true,
+          fetched: false
+        })
+      })
     case REQUEST_PORTFOLIO_SUCCESS:
-      return
+      return Object.assign({}, state, {
+        [action.portfolio]: Object.assign({}, state[action.portfolio], {
+          is_fetching: true,
+          fetched: false,
+        },
+        action.json)
+      })
     case REQUEST_PORTFOLIO_FAILURE:
-      return
+      console.log(action)
+      return Object.assign({}, state, {
+        [action.portfolio]: Object.assign({}, state[action.portfolio], {
+          is_fetching: false,
+          fetched: false,
+          error: action.error
+        })
+      })
     default:
       return state
   }

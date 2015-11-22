@@ -1257,9 +1257,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.056568542"
-     inkscape:cx="8531.163"
-     inkscape:cy="7958.2144"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="11123.195"
+     inkscape:cy="1131.9104"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -4862,5 +4862,45 @@
              id="rect4165-1" /></flowRegion><flowPara
            style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:144px;line-height:125%;font-family:'TeX Gyre Bonum';-inkscape-font-specification:'TeX Gyre Bonum Italic';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#222222;fill-opacity:0.94117647;"
            id="flowPara4167-7">room</flowPara></flowRoot>    </g>
+    <path
+       style="fill:#000000"
+       d="m 10481.793,-491.51629 0,-136.98723 5.302,3.07296 c 2.915,1.69012 54.801,31.61769 115.301,66.5057 60.5,34.88801 111.568,64.39507 113.486,65.57126 l 3.485,2.13851 -27.86,16.08048 c -95.506,55.12381 -135.994,78.51037 -170.163,98.28937 -21.204,12.2739 -38.777,22.31619 -39.052,22.31619 -0.274,0 -0.499,-61.64426 -0.499,-136.98724 z m 274.978,0.11224 0,-136.875 46.25,0 46.25,0 0,136.875 0,136.875 -46.25,0 -46.25,0 0,-136.875 z m 155.011,0 0.03,-136.875 46.854,0 46.853,0 0,136.875 0,136.875 -46.886,0 -46.885,0 0.03,-136.875 z"
+       id="path5007"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:type="star"
+       style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path5017"
+       sodipodi:sides="3"
+       sodipodi:cx="10493.354"
+       sodipodi:cy="-592.2135"
+       sodipodi:r1="153.27739"
+       sodipodi:r2="76.638695"
+       sodipodi:arg1="-0.057697622"
+       sodipodi:arg2="0.98949993"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 10646.376,-601.05234 -110.94,72.88974 -110.939,72.88974 -7.655,-132.52122 -7.654,-132.52123 118.594,59.63149 z"
+       inkscape:transform-center-x="-43.295959"
+       inkscape:transform-center-y="-0.0055294365"
+       transform="matrix(1.128126,0.06523555,-0.06523555,1.128126,-419.22995,60.215612)" />
+    <g
+       id="g5027">
+      <rect
+         y="-42.950302"
+         x="10530.469"
+         height="300"
+         width="100"
+         id="rect5011"
+         style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:2.00830674;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:2.00830674;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5025"
+         width="100"
+         height="300"
+         x="10730.469"
+         y="-42.950302" />
+    </g>
   </g>
 </svg>

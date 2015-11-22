@@ -35,7 +35,7 @@ class App extends Component {
     }))
   }
 
-  navigateTo(module=false, complement=0) {
+  navigateTo(module=false, complement=this.props.portfolio.headers[0].slug) {
     console.log(complement)
     switch (module) {
       case "portfolios":

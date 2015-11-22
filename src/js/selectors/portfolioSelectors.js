@@ -9,8 +9,7 @@ import { carouselSelector } from './carouselSelectors'
  */
 
 const selectedPortfolioSelector = state => state.portfolio.portfolios[
-    state.portfolio.headers[state.portfolio.selected].slug
-]
+  state.portfolio.selected]
 
 const picturesShortSelector = state => state.pictures.short
 
@@ -22,7 +21,10 @@ const portfolioPicturesSelector = createSelector(
   selectedPortfolioSelector,
   picturesShortSelector,
   (selectedPortfolio, picturesShort) => {
-    return selectedPortfolio.pictures.map((pict) => picturesShort[pict])
+    if (selectedPortfolio && selectedPortfolio.pictures) {
+      return selectedPortfolio.pictures.map((pict) => picturesShort[pict])
+    }
+    else { return [] }
   }
 )
 

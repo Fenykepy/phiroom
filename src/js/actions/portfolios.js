@@ -1,4 +1,7 @@
+import fetch from 'isomorphic-fetch'
 import * as types from '../constants/actionsTypes';
+
+import { base_url } from '../config'
 
 // action creators
 
@@ -26,6 +29,13 @@ export function requestPortfolioFailure(portfolio, error) {
   }
 }
 
+export function invalidatePortfolio(portfolio) {
+  return {
+    type: types.INVALIDATE_PORTFOLIO,
+    portfolio,
+  }
+}
+
 export function selectPortfolio(portfolio) {
   return {type: types.SELECT_PORTFOLIO, portfolio}
 }
@@ -48,4 +58,22 @@ export function toggleLightbox() {
 
 export function togglePictInfo() {
   return { type: types.TOGGLE_PICT_INFO }
+}
+
+
+// thunks
+export function fetchPortfolio(portfolio) {
+  return function(dispatch) {
+    // start request
+    dispatch(requestPortfolio(portfolio))
+    // return a promise
+    return fetch(`${base_url}api/portfolio/portfolios/${portfolio}/`)
+      .then(response => response.json())
+      .then(json =>
+          dispatch(receivePortfolio(portfolio, json))
+      )
+      .catch(error =>
+          dispatch(requestPortfolioFailure(portfolio, error.message))
+      )
+  }
 }

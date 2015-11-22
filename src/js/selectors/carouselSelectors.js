@@ -16,8 +16,12 @@ const slideshowDurationSelector = state => state.settings.slideshow_duration
 
 const slideshowStatusSelector = state => state.portfolio.carousel.slideshow
 
-const carouselPicturesSelector = state => state.portfolio.portfolios[
-  state.portfolio.headers[state.portfolio.selected].slug].pictures
+const carouselPicturesSelector = state => {
+  let portfolio = state.portfolio.portfolios[state.portfolio.selected]
+  if (portfolio && portfolio.pictures) {
+    return portfolio.pictures
+  } else { return [] }
+}
 
 
 const carouselCurrentPictureSelector = state => state.portfolio.carousel.current_pict
