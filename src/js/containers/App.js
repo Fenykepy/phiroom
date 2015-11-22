@@ -35,7 +35,8 @@ class App extends Component {
     }))
   }
 
-  navigateTo(module=false, complement=false) {
+  navigateTo(module=false, complement=0) {
+    console.log(complement)
     switch (module) {
       case "portfolios":
         return this.props.dispatch(selectPortfolio(complement))
@@ -66,8 +67,8 @@ class App extends Component {
         <Portfolio
           {...this.props.portfolio}
           toggleSlideshow={() => dispatch(toggleSlideshow())}
-          goNext={() => dispatch(nextPict())}
-          goPrev={() => dispatch(prevPict())}
+          goNext={() => dispatch(nextPict(this.props.portfolio.pictures.length))}
+          goPrev={() => dispatch(prevPict(this.props.portfolio.pictures.length))}
         />
         <Footer />
       </div>

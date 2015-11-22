@@ -8,8 +8,8 @@ import { carouselSelector } from './carouselSelectors'
  * input selectors
  */
 
-const currentPortfolioSelector = state => state.portfolio.portfolios[
-    state.portfolio.current
+const selectedPortfolioSelector = state => state.portfolio.portfolios[
+    state.portfolio.headers[state.portfolio.selected].slug
 ]
 
 const picturesShortSelector = state => state.pictures.short
@@ -19,15 +19,15 @@ const picturesShortSelector = state => state.pictures.short
  */
 // returns a list of a portfolio's pictures' short data
 const portfolioPicturesSelector = createSelector(
-  currentPortfolioSelector,
+  selectedPortfolioSelector,
   picturesShortSelector,
-  (currentPortfolio, picturesShort) => {
-    return currentPortfolio.pictures.map((pict) => picturesShort[pict])
+  (selectedPortfolio, picturesShort) => {
+    return selectedPortfolio.pictures.map((pict) => picturesShort[pict])
   }
 )
 
 export const portfolioSelector = createStructuredSelector({
-  current: currentPortfolioSelector,
+  selected: selectedPortfolioSelector,
   pictures: portfolioPicturesSelector,
   carousel: carouselSelector,
 })

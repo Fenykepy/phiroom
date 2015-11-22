@@ -4,7 +4,7 @@ export default class SubMainMenuItem extends Component {
   
   handleClick(e) {
     e.preventDefault()
-    this.props.navigateTo(this.props.module, this.props.slug)
+    this.props.navigateTo(this.props.module, this.props.index)
   }
   
   render () {
