@@ -88,12 +88,14 @@ function portfolios(
         })
       })
     case REQUEST_PORTFOLIO_SUCCESS:
+      console.log('action',action)
       return Object.assign({}, state, {
         [action.portfolio]: Object.assign({}, state[action.portfolio], {
-          is_fetching: true,
-          fetched: false,
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
         },
-        action.json)
+        action.data)
       })
     case REQUEST_PORTFOLIO_FAILURE:
       console.log(action)
