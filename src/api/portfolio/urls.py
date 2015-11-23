@@ -14,4 +14,6 @@ urlpatterns = [
         name="portfolios-headers"),
     url(r'^portfolios/(?P<slug>[-\w]+)/$', views.PortfolioDetail.as_view(),
         name="portfolio-detail"),
+    url(r'^portfolios/(?P<slug>[-\w]+)/pictures/$', views.portfolio_pictures,
+        name="portfolio-pictures"),
 ]

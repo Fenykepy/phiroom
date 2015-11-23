@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from portfolio.serializers import *
 from portfolio.models import Portfolio
+from librairy.serializers import PictureShortSerializer
+from librairy.models import Picture
 
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
 
@@ -74,3 +76,18 @@ def portfolios_headers_list(request, format=None):
 
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+def portfolio_pictures(request, slug, format=None):
+    """
+    Returns a list of all pictures short data (public) of a portfolio
+    without pagination.
+    """
+    pictures = Portfolio.objects.get(slug=slug).pictures.all()
+    pictures = pictures.only('pk', 'sha1', 'title', 'legend',
+            'previews_path', 'ratio')
+    serializer = PictureShortSerializer(pictures, many=True)
+
+    return Response(serializer.data)
+    
+    
