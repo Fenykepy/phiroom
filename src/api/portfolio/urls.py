@@ -10,7 +10,7 @@ urlpatterns = [
         name="portfolio-root"),
     url(r'^portfolios/$', views.PortfolioList.as_view(),
         name="portfolios-list"),
-    url(r'^portfolios/headers/$', views.portfolios_headers_list,
+    url(r'^headers/$', views.portfolios_headers_list,
         name="portfolios-headers"),
     url(r'^portfolios/(?P<slug>[-\w]+)/$', views.PortfolioDetail.as_view(),
         name="portfolio-detail"),

@@ -18,7 +18,7 @@ A tree:
     #[GET:(admin)] get a list of urls
     - portfolio-root: "/api/portfolio/"
         #[GET:(any)](published portfolios only except if admin) get a flat list of portfolios
-        - portfolios-headers: "/api/portfolio/portfolios/headers/"
+        - portfolios-headers: "/api/portfolio/headers/"
         #[GET:(admin), POST:(admin)] get a paginated list of portfolios
         - portfolios-list: "/api/portfolio/portfolios/"
             #[GET:(any), PUT-PATCH-DELETE:(admin)] get update delete a specific portfolio

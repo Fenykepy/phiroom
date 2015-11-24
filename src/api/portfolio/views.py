@@ -53,10 +53,11 @@ class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'slug'
 
     # allow staff members to retriev not published portfolios.
+    # prefetch author to avoid one more sql request when querying permissions
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Portfolio.objects.all()
-        return Portfolio.published.all()
+            return Portfolio.objects.all().select_related('author')
+        return Portfolio.published.all().select_related('author')
 
 
 
@@ -71,7 +72,7 @@ def portfolios_headers_list(request, format=None):
         portfolios = Portfolio.objects.all()
     else:
         portfolios = Portfolio.published.all()
-
+    portfolios = portfolios.only('slug', 'title')
     serializer = PortfolioHeadSerializer(portfolios, many=True)
 
     return Response(serializer.data)
