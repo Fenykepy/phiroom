@@ -1,3 +1,4 @@
+require('es6-promise').polyfill();
 // import less files
 require('../less/controller.less')
 

@@ -74,6 +74,7 @@ export function fetchPortfolio(portfolio) {
       .then(json =>{
           console.log('promise resolved')
           console.log('portfolio', portfolio)
+          console.log('json', json)
           dispatch(receivePortfolio(portfolio, json))}
       )
       .catch(error => {
