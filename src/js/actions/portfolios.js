@@ -68,8 +68,9 @@ export function fetchPortfolio(portfolio) {
     dispatch(requestPortfolio(portfolio))
     // return a promise
     return fetch(`${base_url}api/portfolio/portfolios/${portfolio}/`)
-      .then(response =>
-          response.json()
+      .then(response => {
+          console.log(response)
+          response.json()}
       )
       .then(json =>{
           console.log('promise resolved')

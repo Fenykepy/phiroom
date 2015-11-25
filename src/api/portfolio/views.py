@@ -56,8 +56,8 @@ class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
     # prefetch author to avoid one more sql request when querying permissions
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Portfolio.objects.all().select_related('author')
-        return Portfolio.published.all().select_related('author')
+            return Portfolio.objects.all()
+        return Portfolio.published.all()
 
 
 
