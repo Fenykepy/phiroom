@@ -24,9 +24,8 @@ let unsubscribe = store.subscribe(() =>
 )
 
 let default_portfolio = store.getState().portfolio.headers[0].slug
-
-store.dispatch(selectPortfolio(default_portfolio))
 store.dispatch(fetchPortfolio(default_portfolio))
+store.dispatch(selectPortfolio(default_portfolio))
 render(
   <Provider store={store}>
     <App />

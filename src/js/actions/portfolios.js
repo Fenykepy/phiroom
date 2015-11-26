@@ -68,20 +68,14 @@ export function fetchPortfolio(portfolio) {
     dispatch(requestPortfolio(portfolio))
     // return a promise
     return fetch(`${base_url}api/portfolio/portfolios/${portfolio}/`)
-      .then(response => {
-          console.log(response)
-          response.json()}
+      .then(response =>
+          response.json()
       )
-      .then(json =>{
-          console.log('promise resolved')
-          console.log('portfolio', portfolio)
-          dispatch(receivePortfolio(portfolio, json))}
+      .then(json =>
+          dispatch(receivePortfolio(portfolio, json))
       )
-      .catch(error => {
-          console.log('error', error)
-          console.log('promise rejected')
+      .catch(error => 
           dispatch(requestPortfolioFailure(portfolio, error.message))
-        }
       )
   }
 }

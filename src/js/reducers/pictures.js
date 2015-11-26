@@ -37,6 +37,13 @@ const initialState = {
       previews_path: "63/cf/63cfd11dda6c8b592e47a16c5eb917aacfd2513d.jpg",
       ratio: 0.75,
     },
+    1: {
+      pk: 1,
+      title: "",
+      legend: "",
+      previews_path: "fb/c2/fbc23892b55fd4113e146504d543e130ab29b5a5.jpg",
+      ratio: 0.75,
+    },
     7: {
       pk: 7,
       title: "",
