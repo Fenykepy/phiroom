@@ -179,7 +179,6 @@ export default class Carousel extends Component {
 
 
   render() {
-    console.log('render')
     let positions = this.setPositions()
 
     return (

@@ -2,7 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 // actions
-import { selectPortfolio, nextPict, prevPict, toggleSlideshow } from '../actions/portfolios'
+import {
+  fetchPortfolioIfNeeded,
+  fetchPortfoliosHeadersIfNeeded,
+  goToPortfolio,
+  nextPict,
+  prevPict,
+  toggleSlideshow
+} from '../actions/portfolios'
+
 import { setViewport } from '../actions/viewport'
 
 // components
@@ -17,6 +25,17 @@ import { mainSelector } from '../selectors/mainSelector'
 class App extends Component {
 
   componentDidMount() {
+    // Injected by connect() call:
+    const {
+      dispatch,
+      settings,
+      modules,
+      portfolio,
+      viewport,
+    } = this.props
+    // fetch portfolios headers if necessary
+    dispatch(fetchPortfoliosHeadersIfNeeded())
+    
     // keep track of viewport size
     window.addEventListener('resize', this.handleResize.bind(this))
     // set initial viewport size
@@ -36,10 +55,9 @@ class App extends Component {
   }
 
   navigateTo(module=false, complement=this.props.portfolio.headers[0].slug) {
-    console.log(complement)
     switch (module) {
       case "portfolios":
-        return this.props.dispatch(selectPortfolio(complement))
+        return this.props.dispatch(goToPortfolio(complement))
       default:
         return
     }
@@ -47,14 +65,6 @@ class App extends Component {
 
 
   render() {
-    // Injected by connect() call:
-    const {
-      dispatch,
-      settings,
-      modules,
-      portfolio,
-      viewport,
-    } = this.props
 
 
     return (

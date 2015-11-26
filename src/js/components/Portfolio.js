@@ -13,7 +13,6 @@ export default class Portfolio extends Component {
      * and client side only enable slide show if any js available.
      */
     let carousel
-    console.log('props', this.props)
     if (this.props.pictures.length < 1) {
         carousel = ''
     } else if (this.props.carousel.dynamic) { // we are client side

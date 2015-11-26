@@ -4,11 +4,14 @@ import {
   REQUEST_PORTFOLIO,
   REQUEST_PORTFOLIO_SUCCESS,
   REQUEST_PORTFOLIO_FAILURE,
+  REQUEST_PORTFOLIOS_HEADERS,
+  REQUEST_PORTFOLIOS_HEADERS_SUCCESS,
+  REQUEST_PORTFOLIOS_HEADERS_FAILURE,
   INVALIDATE_PORTFOLIO,
   SELECT_PORTFOLIO,
   PORTFOLIO_NEXT_PICT,
   PORTFOLIO_PREV_PICT,
-  PORTFOLIO_TOGGLE_SLIDESHOW
+  PORTFOLIO_TOGGLE_SLIDESHOW,
 } from '../constants/actionsTypes.js'
 
 
@@ -21,58 +24,30 @@ function selected(state = null, action) {
   }
 }
 
-const headersInitialState = [
-    {
-      slug: 'portraits',
-      title: 'Portraits',
-    },
-    {
-      slug: 'macro',
-      title: 'Un monde miniature',
-    },
-    {
-      slug: 'paysages',
-      title: 'Quelque part en france',
-    },
-]
-
-
-function headers(state = headersInitialState, action) {
+function headers(state = {fetched: false, data: []}, action) {
   switch (action.type) {
+    case REQUEST_PORTFOLIOS_HEADERS:
+      return Object.assign({}, state, {
+        is_fetching: true
+      })
+    case REQUEST_PORTFOLIOS_HEADERS_SUCCESS:
+      return Object.assign({}, state, {
+        is_fetching: false,
+        fetched: true,
+        data: action.data,
+        receivedAt: action.recevedAt
+      })
+    case REQUEST_PORTFOLIOS_HEADERS_FAILURE:
+      return Object.assign({}, state, {
+        is_fetching: false,
+        error: action.error
+      })
     default:
       return state
   }
 }
 
-const portfoliosInitialState = {
-  portraits: {
-    slug: 'portraits',
-    title: 'Portraits',
-    order: 0,
-    description: '',
-    pictures: [ 2, 3, 4, 5, 6]
-  },
-  macro: {
-    slug: 'macro',
-    title: 'Un monde miniature',
-    order: 1,
-    description: '',
-    pictures: [7, 8, 9]
-  },
-  paysages: {
-    slug: 'paysages',
-    title: 'Quelque part en france',
-    order: 3,
-    description: '',
-    pictures: [10, 11, 12]
-  }
-}
-
-
-function portfolios(
-    //state = portfoliosInitialState,
-    state = {},
-    action) {
+function portfolios(state = {}, action) {
   switch (action.type) {
     case INVALIDATE_PORTFOLIO:
       return Object.assign({}, state, {
@@ -88,7 +63,6 @@ function portfolios(
         })
       })
     case REQUEST_PORTFOLIO_SUCCESS:
-      console.log('action',action)
       return Object.assign({}, state, {
         [action.portfolio]: Object.assign({}, state[action.portfolio], {
           is_fetching: false,
@@ -98,7 +72,6 @@ function portfolios(
         action.data)
       })
     case REQUEST_PORTFOLIO_FAILURE:
-      console.log(action)
       return Object.assign({}, state, {
         [action.portfolio]: Object.assign({}, state[action.portfolio], {
           is_fetching: false,
@@ -114,7 +87,7 @@ function portfolios(
 
 const carouselInitialState = {
   current_pict: 0,
-  slideshow: true,
+  slideshow: false,
 }
 
 function carousel(state = carouselInitialState, action) {

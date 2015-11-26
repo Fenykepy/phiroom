@@ -5,6 +5,28 @@ import { base_url } from '../config'
 
 // action creators
 
+
+export function requestPortfoliosHeaders() {
+  return {
+    type: types.REQUEST_PORTFOLIOS_HEADERS
+  }
+}
+
+export function receivePortfoliosHeaders(json) {
+  return {
+    type: types.REQUEST_PORTFOLIOS_HEADERS_SUCCESS,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+export function requestPortfoliosHeadersFailure(error) {
+  return {
+    type: types.REQUEST_PORTFOLIOS_HEADERS_FAILURE,
+    error
+  }
+}
+
 export function requestPortfolio(portfolio) {
   return {
     type: types.REQUEST_PORTFOLIO,
@@ -60,29 +82,93 @@ export function togglePictInfo() {
   return { type: types.TOGGLE_PICT_INFO }
 }
 
+function shouldFetchPortfolio(state, portfolio) {
+  const item = state.portfolio.portfolios[portfolio]
+  if (! item) { return true }
+  if (item.is_fetching || item.fetched) { return false }
+  return true
+}
+
+function shouldFetchPortfoliosHeaders(state) {
+  // returns true if headers haven't been fetched or are invalidate
+  const headers = state.portfolio.headers
+  if (! headers) { return true }
+  if (headers.is_fetching || headers.fetched) { return false }
+  return true
+}
 
 // thunks
-export function fetchPortfolio(portfolio) {
+export function goToPortfolio(portfolio) {
+  // fetch portfolio if it's not done yet, then select it
+  return (dispatch, getState) => {
+    if (shouldFetchPortfolio(getState(), portfolio)) {
+      return dispatch(fetchPortfolio(portfolio, true))
+    }
+    return dispatch(selectPortfolio(portfolio))
+  }
+}
+
+export function fetchPortfolioIfNeeded(portfolio) {
+  // fetch portfolio if it's not done yet
+  return (dispatch, getState) => {
+    if (shouldFetchPortfolio(getState(), portfolio)) {
+      return dispatch(fetchPortfolio(portfolio))
+    }
+  }
+}
+
+export function fetchPortfoliosHeadersIfNeeded() {
+  // fetch portfolios headers if it's not done yet
+  return (dispatch, getState) => {
+    if (shouldFetchPortfoliosHeaders(getState())) {
+      return dispatch(fetchPortfoliosHeaders)
+    }
+  }
+}
+
+export function fetchPortfolio(portfolio, select=false) {
+  /*
+   * fetch a portfolio's data
+   * then select it if select is true
+   */
   return function(dispatch) {
     // start request
     dispatch(requestPortfolio(portfolio))
     // return a promise
     return fetch(`${base_url}api/portfolio/portfolios/${portfolio}/`)
-      .then(response => {
-          console.log(response)
-          response.json()}
+      .then(response =>
+          response.json()
       )
-      .then(json =>{
-          console.log('promise resolved')
-          console.log('portfolio', portfolio)
-          console.log('json', json)
-          dispatch(receivePortfolio(portfolio, json))}
+      .then(json =>
+          dispatch(receivePortfolio(portfolio, json))
       )
-      .catch(error => {
-          console.log('error', error)
-          console.log('promise rejected')
-          dispatch(requestPortfolioFailure(portfolio, error.message))
+      .then(() => {
+          if (select) {
+            dispatch(selectPortfolio(portfolio))
+          }
         }
+      )
+      .catch(error => 
+          dispatch(requestPortfolioFailure(portfolio, error.message))
+      )
+  }
+}
+
+export function fetchPortfoliosHeaders() {
+  // fetch all portfolios headers
+  return function(dispatch) {
+    // start request
+    dispatch(requestPortfoliosHeaders())
+    // return a promise
+    return fetch(`${base_url}api/portfolio/headers/`)
+      .then(response =>
+          response.json()
+      )
+      .then(json =>
+          dispatch(receivePortfoliosHeaders())
+      )
+      .catch(error =>
+          dispatch(requestPortfoliosHeadersFailure(error.message))
       )
   }
 }

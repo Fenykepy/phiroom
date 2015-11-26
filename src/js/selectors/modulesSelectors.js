@@ -5,7 +5,7 @@ import { createSelector, createStructuredSelector } from 'reselect'
  * input selectors
  */
 
-const portfoliosHeadersSelector = state => state.portfolio.headers
+const portfoliosHeadersSelector = state => state.portfolio.headers.data
 
 const modulesListSelector = state => state.modules.list
 
