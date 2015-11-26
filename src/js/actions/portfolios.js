@@ -60,9 +60,15 @@ export function togglePictInfo() {
   return { type: types.TOGGLE_PICT_INFO }
 }
 
+function shouldFetchPortfolio(state, portfolio) {
+  const item = state.portfolio.portfolios[portfolio]
+  if (! item) { return true }
+  if (item.is_fetching) { return false } 
+  return true
+}
 
 // thunks
-export function fetchPortfolio(portfolio) {
+function fetchPortfolio(portfolio) {
   return function(dispatch) {
     // start request
     dispatch(requestPortfolio(portfolio))
