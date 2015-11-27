@@ -8,6 +8,30 @@ from rest_framework.test import APIClient, APITestCase
 from user.models import User
 
 
+
+def create_test_users(instance):
+    """Create two users for tests."""
+    instance.user = User.objects.create_superuser(
+        username="tom",
+        first_name="Tom",
+        last_name="Poe",
+        email='tom@phiroom.org',
+        password='top_secret',
+    )
+    instance.user.is_staff = True
+    instance.user.save()
+
+    instance.user2 = User.objects.create_user(
+        username="John",
+        email='john@phiroom.org',
+        password='top_secret',
+    )
+    instance.user2.save()
+
+
+
+
+
 def login(instance, user):
     """Login with given user, assert it's ok"""
     login = instance.client.login(username=user.username,
@@ -20,23 +44,8 @@ class ModelTest(TestCase):
     """Class to test user model."""
 
     def setUp(self):
-        # create un user
-        self.user = User.objects.create_superuser(
-            username="tom",
-            email="tom@phiroom.org",
-            password="top_secret",
-            first_name="Tom",
-            last_name="Poe",
-        )
-        self.user.save()
-
-        self.user2 = User.objects.create_user(
-            username="bill",
-            email="bill@phiroom.org",
-            password="top_secret",
-        )
-        self.user2.save()
-
+        # create users
+        create_test_users(self)
 
 
     def test_get_short_name(self):
@@ -46,7 +55,7 @@ class ModelTest(TestCase):
 
         # should return username as no first_name
         short_name = self.user2.get_short_name()
-        self.assertEqual(short_name, "bill")
+        self.assertEqual(short_name, "John")
 
 
     def test_get_full_name(self):
@@ -56,7 +65,7 @@ class ModelTest(TestCase):
 
         # should return get_short_name (so username)
         full_name = self.user2.get_full_name()
-        self.assertEqual(full_name, 'bill')
+        self.assertEqual(full_name, 'John')
 
 
     def test_save(self):
@@ -74,21 +83,7 @@ class UserAPITest(TestCase):
 
     def setUp(self):
         # create un user
-        self.user = User.objects.create_superuser(
-            username="tom",
-            email="tom@phiroom.org",
-            password="top_secret",
-            first_name="Tom",
-            last_name="Poe",
-        )
-        self.user.save()
-
-        self.user2 = User.objects.create_user(
-            username="bill",
-            email="bill@phiroom.org",
-            password="top_secret",
-        )
-        self.user2.save()
+        create_test_users(self)
 
         self.client = APIClient()
 
@@ -101,7 +96,7 @@ class UserAPITest(TestCase):
         response = self.client.post(url, {'username': "Paul", 'password': "no"})
         self.assertEqual(response.status_code, 400)
         # should return token with good user credentials
-        response = self.client.post(url, {'username': "bill", 'password': "top_secret"})
+        response = self.client.post(url, {'username': "John", 'password': "top_secret"})
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.data['token'])
         token = response.data['token']
@@ -115,7 +110,7 @@ class UserAPITest(TestCase):
         auth_url = '/api/token-auth/'
         url = '/api/token-verify/'
         # get token
-        response = self.client.post(auth_url, {'username': "bill", 'password': "top_secret"})
+        response = self.client.post(auth_url, {'username': "John", 'password': "top_secret"})
         token = response.data['token']
         # token should be verified
         response = self.client.post(url, {'token': token})
@@ -129,7 +124,7 @@ class UserAPITest(TestCase):
         auth_url = '/api/token-auth/'
         url = '/api/token-refresh/'
         # get token
-        response = self.client.post(auth_url, {'username': "bill", 'password': "top_secret"})
+        response = self.client.post(auth_url, {'username': "John", 'password': "top_secret"})
         token = response.data['token']
         # token should be refreshed
         response = self.client.post(url, {'token': token})
@@ -173,10 +168,6 @@ class UserAPITest(TestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, 405)
         
-        
-
-
-
 
 
 
