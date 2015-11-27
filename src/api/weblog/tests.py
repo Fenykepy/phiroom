@@ -757,8 +757,8 @@ class PostAPITest(APITestCase):
 
 
 
-    def test_posts_head_list(self):
-        url = '/api/weblog/post-head/'
+    def test_posts_headers_list(self):
+        url = '/api/weblog/posts/headers/'
 
         # test without login
         # client shouln'd receive anything
