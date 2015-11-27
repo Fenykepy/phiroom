@@ -167,6 +167,7 @@ class PictureTest(TestCase):
         # generate previews
         self.pict.generate_previews()
         # set image orientation :
+        print(self.pict.width)
         if self.pict.width < self.pict.height:
             portrait_orientation = True
         else:
@@ -190,6 +191,7 @@ class PictureTest(TestCase):
             # and have good height or width
             img = Image.open(preview_file)
             width, height = img.size
+            print(preview[1])
             # if preview is larger than original
             if preview[1] > self.pict.width:
                 self.assertEqual(width, self.pict.width)
@@ -387,7 +389,7 @@ class APITest(APITestCase):
     def test_directorysAPI(self):
         directory = Directory.objects.create(name="test")
 
-        url = reverse('directory-list')
+        url = reverse('directories-list')
         url2 = reverse('directory-detail', kwargs={'pk': directory.pk})
         url3 = reverse('directory-pictures-list', kwargs={'pk': directory.pk})
         # try to get directory list without login
@@ -535,7 +537,7 @@ class APITest(APITestCase):
 
     
     def test_picturesAPI(self):
-        url_list = reverse('picture-list')
+        url_list = reverse('pictures-list')
         # create directory and picture for tests
         dir = Directory.objects.create(name="test")
         pict = create_test_picture()

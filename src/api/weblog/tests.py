@@ -14,36 +14,7 @@ from weblog.models import Post, PostPicture, Tag
 from weblog.utils import format_content, format_abstract, format_drop_cap
 
 from librairy.tests import create_test_picture
-
-
-
-def create_test_users(instance):
-    """Create two users for tests."""
-    instance.user = User.objects.create_user(
-        username="tom",
-        email='tom@phiroom.org',
-        password='top_secret',
-        author_name='tom phiroom'
-    )
-    instance.user.is_staff = True
-    instance.user.save()
-
-    instance.user2 = User.objects.create_user(
-        username="John",
-        email='john@phiroom.org',
-        password='top_secret',
-    )
-    instance.user2.save()
-
-
-
-def login(instance, user):
-    """Login with given user, assert it's ok"""
-    login = instance.client.login(username=user.username,
-            password='top_secret')
-    instance.assertEqual(login, True)
-
-
+from user.tests import create_test_users, login
 
 def create_test_tags(instance):
     """Create two tags for tests."""

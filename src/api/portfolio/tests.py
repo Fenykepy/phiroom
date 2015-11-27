@@ -7,7 +7,7 @@ from librairy.models import Picture
 from portfolio.models import Portfolio, PortfolioPicture
 
 from librairy.tests import create_test_picture
-from weblog.tests import create_test_users, login
+from user.tests import create_test_users, login
 from librairy.tests import create_test_picture
 
 
