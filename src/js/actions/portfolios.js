@@ -101,10 +101,10 @@ function shouldFetchPortfoliosHeaders(state) {
 export function goToPortfolio(portfolio) {
   // fetch portfolio if it's not done yet, then select it
   return (dispatch, getState) => {
-    if (shouldFetchPortfolio(getState(), portfolio)) {
-      return dispatch(fetchPortfolio(portfolio, true))
-    }
-    return dispatch(selectPortfolio(portfolio))
+    return dispatch(fetchPortfolio(portfolio))
+      .then(() =>
+        dispatch(selectPortfolio(portfolio))
+    )
   }
 }
 
@@ -121,12 +121,12 @@ export function fetchPortfoliosHeadersIfNeeded() {
   // fetch portfolios headers if it's not done yet
   return (dispatch, getState) => {
     if (shouldFetchPortfoliosHeaders(getState())) {
-      return dispatch(fetchPortfoliosHeaders)
+      return dispatch(fetchPortfoliosHeaders())
     }
   }
 }
 
-export function fetchPortfolio(portfolio, select=false) {
+export function fetchPortfolio(portfolio) {
   /*
    * fetch a portfolio's data
    * then select it if select is true
@@ -142,12 +142,6 @@ export function fetchPortfolio(portfolio, select=false) {
       .then(json =>
           dispatch(receivePortfolio(portfolio, json))
       )
-      .then(() => {
-          if (select) {
-            dispatch(selectPortfolio(portfolio))
-          }
-        }
-      )
       .catch(error => 
           dispatch(requestPortfolioFailure(portfolio, error.message))
       )
@@ -158,6 +152,7 @@ export function fetchPortfoliosHeaders() {
   // fetch all portfolios headers
   return function(dispatch) {
     // start request
+    console.log('fetch headers')
     dispatch(requestPortfoliosHeaders())
     // return a promise
     return fetch(`${base_url}api/portfolio/headers/`)
@@ -165,7 +160,7 @@ export function fetchPortfoliosHeaders() {
           response.json()
       )
       .then(json =>
-          dispatch(receivePortfoliosHeaders())
+          dispatch(receivePortfoliosHeaders(json))
       )
       .catch(error =>
           dispatch(requestPortfoliosHeadersFailure(error.message))

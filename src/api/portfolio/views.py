@@ -62,6 +62,7 @@ class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 @api_view(['GET'])
+@permission_classes((IsStaffOrReadOnly, ))
 def portfolios_headers_list(request, format=None):
     """
     Returns a list of portfolios headers (slug, title) without pagination.
@@ -79,6 +80,7 @@ def portfolios_headers_list(request, format=None):
 
 
 @api_view(['GET'])
+@permission_classes((IsStaffOrReadOnly, ))
 def portfolio_pictures(request, slug, format=None):
     """
     Returns a list of all pictures short data (public) of a portfolio

@@ -11,8 +11,6 @@ import App from './containers/App'
 import rootReducer from './reducers'
 
 
-import { selectPortfolio, fetchPortfolio } from './actions/portfolios'
-
 const createStoreWithMiddleware = applyMiddleware(
     thunkMiddleware // lets us dispatch() functions
 )(createStore)

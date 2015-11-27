@@ -31,6 +31,7 @@ function headers(state = {fetched: false, data: []}, action) {
         is_fetching: true
       })
     case REQUEST_PORTFOLIOS_HEADERS_SUCCESS:
+      console.log(action)
       return Object.assign({}, state, {
         is_fetching: false,
         fetched: true,
@@ -38,6 +39,7 @@ function headers(state = {fetched: false, data: []}, action) {
         receivedAt: action.recevedAt
       })
     case REQUEST_PORTFOLIOS_HEADERS_FAILURE:
+      console.log(action)
       return Object.assign({}, state, {
         is_fetching: false,
         error: action.error

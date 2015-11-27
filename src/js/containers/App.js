@@ -28,10 +28,6 @@ class App extends Component {
     // Injected by connect() call:
     const {
       dispatch,
-      settings,
-      modules,
-      portfolio,
-      viewport,
     } = this.props
     // fetch portfolios headers if necessary
     dispatch(fetchPortfoliosHeadersIfNeeded())
@@ -66,6 +62,14 @@ class App extends Component {
 
   render() {
 
+    // Injected by connect() call:
+    const {
+      dispatch,
+      settings,
+      modules,
+      portfolio,
+      viewport,
+    } = this.props
 
     return (
       <div id={this.props.modules.current}>
