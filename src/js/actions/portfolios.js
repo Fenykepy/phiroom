@@ -152,15 +152,17 @@ export function fetchPortfoliosHeaders() {
   // fetch all portfolios headers
   return function(dispatch) {
     // start request
-    console.log('fetch headers')
     dispatch(requestPortfoliosHeaders())
     // return a promise
     return fetch(`${base_url}api/portfolio/headers/`)
       .then(response =>
           response.json()
       )
-      .then(json =>
+      .then(json => {
           dispatch(receivePortfoliosHeaders(json))
+          // got to default portfolio
+          dispatch(goToPortfolio(json[0].slug))
+        }
       )
       .catch(error =>
           dispatch(requestPortfoliosHeadersFailure(error.message))
