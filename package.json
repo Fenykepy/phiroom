@@ -8,11 +8,14 @@
   "main": "./",
   "dependencies": {
     "es6-promise": "^3.0.2",
+    "history": "^1.13.1",
     "isomorphic-fetch": "^2.2.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-redux": "^4.0.0",
+    "react-router": "^1.0.0",
     "redux": "^3.0.0",
+    "redux-simple-router": "0.0.10",
     "redux-thunk": "^1.0.0",
     "reselect": "^2.0.1"
   },

@@ -14,7 +14,7 @@ export default class Portfolio extends Component {
      */
 
     let carousel
-    if (this.props.pictures.length < 1) {
+    if (this.props.pictures.length == 0) {
         carousel = (<div className="carousel-error"
         ><em>Sorry, no pictures in this portfolio yet…</em></div>)
     } else if (this.props.carousel.dynamic) { // we are client side

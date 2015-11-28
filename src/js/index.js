@@ -1,3 +1,4 @@
+// import a promise polyfill
 require('es6-promise').polyfill();
 // import less files
 require('../less/controller.less')
@@ -6,7 +7,11 @@ import React from 'react'
 import { render } from 'react-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import { Router, Route } from 'react-router'
+import createBrowserHistory from 'history/lib/createBrowserHistory'
+import { syncReduxAndRouter } from 'redux-simple-router'
 import thunkMiddleware from 'redux-thunk'
+
 import App from './containers/App'
 import rootReducer from './reducers'
 
@@ -16,6 +21,10 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore)
 
 const store = createStoreWithMiddleware(rootReducer)
+const history = createBrowserHistory()
+
+syncReduxAndRouter(history, store)
+
 
 // Every time the state changes, log it
 let unsubscribe = store.subscribe(() =>
@@ -24,7 +33,9 @@ let unsubscribe = store.subscribe(() =>
 
 render(
   <Provider store={store}>
-    <App />
+    <Router history={history}>
+      <Route path="/" component={App} />
+    </Router>
   </Provider>,
   document.getElementById('root')
 )
