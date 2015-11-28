@@ -12,9 +12,11 @@ export default class Portfolio extends Component {
      * server side rendering gives a classical horizontal scroll list
      * and client side only enable slide show if any js available.
      */
+
     let carousel
     if (this.props.pictures.length < 1) {
-        carousel = ''
+        carousel = (<div className="carousel-error"
+        ><em>Sorry, no pictures in this portfolio yet…</em></div>)
     } else if (this.props.carousel.dynamic) { // we are client side
       carousel = (<Carousel
         pictures={this.props.pictures}
