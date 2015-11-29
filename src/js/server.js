@@ -15,7 +15,7 @@ app.use(webpackHotMiddleware(compiler));
 app.use('/assets', express.static(__dirname + '/../../assets'));
 app.use('/media', express.static(__dirname + '/../api/phiroom/data'));
 
-app.get("/", function(req, res) {
+app.get("*", function(req, res) {
   res.sendFile(__dirname + '/index.html')
 })
 

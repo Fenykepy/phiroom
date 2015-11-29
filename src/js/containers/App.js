@@ -69,7 +69,10 @@ class App extends Component {
       modules,
       portfolio,
       viewport,
+      routing,
     } = this.props
+
+    console.log(this.props)
 
     return (
       <div id={this.props.modules.current}>
@@ -78,12 +81,13 @@ class App extends Component {
           settings={this.props.settings}
           navigateTo={this.navigateTo.bind(this)}
         />
-        <Portfolio
+        {/*        <Portfolio
           {...this.props.portfolio}
           toggleSlideshow={() => dispatch(toggleSlideshow())}
           goNext={() => dispatch(nextPict(this.props.portfolio.pictures.length))}
           goPrev={() => dispatch(prevPict(this.props.portfolio.pictures.length))}
-        />
+        />*/}
+        {this.props.children}
         <Footer />
       </div>
     )
@@ -93,4 +97,3 @@ class App extends Component {
 
 // Wrap the component to inject dispatch and state into it
 export default connect(mainSelector)(App)
-//export default connect(state => state)(App)
