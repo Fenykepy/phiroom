@@ -201,7 +201,7 @@ class PostModelTest(TestCase):
             title="My title",
             description="A short description",
             source="some text [...] end of abstract",
-            author= self.user
+            author=self.user
         )
         post.save()
 
