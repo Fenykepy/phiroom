@@ -167,7 +167,6 @@ class PictureTest(TestCase):
         # generate previews
         self.pict.generate_previews()
         # set image orientation :
-        print(self.pict.width)
         if self.pict.width < self.pict.height:
             portrait_orientation = True
         else:
@@ -191,9 +190,8 @@ class PictureTest(TestCase):
             # and have good height or width
             img = Image.open(preview_file)
             width, height = img.size
-            print(preview[1])
             # if preview is larger than original
-            if preview[1] > self.pict.width:
+            if preview[2] > self.pict.width:
                 self.assertEqual(width, self.pict.width)
             else:
                 # else preview size should be good
@@ -208,7 +206,7 @@ class PictureTest(TestCase):
             img = Image.open(preview_file)
             width, height = img.size
             # if preview is higher than original
-            if preview[1] > self.pict.height:
+            if preview[2] > self.pict.height:
                 self.assertEqual(height, self.pict.height)
             else:
                 # else preview size should be good
@@ -544,6 +542,7 @@ class APITest(APITestCase):
         pict.directory = dir
         pict.save()
         url_detail = reverse('picture-detail', kwargs={'pk': pict.pk})
+        print(url_detail)
 
         # try to get pictures list without login
         response = self.client.get(url_list)
@@ -644,7 +643,7 @@ class APITest(APITestCase):
             'directory': 1,
             'color': True,
             'copyright': 'LAVILOTTE-ROLLE Frédéric',
-            'copyright_state': True,
+            'copyright_state': "True",
             'copyright_url': 'http://lavilotte-rolle.fr',
         })
         self.assertEqual(response.status_code, 200)

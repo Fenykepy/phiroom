@@ -89,6 +89,8 @@ class PictureSerializer(serializers.ModelSerializer):
     exif_date = serializers.DateTimeField(read_only=True)
     exif_origin_date = serializers.DateTimeField(read_only=True)
     previews_path = serializers.ReadOnlyField()
+    ratio = serializers.ReadOnlyField()
+    sha1 = serializers.ReadOnlyField()
 
     class Meta:
         model = Picture
