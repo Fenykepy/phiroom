@@ -14,19 +14,19 @@ export default class Portfolio extends Component {
      */
 
     let carousel
-    if (this.props.pictures.length == 0) {
+    if (this.props.portfolio.pictures.length == 0) {
         carousel = (<div className="carousel-error"
         ><em>Sorry, no pictures in this portfolio yet…</em></div>)
-    } else if (this.props.carousel.dynamic) { // we are client side
+    } else if (this.props.portfolio.carousel.dynamic) { // we are client side
       carousel = (<Carousel
-        pictures={this.props.pictures}
-        carousel={this.props.carousel}
+        pictures={this.props.portfolio.pictures}
+        carousel={this.props.portfolio.carousel}
         toggleSlideshow={this.props.toggleSlideshow}
         goNext={this.props.goNext}
         goPrev={this.props.goPrev}
       />)
     } else { // we are server side
-      carousel = <CarouselInline pictures={this.props.pictures} />
+      carousel = <CarouselInline pictures={this.props.portfolio.pictures} />
     }
     
     return (

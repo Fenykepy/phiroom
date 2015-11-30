@@ -36,8 +36,8 @@ let unsubscribe = store.subscribe(() =>
 render(
   <Provider store={store}>
     <Router history={history}>
+      <Redirect from="/" to="/portfolio" />
       <Route path="/" component={App} >
-        <Redirect from="/" to="/portfolio"/>
         <Route path="portfolio" component={Portfolio} />
         <Route path="portfolio/:slug" component={Portfolio} />
         <Route path="portfolio/:slug/lightbox/:sha1" component={Portfolio} />

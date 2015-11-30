@@ -71,8 +71,8 @@ class App extends Component {
       viewport,
       routing,
     } = this.props
-
-    console.log(this.props)
+    
+   
 
     return (
       <div id={this.props.modules.current}>
@@ -87,7 +87,7 @@ class App extends Component {
           goNext={() => dispatch(nextPict(this.props.portfolio.pictures.length))}
           goPrev={() => dispatch(prevPict(this.props.portfolio.pictures.length))}
         />*/}
-        {this.props.children}
+        {React.cloneElement(this.props.children, this.props)}
         <Footer />
       </div>
     )
