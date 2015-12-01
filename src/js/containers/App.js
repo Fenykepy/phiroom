@@ -6,9 +6,6 @@ import {
   fetchPortfolioIfNeeded,
   fetchPortfoliosHeadersIfNeeded,
   goToPortfolio,
-  nextPict,
-  prevPict,
-  toggleSlideshow
 } from '../actions/portfolios'
 
 import { setViewport } from '../actions/viewport'
@@ -81,12 +78,6 @@ class App extends Component {
           settings={this.props.settings}
           navigateTo={this.navigateTo.bind(this)}
         />
-        {/*        <Portfolio
-          {...this.props.portfolio}
-          toggleSlideshow={() => dispatch(toggleSlideshow())}
-          goNext={() => dispatch(nextPict(this.props.portfolio.pictures.length))}
-          goPrev={() => dispatch(prevPict(this.props.portfolio.pictures.length))}
-        />*/}
         {React.cloneElement(this.props.children, this.props)}
         <Footer />
       </div>
