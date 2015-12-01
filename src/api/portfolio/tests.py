@@ -118,6 +118,7 @@ class PortfolioPictureModelTest(TestCase):
         self.assertEqual(p.portfolio, self.port)
         self.assertEqual(p.order, 28)
 
+
     def test_portfolio_list_picture(self):
         pp = PortfolioPicture(
                 portfolio=self.port,
@@ -131,5 +132,69 @@ class PortfolioPictureModelTest(TestCase):
         pp2.save()
         # picture list should be ordered by "order"
         picts = self.port.get_pictures()
-        self.assertEqual(picts[0], self.pict2)
-        self.assertEqual(picts[1], self.pict)
+        self.assertEqual(picts[0], pp2)
+        self.assertEqual(picts[1], pp)
+
+
+
+class PortfolioAPITest(APITestCase):
+    """Portfolio API Test class."""
+
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create portfolios
+        create_test_portfolios(self)
+        # create pictures
+        self.pict = create_test_picture()
+        self.pict2 = create_test_picture()
+
+        self.client = APIClient()
+
+
+    def test_portfolios_headers(self):
+        url = '/api/portfolio/headers/'
+
+        # pass port3 draft
+        self.port3.draft = True
+        self.port3.save()
+        
+        # test without login
+        # client shouldn't receive unpublished portfolios
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data[0]['slug'], "my-second-title")
+
+        # test with normal user
+        # client shouldn't receive unpublished portfolios
+        login(self, self.user2)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 2)
+        
+        # test with admin user
+        # client should have all posts
+        login(self, self.user)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 3)
+        
+        data = {'slug': "slug", 'title': "title"}
+        
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+        
+    
+
+        
