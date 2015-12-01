@@ -818,6 +818,10 @@ class PostAPITest(APITestCase):
         # client should be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 201)
+        # assert post has been saved in db
+        post = Post.objects.get(title="Post title")
+        # assert user has been saved as author
+        self.assertEqual(post.author, self.user)
         # client shouldn't be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 405)

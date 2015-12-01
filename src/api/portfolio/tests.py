@@ -254,6 +254,11 @@ class PortfolioAPITest(APITestCase):
         # client should be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 201)
+        # assert portfolio has been saved in db
+        port = Portfolio.objects.get(slug="portfolio-title")
+        # assert user has been saved as author
+        self.assertEqual(port.author, self.user)
+
         # client shouldn't be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 405)
@@ -263,3 +268,41 @@ class PortfolioAPITest(APITestCase):
         # client shouldn't be able to delete
         response = self.client.delete(url)
         self.assertEqual(response.status_code, 405)
+
+
+    def test_portfolio_detail(self):
+        url = '/api/portfolio/portfolios/{}/'.format(
+                self.port.slug)
+        url3 = '/api/portfolio/portfolios/{}/'.format(
+                self.port3.slug)
+        data = {'title': 'portfolio title',
+                'draft': False,
+        }
+        data2 = {'title': 'new portfolio title'}
+
+        # pass port3 draft
+        self.port3.draft = True
+        self.port3.save()
+
+        # test without login
+        # client should get port
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to get draft port
+        response = self.client.get(url3)
+        self.assertEqual(response.status_code, 404)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response = self.client.delete(url, data)
+        self.assertEqual(response.status_code, 401)
+
+        
+
