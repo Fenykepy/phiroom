@@ -344,7 +344,111 @@ class PortfolioAPITest(APITestCase):
         response = self.client.patch(url, data2)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['draft'], True)
+
         # client should be able to delete
         response = self.client.delete(url, data)
         self.assertEqual(response.status_code, 204)
+
+
+
+    def test_portfolio_pictures(self):
+        url = '/api/portfolio/portfolios/{}/pictures/'.format(
+                self.port.slug)
+        url3 = '/api/portfolio/portfolios/{}/pictures/'.format(
+                self.port3.slug)
+
+        data = {'pictures': [2, 1]}
+
+        # pass port3 draft
+        self.port3.draft = True
+        self.port3.save()
+        # add pictures to port
+        pp = PortfolioPicture(
+                portfolio=self.port,
+                picture=self.pict)
+        pp.order = 3
+        pp.save()
+        pp2 = PortfolioPicture(
+                portfolio=self.port,
+                picture=self.pict2)
+        pp2.order = 1
+        pp2.save()
+    
+        
+        # test without login
+        # client should get port pictures
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        data = response.data
+        self.assertTrue(data[0]['pk'])
+        self.assertTrue(data[0]['sha1'])
+        self.assertEqual(data[0]['title'], None)
+        self.assertEqual(data[0]['legend'], None)
+        self.assertEqual(data[0]['previews_path'], None)
+        self.assertEqual(data[0]['ratio'], None)
+        
+        self.assertTrue(data[1]['pk'])
+        self.assertTrue(data[1]['sha1'])
+        self.assertEqual(data[1]['title'], None)
+        self.assertEqual(data[1]['legend'], None)
+        self.assertEqual(data[1]['previews_path'], None)
+        self.assertEqual(data[1]['ratio'], None)
+        # client shouldn't be able to get draft port pictures
+        response = self.client.get(url3)
+        self.assertEqual(response.status_code, 404)
+        # client shouldn't be able to post 
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response = self.client.delete(url, data)
+        self.assertEqual(response.status_code, 401)
+
+        # test with normal user
+        login(self, self.user2)
+        # client should get port
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to get draft port
+        response = self.client.get(url3)
+        self.assertEqual(response.status_code, 404)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url, data)
+        self.assertEqual(response.status_code, 403)
+        
+        # test with staff member
+        login(self, self.user)
+        # client should get port
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client should be able to get draft port
+        response = self.client.get(url3)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response = self.client.delete(url, data)
+        self.assertEqual(response.status_code, 405)
+
 

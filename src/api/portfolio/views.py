@@ -1,3 +1,5 @@
+from django.http import Http404
+
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -86,8 +88,15 @@ def portfolio_pictures(request, slug, format=None):
     Returns a list of all pictures short data (public) of a portfolio
     without pagination.
     """
-    pictures = Portfolio.objects.get(slug=slug).pictures.all()
-    pictures = pictures.only('pk', 'sha1', 'title', 'legend',
+    if request.user.is_staff:
+        portfolio = Portfolio.objects.get(slug=slug)
+    else:
+        try:
+            portfolio = Portfolio.published.get(slug=slug)
+        except:
+            raise Http404
+    pictures = portfolio.pictures.all().only(
+            'pk', 'sha1', 'title', 'legend',
             'previews_path', 'ratio')
     serializer = PictureShortSerializer(pictures, many=True)
 
