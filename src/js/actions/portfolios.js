@@ -97,17 +97,6 @@ function shouldFetchPortfoliosHeaders(state) {
   return true
 }
 
-// thunks
-export function goToPortfolio(portfolio) {
-  // fetch portfolio if it's not done yet, then select it
-  return (dispatch, getState) => {
-    return dispatch(fetchPortfolio(portfolio))
-      .then(() =>
-        dispatch(selectPortfolio(portfolio))
-    )
-  }
-}
-
 export function fetchPortfolioIfNeeded(portfolio) {
   // fetch portfolio if it's not done yet
   return (dispatch, getState) => {
@@ -129,7 +118,6 @@ export function fetchPortfoliosHeadersIfNeeded() {
 export function fetchPortfolio(portfolio) {
   /*
    * fetch a portfolio's data
-   * then select it if select is true
    */
   return function(dispatch) {
     // start request

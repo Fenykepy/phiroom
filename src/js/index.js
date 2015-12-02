@@ -33,15 +33,32 @@ let unsubscribe = store.subscribe(() =>
   console.log('state', store.getState())
 )
 
+
+function portfolioEnter(nextState, replaceState, callback) {
+  // fetch portfolio
+  // fetch portfolio pictures
+  // promise.all(portfolio, pictures).then(callaback())
+  console.log(nextState)
+  console.log('good :)')
+  setTimeout(callback, 1500)
+}
+
+function rootEnter(nextState, replaceState, callback) {
+  // fetch settings
+  // fetch portfolios headers
+  // promise.all([settings, headers]).then(callback())
+}
+
 render(
   <Provider store={store}>
     <Router history={history}>
-      <Redirect from="/" to="/portfolio" />
-      <Route path="/" component={App} >
-        <Route path="portfolio" component={Portfolio} />
-        <Route path="portfolio/:slug" component={Portfolio} />
-        <Route path="portfolio/:slug/lightbox/:sha1" component={Portfolio} />
-        <Route path="contact" component={Portfolio} />
+      <Redirect from="/" to="/portfolio/" />
+      <Route path="/" component={App} onEnter={rootEnter}>
+        <Route path="portfolio/" component={Portfolio} onEnter={portfolioEnter} >
+          <Route path=":slug" component={Portfolio} />
+          <Route path=":slug/lightbox/:sha1" component={Portfolio} />
+        </Route>
+        <Route path="contact/" component={Portfolio} />
       </Route>
     </Router>
   </Provider>,

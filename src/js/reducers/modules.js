@@ -2,8 +2,8 @@
 const initialState = {
   current: 'portfolios',
   list: [
-    {name: 'portfolios', url: '/portfolio', title: 'Portfolios'},
-    {name: 'contact', url: '/contact', title: 'Contact'},
+    {name: 'portfolios', url: '/portfolio/', title: 'Portfolios'},
+    {name: 'contact', url: '/contact/', title: 'Contact'},
   ]
 }
 

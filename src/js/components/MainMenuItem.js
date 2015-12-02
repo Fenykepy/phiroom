@@ -1,28 +1,23 @@
-import React, { Component, PropTypes } from 'react';
-import SubMainMenu from './SubMainMenu';
+import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
+import SubMainMenu from './SubMainMenu'
 
 
 
 export default class MainMenuItem extends Component {
   
-  handleClick(e) {
-    e.preventDefault()
-    this.props.navigateTo(this.props.name)
-  }
-  
   render(){
     var submenu
     if (this.props.subMenu.length > 0) { // show submenu only if necessary
-      submenu = (<SubMainMenu subMenu={this.props.subMenu} module={this.props.name} navigateTo={this.props.navigateTo} />)
+      submenu = (<SubMainMenu subMenu={this.props.subMenu} module={this.props.name} />)
     } else {
       submenu = ''
     }
     
     return (
-      <li><a href={this.props.url}
-             className={this.props.name == this.props.currentModule ? 'selected' : ''}
-             onClick={(e) => this.handleClick(e)}
-          >{this.props.title}</a>{submenu}</li>
+      <li><Link to={this.props.url}
+             activeClassName="selected"
+          >{this.props.title}</Link>{submenu}</li>
     )
   }
 }

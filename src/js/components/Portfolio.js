@@ -7,7 +7,7 @@ import CarouselInline from './CarouselInline'
 // actions
 import {
   fetchPortfolioIfNeeded,
-  goToPortfolio,
+  selectPortfolio,
   nextPict,
   prevPict,
   toggleSlideshow
@@ -15,6 +15,11 @@ import {
 
 
 export default class Portfolio extends Component {
+
+  componentDidMount() {
+    console.log(this.props)
+
+  }
 
   goNext() {
     this.props.dispatch(nextPict(this.props.portfolio.pictures.length))

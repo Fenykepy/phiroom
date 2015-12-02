@@ -3,9 +3,7 @@ import { connect } from 'react-redux'
 
 // actions
 import {
-  fetchPortfolioIfNeeded,
   fetchPortfoliosHeadersIfNeeded,
-  goToPortfolio,
 } from '../actions/portfolios'
 
 import { setViewport } from '../actions/viewport'
@@ -47,16 +45,6 @@ class App extends Component {
     }))
   }
 
-  navigateTo(module=false, complement=this.props.portfolio.headers[0].slug) {
-    switch (module) {
-      case "portfolios":
-        return this.props.dispatch(goToPortfolio(complement))
-      default:
-        return
-    }
-  }
-
-
   render() {
 
     // Injected by connect() call:
@@ -76,7 +64,6 @@ class App extends Component {
         <Header
           modules={this.props.modules}
           settings={this.props.settings}
-          navigateTo={this.navigateTo.bind(this)}
         />
         {React.cloneElement(this.props.children, this.props)}
         <Footer />

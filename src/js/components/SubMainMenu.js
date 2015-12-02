@@ -9,7 +9,6 @@ export default class SubMainMenu extends Component {
           {this.props.subMenu.map((item, index) =>
               <SubMainMenuItem
                 key={item.slug}
-                navigateTo={this.props.navigateTo}
                 module={this.props.module}
                 index={index}
                 {...item}
