@@ -49,7 +49,7 @@ class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Portfolio.published.all()
     serializer_class = PortfolioSerializer
-    permission_classes = (IsAuthorOrReadOnly,)
+    permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
     lookup_field = 'slug'
 
     # allow staff members to retriev not published portfolios.

@@ -275,10 +275,10 @@ class PortfolioAPITest(APITestCase):
                 self.port.slug)
         url3 = '/api/portfolio/portfolios/{}/'.format(
                 self.port3.slug)
-        data = {'title': 'portfolio title',
+        data = {'title': 'My first title',
                 'draft': False,
         }
-        data2 = {'title': 'new portfolio title'}
+        data2 = {'draft': True}
 
         # pass port3 draft
         self.port3.draft = True
@@ -293,7 +293,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 404)
         # client shouldn't be able to post
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 401)
         # client shouldn't be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 401)
@@ -304,5 +304,47 @@ class PortfolioAPITest(APITestCase):
         response = self.client.delete(url, data)
         self.assertEqual(response.status_code, 401)
 
+        # test with normal user
+        login(self, self.user2)
+        # client should get port
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to get draft port
+        response = self.client.get(url3)
+        self.assertEqual(response.status_code, 404)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url, data)
+        self.assertEqual(response.status_code, 403)
         
+        # test with staff member
+        login(self, self.user)
+        # client should get port
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client should be able to get draft port
+        response = self.client.get(url3)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client should be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['draft'], False)
+        # client should be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['draft'], True)
+        # client should be able to delete
+        response = self.client.delete(url, data)
+        self.assertEqual(response.status_code, 204)
 

@@ -542,7 +542,6 @@ class APITest(APITestCase):
         pict.directory = dir
         pict.save()
         url_detail = reverse('picture-detail', kwargs={'pk': pict.pk})
-        print(url_detail)
 
         # try to get pictures list without login
         response = self.client.get(url_list)
