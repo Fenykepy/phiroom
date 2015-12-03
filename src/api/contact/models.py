@@ -23,8 +23,11 @@ class Description(models.Model):
 
 
     def save(self, **kwargs):
-        """convert source.md to content.html, then save."""
+        """convert source.md to content.html, then save as
+        a new entry."""
+        
         self.content = format_content(self.source)
+        self.pk = None
 
         super(Description, self).save()
 
