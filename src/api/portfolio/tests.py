@@ -356,8 +356,7 @@ class PortfolioAPITest(APITestCase):
                 self.port.slug)
         url3 = '/api/portfolio/portfolios/{}/pictures/'.format(
                 self.port3.slug)
-
-        data = {'pictures': [2, 1]}
+        data = {'pictures': [1, 2]}
 
         # pass port3 draft
         self.port3.draft = True
@@ -373,26 +372,37 @@ class PortfolioAPITest(APITestCase):
                 picture=self.pict2)
         pp2.order = 1
         pp2.save()
-    
+
+        self.pict.title = 'title 1'
+        self.pict.legend = 'legend 1'
+        self.pict.previews_path = 'xx/xx/xxxxxx'
+        self.pict.ratio = 0.75
+        self.pict.save()
+ 
+        self.pict2.title = 'title 2'
+        self.pict2.legend = 'legend 2'
+        self.pict2.previews_path = 'xx/xx/xxxxxx'
+        self.pict2.ratio = 0.70
+        self.pict2.save()   
         
         # test without login
         # client should get port pictures
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        data = response.data
-        self.assertTrue(data[0]['pk'])
-        self.assertTrue(data[0]['sha1'])
-        self.assertEqual(data[0]['title'], None)
-        self.assertEqual(data[0]['legend'], None)
-        self.assertEqual(data[0]['previews_path'], None)
-        self.assertEqual(data[0]['ratio'], None)
+        data1 = response.data
+        self.assertTrue(data1[0]['pk'])
+        self.assertTrue(data1[0]['sha1'])
+        self.assertEqual(data1[0]['title'], 'title 1')
+        self.assertEqual(data1[0]['legend'], 'legend 1')
+        self.assertEqual(data1[0]['previews_path'], 'xx/xx/xxxxxx')
+        self.assertEqual(data1[0]['ratio'], 0.75)
         
-        self.assertTrue(data[1]['pk'])
-        self.assertTrue(data[1]['sha1'])
-        self.assertEqual(data[1]['title'], None)
-        self.assertEqual(data[1]['legend'], None)
-        self.assertEqual(data[1]['previews_path'], None)
-        self.assertEqual(data[1]['ratio'], None)
+        self.assertTrue(data1[1]['pk'])
+        self.assertTrue(data1[1]['sha1'])
+        self.assertEqual(data1[1]['title'], 'title 2')
+        self.assertEqual(data1[1]['legend'], 'legend 2')
+        self.assertEqual(data1[1]['previews_path'], 'xx/xx/xxxxxx')
+        self.assertEqual(data1[1]['ratio'], 0.70)
         # client shouldn't be able to get draft port pictures
         response = self.client.get(url3)
         self.assertEqual(response.status_code, 404)
@@ -406,7 +416,7 @@ class PortfolioAPITest(APITestCase):
         response = self.client.patch(url, data)
         self.assertEqual(response.status_code, 401)
         # client shouldn't be able to delete
-        response = self.client.delete(url, data)
+        response = self.client.delete(url)
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
