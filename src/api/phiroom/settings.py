@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'portfolio',
     'weblog',
+    'contact',
     'user',
     'conf',
     'librairy',
