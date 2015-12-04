@@ -17,9 +17,9 @@ class Description(models.Model):
             verbose_name="Last update date")
     author = models.ForeignKey(User, blank=True, null=True)
 
-    class META:
+    class Meta:
         ordering = ['date_update']
-        get_latest_by = 'date_update'
+        get_latest_by = "date_update"
 
 
     def save(self, **kwargs):
@@ -54,3 +54,15 @@ class Message(models.Model):
     date = models.DateTimeField(auto_now=True,
             verbose_name="Send date")
     ip = models.GenericIPAddressField(null=True, blank=True)
+
+    def save(self):
+        """Add user data then save."""
+        if self.user:
+            if not self.name:
+                self.name = self.user.username
+            if not self.mail:
+                self.mail = self.user.email
+            if not self.website:
+                self.website = self.user.website
+        super(Message, self).save()
+
