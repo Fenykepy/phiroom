@@ -166,8 +166,8 @@ REST_FRAMEWORK = {
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # for api
         'rest_framework.authentication.SessionAuthentication', # for django rest framework browser
     ),
-    'PAGINATE_BY': 100,
-    'PAGINATE_BY_PARAM': 'page_size',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3,
 }
 
 

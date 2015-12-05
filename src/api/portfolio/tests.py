@@ -254,7 +254,7 @@ class PortfolioAPITest(APITestCase):
         # client should get all portfolios list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data['results']), 1)
         # client should be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 201)
