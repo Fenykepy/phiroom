@@ -28,7 +28,7 @@ A tree:
         #[GET-POST:(admin)] get a list of all portfolio-pictures relation, post a new one
         - portfolio-picture-list: /api/portfolio/portfolio-picture/
         #[GET-PUT-PATCH-DELETE:(admin)] get update delete a portfolio picture relation
-        - portfolio-picture-detail: /api/portfolio/portfolio-picture/portfolio/:slug/picture/:sha1/
+        - portfolio-picture-detail: /api/portfolio/portfolio-picture/portfolio/:slug/picture/:pk/
 
     #[GET:(admin)] get a list of urls
     - weblog-root: "/api/weblog/"

@@ -72,6 +72,27 @@ class PortfolioPictureList(generics.ListCreateAPIView):
 
 
 
+class PortfolioPictureDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that presents a specific portfolio-picture relation and allows to
+    update or delete it.
+    """
+    queryset = PortfolioPicture.objects.all()
+    serializer_class = PortfolioPictureSerializer
+    def get_object(self):
+        try:
+            port = Portfolio.objects.get(slug=self.kwargs['portfolio'])
+            pict = Picture.objects.get(pk=self.kwargs['picture'])
+            port_pict = PortfolioPicture.objects.get(
+                    portfolio=port,
+                    picture=pict)
+        except:
+            raise Http404
+
+        return port_pict
+
+
+
 @api_view(['GET'])
 @permission_classes((IsStaffOrReadOnly, ))
 def portfolios_headers_list(request, format=None):
