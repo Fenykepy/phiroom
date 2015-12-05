@@ -13,7 +13,7 @@ class PublishedManager(models.Manager):
     """
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(
-                pub_date__lte=timezone.now,
+                pub_date__lte=timezone.now(),
                 draft=False)
 
 

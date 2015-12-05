@@ -308,7 +308,6 @@ class PortfolioAPITest(APITestCase):
 
         # test without login
         # client shouldn't get
-        print(url)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 401)
         # client shouldn't be able to post

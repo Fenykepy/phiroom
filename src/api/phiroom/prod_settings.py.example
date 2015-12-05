@@ -1,6 +1,5 @@
 # Settings de développement
 DEBUG = False
-TEMPLATE_DEBUG = False
 
 
 ## Cache configuration

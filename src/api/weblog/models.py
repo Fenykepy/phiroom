@@ -19,7 +19,7 @@ class PublishedManager(models.Manager):
     """
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(
-                pub_date__lte=timezone.now,
+                pub_date__lte=timezone.now(),
                 draft=False).select_related('author')
 
 
@@ -87,7 +87,7 @@ class Post(models.Model):
         """
         try:
             return self.get_next_by_pub_date(
-                pub_date__lte=timezone.now,
+                pub_date__lte=timezone.now(),
                 draft=False
             )
         except self.DoesNotExist:
@@ -101,7 +101,7 @@ class Post(models.Model):
         """
         try:
             return self.get_previous_by_pub_date(
-                    pub_date__lte=timezone.now,
+                    pub_date__lte=timezone.now(),
                     draft=False
             )
         except self.DoesNotExist:
