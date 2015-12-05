@@ -196,6 +196,95 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 405)
         
     
+    def test_portfolio_picture_list(self):
+
+        # create test portfolio-picture
+        pp2 = PortfolioPicture.objects.create(
+                portfolio=self.port,
+                picture=self.pict2)
+
+
+        url = '/api/portfolio/portfolio-picture/'
+        data = {'order': 10,
+                'picture': self.pict.pk,
+                'portfolio': self.port.pk
+        }
+        data2 = {'order': 1,
+                'picture': self.pict.pk,
+                'portfolio': self.port.pk
+        }
+ 
+        # test without login
+        # client shouldn't get list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+        # test with normal user
+        login(self, self.user2)
+        # client shouldn't get list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+        # test with staff member
+        login(self, self.user)
+        # client should get all portfolios list
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        # client should be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 201)
+        # assert portfolio has been saved in db
+        pp_new = PortfolioPicture.objects.get(pk=2)
+        # assert user has been saved as author
+        self.assertEqual(pp_new.picture, self.pict)
+        self.assertEqual(pp_new.portfolio, self.port)
+        self.assertEqual(pp_new.order, 10)
+        # Creating 2 portfolioPicture relation with same picture and portfolio
+        # shouldn't be possible
+        count = PortfolioPicture.objects.all().count()
+        response = self.client.post(url, data2)
+        self.assertEqual(response.status_code, 400)
+        count2 = PortfolioPicture.objects.all().count()
+        self.assertEqual(count, count2)
+        # assert object hasn't change
+        pp_new = PortfolioPicture.objects.get(pk=2)
+        self.assertEqual(pp_new.order, 10)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data2)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+
+       
 
     def test_portfolios_list(self):
         url = '/api/portfolio/portfolios/'
@@ -356,7 +445,7 @@ class PortfolioAPITest(APITestCase):
                 self.port.slug)
         url3 = '/api/portfolio/portfolios/{}/pictures/'.format(
                 self.port3.slug)
-        data = {'pictures': [1, 2]}
+        data = {'pictures': [2, 1]}
 
         # pass port3 draft
         self.port3.draft = True

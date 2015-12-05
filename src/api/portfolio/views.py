@@ -1,5 +1,4 @@
 from django.http import Http404
-
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -7,7 +6,7 @@ from rest_framework.reverse import reverse
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from portfolio.serializers import *
-from portfolio.models import Portfolio
+from portfolio.models import Portfolio, PortfolioPicture
 from librairy.serializers import PictureShortSerializer
 from librairy.models import Picture
 
@@ -63,6 +62,16 @@ class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+class PortfolioPictureList(generics.ListCreateAPIView):
+    """
+    API endpoint that presents a list of portfolio-picture relations and allows new
+    portfolio-picture relations to be created.
+    """
+    queryset = PortfolioPicture.objects.all()
+    serializer_class = PortfolioPictureSerializer
+
+
+
 @api_view(['GET'])
 @permission_classes((IsStaffOrReadOnly, ))
 def portfolios_headers_list(request, format=None):
@@ -81,25 +90,31 @@ def portfolios_headers_list(request, format=None):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
-@permission_classes((IsStaffOrReadOnly, ))
+@api_view(['GET', 'POST'])
+@permission_classes((IsStaffOrReadOnly, IsAuthorOrReadOnly))
 def portfolio_pictures(request, slug, format=None):
     """
     Returns a list of all pictures short data (public) of a portfolio
-    without pagination.
+    without pagination when GET.
+    Save an ordered list of pictures' pk as PortfolioPictures m2m when POST,
+    use for ordering only.
     """
-    if request.user.is_staff:
-        portfolio = Portfolio.objects.get(slug=slug)
-    else:
-        try:
-            portfolio = Portfolio.published.get(slug=slug)
-        except:
-            raise Http404
-    pictures = portfolio.pictures.all().only(
-            'pk', 'sha1', 'title', 'legend',
-            'previews_path', 'ratio')
-    serializer = PictureShortSerializer(pictures, many=True)
+    if request.method == 'GET':
+        if request.user.is_staff:
+            portfolio = Portfolio.objects.get(slug=slug)
+        else:
+            try:
+                portfolio = Portfolio.published.get(slug=slug)
+            except:
+                raise Http404
+        pictures = portfolio.pictures.all().only(
+                'pk', 'sha1', 'title', 'legend',
+                'previews_path', 'ratio')
+        serializer = PictureShortSerializer(pictures, many=True)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
+
+
+
     
     

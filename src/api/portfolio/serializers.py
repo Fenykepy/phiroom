@@ -29,6 +29,15 @@ class PortfolioSerializer(serializers.ModelSerializer):
         return object.get_pictures().values_list('picture', flat=True)
 
 
+
+class PortfolioPictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PortfolioPicture
+
+        
+
+
+
 class PortfolioHeadSerializer(PortfolioSerializer):
     class Meta:
         model = Portfolio
