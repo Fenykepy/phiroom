@@ -4,7 +4,7 @@ djangorestframework             # django rest framework
 django-debug-toolbar            # django profiling tool
 pillow                          # pillow imaging librairy
 wand                            # Imaging librairy
-exempi
+#exempi
 pytz                            # time manipulation librairy
 python-xmp-toolkit==2.0         # xmp librairy
 markdown                        # markdown librairy
