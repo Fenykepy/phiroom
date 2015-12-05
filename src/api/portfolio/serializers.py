@@ -34,8 +34,6 @@ class PortfolioPictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = PortfolioPicture
 
-        
-
 
 
 class PortfolioHeadSerializer(PortfolioSerializer):

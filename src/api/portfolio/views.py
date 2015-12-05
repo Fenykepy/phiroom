@@ -90,8 +90,8 @@ def portfolios_headers_list(request, format=None):
     return Response(serializer.data)
 
 
-@api_view(['GET', 'POST'])
-@permission_classes((IsStaffOrReadOnly, IsAuthorOrReadOnly))
+@api_view(['GET'])
+@permission_classes((IsStaffOrReadOnly, ))
 def portfolio_pictures(request, slug, format=None):
     """
     Returns a list of all pictures short data (public) of a portfolio
