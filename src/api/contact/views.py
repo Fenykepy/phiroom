@@ -1,4 +1,8 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 from contact.models import Message, Description
 from contact.serializers import MessageSerializer, DescriptionSerializer
@@ -6,4 +10,22 @@ from contact.serializers import MessageSerializer, DescriptionSerializer
 from phiroom.permissions import IsStaffOrReadOnly
 
 
+@api_view(('GET', ))
+def contact_root(request, format=None):
+    return Response({
+        'description': reverse('contact-description', request=request, format=format),
+        #'descriptions': reverse('contact-description', request=request, format=format),
+        #'messages': reverse('contact-description', request=request, format=format),
+    })
 
+
+
+class LastDescription(generics.RetrieveAPIView):
+    """
+    API endpoint that presents the last description object.
+    """
+    queryset = Description.objects.all()
+    serializer_class = DescriptionSerializer
+    permission_classes = (permissions.AllowAny, )
+    def get_object(self):
+        return Description.objects.latest()

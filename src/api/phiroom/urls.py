@@ -17,6 +17,7 @@ urlpatterns = patterns('',
         name="api-root"),
     url(r'^api/weblog/', include('weblog.urls')), # weblog API
     url(r'^api/portfolio/', include('portfolio.urls')), # portfolio API
+    url(r'^api/contact/', include('contact.urls')), # portfolio API
     url(r'^api/librairy/', include('librairy.urls')), # librairy API
     url(r'^api/users/', include('user.urls')), # users API
     url(r'^api/settings/', include('conf.urls')), # settings API

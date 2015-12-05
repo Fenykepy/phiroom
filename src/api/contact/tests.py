@@ -30,6 +30,8 @@ def create_test_messages(instance):
         forward=False
     )
 
+
+
 class DescriptionModelTest(TestCase):
     """Description model test class."""
 
@@ -67,6 +69,7 @@ class DescriptionModelTest(TestCase):
         # assert latest always returns latest description
         latest = Description.objects.latest()
         self.assertEqual(desc2, latest)
+
 
 
 class MessageModelTest(TestCase):
@@ -113,4 +116,93 @@ class MessageModelTest(TestCase):
         self.assertEqual(mesg.user, self.user2)
         self.assertTrue(mesg.date)
 
+class DescriptionAPITest(APITestCase):
+    """Description API Test class."""
+
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create few descriptions
+        self.desc = Description.objects.create(
+                title="Contact",
+                source="My beautiful source \n##titre##",
+                author=self.user
+        )
+        self.desc2 = Description.objects.create(
+                title="Contact2",
+                source="My beautiful source \n##titre##",
+                author=self.user
+        )
+        self.desc3 = Description.objects.create(
+                title="Contact3",
+                source="My beautiful source \n##titre##",
+                author=self.user
+        )
+
+
+        self.client = APIClient()
+
+    
+    def test_latest_description(self):
+        url = '/api/contact/description/'
+        data = {
+            'title': 'toto',
+            'source': 'tata',
+        }
+
+        # test without login
+        # client should get last description
+        response=self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['title'], self.desc3.title)
+        # client shouldn't be able to post
+        response=self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to put
+        response=self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response=self.client.patch(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response=self.client.post(url)
+        self.assertEqual(response.status_code, 405)
+ 
+        # test with normal user
+        login(self, self.user2)
+        # client should get last description
+        response=self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['title'], self.desc3.title)
+        # client shouldn't be able to post
+        response=self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to put
+        response=self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response=self.client.patch(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response=self.client.post(url)
+        self.assertEqual(response.status_code, 405)       
+
+
+        # test with staff member
+        # client should get last description
+        response=self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['title'], self.desc3.title)
+        # client shouldn't be able to post
+        response=self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to put
+        response=self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response=self.client.patch(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response=self.client.post(url)
+        self.assertEqual(response.status_code, 405)       
 
