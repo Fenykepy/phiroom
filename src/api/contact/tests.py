@@ -48,7 +48,7 @@ class DescriptionModelTest(TestCase):
                 author=self.user
         )
         # assert description has been saved in db
-        desc = Description.objects.get(pk=1)
+        desc = Description.objects.get(pk=2)
         self.assertEqual(desc.title, "Contact")
         self.assertEqual(desc.author, self.user)
         self.assertEqual(desc.source, 
@@ -62,7 +62,7 @@ class DescriptionModelTest(TestCase):
         desc.author = self.user2
         desc.save()
         
-        desc2 = Description.objects.get(pk=2)
+        desc2 = Description.objects.get(pk=3)
         self.assertEqual(desc2.title, "New contact")
         self.assertEqual(desc2.author, self.user2)
        
