@@ -14,37 +14,41 @@ A tree:
 
 
 #[GET](admin) get a list of urls
-- api-root: "/api/"
+[OK]- api-root: "/api/"
     #[GET:(admin)] get a list of urls
-    - portfolio-root: "/api/portfolio/"
+[OK]    - portfolio-root: "/api/portfolio/"
         #[GET:(any)](published portfolios only except if admin) get a flat list of portfolios
-        - portfolios-headers: "/api/portfolio/headers/"
+[OK]        - portfolios-headers: "/api/portfolio/headers/"
         #[GET:(admin), POST:(admin)] get a paginated list of portfolios
-        - portfolios-list: "/api/portfolio/portfolios/"
+[OK]        - portfolios-list: "/api/portfolio/portfolios/"
             #[GET:(any), PUT-PATCH-DELETE:(admin)] get update delete a specific portfolio
-            - portfolio-detail: /api/portfolio/portfolios/:slug/
-                #[GET:(any)] get all pictures of a specific portfolio
-                - portfolio-pictures: /api/portfolio/portfolios/:slug/pictures/
+[OK]            - portfolio-detail: /api/portfolio/portfolios/:slug/
+                #[GET:(any)] get all pictures public info of a specific portfolio
+[OK]                - portfolio-pictures: /api/portfolio/portfolios/:slug/pictures/
         #[GET-POST:(admin)] get a list of all portfolio-pictures relation, post a new one
-        - portfolio-picture-list: /api/portfolio/portfolio-picture/
+[OK]        - portfolio-picture-list: /api/portfolio/portfolio-picture/
         #[GET-PUT-PATCH-DELETE:(admin)] get update delete a portfolio picture relation
-        - portfolio-picture-detail: /api/portfolio/portfolio-picture/portfolio/:slug/picture/:pk/
+[OK]        - portfolio-picture-detail: /api/portfolio/portfolio-picture/portfolio/:slug/picture/:pk/
 
     #[GET:(admin)] get a list of urls
     - weblog-root: "/api/weblog/"
         #[GET:(any)](publishde posts only except if admin) get a flat list of all x ten posts
         - posts-headers: "/api/weblog/posts/headers"
         #[GET:(any)(published posts only except if admin) get a paginated list of posts
-        - posts-list: "/api/weblog/posts/"
+[OK]        - posts-list: "/api/weblog/posts/"
             #[GET:(any), PUT-PATCH-DELETE:(admin)] get update delete a specific post
-            - post-detail: /api/weblog/posts/:slug-with-date/
-                #[GET:(any)] get all pictures of a specific post
+[OK]            - post-detail: /api/weblog/posts/:slug-with-date/
+                #[GET:(any)] get all pictures public info of a specific post
                 #[POST:(admin] push a list of pictures's pk to server
                 - post-pictures: /api/weblog/posts/:slug-with-date/pictures/
+        #[GET-POST:(admin)] get a list of all post-pictures relation, post a new one
+        - post-picture-list: /api/weblog/post-picture/
+        #[GET-PUT-PATCH-DELETE:(admin)] get update delete a post picture relation
+        - post-picture-detail: /api/weblog/post-picture/post/:slug-with-date/picture/:pk/
     #[GET:(admin)] get a list of urls
-    - contact-root: "/api/contact/"
+[OK]    - contact-root: "/api/contact/"
         #[GET:(any)] get last description
-        - contact-description: "/api/contact/description/"
+[OK]        - contact-description: "/api/contact/description/"
         #[GET-POST:(admin)] get a list of old descriptions, and allow to post a new one
         - contact-descriptions-list: "/api/contact/descriptions/"
         #[GET:(admin)] get detail of old description, not updatable
@@ -55,7 +59,21 @@ A tree:
         - contact-messages: "/api/contact/messages/"
         #[GET:(admin)] get detail of a message, not updatable
         - contact-messages: "/api/contact/messages/:pk/"
-    - librairy
+    #[GET:(admin)] get a list of urls
+    - librairy-root: "/api/librairy/"
+        #[GET-POST:(admin)] get a paginated list of pictures, post a new one
+[OK]        - pictures-list: "/api/librairy/pictures/"
+        #[GET-PUT-PATCH-DELETE:(admin)] get update delete a picture
+[OK]        - picture-delail: "/api/librairy/pictures/:pk/"
+        #[GET:(any)] get public info about one picture
+[OK]        - picture-detail-short: "/api/librairy/pictures/:pk/short/
+        #[GET:(logued in with object level rights)] get a flat list of all collections
+        - collection-headers: "/api/librairy/collections/headers/"
+        #[GET-POST:(admin)] get a list of all collections paginated, post a new one
+        - collection-list: "/api/librairy/collections/"
+        #[GET:(logued in with object level rights
+        # PUT-PATCH-DELETE:(admin] get update delete a specific collection
+        - collection-detail: "/api/libairy/collections/:pk/"
     - settings
     - user
     - auth
