@@ -1,12 +1,13 @@
 import React, {Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 
 export default class Logo extends Component {
   render () {
     return (
       <div id="logo">
-        <a href="">
+        <Link to="/">
           <img src={this.props.logo} alt={this.props.title + ', ' + this.props.subTitle} />
-        </a>
+        </Link>
       </div>  
     )
   }

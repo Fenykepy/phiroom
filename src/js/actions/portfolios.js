@@ -27,6 +27,9 @@ export function requestPortfoliosHeadersFailure(error) {
   }
 }
 
+
+
+
 export function requestPortfolio(portfolio) {
   return {
     type: types.REQUEST_PORTFOLIO,
@@ -50,6 +53,37 @@ export function requestPortfolioFailure(portfolio, error) {
     error
   }
 }
+
+
+
+
+export function requestPortfolioPictures(portfolio) {
+  return {
+    type: types.REQUEST_PORTFOLIO_PICTURES,
+    portfolio
+  }
+}
+
+export function receivePortfolioPictures(portfolio, json) {
+  return {
+    type: types.REQUEST_PORTFOLIO_PICTURES_SUCCESS,
+    portfolio,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+export function requestPortfolioPicturesFailure(portfolio, error) {
+  return {
+    type: types.REQUEST_PORTFOLIO_PICTURES_FAILURE,
+    portfolio,
+    error
+  }
+}
+
+
+
+
 
 export function invalidatePortfolio(portfolio) {
   return {
@@ -104,7 +138,9 @@ export function fetchPortfolioIfNeeded(portfolio) {
       return dispatch(fetchPortfolio(portfolio))
     }
     // else return a resolved promise
-    return new Promise((resolve, reject) => resolve())
+    return new Promise((resolve, reject) => resolve(
+          {data: getState().portfolio.portfolios[portfolio]}
+    ))
   }
 }
 
@@ -139,6 +175,34 @@ export function fetchPortfolio(portfolio) {
       )
   }
 }
+
+
+export function fetchPortfolioPictures(portfolio) {
+  /*
+   * fetch all pictures of a portfolio at once
+   */
+  return function(dispatch) {
+    // start request
+    dispatch(requestPortfolioPictures(portfolio))
+    // return a promise
+    return fetch(`${base_url}api/portfolio/portfolios/${portfolio}/pictures/`)
+      .then(response =>
+          response.json()
+      )
+      .then(json => {
+        json.map((item) => {
+            console.log(item)
+            dispatch(receiveShortPicture(item))
+        })
+      })
+      .catch(error => {
+          console.log(error.message)
+          dispatch(requestPortfolioPicturesFailure(
+              portfolio, error.message))
+      })
+  }
+}
+
 
 export function fetchPortfoliosHeaders() {
   // fetch all portfolios headers

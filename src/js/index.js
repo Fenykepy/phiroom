@@ -34,7 +34,7 @@ let unsubscribe = store.subscribe(() =>
   console.log('state', store.getState())
 )
 
-let commonDataDiffered = function () {
+let fetchCommonDataDeffered = function () {
   let promises = []
   // fetch current user data
   // fetch settings
@@ -47,7 +47,7 @@ let commonDataDiffered = function () {
 }
 
 // fetch common data
-let promises = commonDataDiffered()
+let promises = fetchCommonDataDeffered()
 
 
 function rootEnter(nextState, replaceState) {
@@ -57,7 +57,6 @@ function rootEnter(nextState, replaceState) {
     replaceState(null, url + '/')
   }
 }
-
 
 function portfolioEnter(nextState, replaceState, callback) {
   // if we have a slug, let's go

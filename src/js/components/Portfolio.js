@@ -7,7 +7,7 @@ import CarouselInline from './CarouselInline'
 // actions
 import {
   fetchPortfolioIfNeeded,
-  fetchPortfolio,
+  fetchPortfolioPictures,
   selectPortfolio,
   nextPict,
   prevPict,
@@ -17,9 +17,33 @@ import {
 
 export default class Portfolio extends Component {
 
+  static fetchData(dispatch, portfolio, clientSide=false) {
+    let promises = []
+    // use static to be able to call it server side before component is rendered
+    promises.push(dispatch(fetchPortfolioIfNeeded(portfolio)).then((data) => {
+        dispatch(selectPortfolio(portfolio))
+        // fetch portfolios pictures if needed
+        if (clientSide) {
+          data.data.pictures.map((item) => {
+            //dispatch(fetchShortPictureIfNeeded(item))
+          })
+        }
+    }))
+    if ( clientSide) {
+      // fetch all pictures at once serverside
+      promises.push(dispatch(fetchPortfolioPictures(portfolio)))
+    }
+    return promises
+  }
+
   componentDidMount() {
-    console.log(this.props)
-    this.props.dispatch(fetchPortfolioIfNeeded('portraits')).then(() => this.props.dispatch(selectPortfolio('portraits')))
+    this.constructor.fetchData(this.props.dispatch, this.props.params.slug, true)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.params.slug != nextProps.params.slug) {
+      this.constructor.fetchData(this.props.dispatch, nextProps.params.slug, true)
+    }
   }
 
   goNext() {
