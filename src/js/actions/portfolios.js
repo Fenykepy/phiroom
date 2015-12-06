@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch'
-import * as types from '../constants/actionsTypes';
+import * as types from '../constants/actionsTypes'
+import { receiveShortPicture } from './pictures'
 
 import { base_url } from '../config'
 
@@ -191,8 +192,7 @@ export function fetchPortfolioPictures(portfolio) {
       )
       .then(json => {
         json.map((item) => {
-            console.log(item)
-            dispatch(receiveShortPicture(item))
+            dispatch(receiveShortPicture(item.pk, item))
         })
       })
       .catch(error => {

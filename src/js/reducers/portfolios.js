@@ -12,7 +12,7 @@ import {
   PORTFOLIO_NEXT_PICT,
   PORTFOLIO_PREV_PICT,
   PORTFOLIO_TOGGLE_SLIDESHOW,
-} from '../constants/actionsTypes.js'
+} from '../constants/actionsTypes'
 
 
 function selected(state = null, action) {
