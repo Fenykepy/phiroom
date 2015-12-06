@@ -12,6 +12,7 @@ import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { syncReduxAndRouter } from 'redux-simple-router'
 import thunkMiddleware from 'redux-thunk'
 
+import { fetchPortfoliosHeadersIfNeeded } from './actions/portfolios'
 import App from './containers/App'
 import Portfolio from './components/Portfolio'
 import Contact from './components/Contact'
@@ -33,32 +34,53 @@ let unsubscribe = store.subscribe(() =>
   console.log('state', store.getState())
 )
 
+let commonDataDiffered = function () {
+  let promises = []
+  // fetch current user data
+  // fetch settings
+  // fetch portfolios headers if necessary
+  promises.push(
+      store.dispatch(fetchPortfoliosHeadersIfNeeded())
+  )
+  // return a list of promises to wait for server side
+  return promises
+}
+
+// fetch common data
+let promises = commonDataDiffered()
+
+
+function rootEnter(nextState, replaceState) {
+  // add a slash at urls' end
+  let url = nextState.location.pathname
+  if (url.slice(-1) != "/") {
+    replaceState(null, url + '/')
+  }
+}
+
 
 function portfolioEnter(nextState, replaceState, callback) {
-  // fetch portfolio
-  // fetch portfolio pictures
-  // promise.all(portfolio, pictures).then(callaback())
-  console.log(nextState)
-  console.log('good :)')
-  setTimeout(callback, 1500)
+  // if we have a slug, let's go
+  if (nextState.params.slug != undefined) callback()
+  // else redirect to default portfolio
+  promises[0].then(() => {
+    let slug = store.getState().portfolio.headers.data[0].slug
+    replaceState(null, `/portfolio/${slug}/`)
+    callback()
+  })
 }
 
-function rootEnter(nextState, replaceState, callback) {
-  // fetch settings
-  // fetch portfolios headers
-  // promise.all([settings, headers]).then(callback())
-}
 
 render(
   <Provider store={store}>
     <Router history={history}>
       <Redirect from="/" to="/portfolio/" />
       <Route path="/" component={App} onEnter={rootEnter}>
-        <Route path="portfolio/" component={Portfolio} onEnter={portfolioEnter} >
-          <Route path=":slug" component={Portfolio} />
-          <Route path=":slug/lightbox/:sha1" component={Portfolio} />
+        <Route path="portfolio(/)" component={Portfolio} onEnter={portfolioEnter}>
+          <Route path=":slug(/)" component={Portfolio} />
+          <Route path=":slug/lightbox/:sha1(/)" component={Portfolio} />
         </Route>
-        <Route path="contact/" component={Portfolio} />
+        <Route path="contact(/)" component={Portfolio} />
       </Route>
     </Router>
   </Provider>,

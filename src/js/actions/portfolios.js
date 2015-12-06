@@ -103,6 +103,8 @@ export function fetchPortfolioIfNeeded(portfolio) {
     if (shouldFetchPortfolio(getState(), portfolio)) {
       return dispatch(fetchPortfolio(portfolio))
     }
+    // else return a resolved promise
+    return new Promise((resolve, reject) => resolve())
   }
 }
 
@@ -112,6 +114,8 @@ export function fetchPortfoliosHeadersIfNeeded() {
     if (shouldFetchPortfoliosHeaders(getState())) {
       return dispatch(fetchPortfoliosHeaders())
     }
+    // else return a resolved promise
+    return new Promise((resolve, reject) => resolve())
   }
 }
 
@@ -146,11 +150,8 @@ export function fetchPortfoliosHeaders() {
       .then(response =>
           response.json()
       )
-      .then(json => {
+      .then(json => 
           dispatch(receivePortfoliosHeaders(json))
-          // got to default portfolio
-          dispatch(goToPortfolio(json[0].slug))
-        }
       )
       .catch(error =>
           dispatch(requestPortfoliosHeadersFailure(error.message))
