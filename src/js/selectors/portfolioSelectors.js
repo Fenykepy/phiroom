@@ -22,7 +22,9 @@ const portfolioPicturesSelector = createSelector(
   picturesShortSelector,
   (selectedPortfolio, picturesShort) => {
     if (selectedPortfolio && selectedPortfolio.pictures) {
-      return selectedPortfolio.pictures.map((pict) => picturesShort[pict])
+      return selectedPortfolio.pictures.map((pict) => {
+        if (picturesShort[pict]) return picturesShort[pict]
+      })
     }
     else { return [] }
   }

@@ -37,10 +37,12 @@ export default class Portfolio extends Component {
   }
 
   componentDidMount() {
+    console.log('props', this.props)
     this.constructor.fetchData(this.props.dispatch, this.props.params.slug, true)
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('props', this.props)
     if (this.props.params.slug != nextProps.params.slug) {
       this.constructor.fetchData(this.props.dispatch, nextProps.params.slug, true)
     }
