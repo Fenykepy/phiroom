@@ -1,12 +1,6 @@
-#-*- coding: utf-8 -*-
-
-from django.conf.urls import patterns, url
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf.urls import url
 
 from weblog import views
-
 
 urlpatterns = [
 
@@ -25,9 +19,3 @@ urlpatterns = [
         url('^posts/tag/(?P<slug>[-\w]+)/$', views.PostsListByTag.as_view(),
             name="post-list-by-tag"),
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)
-
-
-# To get static files during development
-urlpatterns += staticfiles_urlpatterns()

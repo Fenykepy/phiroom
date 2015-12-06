@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 def api_root(request, format=None):
     return Response({
         'portfolio': reverse('portfolio-root', request=request, format=format),
+        'contact': reverse('contact-root', request=request, format=format),
         
         'posts': reverse('posts-list', request=request, format=format),
         'pictures': reverse('pictures-list', request=request, format=format),

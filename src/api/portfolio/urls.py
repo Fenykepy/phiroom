@@ -1,7 +1,4 @@
-from django.conf.urls import patterns, url
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf.urls import url
 
 from portfolio import views
 
