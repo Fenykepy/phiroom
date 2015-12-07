@@ -8,7 +8,7 @@ def description_default(apps, schema_editor):
     desc = Description()
     desc.title = "Contact"
     desc.source = "Change to your own contact page description"
-    desc.source = "<p>Change to your own contact page description</p>"
+    desc.content = "<p>Change to your own contact page description</p>"
     desc.save()
 
 
