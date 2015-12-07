@@ -31,6 +31,7 @@ class LastDescription(generics.RetrieveAPIView):
         return Description.objects.latest()
 
 
+
 class DescriptionList(generics.ListCreateAPIView):
     """
     API endpoint that presents a list of descriptions and allows
@@ -44,3 +45,10 @@ class DescriptionList(generics.ListCreateAPIView):
         serializer.save(author=self.request.user)
 
 
+
+class DescriptionDetail(generics.RetrieveAPIView):
+    """
+    API endpoint that presents a specific description.
+    """
+    queryset = Description.objects.all()
+    serializer_class = DescriptionSerializer
