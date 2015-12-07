@@ -1,8 +1,12 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 
+import { portfolioPicturesSelector } from './portfolioSelectors'
+
 /*
  * input selectors
  */
+
+console.log(portfolioPicturesSelector)
 
 const dynamicCarouselSelector = state => state.viewport.clientSide
 
@@ -15,13 +19,6 @@ const maxCarouselHeightSelector = state => state.settings.carousel_default_heigh
 const slideshowDurationSelector = state => state.settings.slideshow_duration
 
 const slideshowStatusSelector = state => state.portfolio.carousel.slideshow
-
-const carouselPicturesSelector = state => {
-  let portfolio = state.portfolio.portfolios[state.portfolio.selected]
-  if (portfolio && portfolio.pictures) {
-    return portfolio.pictures
-  } else { return [] }
-}
 
 
 const carouselCurrentPictureSelector = state => state.portfolio.carousel.current_pict
@@ -44,7 +41,7 @@ const carouselHeightSelector = createSelector(
 
 const carouselNextsSelector = createSelector(
   carouselCurrentPictureSelector,
-  carouselPicturesSelector,
+  portfolioPicturesSelector,
   (current, pictures) => {
     let nexts = []
     let max_index = pictures.length -1
@@ -62,7 +59,7 @@ const carouselNextsSelector = createSelector(
 
 const carouselPrevsSelector = createSelector(
   carouselCurrentPictureSelector,
-  carouselPicturesSelector,
+  portfolioPicturesSelector,
   (current, pictures) => {
     let prevs = []
     let max_index = pictures.length - 1

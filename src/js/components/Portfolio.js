@@ -37,12 +37,10 @@ export default class Portfolio extends Component {
   }
 
   componentDidMount() {
-    console.log('props', this.props)
     this.constructor.fetchData(this.props.dispatch, this.props.params.slug, true)
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('props', this.props)
     if (this.props.params.slug != nextProps.params.slug) {
       this.constructor.fetchData(this.props.dispatch, nextProps.params.slug, true)
     }
@@ -68,6 +66,7 @@ export default class Portfolio extends Component {
      */
 
     let carousel
+    console.log('props', this.props)
     if (this.props.portfolio.pictures.length == 0) {
         carousel = (<div className="carousel-error"
         ><em>Sorry, no pictures in this portfolio yet…</em></div>)
