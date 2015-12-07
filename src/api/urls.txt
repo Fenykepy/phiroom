@@ -53,9 +53,7 @@ A tree:
 [OK]        - contact-descriptions-list: "/api/contact/descriptions/"
         #[GET:(admin)] get detail of old description, not updatable
 [OK]        - contact-descriptions-detail: "/api/contact/descriptions/:pk/"
-        #[POST:(any)] post a new message
-        - contact-message: "/api/contact/message/"
-        #[GET:(admin)] get a list of messages
+        #[GET:(admin), POST:(any)] get a list of messages, post a new message
         - contact-messages: "/api/contact/messages/"
         #[GET:(admin)] get detail of a message, not updatable
         - contact-messages: "/api/contact/messages/:pk/"
