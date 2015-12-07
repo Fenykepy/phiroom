@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-// actions
-import {
-  fetchPortfoliosHeadersIfNeeded,
-} from '../actions/portfolios'
-
 import { setViewport } from '../actions/viewport'
 
 // components
@@ -24,8 +19,6 @@ class App extends Component {
     const {
       dispatch,
     } = this.props
-    // fetch portfolios headers if necessary
-    dispatch(fetchPortfoliosHeadersIfNeeded())
     
     // keep track of viewport size
     window.addEventListener('resize', this.handleResize.bind(this))

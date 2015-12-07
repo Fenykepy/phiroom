@@ -195,11 +195,11 @@ export function fetchPortfolioPictures(portfolio) {
             dispatch(receiveShortPicture(item.pk, item))
         })
       })
-      .catch(error => {
+      /*.catch(error => {
           console.log(error.message)
           dispatch(requestPortfolioPicturesFailure(
               portfolio, error.message))
-      })
+      })*/
   }
 }
 
