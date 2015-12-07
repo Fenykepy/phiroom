@@ -7,4 +7,6 @@ urlpatterns = [
         name="contact-root"),
     url(r'^description/$', views.LastDescription.as_view(),
         name="contact-description"),
+    url(r'^descriptions/$', views.DescriptionList.as_view(),
+        name="contact-descriptions-list"),
 ]

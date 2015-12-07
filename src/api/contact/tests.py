@@ -116,6 +116,9 @@ class MessageModelTest(TestCase):
         self.assertEqual(mesg.user, self.user2)
         self.assertTrue(mesg.date)
 
+
+
+
 class DescriptionAPITest(APITestCase):
     """Description API Test class."""
 
@@ -165,7 +168,7 @@ class DescriptionAPITest(APITestCase):
         response=self.client.patch(url, data)
         self.assertEqual(response.status_code, 405)
         # client shouldn't be able to delete
-        response=self.client.post(url)
+        response=self.client.delete(url)
         self.assertEqual(response.status_code, 405)
  
         # test with normal user
@@ -184,11 +187,12 @@ class DescriptionAPITest(APITestCase):
         response=self.client.patch(url, data)
         self.assertEqual(response.status_code, 405)
         # client shouldn't be able to delete
-        response=self.client.post(url)
+        response=self.client.delete(url)
         self.assertEqual(response.status_code, 405)       
 
 
         # test with staff member
+        login(self, self.user)
         # client should get last description
         response=self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -203,6 +207,80 @@ class DescriptionAPITest(APITestCase):
         response=self.client.patch(url, data)
         self.assertEqual(response.status_code, 405)
         # client shouldn't be able to delete
-        response=self.client.post(url)
+        response=self.client.delete(url)
         self.assertEqual(response.status_code, 405)       
 
+
+
+    def test_descriptions_list(self):
+        url = '/api/contact/descriptions/'
+        data = {
+            'title': 'toto',
+            'source': 'tata',
+        }
+
+        # test without login
+        # client shouldn't get
+        response=self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to post
+        response=self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to put
+        response=self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response=self.client.patch(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response=self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+ 
+        # test with normal user
+        login(self, self.user2)
+        # client shouldn't get
+        response=self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to post
+        response=self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response=self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response=self.client.patch(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response=self.client.delete(url)
+        self.assertEqual(response.status_code, 403)       
+
+
+        # test with staff member
+        login(self, self.user)
+        # client should get list of descriptions
+        response=self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data['results']), 3)
+        # client should be able to post
+        response=self.client.post(url, data)
+        self.assertEqual(response.status_code, 201)
+        #self.assertEqual(len(response.data['results']), 4)
+        desc = Description.objects.latest()
+        self.assertEqual(desc.title, data['title'])
+        self.assertEqual(desc.source, data['source'])
+        self.assertTrue(desc.date_update)
+        self.assertTrue(desc.content)
+        # assert user is save as author
+        self.assertEqual(desc.author, self.user)
+        # client shouldn't be able to put
+        response=self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response=self.client.patch(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response=self.client.delete(url)
+        self.assertEqual(response.status_code, 405)       
+
+
+        

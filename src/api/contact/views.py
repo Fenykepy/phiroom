@@ -14,7 +14,7 @@ from phiroom.permissions import IsStaffOrReadOnly
 def contact_root(request, format=None):
     return Response({
         'description': reverse('contact-description', request=request, format=format),
-        #'descriptions': reverse('contact-description', request=request, format=format),
+        'descriptions': reverse('contact-descriptions-list', request=request, format=format),
         #'messages': reverse('contact-description', request=request, format=format),
     })
 
@@ -29,3 +29,18 @@ class LastDescription(generics.RetrieveAPIView):
     permission_classes = (permissions.AllowAny, )
     def get_object(self):
         return Description.objects.latest()
+
+
+class DescriptionList(generics.ListCreateAPIView):
+    """
+    API endpoint that presents a list of descriptions and allows
+    new descriptions to be created.
+    """
+    queryset = Description.objects.all()
+    serializer_class = DescriptionSerializer
+
+    # automatically add author on save
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+
