@@ -29,7 +29,7 @@ export default class Portfolio extends Component {
           })
         }
     }))
-    if ( clientSide) {
+    if (! clientSide) {
       // fetch all pictures at once serverside
       promises.push(dispatch(fetchPortfolioPictures(portfolio)))
     }
@@ -66,7 +66,6 @@ export default class Portfolio extends Component {
      */
 
     let carousel
-    console.log('props', this.props)
     if (this.props.portfolio.pictures.length == 0) {
         carousel = (<div className="carousel-error"
         ><em>Sorry, no pictures in this portfolio yet…</em></div>)

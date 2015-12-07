@@ -51,7 +51,6 @@ function full (state = {}, action) {
         })
       })
     case REQUEST_PICTURE_SUCCESS:
-      console.log('action',action)
       return Object.assign({}, state, {
         [action.picture]: Object.assign({}, state[action.picture], {
           is_fetching: false,

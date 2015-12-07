@@ -63,9 +63,6 @@ export default class Carousel extends Component {
   }
 
   getPictWidth(index) {
-    console.log('pictures',this.props.pictures)
-    console.log('index',index)
-    console.log('current', this.props.carousel.current_picture)
     return Math.round(
         this.props.pictures[index].ratio * this.props.carousel.height)
   }

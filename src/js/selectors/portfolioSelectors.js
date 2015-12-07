@@ -6,6 +6,15 @@ import { createSelector, createStructuredSelector } from 'reselect'
  * input selectors
  */
 
+const portfolioHeadersSelector = state => state.portfolio.headers.data
+
+const defaultPortfolioSelector = createSelector(
+    portfolioHeadersSelector,
+    (headers) => {
+      if (headers[0]) return headers[0].slug
+    }
+)
+
 const selectedPortfolioSelector = state => state.portfolio.portfolios[
   state.portfolio.selected]
 
@@ -115,6 +124,7 @@ if (dynamicCarouselSelector) { //client side
 export const carouselSelector = createStructuredSelector(carousel)
 
 export const portfolioSelector = createStructuredSelector({
+  default: defaultPortfolioSelector,
   selected: selectedPortfolioSelector,
   pictures: portfolioPicturesSelector,
   carousel: carouselSelector,
