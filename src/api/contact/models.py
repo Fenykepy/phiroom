@@ -22,7 +22,7 @@ class Description(models.Model):
         get_latest_by = "date_update"
 
 
-    def save(self, **kwargs):
+    def save(self, *args, **kwargs):
         """convert source.md to content.html, then save as
         a new entry."""
         
@@ -55,7 +55,7 @@ class Message(models.Model):
             verbose_name="Send date")
     ip = models.GenericIPAddressField(null=True, blank=True)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         """Add user data then save."""
         if self.user:
             if not self.name:

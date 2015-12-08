@@ -15,11 +15,10 @@ def create_test_messages(instance):
     instance.mesg = Message.objects.create(
         name=instance.user.username,
         user=instance.user,
-        mail=instance.user.mail,
+        mail=instance.user.email,
         website=instance.user.website,
         subject="contact",
         message="Hello",
-        forward=True
     )
     
     instance.mesg2 = Message.objects.create(
@@ -116,91 +115,6 @@ class MessageModelTest(TestCase):
         self.assertEqual(mesg.user, self.user2)
         self.assertTrue(mesg.date)
 
-
-class MessageAPITest(APITestCase):
-    """Message API Test class."""
-
-    def setUp(self):
-        # create users
-        create_test_users(self)
-        # create test messages
-        create_test_messages(self)
-
-        self.client = APIClient()
-
-    def test_messages_list(self):
-        url = '/api/contact/messages/'
-        data = {
-            'name': 'toto',
-            'mail': 'toto@toto.com',
-            'website': 'http://toto.com',
-            'subject': 'test',
-            'message': 'message',
-            'forward': false
-        }
-
-        # test without login
-        # client shouldn't get
-        response=self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-        # client should be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 201)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 401)
- 
-        # test with normal user
-        login(self, self.user2)
-        # client shouldn't get
-        response=self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 403)       
-
-
-        # test with staff member
-        login(self, self.user)
-        # client should get list of descriptions
-        response=self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data['results']), 3)
-        # client should be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 201)
-        #self.assertEqual(len(response.data['results']), 4)
-        desc = Description.objects.latest()
-        self.assertEqual(desc.title, data['title'])
-        self.assertEqual(desc.source, data['source'])
-        self.assertTrue(desc.date_update)
-        self.assertTrue(desc.content)
-        # assert user is save as author
-        self.assertEqual(desc.author, self.user)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 405)       
 
 
 class DescriptionAPITest(APITestCase):
@@ -432,3 +346,107 @@ class DescriptionAPITest(APITestCase):
         self.assertEqual(response.status_code, 405)       
 
        
+
+class MessageAPITest(APITestCase):
+    """Message API Test class."""
+
+    def setUp(self):
+        # create users
+        create_test_users(self)
+        # create test messages
+        create_test_messages(self)
+
+        self.client = APIClient()
+
+    def test_messages_list(self):
+        url = '/api/contact/messages/'
+        data = {
+            'name': 'toto',
+            'mail': 'toto@toto.com',
+            'website': 'http://toto.com',
+            'subject': 'test',
+            'message': 'message',
+            'forward': False
+        }
+        data2 = {
+            'subject': 'test',
+            'message': 'message',
+            'forward': False
+        }
+        # test without login
+        # client shouldn't get
+        response=self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+        # client should be able to post
+        response=self.client.post(url, data)
+        self.assertEqual(response.status_code, 201)
+        # !!! assert mail has been sent
+        # client shouldn't be able to put
+        response=self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to patch
+        response=self.client.patch(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response=self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+ 
+        # test with normal user
+        login(self, self.user2)
+        # client shouldn't get
+        response=self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # client should be able to post
+        response=self.client.post(url, data2)
+        self.assertEqual(response.status_code, 201)
+
+        mesg = Message.objects.get(pk=3)
+        self.assertEqual(mesg.name, self.user2.username)
+        self.assertEqual(mesg.mail, self.user2.email)
+        self.assertEqual(mesg.website, self.user2.website)
+        self.assertEqual(mesg.user, self.user2.user)
+        # !!! assert mail has been sent
+        # client shouldn't be able to put
+        response=self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response=self.client.patch(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response=self.client.delete(url)
+        self.assertEqual(response.status_code, 403)       
+
+
+        # test with staff member
+        login(self, self.user)
+        # client should get list of messages
+        response=self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # assert messages have been saved
+        self.assertEqual(len(response.data['results']), 4)
+        self.assertEqual(response.data['results'][2]['name'], data['name'])
+        self.assertEqual(response.data['results'][2]['mail'], data['mail'])
+        self.assertEqual(response.data['results'][2]['subject'], data['subject'])
+        self.assertEqual(response.data['results'][2]['message'], data['message'])
+        self.assertEqual(response.data['results'][2]['website'], data['website'])
+        self.assertEqual(response.data['results'][2]['forward'], data['forward'])
+        # assert IP and date have been saved
+        message = Message.objects.get(pk=4)
+        self.assertTrue(message.date)
+        self.assertTrue(message.ip)
+        # client should be able to post
+        response=self.client.post(url, data)
+        self.assertEqual(response.status_code, 201)
+        # !!! assert mail has been sent
+        # client shouldn't be able to put
+        response=self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response=self.client.patch(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response=self.client.delete(url)
+        self.assertEqual(response.status_code, 405)       
+
+
+
