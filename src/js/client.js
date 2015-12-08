@@ -16,13 +16,14 @@ import { fetchPortfoliosHeadersIfNeeded } from './actions/portfolios'
 import getRoutes from './routes'
 import rootReducer from './reducers'
 
-
+// get state provided by server
+const initialState = window.__INITIAL_STATE__
 
 const createStoreWithMiddleware = applyMiddleware(
     thunkMiddleware // lets us dispatch() functions
 )(createStore)
 
-const store = createStoreWithMiddleware(rootReducer)
+const store = createStoreWithMiddleware(rootReducer, initialState)
 const history = createBrowserHistory()
 
 syncReduxAndRouter(history, store)
