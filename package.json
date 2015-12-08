@@ -25,6 +25,7 @@
     "babel-plugin-react-transform": "^1.1.1",
     "babel-preset-es2015": "^6.1.2",
     "babel-preset-react": "^6.1.2",
+    "babel-register": "^6.3.13",
     "css-loader": "^0.22.0",
     "expect": "^1.12.2",
     "express": "^4.13.3",
@@ -44,6 +45,6 @@
     ]
   },
   "scripts": {
-    "start": "node ./src/js/server.js"
+    "start": "node ./src/js/index.js"
   }
 }

@@ -14,7 +14,7 @@ var config = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
-    './src/js/index'
+    './src/js/client'
   ],
   output: {
     path: path.join( __dirname, 'dist' ),
