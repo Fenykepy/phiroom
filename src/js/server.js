@@ -2,12 +2,12 @@ import Express from 'express'
 import React from 'react'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
+import { match, RouterContext } from 'react-router'
 
 import webpack from 'webpack'
 import config from '../../webpack.config'
 
 import { renderToString } from 'react-dom/server'
-import { match, RouterContext } from 'react-router'
 
 var app = new Express()
 var port = 3000
