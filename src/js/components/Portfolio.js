@@ -13,6 +13,7 @@ import {
   prevPict,
   toggleSlideshow
 } from '../actions/portfolios'
+import { fetchShortPictureIfNeeded } from '../actions/pictures'
 
 
 export default class Portfolio extends Component {
@@ -25,7 +26,7 @@ export default class Portfolio extends Component {
         // fetch portfolios pictures if needed
         if (clientSide) {
           data.data.pictures.map((item) => {
-            //dispatch(fetchShortPictureIfNeeded(item))
+            dispatch(fetchShortPictureIfNeeded(item))
           })
         }
     }))
