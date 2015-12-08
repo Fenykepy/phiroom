@@ -28,7 +28,9 @@ export const portfolioPicturesSelector = createSelector(
     if (selectedPortfolio && selectedPortfolio.pictures) {
       let picts = []
       selectedPortfolio.pictures.forEach((pict) => {
-        if (picturesShort[pict]) picts.push(picturesShort[pict])
+        if (picturesShort[pict] && picturesShort[pict].fetched) {
+          picts.push(picturesShort[pict])
+        }
       })
       return picts
     }
