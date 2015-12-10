@@ -1,10 +1,11 @@
-from rest_framework import generics, permissions
+from django.core.mail import send_mail
 
+from rest_framework import generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from phiroom.settings import EMAIL_SUBJECT_PREFIX
+from phiroom.settings import EMAIL_SUBJECT_PREFIX, DEFAULT_FROM_EMAIL
 from phiroom.permissions import IsStaffOrReadOnly, IsStaffOrCreateOnly
 
 from contact.models import Message, Description
@@ -78,7 +79,7 @@ class MessageList(generics.ListCreateAPIView):
         ip = self.request.META.get('REMOTE_ADDR')
         if self.request.user.is_authenticated():
             user = self.request.user
-            serializer.save(
+            new_message = serializer.save(
                     user=user,
                     name=user.username,
                     mail=user.email,
@@ -86,29 +87,45 @@ class MessageList(generics.ListCreateAPIView):
                     ip=ip
             )
         else :
-            mail = serializer.save(ip=ip)
-    # send email to contact users
-    subject = "{} New contact message".format(EMAIL_SUBJECT_PREFIX)
-    message = (
-        "Name: {}\n"
-        "Email: {}\n"
-        "Website: {}\n"
-        "Registered: {}\n"
-        "Sent you an mail from contact page:\n\n"
-        "Subject: {}\n"
-        "Message:\n"
-        "{}\n"
-    ).format(
-        serializer.name,
-        serializer.mail,
-        serializer.website,
-        self.request.user.is_authenticated(),
-        serializer.subject,
-        serializer.message
-    )
-    sendContactMail(subject, message)
-    # send mail back to sender if necessary :
-    if serializer.forward:
+            new_message = serializer.save(ip=ip)
+        # send email to contact users
+        subject = "{} New contact message".format(EMAIL_SUBJECT_PREFIX)
+        message = (
+            "Name: {}\n"
+            "Email: {}\n"
+            "Website: {}\n"
+            "Registered: {}\n"
+            "Sent you an mail from contact page:\n\n"
+            "Subject: {}\n"
+            "Message:\n"
+            "{}\n"
+        ).format(
+            new_message.name,
+            new_message.mail,
+            new_message.website,
+            self.request.user.is_authenticated(),
+            new_message.subject,
+            new_message.message
+        )
+        sendContactMail(subject, message)
+        # send mail back to sender if necessary :
+        if new_message.forward:
+            subject = "{} Your message has been sent".format(EMAIL_SUBJECT_PREFIX)
+            message = (
+                    "Subject: {}\n"
+                    "Message:\n"
+                    "{}\n"
+            ).format(
+                new_message.subject,
+                new_message.message
+            )
+            send_mail(
+                    subject,
+                    message,
+                    DEFAULT_FROM_EMAIL,
+                    [new_message.mail]
+            )
+
 
 
 
