@@ -1,3 +1,4 @@
+from django.core import mail
 from django.test import TestCase
 
 from rest_framework.test import APIClient, APITestCase
@@ -371,7 +372,7 @@ class MessageAPITest(APITestCase):
         data2 = {
             'subject': 'test',
             'message': 'message',
-            'forward': False
+            'forward': True
         }
         # test without login
         # client shouldn't get
@@ -381,6 +382,11 @@ class MessageAPITest(APITestCase):
         response=self.client.post(url, data)
         self.assertEqual(response.status_code, 201)
         # !!! assert mail has been sent
+        # one mail should have been sent (forward is false)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertTrue(mail.outbox[0].subject)
+        self.assertTrue(mail.outbox[0].message)
+        self.assertEqual(mail.outbox[0].email, data['mail'])
         # client shouldn't be able to put
         response=self.client.put(url, data)
         self.assertEqual(response.status_code, 401)
@@ -406,6 +412,11 @@ class MessageAPITest(APITestCase):
         self.assertEqual(mesg.website, self.user2.website)
         self.assertEqual(mesg.user, self.user2)
         # !!! assert mail has been sent
+        # 2 mails should have been sent (forward is true)
+        self.assertEqual(len(mail.outbox), 3)
+        self.assertTrue(mail.outbox[0].subject)
+        self.assertTrue(mail.outbox[0].message)
+        self.assertEqual(mail.outbox[0].email, data['mail'])
         # client shouldn't be able to put
         response=self.client.put(url, data)
         self.assertEqual(response.status_code, 403)
@@ -438,6 +449,11 @@ class MessageAPITest(APITestCase):
         response=self.client.post(url, data)
         self.assertEqual(response.status_code, 201)
         # !!! assert mail has been sent
+        # one mail should have been sent (forward is true)
+        self.assertEqual(len(mail.outbox), 4)
+        self.assertTrue(mail.outbox[0].subject)
+        self.assertTrue(mail.outbox[0].message)
+        self.assertEqual(mail.outbox[0].email, data['mail'])
         # client shouldn't be able to put
         response=self.client.put(url, data)
         self.assertEqual(response.status_code, 403)

@@ -159,5 +159,19 @@ class User(AbstractUser):
 
 
 
+def sendContactMail(subject, message):
+    """Send a mail to all users who suscribed to contact
+    emails.
+    """
+    contact_users = User.objects.filter(mail_contact=True)
+    if not contact_users:
+        # no mail to send
+        return
+    # get all addresses in a list
+    contact_users_mails = [
+        contact_user.email for contact_user in contact_users
+    ]
+    # send mail to contact users
+    send_mail(subject, message, DEFAULT_FROM_EMAIL, contact_users_mails)
 
 
