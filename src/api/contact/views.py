@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from contact.models import Message, Description
-from contact.serializers import MessageSerializer, DescriptionSerializer
+from contact.serializers import *
 
 from phiroom.permissions import IsStaffOrReadOnly, IsStaffOrCreateOnly
 
@@ -54,6 +54,7 @@ class DescriptionDetail(generics.RetrieveAPIView):
     serializer_class = DescriptionSerializer
 
 
+
 class MessageList(generics.ListCreateAPIView):
     """
     API endpoint that presents a list of messages and allows
@@ -62,11 +63,25 @@ class MessageList(generics.ListCreateAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     permission_classes = (IsStaffOrCreateOnly, )
+
+    def get_serializer_class(self):
+        if self.request.user.is_authenticated():
+            return AuthenticatedMessageSerializer
+        return self.serializer_class
     
     # add ip and user if necessary
     # send mails after saving
     def perform_create(self, serializer):
         ip = self.request.META.get('REMOTE_ADDR')
-        serializer.save(ip=ip)
+        if self.request.user.is_authenticated():
+            user = self.request.user
+            return serializer.save(
+                    user=user,
+                    name=user.username,
+                    mail=user.email,
+                    website=user.website,
+                    ip=ip
+            )
+        return serializer.save(ip=ip)
 
 

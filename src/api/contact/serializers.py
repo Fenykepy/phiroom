@@ -18,4 +18,15 @@ class MessageSerializer(serializers.ModelSerializer):
                   'date', 'ip'
         )
         read_only_fields = ('user', 'date', 'ip')
+
+
+class AuthenticatedMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ('name', 'user', 'mail', 'website',
+                  'subject', 'message', 'forward',
+                  'date', 'ip'
+        )
+        read_only_fields = ('user', 'date', 'ip',
+                'name', 'mail', 'website')
     

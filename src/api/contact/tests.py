@@ -400,11 +400,11 @@ class MessageAPITest(APITestCase):
         response=self.client.post(url, data2)
         self.assertEqual(response.status_code, 201)
 
-        mesg = Message.objects.get(pk=3)
+        mesg = Message.objects.latest('pk')
         self.assertEqual(mesg.name, self.user2.username)
         self.assertEqual(mesg.mail, self.user2.email)
         self.assertEqual(mesg.website, self.user2.website)
-        self.assertEqual(mesg.user, self.user2.user)
+        self.assertEqual(mesg.user, self.user2)
         # !!! assert mail has been sent
         # client shouldn't be able to put
         response=self.client.put(url, data)
