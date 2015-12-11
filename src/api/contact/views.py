@@ -19,7 +19,7 @@ def contact_root(request, format=None):
     return Response({
         'description': reverse('contact-description', request=request, format=format),
         'descriptions': reverse('contact-descriptions-list', request=request, format=format),
-        #'messages': reverse('contact-description', request=request, format=format),
+        'messages': reverse('contact-messages-list', request=request, format=format),
     })
 
 

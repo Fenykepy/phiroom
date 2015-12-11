@@ -56,7 +56,7 @@ A tree:
         #[GET:(admin), POST:(any)] get a list of messages, post a new message
 [OK]        - contact-messages-list: "/api/contact/messages/"
         #[GET:(admin)] get or delete detail of a message, not updatable
-        - contact-messages-detail: "/api/contact/messages/:pk/"
+[OK]        - contact-messages-detail: "/api/contact/messages/:pk/"
     #[GET:(admin)] get a list of urls
     - librairy-root: "/api/librairy/"
         #[GET-POST:(admin)] get a paginated list of pictures, post a new one
