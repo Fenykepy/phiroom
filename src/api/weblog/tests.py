@@ -339,8 +339,8 @@ class PostPictureModelTest(TestCase):
         pp2.save()
         # picture list should be ordered by "order"
         picts = self.post.get_pictures()
-        self.assertEqual(picts[0], self.pict2)
-        self.assertEqual(picts[1], self.pict)
+        self.assertEqual(picts[0], pp2)
+        self.assertEqual(picts[1], pp)
 
 
 
@@ -575,8 +575,10 @@ class PostPictureAPITest(APITestCase):
         self.assertEqual(p, 1)
 
         # try to post again with same data
+        # creating 2 postPicture relation with same picture
+        # and post shouldn't be possible
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 400)
 
         # assert PostPicture has not been saved second time in db
         p = PostPicture.objects.filter(post=self.post, picture=self.pict2).count()
@@ -584,6 +586,7 @@ class PostPictureAPITest(APITestCase):
 
 
         # make second user staff
+        PostPicture.objects.filter(post=self.post, picture=self.pict2).delete()
         self.user2.is_staff = True
         self.user2.save()
         login(self, self.user2)

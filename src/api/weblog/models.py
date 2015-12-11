@@ -75,9 +75,7 @@ class Post(models.Model):
         """
         Returns all related pictures ordered by "PostPicture.order"
         """
-        return [post_pict.picture for post_pict in 
-                PostPicture.objects.filter(post=self).select_related(
-                'picture')]
+        return PostPicture.objects.filter(post=self)
 
 
 
@@ -175,6 +173,7 @@ class PostPicture(models.Model):
 
     class Meta:
         ordering = ['order']
+        unique_together = ('post', 'picture')
 
 
 
