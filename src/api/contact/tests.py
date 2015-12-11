@@ -386,8 +386,8 @@ class MessageAPITest(APITestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertTrue(mail.outbox[0].subject)
         self.assertTrue(mail.outbox[0].message)
-        from pprint import pprint
-        pprint(mail.outbox[0].__dict__)
+        self.assertTrue(data['message'] in mail.outbox[0].body)
+        self.assertTrue(data['subject'] in mail.outbox[0].body)
         self.assertTrue(self.user.email in mail.outbox[0].to)
         # client shouldn't be able to put
         response=self.client.put(url, data)
@@ -418,13 +418,13 @@ class MessageAPITest(APITestCase):
         self.assertEqual(len(mail.outbox), 3)
         self.assertTrue(mail.outbox[1].subject)
         self.assertTrue(mail.outbox[1].message)
+        self.assertTrue(data2['message'] in mail.outbox[1].body)
+        self.assertTrue(data2['subject'] in mail.outbox[1].body)
         self.assertTrue(self.user.email in mail.outbox[1].to)
-        pprint(mail.outbox[2].__dict__)
         # assert user email is in recipient list
         self.assertTrue(self.user2.email in mail.outbox[2].to)
         # assert message in email body
         self.assertTrue(data2['message'] in mail.outbox[2].body)
-        self.assertTrue(data2['subject'] in mail.outbox[2].subject)
         # client shouldn't be able to put
         response=self.client.put(url, data)
         self.assertEqual(response.status_code, 403)
@@ -461,6 +461,8 @@ class MessageAPITest(APITestCase):
         self.assertEqual(len(mail.outbox), 4)
         self.assertTrue(mail.outbox[3].subject)
         self.assertTrue(mail.outbox[3].message)
+        self.assertTrue(data2['message'] in mail.outbox[3].body)
+        self.assertTrue(data2['subject'] in mail.outbox[3].body)
         self.assertTrue(self.user.email in mail.outbox[3].to)
         # client shouldn't be able to put
         response=self.client.put(url, data)
