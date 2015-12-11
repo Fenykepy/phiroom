@@ -128,6 +128,14 @@ class MessageList(generics.ListCreateAPIView):
 
 
 
+class MessageDetail(generics.RetrieveDestroyAPIView):
+    """
+    API endpoint that presents a specific description.
+    """
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+
+
 
 
 
