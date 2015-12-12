@@ -1,0 +1,38 @@
+=======================================
+==         Phirooms rights           ==
+=======================================
+
+
+
+=== Superuser ===
+# user.is_superuser => True
+- CRUD on everything
+
+=== Staff member ===
+# user.is_staff_member => True
+- CRUD on everything except users, and settings
+
+=== Weblog author ===
+# user.is_weblog_author  => True
+- CRUD on it's own posts
+
+=== Librairy member ===
+# user.is_librairy_member => True
+- Access to librairy
+- Read on a some collections
+
+=== Authenticated ===
+# user.is_authenticated() => True
+- Read published portfolios
+- Read published blog posts
+- No access to librairy
+- Can send message contact with a shorter form
+(- can comment)
+
+=== Anonymous ===
+- Read published portfolios
+- Read published blog posts
+- No access to librairy
+- Can send message contact 
+
+

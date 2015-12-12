@@ -2,12 +2,6 @@
 == Urls' for phiroom's API ==
 =============================
 
-
-
-
-
-
-
 A tree:
     #[METHODS:(rights)]
     - view-name: "/url/"
@@ -76,21 +70,10 @@ A tree:
     - user
     - auth
 
-=== Rights ===
 
-== Superuser ==
-- CRUD on everything
 
-== Staff members ==
-- CRUD on everything
 
-== postauthor members ==
-- CRUD on their own posts,
-- can see their own unpublished posts
 
-== portfolioauthor members ==
-- CRUD on their own portfolios,
-- can see their own unpublished portfolios
 
 === settings ===
 #- /api/settings/latest/ [GET]
