@@ -15,23 +15,16 @@ function appendSlash(nextState, replaceState) {
   }
 }
 
-export default (store, promises) => {
+export default (store) => {
   
-  function portfolioEnter(nextState, replaceState, callback) {
-    // if we have a slug, let's go
-    if (nextState.params.slug != undefined) callback()
-    // else redirect to default portfolio
-    promises[0].then(() => {
-      let slug = store.getState().portfolio.headers.data[0].slug
-      replaceState(null, `/portfolio/${slug}/`)
-      callback()
-    })
-  }
+  const state = store.getState()
+  const default_portfolio = state.portfolio.default_portfolio
 
   return (
     <Route path="/" component={App} onEnter={appendSlash}>
-      <Redirect from="/" to="/portfolio/" />
-      <Route path="portfolio(/)" component={Portfolio} onEnter={portfolioEnter}>
+      <Redirect from="/" to={`/portfolio/${default_portfolio}`} />
+      <Redirect from="/portfolio(/)" to={`/portfolio/${default_portfolio}`} />
+      <Route path="portfolio(/)" component={Portfolio}>
         <Route path=":slug(/)" component={Portfolio} />
         <Route path=":slug/lightbox/:sha1(/)" component={Portfolio} />
       </Route>
