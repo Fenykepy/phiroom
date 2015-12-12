@@ -15,20 +15,17 @@ function appendSlash(nextState, replaceState) {
   }
 }
 
-export default (store) => {
-  
-  const state = store.getState()
-  const default_portfolio = state.portfolio.default_portfolio
-
+export default () => {
   return (
-    <Route path="/" component={App} onEnter={appendSlash}>
-      <Redirect from="/" to={`/portfolio/${default_portfolio}`} />
-      <Redirect from="/portfolio(/)" to={`/portfolio/${default_portfolio}`} />
-      <Route path="portfolio(/)" component={Portfolio}>
-        <Route path=":slug(/)" component={Portfolio} />
-        <Route path=":slug/lightbox/:sha1(/)" component={Portfolio} />
+    <Route>
+      <Redirect from="/" to="/portfolio/" />
+      <Route path="/" component={App} onEnter={appendSlash}>
+        <Route path="portfolio(/)" component={Portfolio}>
+          <Route path=":slug(/)" component={Portfolio} />
+          <Route path=":slug/lightbox/:sha1(/)" component={Portfolio} />
+        </Route>
+        <Route path="contact(/)" component={Contact} />
       </Route>
-      <Route path="contact(/)" component={Portfolio} />
     </Route>
   )
 }

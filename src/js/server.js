@@ -5,7 +5,7 @@ import { renderToString } from 'react-dom/server'
 
 import { Provider } from 'react-redux'
 
-import { match, RouterContext } from 'react-router'
+import { match, RoutingContext } from 'react-router'
 
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
@@ -15,6 +15,7 @@ import config from '../../webpack.config'
 import { createStoreWithMiddleware } from './store'
 import getRoutes from './routes'
 import rootReducer from './reducers'
+
 
 var app = new Express()
 var port = 3000
@@ -33,30 +34,28 @@ function handleRender(req, res) {
   // create a new redux store instance
   const store = createStoreWithMiddleware(rootReducer)
   // get routes
-  const routes = getRoutes(store)
-  // compile react components
-  const html = renderToString(
-    <Provider store={store}>
-     <div>Server side compiled !</div>
-    </Provider>
-  )
-  // get initial state
-  const initialState = store.getState()
-
-  res.send(renderFullPage(html, initialState))
+  const routes = getRoutes()
   
-  /*match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+  match({ routes: getRoutes(), location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
       res.status(500).send(error.message)
     } else if (redirectLocation) {
+      console.log('redirect', redirectLocation)
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      console.log('render props', renderProps)
-      //res.status(200).send(renderToString(<RouterContext {...renderProps} />))
+      // get initial state
+      const initialState = store.getState()
+      // compile react components
+      const html = renderToString(
+        <Provider store={store}>
+          <RoutingContext {...renderProps}/>
+        </Provider>
+      )
+      res.status(200).send(renderFullPage(html, initialState))
     } else {
       res.status(404).send('Not found')
     }
-  })*/
+  })
 }
 
 

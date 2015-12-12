@@ -43,7 +43,7 @@ let fetchCommonDataDeffered = function () {
 // fetch common data
 let promises = fetchCommonDataDeffered()
 
-const routes = <Router history={history} routes={getRoutes(store)} />
+const routes = <Router history={history} routes={getRoutes()} />
 
 render(
   <Provider store={store}>
