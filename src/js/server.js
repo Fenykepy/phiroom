@@ -46,6 +46,18 @@ function handleRender(req, res) {
       // fetch common datas 
       let promises = fetchCommonData(store)
 
+      // fetch all components data's
+      // if they have a static method fetchData(dispatch, params)
+      let components = renderProps.components
+      for (let i=0, l=components.length; i < l; i++) {
+        if (components[i] && components[i].fetchData) {
+          let datas = components[i].fetchData(
+            store.dispatch, renderProps.params)
+          // add new promises to main array
+          promises = [...promises, ...datas]
+        }
+      }
+
       // when all promised resolve, 
       Promise.all(promises).then((values) => {
         // get initial state

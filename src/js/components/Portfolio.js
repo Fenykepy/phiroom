@@ -18,11 +18,13 @@ import { fetchShortPictureIfNeeded } from '../actions/pictures'
 
 export default class Portfolio extends Component {
 
-  static fetchData(dispatch, portfolio, clientSide=false) {
+  static fetchData(dispatch, params, clientSide=false) {
     let promises = []
+    let slug = params.slug
+    if (! slug) return promises
     // use static to be able to call it server side before component is rendered
-    promises.push(dispatch(fetchPortfolioIfNeeded(portfolio)).then((data) => {
-        dispatch(selectPortfolio(portfolio))
+    promises.push(dispatch(fetchPortfolioIfNeeded(slug)).then((data) => {
+        dispatch(selectPortfolio(slug))
         // fetch portfolios pictures if needed
         if (clientSide) {
           data.data.pictures.map((item) => {
@@ -32,18 +34,18 @@ export default class Portfolio extends Component {
     }))
     if (! clientSide) {
       // fetch all pictures at once serverside
-      promises.push(dispatch(fetchPortfolioPictures(portfolio)))
+      promises.push(dispatch(fetchPortfolioPictures(slug)))
     }
     return promises
   }
 
   componentDidMount() {
-    this.constructor.fetchData(this.props.dispatch, this.props.params.slug, true)
+    this.constructor.fetchData(this.props.dispatch, this.props.params, true)
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.params.slug != nextProps.params.slug) {
-      this.constructor.fetchData(this.props.dispatch, nextProps.params.slug, true)
+      this.constructor.fetchData(this.props.dispatch, nextProps.params, true)
     }
   }
 
