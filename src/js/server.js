@@ -16,6 +16,8 @@ import { createStoreWithMiddleware } from './store'
 import getRoutes from './routes'
 import rootReducer from './reducers'
 
+import { fetchCommonData } from './helpers/fetchCommonData'
+
 
 var app = new Express()
 var port = 3000
@@ -31,10 +33,6 @@ app.use('/media', Express.static(__dirname + '/../api/phiroom/data'))
 
 function handleRender(req, res) {
 
-  // create a new redux store instance
-  const store = createStoreWithMiddleware(rootReducer)
-  // get routes
-  const routes = getRoutes()
   
   match({ routes: getRoutes(), location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
@@ -43,15 +41,27 @@ function handleRender(req, res) {
       console.log('redirect', redirectLocation)
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      // get initial state
-      const initialState = store.getState()
-      // compile react components
-      const html = renderToString(
-        <Provider store={store}>
-          <RoutingContext {...renderProps}/>
-        </Provider>
-      )
-      res.status(200).send(renderFullPage(html, initialState))
+      // create a new redux store instance
+      const store = createStoreWithMiddleware(rootReducer)
+      // fetch common datas 
+      let promises = fetchCommonData(store)
+
+      // when all promised resolve, 
+      Promise.all(promises).then((values) => {
+        // get initial state
+        const initialState = store.getState()
+        // compile react components
+        const html = renderToString(
+          <Provider store={store}>
+            <RoutingContext {...renderProps}/>
+          </Provider>
+        )
+        res.status(200).send(renderFullPage(html, initialState))
+      })
+      .catch((error) => {
+        // send error if a promise fail
+        res.status(500).send(error.message)
+      })
     } else {
       res.status(404).send('Not found')
     }

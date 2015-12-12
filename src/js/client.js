@@ -10,9 +10,10 @@ import { Router } from 'react-router'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { syncReduxAndRouter } from 'redux-simple-router'
 import { createStoreWithMiddleware } from './store'
-import { fetchPortfoliosHeadersIfNeeded } from './actions/portfolios'
 import getRoutes from './routes'
 import rootReducer from './reducers'
+
+import { fetchCommonData } from './helpers/fetchCommonData'
 
 // get state provided by server
 const initialState = window.__INITIAL_STATE__
@@ -28,20 +29,8 @@ let unsubscribe = store.subscribe(() =>
   console.log('state', store.getState())
 )
 
-let fetchCommonDataDeffered = function () {
-  let promises = []
-  // fetch current user data
-  // fetch settings
-  // fetch portfolios headers if necessary
-  promises.push(
-      store.dispatch(fetchPortfoliosHeadersIfNeeded())
-  )
-  // return a list of promises to wait for server side
-  return promises
-}
-
 // fetch common data
-let promises = fetchCommonDataDeffered()
+let promises = fetchCommonData(store)
 
 const routes = <Router history={history} routes={getRoutes()} />
 
