@@ -88,6 +88,7 @@ function renderFullPage(html, initialState, title='') {
       <head>
         <title>${title}</title>
         <meta charset="utf-8" />
+        <link rel="stylesheet" href="/static/styles.css" />
         <link rel="icon" type="image/png" href="/assets/images/phiroom-favicon.png" />
       </head>
       <body>

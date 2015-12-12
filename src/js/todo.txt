@@ -5,7 +5,7 @@
 
 
 - Create a build script for npm
-- Move css out of js files, else it needs to load all js to display them
+#- Move css out of js files, else it needs to load all js to display them
 - Add a lightbox to portfolios
 - Add a list and detail views for weblog posts
 - Add a form for contact

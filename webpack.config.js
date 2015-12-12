@@ -7,6 +7,7 @@
 
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 
 var config = {
@@ -15,16 +16,20 @@ var config = {
   entry: [
     'webpack-hot-middleware/client',
     './src/js/client'
-  ],
+    ],
   output: {
     path: path.join( __dirname, 'dist' ),
     filename: 'bundle.js',
-    publicPath: '/static/'
+    publicPath: '/static/',
+
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin("styles.css", {
+      allChunks: true
+    })
   ],
   module: {
     loaders: [
@@ -36,9 +41,9 @@ var config = {
         include: __dirname
       },
       {
-        // less files
+        // less files, get extracted
         test: /\.less$/,
-        loader: 'style-loader!css-loader!less-loader',
+        loader: ExtractTextPlugin.extract('style-loader', '!css-loader!less-loader'),
         exclude: path.join( __dirname, '/node_modules/'),
       },
       {
