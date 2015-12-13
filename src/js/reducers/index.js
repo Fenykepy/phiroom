@@ -6,6 +6,7 @@ import pictures from './pictures'
 import portfolio from './portfolios'
 import contact from './contact'
 import viewport from './viewport'
+import common from './common'
 import { routeReducer } from 'redux-simple-router'
 
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   viewport,
   portfolio,
   contact,
+  common,
   routing: routeReducer,
 })
 

@@ -73,3 +73,63 @@ export function fetchDescription() {
       )
   }
 }
+
+
+
+export function resetMessage() {
+  return {
+    type: types.RESET_MESSAGE
+  }
+}
+
+
+export function requestPostMessage() {
+  return {
+    type: types.REQUEST_POST_MESSAGE
+  }
+}
+
+
+export function requestPostMessageSuccess() {
+  return {
+    type: types.REQUEST_POST_MESSAGE_SUCCESS
+  }
+}
+
+export function requestPostMessageFailure(errors) {
+  return {
+    type: types.REQUEST_POST_MESSAGE_FAILURE,
+    errors
+  }
+}
+
+
+export function postMessage(data) {
+  /*
+   * post a message
+   */
+  return function(dispatch) {
+    // start request
+    dispatch(requestPostMessage())
+    let datas = new FormData()
+    datas.append("json", JSON.stringify(data))
+
+    // return a promise
+    return fetch(`${base_url}api/contact/messages/`,
+        {
+          method: "POST",
+          body: data
+        })
+        .then(response =>
+            response.json()
+        )
+        .then(json =>
+            dispatch(requestPostMessageSuccess())
+        )
+        .catch(error => {
+            console.log(errors)
+            dispatch(requestPostMessageFailure(error.message))
+          }
+        )
+    }
+}
