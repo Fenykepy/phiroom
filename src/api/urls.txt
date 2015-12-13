@@ -6,7 +6,8 @@ A tree:
     #[METHODS:(rights)]
     - view-name: "/url/"
 
-
+#[GET:(any)] get the csrf token
+[OK]- token-csrf: "/api/token-csrf"
 #[GET](admin) get a list of urls
 [OK]- api-root: "/api/"
     #[GET:(admin)] get a list of urls

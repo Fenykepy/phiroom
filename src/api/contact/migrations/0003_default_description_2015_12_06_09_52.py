@@ -7,8 +7,8 @@ def description_default(apps, schema_editor):
     # create default configuration
     desc = Description()
     desc.title = "Contact"
-    desc.source = "Change to your own contact page description"
-    desc.content = "<p>Change to your own contact page description</p>"
+    desc.source = "Change this to your own contact page description."
+    desc.content = "<p>Change this to your own contact page description.</p>"
     desc.save()
 
 

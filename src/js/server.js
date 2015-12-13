@@ -1,4 +1,5 @@
 import Express from 'express'
+import cookieParser from 'cookie-parser'
 
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -30,6 +31,9 @@ app.use(webpackHotMiddleware(compiler))
 app.use('/assets', Express.static(__dirname + '/../../assets'))
 app.use('/media', Express.static(__dirname + '/../api/phiroom/data'))
 
+// get cookies
+app.use(cookieParser())
+
 
 function handleRender(req, res) {
 
@@ -41,6 +45,7 @@ function handleRender(req, res) {
       console.log('redirect', redirectLocation)
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
+      console.log("Cookies: ", req.cookies)
       // create a new redux store instance
       const store = createStoreWithMiddleware(rootReducer)
       // fetch common datas 

@@ -3,7 +3,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from rest_framework_jwt.views import refresh_jwt_token, obtain_jwt_token, verify_jwt_token
-from phiroom.views import api_root
+from phiroom.views import api_root, obtain_csrf_token
 
 urlpatterns = [
     ## django admin interface
@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^api/token-verify/', verify_jwt_token,
         name='token-verify'),
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/token-csrf/', obtain_csrf_token,
+        name='token-csrf'),
 
 ]
 
