@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react'
 
 import AuthenticatedContactForm from './AuthenticatedContactForm'
 import AnonymousContactForm from './AnonymousContactForm'
+import Spinner from './Spinner'
+import ResetContactForm from './ResetContactForm'
 
 import { fetchDescriptionIfNeeded } from '../actions/contact'
 import { fetchCSRFTokenIfNeeded } from '../actions/common'
-import { postMessage } from '../actions/contact'
-
+import { postMessage, resetMessage } from '../actions/contact'
 export default class Contact extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
@@ -26,21 +27,36 @@ export default class Contact extends Component {
     this.props.dispatch(postMessage(message))
   }
 
+  resetForm() {
+    console.log('reset')
+    this.props.dispatch(resetMessage())
+  }
+
   render() {
-    let contactForm
+    let form, child
     // if (this.props.user.is_authenticated) {
-    //  contactForm = AuthenticatedContactForm
+    //  form = (<AuthenticatedContactForm />)
     // } else {
-        contactForm = (<AnonymousContactForm
+        form = (<AnonymousContactForm
             csrf={this.props.common.csrfToken.token}
             handleSubmit={this.handleMessageSubmit.bind(this)}
+            {...this.props.contact.message}
         />)
     // }
+    if (this.props.contact.message.is_posting) {
+      // show spinner
+      child = (<Spinner message="Sending message…" />)
+    } else if (this.props.contact.message.posted) {
+      // show validation text
+      child = (<ResetContactForm resetForm={this.resetForm.bind(this)} />)
+    } else {
+      child = form
+    }
     return (
       <div>
         <h1>{this.props.contact.description.title}</h1>
         <span dangerouslySetInnerHTML={{__html: this.props.contact.description.content}} />
-        {contactForm}
+        {child}
       </div>
     )
   }
