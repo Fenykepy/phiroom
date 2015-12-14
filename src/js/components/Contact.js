@@ -49,7 +49,7 @@ export default class Contact extends Component {
             {...this.props.contact.message}
         />)
     // }
-    if (! this.props.contact.message.is_posting) {
+    if (this.props.contact.message.is_posting) {
       // show spinner
       child = (<Spinner message="Sending message…" />)
     } else if (this.props.contact.message.posted) {
