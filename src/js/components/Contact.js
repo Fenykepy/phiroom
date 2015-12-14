@@ -8,6 +8,8 @@ import ResetContactForm from './ResetContactForm'
 import { fetchDescriptionIfNeeded } from '../actions/contact'
 import { fetchCSRFTokenIfNeeded } from '../actions/common'
 import { postMessage, resetMessage } from '../actions/contact'
+import { setModule } from '../actions/modules'
+
 export default class Contact extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
@@ -21,6 +23,10 @@ export default class Contact extends Component {
 
   componentDidMount() {
     this.constructor.fetchData(this.props.dispatch, null, true)
+    // set module
+    if (this.props.modules.current != 'contact') {
+      this.props.dispatch(setModule('contact'))
+    }
   }
 
   handleMessageSubmit(message) {
@@ -43,7 +49,7 @@ export default class Contact extends Component {
             {...this.props.contact.message}
         />)
     // }
-    if (this.props.contact.message.is_posting) {
+    if (! this.props.contact.message.is_posting) {
       // show spinner
       child = (<Spinner message="Sending message…" />)
     } else if (this.props.contact.message.posted) {

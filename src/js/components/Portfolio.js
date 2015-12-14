@@ -41,6 +41,10 @@ export default class Portfolio extends Component {
 
   componentDidMount() {
     this.constructor.fetchData(this.props.dispatch, this.props.params, true)
+    // set module
+    if (this.props.modules.current != 'portfolios') {
+      this.props.dispatch(setModule('portfolios'))
+    }
   }
 
   componentWillReceiveProps(nextProps) {

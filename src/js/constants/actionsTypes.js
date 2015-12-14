@@ -51,7 +51,7 @@ export const SET_VIEWPORT = 'SET_VIEWPORT'
 /*
  * Modules actions
  */
-
+export const SET_MODULE = 'SET_MODULE'
 /*
  * Common actions
  */

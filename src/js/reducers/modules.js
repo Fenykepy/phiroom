@@ -1,4 +1,4 @@
-
+import { SET_MODULE } from '../constants/actionsTypes'
 const initialState = {
   current: 'portfolios',
   list: [
@@ -9,5 +9,12 @@ const initialState = {
 
 
 export default function modules(state = initialState, action) {
-  return state
+  switch(action.type) {
+    case SET_MODULE:
+      return Object.assign({}, state, {
+        current: action.module
+      })
+    default:
+      return state
+  }
 }
