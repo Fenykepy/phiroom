@@ -108,17 +108,22 @@ export function postMessage(data) {
   /*
    * post a message
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestPostMessage())
-    let datas = new FormData()
-    datas.append("json", JSON.stringify(data))
+    let state = getState()
+    let csrf_token = state.common.csrfToken.token
 
     // return a promise
     return fetch(`${base_url}api/contact/messages/`,
         {
           method: "POST",
-          body: data
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrf_token
+          },
+          body: JSON.stringify(data)
         })
         .then(response =>
             response.json()
