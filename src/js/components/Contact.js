@@ -59,11 +59,13 @@ export default class Contact extends Component {
       child = form
     }
     return (
-      <div>
+      <section role="main">
         <h1>{this.props.contact.description.title}</h1>
         <span dangerouslySetInnerHTML={{__html: this.props.contact.description.content}} />
+        {/* insert follow links here */}
+        <h1>Leave me a message</h1>
         {child}
-      </div>
+      </section>
     )
   }
 }

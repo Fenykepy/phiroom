@@ -63,15 +63,19 @@ input:hover, input:focus, textarea:focus, textarea:hover, select:focus, select:h
     box-shadow: @inputs-hover-focus-shadow;
 }
 input[type="submit"], button {
+    font-family: @sans;
+    font-weight: bold;
     display: inline-block;
-    border: @submit-button-border;
-    border-radius: 2px;
+    border-radius: 5px;
     box-shadow: @submit-button-shadow;
-    color: @submit-button;
+    background: @submit-button-bg;
+    color: @submit-button-main;
     height: 34px;
-    min-width: 150px;
+    width: auto;
+    padding: 0 15px;
     margin: 5px 2px 0 2px;
     text-align: center;
+    border: none;
     &.small-button {
         height: 24px;
         padding: 2px 6px 0px 6px;
@@ -81,8 +85,9 @@ input[type="submit"], button {
     }
 }
 input[type="submit"]:hover, input[type="submit"]:focus, button:hover, button:focus, a:hover button, a:focus button {
-    color: @submit-button-hover-focus;
-    box-shadow: @submit-button-hover-focus-shadow;
+    //color: @submit-button-hover-focus;
+    //box-shadow: @submit-button-hover-focus-shadow;
+    background: @submit-button-hover-focus-bg;
 }
 
 

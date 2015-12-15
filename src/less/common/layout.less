@@ -235,7 +235,18 @@ footer[role="contentinfo"] {
         }
     }
 }
+#weblog, #contact {
+    // main section
+    section[role="main"] {
+        position: relative;
+        max-width: 782px;
+        margin: 1em auto 4em auto;
+        p {
+            margin-bottom: 1.125em;
+        }
 
+    }
+}
 // Carousel (automatique, client side rendering)
 .carousel {
     position: relative;
@@ -296,5 +307,8 @@ footer[role="contentinfo"] {
     p {
         margin-top: 40px;
     }
+}
+.red {
+    color: @blog-red;
 }
 

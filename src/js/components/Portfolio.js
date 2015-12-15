@@ -14,6 +14,7 @@ import {
   toggleSlideshow
 } from '../actions/portfolios'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
+import { setModule } from '../actions/modules'
 
 
 export default class Portfolio extends Component {

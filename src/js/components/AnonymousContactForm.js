@@ -56,6 +56,7 @@ export default class AnonymousContactForm extends Component {
           encType='application/json'
           onSubmit={this.handleSubmit.bind(this)}
         >
+        <p><span className="red">*</span> : required fields.</p>
           {/* csrf protection */}
           <input type='hidden'
                  name='csrfmiddlewaretoken'
