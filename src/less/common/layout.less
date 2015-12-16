@@ -162,6 +162,14 @@ footer[role="contentinfo"] {
 
 }
 
+// horizontal rules
+hr {
+    border: none;
+    border-top: 1px solid @blog-hr;
+    margin: 30px 0;
+    height: 0px;
+}
+
 // centered main header
 #weblog, #portfolios, #contact {
     header[role="banner"] {
@@ -300,12 +308,18 @@ footer[role="contentinfo"] {
     height: 400px;
     line-height: 400px;
 }
-.spinner, .info {
+.info {
     text-align: center;
     font-size: 1.3em;
-    margin: 40px;
-    p {
-        margin-top: 40px;
+    margin: 60px 0;
+}
+.spinner {
+    margin: 60px 0;
+    font-size: 1.3em;
+    text-align: center;
+    img {
+        margin-bottom: 30px
+
     }
 }
 .red {

@@ -1,13 +1,13 @@
 // invalid form
-:invalid:hover, :invalid:focus {
+/*:invalid:hover, :invalid:focus {
     box-shadow: @invalid-shadow;
-}
+}*/
 form:invalid, form:invalid:hover, form:invalid:focus, :invalid {
     box-shadow: none;
 }
 input, textarea, select, option, :invalid, :valid {
     outline: none;
-    display: block;
+    //display: block;
 }
 
 // default forms elements
@@ -57,9 +57,46 @@ label {
     margin-bottom: 5px;
     font-weight: bold;
 }
-.checkbox label {
-    font-weight: normal;
+input[type="radio"], input[type="checkbox"] {
+    margin: 6px 0 0;
+    line-height: normal;
+    box-sizing: border-box;
+    padding: 0;
+    height: auto;
+    width: auto;
+    position: absolute;
+    margin-left: -20px;
+    &:hover, &:active, &:focus {
+        box-shadow: none;
+        outline: none;
+    }
 }
+.radio, .checkbox {
+    margin: 10px 0;
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+    label {
+        font-weight: normal;
+        min-height: 24px;
+        padding: 0 0 0 20px;
+        cursor: pointer;
+        margin-bottom: 0;
+    }
+}
+.radio-inline, .checkbox-inline {
+    position: relative;
+    display: inline-block;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: normal;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {
+    margin-left: 20px;
+}
+
 input:hover, input:focus, textarea:focus, textarea:hover, select:focus, select:hover {
     box-shadow: @inputs-hover-focus-shadow;
 }
