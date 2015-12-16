@@ -22,7 +22,6 @@ export default class Portfolio extends Component {
   static fetchData(dispatch, params, clientSide=false) {
     let promises = []
     let slug = params.slug
-    if (! slug) return promises
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPortfolioIfNeeded(slug)).then((data) => {
         dispatch(selectPortfolio(slug))
@@ -49,6 +48,11 @@ export default class Portfolio extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // if no slug redirect to default portfolio
+    console.log('props',this.props)
+    if (! this.props.params.slug) {
+      this.props.history.pushState(null, `/portfolio/${this.props.portfolio.default}/`)
+    }
     if (this.props.params.slug != nextProps.params.slug) {
       this.constructor.fetchData(this.props.dispatch, nextProps.params, true)
     }

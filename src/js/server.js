@@ -18,6 +18,7 @@ import getRoutes from './routes'
 import rootReducer from './reducers'
 
 import { fetchCommonData } from './helpers/fetchCommonData'
+import { base_url } from './config'
 
 
 var app = new Express()
@@ -37,6 +38,18 @@ app.use(cookieParser())
 
 function handleRender(req, res) {
 
+  // redirect to default portfolio
+  if (req.url == '/portfolio/') {
+    console.log('true')
+    fetch(`${base_url}api/portfolio/headers/`)
+      .then(response =>
+          response.json()
+      )
+      .then(json => {
+        res.redirect(302, req.url + json[0].slug)
+      })
+  }
+
   
   match({ routes: getRoutes(), location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
@@ -45,7 +58,6 @@ function handleRender(req, res) {
       console.log('redirect', redirectLocation)
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      console.log("Cookies: ", req.cookies)
       // create a new redux store instance
       const store = createStoreWithMiddleware(rootReducer)
       // fetch common datas 

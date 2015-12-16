@@ -18,7 +18,7 @@ import {
 function selected(state = null, action) {
   switch (action.type) {
     case SELECT_PORTFOLIO:
-      return action.portfolio
+      return action.portfolio || null
     default:
       return state
   }
