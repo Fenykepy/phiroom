@@ -114,19 +114,23 @@ export default class AnonymousContactForm extends Component {
                    required
              />
           </div>
-          <div className="field_wrapper checkbox">
-            <label htmlFor="id_forward">Forward (check if you wish to receive a copy back)</label>
-            <input id="id_forward"
+          <div className="field_wrapper">
+          <div className="checkbox">
+            <label htmlFor="id_forward"><input id="id_forward"
                    name="forward"
                    type="checkbox"
                    value={this.state.forward}
                    onChange={this.handleForwardChange.bind(this)}
                    defaultChecked={true}
-            />
+            />Forward (check if you wish to receive a copy back)
+</label>
           </div>
+          </div>
+          <div className="centered">
           <input type="submit"
                  value="Send"
           />
+          </div>
         </form>
     )
   }

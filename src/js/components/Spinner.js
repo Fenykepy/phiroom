@@ -5,7 +5,7 @@ export default class Spinner extends Component {
 
     return (
       <div className="spinner">
-        <img src="/assets/images/spinner.gif" alt="spinner" height="40px"/>
+          <img src="/assets/images/spinner.gif" alt="spinner" height="40px"/>
         <p><em>{this.props.message}</em></p>
       </div>
     )
