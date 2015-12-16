@@ -40,7 +40,6 @@ function handleRender(req, res) {
 
   // redirect to default portfolio
   if (req.url == '/portfolio/') {
-    console.log('true')
     fetch(`${base_url}api/portfolio/headers/`)
       .then(response =>
           response.json()
@@ -55,7 +54,6 @@ function handleRender(req, res) {
     if (error) {
       res.status(500).send(error.message)
     } else if (redirectLocation) {
-      console.log('redirect', redirectLocation)
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
       // create a new redux store instance

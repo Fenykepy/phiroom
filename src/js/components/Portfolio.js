@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 import Carousel from './Carousel'
 import CarouselInline from './CarouselInline'
+import Spinner from './Spinner'
 
 
 // actions
@@ -49,7 +50,6 @@ export default class Portfolio extends Component {
 
   componentWillReceiveProps(nextProps) {
     // if no slug redirect to default portfolio
-    console.log('props',this.props)
     if (! this.props.params.slug) {
       this.props.history.pushState(null, `/portfolio/${this.props.portfolio.default}/`)
     }
@@ -78,10 +78,16 @@ export default class Portfolio extends Component {
      */
 
     let carousel
-    if (this.props.portfolio.pictures.length == 0) {
-        carousel = (<div className="carousel-error"
+    // show error message if portfolio has no pictures
+    if (this.props.portfolio.n_pictures == 0) {
+      carousel = (<div className="carousel-error"
         ><em>Sorry, no pictures in this portfolio yet…</em></div>)
+    } else if (this.props.portfolio.selected.is_fetching ||
+        this.props.portfolio.pictures.length == 0) {
+    // show a spinner if datas are fetching
+      carousel = (<Spinner message="Fetching…" />)
     } else if (this.props.portfolio.carousel.dynamic) { // we are client side
+    // show a javascript driven carousel if client has javascript
       carousel = (<Carousel
         pictures={this.props.portfolio.pictures}
         carousel={this.props.portfolio.carousel}
@@ -90,10 +96,9 @@ export default class Portfolio extends Component {
         goPrev={this.goPrev.bind(this)}
       />)
     } else { // we are server side
+    // show a full css carousel if client hasn't javascript or if serverside
       carousel = <CarouselInline pictures={this.props.portfolio.pictures} />
     }
-    
-
 
     return (
         <section role="main">{carousel}</section>

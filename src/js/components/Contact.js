@@ -34,7 +34,6 @@ export default class Contact extends Component {
   }
 
   resetForm() {
-    console.log('reset')
     this.props.dispatch(resetMessage())
   }
 

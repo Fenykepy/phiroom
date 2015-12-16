@@ -20,6 +20,17 @@ const selectedPortfolioSelector = state => state.portfolio.portfolios[
 
 const picturesShortSelector = state => state.pictures.short
 
+
+const portfolioPicturesNumberSelector = createSelector(
+    selectedPortfolioSelector,
+    (selectedPortfolio) => {
+      if (selectedPortfolio && selectedPortfolio.pictures) {
+        return selectedPortfolio.pictures.length
+      }
+      return 0
+  }
+)
+
 // returns a list of a portfolio's pictures' short data, only fetched ones
 export const portfolioPicturesSelector = createSelector(
   selectedPortfolioSelector,
@@ -129,6 +140,7 @@ export const portfolioSelector = createStructuredSelector({
   default: defaultPortfolioSelector,
   selected: selectedPortfolioSelector,
   pictures: portfolioPicturesSelector,
+  n_pictures: portfolioPicturesNumberSelector,
   carousel: carouselSelector,
 })
 
