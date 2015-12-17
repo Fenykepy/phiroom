@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router'
 
 import App from './containers/App'
 import Portfolio from './components/Portfolio'
+import WeblogList from './components/WeblogList'
 import Contact from './components/Contact'
 
 
@@ -24,6 +25,7 @@ export default () => {
           <Route path=":slug(/)" component={Portfolio} />
           <Route path=":slug/lightbox/:sha1(/)" component={Portfolio} />
         </Route>
+        <Route path="weblog(/)" component={WeblogList} />
         <Route path="contact(/)" component={Contact} />
       </Route>
     </Route>
