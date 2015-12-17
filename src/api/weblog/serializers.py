@@ -1,9 +1,7 @@
 from rest_framework import serializers
 
 from librairy.models import Picture
-from librairy.serializers import PictureShortSerializer
 from weblog.models import Post, PostPicture, Tag
-from user.serializers import AuthorSerializer
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,17 +17,11 @@ class PostSerializer(serializers.ModelSerializer):
     # else get_next_by_pub_date()
     # won't work, so use required=False allow_null=True here
     pub_date = serializers.DateTimeField(required=False, allow_null=True)
-    abstract = serializers.CharField(read_only=True)
-    content = serializers.CharField(read_only=True)
-    slug = serializers.CharField(read_only=True)
-    pk = serializers.IntegerField(read_only=True)
-    tags = TagSerializer(many=True, required=False, read_only=True)
     tags_flat_list = serializers.ListField(
             required=False,
             write_only=True,
             child = serializers.CharField(max_length=50)
     )
-    author = AuthorSerializer(read_only=True)
     next = serializers.SerializerMethodField()
     previous = serializers.SerializerMethodField()
     pictures = serializers.SerializerMethodField()
@@ -42,10 +34,12 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ('url', 'title', 'description', 'source',
                   'tags', 'author', 'draft', 'pub_date',
-                  'content', 'abstract', 'slug', 'pk',
+                  'content', 'abstract', 'slug',
                   'next', 'previous', 'tags_flat_list',
                   'pictures',
         )
+        read_only_fields = ('slug', 'author', 'content',
+                'abstract', 'tags')
 
 
     def add_tags(self, tags_flat_list, instance):
@@ -108,9 +102,7 @@ class PostSerializer(serializers.ModelSerializer):
         return None
 
     def get_pictures(self, object):
-        picts = object.get_pictures()
-        serializer = PictureShortSerializer(picts, many=True)
-        return serializer.data
+        return object.get_pictures().values_list('picture', flat=True)
 
 
 
@@ -119,37 +111,16 @@ class PostAbstractSerializer(PostSerializer):
         model = Post
         fields = ('url', 'title', 'description',
                 'draft', 'pub_date', 'abstract', 'slug',
-                'pk', 'author', 'pictures',
+                'author', 'pictures',
         )
 
 
 class PostHeadSerializer(PostSerializer):
     class Meta:
         model = Post
-        fields = ('title', 'slug', 'pk',)
+        fields = ('title', 'slug')
 
 
 class PostPictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostPicture
-        fields = ('picture', 'post', 'order',)
-
-    def create(self, validated_data):
-        """
-        Create a new PostPicture object.
-        """
-        post_picture, created = PostPicture.objects.get_or_create(
-                post=validated_data['post'], 
-                picture=validated_data['picture'])
-        return post_picture
-
-
-    def update(self, instance, validated_data):
-        """
-        Update and return an existing "PostPicture".
-        """
-        # only order should be updatable
-        instance.order = validated_data.get('order', instance.order)
-        instance.save()
-
-        return instance

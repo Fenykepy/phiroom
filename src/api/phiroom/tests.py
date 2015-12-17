@@ -21,8 +21,6 @@ class CSRFTokenAPITest(APITestCase):
         # client should get token
         response=self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        from pprint import pprint
-        pprint(response.data.__dict__)
         self.assertTrue(response.data['token'])
         # client shouldn't be able to post
         response=self.client.post(url, data)

@@ -25,6 +25,18 @@ def create_test_tags(instance):
     instance.tag2 = Tag(name="test2")
     instance.tag2.save()
 
+def create_test_weblog_users(instance):
+    """Create users for tests."""
+    create_test_users(instance)
+    instance.user3 = User.objects.create_user(
+        username="bill",
+        email="bill@bill.com",
+        password='top_secret',
+        is_weblog_author=True,
+    )
+    instance.user3.save()
+
+
 
 def create_test_posts(instance):
     """Create 4 test posts for tests.
@@ -901,12 +913,8 @@ class PostAPITest(APITestCase):
               'pk': 1} 
         for key in data:
             self.assertEqual(response.data[key], data[key])
-        self.assertEqual(response.data['author']['username'],
-                self.user.username)
-        self.assertEqual(response.data['author']['author_name'],
-                self.user.author_name)
-        self.assertEqual(response.data['author']['website'],
-                self.user.website)
+        self.assertEqual(response.data['author'],
+                self.user.pk)
 
         self.assertTrue(response.data['pub_date'])
         self.assertTrue(response.data['tags'])
@@ -996,12 +1004,8 @@ class PostAPITest(APITestCase):
              'pk': 5} 
         for key in data:
             self.assertEqual(response.data['results'][0][key], data[key])
-        self.assertEqual(response.data['results'][0]['author']['username'],
-                self.user.username)
-        self.assertEqual(response.data['results'][0]['author']['author_name'],
-                self.user.author_name)
-        self.assertEqual(response.data['results'][0]['author']['website'],
-                self.user.website)
+        self.assertEqual(response.data['results'][0]['author'],
+                self.user.pk)
 
         self.assertTrue(response.data['results'][0]['pub_date'])
         self.assertTrue(response.data['results'][0]['slug'])

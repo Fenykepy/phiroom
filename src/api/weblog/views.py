@@ -1,3 +1,4 @@
+from django.http import Http404
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -5,6 +6,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from weblog.serializers import *
 from weblog.models import Post, Tag
+from librairy.models import Picture
 
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
 
@@ -68,6 +70,37 @@ class PostsListByTag(PostList):
 
     def get_queryset(self):
         return Post.published.filter(tags__slug=self.kwargs['slug'])
+
+
+class PostPictureList(generics.ListCreateAPIView):
+    """
+    API endpoint that presents a list of post-picture relations
+    and allows new post-picture relations to be created.
+    """
+    queryset = PostPicture.objects.all()
+    serializer_class = PostPictureSerializer
+
+
+
+class PostPictureDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that presents a specific post-picture relation
+    and allows to update or delete it.
+    """
+    queryset = PostPicture.objects.all()
+    serializer_class = PostPictureSerializer
+    def get_object(self):
+        try:
+            post = Post.objects.get(slug=self.kwargs['post'])
+            pict = Picture.objects.get(pk=self.kwargs['picture'])
+            post_pict = PostPicture.objects.get(
+                    post=post,
+                    picture=pict)
+        except:
+            raise Http404
+
+        return post_pict
+
 
 
 @api_view(['GET'])
