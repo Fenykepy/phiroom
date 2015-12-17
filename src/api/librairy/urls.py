@@ -17,14 +17,4 @@ urlpatterns = [
             name="directory-detail"),
         url(r'^directories/(?P<pk>[0-9-]+)/pictures/$', views.DirectoryPicturesList.as_view(),
             name="directory-pictures-list"),
-
-
-        # to move to weblog app
-        url(r'^posts/(?P<pk>[0-9]+)/pictures/$', views.PostPicturesList.as_view(),
-            name="post-pictures-list"),
-        url(r'^post-pict/$', views.PostPictureCreate.as_view(),
-            name="post-picture-create"),
-        url(r'^post-pict/post/(?P<post>[0-9]+)/pict/(?P<pict>[0-9]+)/$',
-            views.PostPictureDetail.as_view(),
-            name="post-picture-detail"),
 ]

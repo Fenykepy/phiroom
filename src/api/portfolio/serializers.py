@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from librairy.models import Picture
-from librairy.serializers import PictureShortSerializer
 from portfolio.models import Portfolio, PortfolioPicture
 
 

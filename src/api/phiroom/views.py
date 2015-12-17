@@ -32,7 +32,6 @@ def get_or_create_csrf_token(request):
         token = csrf._get_new_csrf_key()
         request.META['CSRF_COOKIE'] = token
     request.META['CSRF_COOKIE_USED'] = True
-    print(type(token))
     return token
 
 
@@ -41,5 +40,4 @@ def get_or_create_csrf_token(request):
 def obtain_csrf_token(request, format=None):
     token = get_or_create_csrf_token(request)
     serializer = CSRFTokenSerializer({'token': token})
-    print(serializer.data)
     return Response(serializer.data)
