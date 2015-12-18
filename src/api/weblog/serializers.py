@@ -34,12 +34,12 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ('url', 'title', 'description', 'source',
                   'tags', 'author', 'draft', 'pub_date',
-                  'content', 'abstract', 'slug', 'pk',
+                  'content', 'abstract', 'slug',
                   'next', 'previous', 'tags_flat_list',
                   'pictures',
         )
         read_only_fields = ('slug', 'author', 'content',
-                'abstract', 'tags', 'pk')
+                'abstract', 'tags')
 
 
     def add_tags(self, tags_flat_list, instance):
@@ -111,7 +111,7 @@ class PostAbstractSerializer(PostSerializer):
         model = Post
         fields = ('url', 'title', 'description',
                 'draft', 'pub_date', 'abstract', 'slug',
-                'author', 'pictures', 'pk'
+                'author', 'pictures'
         )
 
 

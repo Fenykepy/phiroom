@@ -856,7 +856,7 @@ class PostAPITest(APITestCase):
               'previous': None,
               'content': '<p>some text  end of abstract</p>',
               'abstract': '<p>some text …</p>',
-              'pk': 1} 
+        } 
         for key in data:
             self.assertEqual(response.data[key], data[key])
         self.assertEqual(response.data['author'],
@@ -947,7 +947,7 @@ class PostAPITest(APITestCase):
               'description': '',
               'draft': False,
               'abstract': '<p>some text …</p>',
-             'pk': 5} 
+        } 
         for key in data:
             self.assertEqual(response.data['results'][0][key], data[key])
         self.assertEqual(response.data['results'][0]['author'],
@@ -976,8 +976,8 @@ class PostAPITest(APITestCase):
         # assert tag "test3" has been created
         tag = Tag.objects.filter(name="test3")
         self.assertEqual(len(tag), 1)
-        pk = response.data['pk']
-        new_post = Post.objects.get(pk=pk)
+        slug = response.data['slug']
+        new_post = Post.objects.get(slug=slug)
         # assert tags have been saved
         new_post_tags = new_post.tags.all().values_list('name', flat=True)
         self.assertEqual(len(new_post_tags), 3)
@@ -1003,8 +1003,8 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         # all created tags should be in response
         self.assertEqual(len(response.data['tags']), 3)
-        pk = response.data['pk']
-        new_post = Post.objects.get(pk=pk)
+        slug = response.data['slug']
+        new_post = Post.objects.get(slug=slug)
         # assert tags have been saved and present tags are still there
         new_post_tags = new_post.tags.all().values_list('name', flat=True)
         self.assertEqual(len(new_post_tags), 3)
@@ -1021,8 +1021,8 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         # all created tags should be in response
         self.assertEqual(len(response.data['tags']), 1)
-        pk = response.data['pk']
-        new_post = Post.objects.get(pk=pk)
+        slug = response.data['slug']
+        new_post = Post.objects.get(slug=slug)
         new_post_tags = new_post.tags.all().values_list('name', flat=True)
         self.assertEqual(len(new_post_tags), 1)
         self.assertTrue('test2' in new_post_tags)
