@@ -879,6 +879,52 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 204)
 
 
+    def test_post_pictures(self):
+        url = '/api/weblog/posts/{}/pictures/'.format(
+                self.post.slug)
+        url2 = '/api/weblog/posts/{}/pictures/'.format(
+                self.post2.slug)
+        data = {'pictures': [2, 1]}
+
+        # pass post2 as draft
+        self.post2.draft = True
+        self.post2.save()
+ 
+        # create pictures
+        self.pict = create_test_picture()
+        self.pict2 = create_test_picture()       
+
+        # add pictures to posts
+        pp = PostPicture(
+                post=self.post,
+                picture=self.pict)
+        pp.order = 3
+        pp.save()
+        pp2 = PostPicture(
+                post=self.post,
+                picture=self.pict2)
+        pp2.order = 1
+        pp2.save()
+
+        self.pict.title = 'title 1'
+        self.pict.legend = 'legend 1'
+        self.pict.previews_path = 'xx/xx/xxxxxx'
+        self.pict.ratio = 0.75
+        self.pict.save()
+ 
+        self.pict2.title = 'title 2'
+        self.pict2.legend = 'legend 2'
+        self.pict2.previews_path = 'xx/xx/xxxxxx'
+        self.pict2.ratio = 0.70
+        self.pict2.save()   
+
+
+        # test without login
+        # client should get post pictures
+
+
+
+
     def test_posts_by_tag(self):
         url = '/api/weblog/posts/tag/{}/'.format(self.tag.slug)
         data = {'title': 'Post title',

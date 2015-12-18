@@ -34,12 +34,11 @@ A tree:
             #[GET:(any), PUT-PATCH-DELETE:(admin)] get update delete a specific post
 [OK]            - post-detail: /api/weblog/posts/:slug-with-date/
                 #[GET:(any)] get all pictures public info of a specific post
-                #[POST:(admin] push a list of pictures's pk to server
                 - post-pictures: /api/weblog/posts/:slug-with-date/pictures/
         #[GET-POST:(admin)] get a list of all post-pictures relation, post a new one
-        - post-picture-list: /api/weblog/post-picture/
+[OK]        - post-picture-list: /api/weblog/post-picture/
         #[GET-PUT-PATCH-DELETE:(admin)] get update delete a post picture relation
-        - post-picture-detail: /api/weblog/post-picture/post/:slug-with-date/picture/:pk/
+[OK]        - post-picture-detail: /api/weblog/post-picture/post/:slug-with-date/picture/:pk/
     #[GET:(admin)] get a list of urls
 [OK]    - contact-root: "/api/contact/"
         #[GET:(any)] get last description
