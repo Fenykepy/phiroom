@@ -40,8 +40,12 @@ export default class Portfolio extends Component {
     return promises
   }
 
-  componentDidMount() {
+  fetchData() {
     this.constructor.fetchData(this.props.dispatch, this.props.params, true)
+  }
+
+  componentDidMount() {
+    this.fetchData()
     // set module
     if (this.props.modules.current != 'portfolios') {
       this.props.dispatch(setModule('portfolios'))
@@ -54,7 +58,7 @@ export default class Portfolio extends Component {
       this.props.history.pushState(null, `/portfolio/${this.props.portfolio.default}/`)
     }
     if (this.props.params.slug != nextProps.params.slug) {
-      this.constructor.fetchData(this.props.dispatch, nextProps.params, true)
+      this.fetchData()
     }
   }
 

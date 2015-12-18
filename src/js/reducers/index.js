@@ -4,6 +4,7 @@ import settings from './settings'
 import modules from './modules'
 import pictures from './pictures'
 import portfolio from './portfolios'
+import weblog from './weblog'
 import contact from './contact'
 import viewport from './viewport'
 import common from './common'
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   pictures,
   viewport,
   portfolio,
+  weblog,
   contact,
   common,
   routing: routeReducer,

@@ -25,7 +25,7 @@ export default () => {
           <Route path=":slug(/)" component={Portfolio} />
           <Route path=":slug/lightbox/:sha1(/)" component={Portfolio} />
         </Route>
-        <Route path="weblog(/)" component={WeblogList} />
+        <Route path="weblog(/page/:page/)" component={WeblogList} onEnter={appendSlash} />
         <Route path="contact(/)" component={Contact} />
       </Route>
     </Route>
