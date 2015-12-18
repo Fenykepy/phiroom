@@ -524,7 +524,7 @@ class PostPictureAPITest(APITestCase):
 
 
     def test_post_picture_create(self):
-        url = '/api/librairy/post-pict/'
+        url = '/api/weblog/post-picture/'
         data = {'post': 1, 'picture': 2}
         data2 = {'order': 76}
         
@@ -566,9 +566,10 @@ class PostPictureAPITest(APITestCase):
 
         # test with staff member and post owner
         login(self, self.user)
-        # client shouldn't get posts list
+        # client should get posts list
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data['results']), 0)
         # client should be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 201)
@@ -597,25 +598,14 @@ class PostPictureAPITest(APITestCase):
         self.assertEqual(p, 1)
 
 
-        # make second user staff
-        PostPicture.objects.filter(post=self.post, picture=self.pict2).delete()
-        self.user2.is_staff = True
-        self.user2.save()
-        login(self, self.user2)
-        # try to post with a user not post's owner
-        # shouldn't be possible
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-
-
-
 
     def test_post_picture_detail(self):
         PostPicture.objects.create(post=self.post, picture=self.pict)
-        url = '/api/librairy/post-pict/post/1/pict/1/'
+        slug = self.post.slug
+        url = '/api/weblog/post-picture/post/{}/picture/1/'.format(slug)
         data = {'post': 1, 'picture': 2}
         data2 = {'order': 76}
-        
+  
         # try without login
         # client shouldn't be able to get
         response = self.client.get(url)
@@ -656,7 +646,9 @@ class PostPictureAPITest(APITestCase):
         login(self, self.user)
         # client shouldn't get posts list
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['post'], 1)
+        self.assertEqual(response.data['picture'], 1)
         # client shouldn't be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 405)
@@ -672,51 +664,6 @@ class PostPictureAPITest(APITestCase):
         pps = PostPicture.objects.all().count()
         self.assertEqual(pps, 0)
         
-        # make second user staff
-        self.user2.is_staff = True
-        self.user2.save()
-        login(self, self.user2)
-        PostPicture.objects.create(post=self.post, picture=self.pict)
-        # try to patch with a user not post's owner
-        # shouldn't be possible
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 403)
-
-
-
-    def test_post_picture_list(self):
-        PostPicture.objects.create(post=self.post, picture=self.pict)
-        url = '/api/librairy/posts/1/pictures/'
-
-        # try without login
-        # client shouldn't be able to get
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-
-        # test with normal user
-        login(self, self.user2)
-        # client shouldn't get posts list
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-        
-        # make second user staff
-        self.user2.is_staff = True
-        self.user2.save()
-        login(self, self.user2)
-        # client shouldn't get posts list
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-
-        # test with staff member and post owner
-        login(self, self.user)
-        # client shouldn't get posts list
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-
-
 
 
 
@@ -764,7 +711,6 @@ class PostAPITest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 5)
-        self.assertTrue(response.data[0]['pk'])
         self.assertTrue(response.data[0]['slug'])
         self.assertTrue(response.data[0]['title'])
         
@@ -777,7 +723,7 @@ class PostAPITest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['pk'], self.post3.pk)
+        self.assertEqual(response.data[0]['slug'], self.post3.slug)
 
 
     def test_posts_list(self):
