@@ -16,7 +16,6 @@ export default class WeblogPagination extends Component {
       next = (<Link to={`/weblog/page/${next_page}/`} 
                     id="next">Older posts »</Link>)
     }
-    console.log('props', this.props)
     return (
         <nav id="pagination">
           {previous}{next}

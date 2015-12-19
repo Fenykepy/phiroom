@@ -87,6 +87,7 @@ export function fetchWeblogPageIfNeeded(page) {
   }
 }
 
+
 function fetchWeblogPage(page) {
   /*
    * Fetch a weblog's page data
@@ -109,3 +110,47 @@ function fetchWeblogPage(page) {
   }
 }
 
+function shouldFetchPost(state, post) {
+  // returns true if post hasn't been fetched yet
+  const item = state.weblog.posts[post]
+  if (! item) { return true }
+  if (item.is_fetching || item.fetched) { return false }
+  return true
+}
+
+
+export function fetchPostIfNeeded(post) {
+  // fetch weblog post if it's not done yet
+  return (dispatch, getState) => {
+    if (shouldFetchPost(getState(), post)) {
+      return dispatch(fetchPost(post))
+    }
+    // else return a resolved promise
+    return new Promise((resolve, reject) => resolve(
+        {data: getState().weblog.posts[post]}
+    ))
+  }
+}
+
+
+function fetchPost(post) {
+  /*
+   * Fetch a weblog's post data
+   */
+  return function(dispatch) {
+    // start request
+    dispatch(requestPost(post))
+    // return a promis
+    return fetch(`${base_url}api/weblog/posts/${post}/`)
+      .then(response =>
+          response.json()
+      )
+      .then(json => {
+        // add post to state
+        dispatch(receivePost(post, json))
+      })
+      .catch(error =>
+          dispatch(requestPostFailure(post, error.message))
+      )
+  }
+}

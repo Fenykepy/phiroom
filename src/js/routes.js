@@ -5,6 +5,7 @@ import { Route, Redirect } from 'react-router'
 import App from './containers/App'
 import Portfolio from './components/Portfolio'
 import WeblogList from './components/WeblogList'
+import WeblogDetail from './components/WeblogDetail'
 import Contact from './components/Contact'
 
 
@@ -27,6 +28,7 @@ export default () => {
           <Route path=":slug/lightbox/:sha1(/)" component={Portfolio} />
         </Route>
         <Route path="weblog(/page/:page/)" component={WeblogList} onEnter={appendSlash} />
+        <Route path="weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash} />
         <Route path="contact(/)" component={Contact} />
       </Route>
     </Route>
