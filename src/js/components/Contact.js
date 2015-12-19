@@ -38,7 +38,19 @@ export default class Contact extends Component {
   }
 
   render() {
-    let form, child
+    let form, child, description
+    if (! this.props.contact.description ||
+        this.props.contact.description.is_fetching) {
+      description = (<Spinner message="Fetching…" />)
+    } else {
+      description = (
+        <article>
+          <h1>{this.props.contact.description.title}</h1>
+          <span dangerouslySetInnerHTML={{__html: this.props.contact.description.content}} />
+        </article>
+
+      )
+    }
     // if (this.props.user.is_authenticated) {
     //  form = (<AuthenticatedContactForm />)
     // } else {
@@ -59,12 +71,13 @@ export default class Contact extends Component {
     }
     return (
       <section role="main">
-        <h1>{this.props.contact.description.title}</h1>
-        <span dangerouslySetInnerHTML={{__html: this.props.contact.description.content}} />
+        {description}
         <hr />
         {/* insert follow links here */}
-        <h1>Leave me a message</h1>
-        {child}
+        <article>
+          <h1>Leave me a message</h1>
+          {child}
+        </article>
       </section>
     )
   }

@@ -15,15 +15,37 @@ body {
 em {
     font-style: italic;
 }
+strong {
+    font-weight: bold;
+}
 
+article {
+    padding: 0px;
+    position: relative;
+    margin-top: 4em;
+    p {
+        margin-bottom: 1.125em;
+    }
+    ul {
+        padding-left: 30px;
+        list-style-type: disc;
+    }
+    ol {
+        padding-left: 30px;
+        list-style-type: decimal;
+    }
+}
 pre {
     background-color: @blog-code-bg;
-    border: 1px solid @blog-code-border;
+    border: @blog-code-border;
     border-radius: 5px;
     padding: 1em 1.5em;
     margin: 1em 0;
     overflow: auto;
-    box-shadow: 0 0 3px @blog-code-bg,
+    box-shadow: 0 0 3px @blog-code-bg;
+    code {
+        background-color: rgba(0,0,0,0);
+    }
 }
 code {
     background-color: @blog-code-bg;
@@ -31,6 +53,10 @@ code {
     font-family: @mono;
     border-radius: 4px;
     padding: 0px 5px;
+}
+blockquote {
+    padding-left: 1.5em;
+    line-height: 200%;
 }
 
 
@@ -243,7 +269,7 @@ hr {
         }
     }
 }
-#weblog, #contact {
+#weblog, #contact, #weblog {
     // main section
     section[role="main"] {
         position: relative;
