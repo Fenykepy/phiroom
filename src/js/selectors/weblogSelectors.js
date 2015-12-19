@@ -7,4 +7,13 @@ import { createSelector, createStructuredSelector } from 'reselect'
  * input selectors
  */
 
-export const weblogSelector = state => state.weblog
+const selectedPageSelector = state => state.weblog.pages[
+  state.weblog.selectedPage]
+
+const selectedPostSelector = state => state.weblog.posts[
+  state.weblog.selectedPost]
+
+export const weblogSelector = createStructuredSelector({
+  selectedPage: selectedPageSelector,
+  selectedPost: selectedPostSelector
+})

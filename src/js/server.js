@@ -24,6 +24,8 @@ import { base_url } from './config'
 var app = new Express()
 var port = 3000
 
+const SERVER_RENDERING = false
+
 var compiler = webpack(config)
 app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
@@ -117,8 +119,17 @@ function renderFullPage(html, initialState, title='') {
     `
 }
 
-// fired each time serverside receive a request
-app.use(handleRender)
+
+
+if (SERVER_RENDERING) {
+  // fired each time serverside receive a request
+  app.use(handleRender)
+} else {
+  app.get("*", function(req, res) {
+    res.status(200).send(renderFullPage('', null))
+  })
+}
+
 
 app.listen(port, function(error) {
   if (error) {

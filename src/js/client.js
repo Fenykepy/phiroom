@@ -18,16 +18,22 @@ import { fetchCommonData } from './helpers/fetchCommonData'
 // get state provided by server
 const initialState = window.__INITIAL_STATE__
 
-const store = createStoreWithMiddleware(rootReducer, initialState)
+let store
+if (initialState) {
+  store = createStoreWithMiddleware(rootReducer, initialState)
+} else {
+  store = createStoreWithMiddleware(rootReducer)
+}
 const history = createBrowserHistory()
 
 syncReduxAndRouter(history, store)
 
 
 // Every time the state changes, log it
+/*
 let unsubscribe = store.subscribe(() =>
   console.log('state', store.getState())
-)
+)*/
 
 // fetch common data
 let promises = fetchCommonData(store)

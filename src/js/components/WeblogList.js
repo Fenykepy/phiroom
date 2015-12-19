@@ -7,6 +7,9 @@ import  {
 } from '../actions/weblog'
 import { setModule } from '../actions/modules'
 
+import WeblogPagination from './WeblogPagination'
+import Spinner from './Spinner'
+
 export default class WeblogList extends Component {
   
   static fetchData(dispatch, params, clientSide=false) {
@@ -19,13 +22,14 @@ export default class WeblogList extends Component {
     return promises
   }
 
-  fetchData() {
-    this.constructor.fetchData(this.props.dispatch, this.props.params, true)
+  fetchData(params) {
+    console.log('props', this.props)
+    this.constructor.fetchData(this.props.dispatch, params, true)
   }
 
 
   componentDidMount() {
-    this.fetchData()
+    this.fetchData(this.props.params)
     // set module
     if (this.props.modules.current != 'weblog') {
       this.props.dispatch(setModule('weblog'))
@@ -35,21 +39,29 @@ export default class WeblogList extends Component {
   componentWillReceiveProps(nextProps) {
     let page = this.props.params.page || 1
     if (page != nextProps.params.page) {
-      this.fetchData()
+      console.log('fetchpage')
+      this.fetchData(nextProps.params)
     }
   }
 
 
-
   render() {
-    console.log('props', this.props)
+    console.log('weblog', this.props.weblog)
+    let child
+    // show spinner if no selected page or if page is fetching
+    if (! this.props.weblog.selectedPage ||
+        this.props.weblog.selectedPage.is_fetching) {
+      child = (<Spinner message="Fetching…" />)
+    } else {
+      child =(
+          <WeblogPagination
+            next={this.props.weblog.selectedPage.next}
+            previous={this.props.weblog.selectedPage.previous}
+            page={parseInt(this.props.params.page) || 1} />
+      )
+    }
     return (
-        <section role="main">
-          <nav id="pagination">
-            <a ng-if="prev_page" id="prev" href="" ng-click="goToPage(prev_page)">« Recent posts</a>
-            <a ng-if="next_page" id="next" href="" ng-click="goToPage(next_page)">Older posts »</a>
-          </nav>
-        </section>
+        <section role="main">{child}</section>
     )
   }
 }

@@ -20,6 +20,7 @@ export default () => {
   return (
     <Route>
       <Redirect from="/" to="/portfolio/" />
+      <Redirect from="/weblog/page/1/" to="/weblog/" />
       <Route path="/" component={App} onEnter={appendSlash}>
         <Route path="portfolio(/)" component={Portfolio}>
           <Route path=":slug(/)" component={Portfolio} />
