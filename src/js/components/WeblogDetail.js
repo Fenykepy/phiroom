@@ -10,6 +10,8 @@ import { setModule } from '../actions/modules'
 import { Link } from 'react-router'
 import Spinner from './Spinner'
 import WeblogTime from './WeblogTime'
+import WeblogAuthor from './WeblogAuthor'
+import WeblogDescription from './WeblogDescription'
 import WeblogPostNavigation from './WeblogPostNavigation'
 
 export default class WeblogDetail extends Component {
@@ -63,20 +65,15 @@ export default class WeblogDetail extends Component {
         this.props.weblog.selectedPost.is_fetching) {
       child = (<Spinner message="Fetching…" />)
     } else {
-      let description = ''
-      if (this.props.weblog.selectedPost.description) {
-        description = (
-            <p className="description">{this.props.weblog.selectedPost.description}</p>
-        )
-      }
       child = (
         <div><article>
           <header>
             <WeblogTime date={this.props.weblog.selectedPost.pub_date} />
             <h1>{this.props.weblog.selectedPost.title}</h1>
-            {description}
+            <WeblogDescription description={this.props.weblog.selectedPost.description} />
           </header>
           <div className="content" dangerouslySetInnerHTML={{__html: this.props.weblog.selectedPost.content}} />
+          <WeblogAuthor author={this.props.weblog.selectedPost.author} />
           <footer>
               <ul id="tags">
               </ul>
