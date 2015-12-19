@@ -1,9 +1,10 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Route, Redirect } from 'react-router'
+import { Route, Redirect, IndexRoute } from 'react-router'
 
 import App from './containers/App'
 import Portfolio from './components/Portfolio'
+import Weblog from './components/Weblog'
 import WeblogList from './components/WeblogList'
 import WeblogDetail from './components/WeblogDetail'
 import Contact from './components/Contact'
@@ -27,7 +28,11 @@ export default () => {
           <Route path=":slug(/)" component={Portfolio} />
           <Route path=":slug/lightbox/:sha1(/)" component={Portfolio} />
         </Route>
-        <Route path="weblog(/page/:page/)" component={WeblogList} onEnter={appendSlash} />
+        <Route path="weblog(/)" component={Weblog} onEnter={appendSlash} >
+          <IndexRoute component={WeblogList} />
+          <Route path="/weblog/page/:page(/)" component={WeblogList} onEnter={appendSlash} />
+          <Route path="/weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash} />
+        </Route>
         <Route path="weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash} />
         <Route path="contact(/)" component={Contact} />
       </Route>

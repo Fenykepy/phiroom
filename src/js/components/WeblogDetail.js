@@ -63,11 +63,18 @@ export default class WeblogDetail extends Component {
         this.props.weblog.selectedPost.is_fetching) {
       child = (<Spinner message="Fetching…" />)
     } else {
+      let description = ''
+      if (this.props.weblog.selectedPost.description) {
+        description = (
+            <p className="description">{this.props.weblog.selectedPost.description}</p>
+        )
+      }
       child = (
         <div><article>
           <header>
             <WeblogTime date={this.props.weblog.selectedPost.pub_date} />
             <h1>{this.props.weblog.selectedPost.title}</h1>
+            {description}
           </header>
           <div className="content" dangerouslySetInnerHTML={{__html: this.props.weblog.selectedPost.content}} />
           <footer>

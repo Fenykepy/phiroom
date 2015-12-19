@@ -7,11 +7,11 @@ export default class WeblogPostNavigation extends Component {
     let previous = ''
     let next = ''
     if (this.props.previous) {
-      previous = (<Link
+      previous = (<Link id="prev"
           to={`/weblog/${this.props.previous}/`}>« Previous post</Link>)
     }
     if (this.props.next) {
-      next = (<Link
+      next = (<Link id="next"
           to={`/weblog/${this.props.next}/`}>Next post »</Link>)
     }
 

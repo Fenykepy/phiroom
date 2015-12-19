@@ -22,10 +22,10 @@ export default class Portfolio extends Component {
 
   static fetchData(dispatch, params, clientSide=false) {
     let promises = []
-    let slug = params.slug
+    if (! params.slug)  return promises
     // use static to be able to call it server side before component is rendered
-    promises.push(dispatch(fetchPortfolioIfNeeded(slug)).then((data) => {
-        dispatch(selectPortfolio(slug))
+    promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then((data) => {
+        dispatch(selectPortfolio(params.slug))
         // fetch portfolios pictures if needed
         if (clientSide) {
           data.data.pictures.map((item) => {
@@ -35,7 +35,7 @@ export default class Portfolio extends Component {
     }))
     if (! clientSide) {
       // fetch all pictures at once serverside
-      promises.push(dispatch(fetchPortfolioPictures(slug)))
+      promises.push(dispatch(fetchPortfolioPictures(params.slug)))
     }
     return promises
   }

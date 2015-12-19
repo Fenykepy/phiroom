@@ -24,7 +24,7 @@ import { base_url } from './config'
 var app = new Express()
 var port = 3000
 
-const SERVER_RENDERING = true
+const SERVER_RENDERING = false
 
 var compiler = webpack(config)
 app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath }))
