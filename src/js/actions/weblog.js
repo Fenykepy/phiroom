@@ -140,15 +140,14 @@ function fetchPost(post) {
   return function(dispatch) {
     // start request
     dispatch(requestPost(post))
-    // return a promis
+    // return a promise
     return fetch(`${base_url}api/weblog/posts/${post}/`)
       .then(response =>
           response.json()
       )
-      .then(json => {
-        // add post to state
+      .then(json =>
         dispatch(receivePost(post, json))
-      })
+      )
       .catch(error =>
           dispatch(requestPostFailure(post, error.message))
       )

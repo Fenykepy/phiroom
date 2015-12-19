@@ -5,6 +5,7 @@ import {
   fetchPostIfNeeded,
   selectPost
 } from '../actions/weblog'
+import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { setModule } from '../actions/modules'
 
 import { Link } from 'react-router'
@@ -13,6 +14,7 @@ import WeblogTime from './WeblogTime'
 import WeblogAuthor from './WeblogAuthor'
 import WeblogDescription from './WeblogDescription'
 import WeblogPostNavigation from './WeblogPostNavigation'
+import WeblogGallery from './WeblogGallery'
 
 export default class WeblogDetail extends Component {
 
@@ -24,9 +26,18 @@ export default class WeblogDetail extends Component {
       + params.d + '/'
       + params.slug
     // use static to be able to call it server side before component is rendered
-    promises.push(dispatch(fetchPostIfNeeded(slug)).then(data => {
+    promises.push(dispatch(fetchPostIfNeeded(slug)).then((data) => {
       dispatch(selectPost(slug))
+      // fetch related pictures if necessairy
+      if (clientSide) {
+        data.data.pictures.map((item) => {
+          dispatch(fetchShortPictureIfNeeded(item))
+        })
+      }
     }))
+    if (! clientSide) {
+      // !!! fetch all pictures at once serverside
+    }
     return promises
   }
 
@@ -74,6 +85,7 @@ export default class WeblogDetail extends Component {
           </header>
           <div className="content" dangerouslySetInnerHTML={{__html: this.props.weblog.selectedPost.content}} />
           <WeblogAuthor author={this.props.weblog.selectedPost.author} />
+          <WeblogGallery pictures={this.props.weblog.pictures} />
           <footer>
               <ul id="tags">
               </ul>
