@@ -142,28 +142,28 @@ specific directory,
 ================================
 
 === root ===
-- /
-    - redirect to home module
+#- /
+#    - redirect to home module
 
 === portfolio ===
-- /portfolio/
-    - redirect to first portfolio
-- /portfolio/:slug/
-    - view a specific portfolio
+#- /portfolio/
+#    - redirect to first portfolio
+#- /portfolio/:slug/
+#    - view a specific portfolio
 - /portfolio/:slug/:sha1/
     - view a picture of a portfolio in lightbox
 
 === weblog ===
-- /weblog/{page/:n/}
-    - view a list of posts, paginated
-- /weblog/:slug-with-date/
-    - view a specific post
-- /weblog/keyword/:slug/{page/:n}/
+#- /weblog/{page/:n/}
+#    - view a list of posts, paginated
+#- /weblog/:slug-with-date/
+#    - view a specific post
+- /weblog/tag/:slug/{page/:n}/
     - view a list of post by tag, paginated
 
 === contact ===
-- /contact/
-    - view contact page with form and description
+#- /contact/
+#    - view contact page with form and description
 
 === librairy ===
 - /librairy/
