@@ -326,13 +326,25 @@ hr {
 }
 
 // Carousel inline (manual scroll, server side rendering)
-.carousel-inline {
+.carousel-inline, .gallery-inline {
     margin-top: 24px;
     max-height: 650px;
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap; // for all li to stay inline on overflow
     line-height: 0; // to remove white spaces between li
+    &::-webkit-scrollbar-thumb {
+        border: 2px solid white;
+        background: @blog-hr;
+        border-radius: 8px;
+    }
+    &::-webkit-scrollbar {
+        width: 10px;
+        border-radius: 3px;
+    }
+    &::-webkit-scrollbar-track {
+        border-radius: 5px;
+    }
     li {
         margin: 0 3px 50px 0;
         display: inline-block;
@@ -343,6 +355,12 @@ hr {
             margin-right: 200px;
         }
     }
+}
+.gallery-inline {
+    position: relative;
+    box-sizing: border-box;
+    width: calc(~'100vw - 200px');
+    left: calc(~'-50vw + 50% + 100px');
 }
 .carousel-error {
     text-align: center;
