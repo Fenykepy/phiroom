@@ -13,6 +13,7 @@ import Spinner from './Spinner'
 import WeblogTime from './WeblogTime'
 import WeblogAuthor from './WeblogAuthor'
 import WeblogDescription from './WeblogDescription'
+import WeblogTags from './WeblogTags'
 import WeblogPostNavigation from './WeblogPostNavigation'
 import WeblogGallery from './WeblogGallery'
 
@@ -87,8 +88,7 @@ export default class WeblogDetail extends Component {
           <WeblogAuthor author={this.props.weblog.selectedPost.author} />
           <WeblogGallery pictures={this.props.weblog.pictures} />
           <footer>
-              <ul id="tags">
-              </ul>
+              <WeblogTags tags={this.props.weblog.selectedPost.tags} />
           </footer>
         </article>
         <WeblogPostNavigation

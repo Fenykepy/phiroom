@@ -25,6 +25,7 @@ class PostSerializer(serializers.ModelSerializer):
     next = serializers.SerializerMethodField()
     previous = serializers.SerializerMethodField()
     pictures = serializers.SerializerMethodField()
+    tags = TagSerializer(many=True)
     url = serializers.HyperlinkedIdentityField(
             view_name='post-detail',
             lookup_field='slug'

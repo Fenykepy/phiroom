@@ -28,6 +28,30 @@
         .description {
             color: @blog-desc;
         }
+        .tags {
+            margin-top: 4em;
+            margin-bottom: 1.125em;
+            text-align: center;
+            li {
+                display: inline;
+                &:after {
+                    display: inline-block;
+                    content: "\2022";
+                    margin: 0 10px;
+                    color: @blog-tags;
+                }
+                &:last-child:after {
+                    content: "";
+                }
+            }
+            a {
+                text-decoration: none;
+                color: @blog-tags;
+                &:hover, &:active, &:focus {
+                    color: @blog-links-hover;
+                }
+            }
+        }
     }
 
 }
