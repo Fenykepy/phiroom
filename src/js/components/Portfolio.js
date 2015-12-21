@@ -29,13 +29,14 @@ export default class Portfolio extends Component {
         // fetch portfolios pictures if needed
         if (clientSide) {
           // set module
-          dispatch(setModule('portfolios'))
           data.data.pictures.map((item) => {
             dispatch(fetchShortPictureIfNeeded(item))
           })
         }
     }))
     if (! clientSide) {
+      // set module
+      dispatch(setModule('portfolios'))
       // fetch all pictures at once serverside
       promises.push(dispatch(fetchPortfolioPictures(params.slug)))
     }

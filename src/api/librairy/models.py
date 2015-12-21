@@ -401,6 +401,9 @@ class Picture(models.Model):
         except FileNotFoundError:
             pass
 
+    def __str__(self):
+        return "{} - {}".format(self.pk, self.title)
+
 
 
 class Tag(MPTTModel):

@@ -55,6 +55,32 @@ export function requestPostFailure(post, error) {
   }
 }
 
+export function requestPostPictures(post) {
+  return {
+    type: types.REQUEST_POST_PICTURES,
+    post
+  }
+}
+
+export function receivePostPictures(post, json) {
+  return {
+    type: types.REQUEST_POST_PICTURES_SUCCESS,
+    post,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+export function requestPostPicturesFailure(post, error) {
+  return {
+    type: types.REQUEST_POST_PICTURES_FAILURE,
+    post,
+    error
+  }
+}
+
+
+
 
 export function selectWeblogPage(page) {
   return { type: types.SELECT_WEBLOG_PAGE, page}
@@ -152,4 +178,26 @@ function fetchPost(post) {
           dispatch(requestPostFailure(post, error.message))
       )
   }
+}
+
+
+
+export function fetchPostPictures(post) {
+  /*
+   * fetch all pictures of a post at once
+   */
+  return function(dispatch) {
+    // start request
+    dispatch(requestPostPictures(post))
+    // return a promise
+    return fetch(`${base_url}api/weblog/posts/${post}/pictures/`)
+      .then(response =>
+          response.json()
+      )
+      .then(json => {
+        json.map((item) => {
+          dispatch(receiveShortPicture(item.pk, item))
+        })
+      })
+    }
 }

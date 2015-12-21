@@ -1169,7 +1169,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         # client should get draft post
         response = self.client.get(url2)
-        self.assertEqual(response.status_code, 203)
+        self.assertEqual(response.status_code, 200)
         # client shouldn't be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 405)

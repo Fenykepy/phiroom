@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react'
 // actions
 import {
   fetchPostIfNeeded,
+  fetchPostPictures,
   selectPost
 } from '../actions/weblog'
 
@@ -45,7 +46,8 @@ export default class WeblogDetail extends Component {
     if (! clientSide) {
       // set module
       dispatch(setModule('weblog'))
-      // !!! fetch all pictures at once serverside
+      // fetch all pictures at once serverside
+      promises.push(dispatch(fetchPostPictures(slug)))
     }
     return promises
   }
