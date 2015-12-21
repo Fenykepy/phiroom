@@ -5,6 +5,8 @@ import {
   fetchPostIfNeeded,
   selectPost
 } from '../actions/weblog'
+
+import { fetchAuthorIfNeeded } from '../actions/authors'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { setModule } from '../actions/modules'
 
@@ -29,6 +31,8 @@ export default class WeblogDetail extends Component {
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPostIfNeeded(slug)).then((data) => {
       dispatch(selectPost(slug))
+      // fetch author if necessary
+      dispatch(fetchAuthorIfNeeded(data.data.author))
       // fetch related pictures if necessairy
       if (clientSide) {
         data.data.pictures.map((item) => {
@@ -85,7 +89,7 @@ export default class WeblogDetail extends Component {
             <WeblogDescription description={this.props.weblog.selectedPost.description} />
           </header>
           <div className="content" dangerouslySetInnerHTML={{__html: this.props.weblog.selectedPost.content}} />
-          <WeblogAuthor author={this.props.weblog.selectedPost.author} />
+          <WeblogAuthor author={this.props.weblog.author} />
           <WeblogGallery pictures={this.props.weblog.pictures} />
           <footer>
               <WeblogTags tags={this.props.weblog.selectedPost.tags} />

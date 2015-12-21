@@ -4,7 +4,6 @@ import { Link } from 'react-router'
 
 export default class WeblogTags extends Component {
   render() {
-    console.log('tags', this.props.tags)
     return (
         <ul className="tags">
           {this.props.tags.map((item) => {

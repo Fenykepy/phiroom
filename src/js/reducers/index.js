@@ -8,11 +8,13 @@ import weblog from './weblog'
 import contact from './contact'
 import viewport from './viewport'
 import common from './common'
+import authors from './authors'
 import { routeReducer } from 'redux-simple-router'
 
 
 const rootReducer = combineReducers({
   settings,
+  authors,
   modules,
   pictures,
   viewport,

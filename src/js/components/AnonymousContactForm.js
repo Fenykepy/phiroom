@@ -44,7 +44,6 @@ export default class AnonymousContactForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    console.log(this.state)
     this.props.handleSubmit(this.state)
   }
 
