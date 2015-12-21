@@ -1074,7 +1074,116 @@ class PostAPITest(APITestCase):
         self.assertTrue('test2' in new_post_tags)
 
 
+    def test_post_pictures(self):
+        base_url = '/api/weblog/posts/{}/pictures/'
+        url = base_url.format(
+                self.post.slug)
+        url2 = base_url.format(
+                self.post2.slug)
 
-        
+        data = {'pictures': [2, 1]}
+
+        self.pict = create_test_picture()
+        self.pict2 = create_test_picture()
+
+        # pass post 2 draft
+        self.post2.draft = True
+        self.post2.save()
+        # add pictures to post
+        pp = PostPicture.objects.create(
+                post=self.post,
+                picture=self.pict,
+                order=3)
+        pp2 = PostPicture.objects.create(
+                post=self.post,
+                picture=self.pict2,
+                order=1)
+
+        self.pict.title = 'title1'
+        self.pict.legend = 'legend1'
+        self.pict.previews_path = 'xx/xx/xxxxxxx'
+        self.pict.ratio = 0.75
+        self.pict.save()
+
+        self.pict2.title = 'title2'
+        self.pict2.legend = 'legend2'
+        self.pict2.previews_path = 'xx/xx/xxxxxxx'
+        self.pict2.ratio = 0.70
+        self.pict2.save()
+
+        # test without login
+        # client should get post pictures
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        data1 = response.data
+        self.assertTrue(data1[0]['pk'])
+        self.assertTrue(data1[0]['sha1'])
+        self.assertEqual(data1[0]['title'], 'title1')
+        self.assertEqual(data1[0]['legend'], 'legend1')
+        self.assertEqual(data1[0]['previews_path'], 'xx/xx/xxxxxxx')
+        self.assertEqual(data1[0]['ratio'], 0.75)
+        self.assertTrue(data1[1]['pk'])
+        self.assertTrue(data1[1]['sha1'])
+        self.assertEqual(data1[1]['title'], 'title2')
+        self.assertEqual(data1[1]['legend'], 'legend2')
+        self.assertEqual(data1[1]['previews_path'], 'xx/xx/xxxxxxx')
+        self.assertEqual(data1[1]['ratio'], 0.70)
+        # client shouldn't be able to get draft post pictures
+        response = self.client.get(url2)
+        self.assertEqual(response.status_code, 404)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+        # test with normal user
+        login(self, self.user2)
+        # client should get pictures
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client shouldn't get draft post
+        response = self.client.get(url2)
+        self.assertEqual(response.status_code, 404)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, 403)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+        # test with staff member
+        login(self, self.user)
+        # client should get pictures
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # client should get draft post
+        response = self.client.get(url2)
+        self.assertEqual(response.status_code, 203)
+        # client shouldn't be able to post
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to put
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to patch
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, 405)
+        # client shouldn't be able to delete
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+
+
+
 
 
