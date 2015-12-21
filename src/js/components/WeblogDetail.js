@@ -31,14 +31,16 @@ export default class WeblogDetail extends Component {
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPostIfNeeded(slug)).then((data) => {
       dispatch(selectPost(slug))
-      // fetch author if necessary
-      dispatch(fetchAuthorIfNeeded(data.data.author))
       // fetch related pictures if necessairy
       if (clientSide) {
         data.data.pictures.map((item) => {
           dispatch(fetchShortPictureIfNeeded(item))
         })
       }
+      return data
+    }).then((data) => {
+      // fetch author if necessary
+      return dispatch(fetchAuthorIfNeeded(data.data.author))
     }))
     if (! clientSide) {
       // set module
