@@ -4,6 +4,8 @@ import React, { Component, PropTypes } from 'react'
 import  {
   fetchWeblogPageIfNeeded,
   selectWeblogPage,
+  fetchWeblogTagPageIfNeeded,
+  selectWeblogTagPage,
 } from '../actions/weblog'
 import { setModule } from '../actions/modules'
 
@@ -17,9 +19,17 @@ export default class WeblogList extends Component {
     let promises = []
     let page = params.page || 1
     // use static to be able to call it server side before component is rendered
-    promises.push(dispatch(fetchWeblogPageIfNeeded(page)).then((data) => {
-      dispatch(selectWeblogPage(page))
-    }))
+    if (params.tag) {
+      // we get tag related post list
+      promises.push(dispatch(fetchWeblogTagPageIfNeeded(params.tag, page)).then((data) => {
+        dispatch(selectWeblogTagPage(params.tag, page))
+      }))
+    } else {
+      // we get normal list
+      promises.push(dispatch(fetchWeblogPageIfNeeded(page)).then((data) => {
+        dispatch(selectWeblogPage(page))
+      }))
+    }
     if (! clientSide) {
       // set module
       dispatch(setModule('weblog'))
@@ -49,6 +59,7 @@ export default class WeblogList extends Component {
 
 
   render() {
+    console.log('weblog',this.props.weblog)
     let child
     // show spinner if no selected page or if page is fetching
     if (! this.props.weblog.selectedPage ||
