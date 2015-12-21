@@ -20,6 +20,10 @@ export default class WeblogList extends Component {
     promises.push(dispatch(fetchWeblogPageIfNeeded(page)).then((data) => {
       dispatch(selectWeblogPage(page))
     }))
+    if (! clientSide) {
+      // set module
+      dispatch(setModule('weblog'))
+    }
     return promises
   }
 

@@ -41,6 +41,8 @@ export default class WeblogDetail extends Component {
       }
     }))
     if (! clientSide) {
+      // set module
+      dispatch(setModule('weblog'))
       // !!! fetch all pictures at once serverside
     }
     return promises

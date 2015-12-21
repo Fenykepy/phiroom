@@ -18,6 +18,10 @@ export default class Contact extends Component {
     promises.push(dispatch(fetchDescriptionIfNeeded()))
     // get csrfToken
     promises.push(dispatch(fetchCSRFTokenIfNeeded()))
+    if (! clientSide) {
+      // set module
+      dispatch(setModule('contact'))
+    }
     return promises  
   }
 
