@@ -167,7 +167,57 @@ class UserAPITest(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.delete(url)
         self.assertEqual(response.status_code, 405)
+
+
+    def test_author_detail(self):
+        base_url = '/api/users/author/{}/'
+        data = {"first_name": "John",
+                "last_name": "Poe",
+        }
+
+        # test without login
+        url = base_url.format(self.user.pk)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['username'], self.user.username)
+        self.assertEqual(response.data['website'], self.user.website)
+        self.assertEqual(response.data['author_name'], self.user.author_name)
+        self.assertEqual(response.data['avatar'], self.user.avatar)
+        self.assertEqual(response.data['flickr_link'], self.user.flickr_link)
+        self.assertEqual(response.data['twitter_link'], self.user.twitter_link)
+        self.assertEqual(response.data['gplus_link'], self.user.gplus_link)
+        self.assertEqual(response.data['facebook_link'], self.user.facebook_link)
+        self.assertEqual(response.data['pinterest_link'], self.user.pinterest_link)
+        self.assertEqual(response.data['vk_link'], self.user.vk_link)
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 405)
+        response = self.client.put(url, {})
+        self.assertEqual(response.status_code, 405)
+        response = self.client.patch(url, {})
+        self.assertEqual(response.status_code, 405)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+ 
+        # test with staff member
+        login(self, self.user)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 405)
+        response = self.client.put(url, {})
+        self.assertEqual(response.status_code, 405)
+        response = self.client.patch(url, {})
+        self.assertEqual(response.status_code, 405)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+
+        # try to get a non author user
+        url = base_url.format(self.user2.pk)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
         
+
 
 
 
