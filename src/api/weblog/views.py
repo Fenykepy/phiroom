@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from weblog.serializers import *
 from weblog.models import Post, Tag
 from librairy.models import Picture
+from librairy.serializers import PictureShortSerializer
 
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
 
@@ -132,6 +133,28 @@ def posts_headers_list(request, format=None):
 
     return Response(serializer.data)
 
+
+
+@api_view(['GET'])
+@permission_classes((IsStaffOrReadOnly, ))
+def post_pictures(request, slug, format=None):
+    """
+    Returns a list of all pictures short data (public) of a post
+    without paginagion.
+    """
+    if request.user.is_staff:
+        post = Post.objects.get(slug=slug)
+    else:
+        try:
+            post = Post.published.get(slug=slug)
+        except:
+            raise Http404
+    pictures = post.pictures.all().only(
+            'pk', 'sha1', 'title', 'legend',
+            'previews_path', 'ratio')
+    serializer = PictureShortSerializer(pictures, many=True)
+
+    return Response(serializer.data)
 
 
 class TagList(generics.ListCreateAPIView):

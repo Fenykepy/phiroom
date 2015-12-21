@@ -116,24 +116,21 @@ def portfolios_headers_list(request, format=None):
 def portfolio_pictures(request, slug, format=None):
     """
     Returns a list of all pictures short data (public) of a portfolio
-    without pagination when GET.
-    Save an ordered list of pictures' pk as PortfolioPictures m2m when POST,
-    use for ordering only.
+    without pagination.
     """
-    if request.method == 'GET':
-        if request.user.is_staff:
-            portfolio = Portfolio.objects.get(slug=slug)
-        else:
-            try:
-                portfolio = Portfolio.published.get(slug=slug)
-            except:
-                raise Http404
-        pictures = portfolio.pictures.all().only(
-                'pk', 'sha1', 'title', 'legend',
-                'previews_path', 'ratio')
-        serializer = PictureShortSerializer(pictures, many=True)
+    if request.user.is_staff:
+        portfolio = Portfolio.objects.get(slug=slug)
+    else:
+        try:
+            portfolio = Portfolio.published.get(slug=slug)
+        except:
+            raise Http404
+    pictures = portfolio.pictures.all().only(
+            'pk', 'sha1', 'title', 'legend',
+            'previews_path', 'ratio')
+    serializer = PictureShortSerializer(pictures, many=True)
 
-        return Response(serializer.data)
+    return Response(serializer.data)
 
 
 
