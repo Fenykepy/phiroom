@@ -80,7 +80,13 @@ export default class WeblogDetail extends Component {
   }
 
   render() {
-    let child
+    let child, lightbox
+    if (this.props.children && this.props.weblog.pictures) {
+      lightbox = React.cloneElement(this.props.children, {
+          pictures: this.props.weblog.pictures,
+          viewport: this.props.viewport      
+        })
+    } else lightbox = ''
     // show spinner if no selected post or post is fetching
     if (! this.props.weblog.selectedPost ||
         this.props.weblog.selectedPost.is_fetching) {
@@ -100,10 +106,7 @@ export default class WeblogDetail extends Component {
               <WeblogTags tags={this.props.weblog.selectedPost.tags} />
           </footer>
         </article>
-        {React.cloneElement(this.props.children, {
-          pictures: this.props.weblog.pictures,
-          viewport: this.props.viewport      
-        })}
+        {lightbox}
         <WeblogPostNavigation
           next={this.props.weblog.selectedPost.next}
           previous={this.props.weblog.selectedPost.previous}  
