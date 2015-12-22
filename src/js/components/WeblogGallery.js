@@ -9,7 +9,7 @@ export default class WeblogGallery extends Component {
       gallery = (
         <ul className="gallery-inline">
           {this.props.pictures.map((item) =>
-              <WeblogGalleryItem key={item.previews_path} {...item} />
+              <WeblogGalleryItem key={item.previews_path} {...item} path={this.props.path} />
           )}
         </ul>
       )

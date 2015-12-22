@@ -59,7 +59,6 @@ export default class WeblogList extends Component {
 
 
   render() {
-    console.log('weblog',this.props.weblog)
     let child
     // show spinner if no selected page or if page is fetching
     if (! this.props.weblog.selectedPage ||

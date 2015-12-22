@@ -8,7 +8,7 @@ import Weblog from './components/Weblog'
 import WeblogList from './components/WeblogList'
 import WeblogDetail from './components/WeblogDetail'
 import Contact from './components/Contact'
-
+import Lightbox from './components/Lightbox'
 
 function appendSlash(nextState, replaceState) {
   // add a slash at urls' end
@@ -33,7 +33,9 @@ export default () => {
           <Route path="/weblog/page/:page(/)" component={WeblogList} onEnter={appendSlash} />
           <Route path="/weblog/tag/:tag/page/:page(/)" component={WeblogList} onEnter={appendSlash} />
           <Route path="/weblog/tag/:tag(/)" component={WeblogList} onEnter={appendSlash} />
-          <Route path="/weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash} />
+          <Route path="/weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash}>
+            <Route path="lightbox/:sha1(/)" component={Lightbox} />
+          </Route>
         </Route>
         <Route path="weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash} />
         <Route path="contact(/)" component={Contact} />

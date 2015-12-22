@@ -80,7 +80,6 @@ export default class WeblogDetail extends Component {
   }
 
   render() {
-    console.log('props', this.props)
     let child
     // show spinner if no selected post or post is fetching
     if (! this.props.weblog.selectedPost ||
@@ -96,11 +95,15 @@ export default class WeblogDetail extends Component {
           </header>
           <div className="content" dangerouslySetInnerHTML={{__html: this.props.weblog.selectedPost.content}} />
           <WeblogAuthor author={this.props.weblog.author} />
-          <WeblogGallery pictures={this.props.weblog.pictures} />
+          <WeblogGallery pictures={this.props.weblog.pictures} path={this.props.location.pathname} />
           <footer>
               <WeblogTags tags={this.props.weblog.selectedPost.tags} />
           </footer>
         </article>
+        {React.cloneElement(this.props.children, {
+          pictures: this.props.weblog.pictures,
+          viewport: this.props.viewport      
+        })}
         <WeblogPostNavigation
           next={this.props.weblog.selectedPost.next}
           previous={this.props.weblog.selectedPost.previous}  
