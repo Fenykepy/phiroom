@@ -1,65 +1,40 @@
 import React, { Component, PropTypes } from 'react'
 
+import {
+  lightboxStop,
+  lightboxNavTo,
+  lightboxToogleSlideshow,
+  lightboxTooglePictInfo,
+} from '../actions/lightbox'
 import Spinner from './Spinner'
 
 
 export default class Lightbox extends Component {
   
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      current: null,
-      next: null,
-      prev: null
-    }
+  componentWillUnmount() {
+    this.props.dispatch(lightboxStop())
   }
 
-  componentDidMount() {
-    this.setState(this.selectPicture(this.props))
+  getBasePath() {
+    return this.props.location.pathname.split('/lightbox/')[0]
   }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.params.sha1 != nextProps.params.sha1 ||
-        this.props.pictures != nextProps.pictures) {
-      this.setState(this.selectPicture(nextProps))
-    }
-  }
-
-  setNext(index, length) {
-    let next = index + 1
-    return next < length - 1 ? next : 0
-  }
-
-  setPrev(index, length) {
-    let prev = index - 1
-    return prev >= 0 ? prev : length - 1
-  }
-
-  selectPicture(props) {
-    if (! props.pictures.length || ! props.params.sha1) return {}
-    let picts = props.pictures
-    for (let i=0, l=picts.length; i < l; i++) {
-      if (picts[i].sha1 == props.params.sha1) {
-        return {
-          current: i,
-          next: this.setNext(i, l),
-          prev: this.setPrev(i, l)
-        }
-      }
-    }
-    return {}
-  }
-
 
   handleBgClick(e) {
-    this.props.history.pushState(null, this.props.location.pathname.split(
-      '/lightbox/')[0] + '/')
+    this.props.history.pushState(null, this.getBasePath() + '/')
   }
 
+  handlePrevClick(e) {
+    this.props.history.pushState(null, this.getBasePath() +
+      '/lightbox/' + this.props.previous + '/')
+  }
+
+  handleNextClick(e) {
+    this.props.history.pushState(null, this.getBasePath() +
+      '/lightbox/' + this.props.next + '/')
+  }
 
   render() {
-    let current = this.props.pictures[this.state.current]
+    let current = null
     let child
     if (current) {
       child = (
@@ -69,8 +44,8 @@ export default class Lightbox extends Component {
             <figure id="lb-new">
               <div className="lb-buttons-wrapper">
                 <img src={'/media/images/previews/large/' + current.previews_path} alt={current.title} />
-                <button id="lb-previous">Previous picture</button>
-                <button id="lb-next">Next picture</button>
+                <button id="lb-previous" onClick={this.handlePrevClick.bind(this)}>Previous picture</button>
+                <button id="lb-next" onClick={this.handleNextClick.bind(this)}>Next picture</button>
               </div>
               <figcaption>
                 {current.title}

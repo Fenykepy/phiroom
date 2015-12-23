@@ -5,8 +5,8 @@ import { setViewport } from '../actions/viewport'
 
 // components
 import Header from '../components/Header'
-import Portfolio from '../components/Portfolio'
 import Footer from '../components/Footer'
+import Lightbox from '../components/Lightbox'
 
 import { mainSelector } from '../selectors/mainSelector'
 
@@ -48,12 +48,17 @@ class App extends Component {
       portfolio,
       viewport,
       routing,
+      lightbox,
     } = this.props
     
    
 
     return (
       <div id={this.props.modules.current}>
+        <Lightbox {...this.props.lightbox}
+                  dispatch={this.props.dispatch}
+                  history={this.props.history}
+        />
         <Header
           modules={this.props.modules}
           settings={this.props.settings}

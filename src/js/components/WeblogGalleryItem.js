@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 export default class WeblogGalleryItem extends Component {
   
   setLightboxLink() {
-    let url = this.props.path
+    let url = this.props.path.split('/lightbox/')[0]
     if (url.slice(-1) != "/") {
       url = url + '/'
     }

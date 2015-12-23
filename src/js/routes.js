@@ -33,9 +33,8 @@ export default () => {
           <Route path="/weblog/page/:page(/)" component={WeblogList} onEnter={appendSlash} />
           <Route path="/weblog/tag/:tag/page/:page(/)" component={WeblogList} onEnter={appendSlash} />
           <Route path="/weblog/tag/:tag(/)" component={WeblogList} onEnter={appendSlash} />
-          <Route path="/weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash}>
-            <Route path="lightbox/:sha1(/)" component={Lightbox} />
-          </Route>
+          <Route path="/weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash} />
+          <Route path="/weblog/:y/:m/:d/:slug/lightbox/:pk(/)" component={WeblogDetail} onEnter={appendSlash} />
         </Route>
         <Route path="weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash} />
         <Route path="contact(/)" component={Contact} />

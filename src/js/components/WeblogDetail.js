@@ -7,6 +7,7 @@ import {
   selectPost
 } from '../actions/weblog'
 
+import { lightboxStart } from '../actions/lightbox'
 import { fetchAuthorIfNeeded } from '../actions/authors'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { setModule } from '../actions/modules'
@@ -80,13 +81,7 @@ export default class WeblogDetail extends Component {
   }
 
   render() {
-    let child, lightbox
-    if (this.props.children && this.props.weblog.pictures) {
-      lightbox = React.cloneElement(this.props.children, {
-          pictures: this.props.weblog.pictures,
-          viewport: this.props.viewport      
-        })
-    } else lightbox = ''
+    let child
     // show spinner if no selected post or post is fetching
     if (! this.props.weblog.selectedPost ||
         this.props.weblog.selectedPost.is_fetching) {
@@ -106,7 +101,6 @@ export default class WeblogDetail extends Component {
               <WeblogTags tags={this.props.weblog.selectedPost.tags} />
           </footer>
         </article>
-        {lightbox}
         <WeblogPostNavigation
           next={this.props.weblog.selectedPost.next}
           previous={this.props.weblog.selectedPost.previous}  
