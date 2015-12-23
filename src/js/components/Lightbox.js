@@ -38,7 +38,6 @@ export default class Lightbox extends Component {
 
   selectPicture(props) {
     if (! props.pictures.length || ! props.params.sha1) return {}
-    console.log('props',props)
     let picts = props.pictures
     for (let i=0, l=picts.length; i < l; i++) {
       if (picts[i].sha1 == props.params.sha1) {
@@ -62,11 +61,11 @@ export default class Lightbox extends Component {
   render() {
     let current = this.props.pictures[this.state.current]
     let child
-    if (this.state.current) {
+    if (current) {
       child = (
         <div>
-          <div id="lb-overlay" onClick={this.handleBgClick.bind(this)}></div>
-          <section id="lightbox">
+          <div id="lb-overlay"></div>
+          <section id="lightbox" onClick={this.handleBgClick.bind(this)}>
             <figure id="lb-new">
               <div className="lb-buttons-wrapper">
                 <img src={'/media/images/previews/large/' + current.previews_path} alt={current.title} />

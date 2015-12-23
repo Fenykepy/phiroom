@@ -9,6 +9,7 @@ import contact from './contact'
 import viewport from './viewport'
 import common from './common'
 import authors from './authors'
+import lightbox from './lightbox'
 import { routeReducer } from 'redux-simple-router'
 
 
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   weblog,
   contact,
   common,
+  lightbox,
   routing: routeReducer,
 })
 

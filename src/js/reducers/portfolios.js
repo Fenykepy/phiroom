@@ -118,27 +118,12 @@ function carousel(state = carouselInitialState, action) {
   }
 }
 
-const lightboxInitialState = {
-  visible: false,
-  current_pict: 0,
-  slideshow: false,
-  pict_info: false,
-}
-
-
-function lightbox(state = lightboxInitialState, action) {
-  switch (action.type) {
-    default:
-      return state
-  }
-}
 
 const portfolio = combineReducers({
   selected,
   headers,
   portfolios,
   carousel,
-  lightbox
 })
 
 export default portfolio
