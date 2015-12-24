@@ -12,14 +12,6 @@ import {
 
 import { Link } from 'react-router'
 
-function loadImage(src) {
-  let img = new Image()
-  let promise = new Promise((resolve, reject) => {
-    img.onload = () => resolve(img)
-  })
-  img.src = src
-  return promise
-}
 
 export default class Lightbox extends Component {
 
@@ -28,60 +20,46 @@ export default class Lightbox extends Component {
   }
 
   loadImages() {
-    let base_src = '/media/images/previews/large/'
-    // load current image first
-    this.loadCurrent(base_src)
+    // load current image file first
+    this.loadImage(
+      this.props.current,
+      this.props.currentLoaded,
+      lightboxCurrentLoaded)
       .then(() =>
-        this.loadNext(base_src)
-          .then(() =>
-            this.loadPrevious(base_src)
+        this.loadImage( // then load next image file
+          this.props.next,
+          this.props.nextLoaded,
+          lightboxNextLoaded)
+          .then(() => // load previous image file last
+            this.loadImage(
+              this.props.previous,
+              this.props.previousLoaded,
+              lightboxPreviousLoaded)
           )
       )
   }
 
-  loadCurrent(base_src) {
+
+  loadImage(image, loaded, action) {
+    let base_src = '/media/images/previews/large/'
     // if image is already loaded, return resolved promise
-    if (this.props.currentLoaded) {
+    if (loaded) {
       return new Promise((resolve, reject) => resolve())
     }
-    if (this.props.current) {
-      return loadImage(base_src + this.props.current.previews_path)
-        .then((image) => {
-            this.props.dispatch(lightboxCurrentLoaded())
-            return image
-        })
+    // if we have image datas
+    if (image) {
+      let img = new Image()
+      let promise = new Promise((resolve, reject) => {
+        img.onload = () => resolve(img)
+      })
+      img.src = base_src + image.previews_path
+      return promise.then((image) => {
+        this.props.dispatch(action())
+        return image
+      })
     }
   }
-
-  loadNext(base_src) {
-    // if image is already loaded, return resolved promise
-    if (this.props.nextLoaded) {
-      return new Promise((resolve, reject) => resolve())
-    }
-    if (this.props.next) {
-      return loadImage(base_src + this.props.next.previews_path)
-        .then((image) => {
-          this.props.dispatch(lightboxNextLoaded())
-          return image
-        })
-    }
-  }
- 
-  loadPrevious(base_src) {
-    // if image is already loaded, return resolved promise
-    if (this.props.previousLoaded) {
-      return new Promise((resolve, reject) => resolve())
-    }
-    if (this.props.previous) {
-      return loadImage(base_src + this.props.previous.previews_path)
-        .then((image) => {
-          this.props.dispatch(lightboxNextLoaded())
-          return image
-        })
-    }
-  }   
-
-
+  
   getBasePath() {
     let path = this.props.location.pathname.split('/lightbox/')[0]
     if (path.slice(-1) == '/') {
