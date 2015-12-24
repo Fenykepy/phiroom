@@ -57,7 +57,7 @@ class App extends Component {
       <div id={this.props.modules.current}>
         <Lightbox {...this.props.lightbox}
                   dispatch={this.props.dispatch}
-                  history={this.props.history}
+                  location={this.props.location}
         />
         <Header
           modules={this.props.modules}

@@ -7,7 +7,6 @@ import {
   selectPost
 } from '../actions/weblog'
 
-import { lightboxStart } from '../actions/lightbox'
 import { fetchAuthorIfNeeded } from '../actions/authors'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { setModule } from '../actions/modules'
@@ -81,14 +80,22 @@ export default class WeblogDetail extends Component {
   }
 
   render() {
-    let child
+    let child, lightboxStarter = ''
+    if (this.props.children) {
+      lightboxStarter = React.cloneElement(this.props.children, {
+            pictures: this.props.weblog.selectedPost.pictures,
+            dispatch: this.props.dispatch,
+      })
+    }
+
     // show spinner if no selected post or post is fetching
     if (! this.props.weblog.selectedPost ||
         this.props.weblog.selectedPost.is_fetching) {
       child = (<Spinner message="Fetching…" />)
     } else {
       child = (
-        <div><article>
+        <div>
+        <article>
           <header>
             <WeblogTime date={this.props.weblog.selectedPost.pub_date} />
             <h1>{this.props.weblog.selectedPost.title}</h1>
@@ -104,7 +111,9 @@ export default class WeblogDetail extends Component {
         <WeblogPostNavigation
           next={this.props.weblog.selectedPost.next}
           previous={this.props.weblog.selectedPost.previous}  
-        /></div>
+        />
+        {lightboxStarter}
+        </div>
       )
     }
 

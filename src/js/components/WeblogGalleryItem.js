@@ -9,7 +9,7 @@ export default class WeblogGalleryItem extends Component {
     if (url.slice(-1) != "/") {
       url = url + '/'
     }
-    return url + 'lightbox/' + this.props.sha1 + '/'
+    return url + 'lightbox/' + this.props.pk + '/'
   }
 
   render() {

@@ -8,10 +8,10 @@ import { createSelector, createStructuredSelector } from 'reselect'
 // pictures public data database
 const picturesShortSelector = state => state.pictures.short
 
-// pictures sha1 in a list [sha1, sha1, sha1]
+// pictures pk in a list [2, 8, 16]
 const lightboxPicturesSelector = state => state.lightbox.pictures
 
-// selected picture sha1, must be in PicturesSelector
+// selected picture pk, must be in PicturesSelector
 const lightboxCurrentSelector = state => state.lightbox.current
 
 // boolean if lightbox is visible or not
@@ -37,36 +37,52 @@ const lightboxCurrentIndexSelector = createSelector(
 
 // selected picture object
 const lightboxCurrentPictSelector = createSelector(
-  lightboxCurrentIndexSelector,
+  lightboxCurrentSelector,
   picturesShortSelector,
-  (currentIndex, picturesShort) => {
-    if (currentIndex == -1) return null
-    return picturesShort[currentIndex] || null
+  (current, picturesShort) => {
+    return picturesShort[current] || null
+  }
+)
+
+// previous picture index
+const lightboxPreviousIndexSelector = createSelector(
+  lightboxPicturesSelector,
+  lightboxCurrentIndexSelector,
+  lightboxLengthSelector,
+  (pictures, currentIndex, length) => {
+    let prev = currentIndex - 1
+    prev = prev >= 0 ? prev : length - 1
+    return pictures[prev]
   }
 )
 
 // previous picture object
 const lightboxPreviousPictSelector = createSelector(
+  lightboxPreviousIndexSelector,
+  picturesShortSelector,
+  (previousIndex, picturesShort) => {
+    return picturesShort[previousIndex] || null
+  }
+)
+
+// next picture index
+const lightboxNextIndexSelector = createSelector(
+  lightboxPicturesSelector,
   lightboxCurrentIndexSelector,
   lightboxLengthSelector,
-  picturesShortSelector,
-  (currentIndex, length, picturesShort) => {
-    let prev = currentIndex - 1
-    prev = prev >= 0 ? prev : length - 1
-
-    return picturesShort[prev] || null
+  (pictures, currentIndex, length) => {
+    let next = currentIndex + 1
+    next = next < length - 1 ? next : 0
+    return pictures[next]
   }
 )
 
 // next picture object
 const lightboxNextPictSelector = createSelector(
-  lightboxCurrentIndexSelector,
-  lightboxLengthSelector,
+  lightboxNextIndexSelector,
   picturesShortSelector,
-  (currentIndex, length, picturesShort) => {
-    let next = currentIndex + 1
-    next = next < length - 1 ? next : 0
-    return picturesShort[next] || null
+  (nextIndex, picturesShort) => {
+    return picturesShort[nextIndex] || null
   }
 )
 

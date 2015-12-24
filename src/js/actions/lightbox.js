@@ -4,18 +4,20 @@ import * as types from '../constants/actionsTypes'
 // action creators
 
 
-export function lightboxStart(pictures, current) {
+export function lightboxStart(pictures, picture) {
+  console.log('start', pictures, picture)
   return {
     type: types.LIGHTBOX_START,
     pictures,
-    current
+    picture
   }
 }
 
-export function lightboxNavTo(sha1) {
+export function lightboxSetCurrent(picture) {
+  console.log('set current', picture)
   return {
-    type: types.LIGHTBOX_NAV_TO,
-    sha1
+    type: types.LIGHTBOX_SET_CURRENT,
+    picture
   }
 }
 

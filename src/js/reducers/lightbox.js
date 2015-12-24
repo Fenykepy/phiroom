@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import {
   LIGHTBOX_START,
   LIGHTBOX_STOP,
-  LIGHTBOX_NAV_TO,
+  LIGHTBOX_SET_CURRENT,
   LIGHTBOX_TOOGLE_SLIDESHOW,
   LIGHTBOX_TOOGLE_PICT_INFO
 } from '../constants/actionsTypes'
@@ -30,7 +30,7 @@ function slideshow(state = false, action) {
   }
 }
 
-// contain list of all pictures sha1
+// contain list of all pictures pk
 function pictures(state = [], action) {
   switch(action.type) {
     case LIGHTBOX_START:
@@ -42,13 +42,13 @@ function pictures(state = [], action) {
   }
 }
 
-// contain current lightbox's main picture sha1
+// contain current lightbox's main picture pk
 function current(state = null, action) {
   switch(action.type) {
     case LIGHTBOX_START:
-      return action.current
-    case LIGHTBOX_NAV_TO:
-      return action.sha1
+      return parseInt(action.picture) || null
+    case LIGHTBOX_SET_CURRENT:
+      return parseInt(action.picture) || null
     case LIGHTBOX_STOP:
       return null
     default:

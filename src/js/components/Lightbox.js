@@ -6,7 +6,8 @@ import {
   lightboxToogleSlideshow,
   lightboxTooglePictInfo,
 } from '../actions/lightbox'
-import Spinner from './Spinner'
+
+import { Link } from 'react-router'
 
 
 export default class Lightbox extends Component {
@@ -16,47 +17,59 @@ export default class Lightbox extends Component {
   }
 
   getBasePath() {
-    return this.props.location.pathname.split('/lightbox/')[0]
+    let path = this.props.location.pathname.split('/lightbox/')[0]
+    if (path.slice(-1) == '/') {
+      path = path.slice(0, -1)
+    }
+    return path
   }
 
-  handleBgClick(e) {
-    this.props.history.pushState(null, this.getBasePath() + '/')
+  getClosePath() {
+    return this.getBasePath() + '/'
   }
 
-  handlePrevClick(e) {
-    this.props.history.pushState(null, this.getBasePath() +
-      '/lightbox/' + this.props.previous + '/')
+  getPreviousPath() {
+    if (this.props.previous) {
+      return this.getBasePath() +
+        '/lightbox/' + this.props.previous.pk + '/'
+    }
+    return ""
   }
 
-  handleNextClick(e) {
-    this.props.history.pushState(null, this.getBasePath() +
-      '/lightbox/' + this.props.next + '/')
+  getNextPath() {
+    if (this.props.next) {
+      return this.getBasePath() +
+        '/lightbox/' + this.props.next.pk + '/'
+    }
+    return "" 
   }
 
   render() {
-    let current = null
-    let child
-    if (current) {
-      child = (
+    console.log('lightbox', this.props)
+
+    if (! this.props.activated || ! this.props.current) {
+      return (<div />)
+    }
+    return (
         <div>
           <div id="lb-overlay"></div>
-          <section id="lightbox" onClick={this.handleBgClick.bind(this)}>
+          <section id="lightbox">
+          <Link id="lb-close" to={this.getClosePath()} title="Close lightbox"></Link>
             <figure id="lb-new">
               <div className="lb-buttons-wrapper">
-                <img src={'/media/images/previews/large/' + current.previews_path} alt={current.title} />
-                <button id="lb-previous" onClick={this.handlePrevClick.bind(this)}>Previous picture</button>
-                <button id="lb-next" onClick={this.handleNextClick.bind(this)}>Next picture</button>
+                <img src={'/media/images/previews/large/' + this.props.current.previews_path}
+                     alt={this.props.current.title}
+                />
+                <Link id="lb-previous" to={this.getPreviousPath()}>Previous picture</Link>
+                <Link id="lb-next" to={this.getNextPath()}>Next picture</Link>
               </div>
               <figcaption>
-                {current.title}
-                <p>Image {this.state.index + 1} of {this.props.pictures.length}</p>
+                {this.props.current.title}
+                <p>Image {this.props.current_index + 1} of {this.props.pictures.length}</p>
               </figcaption>
             </figure>
           </section>
         </div>
       )
-    } else child = (<div />)
-
-    return child
   }
 }
