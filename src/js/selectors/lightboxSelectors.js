@@ -26,6 +26,18 @@ const lightboxShowInfoSelector = state => state.lightbox.showInfo
 // number of images in lightbox
 const lightboxLengthSelector = state => state.lightbox.pictures.length
 
+
+// boolean if current <img /> file is loaded
+const lightboxCurrentLoadedSelector = state => state.lightbox.currentLoaded
+
+// boolean if next <img /> file is loaded
+const lightboxNextLoadedSelector = state => state.lightbox.nextLoaded
+
+// boolean if previous <img /> file is loaded
+const lightboxPreviousLoadedSelector = state => state.lightbox.previousLoaded
+
+
+
 // current index of selected picture in pictures list
 const lightboxCurrentIndexSelector = createSelector(
   lightboxPicturesSelector,
@@ -89,8 +101,11 @@ const lightboxNextPictSelector = createSelector(
 export const lightboxSelector = createStructuredSelector({
   current: lightboxCurrentPictSelector,
   currentIndex: lightboxCurrentIndexSelector,
+  currentLoaded: lightboxCurrentLoadedSelector,
   next: lightboxNextPictSelector,
+  nextLoaded: lightboxNextLoadedSelector,
   previous: lightboxPreviousPictSelector,
+  previousLoaded: lightboxPreviousLoadedSelector,
   pictures: lightboxPicturesSelector,
   length: lightboxLengthSelector,
   activated: lightboxActivatedSelector,

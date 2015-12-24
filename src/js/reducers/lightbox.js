@@ -4,6 +4,9 @@ import {
   LIGHTBOX_START,
   LIGHTBOX_STOP,
   LIGHTBOX_SET_CURRENT,
+  LIGHTBOX_CURRENT_LOADED,
+  LIGHTBOX_NEXT_LOADED,
+  LIGHTBOX_PREVIOUS_LOADED,
   LIGHTBOX_TOOGLE_SLIDESHOW,
   LIGHTBOX_TOOGLE_PICT_INFO
 } from '../constants/actionsTypes'
@@ -68,12 +71,61 @@ function showInfo(state = true, action) {
 }
 
 
+function currentLoaded(state = false, action) {
+  switch(action.type) {
+    case LIGHTBOX_START:
+      return false
+    case LIGHTBOX_SET_CURRENT:
+      return false
+    case LIGHTBOX_STOP:
+      return false
+    case LIGHTBOX_CURRENT_LOADED:
+      return true
+    default:
+      return state
+  }
+}
+
+
+function nextLoaded(state = false, action) {
+  switch(action.type) {
+    case LIGHTBOX_START:
+      return false
+    case LIGHTBOX_SET_CURRENT:
+      return false
+    case LIGHTBOX_STOP:
+      return false
+    case LIGHTBOX_NEXT_LOADED:
+      return true
+    default:
+      return state
+  }
+}
+
+
+function previousLoaded(state = false, action) {
+  switch(action.type) {
+    case LIGHTBOX_START:
+      return false
+    case LIGHTBOX_SET_CURRENT:
+      return false
+    case LIGHTBOX_STOP:
+      return false
+    case LIGHTBOX_PREVIOUS_LOADED:
+      return true
+    default:
+      return state
+  }
+}
 const lightbox = combineReducers({
   activated,
   slideshow,
   showInfo,
   pictures,
-  current
+  current,
+  currentLoaded,
+  nextLoaded,
+  previousLoaded,
 })
 
 export default lightbox

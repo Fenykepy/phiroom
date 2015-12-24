@@ -5,16 +5,82 @@ import {
   lightboxNavTo,
   lightboxToogleSlideshow,
   lightboxTooglePictInfo,
+  lightboxCurrentLoaded,
+  lightboxNextLoaded,
+  lightboxPreviousLoaded,
 } from '../actions/lightbox'
 
 import { Link } from 'react-router'
 
+function loadImage(src) {
+  let img = new Image()
+  let promise = new Promise((resolve, reject) => {
+    img.onload = () => resolve(img)
+  })
+  img.src = src
+  return promise
+}
 
 export default class Lightbox extends Component {
-  
+
   componentWillUnmount() {
     this.props.dispatch(lightboxStop())
   }
+
+  loadImages() {
+    let base_src = '/media/images/previews/large/'
+    // load current image first
+    this.loadCurrent(base_src)
+      .then(() =>
+        this.loadNext(base_src)
+          .then(() =>
+            this.loadPrevious(base_src)
+          )
+      )
+  }
+
+  loadCurrent(base_src) {
+    // if image is already loaded, return resolved promise
+    if (this.props.currentLoaded) {
+      return new Promise((resolve, reject) => resolve())
+    }
+    if (this.props.current) {
+      return loadImage(base_src + this.props.current.previews_path)
+        .then((image) => {
+            this.props.dispatch(lightboxCurrentLoaded())
+            return image
+        })
+    }
+  }
+
+  loadNext(base_src) {
+    // if image is already loaded, return resolved promise
+    if (this.props.nextLoaded) {
+      return new Promise((resolve, reject) => resolve())
+    }
+    if (this.props.next) {
+      return loadImage(base_src + this.props.next.previews_path)
+        .then((image) => {
+          this.props.dispatch(lightboxNextLoaded())
+          return image
+        })
+    }
+  }
+ 
+  loadPrevious(base_src) {
+    // if image is already loaded, return resolved promise
+    if (this.props.previousLoaded) {
+      return new Promise((resolve, reject) => resolve())
+    }
+    if (this.props.previous) {
+      return loadImage(base_src + this.props.previous.previews_path)
+        .then((image) => {
+          this.props.dispatch(lightboxNextLoaded())
+          return image
+        })
+    }
+  }   
+
 
   getBasePath() {
     let path = this.props.location.pathname.split('/lightbox/')[0]
@@ -45,11 +111,10 @@ export default class Lightbox extends Component {
   }
 
   render() {
-    console.log('lightbox', this.props)
-
     if (! this.props.activated || ! this.props.current) {
       return (<div />)
     }
+    this.loadImages()
     return (
         <div>
           <div id="lb-overlay"></div>

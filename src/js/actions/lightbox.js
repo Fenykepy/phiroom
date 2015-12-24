@@ -27,7 +27,26 @@ export function lightboxStop() {
   }
 }
 
+export function lightboxCurrentLoaded() {
+  console.log('current loaded')
+  return {
+    type: types.LIGHTBOX_CURRENT_LOADED
+  }
+}
 
+export function lightboxNextLoaded() {
+  console.log('next loaded')
+  return {
+    type: types.LIGHTBOX_NEXT_LOADED
+  }
+}
+
+export function lightboxPreviousLoaded() {
+  console.log('previous loaded')
+  return {
+    type: types.LIGHTBOX_PREVIOUS_LOADED
+  }
+}
 export function lightboxToogleSlideshow() {
   return {
     type: types.LIGHTBOX_TOOGLE_SLIDESHOW
