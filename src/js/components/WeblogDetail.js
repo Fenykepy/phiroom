@@ -81,7 +81,7 @@ export default class WeblogDetail extends Component {
 
   render() {
     let child, lightboxStarter = ''
-    if (this.props.children) {
+    if (this.props.children && this.props.weblog.selectedPost) {
       lightboxStarter = React.cloneElement(this.props.children, {
             pictures: this.props.weblog.selectedPost.pictures,
             dispatch: this.props.dispatch,

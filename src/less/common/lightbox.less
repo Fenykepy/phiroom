@@ -8,73 +8,71 @@
     opacity: 0.8;
     z-index: 999;
 }
+@lb-max-height: calc(~'100vh - 100px');
 #lightbox {
     z-index: 1000;
-    position: fixed;
+    position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
+    text-align: center;
+    #lb-close {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        text-align: right;
+        color: #FFF;
+        text-decoration: none;
+        font-size: 2em;
+        padding: 1vw;
+        &:hover:after {
+            content: "×"
+
+        }
+    }
+    div.lb-buttons-wrapper {
+        max-height: @lb-max-height;
+        position: relative;
+        margin: 0 auto;
+        display: inline-block;
+        max-height: 100vh;
+    }
+    #lb-next, #lb-previous {
+        margin: 0;
+        top: 0px;
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        border: none;
+        background: none;
+        text-decoration: none;
+    }
+    #lb-next {
+        right: 0px;
+        &:hover {
+            background: url("/assets/images/lb-next.png") right center no-repeat;
+        }
+}
+    #lb-previous {
+        left: 0px;
+        &:hover {
+            background: url("/assets/images/lb-prev.png") left center no-repeat;
+        }
+    }
     figure {
         position: relative;
         margin: 40px auto;
-        text-align: center;
-        display: block;
-    }
-}
-
-section#lb-main-stage1, section#lb-main-stage2 {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    z-index: 1000;
-    /*
-     * force scroll else center position change
-     * when changement from high picture to small one
-     */
-    overflow-y: scroll;
-    text-align: center;
-    padding: 40px;
-
-    figure {
-        position: relative;
         display: inline-block;
-        div.lb-buttons-wrapper {
-            position: relative;
-            margin: 0 auto;
-            display: inline-block;
-            max-height: 100%;
-            button {
-                margin: 0;
-                padding: 0;
-                top: 0px;
-                position: absolute;
-                width: 50%;
-                height: 100%;
-                background: none;
-                border: none;
-                box-shadow: none;
-            }
-            #lb-next {
-                right: 0px;
-                &:hover {
-    //                background: url("../images/structure/lightbox/lb-next.png") right center no-repeat;
-                }
-            }
-            #lb-prev {
-                left: 0px;
-                &:hover {
-      //              background: url("../images/structure/lightbox/lb-prev.png") left center no-repeat;
-                }
-            }
-        }
+        max-width: calc(~'100vw - 80px');
+        max-height: @lb-max-height;
         img {
-            display: block;
             border: 2px solid #fff;
             max-width: 100%;
-            max-height: 100%;
+            max-height: @lb-max-height;
         }
         figcaption {
             text-align: left;
@@ -90,5 +88,4 @@ section#lb-main-stage1, section#lb-main-stage2 {
             }
         }
     }
-
 }

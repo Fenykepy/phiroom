@@ -60,12 +60,16 @@ export default class Lightbox extends Component {
                 <img src={'/media/images/previews/large/' + this.props.current.previews_path}
                      alt={this.props.current.title}
                 />
-                <Link id="lb-previous" to={this.getPreviousPath()}>Previous picture</Link>
-                <Link id="lb-next" to={this.getNextPath()}>Next picture</Link>
+                <Link id="lb-previous" to={this.getPreviousPath()}>
+                  <span className="accessibility">Previous picture</span>
+                </Link>
+                <Link id="lb-next" to={this.getNextPath()}>
+                  <span className="accessibility">Next picture</span>
+                </Link>
               </div>
               <figcaption>
                 {this.props.current.title}
-                <p>Image {this.props.current_index + 1} of {this.props.pictures.length}</p>
+                <p>Image {this.props.currentIndex + 1} of {this.props.pictures.length}</p>
               </figcaption>
             </figure>
           </section>

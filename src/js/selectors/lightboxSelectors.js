@@ -72,7 +72,7 @@ const lightboxNextIndexSelector = createSelector(
   lightboxLengthSelector,
   (pictures, currentIndex, length) => {
     let next = currentIndex + 1
-    next = next < length - 1 ? next : 0
+    next = next < length ? next : 0
     return pictures[next]
   }
 )
@@ -88,6 +88,7 @@ const lightboxNextPictSelector = createSelector(
 
 export const lightboxSelector = createStructuredSelector({
   current: lightboxCurrentPictSelector,
+  currentIndex: lightboxCurrentIndexSelector,
   next: lightboxNextPictSelector,
   previous: lightboxPreviousPictSelector,
   pictures: lightboxPicturesSelector,
