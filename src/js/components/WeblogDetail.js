@@ -10,6 +10,7 @@ import {
 import { fetchAuthorIfNeeded } from '../actions/authors'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { setModule } from '../actions/modules'
+import { lightboxStart } from '../actions/lightbox'
 
 import { Link } from 'react-router'
 import Spinner from './Spinner'
@@ -32,6 +33,11 @@ export default class WeblogDetail extends Component {
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPostIfNeeded(slug)).then((data) => {
       dispatch(selectPost(slug))
+      // launch lightbox if needed
+      if (params.lightbox) {
+        dispatch(lightboxStart(data.data.pictures,
+                params.lightbox))
+      }
       // fetch related pictures if necessairy
       if (clientSide) {
         data.data.pictures.map((item) => {
