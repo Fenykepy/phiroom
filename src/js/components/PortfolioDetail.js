@@ -83,6 +83,7 @@ export default class PortfolioDetail extends Component {
      * server side rendering gives a classical horizontal scroll list
      * and client side only enable slide show if any js available.
      */
+    console.log('port', this.props)
     let lightboxStarter = ''
     let carousel
     // show error message if portfolio has no pictures
@@ -96,6 +97,8 @@ export default class PortfolioDetail extends Component {
     } else if (this.props.portfolio.carousel.dynamic) { // we are client side
     // show a javascript driven carousel if client has javascript
       carousel = (<Carousel
+        history={this.props.history}
+        location={this.props.location}
         pictures={this.props.portfolio.pictures}
         carousel={this.props.portfolio.carousel}
         toggleSlideshow={this.toggleSlideshow.bind(this)}
@@ -104,7 +107,7 @@ export default class PortfolioDetail extends Component {
       />)
       if (this.props.children) {
         lightboxStarter = React.cloneElement(this.props.children, {
-          pictures: this.props.portfolio.pictures,
+          pictures: this.props.portfolio.selected.pictures,
           dispatch: this.props.dispatch,
         })
       }

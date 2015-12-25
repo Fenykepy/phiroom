@@ -5,7 +5,7 @@ import * as types from '../constants/actionsTypes'
 
 
 export function lightboxStart(pictures, picture) {
-  //console.log('start', pictures, picture)
+  console.log('start', pictures, picture)
   return {
     type: types.LIGHTBOX_START,
     pictures,

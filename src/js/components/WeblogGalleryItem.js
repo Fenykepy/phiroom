@@ -1,19 +1,14 @@
 import React, { Component, PropTypes } from 'react'
 
 import { Link } from 'react-router'
+import { setLightboxLink } from '../helpers/urlParser'
 
 export default class WeblogGalleryItem extends Component {
   
-  setLightboxLink() {
-    let url = this.props.path.split('/lightbox/')[0]
-    if (url.slice(-1) != "/") {
-      url = url + '/'
-    }
-    return url + 'lightbox/' + this.props.pk + '/'
-  }
-
   render() {
-    return (<li><Link to={this.setLightboxLink()}><img src={'/media/images/previews/height-600/' + this.props.previews_path}
+    return (<li><Link to={setLightboxLink(
+      this.props.path, this.props.pk
+    )}><img src={'/media/images/previews/height-600/' + this.props.previews_path}
           alt={this.props.legend} /></Link></li>
     )
   }

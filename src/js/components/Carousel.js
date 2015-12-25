@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import CarouselItem from './CarouselItem'
 
+import { setLightboxLink } from '../helpers/urlParser'
 
 /*
  * Infinite carousel :
@@ -175,6 +176,13 @@ export default class Carousel extends Component {
     } 
   }
 
+  onImageDoubleClick(pk) {
+    this.props.history.pushState(null, setLightboxLink(
+      this.props.location.pathname,
+      pk
+    ))
+  }
+
 
   render() {
     let positions = this.setPositions()
@@ -185,6 +193,7 @@ export default class Carousel extends Component {
           {this.props.pictures.map((pict, index) =>
             <CarouselItem key={pict.previews_path}
               onClick={this.onImageClick.bind(this)}
+              onDoubleClick={this.onImageDoubleClick.bind(this)}
               height={this.props.carousel.height}
               width={this.getPictWidth(index)}
               current={this.props.carousel.current_picture == index}

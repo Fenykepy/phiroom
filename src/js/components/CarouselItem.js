@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 
 export default class CarouselItem extends Component {
+  
   render() {
 
     let li_classes = []
@@ -15,7 +16,8 @@ export default class CarouselItem extends Component {
             }}><img
              src={'/media/images/previews/height-600/' + this.props.previews_path}
              alt={this.props.legend}
-             onClick={()=> this.props.onClick(this.props.index)}
+             onClick={() => this.props.onClick(this.props.index)}
+             onDoubleClick={() => this.props.onDoubleClick(this.props.pk)}
              height={this.props.height}
              width={this.props.width}
              /></li>
@@ -29,6 +31,7 @@ CarouselItem.PropTypes = {
   legend: PropTypes.string.isRequired,
   ratio: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
+  onDoubleClick: PropTypes.func.isRequired,
   current: PropTypes.bool.isRequired,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
