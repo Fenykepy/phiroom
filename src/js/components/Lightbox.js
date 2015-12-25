@@ -17,8 +17,8 @@ import LightboxFigure from './LightboxFigure'
 
 export default class Lightbox extends Component {
 
-  componentWillUnmount() {
-    //  this.props.dispatch(lightboxStop())
+  componentDidMount() {
+    this.loadImages()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,32 +27,48 @@ export default class Lightbox extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.current != this.props.current) {
+      this.loadImages()
+    }
+  }
+
   loadImages() {
     // load current image file first
+    //console.log('load images')
     this.loadImage(
       this.props.current,
       this.props.currentLoaded,
       lightboxCurrentLoaded)
-      .then(() =>
+      .then(() => {
+        console.log('current loaded, load next')
         this.loadImage( // then load next image file
           this.props.next,
           this.props.nextLoaded,
           lightboxNextLoaded)
-          .then(() => // load previous image file last
+          .then(() => { // load previous image file last
+            console.log('next loaded, load prev')
             this.loadImage(
               this.props.previous,
               this.props.previousLoaded,
               lightboxPreviousLoaded)
-          )
-      )
+          })
+      })
   }
 
 
   loadImage(image, loaded, action) {
+    //console.log('loaded', loaded)
     let base_src = '/media/images/previews/large/'
     // if image is already loaded, return resolved promise
     if (loaded) {
+      //console.log('is_loaded')
       return new Promise((resolve, reject) => resolve())
+    }
+    // if we don't have image data we return a rejected promise
+    if (! image) {
+      //console.log('no image')
+      return new Promise((resolve, reject) => reject())
     }
     // if we have image datas
     if (image) {
@@ -97,10 +113,10 @@ export default class Lightbox extends Component {
   }
 
   render() {
+    //console.log('render')
     if (! this.props.activated || ! this.props.current) {
       return (<div />)
     }
-    this.loadImages()
     return (
         <div>
           <div id="lb-overlay"></div>
