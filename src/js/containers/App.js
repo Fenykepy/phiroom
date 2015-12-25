@@ -51,14 +51,16 @@ class App extends Component {
       lightbox,
     } = this.props
     
+    // we show lightbox only if we have a "lightbox" url param
+    let lb = (<Lightbox {...this.props.lightbox}
+              dispatch={this.props.dispatch}
+              location={this.props.location}
+    />)
    
 
     return (
       <div id={this.props.modules.current}>
-        <Lightbox {...this.props.lightbox}
-                  dispatch={this.props.dispatch}
-                  location={this.props.location}
-        />
+        {this.props.params.lightbox ? lb : ''}
         <Header
           modules={this.props.modules}
           settings={this.props.settings}

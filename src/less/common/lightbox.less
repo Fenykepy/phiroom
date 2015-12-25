@@ -94,4 +94,25 @@
             }
         }
     }
+    .lbfigure-appear {
+        opacity: 0;
+    }
+    .lbfigure-appear.lbfigure-appear-active {
+        opacity: 1;
+        transition: opacity 3000ms ease-in;
+    }
+    .lbfigure-enter {
+        opacity: 0;
+    }
+    .lbfigure-enter.lbfigure-enter-active {
+        opacity: 1;
+        transition: opacity 3000ms ease-in;
+    }
+    .lbfigure-leave {
+        opacity: 1;
+    }
+    .lbfigure-leave.lbfigure-leave-active {
+        opacity: 0;
+        transition: opacity 3000ms ease-in;
+    }
 }

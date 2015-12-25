@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
+
 import {
   lightboxStop,
   lightboxNavTo,
@@ -17,7 +18,13 @@ import LightboxFigure from './LightboxFigure'
 export default class Lightbox extends Component {
 
   componentWillUnmount() {
-    this.props.dispatch(lightboxStop())
+    //  this.props.dispatch(lightboxStop())
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (! nextProps.activated && this.props.activated) {
+      this.props.dispatch(lightboxStop())
+    }
   }
 
   loadImages() {
@@ -94,7 +101,6 @@ export default class Lightbox extends Component {
       return (<div />)
     }
     this.loadImages()
-    console.log('lb', this.props)
     return (
         <div>
           <div id="lb-overlay"></div>
@@ -109,7 +115,7 @@ export default class Lightbox extends Component {
               number={this.props.currentIndex + 1}
               length={this.props.pictures.length}
             />
-            <LightboxFigure
+            {/*<LightboxFigure
               id="stage-2"
               image={this.props.next}
               loaded={this.props.nextLoaded}
@@ -117,7 +123,7 @@ export default class Lightbox extends Component {
               next_path={this.getNextPath()}
               number={this.props.currentIndex + 1}
               length={this.props.pictures.length}
-            />
+              />*/}
           </section>
         </div>
       )
