@@ -12,6 +12,7 @@ import {
 
 import { Link } from 'react-router'
 
+import LightboxFigure from './LightboxFigure'
 
 export default class Lightbox extends Component {
 
@@ -93,28 +94,30 @@ export default class Lightbox extends Component {
       return (<div />)
     }
     this.loadImages()
+    console.log('lb', this.props)
     return (
         <div>
           <div id="lb-overlay"></div>
           <section id="lightbox">
-          <Link id="lb-close" to={this.getClosePath()} title="Close lightbox"></Link>
-            <figure id="lb-new">
-              <div className="lb-buttons-wrapper">
-                <img src={'/media/images/previews/large/' + this.props.current.previews_path}
-                     alt={this.props.current.title}
-                />
-                <Link id="lb-previous" to={this.getPreviousPath()}>
-                  <span className="accessibility">Previous picture</span>
-                </Link>
-                <Link id="lb-next" to={this.getNextPath()}>
-                  <span className="accessibility">Next picture</span>
-                </Link>
-              </div>
-              <figcaption>
-                {this.props.current.title}
-                <p>Image {this.props.currentIndex + 1} of {this.props.pictures.length}</p>
-              </figcaption>
-            </figure>
+            <Link id="lb-close" to={this.getClosePath()}></Link>
+            <LightboxFigure
+              id="stage-1"
+              image={this.props.current}
+              loaded={this.props.currentLoaded}
+              previous_path={this.getPreviousPath()}
+              next_path={this.getNextPath()}
+              number={this.props.currentIndex + 1}
+              length={this.props.pictures.length}
+            />
+            <LightboxFigure
+              id="stage-2"
+              image={this.props.next}
+              loaded={this.props.nextLoaded}
+              previous_path={this.getPreviousPath()}
+              next_path={this.getNextPath()}
+              number={this.props.currentIndex + 1}
+              length={this.props.pictures.length}
+            />
           </section>
         </div>
       )

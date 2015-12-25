@@ -64,11 +64,17 @@
         }
     }
     figure {
-        position: relative;
+        position: absolute;
         margin: 40px auto;
-        display: inline-block;
+        display: block;
+        left: 50%;
+        transform: translateX(-50%);
         max-width: calc(~'100vw - 80px');
         max-height: @lb-max-height;
+        .spinner img {
+            margin-top: calc(~'50vh - 120px');
+            border: none;
+        }
         img {
             border: 2px solid #fff;
             max-width: 100%;
