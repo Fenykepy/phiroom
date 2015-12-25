@@ -7,6 +7,7 @@ export default class Portfolio extends Component {
       portfolio: this.props.portfolio,
       dispatch: this.props.dispatch,
       modules: this.props.modules,
+      viewport: this.props.viewport,
     })
   } 
 }

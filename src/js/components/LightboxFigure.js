@@ -8,7 +8,8 @@ import Spinner from './Spinner'
 export default class LightboxFigure extends Component {
 
   render () {
-    if (! this.props.loaded) {
+    // if we are clientside and image is loading, show spinner
+    if (! this.props.loaded &&this.props.clientSide) {
       console.log('loading')
        return (
         <figure>

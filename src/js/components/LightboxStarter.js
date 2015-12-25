@@ -5,6 +5,7 @@ import {
   lightboxSetCurrent,
 } from '../actions/lightbox'
 
+
 // False component to launch lightbox actions
 export default class LightboxStarter extends Component {
 
@@ -36,6 +37,7 @@ export default class LightboxStarter extends Component {
   }
   
   render () {
+    
     return (<div />)
   }
 }

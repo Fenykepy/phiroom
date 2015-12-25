@@ -14,6 +14,7 @@ import {
   prevPict,
   toggleSlideshow
 } from '../actions/portfolios'
+import { lightboxStart } from '../actions/lightbox'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { setModule } from '../actions/modules'
 
@@ -26,6 +27,11 @@ export default class PortfolioDetail extends Component {
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then((data) => {
         dispatch(selectPortfolio(params.slug))
+        // launch lightbox if needed
+        if (params.lightbox) {
+          dispatch(lightboxStart(data.data.pictures,
+                  params.lightbox))
+        }
         // fetch portfolios pictures if needed
         if (clientSide) {
           // set module
@@ -107,12 +113,17 @@ export default class PortfolioDetail extends Component {
       if (this.props.children) {
         lightboxStarter = React.cloneElement(this.props.children, {
           pictures: this.props.portfolio.selected.pictures,
+          clientSide: this.props.viewport.clientSide,
           dispatch: this.props.dispatch,
+
         })
       }
     } else { // we are server side
     // show a full css carousel if client hasn't javascript or if serverside
-      carousel = <CarouselInline pictures={this.props.portfolio.pictures} />
+      carousel = <CarouselInline
+        pictures={this.props.portfolio.pictures}
+        path={this.props.location.pathname}
+      />
     }
 
     return (

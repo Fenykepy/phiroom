@@ -139,6 +139,7 @@ export default class Lightbox extends Component {
               next_path={this.getNextPath()}
               number={this.props.currentIndex + 1}
               length={this.props.pictures.length}
+              clientSide={this.props.clientSide}
             />
             {/*<LightboxFigure
               id="stage-2"

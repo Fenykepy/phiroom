@@ -9,7 +9,7 @@ export default class CarouselInline extends Component {
     return (
         <ul className="carousel-inline">
           {this.props.pictures.map((item) =>
-          <CarouselInlineItem key={item.previews_path} {...item} />
+          <CarouselInlineItem key={item.previews_path} {...item} path={this.props.path} />
       )}
         </ul>
     )

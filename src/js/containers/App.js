@@ -55,6 +55,7 @@ class App extends Component {
     let lb = (<Lightbox {...this.props.lightbox}
               dispatch={this.props.dispatch}
               location={this.props.location}
+              clientSide={this.props.viewport.clientSide}
     />)
    
 
