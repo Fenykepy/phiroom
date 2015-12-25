@@ -75,12 +75,10 @@ function currentLoaded(state = false, action) {
   switch(action.type) {
     case LIGHTBOX_START:
       return false
-    case LIGHTBOX_SET_CURRENT:
-      return false
     case LIGHTBOX_STOP:
       return false
     case LIGHTBOX_CURRENT_LOADED:
-      return true
+      return action.loaded
     default:
       return state
   }
@@ -91,12 +89,10 @@ function nextLoaded(state = false, action) {
   switch(action.type) {
     case LIGHTBOX_START:
       return false
-    case LIGHTBOX_SET_CURRENT:
-      return false
     case LIGHTBOX_STOP:
       return false
     case LIGHTBOX_NEXT_LOADED:
-      return true
+      return action.loaded
     default:
       return state
   }
@@ -107,12 +103,10 @@ function previousLoaded(state = false, action) {
   switch(action.type) {
     case LIGHTBOX_START:
       return false
-    case LIGHTBOX_SET_CURRENT:
-      return false
     case LIGHTBOX_STOP:
       return false
     case LIGHTBOX_PREVIOUS_LOADED:
-      return true
+      return action.loaded
     default:
       return state
   }

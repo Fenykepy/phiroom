@@ -8,13 +8,14 @@ import Spinner from './Spinner'
 export default class LightboxFigure extends Component {
 
   render () {
-    /*if (! this.props.loaded) {
+    if (! this.props.loaded) {
+      console.log('loading')
        return (
         <figure>
           <Spinner />
         </figure>
       )
-      }*/
+    }
     return (
           <figure key={this.props.image.previews_path}>
             <div className="lb-buttons-wrapper">

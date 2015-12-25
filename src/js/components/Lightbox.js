@@ -22,11 +22,20 @@ export default class Lightbox extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // we went to next picture, invalidate next
+    if (this.props.current === nextProps.previous) {
+      this.props.dispatch(lightboxNextLoaded(false))
+    }
+    // we went to previous picture, invalidate previous
+    if (this.props.current === nextProps.next) {
+      this.props.dispatch(lightboxPreviousLoaded(false))
+    }
+    // stop lightbox if it's not activated anymore
     if (! nextProps.activated && this.props.activated) {
       this.props.dispatch(lightboxStop())
     }
   }
-
+  
   componentDidUpdate(prevProps) {
     if (prevProps.current != this.props.current) {
       this.loadImages()
@@ -41,13 +50,13 @@ export default class Lightbox extends Component {
       this.props.currentLoaded,
       lightboxCurrentLoaded)
       .then(() => {
-        console.log('current loaded, load next')
+        //console.log('current loaded, load next')
         this.loadImage( // then load next image file
           this.props.next,
           this.props.nextLoaded,
           lightboxNextLoaded)
           .then(() => { // load previous image file last
-            console.log('next loaded, load prev')
+            //console.log('next loaded, load prev')
             this.loadImage(
               this.props.previous,
               this.props.previousLoaded,
@@ -78,7 +87,7 @@ export default class Lightbox extends Component {
       })
       img.src = base_src + image.previews_path
       return promise.then((image) => {
-        this.props.dispatch(action())
+        this.props.dispatch(action(true))
         return image
       })
     }
@@ -113,7 +122,7 @@ export default class Lightbox extends Component {
   }
 
   render() {
-    //console.log('render')
+    //    console.log('lb', this.props)
     if (! this.props.activated || ! this.props.current) {
       return (<div />)
     }

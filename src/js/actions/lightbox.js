@@ -27,24 +27,27 @@ export function lightboxStop() {
   }
 }
 
-export function lightboxCurrentLoaded() {
-  console.log('current loaded')
+export function lightboxCurrentLoaded(loaded) {
+  //console.log('current loaded')
   return {
-    type: types.LIGHTBOX_CURRENT_LOADED
+    type: types.LIGHTBOX_CURRENT_LOADED,
+    loaded
   }
 }
 
-export function lightboxNextLoaded() {
-  console.log('next loaded')
+export function lightboxNextLoaded(loaded) {
+  //console.log('next loaded')
   return {
-    type: types.LIGHTBOX_NEXT_LOADED
+    type: types.LIGHTBOX_NEXT_LOADED,
+    loaded
   }
 }
 
-export function lightboxPreviousLoaded() {
-  console.log('previous loaded')
+export function lightboxPreviousLoaded(loaded) {
+  //console.log('previous loaded')
   return {
-    type: types.LIGHTBOX_PREVIOUS_LOADED
+    type: types.LIGHTBOX_PREVIOUS_LOADED,
+    loaded
   }
 }
 export function lightboxToogleSlideshow() {
