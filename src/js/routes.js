@@ -4,6 +4,7 @@ import { Route, Redirect, IndexRoute } from 'react-router'
 
 import App from './containers/App'
 import Portfolio from './components/Portfolio'
+import PortfolioDetail from './components/PortfolioDetail'
 import Weblog from './components/Weblog'
 import WeblogList from './components/WeblogList'
 import WeblogDetail from './components/WeblogDetail'
@@ -25,9 +26,11 @@ export default () => {
       <Redirect from="/" to="/portfolio/" />
       <Redirect from="/weblog/page/1/" to="/weblog/" />
       <Route path="/" component={App} onEnter={appendSlash}>
-        <Route path="portfolio(/)" component={Portfolio}>
-          <Route path=":slug(/)" component={Portfolio} />
-          <Route path=":slug/lightbox/:lightbox(/)" component={Portfolio} />
+        <Route path="/portfolio(/)" component={Portfolio}>
+          <IndexRoute component={PortfolioDetail} />
+          <Route path="/portfolio/:slug(/)" component={PortfolioDetail}>
+            <Route path="/portfolio/:slug/lightbox/:lightbox(/)" component={LightboxStarter} onEnter={appendSlash} />
+          </Route>
         </Route>
         <Route path="weblog(/)" component={Weblog} onEnter={appendSlash} >
           <IndexRoute component={WeblogList} />
@@ -38,7 +41,6 @@ export default () => {
             <Route path="/weblog/:y/:m/:d/:slug/lightbox/:lightbox(/)" component={LightboxStarter} onEnter={appendSlash} />
           </Route>
         </Route>
-        <Route path="weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash} />
         <Route path="contact(/)" component={Contact} />
       </Route>
     </Route>
