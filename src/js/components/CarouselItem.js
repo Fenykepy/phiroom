@@ -20,6 +20,7 @@ export default class CarouselItem extends Component {
              onDoubleClick={() => this.props.onDoubleClick(this.props.pk)}
              height={this.props.height}
              width={this.props.width}
+             title="Double click me !"
              /></li>
     )
   }
