@@ -34,7 +34,8 @@ export default class WeblogList extends Component {
 
   componentWillReceiveProps(nextProps) {
     let page = this.props.params.page || 1
-    if (page != nextProps.params.page) {
+    let nextPage = nextProps.params.page || 1
+    if (page != nextPage) {
       this.fetchData(nextProps.params)
     }
   }

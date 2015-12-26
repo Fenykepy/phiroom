@@ -14,4 +14,5 @@
 #- Add a default_portfolio property to state, use it for redirects in routes
 - Add a librairy app
 - Add authentication
-- Add a weblog list by tag
+#- Add a weblog list by tag
+- Add an error page (404, 500)

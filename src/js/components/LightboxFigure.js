@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-
 import { Link } from 'react-router'
 import Spinner from './Spinner'
 

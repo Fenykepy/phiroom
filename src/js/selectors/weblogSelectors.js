@@ -11,8 +11,9 @@ const picturesShortSelector = state => state.pictures.short
 const selectedPageSelector = state => state.weblog.pages[
   state.weblog.selectedPage]
 
-const pagesByTagSelector = state => state.pagesByTag
-const selectedPageByTagDataSelector = state => state.selectedPageByTag
+
+const pagesByTagSelector = state => state.weblog.pagesByTag
+const selectedPageByTagDataSelector = state => state.weblog.selectedPageByTag
 
 const selectedPageByTagSelector = createSelector(
   pagesByTagSelector,
@@ -21,7 +22,7 @@ const selectedPageByTagSelector = createSelector(
     if (selected && selected.page && selected.tag) {
       return pages[selected.tag][selected.page]
     }
-    return selected
+    return null
   }
 )
 

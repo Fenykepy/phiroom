@@ -34,31 +34,33 @@ export default class WeblogList extends Component {
 
   componentWillReceiveProps(nextProps) {
     let page = this.props.params.page || 1
-    if (page != nextProps.params.page) {
+    let nextPage = nextProps.params.page || 1
+    if (page != nextPage ||
+        this.props.params.tag != nextProps.params.tag) {
+      console.log('fetch webloglistbytag')
       this.fetchData(nextProps.params)
     }
   }
 
 
   render() {
-    console.log(this.props.weblog)
     let child
     // show spinner if no selected page or if page is fetching
     if (! this.props.weblog.selectedPageByTag ||
-        this.props.weblog.selectedPage.is_fetching) {
+        this.props.weblog.selectedPageByTag.is_fetching) {
       child = (<Spinner message="Fetching…" />)
     } else {
       child =(
         <div>
-          {this.props.weblog.selectedPage.results.map((item) => 
+          {this.props.weblog.selectedPageByTag.results.map((item) => 
               <WeblogAbstract
                 key={item.slug}
                 {...item}
               />
           )}
           <WeblogPagination
-            next={this.props.weblog.selectedPage.next}
-            previous={this.props.weblog.selectedPage.previous}
+            next={this.props.weblog.selectedPageByTag.next}
+            previous={this.props.weblog.selectedPageByTag.previous}
             page={parseInt(this.props.params.page) || 1} />
         </div>
       )

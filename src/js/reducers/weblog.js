@@ -111,10 +111,10 @@ function selectedPageByTag(state = null, action) {
 function pagesByTag(state = {}, action) {
   switch (action.type) {
     case REQUEST_WEBLOG_PAGE_BYTAG:
-      console.log(action.tag, action.page)
+      let page = state[action.tag] ? state[action.tag][action.page] : {}
       return Object.assign({}, state, {
         [action.tag]: Object.assign({}, state[action.tag], {
-          [action.page]: Object.assign({}, state[action.tag][action.page], {
+          [action.page]: Object.assign({}, page, {
             is_fetching: true,
             fetched: false
           })
