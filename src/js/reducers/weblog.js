@@ -8,7 +8,11 @@ import {
   REQUEST_POST,
   REQUEST_POST_FAILURE,
   REQUEST_POST_SUCCESS,
-  SELECT_POST
+  SELECT_POST,
+  REQUEST_WEBLOG_PAGE_BYTAG,
+  REQUEST_WEBLOG_PAGE_BYTAG_FAILURE,
+  REQUEST_WEBLOG_PAGE_BYTAG_SUCCESS,
+  SELECT_WEBLOG_PAGE_BYTAG,
 } from '../constants/actionsTypes'
 
 
@@ -29,6 +33,7 @@ function selectedPage(state = null, action) {
       return state
   }
 }
+
 function posts(state = {}, action) {
   switch (action.type) {
     case REQUEST_POST:
@@ -91,21 +96,78 @@ function pages(state = {}, action) {
   }
 }
 
-function tags(state = {}, action) {
+let false_tag_state = {
+  studio: {
+    1: {
+      is_fetching: true,
+      fetch: false
+    },
+    3: {
+      is_fetching: false,
+      fetch: true,
+      count: 0,
+    }
+  },
+  outdoor: {
+  },
+}
+
+function selectedByTag(state = null, action) {
   switch (action.type) {
+    case SELECT_WEBLOG_PAGE_BYTAG:
+      return Object.assign({}, {
+        tag: action.tag || null,
+        page: action.page || null,
+      })
     default:
       return state
   }
 }
 
-
+function pagesByTag(state = {}, action) {
+  switch (action.type) {
+    case REQUEST_WEBLOG_PAGE_BYTAG:
+      return Object.assign({}, state, {
+        [action.tag]: Object.assign({}, state[action.tag], {
+          [action.page]: Object.assign({}, state[action.tag][action.page], {
+            is_fetching: true,
+            fetched: false
+          })
+        })
+      })
+    case REQUEST_WEBLOG_PAGE_BYTAG_SUCCESS:
+      return Object.assign({}, state, {
+        [action.tag]: Object.assign({}, state[action.tag], {
+          [action.page]: Object.assign({}, state[action.tag][action.page], {
+            is_fetching: false,
+            fetched: true,
+            receivedAt: action.receivedAt
+          },
+          action.data)
+        })
+      })
+    case REQUEST_WEBLOG_PAGE_BYTAG_FAILURE:
+      return Object.assign({}, state, {
+        [action.tag]: Object.assign({}, state[action.tag], {
+          [action.page]: Object.assign({}, state[action.tag][action.page], {
+            is_fetching: false,
+            fetched: false,
+            error: action.error
+          })
+        })
+      })
+    default:
+      return state
+  }
+}
 
 const weblog = combineReducers({
   selectedPost,
   selectedPage,
+  selectedByTag,
   posts,
   pages,
-  tags,
+  pagesByTag,
 })
 
 export default weblog

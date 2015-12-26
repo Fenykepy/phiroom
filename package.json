@@ -9,7 +9,9 @@
   "dependencies": {
     "cookie-parser": "^1.4.0",
     "es6-promise": "^3.0.2",
+    "express": "^4.13.3",
     "history": "^1.13.1",
+    "immutable": "^3.7.6",
     "isomorphic-fetch": "^2.2.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
@@ -29,7 +31,6 @@
     "babel-register": "^6.3.13",
     "css-loader": "^0.22.0",
     "expect": "^1.12.2",
-    "express": "^4.13.3",
     "extract-text-webpack-plugin": "^0.9.1",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
