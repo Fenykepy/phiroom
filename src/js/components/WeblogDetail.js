@@ -9,7 +9,6 @@ import {
 
 import { fetchAuthorIfNeeded } from '../actions/authors'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
-import { setModule } from '../actions/modules'
 import { lightboxStart } from '../actions/lightbox'
 
 import { Link } from 'react-router'
@@ -50,8 +49,6 @@ export default class WeblogDetail extends Component {
       return dispatch(fetchAuthorIfNeeded(data.data.author))
     }))
     if (! clientSide) {
-      // set module
-      dispatch(setModule('weblog'))
       // fetch all pictures at once serverside
       promises.push(dispatch(fetchPostPictures(slug)))
     }
@@ -73,10 +70,6 @@ export default class WeblogDetail extends Component {
 
   componentDidMount() {
     this.fetchData(this.props.params)
-    // set module
-    if (this.props.modules.current != 'weblog') {
-      this.props.dispatch(setModule('weblog'))
-    }
   }
 
   componentWillReceiveProps(nextProps) {

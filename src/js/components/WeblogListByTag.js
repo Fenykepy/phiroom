@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react'
 
 // actions
 import  {
-  fetchWeblogPageIfNeeded,
-  selectWeblogPage,
+  fetchWeblogPageByTagIfNeeded,
+  selectWeblogPageByTag,
 } from '../actions/weblog'
 
 import WeblogPagination from './WeblogPagination'
@@ -16,8 +16,8 @@ export default class WeblogList extends Component {
     let promises = []
     let page = params.page || 1
     // use static to be able to call it server side before component is rendered
-    promises.push(dispatch(fetchWeblogPageIfNeeded(page)).then((data) => {
-      dispatch(selectWeblogPage(page))
+    promises.push(dispatch(fetchWeblogPageByTagIfNeeded(params.tag, page)).then((data) => {
+      dispatch(selectWeblogPageByTag(params.tag, page))
     }))
     
     return promises
@@ -41,9 +41,10 @@ export default class WeblogList extends Component {
 
 
   render() {
+    console.log(this.props.weblog)
     let child
     // show spinner if no selected page or if page is fetching
-    if (! this.props.weblog.selectedPage ||
+    if (! this.props.weblog.selectedPageByTag ||
         this.props.weblog.selectedPage.is_fetching) {
       child = (<Spinner message="Fetching…" />)
     } else {

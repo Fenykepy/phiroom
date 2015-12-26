@@ -96,7 +96,7 @@ function pages(state = {}, action) {
   }
 }
 
-function selectedByTag(state = null, action) {
+function selectedPageByTag(state = null, action) {
   switch (action.type) {
     case SELECT_WEBLOG_PAGE_BYTAG:
       return Object.assign({}, {
@@ -111,6 +111,7 @@ function selectedByTag(state = null, action) {
 function pagesByTag(state = {}, action) {
   switch (action.type) {
     case REQUEST_WEBLOG_PAGE_BYTAG:
+      console.log(action.tag, action.page)
       return Object.assign({}, state, {
         [action.tag]: Object.assign({}, state[action.tag], {
           [action.page]: Object.assign({}, state[action.tag][action.page], {
@@ -148,7 +149,7 @@ function pagesByTag(state = {}, action) {
 const weblog = combineReducers({
   selectedPost,
   selectedPage,
-  selectedByTag,
+  selectedPageByTag,
   posts,
   pages,
   pagesByTag,

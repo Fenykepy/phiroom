@@ -11,6 +11,19 @@ const picturesShortSelector = state => state.pictures.short
 const selectedPageSelector = state => state.weblog.pages[
   state.weblog.selectedPage]
 
+const pagesByTagSelector = state => state.pagesByTag
+const selectedPageByTagDataSelector = state => state.selectedPageByTag
+
+const selectedPageByTagSelector = createSelector(
+  pagesByTagSelector,
+  selectedPageByTagDataSelector,
+  (pages, selected) => {
+    if (selected && selected.page && selected.tag) {
+      return pages[selected.tag][selected.page]
+    }
+    return selected
+  }
+)
 
 const selectedPostSelector = state => state.weblog.posts[
   state.weblog.selectedPost]
@@ -60,6 +73,7 @@ const postPicturesSelector = createSelector(
 
 export const weblogSelector = createStructuredSelector({
   selectedPage: selectedPageSelector,
+  selectedPageByTag: selectedPageByTagSelector,
   selectedPost: selectedPostSelector,
   n_pictures: postPicturesNumberSelector,
   pictures: postPicturesSelector,

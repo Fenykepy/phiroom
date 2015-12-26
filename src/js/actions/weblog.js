@@ -204,6 +204,7 @@ function fetchWeblogPage(page) {
 
 // pages by tag
 export function requestWeblogPageByTag(tag, page) {
+  console.log(tag, page)
   return {
     type: types.REQUEST_WEBLOG_PAGE_BYTAG,
     tag,
