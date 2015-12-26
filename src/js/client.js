@@ -38,6 +38,7 @@ let unsubscribe = store.subscribe(() =>
 // fetch common data
 let promises = fetchCommonData(store)
 
+
 const routes = <Router history={history} routes={getRoutes()} />
 
 render(

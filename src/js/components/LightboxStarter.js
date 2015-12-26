@@ -10,6 +10,7 @@ import {
 export default class LightboxStarter extends Component {
 
   startLightbox(pictures, current) {
+    window.scrollTo(0, 0)
     this.props.dispatch(lightboxStart(pictures, current))
   }
 

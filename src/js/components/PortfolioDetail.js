@@ -16,7 +16,6 @@ import {
 } from '../actions/portfolios'
 import { lightboxStart } from '../actions/lightbox'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
-import { setModule } from '../actions/modules'
 
 
 export default class PortfolioDetail extends Component {
@@ -41,8 +40,6 @@ export default class PortfolioDetail extends Component {
         }
     }))
     if (! clientSide) {
-      // set module
-      dispatch(setModule('portfolios'))
       // fetch all pictures at once serverside
       promises.push(dispatch(fetchPortfolioPictures(params.slug)))
     }
@@ -53,19 +50,12 @@ export default class PortfolioDetail extends Component {
     this.constructor.fetchData(this.props.dispatch, params, true)
   }
 
+
   componentDidMount() {
     this.fetchData(this.props.params)
-    // set module
-    if (this.props.modules.current != 'portfolios') {
-      this.props.dispatch(setModule('portfolios'))
-    }
   }
 
   componentWillReceiveProps(nextProps) {
-    // if no slug redirect to default portfolio
-    if (! this.props.params.slug) {
-      this.props.history.pushState(null, `/portfolio/${this.props.portfolio.default}/`)
-    }
     if (this.props.params.slug != nextProps.params.slug) {
       this.fetchData(nextProps.params)
     }

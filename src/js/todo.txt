@@ -16,3 +16,4 @@
 - Add authentication
 #- Add a weblog list by tag
 - Add an error page (404, 500)
+#- Add scroll to top on lightbox openning
