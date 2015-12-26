@@ -96,22 +96,6 @@ function pages(state = {}, action) {
   }
 }
 
-let false_tag_state = {
-  studio: {
-    1: {
-      is_fetching: true,
-      fetch: false
-    },
-    3: {
-      is_fetching: false,
-      fetch: true,
-      count: 0,
-    }
-  },
-  outdoor: {
-  },
-}
-
 function selectedByTag(state = null, action) {
   switch (action.type) {
     case SELECT_WEBLOG_PAGE_BYTAG:

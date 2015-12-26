@@ -6,12 +6,12 @@
 
 - Create a build script for npm
 #- Move css out of js files, else it needs to load all js to display them
-- Add a lightbox to portfolios
-- Add a list and detail views for weblog posts
-- Add a form for contact
-- Add a description for contact
+#- Add a lightbox to portfolios
+#- Add a list and detail views for weblog posts
+#- Add a form for contact
+#- Add a description for contact
 - Add a title property to state
-- Add a default_portfolio property to state, use it for redirects in routes
+#- Add a default_portfolio property to state, use it for redirects in routes
 - Add a librairy app
 - Add authentication
-
+- Add a weblog list by tag
