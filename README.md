@@ -20,7 +20,7 @@ It also provides a "librairy" module *(not implemented yet)*, with restricted ac
 * give specific users access to particular collections.
 
 ### Installation ###
-Please read [INSTALL.md]()
+Please read [INSTALL.md](/INSTALL.md)
 
 ### Technologies ###
 Phiroom uses :
