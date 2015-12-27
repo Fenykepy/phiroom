@@ -18,11 +18,10 @@ import getRoutes from './routes'
 import rootReducer from './reducers'
 
 import { fetchCommonData } from './helpers/fetchCommonData'
-import { base_url, statics_proxy } from './config'
+import { base_url, statics_proxy, port } from './config'
 
 
 var app = new Express()
-var port = 3000
 
 var SERVER_RENDERING = true
 

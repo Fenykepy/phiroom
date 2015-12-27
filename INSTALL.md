@@ -269,12 +269,11 @@ Run as root:
 #### Monitoring our App ####
 
 I'll present here two solution for monitoring our app :
- * First using supervisor for django part and PM2 (not detailed here)
+ * First using supervisor
  * Second using systemd, if it's available on your system
 
-This second option is prefered because it allows you to monitor both django API and node server with one command.
 
-##### Set up API with supervisor #####
+##### Monitoring App with supervisor #####
 
 Run as root:
 
@@ -287,7 +286,7 @@ Run as root:
  * Complete it as follow:
 
         [program:phiroom]
-        command = /var/www/phiroom_env/bin/gunicorn_start.bash
+        command = /var/www/phiroom_env/bin/gunicorn_start
         user = <my_user>
         autostart = true
         autorestart = true
@@ -315,7 +314,7 @@ Run as root:
         # supervisorctl start phiroom
         # supervisorctl restart phiroom
 
-##### Set up API with systemd #####
+##### Monitoring App with systemd #####
 
 Run as root :
  * Create configuration file:
