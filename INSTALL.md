@@ -266,7 +266,15 @@ Run as root:
  * Quit python vitual environment with `deactivate`
 
 
-#### Set up supervisor ####
+#### Monitoring our App ####
+
+I'll present here two solution for monitoring our app :
+ * First using supervisor for django part and PM2 (not detailed here)
+ * Second using systemd, if it's available on your system
+
+This second option is prefered because it allows you to monitor both django API and node server with one command.
+
+##### Set up API with supervisor #####
 
 Run as root:
 
@@ -306,6 +314,41 @@ Run as root:
         # supervisorctl stop phiroom
         # supervisorctl start phiroom
         # supervisorctl restart phiroom
+
+##### Set up API with systemd #####
+
+Run as root :
+ * Create configuration file:
+
+        # vim /etc/systemd/system/phiroom.service
+
+ * Complete it as follow:
+
+    [Unit]
+    Description=Phiroom
+    After=network.target
+
+    [Service]
+    User=<my_user>
+    Group=<my_group>
+    WorkingDirectory=/var/www/phiroom_env/phiroom
+    ExecStart=/var/www/phiroom_env/bin/gunicorn_start
+
+    [Install]
+    WantedBy=multi-user.target
+
+ * We start service and enable it as boot:
+
+        # systemctl start phiroom
+        # systemctl enable phiroom
+
+ * Now we can manage our API with following commands:
+
+        # systemctl start phiroom
+        # systemctl status phiroom
+        # systemctl stop phiroom
+        # systemctl restart phiroom
+
 
 #### Set up Node ####
 
