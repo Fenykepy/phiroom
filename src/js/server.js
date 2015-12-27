@@ -18,21 +18,32 @@ import getRoutes from './routes'
 import rootReducer from './reducers'
 
 import { fetchCommonData } from './helpers/fetchCommonData'
-import { base_url } from './config'
+import { base_url, statics_proxy } from './config'
 
 
 var app = new Express()
 var port = 3000
 
-const SERVER_RENDERING = false
+var SERVER_RENDERING = true
 
-var compiler = webpack(config)
-app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath }))
-app.use(webpackHotMiddleware(compiler))
+// we are in development mode
+if (process.env.NODE_ENV != 'production') {
+  // use hot reloading in development
+  var compiler = webpack(config)
+  app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath }))
+  app.use(webpackHotMiddleware(compiler))
+} else {
+  // we are in production
+  // force server rendering
+  SERVER_RENDERING = true
+}
 
-// serve statics for developments
-app.use('/assets', Express.static(__dirname + '/../../assets'))
-app.use('/media', Express.static(__dirname + '/../api/phiroom/data'))
+if (! statics_proxy) {
+  // serve statics for developments 
+  app.use('/assets', Express.static(__dirname + '/../../assets'))
+  app.use('/media', Express.static(__dirname + '/../api/phiroom/data'))
+  app.use('/static', Express.static(__dirname + '/../../dist'))
+}
 
 // get cookies
 app.use(cookieParser())

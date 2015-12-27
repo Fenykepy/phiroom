@@ -1,11 +1,6 @@
-let production = false
 
-let base_url
+let base_url = 'http://127.0.0.1:8000/'
+let statics_proxy = false
 
-if (production) {
-  base_url = '/'
-} else {
-  base_url = 'http://127.0.0.1:8000/'
-}
 
-export { base_url }
+export { base_url, statics_proxy }

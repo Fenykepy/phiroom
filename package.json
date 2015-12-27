@@ -48,6 +48,8 @@
     ]
   },
   "scripts": {
-    "start": "node ./src/js/index.js"
+    "start": "node ./src/js/index.js",
+    "start_prod": "NODE_ENV=production node ./src/js/index.js",
+    "build": "NODE_ENV=production webpack -p --config webpack.prod.config.js"
   }
 }
