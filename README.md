@@ -34,4 +34,5 @@ Phiroom uses :
 
 ### Websites using phiroom ###
 * [lavilotte-rolle.fr](http://lavilotte-rolle.fr) uses the last released version of phiroom.
+* [dev.phiroom.com](http://dev.phiroom.com/) shows a preview of the development version public part. It can be broken sometimes.
 
