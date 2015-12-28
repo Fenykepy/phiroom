@@ -265,6 +265,29 @@ Run as root:
  * Quit with `ctrl+C`
  * Quit python vitual environment with `deactivate`
 
+#### Set up node app ####
+
+ * Create a shell script to launch gunicorn and node app :
+
+        $ vim /var/www/phiroom_env/bin/phiroom_start
+
+ * Complete it as follow:
+
+        #!/bin/bash
+
+        # go to app root directory
+        cd /var/www/phiroom_env/phiroom
+
+        # launch gunicorn
+        ../bin/gunicorn_start &
+
+        # launch node
+        npm run start_prod
+
+
+ * Give execution rights to our script:
+
+        $ sudo chmod u+x /var/www/phiroom_env/bin/phiroom_start
 
 #### Monitoring our App ####
 
@@ -286,11 +309,11 @@ Run as root:
  * Complete it as follow:
 
         [program:phiroom]
-        command = /var/www/phiroom_env/bin/gunicorn_start
+        command = /var/www/phiroom_env/bin/phiroom_start
         user = <my_user>
         autostart = true
         autorestart = true
-        stdout_logfile = /var/www/phiroom_env/bin/gunicorn_supervisor.log
+        stdout_logfile = /var/www/phiroom_env/bin/phiroom_supervisor.log
         redirect_stderr = true
 
  * Edit configuration file:
@@ -331,7 +354,7 @@ Run as root :
     User=<my_user>
     Group=<my_group>
     WorkingDirectory=/var/www/phiroom_env/phiroom
-    ExecStart=/var/www/phiroom_env/bin/gunicorn_start
+    ExecStart=/var/www/phiroom_env/bin/phiroom_start
 
     [Install]
     WantedBy=multi-user.target
@@ -347,13 +370,6 @@ Run as root :
         # systemctl status phiroom
         # systemctl stop phiroom
         # systemctl restart phiroom
-
-
-#### Set up Node ####
-
-Run as `<my_user>`:
-
-    $ cd /var/www/phiroom_env/phiroom
 
 
 #### Set up nginx ####
