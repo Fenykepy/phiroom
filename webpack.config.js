@@ -12,7 +12,8 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 var config = {
   // sourceMaps simplified to a single mapping per line
-  devtool: 'cheap-module-eval-source-map',
+  //devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval',
   entry: [
     'webpack-hot-middleware/client',
     './src/js/client'

@@ -3,7 +3,7 @@ import * as types from '../constants/actionsTypes'
 
 import { base_url } from '../config'
 
-
+import Fetch from '../helpers/http'
 // action creators
 
 
@@ -61,10 +61,7 @@ export function fetchDescription() {
     // start request
     dispatch(requestDescription())
     // return a promise
-    return fetch(`${base_url}api/contact/description/`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get('api/contact/description/')
       .then(json =>
           dispatch(receiveDescription(json))
       )
