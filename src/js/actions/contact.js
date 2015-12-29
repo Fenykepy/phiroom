@@ -1,9 +1,8 @@
-import fetch from 'isomorphic-fetch'
 import * as types from '../constants/actionsTypes'
 
-import { base_url } from '../config'
-
 import Fetch from '../helpers/http'
+
+
 // action creators
 
 
@@ -112,18 +111,12 @@ export function postMessage(data) {
     let csrf_token = state.common.csrfToken.token
 
     // return a promise
-    return fetch(`${base_url}api/contact/messages/`,
-        {
-          method: "POST",
-          headers: {
-            'Accept': 'application/json',
+    return Fetch.post('api/contact/messages/',
+          {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrf_token
           },
-          body: JSON.stringify(data)
-        })
-        .then(response =>
-            response.json()
+          JSON.stringify(data)
         )
         .then(json =>
             dispatch(requestPostMessageSuccess())

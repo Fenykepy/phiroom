@@ -18,12 +18,13 @@ import getRoutes from './routes'
 import rootReducer from './reducers'
 
 import { fetchCommonData } from './helpers/fetchCommonData'
-import { base_url, statics_proxy, port } from './config'
+import Fetch from './helpers/http'
+import { statics_proxy, port } from './config'
 
 
 var app = new Express()
 
-var SERVER_RENDERING = false
+var SERVER_RENDERING = true
 
 // we are in development mode
 if (process.env.NODE_ENV != 'production') {
@@ -52,10 +53,7 @@ function handleRender(req, res) {
 
   // redirect to default portfolio
   if (req.url == '/portfolio/') {
-    fetch(`${base_url}api/portfolio/headers/`)
-      .then(response =>
-          response.json()
-      )
+    Fetch.get('api/portfolio/headers/')
       .then(json => {
         res.redirect(302, req.url + json[0].slug)
       })

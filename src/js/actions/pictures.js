@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-fetch'
 import * as types from '../constants/actionsTypes'
 
-import { base_url } from '../config'
+import Fetch from '../helpers/http'
+
 
 
 // action creators
@@ -92,10 +92,7 @@ export function fetchShortPicture(picture) {
     // start request
     dispatch(requestShortPicture(picture))
     // return a promise
-    return fetch(`${base_url}api/librairy/pictures/${picture}/short/`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get(`api/librairy/pictures/${picture}/short/`)
       .then(json =>
           dispatch(receiveShortPicture(picture, json))
       )

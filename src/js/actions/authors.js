@@ -1,7 +1,6 @@
-import fetch from 'isomorphic-fetch'
 import * as types from '../constants/actionsTypes'
 
-import { base_url } from '../config'
+import Fetch from '../helpers/http'
 
 // action creators
 
@@ -60,10 +59,7 @@ function fetchAuthor(author) {
     // start request
     dispatch(requestAuthor(author))
     // return a promise
-    return fetch(`${base_url}api/users/author/${author}/`)
-      .then(response =>
-        response.json()
-      )
+    return Fetch.get(`api/users/author/${author}/`)
       .then(json =>
         dispatch(receiveAuthor(author, json))
       )

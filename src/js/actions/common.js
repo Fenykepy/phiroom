@@ -1,8 +1,6 @@
-
-import fetch from 'isomorphic-fetch'
 import * as types from '../constants/actionsTypes'
 
-import { base_url } from '../config'
+import Fetch from '../helpers/http'
 
 
 // action creators
@@ -61,10 +59,7 @@ export function fetchCSRFToken() {
     // start request
     dispatch(requestCSRFToken())
     // return a promise
-    return fetch(`${base_url}api/token-csrf/`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get('api/token-csrf/')
       .then(json =>
           dispatch(receiveCSRFToken(json))
       )

@@ -1,8 +1,9 @@
-import fetch from 'isomorphic-fetch'
 import * as types from '../constants/actionsTypes'
+
+import Fetch from '../helpers/http'
+
 import { receiveShortPicture } from './pictures'
 
-import { base_url } from '../config'
 
 // action creators
 
@@ -90,10 +91,7 @@ function fetchPost(post) {
     // start request
     dispatch(requestPost(post))
     // return a promise
-    return fetch(`${base_url}api/weblog/posts/${post}/`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get(`api/weblog/posts/${post}/`)
       .then(json =>
         dispatch(receivePost(post, json))
       )
@@ -113,10 +111,7 @@ export function fetchPostPictures(post) {
     // start request
     dispatch(requestPostPictures(post))
     // return a promise
-    return fetch(`${base_url}api/weblog/posts/${post}/pictures/`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get(`api/weblog/posts/${post}/pictures/`)
       .then(json => {
         json.map((item) => {
           dispatch(receiveShortPicture(item.pk, item))
@@ -185,10 +180,7 @@ function fetchWeblogPage(page) {
     // start request
     dispatch(requestWeblogPage(page))
     // return a promise
-    return fetch(`${base_url}api/weblog/posts/?page=${page}`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get(`api/weblog/posts/?page=${page}`)
       .then(json => {
         // add post to state
         dispatch(receiveWeblogPage(page, json))
@@ -267,10 +259,7 @@ function fetchWeblogPageByTag(tag, page) {
     // start request
     dispatch(requestWeblogPageByTag(tag, page))
     // return a promise
-    return fetch(`${base_url}api/weblog/posts/tag/${tag}/?page=${page}`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get(`api/weblog/posts/tag/${tag}/?page=${page}`)
       .then(json => {
         // add post to state
         dispatch(receiveWeblogPageByTag(tag, page, json))

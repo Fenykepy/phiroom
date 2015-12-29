@@ -1,8 +1,9 @@
-import fetch from 'isomorphic-fetch'
 import * as types from '../constants/actionsTypes'
+
+import Fetch from '../helpers/http'
+
 import { receiveShortPicture } from './pictures'
 
-import { base_url } from '../config'
 
 // action creators
 
@@ -164,10 +165,7 @@ export function fetchPortfolio(portfolio) {
     // start request
     dispatch(requestPortfolio(portfolio))
     // return a promise
-    return fetch(`${base_url}api/portfolio/portfolios/${portfolio}/`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get(`api/portfolio/portfolios/${portfolio}/`)
       .then(json =>
           dispatch(receivePortfolio(portfolio, json))
       )
@@ -186,10 +184,7 @@ export function fetchPortfolioPictures(portfolio) {
     // start request
     dispatch(requestPortfolioPictures(portfolio))
     // return a promise
-    return fetch(`${base_url}api/portfolio/portfolios/${portfolio}/pictures/`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get(`api/portfolio/portfolios/${portfolio}/pictures/`)
       .then(json => {
         json.map((item) => {
             dispatch(receiveShortPicture(item.pk, item))
@@ -210,10 +205,7 @@ export function fetchPortfoliosHeaders() {
     // start request
     dispatch(requestPortfoliosHeaders())
     // return a promise
-    return fetch(`${base_url}api/portfolio/headers/`)
-      .then(response =>
-          response.json()
-      )
+    return Fetch.get('api/portfolio/headers/')
       .then(json => 
           dispatch(receivePortfoliosHeaders(json))
       )
