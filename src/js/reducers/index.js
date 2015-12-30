@@ -10,6 +10,7 @@ import viewport from './viewport'
 import common from './common'
 import authors from './authors'
 import lightbox from './lightbox'
+import user from './user'
 import { routeReducer } from 'redux-simple-router'
 
 
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   contact,
   common,
   lightbox,
+  user,
   routing: routeReducer,
 })
 

@@ -7,6 +7,7 @@ import {
   REQUEST_SHORT_PICTURE,
   REQUEST_SHORT_PICTURE_SUCCESS,
   REQUEST_SHORT_PICTURE_FAILURE,
+  LOGOUT,
 } from '../constants/actionsTypes'
 
 
@@ -67,6 +68,8 @@ function full (state = {}, action) {
           error: action.error
         })
       })
+    case LOGOUT:
+      return {}
     default:
       return state
   }
