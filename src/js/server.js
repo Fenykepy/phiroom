@@ -24,7 +24,7 @@ import { statics_proxy, port } from './config'
 
 var app = new Express()
 
-var SERVER_RENDERING = true
+var SERVER_RENDERING = false
 
 // we are in development mode
 if (process.env.NODE_ENV != 'production') {

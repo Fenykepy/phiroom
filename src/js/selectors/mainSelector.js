@@ -9,6 +9,7 @@ import { viewportSelector } from './viewportSelectors'
 import { contactSelector } from './contactSelectors'
 import { commonSelector } from './commonSelectors'
 import { lightboxSelector } from './lightboxSelectors'
+import { userSelector } from './userSelectors'
 
 
 export const mainSelector = createStructuredSelector({
@@ -20,5 +21,6 @@ export const mainSelector = createStructuredSelector({
   contact: contactSelector,
   common: commonSelector,
   lightbox: lightboxSelector,
+  user: userSelector,
 })
 

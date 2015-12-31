@@ -49,6 +49,7 @@ class App extends Component {
       viewport,
       routing,
       lightbox,
+      user,
     } = this.props
     
     // we show lightbox only if we have a "lightbox" url param

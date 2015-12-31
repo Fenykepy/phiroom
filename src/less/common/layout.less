@@ -58,6 +58,20 @@ blockquote {
     border-radius: 4px;
 }
 
+#overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.8;
+    z-index: 999;
+}
+.modal {
+    z-index: 1000;
+    
+}
 
 // Powered by
 #powered {
@@ -120,7 +134,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // white background generalities
-#weblog, #portfolios, #contact {
+#weblog, #portfolios, #contact, #user {
     color: @blog-text;
     background-color: @blog-bg;
 
@@ -213,7 +227,7 @@ hr {
 }
 
 // centered main header
-#weblog, #portfolios, #contact {
+#weblog, #portfolios, #contact, #user {
     header[role="banner"] {
         position: relative;
         height: auto;
@@ -285,7 +299,7 @@ hr {
         }
     }
 }
-#weblog, #contact, #weblog {
+#weblog, #contact, #user {
     // main section
     section[role="main"] {
         position: relative;

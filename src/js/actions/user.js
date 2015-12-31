@@ -1,7 +1,7 @@
 import * as types from '../constants/actionsTypes'
 
 import Fetch from '../helpers/http'
-
+import { setCookie } from '../helpers/cookieManager'
 // action creators
 
 
@@ -36,7 +36,7 @@ export function login(credentials) {
   /*
    * try to get token with given credentials
    */
-  return function(dispatch, getState()) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestToken())
     let state = getState()
@@ -49,11 +49,13 @@ export function login(credentials) {
         },
         JSON.stringify(credentials)
       )
-      .then(json =>
-          dispatch(receiveToken(token))
-      )
+      .then(json => {
+          // keep cookie with token for 7 days
+          setCookie('auth_token', json.token, 7)
+          dispatch(receiveToken(json.token))
+      })
       .catch(error => {
-        console.warn(errors)
+        console.warn(error)
         dispatch(requestTokenFailure(error.message))
       })
   }

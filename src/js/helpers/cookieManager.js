@@ -1,3 +1,15 @@
+
+function getCookieExp(daydelta) {
+  /* return cookie formated expiration date,
+   * with one day more than current seven by default
+   */
+
+  // get current timestamp + day delta
+  let t = Date.now() + daydelta * 24 * 60 * 60
+  // return formated date
+  return new Date(t).toUTCString()
+}
+
 export function getCookie(name) {
   let cname = name + "="
   let cookies = document.cookie.split(';')
@@ -10,7 +22,9 @@ export function getCookie(name) {
   return false
 }
 
-export function setCookie(name, value, expire) {
+export function setCookie(name, value, daydelta = 1) {
+  // if no expiration date, set 24h
+  let expire = getCookieExp(daydelta)
   document.cookie=`${name}=${value}; expires=${expire}`
 }
 
