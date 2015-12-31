@@ -68,7 +68,9 @@ class App extends Component {
           settings={this.props.settings}
         />
         {React.cloneElement(this.props.children, this.props)}
-        <Footer />
+        <Footer
+          user={this.props.user}
+        />
       </div>
     )
   }

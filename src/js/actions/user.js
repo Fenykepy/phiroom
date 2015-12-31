@@ -1,7 +1,7 @@
 import * as types from '../constants/actionsTypes'
 
 import Fetch from '../helpers/http'
-import { setCookie } from '../helpers/cookieManager'
+import { setCookie, deleteCookie } from '../helpers/cookieManager'
 // action creators
 
 
@@ -27,6 +27,8 @@ export function requestTokenFailure(error) {
 }
 
 export function logout() {
+  // we delete cookie here
+  deleteCookie('auth_token')
   return {
     type: types.LOGOUT
   }

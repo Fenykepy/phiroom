@@ -13,6 +13,7 @@ import Contact from './components/Contact'
 import Lightbox from './components/Lightbox'
 import LightboxStarter from './components/LightboxStarter'
 import Login from './components/Login'
+import Logout from './components/Logout'
 
 function appendSlash(nextState, replaceState) {
   // add a slash at urls' end
@@ -45,6 +46,7 @@ export default () => {
         </Route>
         <Route path="contact(/)" component={Contact} />
         <Route path="login(/)" component={Login} />
+        <Route path="logout(/)" component={Logout} />
       </Route>
     </Route>
   )
