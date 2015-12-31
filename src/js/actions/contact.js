@@ -122,9 +122,8 @@ export function postMessage(data) {
             dispatch(requestPostMessageSuccess())
         )
         .catch(error => {
-            console.log(errors)
+            console.warn(errors)
             dispatch(requestPostMessageFailure(error.message))
-          }
-        )
+        })
     }
 }

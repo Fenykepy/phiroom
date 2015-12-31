@@ -31,3 +31,30 @@ export function logout() {
     type: types.LOGOUT
   }
 }
+
+export function login(credentials) {
+  /*
+   * try to get token with given credentials
+   */
+  return function(dispatch, getState()) {
+    // start request
+    dispatch(requestToken())
+    let state = getState()
+    let csrf_token = state.common.csrfToken.token
+    // return a promise
+    return Fetch.post('api/token-auth/',
+        {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrf_token
+        },
+        JSON.stringify(credentials)
+      )
+      .then(json =>
+          dispatch(receiveToken(token))
+      )
+      .catch(error => {
+        console.warn(errors)
+        dispatch(requestTokenFailure(error.message))
+      })
+  }
+}
