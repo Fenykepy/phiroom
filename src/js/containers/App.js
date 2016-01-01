@@ -3,12 +3,15 @@ import { connect } from 'react-redux'
 
 import { setViewport } from '../actions/viewport'
 
+import { getCookie } from '../helpers/cookieManager'
+
 // components
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Lightbox from '../components/Lightbox'
 
 import { mainSelector } from '../selectors/mainSelector'
+
 
 
 
@@ -19,7 +22,8 @@ class App extends Component {
     const {
       dispatch,
     } = this.props
-    
+    // try to authenticate user
+    console.log(getCookie('auth_token'))
     // keep track of viewport size
     window.addEventListener('resize', this.handleResize.bind(this))
     // set initial viewport size
