@@ -4,8 +4,8 @@ function getCookieExp(daydelta) {
    * with one day more than current seven by default
    */
 
-  // get current timestamp + day delta
-  let t = Date.now() + daydelta * 24 * 60 * 60
+  // get current timestamp + day delta (* 1000 because date.now return milliseconds)
+  let t = Date.now() + daydelta * 24 * 60 * 60 * 1000
   // return formated date
   return new Date(t).toUTCString()
 }

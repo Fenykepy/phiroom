@@ -4,6 +4,9 @@ import {
   REQUEST_TOKEN,
   REQUEST_TOKEN_SUCCESS,
   REQUEST_TOKEN_FAILURE,
+  REQUEST_VERIFY_TOKEN,
+  REQUEST_VERIFY_TOKEN_SUCCESS,
+  REQUEST_VERIFY_TOKEN_FAILURE,
   LOGOUT
 } from '../constants/actionsTypes'
 
@@ -13,6 +16,10 @@ function token(state = null, action) {
     case REQUEST_TOKEN_SUCCESS:
       return action.token
     case REQUEST_TOKEN_FAILURE:
+      return null
+    case REQUEST_VERIFY_TOKEN_SUCCESS:
+      return action.token
+    case REQUEST_VERIFY_TOKEN_FAILURE:
       return null
     case LOGOUT:
       return null
@@ -64,6 +71,21 @@ function user(state = {}, action) {
       return Object.assign({}, state, {
         is_fetching_token: false,
         token_fetched: false
+      })
+    case REQUEST_VERIFY_TOKEN:
+      return Object.assign({}, state, {
+        is_verifying_token: true,
+        is_authenticated: false,
+      })
+    case REQUEST_VERIFY_TOKEN_SUCCESS:
+      return Object.assign({}, state, {
+        is_verifying_token: false,
+        is_authenticated: true,
+      })
+    case REQUEST_VERIFY_TOKEN_FAILURE:
+      return Object.assign({}, state, {
+        is_verifying_token: false,
+        is_authenticated: false,
       })
     case LOGOUT:
       return {}

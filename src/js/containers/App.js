@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { setViewport } from '../actions/viewport'
+import { verifyToken } from '../actions/user'
 
 import { getCookie } from '../helpers/cookieManager'
 
@@ -23,7 +24,12 @@ class App extends Component {
       dispatch,
     } = this.props
     // try to authenticate user
-    console.log(getCookie('auth_token'))
+    let token = getCookie('auth_token')
+    if (token) {
+      // verify if token is valid
+      dispatch(verifyToken(token))
+
+    }
     // keep track of viewport size
     window.addEventListener('resize', this.handleResize.bind(this))
     // set initial viewport size

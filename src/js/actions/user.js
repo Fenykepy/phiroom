@@ -26,12 +26,57 @@ export function requestTokenFailure(error) {
   }
 }
 
+export function requestVerifyToken() {
+  return {
+    type: types.REQUEST_VERIFY_TOKEN
+  }
+}
+
+export function receivedVerifiedToken(token) {
+  return {
+    type: types.REQUEST_VERIFY_TOKEN_SUCCESS,
+    token
+  }
+}
+
+export function requestVerifyTokenFailure(error) {
+  return {
+    type: types.REQUEST_VERIFY_TOKEN_FAILURE,
+    error
+  }
+}
+
 export function logout() {
   // we delete cookie here
-  console.log('delete_cookie')
   deleteCookie('auth_token')
   return {
     type: types.LOGOUT
+  }
+}
+
+export function verifyToken(token) {
+  /*
+   * verify if given token is valid
+   */
+  return function(dispatch, getState) {
+    // start request
+    dispatch(requestVerifyToken())
+    let csrf_token = getState().common.csrfToken.token
+    // return a promise
+    return Fetch.post('api/token-verify/',
+        {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrf_token
+        },
+        JSON.stringify({'token': token})
+      )
+      .then(json =>
+        dispatch(receivedVerifiedToken(json.token))
+      )
+      .catch(error => {
+        console.warn(error)
+        dispatch(requestVerifyTokenFailure(error))
+      })
   }
 }
 
