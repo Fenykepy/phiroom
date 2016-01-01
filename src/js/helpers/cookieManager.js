@@ -25,9 +25,9 @@ export function getCookie(name) {
 export function setCookie(name, value, daydelta = 1) {
   // if no expiration date, set 24h
   let expire = getCookieExp(daydelta)
-  document.cookie=`${name}=${value}; expires=${expire}`
+  document.cookie=`${name}=${value}; expires=${expire}; path=/`
 }
 
 export function deleteCookie(name) {
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC`
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`
 }

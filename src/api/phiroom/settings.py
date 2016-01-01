@@ -117,7 +117,7 @@ AUTH_USER_MODEL = 'user.User'
 
 ## HEADERS
 # allow CORS from everywhere
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -168,7 +168,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # for api
+        'user.authentication.JSONWebTokenAuthenticationCookie', # for api
         'rest_framework.authentication.SessionAuthentication', # for django rest framework browser
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',

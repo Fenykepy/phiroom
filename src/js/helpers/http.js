@@ -23,6 +23,7 @@ class Fetch {
   get(url, headers={}) {
     return fetch(base_url + url,
         {
+          credentials: 'include',
           method: "GET",
           headers: this.setHeaders(headers)
         })
@@ -34,6 +35,7 @@ class Fetch {
   post(url, headers={}, body) {
     return fetch(base_url + url,
         {
+          credentials: 'include',
           method: "POST",
           headers: this.setHeaders(headers),
           body: body
@@ -42,9 +44,6 @@ class Fetch {
           response.json()
         )
   }
-
-
-
 }
 
 

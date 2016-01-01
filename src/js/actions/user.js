@@ -28,6 +28,7 @@ export function requestTokenFailure(error) {
 
 export function logout() {
   // we delete cookie here
+  console.log('delete_cookie')
   deleteCookie('auth_token')
   return {
     type: types.LOGOUT
