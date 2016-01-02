@@ -16,6 +16,7 @@ export default class Header extends Component {
         <MainMenu
           mainMenu={this.props.modules.mainMenu}
           currentModule={this.props.modules.current}
+          user={this.props.user}
         />
       </header>
     )

@@ -76,6 +76,7 @@ class App extends Component {
         <Header
           modules={this.props.modules}
           settings={this.props.settings}
+          user={this.props.user}
         />
         {React.cloneElement(this.props.children, this.props)}
         <Footer

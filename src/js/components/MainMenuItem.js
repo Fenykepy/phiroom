@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+
 import { Link } from 'react-router'
 import SubMainMenu from './SubMainMenu'
 
@@ -6,7 +7,7 @@ import SubMainMenu from './SubMainMenu'
 
 export default class MainMenuItem extends Component {
   
-  render(){
+  render() {
     var submenu
     if (this.props.subMenu.length > 0) { // show submenu only if necessary
       submenu = (<SubMainMenu subMenu={this.props.subMenu} module={this.props.name} />)
