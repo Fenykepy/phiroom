@@ -38,7 +38,7 @@ export default class Login extends Component {
   handleLogin(credentials) {
     this.props.dispatch(login(credentials)).then(() => {
       // if we have a redirection go to it
-      console.log(this.props)
+      console.log('login',this.props)
       if (this.props.user.redirect) {
         this.props.history.pushState(null, redirect)
       }
