@@ -28,7 +28,11 @@ export default class Librairy extends Component {
   render() {
     return (
         <section role="main">
-          Librairy ! :p
+          <nav id="left-panel">
+            <h6>Collections</h6>
+            <h6>Posts</h6>
+            <h6>Portfolios</h6>
+          </nav>
         </section>
     )
   }
