@@ -15,6 +15,8 @@ class UserSerializer(serializers.ModelSerializer):
                 'email',
                 'is_staff', 
                 'is_active',
+                'is_weblog_author',
+                'is_librairy_member',
                 'avatar',
                 'author_name',
                 'website',
@@ -50,8 +52,6 @@ class SafeUserSerializer(UserSerializer):
     A serialiser which writting safe data of an user
     (is_staff read_only, less fields accessible).
     """
-    is_staff = serializers.ReadOnlyField()
-    username = serializers.ReadOnlyField()
  
     class Meta:
         model = User
@@ -61,6 +61,8 @@ class SafeUserSerializer(UserSerializer):
                 'last_name',
                 'email',
                 'is_staff', 
+                'is_weblog_author',
+                'is_librairy_member',
                 'avatar',
                 'author_name',
                 'website',
@@ -74,6 +76,7 @@ class SafeUserSerializer(UserSerializer):
                 'mail_newsletter',
                 'password',
         )
+        read_only_fields =('is_staff', 'is_weblog_author', 'is_librairy_member')
 
 
 class AuthorSerializer(serializers.ModelSerializer):

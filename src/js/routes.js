@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import { Route, Redirect, IndexRoute } from 'react-router'
 
 import App from './containers/App'
+import Librairy from './components/Librairy'
 import Portfolio from './components/Portfolio'
 import PortfolioDetail from './components/PortfolioDetail'
 import Weblog from './components/Weblog'
@@ -45,6 +46,7 @@ export default () => {
           </Route>
         </Route>
         <Route path="contact(/)" component={Contact} />
+        <Route path="librairy(/)" component={Librairy} />
         <Route path="login(/)" component={Login} />
         <Route path="logout(/)" component={Logout} />
       </Route>

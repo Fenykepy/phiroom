@@ -1,0 +1,30 @@
+#librairy {
+    header[role="banner"] {
+        padding: 0;
+        text-align: left;
+        #logo {
+            margin: 15px 15px 15px 4vw;
+            line-height: 0px;
+        }
+        h1, h2 {
+            display: none;
+        }
+        nav {
+            position: absolute;
+            bottom: 15px;
+            right: 2vw;
+            margin: 0 50px 0 0;
+        }
+        &:after {
+            content: "";
+            clear: both;
+            height: 1px;
+            display: block;
+        }
+    }
+
+    section[role="main"] {
+        min-height: 500px;
+        padding: 200px;
+    }
+}

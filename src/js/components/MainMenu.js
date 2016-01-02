@@ -7,7 +7,7 @@ import MainMenuItem from './MainMenuItem'
 export default class MainMenu extends Component {
 
   getLibrairyLink() {
-    if (this.props.user.is_staff) {
+    if (this.props.user.is_librairy_member) {
       return (
         <li><Link to="/librairy/"
             activeClassName="selected"
