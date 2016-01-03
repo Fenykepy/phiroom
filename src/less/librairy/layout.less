@@ -23,11 +23,27 @@
         height: 800px;
         border-right: 1px solid #CCC;
         background: #F9F9F9;
-        padding: 20px;
         h6 {
+            margin: 20px 15px 8px;
             font-size: 14px;
             color: #969696;
             font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+        }
+        li {
+            //margin: 4px 0;
+            //text-indent: 10px;
+        }
+        a {
+            padding: 3px 10px;
+            display: block;
+            text-indent: 25px;
+            text-decoration: none;
+            &:hover, &:active, &.selected {
+                background-color: #D2D2D2;
+            }
         }
     }
 

@@ -142,5 +142,6 @@ export const portfolioSelector = createStructuredSelector({
   pictures: portfolioPicturesSelector,
   n_pictures: portfolioPicturesNumberSelector,
   carousel: carouselSelector,
+  headers: portfolioHeadersSelector,
 })
 

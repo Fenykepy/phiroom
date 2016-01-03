@@ -152,24 +152,30 @@ specific directory,
 #    - redirect to first portfolio
 #- /portfolio/:slug/
 #    - view a specific portfolio
-- /portfolio/:slug/:sha1/
-    - view a picture of a portfolio in lightbox
+#- /portfolio/:slug/lightbox/:sha1/
+#    - view a picture of a portfolio in lightbox
 
 === weblog ===
 #- /weblog/{page/:n/}
 #    - view a list of posts, paginated
 #- /weblog/:slug-with-date/
 #    - view a specific post
-- /weblog/tag/:slug/{page/:n}/
-    - view a list of post by tag, paginated
+#- /weblog/:slug-with-date/lightbox/:sha1/
+#    - view a picture of a post in lightbox
+#- /weblog/tag/:slug/{page/:n}/
+#    - view a list of post by tag, paginated
 
 === contact ===
 #- /contact/
 #    - view contact page with form and description
 
 === librairy ===
-- /librairy/
-    - librairy, empty page
+#- /librairy/
+#    - librairy, empty page
+- /librairy/all/
+    - librairy, all pictures
+- /librairy/last-importation/
+    - librairy, last imported pictures
 - /librairy/last/
     - view all pictures, by importation date, infinite scroll ?
 - /librairy/collection/:id-:slug/
@@ -182,10 +188,10 @@ specific directory,
     - view all pictures corresponding to a tag, infinite scroll
 
 === user ===
-- /login
-    - login form (on modal on actual page)
-- /logout
-    - logout then redirect to current page or home if it was private
+#- /login
+#    - login form (on modal on actual page)
+#- /logout
+#    - logout then redirect to current page or home if it was private
 - /profil
     - profil form
 

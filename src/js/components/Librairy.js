@@ -1,13 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 
+import { Link } from 'react-router'
+import LibrairyLeftPanel from './LibrairyLeftPanel'
+
 import { setModule } from '../actions/modules'
+import { fetchPortfoliosHeadersIfNeeded } from '../actions/portfolios'
 
 export default class Librairy extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
     let promises = []
-
-    // fetch portfolios headers if user is_staff
+    // fetch portfolios headers
+    dispatch(fetchPortfoliosHeadersIfNeeded())
     // fetch posts headers if user is weblog_author
     // fetch collections headers
     if (! clientSide) {
@@ -26,13 +30,10 @@ export default class Librairy extends Component {
   }
 
   render() {
+    //console.log(this.props)
     return (
         <section role="main">
-          <nav id="left-panel">
-            <h6>Collections</h6>
-            <h6>Posts</h6>
-            <h6>Portfolios</h6>
-          </nav>
+          <LibrairyLeftPanel {...this.props}/>
         </section>
     )
   }
