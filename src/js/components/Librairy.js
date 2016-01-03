@@ -29,11 +29,21 @@ export default class Librairy extends Component {
     }
   }
 
+  getChildren() {
+    if (this.props.children) {
+      return React.cloneElement(this.props.children, {
+        viewport: this.props.viewport
+      })
+    }
+    return null
+  }
+
   render() {
-    //console.log(this.props)
+    console.log(this.props)
     return (
         <section role="main">
           <LibrairyLeftPanel {...this.props}/>
+          {this.getChildren()}
         </section>
     )
   }

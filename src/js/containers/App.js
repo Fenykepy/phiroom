@@ -69,7 +69,7 @@ class App extends Component {
               clientSide={this.props.viewport.clientSide}
     />)
    
-
+    console.log('app', this.props)
     return (
       <div id={this.props.modules.current}>
         {this.props.params.lightbox ? lb : ''}
@@ -78,7 +78,17 @@ class App extends Component {
           settings={this.props.settings}
           user={this.props.user}
         />
-        {React.cloneElement(this.props.children, this.props)}
+        {React.cloneElement(this.props.children, {
+            dispatch: this.props.dispatch,                                     
+            common: this.props.common,
+            contact: this.props.contact,
+            lightbox: this.props.lightbox,
+            modules: this.props.modules,
+            portfolio: this.props.portfolio,
+            settings: this.props.settings,
+            user: this.props.user,
+            weblog: this.props.weblog
+        })}
         <Footer
           user={this.props.user}
         />

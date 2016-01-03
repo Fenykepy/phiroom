@@ -4,6 +4,8 @@ import { Route, Redirect, IndexRoute } from 'react-router'
 
 import App from './containers/App'
 import Librairy from './components/Librairy'
+import LibrairyPortfolio from './components/LibrairyPortfolio'
+import LibrairyAll from './components/LibrairyAll'
 import Portfolio from './components/Portfolio'
 import PortfolioDetail from './components/PortfolioDetail'
 import Weblog from './components/Weblog'
@@ -45,8 +47,11 @@ export default () => {
             <Route path="/weblog/:y/:m/:d/:slug/lightbox/:lightbox(/)" component={LightboxStarter} onEnter={appendSlash} />
           </Route>
         </Route>
-        <Route path="contact(/)" component={Contact} />
-        <Route path="librairy(/)" component={Librairy} />
+        <Route path="contact(/)" component={Contact} onEnter={appendSlash} />
+        <Route path="librairy(/)" component={Librairy} onEnter={appendSlash}>
+          <Route path="portfolio/:slug(/)" component={LibrairyPortfolio} onEnter={appendSlash} />
+          <Route path="all(/)" component={LibrairyAll} onEnter={appendSlash} />
+        </Route>
         <Route path="login(/)" component={Login} />
         <Route path="logout(/)" component={Logout} />
       </Route>

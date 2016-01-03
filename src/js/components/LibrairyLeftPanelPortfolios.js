@@ -12,7 +12,7 @@ export default class LibrairyLeftPanelPortfolios extends Component {
           <ul>
             {this.props.portfolios.map((port) => 
               <li key={port.slug}>
-                <Link to={`/librairy/portfolios/${port.slug}`}
+                <Link to={`/librairy/portfolio/${port.slug}`}
                       activeClassName="selected"
                 >{port.title}</Link>
               </li>
