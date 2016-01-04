@@ -33,7 +33,8 @@ export default class Librairy extends Component {
     if (this.props.children) {
       return React.cloneElement(this.props.children, {
         dispatch: this.props.dispatch,
-        viewport: this.props.viewport
+        viewport: this.props.viewport,
+        librairy: this.props.librairy,
       })
     }
     return null

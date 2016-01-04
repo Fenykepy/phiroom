@@ -4,7 +4,6 @@ import * as types from '../constants/actionsTypes'
 
 
 export function setPictures(pictures) {
-  console.log('setpictures', pictures)
   return {
     type: types.SET_PICTURES,
     pictures

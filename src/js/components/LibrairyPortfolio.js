@@ -26,10 +26,18 @@ export default class LibrairyPortfolio extends Component {
     this.constructor.fetchData(this.props.dispatch, this.props.params, true)
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.params.slug != nextProps.params.slug) {
+      this.constructor.fetchData(this.props.dispatch, nextProps.params, true)
+    }
+  }
+
   render() {
-    console.log('port',this.props)
     return (
-          <LibrairyPicturesList pictures={null} />
+          <LibrairyPicturesList
+            {...this.props.librairy}
+            dispatch={this.props.dispatch}
+          />
     )
   }
 }

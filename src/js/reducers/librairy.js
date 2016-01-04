@@ -5,6 +5,7 @@ import {
   UNSELECT_PICTURE,
   UNSELECT_ALL,
   SET_PICTURES,
+  SET_N_COLUMNS,
   LOGOUT
 } from '../constants/actionsTypes'
 
@@ -13,12 +14,14 @@ import {
 function selected(state = [], action) {
   switch (action.type) {
     case SELECT_PICTURE:
-      if (state.indexof(action.picture) > -1) {
+      if (state.indexOf(action.picture) > -1) {
         return state
       }
-      return state.push(action.picture)
+      let newState = state.slice()
+      newState.push(action.picture)
+      return newState
     case UNSELECT_PICTURE:
-      let index = state.indexof(action.picture)
+      let index = state.indexOf(action.picture)
       if (index > -1) {
         return state.splice(index, 1)
       }
@@ -43,9 +46,35 @@ function pictures(state = [], action) {
   }
 }
 
+function columns(state = 5, action) {
+  switch (action.type) {
+    case SET_N_COLUMNS:
+      return action.number
+    default:
+      return state
+  }
+}
+
+function left_panel_width(state = 300, action) {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
+
+function right_panel_width(state = 0, action) {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
+
 const librairy = combineReducers({
   selected,
-  pictures
+  pictures,
+  columns,
+  left_panel_width,
+  right_panel_width,
 })
 
 export default librairy

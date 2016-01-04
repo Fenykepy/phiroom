@@ -70,7 +70,6 @@ class App extends Component {
               clientSide={this.props.viewport.clientSide}
     />)
    
-    console.log('app', this.props)
     return (
       <div id={this.props.modules.current}>
         {this.props.params.lightbox ? lb : ''}

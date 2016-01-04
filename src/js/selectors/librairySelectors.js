@@ -15,6 +15,18 @@ const selectedNumberSelector = state => state.librairy.selected.length
 // number of displayed pictures
 const displayedNumberSelector = state => state.librairy.pictures.length
 
+// width of left panel
+const leftPanelWidthSelector = state => state.librairy.left_panel_width
+
+// width of right panel
+const rightPanelWidthSelector = state => state.librairy.right_panel_width
+
+// number of images per line in list
+const columnsSelector = state => state.librairy.columns
+
+// width of viewport
+const viewportWidthSelector = state => state.viewport.width
+
 // list of all displayed pictures full datas
 const librairyPicturesSelector = createSelector(
     picturesSelector,
@@ -59,8 +71,28 @@ const librairySelectedPicturesSelector = createSelector(
     }
 )
 
+// margin between pictures wrapper elements
+const PICTURES_MARGIN = 10
+
+// width in pixels of each thumbs columns
+const columnsWidthSelector = createSelector(
+    columnsSelector,
+    viewportWidthSelector,
+    leftPanelWidthSelector,
+    rightPanelWidthSelector,
+    (n_columns, vw, left_panel_width, right_panel_width) => {
+      console.log(vw)
+      return Math.floor((vw - left_panel_width - right_panel_width - PICTURES_MARGIN) / n_columns ) - PICTURES_MARGIN
+    }
+)
+
+
 export const librairySelector = createStructuredSelector({
   pictures: librairySelectedPicturesSelector,
   n_selected: selectedNumberSelector,
   n_pictures: displayedNumberSelector,
+  n_columns: columnsSelector,
+  columns_width: columnsWidthSelector,
+  left_panel_width: leftPanelWidthSelector,
+  right_panel_width: rightPanelWidthSelector,
 })
