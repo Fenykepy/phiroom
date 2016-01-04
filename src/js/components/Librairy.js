@@ -32,6 +32,7 @@ export default class Librairy extends Component {
   getChildren() {
     if (this.props.children) {
       return React.cloneElement(this.props.children, {
+        dispatch: this.props.dispatch,
         viewport: this.props.viewport
       })
     }
@@ -39,7 +40,7 @@ export default class Librairy extends Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log('lib', this.props)
     return (
         <section role="main">
           <LibrairyLeftPanel {...this.props}/>

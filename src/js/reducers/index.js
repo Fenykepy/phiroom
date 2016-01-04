@@ -11,6 +11,7 @@ import common from './common'
 import authors from './authors'
 import lightbox from './lightbox'
 import user from './user'
+import librairy from './librairy'
 import { routeReducer } from 'redux-simple-router'
 
 
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   common,
   lightbox,
   user,
+  librairy,
   routing: routeReducer,
 })
 

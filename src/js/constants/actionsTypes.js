@@ -118,6 +118,12 @@ export const REQUEST_POST_MESSAGE_FAILURE = 'REQUEST_POST_MESSAGE_FAILURE'
 /*
  * Librairy actions
  */
+export const SELECT_PICTURE = 'SELECT_PICTURE'
+export const UNSELECT_PICTURE = 'UNSELECT_PICTURE'
+export const UNSELECT_ALL = 'UNSELECT_ALL'
+
+export const SET_PICTURES = 'SET_PICTURES'
+
 
 /*
  * User actions

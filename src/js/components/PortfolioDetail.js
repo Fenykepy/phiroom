@@ -33,7 +33,6 @@ export default class PortfolioDetail extends Component {
         }
         // fetch portfolios pictures if needed
         if (clientSide) {
-          // set module
           data.data.pictures.map((item) => {
             dispatch(fetchShortPictureIfNeeded(item))
           })

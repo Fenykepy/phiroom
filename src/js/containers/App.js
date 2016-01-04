@@ -59,6 +59,7 @@ class App extends Component {
       viewport,
       routing,
       lightbox,
+      librairy,
       user,
     } = this.props
     
@@ -83,6 +84,7 @@ class App extends Component {
             common: this.props.common,
             contact: this.props.contact,
             lightbox: this.props.lightbox,
+            librairy: this.props.librairy,
             modules: this.props.modules,
             portfolio: this.props.portfolio,
             settings: this.props.settings,
