@@ -81,7 +81,6 @@ const columnsWidthSelector = createSelector(
     leftPanelWidthSelector,
     rightPanelWidthSelector,
     (n_columns, vw, left_panel_width, right_panel_width) => {
-      console.log(vw)
       return Math.floor((vw - left_panel_width - right_panel_width - PICTURES_MARGIN) / n_columns ) - PICTURES_MARGIN
     }
 )

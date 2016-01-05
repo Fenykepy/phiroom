@@ -21,9 +21,13 @@ function selected(state = [], action) {
       newState.push(action.picture)
       return newState
     case UNSELECT_PICTURE:
+      // duplicate state array
+      let array = state.slice()
       let index = state.indexOf(action.picture)
       if (index > -1) {
-        return state.splice(index, 1)
+        // remove unselected item from array
+        array.splice(index, 1)
+        return array
       }
       return state
     case UNSELECT_ALL:

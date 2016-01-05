@@ -41,7 +41,7 @@ export default class Librairy extends Component {
   }
 
   render() {
-    console.log('lib', this.props)
+    //console.log('lib', this.props)
     return (
         <section role="main">
           <LibrairyLeftPanel {...this.props}/>

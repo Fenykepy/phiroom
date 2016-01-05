@@ -8,8 +8,11 @@ export default class LibrairyPicturesListItem extends Component {
     if (this.props.selected) {
       max_height = max_height - 10
     }
-    console.log(max_height)
     return { maxHeight: max_height + 'px' }
+  }
+
+  handleClick(e) {
+    this.props.handleClick(this.props.index, e.ctrlKey, e.shiftKey)
   }
 
   render() {
@@ -25,7 +28,7 @@ export default class LibrairyPicturesListItem extends Component {
           <img
             style={this.getImageStyle()}
             src={'/media/images/previews/max-500/' + this.props.previews_path}
-            onClick={() => this.props.handleClick(this.props.pk)}
+            onClick={this.handleClick.bind(this)}
           />
         </article>
       </div>
