@@ -19,6 +19,9 @@ export default class LibrairyPicturesList extends Component {
       }
       return this.props.dispatch(selectPicture(pict.pk))
     }
+    // if shiftkey was pressed and at least one picture is selected
+    if (shiftKey && this.props.n_selected) {
+    }
     // if shift key was pressed, select all pictures between selected and clicked
     // unselect all and select picture
     this.props.dispatch(unselectAll(picture))
@@ -26,7 +29,7 @@ export default class LibrairyPicturesList extends Component {
   }
 
   render() {
-    //console.log('picturesList', this.props)
+    console.log('picturesList', this.props)
     return (
       <section id="librairy-list">
         {this.props.pictures.map((pict, index) =>
