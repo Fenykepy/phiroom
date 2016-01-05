@@ -21,10 +21,36 @@ export default class LibrairyPicturesList extends Component {
     }
     // if shiftkey was pressed and at least one picture is selected
     if (shiftKey && this.props.n_selected) {
+      // get first selected picture index
+      let i=0, l=this.props.pictures.length
+      for (i; i < l; i++) {
+        if (this.props.pictures[i].selected) break
+      }
+      let start_index, end_index
+      if (i < picture) {
+        start_index = i
+        end_index = picture + 1
+      }
+      if (i > picture) {
+        start_index = picture
+        end_index = i + 1
+      }
+      console.log('start_index', start_index)
+      console.log('end_index', end_index)
+      // if we didn't click on selected picture
+      if (i != picture) {
+        this.props.dispatch(unselectAll())
+        for (let i=start_index; i < end_index; i++) {
+          this.props.dispatch(selectPicture(
+                this.props.pictures[i].pk
+          ))
+        }
+        return
+      }
     }
     // if shift key was pressed, select all pictures between selected and clicked
     // unselect all and select picture
-    this.props.dispatch(unselectAll(picture))
+    this.props.dispatch(unselectAll())
     return this.props.dispatch(selectPicture(pict.pk))
   }
 
