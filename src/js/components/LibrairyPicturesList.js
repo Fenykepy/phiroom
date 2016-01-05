@@ -2,11 +2,18 @@ import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesListItem from './LibrairyPicturesListItem'
 
-import { selectPicture } from '../actions/librairy'
+import {
+  selectPicture,
+  unselectAll,
+} from '../actions/librairy'
 
 export default class LibrairyPicturesList extends Component {
 
   handleClick(picture) {
+    // if ctrl key was pressed, toggle picture selection
+    // if shift key was pressed, select all pictures between selected and clicked
+    // unselect all and select picture
+    this.props.dispatch(unselectAll(picture))
     this.props.dispatch(selectPicture(picture))
   }
 
