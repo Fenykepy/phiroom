@@ -6,6 +6,8 @@ import {
   selectPicture,
   unselectPicture,
   unselectAll,
+  dragStart,
+  dragEnd,
 } from '../actions/librairy'
 
 export default class LibrairyPicturesList extends Component {
@@ -35,8 +37,6 @@ export default class LibrairyPicturesList extends Component {
         start_index = picture
         end_index = i + 1
       }
-      console.log('start_index', start_index)
-      console.log('end_index', end_index)
       // if we didn't click on selected picture
       if (i != picture) {
         this.props.dispatch(unselectAll())
@@ -54,6 +54,10 @@ export default class LibrairyPicturesList extends Component {
     return this.props.dispatch(selectPicture(pict.pk))
   }
 
+  handleDrag(type, data) {
+    this.props.dispatch(dragStart(type, data))
+  }
+
   render() {
     console.log('picturesList', this.props)
     return (
@@ -63,6 +67,7 @@ export default class LibrairyPicturesList extends Component {
             key={pict.pk}
             index={index}
             handleClick={this.handleClick.bind(this)}
+            handleDrag={this.handleDrag.bind(this)}
             columns_width={this.props.columns_width}
             {...pict}
           />

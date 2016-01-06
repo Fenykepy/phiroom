@@ -79,8 +79,8 @@ function drag(state = {}, action) {
   switch (action.type) {
     case DRAG_START:
       return {
-        type: action.type,
-        data: action.data
+        type: action.drag_type,
+        data: action.drag_data
       }
     case DRAG_END:
       return {}

@@ -29,3 +29,17 @@ export function unselectAll() {
     type: types.UNSELECT_ALL,
   }
 }
+
+export function dragStart(type, data) {
+  return {
+    type: types.DRAG_START,
+    drag_type: type,
+    drag_data: data
+  }
+}
+
+export function dragEnd() {
+  return {
+    type: types.DRAG_END
+  }
+}
