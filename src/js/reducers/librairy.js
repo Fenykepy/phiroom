@@ -6,6 +6,8 @@ import {
   UNSELECT_ALL,
   SET_PICTURES,
   SET_N_COLUMNS,
+  DRAG_START,
+  DRAG_END,
   LOGOUT
 } from '../constants/actionsTypes'
 
@@ -73,12 +75,29 @@ function right_panel_width(state = 0, action) {
   }
 }
 
+function drag(state = {}, action) {
+  switch (action.type) {
+    case DRAG_START:
+      return {
+        type: action.type,
+        data: action.data
+      }
+    case DRAG_END:
+      return {}
+    case LOGOUT:
+      return {}
+    default:
+      return state
+  }
+}
+
 const librairy = combineReducers({
   selected,
   pictures,
   columns,
   left_panel_width,
   right_panel_width,
+  drag,
 })
 
 export default librairy

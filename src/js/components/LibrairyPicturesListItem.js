@@ -15,6 +15,10 @@ export default class LibrairyPicturesListItem extends Component {
     this.props.handleClick(this.props.index, e.ctrlKey, e.shiftKey)
   }
 
+  handleDrag(e) {
+    console.log(e)
+  }
+
   render() {
     return (
       <div className="thumb-wrapper"
@@ -29,6 +33,7 @@ export default class LibrairyPicturesListItem extends Component {
             style={this.getImageStyle()}
             src={'/media/images/previews/max-500/' + this.props.previews_path}
             onClick={this.handleClick.bind(this)}
+            onDragStart={this.handleDrag.bind(this)}
           />
         </article>
       </div>

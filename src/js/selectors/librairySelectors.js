@@ -24,6 +24,9 @@ const rightPanelWidthSelector = state => state.librairy.right_panel_width
 // number of images per line in list
 const columnsSelector = state => state.librairy.columns
 
+// draged element
+const dragSelector = state => state.librairy.drag
+
 // width of viewport
 const viewportWidthSelector = state => state.viewport.width
 
@@ -94,4 +97,5 @@ export const librairySelector = createStructuredSelector({
   columns_width: columnsWidthSelector,
   left_panel_width: leftPanelWidthSelector,
   right_panel_width: rightPanelWidthSelector,
+  drag: dragSelector,
 })
