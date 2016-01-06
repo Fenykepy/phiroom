@@ -15,9 +15,8 @@ export default class LibrairyPicturesListItem extends Component {
     this.props.handleClick(this.props.index, e.ctrlKey, e.shiftKey)
   }
 
-  handleDrag(e) {
-    console.log(e)
-    this.props.handleDrag('picture', this.props.pk)
+  handleDrag() {
+    this.props.handleDrag(this.props.pk, this.props.selected)
   }
 
   render() {

@@ -92,6 +92,7 @@ const columnsWidthSelector = createSelector(
 export const librairySelector = createStructuredSelector({
   pictures: librairySelectedPicturesSelector,
   n_selected: selectedNumberSelector,
+  selected_list: selectedSelector,
   n_pictures: displayedNumberSelector,
   n_columns: columnsSelector,
   columns_width: columnsWidthSelector,

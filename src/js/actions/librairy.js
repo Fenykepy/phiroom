@@ -31,6 +31,7 @@ export function unselectAll() {
 }
 
 export function dragStart(type, data) {
+  console.log(type, data)
   return {
     type: types.DRAG_START,
     drag_type: type,

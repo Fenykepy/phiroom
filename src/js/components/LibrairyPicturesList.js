@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesListItem from './LibrairyPicturesListItem'
-
+import { PICTURE } from '../constants/dragTypes'
 import {
   selectPicture,
   unselectPicture,
@@ -54,8 +54,14 @@ export default class LibrairyPicturesList extends Component {
     return this.props.dispatch(selectPicture(pict.pk))
   }
 
-  handleDrag(type, data) {
-    this.props.dispatch(dragStart(type, data))
+  handleDrag(picture, selected) {
+    let data
+    if (selected) {
+      data = this.props.selected_list
+    } else {
+      data = [picture]
+    }
+    this.props.dispatch(dragStart(PICTURE, data))
   }
 
   render() {
