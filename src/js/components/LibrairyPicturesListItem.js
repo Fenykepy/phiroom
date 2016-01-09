@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
+import { PICTURE } from '../constants/dragTypes.js'
+
 export default class LibrairyPicturesListItem extends Component {
 
   getImageStyle() {
@@ -15,7 +17,10 @@ export default class LibrairyPicturesListItem extends Component {
     this.props.handleClick(this.props.index, e.ctrlKey, e.shiftKey)
   }
 
-  handleDrag() {
+  handleDrag(e) {
+    //e.preventDefault()
+    e.dataTransfer.setData(PICTURE, this.props.pk)
+    e.dropEffect = "copy"
     this.props.handleDrag(this.props.pk, this.props.selected)
   }
 
@@ -32,6 +37,7 @@ export default class LibrairyPicturesListItem extends Component {
           <img
             style={this.getImageStyle()}
             src={'/media/images/previews/max-500/' + this.props.previews_path}
+            draggable="true"
             onClick={this.handleClick.bind(this)}
             onDragStart={this.handleDrag.bind(this)}
           />

@@ -2,4 +2,4 @@
  * Drag types
  */
 
-export const PICTURE = 'PICTURE'
+export const PICTURE = 'librairy/picture'

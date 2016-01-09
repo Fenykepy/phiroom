@@ -45,8 +45,15 @@
             display: block;
             text-indent: 25px;
             text-decoration: none;
-            &:hover, &:active, &.selected {
+            &.selected {
                 background-color: #D2D2D2;
+                color: #000;
+            }
+            &.dragover {
+                background-color: #969696;
+                color: #000;
+            }
+            &:active, &:hover {
                 color: #000;
             }
         }
