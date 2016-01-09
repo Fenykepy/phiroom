@@ -41,7 +41,7 @@ export default class LibrairyLeftPanelPortfolioItem extends Component {
     if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
       e.preventDefault()
       this.setState({dragover: false})
-      this.props.handleDrop(this.props.slug)
+      this.props.handleDrop(this.props.pk)
     }
   }
 

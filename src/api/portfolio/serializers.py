@@ -38,5 +38,5 @@ class PortfolioPictureSerializer(serializers.ModelSerializer):
 class PortfolioHeadSerializer(PortfolioSerializer):
     class Meta:
         model = Portfolio
-        fields = ('title', 'slug')
+        fields = ('pk', 'title', 'slug')
 

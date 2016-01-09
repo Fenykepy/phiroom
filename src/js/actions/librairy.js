@@ -55,20 +55,23 @@ export function addPicts2Portfolio(portfolio) {
     let drag = state.librairy.drag
     if (drag.type === PICTURE) {
       // add pictures to portfolio
+      console.log(portfolio)
       drag.data.map(item => {
-        let data = {
-          portfolio: portfolio,
-          picture: item
-        }
         return Fetch.post('api/portfolio/portfolio-picture/',
           {
             'Content-Type': 'application/json',
             'X-CSRFToken': state.common.csrfToken.token
           },
-          JSON.stringify(data)
+          JSON.stringify({
+            portfolio: portfolio,
+            picture: item
+          })
         )
         .then(json =>
             console.log(json)
+        )
+        .catch(error =>
+            console.log(error.message)
         )
       })
     }

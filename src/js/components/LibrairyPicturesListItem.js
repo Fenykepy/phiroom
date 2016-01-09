@@ -17,6 +17,10 @@ export default class LibrairyPicturesListItem extends Component {
     this.props.handleClick(this.props.index, e.ctrlKey, e.shiftKey)
   }
 
+  handleRightClick(e) {
+    e.preventDefault()
+  }
+
   handleDrag(e) {
     //e.preventDefault()
     e.dataTransfer.setData(PICTURE, this.props.pk)
@@ -40,6 +44,7 @@ export default class LibrairyPicturesListItem extends Component {
             draggable="true"
             onClick={this.handleClick.bind(this)}
             onDragStart={this.handleDrag.bind(this)}
+            onContextMenu={this.handleRightClick.bind(this)}
           />
         </article>
       </div>
