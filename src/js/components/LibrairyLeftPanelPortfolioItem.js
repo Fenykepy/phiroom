@@ -33,6 +33,7 @@ export default class LibrairyLeftPanelPortfolioItem extends Component {
   handleDragOver(e) {
     if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
       e.preventDefault()
+      e.dataTransfer.dropEffect = "copy"
     }
   }
 
@@ -40,7 +41,7 @@ export default class LibrairyLeftPanelPortfolioItem extends Component {
     if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
       e.preventDefault()
       this.setState({dragover: false})
-      console.log('drop')
+      this.props.handleDrop(this.props.slug)
     }
   }
 

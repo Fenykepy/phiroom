@@ -1,4 +1,7 @@
 import * as types from '../constants/actionsTypes'
+import { PICTURE } from '../constants/dragTypes'
+
+import Fetch from '../helpers/http'
 
 // action creators
 
@@ -43,4 +46,33 @@ export function dragEnd() {
   return {
     type: types.DRAG_END
   }
+}
+
+export function addPicts2Portfolio(portfolio) {
+  return (dispatch, getState) => {
+    // get dragged elements from state
+    let state = getState()
+    let drag = state.librairy.drag
+    if (drag.type === PICTURE) {
+      // add pictures to portfolio
+      drag.data.map(item => {
+        let data = {
+          portfolio: portfolio,
+          picture: item
+        }
+        return Fetch.post('api/portfolio/portfolio-picture/',
+          {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': state.common.csrfToken.token
+          },
+          JSON.stringify(data)
+        )
+        .then(json =>
+            console.log(json)
+        )
+      })
+    }
+    return dispatch(dragEnd())
+  }
+
 }

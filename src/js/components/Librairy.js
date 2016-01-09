@@ -6,10 +6,15 @@ import LibrairyLeftPanel from './LibrairyLeftPanel'
 import { setModule } from '../actions/modules'
 import { fetchPortfoliosHeadersIfNeeded } from '../actions/portfolios'
 
+import { fetchCSRFTokenIfNeeded } from '../actions/common'
+
+
 export default class Librairy extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
     let promises = []
+    // fetch csrf token
+    promises.push(dispatch(fetchCSRFTokenIfNeeded()))
     // fetch portfolios headers
     dispatch(fetchPortfoliosHeadersIfNeeded())
     // fetch posts headers if user is weblog_author
