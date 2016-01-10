@@ -4,7 +4,10 @@ import LibrairyPicturesList from './LibrairyPicturesList'
 
 import { fetchPortfolioIfNeeded } from '../actions/portfolios'
 import { fetchPictureIfNeeded } from '../actions/pictures'
-import { setPictures } from '../actions/librairy'
+import { 
+  setPictures,
+  removePictFromPortfolio,
+} from '../actions/librairy'
 
 export default class LibrairyPortfolio extends Component {
 
@@ -32,12 +35,20 @@ export default class LibrairyPortfolio extends Component {
     }
   }
 
+  removePicture(picture) {
+    this.props.dispatch(removePictFromPortfolio(
+          this.props.params.slug,
+          picture
+    ))
+  }
+
   render() {
     return (
           <LibrairyPicturesList
             {...this.props.librairy}
             container={'portfolio'}
             dispatch={this.props.dispatch}
+            removePicture={this.removePicture.bind(this)}
           />
     )
   }

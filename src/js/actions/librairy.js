@@ -3,6 +3,7 @@ import { PICTURE } from '../constants/dragTypes'
 
 import Fetch from '../helpers/http'
 
+import { invalidatePortfolio } from './portfolios'
 // action creators
 
 
@@ -65,9 +66,11 @@ export function addPicts2Portfolio(portfolio) {
             picture: item
           })
         )
-        .then(json =>
+        .then(json => {
             console.log(json)
-        )
+            // !!! change to work with slug instead of pk
+            //dispatch(invalidatePortfolio(portfolio))
+        })
         .catch(error =>
             console.log(error.message)
         )
@@ -75,5 +78,29 @@ export function addPicts2Portfolio(portfolio) {
     }
     return dispatch(dragEnd())
   }
+}
 
+
+export function removePictFromPortfolio(portfolio, picture) {
+  return (dispatch, getState) => {
+    Fetch.delete('api/portfolio/portfolio-picture/portfolio/'
+      + portfolio + '/picture/' + picture + '/',
+        {
+          'X-CSRFToken': getState().common.csrfToken.token
+        }
+    )
+    .then(json => {
+        console.log(json)
+    })
+    .catch(error => {
+        console.warn(error)
+        dispatch(invalidatePortfolio(portfolio))
+    })
+    // optimistically remove picture from portfolio
+    return dispatch({
+      type: types.PORTFOLIO_REMOVE_PICTURE,
+      portfolio,
+      picture
+    })
+  }
 }

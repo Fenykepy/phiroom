@@ -12,6 +12,7 @@ import {
   PORTFOLIO_NEXT_PICT,
   PORTFOLIO_PREV_PICT,
   PORTFOLIO_TOGGLE_SLIDESHOW,
+  PORTFOLIO_REMOVE_PICTURE,
 } from '../constants/actionsTypes'
 
 
@@ -77,6 +78,19 @@ function portfolios(state = {}, action) {
           is_fetching: false,
           fetched: false,
           error: action.error
+        })
+      })
+    case PORTFOLIO_REMOVE_PICTURE:
+      // create new array
+      let pictures = state[action.portfolio].pictures.slice()
+      let index = pictures.indexOf(action.picture)
+      if (index > -1 ) {
+        // remove picture from it
+        pictures.splice(index, 1)
+      }
+      return Object.assign({}, state, {
+        [action.portfolio]: Object.assign({}, state[action.portfolio], {
+          pictures: pictures
         })
       })
     default:

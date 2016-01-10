@@ -120,7 +120,7 @@ export function togglePictInfo() {
 
 function shouldFetchPortfolio(state, portfolio) {
   const item = state.portfolio.portfolios[portfolio]
-  if (! item) { return true }
+  if (! item || item.did_invalidate) { return true }
   if (item.is_fetching || item.fetched) { return false }
   return true
 }

@@ -44,6 +44,18 @@ class Fetch {
           response.json()
         )
   }
+
+  delete(url, headers={}) {
+    return fetch(base_url + url,
+        {
+          credentials: 'include',
+          method: "DELETE",
+          headers: this.setHeaders(headers)
+        })
+        .then(response => {
+          console.log(response)
+        })
+  }
 }
 
 
