@@ -36,6 +36,7 @@ export default class LibrairyPortfolio extends Component {
     return (
           <LibrairyPicturesList
             {...this.props.librairy}
+            container={'portfolio'}
             dispatch={this.props.dispatch}
           />
     )

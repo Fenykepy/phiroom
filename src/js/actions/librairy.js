@@ -34,7 +34,6 @@ export function unselectAll() {
 }
 
 export function dragStart(type, data) {
-  console.log(type, data)
   return {
     type: types.DRAG_START,
     drag_type: type,
@@ -55,7 +54,6 @@ export function addPicts2Portfolio(portfolio) {
     let drag = state.librairy.drag
     if (drag.type === PICTURE) {
       // add pictures to portfolio
-      console.log(portfolio)
       drag.data.map(item => {
         return Fetch.post('api/portfolio/portfolio-picture/',
           {

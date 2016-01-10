@@ -75,6 +75,7 @@ export default class LibrairyPicturesList extends Component {
             handleClick={this.handleClick.bind(this)}
             handleDrag={this.handleDrag.bind(this)}
             columns_width={this.props.columns_width}
+            container={this.props.container}
             {...pict}
           />
         )}

@@ -1,8 +1,27 @@
 import React, { Component, PropTypes } from 'react'
 
-import { PICTURE } from '../constants/dragTypes.js'
+import { PICTURE } from '../constants/dragTypes'
+
+import ContextualMenu from './ContextualMenu'
+import LibrairyPicturesListItemMenu from './LibrairyPicturesListItemMenu'
 
 export default class LibrairyPicturesListItem extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.default_state = {
+      contextual_menu: false,
+      X: null,
+      Y: null
+    }
+
+    this.state = this.default_state
+  }
+
+  closeContextualMenu() {
+    this.setState(this.default_state)
+  }
 
   getImageStyle() {
     let max_height = this.props.columns_width;
@@ -13,12 +32,31 @@ export default class LibrairyPicturesListItem extends Component {
     return { maxHeight: max_height + 'px' }
   }
 
+  getContextualMenu() {
+    if (this.state.contextual_menu) {
+      return (<ContextualMenu
+          child={(<LibrairyPicturesListItemMenu />)}
+          close={this.closeContextualMenu.bind(this)}
+          container={this.props.container}
+          X={this.state.X}
+          Y={this.state.Y}
+      />)
+    }
+    return null
+  }
+
   handleClick(e) {
     this.props.handleClick(this.props.index, e.ctrlKey, e.shiftKey)
   }
 
   handleRightClick(e) {
     e.preventDefault()
+    // show context menu
+    this.setState({
+      contextual_menu: true,
+      X: e.clientX,
+      Y: e.clientY
+    })
   }
 
   handleDrag(e) {
@@ -47,6 +85,7 @@ export default class LibrairyPicturesListItem extends Component {
             onContextMenu={this.handleRightClick.bind(this)}
           />
         </article>
+        {this.getContextualMenu()}
       </div>
     )
   }
