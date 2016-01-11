@@ -30,13 +30,18 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 
 class PortfolioPictureSerializer(serializers.ModelSerializer):
+    portfolio = serializers.SlugRelatedField(
+            slug_field="slug",
+            queryset=Portfolio.objects.all()
+    )
     class Meta:
         model = PortfolioPicture
+        field = ('portfolio', 'picture', 'order')
 
 
 
 class PortfolioHeadSerializer(PortfolioSerializer):
     class Meta:
         model = Portfolio
-        fields = ('pk', 'title', 'slug')
+        fields = ('title', 'slug')
 

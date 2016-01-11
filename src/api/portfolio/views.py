@@ -72,6 +72,7 @@ class PortfolioPictureList(generics.ListCreateAPIView):
 
 
 
+
 class PortfolioPictureDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     API endpoint that presents a specific portfolio-picture relation and allows to
