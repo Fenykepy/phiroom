@@ -37,7 +37,6 @@ export default class LibrairyPortfolio extends Component {
   }
 
   removePicture(picture) {
-    console.log(this.props)
     let to_remove
     // picture is selected, remove all selection
     if (this.props.librairy.selected_list.indexOf(picture) > -1) {

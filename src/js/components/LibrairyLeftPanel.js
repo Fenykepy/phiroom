@@ -23,6 +23,7 @@ export default class LibrairyLeftPanel extends Component {
           <LibrairyLeftPanelPortfolios
             user={this.props.user}
             portfolios={this.props.portfolio.headers}
+            drag={this.props.librairy.drag}
             dispatch={this.props.dispatch}
           />
         </nav>

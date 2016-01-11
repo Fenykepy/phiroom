@@ -48,33 +48,26 @@ export function dragEnd() {
   }
 }
 
-export function addPicts2Portfolio(portfolio) {
+export function addPicts2Portfolio(portfolio, picture) {
   return (dispatch, getState) => {
-    // get dragged elements from state
-    let state = getState()
-    let drag = state.librairy.drag
-    if (drag.type === PICTURE) {
-      // add pictures to portfolio
-      drag.data.map(item => {
-        return Fetch.post('api/portfolio/portfolio-picture/',
-          {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': state.common.csrfToken.token
-          },
-          JSON.stringify({
-            portfolio: portfolio,
-            picture: item
-          })
-        )
-        .then(json => {
-            dispatch(invalidatePortfolio(portfolio))
-        })
-        .catch(error =>
-            console.log(error.message)
-        )
+    let token = getState().common.csrfToken.token
+    // add pictures to portfolio
+    return Fetch.post('api/portfolio/portfolio-picture/',
+      {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': token
+      },
+      JSON.stringify({
+        portfolio: portfolio,
+        picture: picture
       })
-    }
-    return dispatch(dragEnd())
+    )
+    .then(json => {
+        dispatch(invalidatePortfolio(portfolio))
+    })
+    .catch(error =>
+        console.log(error.message)
+    )
   }
 }
 
