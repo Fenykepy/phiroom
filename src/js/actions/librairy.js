@@ -21,6 +21,14 @@ export function selectPicture(picture) {
   }
 }
 
+export function unsetPicture(picture) {
+  // remove a picture from librairy displayed list
+  return {
+    type: types.UNSET_PICTURE,
+    picture
+  }
+}
+
 export function unselectPicture(picture) {
   return {
     type: types.UNSELECT_PICTURE,
@@ -68,14 +76,6 @@ export function addPicts2Portfolio(portfolio, picture) {
     .catch(error =>
         console.log(error.message)
     )
-  }
-}
-
-export function unsetPicture(picture) {
-  // remove a picture from librairy displayed list
-  return {
-    type: types.UNSET_PICTURE,
-    picture
   }
 }
 
