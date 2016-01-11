@@ -67,9 +67,7 @@ export function addPicts2Portfolio(portfolio) {
           })
         )
         .then(json => {
-            console.log(json)
-            // !!! change to work with slug instead of pk
-            //dispatch(invalidatePortfolio(portfolio))
+            dispatch(invalidatePortfolio(portfolio))
         })
         .catch(error =>
             console.log(error.message)
@@ -80,6 +78,13 @@ export function addPicts2Portfolio(portfolio) {
   }
 }
 
+export function unsetPicture(picture) {
+  // remove a picture from librairy displayed list
+  return {
+    type: types.UNSET_PICTURE,
+    picture
+  }
+}
 
 export function removePictFromPortfolio(portfolio, picture) {
   return (dispatch, getState) => {
@@ -97,7 +102,7 @@ export function removePictFromPortfolio(portfolio, picture) {
         dispatch(invalidatePortfolio(portfolio))
     })
     // optimistically remove picture from portfolio
-    return dispatch({
+    dispatch({
       type: types.PORTFOLIO_REMOVE_PICTURE,
       portfolio,
       picture

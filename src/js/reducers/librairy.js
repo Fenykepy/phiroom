@@ -5,6 +5,7 @@ import {
   UNSELECT_PICTURE,
   UNSELECT_ALL,
   SET_PICTURES,
+  UNSET_PICTURE,
   SET_N_COLUMNS,
   DRAG_START,
   DRAG_END,
@@ -45,6 +46,15 @@ function pictures(state = [], action) {
   switch (action.type) {
     case SET_PICTURES:
       return action.pictures
+    case UNSET_PICTURE:
+      // create a new array
+      let pictures = state.slice()
+      let index = pictures.indexOf(action.picture)
+      if (index > -1) {
+        // remove picture
+        pictures.splice(index, 1)
+      }
+      return pictures
     case LOGOUT:
       return []
     default:

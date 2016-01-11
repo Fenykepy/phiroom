@@ -124,6 +124,7 @@ export const UNSELECT_PICTURE = 'UNSELECT_PICTURE'
 export const UNSELECT_ALL = 'UNSELECT_ALL'
 
 export const SET_PICTURES = 'SET_PICTURES'
+export const UNSET_PICTURE = 'REMOVE_PICTURE'
 export const SET_N_COLUMNS = 'SET_N_COLUMNS'
 
 export const DRAG_START = 'DRAG_START'

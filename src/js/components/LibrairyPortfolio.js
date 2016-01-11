@@ -7,6 +7,7 @@ import { fetchPictureIfNeeded } from '../actions/pictures'
 import { 
   setPictures,
   removePictFromPortfolio,
+  unsetPicture,
 } from '../actions/librairy'
 
 export default class LibrairyPortfolio extends Component {
@@ -36,6 +37,7 @@ export default class LibrairyPortfolio extends Component {
   }
 
   removePicture(picture) {
+    this.props.dispatch(unsetPicture(picture))
     this.props.dispatch(removePictFromPortfolio(
           this.props.params.slug,
           picture
