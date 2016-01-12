@@ -37,14 +37,11 @@ export default class LibrairyPortfolio extends Component {
   }
 
   removePicture(picture) {
-    let to_remove
+    let to_remove = [picture]
     // picture is selected, remove all selection
     if (this.props.librairy.selected_list.indexOf(picture) > -1) {
       to_remove = this.props.librairy.selected_list
-    } else {
-      // remove only given picture
-      to_remove = [picture]
-    }
+    } 
     // remove all picts in array
     to_remove.map(item => {
       this.props.dispatch(unsetPicture(item))

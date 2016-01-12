@@ -143,7 +143,19 @@ export function fetchPicture(picture) {
   }
 }
 
-
+export function deletePicture(picture) {
+  /*
+   * delete a picture from server
+   */
+  Fetch.delete(`api/librairy/pictures/${picture}/`)
+    .catch(error => {
+      console.log(error)
+    })
+  return {
+    type: types.DELETE_PICTURE,
+    picture
+  }
+}
 
 
 

@@ -7,6 +7,7 @@ import {
   REQUEST_SHORT_PICTURE,
   REQUEST_SHORT_PICTURE_SUCCESS,
   REQUEST_SHORT_PICTURE_FAILURE,
+  DELETE_PICTURE,
   LOGOUT,
 } from '../constants/actionsTypes'
 
@@ -37,6 +38,10 @@ function short (state = {}, action) {
           error: action.error
         })
       })
+    case DELETE_PICTURE:
+      let new_state = Object.assign({}, state)
+      delete new_state[action.picture]
+      return new_state
     default:
       return state
   }
@@ -68,6 +73,10 @@ function full (state = {}, action) {
           error: action.error
         })
       })
+    case DELETE_PICTURE:
+      let new_state = Object.assign({}, state)
+      delete new_state[action.picture]
+      return new_state
     case LOGOUT:
       return {}
     default:

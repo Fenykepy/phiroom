@@ -38,6 +38,7 @@ export default class LibrairyPicturesListItem extends Component {
           child={(<LibrairyPicturesListItemMenu />)}
           close={this.closeContextualMenu.bind(this)}
           removePicture={this.props.removePicture}
+          deletePicture={this.props.deletePicture}
           container={this.props.container}
           X={this.state.X}
           Y={this.state.Y}

@@ -6,11 +6,28 @@ import {
   selectPicture,
   unselectPicture,
   unselectAll,
+  unsetPicture,
   dragStart,
   dragEnd,
 } from '../actions/librairy'
+import {
+  deletePicture,
+} from '../actions/pictures'
 
 export default class LibrairyPicturesList extends Component {
+
+  deletePicture(picture) {
+    let to_delete = [picture]
+    // picture is selected, delete all selection
+    if (this.props.selected_list.indexOf(picture) > -1) {
+      to_delete = this.props.selected_list
+    }
+    // delete all picts in array
+    to_delete.map(item => {
+      this.props.dispatch(unsetPicture(item))
+      this.props.dispatch(deletePicture(item))
+    })
+  }
 
   handleClick(picture, ctrlKey, shiftKey) {
     let pict = this.props.pictures[picture]
@@ -65,7 +82,7 @@ export default class LibrairyPicturesList extends Component {
   }
 
   render() {
-    // console.log('picturesList', this.props)
+    //console.log('picturesList', this.props)
     return (
       <section id="librairy-list">
         {this.props.pictures.map((pict, index) =>
@@ -77,6 +94,7 @@ export default class LibrairyPicturesList extends Component {
             columns_width={this.props.columns_width}
             container={this.props.container}
             removePicture={this.props.removePicture}
+            deletePicture={this.deletePicture.bind(this)}
             {...pict}
           />
         )}
