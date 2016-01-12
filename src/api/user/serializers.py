@@ -74,7 +74,6 @@ class SafeUserSerializer(UserSerializer):
                 'pinterest_link',
                 'vk_link',
                 'mail_newsletter',
-                'password',
         )
         read_only_fields =('is_staff', 'is_weblog_author', 'is_librairy_member')
 

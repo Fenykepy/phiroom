@@ -100,8 +100,10 @@ class UserAPITest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.data['token'])
         token = response.data['token']
+        # should be able to access user info with token in cookie
+        self.client.cookies['auth_token'] = token
         # should be able to access user info with token in header
-        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+        #self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
         response = self.client.get(user_url)
         self.assertEqual(response.status_code, 200)
 
@@ -140,6 +142,13 @@ class UserAPITest(TestCase):
         data = {"first_name": "John",
                 "last_name": "Poe",
         }
+        # full data's for put
+        data2 = {
+	    "username": "johnpoe",
+	    "first_name": "john",
+	    "last_name": "poe",
+	    "author_name": "fred",
+	}
 
         # test without login
         # nothing should be accessible
@@ -161,7 +170,7 @@ class UserAPITest(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 405)
-        response = self.client.put(url, data)
+        response = self.client.put(url, data2)
         self.assertEqual(response.status_code, 200)
         response = self.client.patch(url, data)
         self.assertEqual(response.status_code, 200)
