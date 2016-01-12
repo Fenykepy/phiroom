@@ -2,9 +2,7 @@
 ===      TodoList for react   ===
 =================================
 
-
-
-- Create a build script for npm
+#- Create a build script for npm
 #- Move css out of js files, else it needs to load all js to display them
 #- Add a lightbox to portfolios
 #- Add a list and detail views for weblog posts
@@ -12,8 +10,32 @@
 #- Add a description for contact
 - Add a title property to state
 #- Add a default_portfolio property to state, use it for redirects in routes
-- Add a librairy app
-- Add authentication
+#- Add a librairy app
+#- Add authentication
+- Add authentication for server rendering
+- Add a confirmation modal on deletePicture action
+- Add a refresh for token
+- Redirect when user is unauthenticated in librairy
+- Handle status codes in http.Fetch
+- Add collections manager to librairy
+- Add right panel with metadatas to librairy
+- Refactoring of viewport width to handle scroll bar
+- Add a way to sort pictures in librairy list
+- Add a single view to librairy
+- Add a way to download a zip archive from librairy
+- Add a way to import pictures via http
+- Add a way to import pictures from server hard drive
+- Add a way to create portfolio
+- Add a way to edit portfolio
+- Add a way to delete portfolio
+- Add a way to create post
+- Add a way to edit post
+- Add a way to delete post
+- Add a way to edit contact description
+- Improve contextual menu to go on right or left side depending of viewport width
+- Use dynamic settings
+- Add a way to edit settings
+- Add a notifications system
 #- Add a weblog list by tag
 - Add an error page (404, 500)
 #- Add scroll to top on lightbox openning
