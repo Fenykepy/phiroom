@@ -207,11 +207,11 @@ class PortfolioAPITest(APITestCase):
         url = '/api/portfolio/portfolio-picture/'
         data = {'order': 10,
                 'picture': self.pict.pk,
-                'portfolio': self.port.pk
+                'portfolio': self.port.slug
         }
         data2 = {'order': 1,
                 'picture': self.pict.pk,
-                'portfolio': self.port.pk
+                'portfolio': self.port.slug
         }
  
         # test without login
@@ -299,11 +299,11 @@ class PortfolioAPITest(APITestCase):
         )
         data = {'order': 10,
                 'picture': self.pict2.pk,
-                'portfolio': self.port.pk
+                'portfolio': self.port.slug
         }
         data2 = {'order': 1,
                 'picture': self.pict2.pk,
-                'portfolio': self.port.pk
+                'portfolio': self.port.slug
         }
 
         # test without login
