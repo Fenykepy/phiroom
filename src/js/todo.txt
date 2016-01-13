@@ -33,6 +33,7 @@
 - Add a way to delete post
 - Add a way to edit contact description
 - Improve contextual menu to go on right or left side depending of viewport width
+#- Improve selection to unselect all on background click
 - Use dynamic settings
 - Add a way to edit settings
 - Add a notifications system

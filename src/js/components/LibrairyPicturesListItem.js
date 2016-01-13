@@ -51,7 +51,12 @@ export default class LibrairyPicturesListItem extends Component {
   }
 
   handleClick(e) {
+    e.stopPropagation() // to avoid unselectAll to trigger
     this.props.handleClick(this.props.index, e.ctrlKey, e.shiftKey)
+  }
+
+  handleWrapperClick(e) {
+    this.props.unselectAll()
   }
 
   handleRightClick(e) {
@@ -79,6 +84,7 @@ export default class LibrairyPicturesListItem extends Component {
           width: this.props.columns_width + 'px',
           lineHeight: this.props.columns_width + 'px'
         }}
+        onClick={this.handleWrapperClick.bind(this)}
       >
         <article className={this.props.selected ? 'selected' : null}>
           <img

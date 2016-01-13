@@ -70,6 +70,10 @@ export default class LibrairyPicturesList extends Component {
     this.props.dispatch(unselectAll())
     return this.props.dispatch(selectPicture(pict.pk))
   }
+  
+  unselectAll() {
+    return this.props.dispatch(unselectAll())
+  }
 
   handleDrag(picture, selected) {
     let data
@@ -84,7 +88,9 @@ export default class LibrairyPicturesList extends Component {
   render() {
     //console.log('picturesList', this.props)
     return (
-      <section id="librairy-list">
+      <section id="librairy-list"
+        onClick={this.unselectAll.bind(this)}
+      >
         {this.props.pictures.map((pict, index) =>
           <LibrairyPicturesListItem
             key={pict.pk}
@@ -95,6 +101,7 @@ export default class LibrairyPicturesList extends Component {
             container={this.props.container}
             removePicture={this.props.removePicture}
             deletePicture={this.deletePicture.bind(this)}
+            unselectAll={this.unselectAll.bind(this)}
             {...pict}
           />
         )}
