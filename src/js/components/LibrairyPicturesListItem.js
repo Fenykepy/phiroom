@@ -63,6 +63,8 @@ export default class LibrairyPicturesListItem extends Component {
             <div className="basket-left"
               onDragEnter={this.handleBasketLeftEnter.bind(this)}
               onDragLeave={this.handleBasketLeave.bind(this)}
+              onDragOver={this.handleBasketOver.bind(this)}
+              onDrop={this.handleBasketLeftDrop.bind(this)}
               style={{
                 width: this.props.columns_width + 'px',
                 right: this.state.padding_right + this.props.columns_width / 2 + 'px'
@@ -71,6 +73,8 @@ export default class LibrairyPicturesListItem extends Component {
             <div className="basket-right"
               onDragEnter={this.handleBasketRightEnter.bind(this)}
               onDragLeave={this.handleBasketLeave.bind(this)}
+              onDragOver={this.handleBasketOver.bind(this)}
+              onDrop={this.handleBasketRightDrop.bind(this)}
               style={{
                 width: this.props.columns_width + 'px',
                 left: this.state.padding_left + this.props.columns_width / 2 + 'px'
@@ -134,6 +138,31 @@ export default class LibrairyPicturesListItem extends Component {
         padding_right: 0,
         padding_left: 10,
       })
+  }
+
+  handleBasketOver(e) {
+    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+      e.preventDefault()
+      e.dataTransfer.dropEffect = "move"
+    }
+  }
+
+  handleBasketRightDrop(e) {
+    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+      e.preventDefault()
+      console.log('drop right')
+      // reset margins
+      this.handleBasketLeave(e)
+    }
+  }
+
+  handleBasketLeftDrop(e) {
+    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+      e.preventDefault()
+      console.log('drop left')
+      // reset margins
+      this.handleBasketLeave(e)
+    }
   }
 
   render() {
