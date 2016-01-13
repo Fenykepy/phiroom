@@ -19,7 +19,6 @@ export default class LibrairyLeftPanelPortfolios extends Component {
     this.props.drag.data.map(picture => {
       this.props.dispatch(addPicts2Portfolio(portfolio, picture))
     })
-    this.props.dispatch(dragEnd())
   }
   
   render() {

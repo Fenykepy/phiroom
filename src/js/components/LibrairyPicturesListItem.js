@@ -56,6 +56,7 @@ export default class LibrairyPicturesListItem extends Component {
   }
 
   handleWrapperClick(e) {
+    // unselect all pictures
     this.props.unselectAll()
   }
 

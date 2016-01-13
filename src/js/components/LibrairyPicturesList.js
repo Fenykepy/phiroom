@@ -8,7 +8,6 @@ import {
   unselectAll,
   unsetPicture,
   dragStart,
-  dragEnd,
 } from '../actions/librairy'
 import {
   deletePicture,

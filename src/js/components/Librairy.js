@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import LibrairyLeftPanel from './LibrairyLeftPanel'
 
 import { setModule } from '../actions/modules'
+import { dragEnd } from '../actions/librairy'
 import { fetchPortfoliosHeadersIfNeeded } from '../actions/portfolios'
 
 import { fetchCSRFTokenIfNeeded } from '../actions/common'
@@ -32,6 +33,17 @@ export default class Librairy extends Component {
     if (this.props.modules.current != 'librairy') {
       this.props.dispatch(setModule('librairy'))
     }
+
+    // listen for dragEnd events
+    document.addEventListener('dragend', this.handleDragEnd.bind(this))
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('dragend', this.handleDragEnd)
+  }
+
+  handleDragEnd() {
+    this.props.dispatch(dragEnd())
   }
 
   getChildren() {
