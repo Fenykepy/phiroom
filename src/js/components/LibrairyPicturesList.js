@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesListItem from './LibrairyPicturesListItem'
+
 import { PICTURE } from '../constants/dragTypes'
+
+import { listsHaveCommon } from '../helpers/utils'
+
 import {
   selectPicture,
   unselectPicture,
@@ -14,6 +18,17 @@ import {
 } from '../actions/pictures'
 
 export default class LibrairyPicturesList extends Component {
+
+  constructor(props) {
+    super(props)
+
+      this.accepted_drop = [PICTURE]
+
+  }
+
+  dropValid(types) {
+    return listsHaveCommon(types, this.accepted_drop)
+  }
 
   deletePicture(picture) {
     let to_delete = [picture]
@@ -74,7 +89,9 @@ export default class LibrairyPicturesList extends Component {
     return this.props.dispatch(unselectAll())
   }
 
-  handleDrag(picture, selected) {
+  handleDrag(e, picture, selected) {
+    e.dataTransfer.setData(PICTURE, picture)
+    e.dropEffect = "copy"
     let data
     if (selected) {
       data = this.props.selected_list
@@ -110,11 +127,27 @@ export default class LibrairyPicturesList extends Component {
     this.props.reorderPictures([...statics_before, ...moved, ...statics_after])
   }
 
+  handleBackgroundDrop(e) {
+    console.log('bg drop')
+    if (this.dropValid(e.dataTransfer.types)) {
+      e.preventDefault()
+      this.handleDrop(this.props.pictures.length)
+    }
+  }
+
+  handleBackgroundDragOver(e) {
+    if (this.dropValid(e.dataTransfer.types)) {
+      e.preventDefault()
+    }
+  }
+
   render() {
     //console.log('picturesList', this.props)
     return (
       <section id="librairy-list"
         onClick={this.unselectAll.bind(this)}
+        onDrop={this.handleBackgroundDrop.bind(this)}
+        onDragOver={this.handleBackgroundDragOver.bind(this)}
       >
         {this.props.pictures.map((pict, index) =>
           <LibrairyPicturesListItem
@@ -123,6 +156,7 @@ export default class LibrairyPicturesList extends Component {
             handleClick={this.handleClick.bind(this)}
             handleDrag={this.handleDrag.bind(this)}
             handleDrop={this.handleDrop.bind(this)}
+            dropValid={this.dropValid.bind(this)}
             columns_width={this.props.columns_width}
             container={this.props.container}
             removePicture={this.props.removePicture}

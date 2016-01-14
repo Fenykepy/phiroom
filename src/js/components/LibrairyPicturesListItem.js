@@ -1,8 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 
-import { PICTURE } from '../constants/dragTypes'
-import { listsHaveCommon } from '../helpers/utils'
-
 import ContextualMenu from './ContextualMenu'
 import LibrairyPicturesListItemMenu from './LibrairyPicturesListItemMenu'
 
@@ -10,8 +7,6 @@ export default class LibrairyPicturesListItem extends Component {
 
   constructor(props) {
     super(props)
-
-    this.accepted_drop = [PICTURE]
 
     this.default_state = {
       baskets: false,
@@ -109,13 +104,11 @@ export default class LibrairyPicturesListItem extends Component {
 
   handleDrag(e) {
     //e.preventDefault()
-    e.dataTransfer.setData(PICTURE, this.props.pk)
-    e.dropEffect = "copy"
-    this.props.handleDrag(this.props.pk, this.props.selected)
+    this.props.handleDrag(e, this.props.pk, this.props.selected)
   }
 
   handleWrapperDragEnter(e) {
-    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+    if (this.props.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
       this.setState({baskets: true})
     }
@@ -141,14 +134,14 @@ export default class LibrairyPicturesListItem extends Component {
   }
 
   handleBasketOver(e) {
-    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+    if (this.props.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
       e.dataTransfer.dropEffect = "move"
     }
   }
 
   handleBasketRightDrop(e) {
-    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+    if (this.props.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
       this.props.handleDrop(this.props.index + 1)
       // reset margins
@@ -157,7 +150,7 @@ export default class LibrairyPicturesListItem extends Component {
   }
 
   handleBasketLeftDrop(e) {
-    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+    if (this.props.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
       this.props.handleDrop(this.props.index)
       // reset margins
