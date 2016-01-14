@@ -84,6 +84,32 @@ export default class LibrairyPicturesList extends Component {
     this.props.dispatch(dragStart(PICTURE, data))
   }
 
+  handleDrop(basket_index) {
+    /*
+     * reorder pictures on drop
+     */
+    console.log(this.props)
+    let statics_before = []
+    let statics_after = []
+    let moved = []
+    this.props.pictures.map((item, index) => {
+      if (this.props.drag.data.indexOf(item.pk) > -1) {
+        // picture will be moved, push it to moved ones
+        moved.push(item.pk)
+      } else {
+        // picture won't be moved, add it to statics ones
+        if (index < basket_index) {
+          statics_before.push(item.pk)
+        } else {
+          statics_after.push(item.pk)
+        }
+      }
+    })
+    let ordered = [...statics_before, ...moved, ...statics_after]
+  
+    console.log('new_order', ordered)
+  }
+
   render() {
     //console.log('picturesList', this.props)
     return (
@@ -96,6 +122,7 @@ export default class LibrairyPicturesList extends Component {
             index={index}
             handleClick={this.handleClick.bind(this)}
             handleDrag={this.handleDrag.bind(this)}
+            handleDrop={this.handleDrop.bind(this)}
             columns_width={this.props.columns_width}
             container={this.props.container}
             removePicture={this.props.removePicture}
