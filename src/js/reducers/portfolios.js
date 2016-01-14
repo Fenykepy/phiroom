@@ -13,6 +13,7 @@ import {
   PORTFOLIO_PREV_PICT,
   PORTFOLIO_TOGGLE_SLIDESHOW,
   PORTFOLIO_REMOVE_PICTURE,
+  ORDER_PORTFOLIO_PICTURES,
 } from '../constants/actionsTypes'
 
 
@@ -91,6 +92,12 @@ function portfolios(state = {}, action) {
       return Object.assign({}, state, {
         [action.portfolio]: Object.assign({}, state[action.portfolio], {
           pictures: pictures
+        })
+      })
+    case ORDER_PORTFOLIO_PICTURES:
+      return Object.assign({}, state, {
+        [action.portfolio]: Object.assign({}, state[action.portfolio], {
+          pictures: action.new_order
         })
       })
     default:

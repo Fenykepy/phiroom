@@ -2,12 +2,16 @@ import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesList from './LibrairyPicturesList'
 
-import { fetchPortfolioIfNeeded } from '../actions/portfolios'
+import {
+  fetchPortfolioIfNeeded,
+  orderPortfolioPictures,
+} from '../actions/portfolios'
 import { fetchPictureIfNeeded } from '../actions/pictures'
 import { 
   setPictures,
   removePictFromPortfolio,
   unsetPicture,
+  orderPictInPortfolio,
 } from '../actions/librairy'
 
 export default class LibrairyPortfolio extends Component {
@@ -52,6 +56,17 @@ export default class LibrairyPortfolio extends Component {
     })
   }
 
+  reorderPictures(new_order) {
+    new_order.map((picture, order) => {
+      // upgrade portfolio picture relation
+      this.props.dispatch(orderPictInPortfolio(
+            this.props.params.slug, picture, order))
+    })
+    // upgrade portfolio
+    this.props.dispatch(orderPortfolioPictures(
+          this.props.params.slug, new_order))
+  }
+
   render() {
     return (
           <LibrairyPicturesList
@@ -59,6 +74,7 @@ export default class LibrairyPortfolio extends Component {
             container={'portfolio'}
             dispatch={this.props.dispatch}
             removePicture={this.removePicture.bind(this)}
+            reorderPictures={this.reorderPictures.bind(this)}
           />
     )
   }

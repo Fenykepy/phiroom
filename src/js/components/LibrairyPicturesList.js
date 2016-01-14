@@ -86,9 +86,11 @@ export default class LibrairyPicturesList extends Component {
 
   handleDrop(basket_index) {
     /*
-     * reorder pictures on drop
+     * we reorder pks in array here for it to be common to
+     * all pictures list, then send results to parent function
+     * which dispatchs with good container
      */
-    console.log(this.props)
+    //console.log(this.props)
     let statics_before = []
     let statics_after = []
     let moved = []
@@ -105,9 +107,7 @@ export default class LibrairyPicturesList extends Component {
         }
       }
     })
-    let ordered = [...statics_before, ...moved, ...statics_after]
-  
-    console.log('new_order', ordered)
+    this.props.reorderPictures([...statics_before, ...moved, ...statics_after])
   }
 
   render() {

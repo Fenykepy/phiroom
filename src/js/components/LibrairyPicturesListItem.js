@@ -150,7 +150,6 @@ export default class LibrairyPicturesListItem extends Component {
   handleBasketRightDrop(e) {
     if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
       e.preventDefault()
-      console.log('drop right')
       this.props.handleDrop(this.props.index + 1)
       // reset margins
       this.handleBasketLeave(e)
@@ -160,7 +159,6 @@ export default class LibrairyPicturesListItem extends Component {
   handleBasketLeftDrop(e) {
     if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
       e.preventDefault()
-      console.log('drop left')
       this.props.handleDrop(this.props.index)
       // reset margins
       this.handleBasketLeave(e)

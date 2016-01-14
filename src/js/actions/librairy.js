@@ -102,3 +102,22 @@ export function removePictFromPortfolio(portfolio, picture) {
     })
   }
 }
+
+export function orderPictInPortfolio(portfolio, picture, order) {
+  return (dispatch, getState) => {
+    Fetch.patch('api/portfolio/portfolio-picture/portfolio/'
+        + portfolio + '/picture/' + picture + '/',
+          {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getState().common.csrfToken.token
+          },
+          JSON.stringify({
+            order: order
+          })
+    )
+    .catch(error => {
+      console.warn(error)
+      dispatch(invalidatePortfolio(portfolio))
+    })
+  }
+}

@@ -6,6 +6,7 @@ import {
   UNSELECT_ALL,
   SET_PICTURES,
   UNSET_PICTURE,
+  ORDER_PORTFOLIO_PICTURES,
   SET_N_COLUMNS,
   DRAG_START,
   DRAG_END,
@@ -46,6 +47,8 @@ function pictures(state = [], action) {
   switch (action.type) {
     case SET_PICTURES:
       return action.pictures
+    case ORDER_PORTFOLIO_PICTURES:
+      return action.new_order
     case UNSET_PICTURE:
       // create a new array
       let pictures = state.slice()

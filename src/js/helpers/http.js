@@ -45,6 +45,19 @@ class Fetch {
         )
   }
 
+  patch(url, headers={}, body) {
+    return fetch(base_url + url,
+        {
+          credentials: 'include',
+          method: "PATCH",
+          headers: this.setHeaders(headers),
+          body: body
+        })
+        .then(response =>
+          response.json()
+        )
+  }
+
   delete(url, headers={}) {
     return fetch(base_url + url,
         {

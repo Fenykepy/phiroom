@@ -83,7 +83,13 @@ export function requestPortfolioPicturesFailure(portfolio, error) {
   }
 }
 
-
+export function orderPortfolioPictures(portfolio, new_order) {
+  return {
+    type: types.ORDER_PORTFOLIO_PICTURES,
+    portfolio,
+    new_order
+  }
+}
 
 
 
