@@ -143,6 +143,7 @@ export default class LibrairyPicturesListItem extends Component {
   handleBasketRightDrop(e) {
     if (this.props.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
+      e.stopPropagation() // to avoid section drop to trigger
       this.props.handleDrop(this.props.index + 1)
       // reset margins
       this.handleBasketLeave(e)
@@ -152,6 +153,7 @@ export default class LibrairyPicturesListItem extends Component {
   handleBasketLeftDrop(e) {
     if (this.props.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
+      e.stopPropagation() // to avoid section drop to trigger
       this.props.handleDrop(this.props.index)
       // reset margins
       this.handleBasketLeave(e)
