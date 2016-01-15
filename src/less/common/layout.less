@@ -58,20 +58,25 @@ blockquote {
     border-radius: 4px;
 }
 
-#overlay {
+#overlay, #modal-overlay {
     position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
     background-color: #000;
     opacity: 0.8;
     z-index: 999;
     &.transparent {
         opacity: 0;
     }
+    &.opaque {
+        opacity: 1;
+    }
 }
-.modal {
+#modal {
     z-index: 1000;
     
 }

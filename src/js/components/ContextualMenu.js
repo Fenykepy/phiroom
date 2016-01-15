@@ -11,12 +11,12 @@ export default class ContextualMenu extends Component {
     return null
   }
 
-  handleClick() {
-    this.props.close()
+  handleClick(e) {
     if (! this.props.close) {
       console.warn('ContextualMenu component should always receive'
           + ' a closing function a "close" property.') 
     }
+    this.props.close(e)
   }
 
   render() {
