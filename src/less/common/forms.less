@@ -102,20 +102,18 @@ input:hover, input:focus, textarea:focus, textarea:hover, select:focus, select:h
     border: @inputs-border-hover-focus;
     
 }
+
 input[type="submit"], button {
     font-family: @sans;
     font-weight: bold;
     display: inline-block;
     border-radius: 4px;
     box-shadow: @submit-button-shadow;
-    background: @submit-button-bg;
-    color: @submit-button-main;
     height: 34px;
     width: auto;
     padding: 0 15px;
     margin: 5px 2px 0 2px;
     text-align: center;
-    border: none;
     &.small-button {
         height: 24px;
         padding: 2px 6px 0px 6px;
@@ -124,12 +122,29 @@ input[type="submit"], button {
         width: auto;
     }
 }
-input[type="submit"]:hover, input[type="submit"]:focus, button:hover, button:focus, a:hover button, a:focus button {
+
+button {
+    background: none;
+    border: 1px solid @submit-button-bg;
+    color: @submit-button-bg;
+}
+
+button:hover, button:focus, a:hover button, a:focus button {
+    border-color: @secondary-button-hover;
+    color: @secondary-button-hover;
+}
+
+input[type="submit"], button.primary {
+    background: @submit-button-bg;
+    color: @submit-button-main;
+    border: none;
+}
+input[type="submit"]:hover, input[type="submit"]:focus, button.primary:hover,
+    button.primary:focus, a:hover button.primary, a:focus button.primary {
     //color: @submit-button-hover-focus;
     //box-shadow: @submit-button-hover-focus-shadow;
     background: @submit-button-hover-focus-bg;
 }
-
 
 .form-horizontal {
     //background: green;

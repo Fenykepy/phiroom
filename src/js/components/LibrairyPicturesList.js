@@ -36,7 +36,7 @@ export default class LibrairyPicturesList extends Component {
   }
 
   closeModal() {
-    this.testState({modal: null})
+    this.setState({modal: null})
   }
 
   dropValid(types) {
