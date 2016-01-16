@@ -66,21 +66,56 @@ blockquote {
     left: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    background-color: #000;
-    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.8) ;
     z-index: 999;
     &.transparent {
-        opacity: 0;
+        background-color: rgba(0, 0, 0, 0) ;
     }
     &.opaque {
-        opacity: 1;
+        background-color: rgba(0, 0, 0, 1) ;
     }
 }
 #modal {
     z-index: 1000;
-    
+    position: relative;
+    margin: 40px auto;
+    background: @blog-bg;
+    width: 700px;
+    border: 1px solid @blog-hr;
+    border-radius: 4px;
+    box-shadow: 0 0 4px #000;
+    header {
+        padding: 22px;
+        border-bottom: 1px solid @blog-hr;
+        button.modal-close {
+            right: 17px;
+            top: 17px;
+        }
+    }
+    &.small {
+        width: 500px;
+    }
 }
-
+#modal-content {
+    margin: 1em 0;
+}
+button.modal-close {
+    position: absolute;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 30px;
+    height: 40px;
+    width: 40px;
+    vertical-align: top;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    color: @blog-links;
+    &:hover, &:active, &:focus {
+        color: @blog-links-hover;
+    }
+}
 // Powered by
 #powered {
     font-family: @serif;

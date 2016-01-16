@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesListItem from './LibrairyPicturesListItem'
-import Modal from './Modal'
 
 import { PICTURE } from '../constants/dragTypes'
 
@@ -150,11 +149,6 @@ export default class LibrairyPicturesList extends Component {
         onDrop={this.handleBackgroundDrop.bind(this)}
         onDragOver={this.handleBackgroundDragOver.bind(this)}
       >
-      <Modal
-        close={(e) => {console.log('close')}}
-        closable={true}
-        child={(<div>Toto!</div>)}
-      />
         {this.props.pictures.map((pict, index) =>
           <LibrairyPicturesListItem
             key={pict.pk}

@@ -3,20 +3,20 @@ import React, { Component, PropTypes } from 'react'
 export default class Modal extends Component {
 
   getChild() {
-    if (this.props.child) {
-      return React.cloneElement(this.props.child, this.props)
+    if (this.props.modal_child) {
+      return React.cloneElement(this.props.modal_child, this.props)
     }
     console.warn('Modal component should always receive'
-        + ' a component as "child" property.')
+        + ' a component as "modal_child" property.')
     return null
   }
 
   getCloseButton() {
-    if (this.props.closable) {
+    if (this.props.modal_closable) {
       return (
         <button
           className="modal-close"
-          onClick={this.props.close}
+          onClick={this.props.modal_close}
         >×</button>
       )
     }
@@ -24,8 +24,8 @@ export default class Modal extends Component {
   }
 
   handleClick(e) {
-    if (this.props.closable) {
-      this.props.close(e)
+    if (this.props.modal_closable) {
+      this.props.modal_close(e)
     }
   }
 
@@ -52,7 +52,7 @@ export default class Modal extends Component {
           className={modal_classes.join(' ')}
         >
           <header>
-              <h1>{this.props.title || ""}</h1>
+              <h1>{this.props.modal_title || ""}</h1>
               {this.getCloseButton()}
           </header>
           <div id="modal-content">
