@@ -44,6 +44,7 @@ export default class LibrairyPicturesListItem extends Component {
           X={this.state.X}
           Y={this.state.Y}
           pk={this.props.pk}
+          index={this.props.index}
           previews_path={this.props.previews_path}
           source_file={this.props.source_file}
       />)

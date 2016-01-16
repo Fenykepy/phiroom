@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesListItem from './LibrairyPicturesListItem'
+import Modal from './Modal'
+import LibrairyDeletePictureConfirm from './LibrairyDeletePictureConfirm'
 
 import { PICTURE } from '../constants/dragTypes'
 
@@ -22,7 +24,14 @@ export default class LibrairyPicturesList extends Component {
   constructor(props) {
     super(props)
 
-      this.accepted_drop = [PICTURE]
+    this.accepted_drop = [PICTURE]
+
+
+    this.default_state = {
+      modal: null
+    }
+
+    this.state = this.default_state
 
   }
 
@@ -41,6 +50,20 @@ export default class LibrairyPicturesList extends Component {
       this.props.dispatch(unsetPicture(item))
       this.props.dispatch(deletePicture(item))
     })
+  }
+
+  confirmDeletePicture(picture, index) {
+    let pict = this.props.pictures[index]
+    let modal = (
+        <Modal
+          modal_closable={true}
+          modal_small={true}
+          modal_close={() => this.setState({modal: null})}
+          modal_title={'Delete a picture'}
+          modal_child={(<LibrairyDeletePictureConfirm picture={pict} />)}
+        />
+    )
+    this.setState({modal: modal})
   }
 
   handleClick(picture, ctrlKey, shiftKey) {
@@ -160,11 +183,12 @@ export default class LibrairyPicturesList extends Component {
             columns_width={this.props.columns_width}
             container={this.props.container}
             removePicture={this.props.removePicture}
-            deletePicture={this.deletePicture.bind(this)}
+            deletePicture={this.confirmDeletePicture.bind(this)}
             unselectAll={this.unselectAll.bind(this)}
             {...pict}
           />
         )}
+        {this.state.modal}
       </section>
     )
   }
