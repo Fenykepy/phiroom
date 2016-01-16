@@ -35,6 +35,10 @@ export default class LibrairyPicturesList extends Component {
 
   }
 
+  closeModal() {
+    this.testState({modal: null})
+  }
+
   dropValid(types) {
     return listsHaveCommon(types, this.accepted_drop)
   }
@@ -50,6 +54,8 @@ export default class LibrairyPicturesList extends Component {
       this.props.dispatch(unsetPicture(item))
       this.props.dispatch(deletePicture(item))
     })
+    // close modal
+    this.closeModal()
   }
 
   confirmDeletePicture(picture, index) {
@@ -58,9 +64,11 @@ export default class LibrairyPicturesList extends Component {
         <Modal
           modal_closable={true}
           modal_small={true}
-          modal_close={() => this.setState({modal: null})}
+          modal_close={this.closeModal.bind(this)}
           modal_title={'Delete a picture'}
-          modal_child={(<LibrairyDeletePictureConfirm picture={pict} />)}
+          modal_child={LibrairyDeletePictureConfirm}
+          picture={pict}
+          delete={() => this.deletePicture(picture)}
         />
     )
     this.setState({modal: modal})

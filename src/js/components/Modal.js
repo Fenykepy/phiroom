@@ -4,7 +4,7 @@ export default class Modal extends Component {
 
   getChild() {
     if (this.props.modal_child) {
-      return React.cloneElement(this.props.modal_child, this.props)
+      return (<this.props.modal_child {...this.props} />)
     }
     console.warn('Modal component should always receive'
         + ' a component as "modal_child" property.')
@@ -50,6 +50,7 @@ export default class Modal extends Component {
         <section
           id="modal"
           className={modal_classes.join(' ')}
+          onClick={e => e.stopPropagation()}
         >
           <header>
               <h1>{this.props.modal_title || ""}</h1>

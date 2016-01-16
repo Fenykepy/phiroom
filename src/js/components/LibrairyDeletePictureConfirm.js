@@ -12,8 +12,13 @@ export default class LibrairyDeletePictureConfirm extends Component {
             <strong><em>(this operation is irreversible)</em></strong>
           </article>
           <footer>
-            <button>Cancel</button>
-            <button className="primary">Delete</button>
+            <button
+              onClick={this.props.modal_close}
+            >Cancel</button>
+            <button
+              className="primary"
+              onClick={this.props.delete}
+            >Delete</button>
           </footer>
         </div>
     )
