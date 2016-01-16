@@ -17,6 +17,18 @@ import {
 
 function selected(state = [], action) {
   switch (action.type) {
+    case SET_PICTURES:
+      /*
+       * remove selected pictures which aren't
+       * any more in displayed set
+       */
+      let selection = []
+      state.map(item => {
+        if (action.pictures.indexOf(item) > -1) {
+          selection.push(item)
+        }
+      })
+      return selection
     case SELECT_PICTURE:
       if (state.indexOf(action.picture) > -1) {
         return state
