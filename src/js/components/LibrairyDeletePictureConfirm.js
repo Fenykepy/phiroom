@@ -15,10 +15,13 @@ export default class LibrairyDeletePictureConfirm extends Component {
     return (
         <div className="delete-picture-confirm">
           <article>
-            <div className="thumb-wrapper">
+            <div className="thumbs-wrapper">
             {this.props.pictures.map(picture =>
-                <img src={'/media/images/previews/max-500/'
-                + picture.previews_path} />
+                <img 
+                  src={'/media/images/previews/max-500/'
+                  + picture.previews_path}
+                  key={picture.pk}
+                />
             )}
             </div>
             <h6>{title}</h6>
