@@ -15,7 +15,7 @@ export default class LibrairyPicturesListItemMenu extends Component {
     // don't follow link
     e.preventDefault()
     // delete picture from phiroom
-    this.props.deletePicture(this.props.pk, this.props.index)
+    this.props.deletePicture(this.props.pk)
     // close context menu
     this.props.close()
   }

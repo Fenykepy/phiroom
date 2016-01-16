@@ -67,12 +67,23 @@ export default class LibrairyPicturesList extends Component {
     return [picture]
   }
 
-
-  deletePicture(picture) {
+  getPicturesByPks(pks) {
     /*
-     * Delete targets pictures from Phiroom
+     * Return a list of picture objects corresponding to pks
+     * in given array
      */
-    this.getActionTargets.map(item => {
+    return this.props.pictures.filter((pict) => {
+      if (pks.indexOf(pict.pk) > -1) return true
+      return false
+    })
+  }
+
+
+  deletePictures(pictures) {
+    /*
+     * Delete given pictures from Phiroom
+     */
+    pictures.map(item => {
       this.props.dispatch(unsetPicture(item))
       this.props.dispatch(deletePicture(item))
     })
@@ -81,21 +92,31 @@ export default class LibrairyPicturesList extends Component {
   }
 
 
-  confirmDeletePicture(picture, index) {
+  confirmDeletePicture(picture) {
     /*
      * Open a modal window to confirm
      * pictures deletion from Phiroom
      */
-    let pict = this.props.pictures[index]
+    let pks = this.getActionTargets(picture)
+    let pictures = this.getPicturesByPks(pks)
+
+    let title, small
+    if (pictures.length > 1) {
+      title = `Delete ${pictures.length} pictures`
+      small = false
+    } else {
+      title = 'Delete a picture'
+      small = true
+    }
     let modal = (
         <Modal
           modal_closable={true}
-          modal_small={true}
+          modal_small={small}
           modal_close={this.closeModal.bind(this)}
-          modal_title={'Delete a picture'}
+          modal_title={title}
           modal_child={LibrairyDeletePictureConfirm}
-          picture={pict}
-          delete={() => this.deletePicture(picture)}
+          pictures={pictures}
+          delete={() => this.deletePictures(pks)}
         />
     )
     this.setState({modal: modal})
