@@ -105,7 +105,7 @@ export default class LibrairyPicturesListItem extends Component {
 
   handleDrag(e) {
     //e.preventDefault()
-    this.props.handleDrag(e, this.props.pk, this.props.selected)
+    this.props.handleDrag(e, this.props.pk)
   }
 
   handleWrapperDragEnter(e) {

@@ -36,21 +36,43 @@ export default class LibrairyPicturesList extends Component {
   }
 
   closeModal() {
+    /*
+     * close modal window
+     */
     this.setState({modal: null})
   }
 
   dropValid(types) {
+    /*
+     * returns true if drag object is valid for picture target
+     */
     return listsHaveCommon(types, this.accepted_drop)
   }
+ 
+
+  getActionTargets(picture) {
+    /*
+     * Take a picture pk as argument
+     * returns an array with all selected pictures pk
+     * if picture is selected
+     * else return an array with only picture pk
+     * 
+     * used to get all target of an action
+     */
+    if (this.props.selected_list.indexOf(picture) > -1) {
+      // picture is selected, target all selection
+      return this.props.selected_list
+    }
+    // picture is not selected, it's the only target
+    return [picture]
+  }
+
 
   deletePicture(picture) {
-    let to_delete = [picture]
-    // picture is selected, delete all selection
-    if (this.props.selected_list.indexOf(picture) > -1) {
-      to_delete = this.props.selected_list
-    }
-    // delete all picts in array
-    to_delete.map(item => {
+    /*
+     * Delete targets pictures from Phiroom
+     */
+    this.getActionTargets.map(item => {
       this.props.dispatch(unsetPicture(item))
       this.props.dispatch(deletePicture(item))
     })
@@ -58,7 +80,12 @@ export default class LibrairyPicturesList extends Component {
     this.closeModal()
   }
 
+
   confirmDeletePicture(picture, index) {
+    /*
+     * Open a modal window to confirm
+     * pictures deletion from Phiroom
+     */
     let pict = this.props.pictures[index]
     let modal = (
         <Modal
@@ -74,7 +101,16 @@ export default class LibrairyPicturesList extends Component {
     this.setState({modal: modal})
   }
 
+
   handleClick(picture, ctrlKey, shiftKey) {
+    /*
+     * Classical selection system :
+     *  - on simple click image is selected and others
+     *    are not anymore
+     *  - on ctrl click image selection is toogled
+     *  - on shift click first selected item and clicked
+     *    item interval is selected
+     */
     let pict = this.props.pictures[picture]
     // if ctrl key was pressed, toggle picture selection
     if (ctrlKey) {
@@ -117,28 +153,30 @@ export default class LibrairyPicturesList extends Component {
   }
   
   unselectAll() {
+    /*
+     * Unselect all displayed pictures
+     */
     return this.props.dispatch(unselectAll())
   }
 
-  handleDrag(e, picture, selected) {
+  handleDrag(e, picture) {
+    /*
+     * On drag start, store action targets
+     * and drag type in state
+     */
     e.dataTransfer.setData(PICTURE, picture)
     e.dropEffect = "copy"
-    let data
-    if (selected) {
-      data = this.props.selected_list
-    } else {
-      data = [picture]
-    }
-    this.props.dispatch(dragStart(PICTURE, data))
+    this.props.dispatch(dragStart(PICTURE,
+          this.getActionTargets(picture)))
   }
 
   handleDrop(basket_index) {
     /*
+     * Reorder pictures in display area :
      * we reorder pks in array here for it to be common to
      * all pictures list, then send results to parent function
      * which dispatchs with good container
      */
-    //console.log(this.props)
     let statics_before = []
     let statics_after = []
     let moved = []
@@ -159,7 +197,10 @@ export default class LibrairyPicturesList extends Component {
   }
 
   handleBackgroundDrop(e) {
-    console.log('bg drop')
+    /*
+     * Trigger an reordering at the end when a drop
+     * occurs on background
+     */
     if (this.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
       this.handleDrop(this.props.pictures.length)
@@ -167,6 +208,9 @@ export default class LibrairyPicturesList extends Component {
   }
 
   handleBackgroundDragOver(e) {
+    /*
+     * Trigger a valid dragover for background
+     */
     if (this.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
     }
