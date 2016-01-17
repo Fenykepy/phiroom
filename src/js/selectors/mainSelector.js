@@ -11,6 +11,7 @@ import { commonSelector } from './commonSelectors'
 import { lightboxSelector } from './lightboxSelectors'
 import { librairySelector } from './librairySelectors'
 import { userSelector } from './userSelectors'
+import { modalSelector } from './modalSelector'
 
 
 export const mainSelector = createStructuredSelector({
@@ -24,5 +25,6 @@ export const mainSelector = createStructuredSelector({
   lightbox: lightboxSelector,
   librairy: librairySelector,
   user: userSelector,
+  modal: modalSelector,
 })
 

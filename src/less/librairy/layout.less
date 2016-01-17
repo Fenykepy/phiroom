@@ -62,6 +62,12 @@
             }
         }
     }
+    #import-button {
+        position: absolute;
+        bottom: 2px;
+        margin: 10px;
+        width: calc(~'100% - 20px');
+    }
     #librairy-list {
         margin-left: 300px;
         padding-bottom: 10px;
@@ -108,20 +114,6 @@
                 text-align: right;
             }
         }
-        .delete-picture-confirm {
-            article {
-                display: block;
-            }
-            .thumbs-wrapper {
-                text-align: center;
-            }
-            img {
-                display: inline-block;
-                max-width: 200px;
-                max-height: 200px;
-                margin: 0 10px 10px;
-            }
-        }
     }
     #contextual-menu {
         position: fixed;
@@ -160,5 +152,22 @@
 
     section[role="main"] {
         position: relative;
+    }
+
+    #modal-overlay #modal { 
+        .delete-picture-confirm {
+            article {
+                display: block;
+            }
+            .thumbs-wrapper {
+                text-align: center;
+            }
+            img {
+                display: inline-block;
+                max-width: 200px;
+                max-height: 200px;
+                margin: 0 10px 10px;
+            }
+        }
     }
 }

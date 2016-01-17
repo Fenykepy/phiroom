@@ -5,6 +5,7 @@ import LibrairyLeftPanelLibrairy from './LibrairyLeftPanelLibrairy'
 import LibrairyLeftPanelCollections from './LibrairyLeftPanelCollections'
 import LibrairyLeftPanelPosts from './LibrairyLeftPanelPosts'
 import LibrairyLeftPanelPortfolios from './LibrairyLeftPanelPortfolios'
+import LibrairyImportButton from './LibrairyImportButton'
 
 export default class LibrairyLeftPanel extends Component {
 
@@ -24,6 +25,10 @@ export default class LibrairyLeftPanel extends Component {
             user={this.props.user}
             portfolios={this.props.portfolio.headers}
             drag={this.props.librairy.drag}
+            dispatch={this.props.dispatch}
+          />
+          <LibrairyImportButton
+            user={this.props.user}
             dispatch={this.props.dispatch}
           />
         </nav>

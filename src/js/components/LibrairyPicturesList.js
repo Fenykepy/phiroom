@@ -6,7 +6,9 @@ import LibrairyDeletePictureConfirm from './LibrairyDeletePictureConfirm'
 
 import { PICTURE } from '../constants/dragTypes'
 
+
 import { listsHaveCommon } from '../helpers/utils'
+
 
 import {
   selectPicture,
@@ -15,9 +17,16 @@ import {
   unsetPicture,
   dragStart,
 } from '../actions/librairy'
+
 import {
   deletePicture,
 } from '../actions/pictures'
+
+import {
+  setModal,
+  closeModal,
+} from '../actions/modal'
+
 
 export default class LibrairyPicturesList extends Component {
 
@@ -25,21 +34,13 @@ export default class LibrairyPicturesList extends Component {
     super(props)
 
     this.accepted_drop = [PICTURE]
-
-
-    this.default_state = {
-      modal: null
-    }
-
-    this.state = this.default_state
-
   }
 
   closeModal() {
     /*
      * close modal window
      */
-    this.setState({modal: null})
+    this.props.dispatch(closeModal())
   }
 
   dropValid(types) {
@@ -121,7 +122,7 @@ export default class LibrairyPicturesList extends Component {
           delete={() => this.deletePictures(pks)}
         />
     )
-    this.setState({modal: modal})
+    this.props.dispatch(setModal(modal))
   }
 
 
@@ -263,7 +264,6 @@ export default class LibrairyPicturesList extends Component {
             {...pict}
           />
         )}
-        {this.state.modal}
       </section>
     )
   }

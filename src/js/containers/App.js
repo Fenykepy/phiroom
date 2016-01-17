@@ -61,6 +61,7 @@ class App extends Component {
       lightbox,
       librairy,
       user,
+      modal,
     } = this.props
     
     // we show lightbox only if we have a "lightbox" url param
@@ -69,7 +70,6 @@ class App extends Component {
               location={this.props.location}
               clientSide={this.props.viewport.clientSide}
     />)
-   
     return (
       <div id={this.props.modules.current}>
         {this.props.params.lightbox ? lb : ''}
@@ -93,6 +93,7 @@ class App extends Component {
         <Footer
           user={this.props.user}
         />
+        {this.props.modal}
       </div>
     )
   }

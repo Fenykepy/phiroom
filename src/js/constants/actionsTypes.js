@@ -83,7 +83,6 @@ export const REQUEST_PICTURES_PKS_SUCCESS = 'REQUEST_PICTURE_PKS_SUCCESS'
 
 
 
-
 /*
  * Viewport actions
  */
@@ -160,3 +159,11 @@ export const REQUEST_CURRENT_USER_SUCCESS = 'REQUEST_CURRENT_USER_SUCCESS'
 
 
 export const LOGOUT = 'LOGOUT'
+
+
+
+/*
+ * Modal actions
+ */
+export const SET_MODAL = 'SET_MODAL'
+export const CLOSE_MODAL = 'CLOSE_MODAL'
