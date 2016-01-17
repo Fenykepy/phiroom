@@ -24,6 +24,24 @@ export default class LibrairyPicturesListItemMenu extends Component {
     // close context menu
     this.props.close()
   }
+
+  getRemoveLink() {
+    /* 
+     * if picture is removable
+     * (portfolios, posts, collections)
+     * show remove link
+     * else (all pictures, last importation) not
+     */
+    if (this.props.removePicture) {
+      return (
+          <li><a
+            href=""
+            onClick={this.handleRemove.bind(this)}
+          >Remove from {this.props.container}</a></li>
+        )
+    }
+    return null
+  }
   
   render() {
     return (
@@ -38,10 +56,7 @@ export default class LibrairyPicturesListItemMenu extends Component {
             href={'/media/' + this.props.source_file}
             onClick={this.handleLink.bind(this)}
           >Open original in new tab</a></li>
-          <li><a
-            href=""
-            onClick={this.handleRemove.bind(this)}
-          >Remove from {this.props.container}</a></li>
+          {this.getRemoveLink()}
           <hr />
           <li><a
             href=""
