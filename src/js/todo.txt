@@ -13,14 +13,14 @@
 #- Add a librairy app
 #- Add authentication
 - Add authentication for server rendering
-- Add a confirmation modal on deletePicture action
+#- Add a confirmation modal on deletePicture action
 - Add a refresh for token
 - Redirect when user is unauthenticated in librairy
 - Handle status codes in http.Fetch
 - Add collections manager to librairy
 - Add right panel with metadatas to librairy
 - Refactoring of viewport width to handle scroll bar
-- Add a way to sort pictures in librairy list
+#- Add a way to sort pictures in librairy list
 - Add a single view to librairy
 - Add a way to download a zip archive from librairy
 - Add a way to import pictures via http
@@ -39,4 +39,5 @@
 - Add a notifications system
 #- Add a weblog list by tag
 - Add an error page (404, 500)
+- Add infinite pagination to librairy list
 #- Add scroll to top on lightbox openning

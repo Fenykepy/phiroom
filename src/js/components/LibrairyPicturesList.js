@@ -46,7 +46,9 @@ export default class LibrairyPicturesList extends Component {
     /*
      * returns true if drag object is valid for picture target
      */
-    return listsHaveCommon(types, this.accepted_drop)
+    if (this.props.orderable) {
+      return listsHaveCommon(types, this.accepted_drop)
+    }
   }
  
 

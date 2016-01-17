@@ -160,3 +160,69 @@ export function deletePicture(picture) {
 
 
 
+
+
+
+
+export function requestPicturesPks() {
+  return {
+    type: types.REQUEST_PICTURES_PKS,
+  }
+}
+
+export function receivePicturesPks(json) {
+  return {
+    type: types.REQUEST_PICTURES_PKS_SUCCESS,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+export function requestPicturesPksFailure(error) {
+  return {
+    type: types.REQUEST_PICTURES_PKS_FAILURE,
+    error
+  }
+}
+
+function shouldFetchPicturesPks(state) {
+  const item = state.pictures.all
+  if (! item) { return true }
+  if (item.is_fetching || item.fetched) { return false }
+  return true
+}
+
+export function fetchPicturesPksIfNeeded() {
+  // fetch picture if it's not done yet
+  return (dispatch, getState) => {
+    if (shouldFetchPicturesPks(getState())) {
+      return dispatch(fetchPicturesPks())
+    }
+    // else return a resolved promise
+    return new Promise((resolve, reject) => resolve(
+          {data: getState().pictures.all.pks}
+    ))
+  }
+}
+
+export function fetchPicturesPks() {
+  /*
+   * fetch a picture's data
+   */
+  return function(dispatch) {
+    // start request
+    dispatch(requestPicturesPks())
+    // return a promise
+    return Fetch.get('api/librairy/pictures/all/')
+      .then(json =>
+          dispatch(receivePicturesPks(json))
+      )
+      /*.catch(error => {
+          console.log(error)
+          dispatch(requestPictureFailure(picture, error.message))
+      })*/
+  }
+}
+
+
+

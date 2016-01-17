@@ -72,6 +72,7 @@ export default class LibrairyPortfolio extends Component {
           <LibrairyPicturesList
             {...this.props.librairy}
             container={'portfolio'}
+            orderable={true}
             dispatch={this.props.dispatch}
             removePicture={this.removePicture.bind(this)}
             reorderPictures={this.reorderPictures.bind(this)}

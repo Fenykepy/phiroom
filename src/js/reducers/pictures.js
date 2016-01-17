@@ -7,6 +7,9 @@ import {
   REQUEST_SHORT_PICTURE,
   REQUEST_SHORT_PICTURE_SUCCESS,
   REQUEST_SHORT_PICTURE_FAILURE,
+  REQUEST_PICTURES_PKS,
+  REQUEST_PICTURES_PKS_SUCCESS,
+  REQUEST_PICTURES_PKS_FAILURE,
   DELETE_PICTURE,
   LOGOUT,
 } from '../constants/actionsTypes'
@@ -84,9 +87,37 @@ function full (state = {}, action) {
   }
 }
 
+function all (state = {}, action) {
+  switch (action.type) {
+    case REQUEST_PICTURES_PKS:
+      return Object.assign({}, state, {
+        is_fetching: true,
+        fetched: false
+      })
+    case REQUEST_PICTURES_PKS_SUCCESS:
+      return Object.assign({}, state, {
+        is_fetching: false,
+        fetched: true,
+        receivedAt: action.receivedAt,
+        pks: action.data
+      })
+    case REQUEST_PICTURES_PKS_FAILURE:
+      return Object.assign({}, state, {
+        is_fetching: false,
+        fetched: false,
+        error: action.error
+      })
+    case LOGOUT:
+      return {}
+    default:
+      return state
+  }
+}
+
 const pictures = combineReducers({
   short,
-  full
+  full,
+  all,
 })
 
 export default pictures
