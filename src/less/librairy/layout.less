@@ -172,9 +172,13 @@
         .files-preview {
             margin: 22px;
             min-height: 180px;
-            background-color: @blog-code-bg;
+            background-color: @lib-file-uploader-bg;
             border: 1px solid @blog-hr;
             text-align: center;
+            &.dragover {
+                background-color: @lib-file-uploader-bg-hover;
+                border: 1px solid @blog-hr;
+            }
         }
         p.helper {
             margin: 20px auto;

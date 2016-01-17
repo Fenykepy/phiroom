@@ -18,8 +18,15 @@ export default class LibrairyLeftPanelPortfolioItem extends Component {
     }
   }
   
+  dropValid(types) {
+    /*
+     * Returns true if drag object is valid for basket
+     */
+    return listsHaveCommon(types, this.accepted_drop)
+  }
+   
   handleDragEnter(e) {
-    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+    if (this.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
       this.setState({dragover: true})
     }
@@ -31,14 +38,14 @@ export default class LibrairyLeftPanelPortfolioItem extends Component {
   }
 
   handleDragOver(e) {
-    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+    if (this.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
       e.dataTransfer.dropEffect = "copy"
     }
   }
 
   handleDrop(e) {
-    if (listsHaveCommon(e.dataTransfer.types, this.accepted_drop)) {
+    if (this.dropValid(e.dataTransfer.types)) {
       e.preventDefault()
       this.setState({dragover: false})
       this.props.handleDrop(this.props.slug)
