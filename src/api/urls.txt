@@ -55,6 +55,8 @@ A tree:
 [OK]        - contact-messages-detail: "/api/contact/messages/:pk/"
     #[GET:(admin)] get a list of urls
     - librairy-root: "/api/librairy/"
+            #[GET:(admin)] get a flat list of all pictures pk ordered by reversed importation date
+[OK]        - all-pictures-list: "/api/librairy/pictures/all/"
             #[GET-POST:(admin)] get a paginated list of pictures, post a new one
 [OK]        - pictures-list: "/api/librairy/pictures/"
             #[GET-PUT-PATCH-DELETE:(admin)] get update delete a picture

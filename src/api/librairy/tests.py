@@ -531,6 +531,59 @@ class APITest(APITestCase):
         n_dir = Directory.objects.all().count()
         self.assertEqual(n_dir, 0)
 
+    
+    def test_picturesPkList(self):
+        url = reverse('all-pictures-list')
+        data = { 'pks': [1, 2, 3] }
+        
+        pict = create_test_picture()
+        pict2 = create_test_picture()
+        pict3 = create_test_picture()
+        pict4 = create_test_picture()
+
+        results = [pict4.pk, pict3.pk, pict2.pk, pict.pk]
+        
+        # try to get without login
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 401)
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 401)
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, 401)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 401)
+
+        # try with normal user
+        self.client.login(username='tom', password='foo')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 403)
+
+        # try with admin user
+        self.client.login(username='flr', password='foo')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        for index, item in enumerate(results):
+            self.assertEqual(response.data[index], item)
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 405)
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, 405)
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, 405)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 405)
+
+
 
 
     

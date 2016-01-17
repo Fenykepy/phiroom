@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponseForbidden
 from rest_framework.response import Response
 from rest_framework import generics, status
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
 
 from phiroom.permissions import IsStaffOrReadOnly
@@ -29,7 +30,6 @@ class PicturesList(generics.ListCreateAPIView):
         if self.request.method == 'POST':
             return PictureUploadSerializer
         return PictureSerializer
-
 
 
 class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -105,3 +105,13 @@ class DirectoryPicturesList(generics.ListAPIView):
         return Response(serializer.data)
 
 
+@api_view(['GET'])
+@permission_classes((IsAdminUser,))
+def PicturesPkList(request, format=None):
+    """
+    Returns a flat list of all pictures pks
+    ordered by importation date without pagination
+    """
+    pks = Picture.objects.values_list('pk', flat=True).order_by('-importation_date')
+
+    return Response(pks)
