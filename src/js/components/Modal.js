@@ -33,10 +33,8 @@ export default class Modal extends Component {
   render() {
 
     let modal_classes = []
-    this.props.modal_big ? modal_classes.push("big") : ""
     this.props.modal_max ? modal_classes.push("max") : ""
     this.props.modal_small ? modal_classes.push("small") : ""
-    this.props.modal_large ? modal_classes.push("large") : ""
     
     let overlay_classes = []
     this.props.modal_opaque ? overlay_classes.push("opaque") : ""

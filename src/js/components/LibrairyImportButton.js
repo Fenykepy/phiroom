@@ -1,20 +1,33 @@
 import React, { Component, Proptypes } from 'react'
 
+import Modal from './Modal'
+import LibrairyUploader from './LibrairyUploader'
+
+import {
+  closeModal,
+  setModal,
+} from '../actions/modal'
+
 export default class LibrairyImportButton extends Component {
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      modal: null
-    }
-  }
 
   closeModal() {
     /*
      * Close modal window
      */
-    this.setState({modal: null})
+    this.props.dispatch(closeModal())
+  }
+
+  handleClick() {
+    let modal = (
+        <Modal
+          modal_closable={true}
+          modal_max={true}
+          modal_close={this.closeModal.bind(this)}
+          modal_title={'Upload pictures'}
+          modal_child={LibrairyUploader}
+        />
+    )
+    this.props.dispatch(setModal(modal))
   }
 
   render() {
@@ -22,6 +35,7 @@ export default class LibrairyImportButton extends Component {
       return (
           <button
             id="import-button"
+            onClick={this.handleClick.bind(this)}
           >Import</button>
       )
     }
