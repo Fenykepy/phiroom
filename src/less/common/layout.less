@@ -320,13 +320,15 @@ hr {
                         color: @blog-links-hover;
                     }
                 }
-                ul.sub-main-menu { // main menu sub-menu
+                .sub-main-menu-wrapper {
                     display: none;
                     position: absolute;
-                    top: 20px;
+                    top: 10px;
                     left: -15px;
                     z-index: 50;
-                    //min-width: 100px;
+                    padding-top: 15px;
+                }
+                ul.sub-main-menu { // main menu sub-menu
                     background-color: @blog-bg;
                     padding: 5px 20px;
                     border: 1px solid @blog-hr;
@@ -343,7 +345,7 @@ hr {
                     }
 
                 }
-                &:hover ul.sub-main-menu {
+                &:hover .sub-main-menu-wrapper {
                     display: block;
                 }
             }

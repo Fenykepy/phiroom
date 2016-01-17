@@ -5,6 +5,7 @@ import SubMainMenuItem from './SubMainMenuItem'
 export default class SubMainMenu extends Component {
   render () {
     return (
+      <div className="sub-main-menu-wrapper">
         <ul className="sub-main-menu">
           {this.props.subMenu.map((item, index) =>
               <SubMainMenuItem
@@ -15,6 +16,7 @@ export default class SubMainMenu extends Component {
               />
           )}
         </ul>
+      </div>
     )
   }
 }

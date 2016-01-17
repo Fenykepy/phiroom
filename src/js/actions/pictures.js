@@ -105,7 +105,7 @@ export function requestPictureFailure(picture, error) {
 }
 
 function shouldFetchPicture(state, picture) {
-  const item = state.pictures[picture]
+  const item = state.pictures.full[picture]
   if (! item) { return true }
   if (item.is_fetching || item.fetched) { return false }
   return true
