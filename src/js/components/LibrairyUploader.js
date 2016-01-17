@@ -2,6 +2,8 @@ import React, { Component, Proptypes } from 'react'
 
 import { listsHaveCommon } from '../helpers/utils'
 
+import LibrairyUploaderItem from './LibrairyUploaderItem'
+
 
 export default class LibrairyUploader extends Component {
 
@@ -93,27 +95,6 @@ export default class LibrairyUploader extends Component {
     )
   }
 
-  displayFile(file, index) {
-    let src
-    let reader = new FileReader()
-    reader.onload = (e) => {
-      src = reader.result
-    }
-    reader.readAsDataURL(file)
-    //console.log(file)
-    return (
-        <div
-          className="file-preview"
-          title={'filename: ' + file.name + '1&#013;'
-            + 'weight: ' + file.size}
-          key={file.name + file.addedAt}
-        >
-        <img
-          src={src}
-        />
-        </div>
-    )
-  }
 
   getClasses() {
     let classes = ["files-preview"]
@@ -135,7 +116,12 @@ export default class LibrairyUploader extends Component {
           onDrop={this.handleDrop.bind(this)}
           title="You can add picture's files here by drag and drop or clicking on 'Add pictures button', then deactivate the ones you don't want to upload and click 'upload' button."
         >
-        {this.state.files.map(this.displayFile)}
+          {this.state.files.map(file =>
+              <LibrairyUploaderItem
+                file={file}
+                key={file.name + file.addedAt}
+              />
+          )}
           <p className="helper">Drag some pictures here or click "Add pictures" button.</p>
           <button className="primary"
             onClick={this.handleAddPictureClick}
