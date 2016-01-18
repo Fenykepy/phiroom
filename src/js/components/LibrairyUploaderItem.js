@@ -22,13 +22,15 @@ export default class LibrairyUploaderItem extends Component {
   render() {
     return (
       <div
-        className="file-preview"
-        title={'filename: ' + this.props.file.name + '1&#013;'
+        className="thumb-wrapper"
+        title={'filename: ' + this.props.file.name + '\n'
           + 'weight: ' + this.props.file.size}
       >
-      <img
-        src={this.state.src}
-      />
+        <article>
+          <img
+            src={this.state.src}
+          />
+        </article>
       </div>
     )
   }

@@ -72,16 +72,6 @@
         margin-left: 300px;
         padding-bottom: 10px;
         min-height: 100vh;
-        .thumb-wrapper {
-            vertical-align: top;
-            position: relative;
-            text-align: center;
-            //margin: 10px 0 0 10px;
-            padding: 10px 0 0 10px;
-            display: inline-block;
-            font-size: 0;
-            //background: yellow;
-        }
         .basket-right, .basket-left {
             box-sizing: border-box;
             position: absolute;
@@ -94,6 +84,16 @@
         .basket-left {
             //border: 1px solid red;
         }
+    }
+    .thumb-wrapper {
+        vertical-align: top;
+        position: relative;
+        text-align: center;
+        //margin: 10px 0 0 10px;
+        padding: 10px 0 0 10px;
+        display: inline-block;
+        font-size: 0;
+        //background: yellow;
         article {
             display: inline-block;
             box-sizing: border-box;
@@ -175,6 +175,17 @@
             background-color: @lib-file-uploader-bg;
             border: 1px solid @blog-hr;
             text-align: center;
+            .thumb-wrapper {
+                height: 200px;
+                width: 200px;
+                line-height: 200px;
+                article {
+                    padding: 0;
+                    img {
+                        max-height: 200px;
+                    }
+                }
+            }
             &.dragover {
                 background-color: @lib-file-uploader-bg-hover;
                 border: 1px solid @blog-hr;
