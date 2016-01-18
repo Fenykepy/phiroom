@@ -181,10 +181,27 @@
                 line-height: 200px;
                 article {
                     padding: 0;
+
                     img {
                         max-height: 200px;
                     }
                 }
+                button.close {
+                    display: none;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    border-radius: 0;
+                    color: @blog-text;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    &:hover {
+                        color: #222;
+                    }
+                }
+                article:hover button.close {
+                    display: block;
+                }
+
             }
             &.dragover {
                 background-color: @lib-file-uploader-bg-hover;

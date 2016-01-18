@@ -27,6 +27,11 @@ export default class LibrairyUploaderItem extends Component {
           + 'weight: ' + this.props.file.size}
       >
         <article>
+          <button
+            className="close"
+            title="Don't upload this picture"
+            onClick={this.props.removeFile}
+          >×</button>
           <img
             src={this.state.src}
           />
