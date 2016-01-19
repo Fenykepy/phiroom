@@ -19,6 +19,11 @@ export default class LibrairyUploaderItem extends Component {
     reader.readAsDataURL(this.props.file)
   }
 
+  remove() {
+    console.log('index',this.props.index)
+    this.props.remove(this.props.index)
+  }
+
   render() {
     return (
       <div
@@ -30,7 +35,7 @@ export default class LibrairyUploaderItem extends Component {
           <button
             className="close"
             title="Don't upload this picture"
-            onClick={this.props.removeFile}
+            onClick={this.remove.bind(this)}
           >×</button>
           <img
             src={this.state.src}

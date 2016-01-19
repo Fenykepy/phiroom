@@ -55,10 +55,13 @@ export default class LibrairyUploader extends Component {
     this.setState({files: new_files})
   }
 
-  handleRemoveFile(file) {
+  handleRemoveFile(index) {
     /*
      * Remove given file from list
      */
+    let new_state = this.state.files.slice()
+    new_state.splice(index, 1)
+    this.setState({files: new_state})
   }
 
   handleDrop(e) {
@@ -116,9 +119,11 @@ export default class LibrairyUploader extends Component {
           onDrop={this.handleDrop.bind(this)}
           title="You can add picture's files here by drag and drop or clicking on 'Add pictures button', then deactivate the ones you don't want to upload and click 'upload' button."
         >
-          {this.state.files.map(file =>
+          {this.state.files.map((file, index) =>
               <LibrairyUploaderItem
                 file={file}
+                index={index}
+                remove={this.handleRemoveFile.bind(this)}
                 key={file.name + file.addedAt}
               />
           )}
