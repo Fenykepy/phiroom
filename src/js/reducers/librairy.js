@@ -7,6 +7,10 @@ import {
   SET_PICTURES,
   UNSET_PICTURE,
   ORDER_PORTFOLIO_PICTURES,
+  ADD_PICTURE_TO_UPLOAD,
+  UPLOAD_PICTURE,
+  UPLOAD_PICTURE_SUCCESS,
+  UPLOAD_PICTURE_FAILURE,
   SET_N_COLUMNS,
   DRAG_START,
   DRAG_END,
@@ -115,6 +119,7 @@ function drag(state = {}, action) {
       return state
   }
 }
+
 
 const librairy = combineReducers({
   selected,

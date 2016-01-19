@@ -43,7 +43,6 @@ export const LIGHTBOX_PREVIOUS_LOADED = 'LIGHTBOX_PREVIOUS_LOADED'
 /*
  * Weblog actions
  */
-
 export const REQUEST_WEBLOG_PAGE = 'REQUEST_WEBLOG_PAGE'
 export const REQUEST_WEBLOG_PAGE_FAILURE = 'REQUEST_WEBLOG_PAGE_FAILURE'
 export const REQUEST_WEBLOG_PAGE_SUCCESS = 'REQUEST_WEBLOG_PAGE_SUCCESS'
@@ -93,6 +92,8 @@ export const SET_VIEWPORT = 'SET_VIEWPORT'
  * Modules actions
  */
 export const SET_MODULE = 'SET_MODULE'
+
+
 /*
  * Common actions
  */
@@ -119,10 +120,6 @@ export const REQUEST_POST_MESSAGE_FAILURE = 'REQUEST_POST_MESSAGE_FAILURE'
 
 
 /*
- * Weblog actions
- */
-
-/*
  * Librairy actions
  */
 export const SELECT_PICTURE = 'SELECT_PICTURE'
@@ -141,6 +138,11 @@ export const POST_REMOVE_PICTURE = 'POST_REMOVE_PICTURE'
 export const COLLECTION_REMOVE_PICTURE = 'COLLECTION_REMOVE_PICTURE'
 
 export const DELETE_PICTURE = 'DELETE_PICTURE'
+
+export const ADD_PICTURE_TO_UPLOAD = 'ADD_PICTURE_TO_UPLOAD'
+export const UPLOAD_PICTURE = 'UPLOAD_PICTURE'
+export const UPLOAD_PICTURE_SUCCESS = 'UPLOAD_PICTURE_SUCCESS'
+export const UPLOAD_PICTURE_FAILURE = 'UPLOAD_PICTURE_FAILURE'
 
 /*
  * User actions
