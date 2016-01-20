@@ -144,6 +144,21 @@ function list(state = [], action) {
       return state
   }
 }
+function current (state = null, action) {
+  /*
+   * currently uploading picture
+   */
+  switch (action.type) {
+    case UPLOAD_PICTURE:
+      return action.id
+    case UPLOAD_PICTURE_SUCCESS:
+      return null
+    case UPLOAD_PICTURE_FAILURE:
+      return null
+    default:
+      return state
+  }
+}
 
 function files(state = {}, action) {
   switch (action.type) {
@@ -151,7 +166,8 @@ function files(state = {}, action) {
       return Object.assign({}, state, {
         [action.id]: Object.assign({}, state[action.id], {
           uploading: false,
-          file: action.file
+          file: action.file,
+          import_uuid: action.import_uuid
         })
       })
     case UPLOAD_PICTURE:
@@ -179,7 +195,8 @@ function files(state = {}, action) {
 
 const uploading = combineReducers({
   files,
-  list
+  current,
+  list,
 })
 
 

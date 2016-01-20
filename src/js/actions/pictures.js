@@ -225,4 +225,45 @@ export function fetchPicturesPks() {
 }
 
 
+function addPictureToUpload(file, import_uuid) {
+  // generate file id
+  return {
+    type: types.ADD_PICTURE_TO_UPLOAD,
+    id,
+    file,
+    import_uuid,
+  }
+}
+
+function uploadPicture(id) {
+  return {
+    type: types.UPLOAD_PICTURE,
+    id,
+  }
+}
+
+function uploadPictureSuccess(id, data) {
+  return {
+    type: types.UPLOAD_PICTURE_SUCCESS,
+    id,
+    data
+  }
+}
+
+function uploadPictureFailure(id, error) {
+  return {
+    type: types.UPLOAD_PICTURE_FAILURE,
+    id,
+    error
+  }
+}
+
+export function uploadPictures(files) {
+  /*
+   * Launch an importation
+   */
+  return function(dispatch, getState) {
+    // set a UUID for importation
+  }
+}
 
