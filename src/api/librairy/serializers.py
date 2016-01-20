@@ -95,7 +95,7 @@ class PictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Picture
         fields = ('url', 'pk', 'sha1', 'importation_date', 'last_update', 'source_file',
-                'title', 'legend', 'name_import', 'name', 'type', 'directory',
+                'title', 'legend', 'name_import', 'name', 'type',
                 'weight','width', 'height', 'ratio', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
                 'speed', 'aperture', 'iso', 'tags', 'label', 'rate',
@@ -115,12 +115,6 @@ class PictureShortSerializer(PictureSerializer):
 class PictureUploadSerializer(PictureSerializer):
     """A serializer to upload a picture through HTTP."""
     file = serializers.ImageField(write_only=True)
-    directory = serializers.PrimaryKeyRelatedField(
-            queryset = Directory.objects.all(),
-            required=False,
-            allow_null=True,
-            default=None,
-    )
     name = serializers.CharField(read_only=True)
     copyright_url = serializers.CharField(read_only=True)
     copyright_state = serializers.CharField(read_only=True)
@@ -133,7 +127,7 @@ class PictureUploadSerializer(PictureSerializer):
     class Meta:
         model = Picture
         fields = ('url', 'pk', 'importation_date', 'last_update', 'source_file',
-                'title', 'legend', 'name_import', 'name', 'type', 'directory',
+                'title', 'legend', 'name_import', 'name', 'type',
                 'weight','width', 'height', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
                 'speed', 'aperture', 'iso', 'tags', 'label', 'rate',

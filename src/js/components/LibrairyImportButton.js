@@ -8,6 +8,9 @@ import {
   setModal,
 } from '../actions/modal'
 
+import { uploadPictures } from '../actions/pictures'
+
+
 export default class LibrairyImportButton extends Component {
 
   closeModal() {
@@ -15,6 +18,11 @@ export default class LibrairyImportButton extends Component {
      * Close modal window
      */
     this.props.dispatch(closeModal())
+  }
+
+  uploadFiles(files) {
+    this.props.dispatch(uploadPictures(files))
+    this.closeModal()
   }
 
   handleClick() {
@@ -25,6 +33,7 @@ export default class LibrairyImportButton extends Component {
           modal_close={this.closeModal.bind(this)}
           modal_title={'Upload pictures'}
           modal_child={LibrairyUploader}
+          upload={this.uploadFiles.bind(this)}
         />
     )
     this.props.dispatch(setModal(modal))

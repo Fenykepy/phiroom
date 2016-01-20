@@ -1,6 +1,7 @@
 import * as types from '../constants/actionsTypes'
 
 import Fetch from '../helpers/http'
+import { guid } from '../helpers/utils'
 
 
 
@@ -226,16 +227,15 @@ export function fetchPicturesPks() {
 
 
 function addPictureToUpload(file, import_uuid) {
-  // generate file id
   return {
     type: types.ADD_PICTURE_TO_UPLOAD,
-    id,
+    id: guid(),
     file,
     import_uuid,
   }
 }
 
-function uploadPicture(id) {
+function uploadPictureRequest(id) {
   return {
     type: types.UPLOAD_PICTURE,
     id,
@@ -264,6 +264,51 @@ export function uploadPictures(files) {
    */
   return function(dispatch, getState) {
     // set a UUID for importation
+    let uuid = guid()
+    console.log(uuid)
+    // add all files to upload list
+    files.map(file => {
+      dispatch(addPictureToUpload(file, uuid))
+    })
+    let uploading = getState().pictures.uploading
+    if (! uploading.current) {
+      // if no current uploading picture, start uploading
+      dispatch(uploadPicture())
+    }
   }
 }
 
+function uploadPicture() {
+  /*
+   * start uploading picture if any
+   */
+  return function(dispatch, getState) {
+    let state = getState()
+    let uploading = state.pictures.uploading
+    let id = uploading.list[0]
+    if (! id) {
+      return
+    }
+    // start request
+    dispatch(uploadPictureRequest(id))
+    
+    // create new form data with file
+    let fd = new FormData()
+    fd.append('file', uploading.files[id].file)
+    Fetch.post('api/librairy/pictures/',
+        {
+          'X-CSRFToken': state.common.csrfToken.token
+        },
+        fd
+    )
+    .then(json => {
+      // trigger upload success
+      dispatch(uploadPictureSuccess(id, json))
+      // upload next pict if necessary
+      dispatch(uploadPicture())
+    })
+
+
+
+  }
+}

@@ -5,6 +5,7 @@ import { listsHaveCommon } from '../helpers/utils'
 import LibrairyUploaderItem from './LibrairyUploaderItem'
 
 
+
 export default class LibrairyUploader extends Component {
 
   constructor(props) {
@@ -98,6 +99,10 @@ export default class LibrairyUploader extends Component {
     )
   }
 
+  handleUploadClick(e) {
+    this.props.upload(this.state.files)
+  }
+
 
   getClasses() {
     let classes = ["files-preview"]
@@ -108,7 +113,6 @@ export default class LibrairyUploader extends Component {
   }
 
   render() {
-    console.log('state files', this.state.files)
     return (
       <div id="librairy-uploader">
         <article
@@ -145,6 +149,7 @@ export default class LibrairyUploader extends Component {
             >Cancel</button>
             <button
               className="primary"
+              onClick={this.handleUploadClick.bind(this)}
             >Upload</button>
         </footer>
       </div>
