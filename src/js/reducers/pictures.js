@@ -10,6 +10,10 @@ import {
   REQUEST_PICTURES_PKS,
   REQUEST_PICTURES_PKS_SUCCESS,
   REQUEST_PICTURES_PKS_FAILURE,
+  ADD_PICTURE_TO_UPLOAD,
+  UPLOAD_PICTURE,
+  UPLOAD_PICTURE_SUCCESS,
+  UPLOAD_PICTURE_FAILURE,
   DELETE_PICTURE,
   LOGOUT,
 } from '../constants/actionsTypes'
@@ -114,10 +118,76 @@ function all (state = {}, action) {
   }
 }
 
+function list(state = [], action) {
+  /*
+   * We upload pictures one after another
+   * when a picture must be uploaded, it's added to array
+   * when it starts uploading, it's removed from array
+   * action creator loop on they array to upload all files
+   */
+  let new_state
+  switch (action.type) {
+    case ADD_PICTURE_TO_UPLOAD:
+      new_state = state.slice()
+      new_state.push(action.id)
+      return new_state
+    case UPLOAD_PICTURE:
+      // create a new array
+      new_state = state.slice()
+      let index = new_state.indexOf(action.id)
+      if (index > -1) {
+        // remove id
+        new_state.splice(index, 1)
+      }
+      return new_state
+    default:
+      return state
+  }
+}
+
+function files(state = {}, action) {
+  switch (action.type) {
+    case ADD_PICTURE_TO_UPLOAD:
+      return Object.assign({}, state, {
+        [action.id]: Object.assign({}, state[action.id], {
+          uploading: false,
+          file: action.file
+        })
+      })
+    case UPLOAD_PICTURE:
+      return Object.assign({}, state, {
+        [action.id]: Object.assign({}, state[action.id], {
+          uploading: true,
+        })
+      })
+    case UPLOAD_PICTURE_SUCCESS:
+      // we don't need file any more
+      let new_state = Object.assign({}, state)
+      delete new_state[action.id]
+      return new_state
+    case UPLOAD_PICTURE_FAILURE:
+      return Object.assign({}, state, {
+        [action.id]: Object.assign({}, state[action.id], {
+          uploading: false,
+          error: action.error
+        })
+      })
+    default:
+      return state
+  }
+}
+
+const uploading = combineReducers({
+  files,
+  list
+})
+
+
 const pictures = combineReducers({
   short,
   full,
   all,
+  uploading,
 })
 
 export default pictures
