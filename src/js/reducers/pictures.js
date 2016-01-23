@@ -80,6 +80,14 @@ function full (state = {}, action) {
           error: action.error
         })
       })
+    case UPLOAD_PICTURE_SUCCESS:
+      return Object.assign({}, state, {
+        [action.data.pk]: Object.assign({}, action.data, {
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
+        })
+      })
     case DELETE_PICTURE:
       let new_state = Object.assign({}, state)
       delete new_state[action.picture]
@@ -110,6 +118,12 @@ function all (state = {}, action) {
         is_fetching: false,
         fetched: false,
         error: action.error
+      })
+    case UPLOAD_PICTURE_SUCCESS:
+      let pks = state.pks.slice()
+      pks.unshift(action.data.pk)
+      return Object.assign({}, state, {
+        pks: pks,
       })
     case LOGOUT:
       return {}
@@ -144,6 +158,7 @@ function list(state = [], action) {
       return state
   }
 }
+
 function current (state = null, action) {
   /*
    * currently uploading picture

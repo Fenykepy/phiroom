@@ -149,9 +149,9 @@ export function deletePicture(picture) {
    * delete a picture from server
    */
   Fetch.delete(`api/librairy/pictures/${picture}/`)
-    .catch(error => {
+    /*.catch(error => {
       console.log(error)
-    })
+    })*/
   return {
     type: types.DELETE_PICTURE,
     picture
@@ -243,10 +243,12 @@ function uploadPictureRequest(id) {
 }
 
 function uploadPictureSuccess(id, data) {
+  console.log('successfully uploaded picture: ' + id, data)
   return {
     type: types.UPLOAD_PICTURE_SUCCESS,
     id,
-    data
+    data,
+    receivedAt: Date.now()
   }
 }
 

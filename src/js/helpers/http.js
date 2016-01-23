@@ -84,9 +84,6 @@ class Fetch {
           headers: this.setDefaultHeaders(headers)
         })
         .then(this.checkStatus)
-        .then(response => {
-          response.json()
-        })
   }
 }
 
