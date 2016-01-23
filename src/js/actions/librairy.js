@@ -57,13 +57,12 @@ export function dragEnd() {
 }
 
 export function addPicts2Portfolio(portfolio, picture) {
-  return (dispatch, getState) => {
-    let token = getState().common.csrfToken.token
+  return (dispatch) => {
     // add pictures to portfolio
     return Fetch.post('api/portfolio/portfolio-picture/',
       {
         'Content-Type': 'application/json',
-        'X-CSRFToken': token
+        'Accept': 'application/json',
       },
       JSON.stringify({
         portfolio: portfolio,
@@ -80,13 +79,9 @@ export function addPicts2Portfolio(portfolio, picture) {
 }
 
 export function removePictFromPortfolio(portfolio, picture) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     Fetch.delete('api/portfolio/portfolio-picture/portfolio/'
-      + portfolio + '/picture/' + picture + '/',
-        {
-          'X-CSRFToken': getState().common.csrfToken.token
-        }
-    )
+      + portfolio + '/picture/' + picture + '/')
     .then(json => {
         console.log(json)
     })
@@ -104,12 +99,11 @@ export function removePictFromPortfolio(portfolio, picture) {
 }
 
 export function orderPictInPortfolio(portfolio, picture, order) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     Fetch.patch('api/portfolio/portfolio-picture/portfolio/'
         + portfolio + '/picture/' + picture + '/',
           {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getState().common.csrfToken.token
           },
           JSON.stringify({
             order: order

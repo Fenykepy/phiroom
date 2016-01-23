@@ -78,6 +78,7 @@ export default class PortfolioDetail extends Component {
      * server side rendering gives a classical horizontal scroll list
      * and client side only enable slide show if any js available.
      */
+    //console.log('port detail', this.props)
     let lightboxStarter = ''
     let carousel
     // show error message if portfolio has no pictures

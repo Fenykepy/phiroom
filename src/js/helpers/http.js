@@ -14,10 +14,25 @@ class Fetch {
     }
   }
 
-  setHeaders(headers={}) {
-    return Object.assign(this.default_headers,
-      headers
+  setDefaultHeaders(headers={}) {
+    headers = Object.assign(
+        this.default_headers,
+        headers
     )
+    return new Headers(headers)
+  }
+
+  checkStatus(response) {
+    if (response.status == 401) {
+      // redirect to login page
+    }
+    if (response.status >= 200 && response.status < 300) {
+      return response
+    } else {
+      let error = new Error(response.statusText)
+      error.response = response
+      throw error
+    }
   }
 
   get(url, headers={}) {
@@ -25,10 +40,11 @@ class Fetch {
         {
           credentials: 'include',
           method: "GET",
-          headers: this.setHeaders(headers)
+          headers: this.setDefaultHeaders(headers)
         })
-        .then(response =>
-            response.json()
+        .then(this.checkStatus)
+        .then(response => 
+          response.json()
         )
   }
 
@@ -37,9 +53,10 @@ class Fetch {
         {
           credentials: 'include',
           method: "POST",
-          headers: this.setHeaders(headers),
+          headers: new Headers(headers),
           body: body
         })
+        .then(this.checkStatus)
         .then(response =>
           response.json()
         )
@@ -50,9 +67,10 @@ class Fetch {
         {
           credentials: 'include',
           method: "PATCH",
-          headers: this.setHeaders(headers),
+          headers: new Headers(headers),
           body: body
         })
+        .then(this.checkStatus)
         .then(response =>
           response.json()
         )
@@ -63,10 +81,11 @@ class Fetch {
         {
           credentials: 'include',
           method: "DELETE",
-          headers: this.setHeaders(headers)
+          headers: this.setDefaultHeaders(headers)
         })
+        .then(this.checkStatus)
         .then(response => {
-          console.log(response)
+          response.json()
         })
   }
 }

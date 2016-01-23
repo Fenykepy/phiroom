@@ -64,6 +64,7 @@ class App extends Component {
       modal,
     } = this.props
     
+    //console.log('app',this.props)
     // we show lightbox only if we have a "lightbox" url param
     let lb = (<Lightbox {...this.props.lightbox}
               dispatch={this.props.dispatch}
@@ -88,7 +89,8 @@ class App extends Component {
             portfolio: this.props.portfolio,
             settings: this.props.settings,
             user: this.props.user,
-            weblog: this.props.weblog
+            weblog: this.props.weblog,
+            viewport: this.props.viewport,
         })}
         <Footer
           user={this.props.user}

@@ -265,7 +265,6 @@ export function uploadPictures(files) {
   return function(dispatch, getState) {
     // set a UUID for importation
     let uuid = guid()
-    console.log(uuid)
     // add all files to upload list
     files.map(file => {
       dispatch(addPictureToUpload(file, uuid))
@@ -296,9 +295,7 @@ function uploadPicture() {
     let fd = new FormData()
     fd.append('file', uploading.files[id].file)
     Fetch.post('api/librairy/pictures/',
-        {
-          'X-CSRFToken': state.common.csrfToken.token
-        },
+        {},
         fd
     )
     .then(json => {

@@ -2,6 +2,7 @@ import * as types from '../constants/actionsTypes'
 
 import Fetch from '../helpers/http'
 
+import { setCookie } from '../helpers/cookieManager'
 
 // action creators
 
@@ -60,9 +61,11 @@ export function fetchCSRFToken() {
     dispatch(requestCSRFToken())
     // return a promise
     return Fetch.get('api/token-csrf/')
-      .then(json =>
-          dispatch(receiveCSRFToken(json))
-      )
+      .then(json => {
+          // keep cookie with token for 7 days
+          setCookie('csrftoken', json.token, 7)
+          return dispatch(receiveCSRFToken(json))
+      })
       .catch(error =>
           dispatch(requestCSRFTokenFailure(error.message))
       )

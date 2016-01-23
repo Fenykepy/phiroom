@@ -30,16 +30,14 @@ export function login(credentials) {
   /*
    * try to get token with given credentials
    */
-  return function(dispatch, getState) {
+  return function(dispatch) {
     // start request
     dispatch(requestToken())
-    let state = getState()
-    let csrf_token = state.common.csrfToken.token
     // return a promise
     return Fetch.post('api/token-auth/',
         {
           'Content-Type': 'application/json',
-          'X-CSRFToken': csrf_token
+          'Accept': 'application/json',
         },
         JSON.stringify(credentials)
       )
@@ -85,15 +83,14 @@ export function verifyToken(token) {
   /*
    * verify if given token is valid
    */
-  return function(dispatch, getState) {
+  return function(dispatch) {
     // start request
     dispatch(requestVerifyToken())
-    let csrf_token = getState().common.csrfToken.token
     // return a promise
     return Fetch.post('api/token-verify/',
         {
           'Content-Type': 'application/json',
-          'X-CSRFToken': csrf_token
+          'Accept': 'application/json',
         },
         JSON.stringify({'token': token})
       )
