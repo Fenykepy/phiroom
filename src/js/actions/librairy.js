@@ -104,6 +104,7 @@ export function orderPictInPortfolio(portfolio, picture, order) {
         + portfolio + '/picture/' + picture + '/',
           {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
           },
           JSON.stringify({
             order: order
