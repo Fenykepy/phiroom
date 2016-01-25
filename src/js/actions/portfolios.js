@@ -220,3 +220,60 @@ export function fetchPortfoliosHeaders() {
       )
   }
 }
+
+
+
+/*
+ * Portfolio edition
+ */
+
+export function newPortfolio() {
+  // start a new portfolio edition with empty datas
+  return {
+    type: types.PORTFOLIO_EDIT_PREFILL,
+    data: {}
+  }
+}
+
+export function updatePortfolio(portfolio) {
+  return function(dispatch, getState) {
+    portfolio_data = getState().portfolio.portfolios[portfolio]
+    return {
+      type: types.PORTFOLIO_EDIT_PREFILL,
+      data: {
+        title: portfolio_data.title,
+        draft: portfolio_data.draft,
+        pub_date: portfolio_data.pub_date,
+        order: portfolio_data.order,
+      }
+    }
+  }
+}
+
+export function portfolioSetTitle(title) {
+  return {
+    type: types.PORTFOLIO_EDIT_SET_TITLE,
+    title
+  }
+}
+
+export function portfolioSetDraft(draft) {
+  return {
+    type: types.PORTFOLIO_EDIT_SET_DRAFT,
+    draft
+  }
+}
+
+export function portfolioSetPubdate(pubdate) {
+  return {
+    type: types.PORTFOLIO_EDIT_SET_PUBDATE,
+    pubdate
+  }
+}
+
+export function portfolioSetOrder(order) {
+  return {
+    type: types.PORTFOLIO_EDIT_SET_ORDER,
+    order
+  }
+}

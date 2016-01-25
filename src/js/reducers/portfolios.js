@@ -14,6 +14,17 @@ import {
   PORTFOLIO_TOGGLE_SLIDESHOW,
   PORTFOLIO_REMOVE_PICTURE,
   ORDER_PORTFOLIO_PICTURES,
+  REQUEST_NEW_PORTFOLIO,
+  REQUEST_NEW_PORTFOLIO_SUCCESS,
+  REQUEST_NEW_PORTFOLIO_FAILURE,
+  REQUEST_UPDATE_PORTFOLIO,
+  REQUEST_UPDATE_PORTFOLIO_SUCCESS,
+  REQUEST_UPDATE_PORTFOLIO_FAILURE,
+  PORTFOLIO_EDIT_PREFILL,
+  PORTFOLIO_EDIT_SET_TITLE,
+  PORTFOLIO_EDIT_SET_DRAFT,
+  PORTFOLIO_EDIT_SET_PUBDATE,
+  PORTFOLIO_EDIT_SET_ORDER,
 } from '../constants/actionsTypes'
 
 
@@ -26,6 +37,31 @@ function selected(state = null, action) {
   }
 }
 
+
+function edited(state = {}, action) {
+  switch (action.type) {
+    case PORTFOLIO_EDIT_PREFILL:
+      return action.data
+    case PORTFOLIO_EDIT_SET_TITLE:
+      return Object.assign({}, state, {
+        title: action.title
+      })
+    case PORTFOLIO_EDIT_SET_DRAFT:
+      return Object.assign({}, state, {
+        draft: action.draft
+      })
+    case PORTFOLIO_EDIT_SET_PUBDATE:
+      return Object.assign({}, state, {
+        pubdate: action.pubdate
+      })
+    case PORTFOLIO_EDIT_SET_ORDER:
+      return Object.assign({}, state, {
+        order: action.order
+      })
+    default:
+      return state
+  }
+}
 function headers(state = {fetched: false, data: []}, action) {
   switch (action.type) {
     case REQUEST_PORTFOLIOS_HEADERS:
@@ -142,6 +178,7 @@ function carousel(state = carouselInitialState, action) {
 
 const portfolio = combineReducers({
   selected,
+  edited,
   headers,
   portfolios,
   carousel,
