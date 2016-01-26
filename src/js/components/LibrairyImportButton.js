@@ -43,6 +43,7 @@ export default class LibrairyImportButton extends Component {
     if (this.props.user.is_staff) {
       return (
           <button
+            className="primary"
             id="import-button"
             onClick={this.handleClick.bind(this)}
           >Import</button>

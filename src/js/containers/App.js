@@ -40,6 +40,7 @@ class App extends Component {
     window.removeEventListener('resize', this.handleResize)
   }
 
+
   handleResize() {
     // set viewport size
     this.props.dispatch(setViewport({
