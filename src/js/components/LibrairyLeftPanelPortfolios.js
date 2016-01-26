@@ -7,6 +7,7 @@ import {
   dragEnd
 } from '../actions/librairy'
 
+import PortfolioEditionButton from './PortfolioEditionButton'
 import LibrairyLeftPanelPortfolioItem from './LibrairyLeftPanelPortfolioItem'
 
 
@@ -26,6 +27,9 @@ export default class LibrairyLeftPanelPortfolios extends Component {
       return (
         <div>
           <h6>Portfolios</h6>
+          <PortfolioEditionButton
+            dispatch={this.props.dispatch}
+          />
           <ul>
             {this.props.portfolios.map((port) => 
               <LibrairyLeftPanelPortfolioItem
