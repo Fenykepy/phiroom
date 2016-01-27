@@ -14,9 +14,9 @@ import {
   PORTFOLIO_TOGGLE_SLIDESHOW,
   PORTFOLIO_REMOVE_PICTURE,
   ORDER_PORTFOLIO_PICTURES,
-  REQUEST_NEW_PORTFOLIO,
-  REQUEST_NEW_PORTFOLIO_SUCCESS,
-  REQUEST_NEW_PORTFOLIO_FAILURE,
+  REQUEST_CREATE_PORTFOLIO,
+  REQUEST_CREATE_PORTFOLIO_SUCCESS,
+  REQUEST_CREATE_PORTFOLIO_FAILURE,
   REQUEST_UPDATE_PORTFOLIO,
   REQUEST_UPDATE_PORTFOLIO_SUCCESS,
   REQUEST_UPDATE_PORTFOLIO_FAILURE,
@@ -57,6 +57,17 @@ function edited(state = {}, action) {
     case PORTFOLIO_EDIT_SET_ORDER:
       return Object.assign({}, state, {
         order: action.order
+      })
+    case REQUEST_CREATE_PORTFOLIO:
+      return Object.assign({}, state, {
+        sending: true
+      })
+    case REQUEST_CREATE_PORTFOLIO_SUCCESS:
+      return {}
+    case REQUEST_CREATE_PORTFOLIO_FAILURE:
+      return Object.assign({}, state, {
+        sending: false,
+        errors: action.errors
       })
     default:
       return state

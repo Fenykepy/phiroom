@@ -9,12 +9,29 @@ import {
   portfolioSetDraft,
   portfolioSetPubdate,
   portfolioSetOrder,
+  createPortfolio,
+  updatePortfolio,
 } from '../actions/portfolios'
 
 
 class PortfolioEditionForm extends Component {
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault()
+    // we update an existing portfolio
+    let promise
+    if (this.props.edited.slug) {
+      promise = this.props.dispatch(updatePortfolio())
+    } else {
+      // we create a new portfolio
+      promise = this.props.dispatch(createPortfolio())
+    }
+    promise.then(() =>
+      this.props.modal_close()
+    )
+    .catch((error) =>
+      console.log(error)
+    )
   }
   
   handleTitleChange(e) {
@@ -42,10 +59,10 @@ class PortfolioEditionForm extends Component {
 
     return (
       <div>
-        <article>
-          <form
+        <form
             onSubmit={this.handleSubmit.bind(this)}
-          >
+        >
+        <article>
           <p><span className="red">*</span> : required fields.</p>
             <div className="field_wrapper">
               <label htmlFor="id_title">Title:<span className="red"> *</span></label>
@@ -89,16 +106,17 @@ class PortfolioEditionForm extends Component {
                      min="0"
               />
             </div>
-          </form>
         </article>
         <footer>
           <button
               onClick={this.props.modal_close}
             >Cancel</button>
-            <button
-              className="primary"
-            >Save</button>
+          <input
+            type="submit"
+            value="Save"
+          />
         </footer>
+        </form>
       </div>
     )
   }

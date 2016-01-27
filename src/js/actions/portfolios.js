@@ -227,26 +227,34 @@ export function fetchPortfoliosHeaders() {
  * Portfolio edition
  */
 
-export function newPortfolio() {
-  // start a new portfolio edition with empty datas
+function editPortfolio(data = {}) {
+  // start portfolio edition with given datas
   return {
     type: types.PORTFOLIO_EDIT_PREFILL,
-    data: {}
+    data: data
+  }
+}
+
+export function newPortfolio() {
+  // start a new portfolio edition with empty datas
+  return function(dispatch) {
+    return dispatch(editPortfolio())
   }
 }
 
 export function updatePortfolio(portfolio) {
   return function(dispatch, getState) {
-    portfolio_data = getState().portfolio.portfolios[portfolio]
-    return {
-      type: types.PORTFOLIO_EDIT_PREFILL,
-      data: {
-        title: portfolio_data.title,
-        draft: portfolio_data.draft,
-        pub_date: portfolio_data.pub_date,
-        order: portfolio_data.order,
-      }
-    }
+    return dispatch(fetchPortfolioIfNeeded(portfolio))
+      .then(() => {
+        portfolio_data = getState().portfolio.portfolios[portfolio]
+        return dispatch(editPortfolio({
+            slug: portfolio_data.slug,
+            title: portfolio_data.title,
+            draft: portfolio_data.draft,
+            pub_date: portfolio_data.pub_date,
+            order: portfolio_data.order,
+        }))
+      })
   }
 }
 
@@ -276,4 +284,55 @@ export function portfolioSetOrder(order) {
     type: types.PORTFOLIO_EDIT_SET_ORDER,
     order
   }
+}
+
+function requestCreatePortfolio() {
+  return {
+    type: types.REQUEST_CREATE_PORTFOLIO,
+  }
+}
+
+function receiveNewPortfolio(json) {
+  return {
+    type: types.REQUEST_CREATE_PORTFOLIO_SUCCESS,
+    json
+  }
+}
+
+function requestCreatePortfolioFailure(errors) {
+  return {
+    type: types.REQUEST_CREATE_PORTFOLIO_FAILURE,
+    errors
+  }
+}
+export function createPortfolio() {
+  return function(dispatch, getState) {
+    dispatch(requestCreatePortfolio())
+    let port = getState().portfolio.edited
+    let data = {
+      title: port.title,
+      draft: port.draft,
+      pub_date: port.pubdate,
+      order: port.order,
+    }
+
+    return Fetch.post('api/portfolio/portfolios',
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify(data)
+    )
+    .then(json => {
+      return dispatch(receiveNewPortfolio(json))
+    })
+    .catch(error => {
+      console.log(error.message)
+      return dispatch(requestCreatePortfolioFailure(error.message))
+    })
+  }
+}
+
+export function updatePortfolio() {
+
 }
