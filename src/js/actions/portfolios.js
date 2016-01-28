@@ -331,10 +331,14 @@ export function createPortfolio() {
       dispatch(fetchPortfoliosHeaders())
       return dispatch(receiveNewPortfolio(json))
     })
-    .catch(error => {
-      console.log(error.message)
-      return dispatch(requestCreatePortfolioFailure(error.message))
+    .catch(error =>
+      error.response.json()
+    )
+    .catch(json => {
+      console.log('catch 2')
+      return dispatch(requestCreatePortfolioFailure(json))
     })
+
   }
 }
 

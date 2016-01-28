@@ -26,9 +26,10 @@ class PortfolioEditionForm extends Component {
       // we create a new portfolio
       promise = this.props.dispatch(createPortfolio())
     }
-    promise.then(() =>
+    promise.then(() => {
+      console.log('close modal')
       this.props.modal_close()
-    )
+    })
     .catch((error) =>
       console.log(error)
     )
@@ -72,7 +73,6 @@ class PortfolioEditionForm extends Component {
                      value={this.props.edited.title}
                      maxLength="254"
                      onChange={this.handleTitleChange.bind(this)}
-                     required
               />
             </div>
             <div className="field_wrapper">
