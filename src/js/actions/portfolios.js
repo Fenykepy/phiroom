@@ -295,7 +295,9 @@ function requestCreatePortfolio() {
 function receiveNewPortfolio(json) {
   return {
     type: types.REQUEST_CREATE_PORTFOLIO_SUCCESS,
-    json
+    portfolio: json.slug,
+    data: json,
+    receivedAt: Date.now()
   }
 }
 
@@ -305,6 +307,7 @@ function requestCreatePortfolioFailure(errors) {
     errors
   }
 }
+
 export function createPortfolio() {
   return function(dispatch, getState) {
     dispatch(requestCreatePortfolio())
@@ -316,7 +319,7 @@ export function createPortfolio() {
       order: port.order,
     }
 
-    return Fetch.post('api/portfolio/portfolios',
+    return Fetch.post('api/portfolio/portfolios/',
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -324,6 +327,8 @@ export function createPortfolio() {
       JSON.stringify(data)
     )
     .then(json => {
+      // refetch new portfolios headers
+      dispatch(fetchPortfoliosHeaders())
       return dispatch(receiveNewPortfolio(json))
     })
     .catch(error => {

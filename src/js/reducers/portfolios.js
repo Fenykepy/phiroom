@@ -73,6 +73,7 @@ function edited(state = {}, action) {
       return state
   }
 }
+
 function headers(state = {fetched: false, data: []}, action) {
   switch (action.type) {
     case REQUEST_PORTFOLIOS_HEADERS:
@@ -112,6 +113,15 @@ function portfolios(state = {}, action) {
         })
       })
     case REQUEST_PORTFOLIO_SUCCESS:
+      return Object.assign({}, state, {
+        [action.portfolio]: Object.assign({}, state[action.portfolio], {
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
+        },
+        action.data)
+      })
+    case REQUEST_CREATE_PORTFOLIO_SUCCESS:
       return Object.assign({}, state, {
         [action.portfolio]: Object.assign({}, state[action.portfolio], {
           is_fetching: false,
