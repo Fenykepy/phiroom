@@ -332,13 +332,13 @@ export function createPortfolio() {
       return dispatch(receiveNewPortfolio(json))
     })
     .catch(error =>
-      error.response.json()
+      error.response.json().then(json => {
+        // store error json in state
+        dispatch(requestCreatePortfolioFailure(json))
+        // throw error to catch it in form and display it
+        throw error
+      })
     )
-    .catch(json => {
-      console.log('catch 2')
-      return dispatch(requestCreatePortfolioFailure(json))
-    })
-
   }
 }
 

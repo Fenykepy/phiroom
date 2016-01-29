@@ -30,7 +30,7 @@ class PortfolioEditionForm extends Component {
       console.log('close modal')
       this.props.modal_close()
     })
-    .catch((error) =>
+    .catch(error =>
       console.log(error)
     )
   }
@@ -51,6 +51,22 @@ class PortfolioEditionForm extends Component {
     this.props.dispatch(portfolioSetOrder(e.target.value))
   }
 
+  getFieldErrors(field = 'non_field_errors') {
+    if (this.props.edited.errors && this.props.edited.errors[field]) {
+      let errors = this.props.edited.errors[field]
+      return (
+        <ul className="error-list">
+          {errors.map(error =>
+            <li
+              key={error}
+            >{error}</li>
+          )}
+        </ul>
+      )
+    }
+    return null
+  }
+
   render() {
     // injected by connect() call:
     const {
@@ -65,17 +81,21 @@ class PortfolioEditionForm extends Component {
         >
         <article>
           <p><span className="red">*</span> : required fields.</p>
+            {this.getFieldErrors()}
             <div className="field_wrapper">
               <label htmlFor="id_title">Title:<span className="red"> *</span></label>
+              {this.getFieldErrors('title')}
               <input id="id_title"
                      name="title"
                      type="text"
                      value={this.props.edited.title}
                      maxLength="254"
+                     required
                      onChange={this.handleTitleChange.bind(this)}
               />
             </div>
             <div className="field_wrapper">
+              {this.getFieldErrors('draft')}
               <div className="checkbox">
                 <label htmlFor="id_draft"><input id="id_draft"
                        name="draft"
@@ -89,6 +109,7 @@ class PortfolioEditionForm extends Component {
             </div>
             <div className="field_wrapper">
               <label htmlFor="id_pubdate">Publication date:</label>
+              {this.getFieldErrors('pubdate')}
               <input id="id_pubdate"
                      name="title"
                      type="datetime-local"
@@ -98,6 +119,7 @@ class PortfolioEditionForm extends Component {
             </div>
             <div className="field_wrapper">
               <label htmlFor="id_order">Order:</label>
+              {this.getFieldErrors('order')}
               <input id="id_order"
                      name="order"
                      type="number"

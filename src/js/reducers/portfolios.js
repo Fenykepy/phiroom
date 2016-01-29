@@ -60,7 +60,8 @@ function edited(state = {}, action) {
       })
     case REQUEST_CREATE_PORTFOLIO:
       return Object.assign({}, state, {
-        sending: true
+        sending: true,
+        errors: {}
       })
     case REQUEST_CREATE_PORTFOLIO_SUCCESS:
       return {}
