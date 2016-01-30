@@ -89,10 +89,12 @@ class PortfolioEditionForm extends Component {
                      name="title"
                      type="text"
                      value={this.props.edited.title}
+                     placeholder="title"
                      maxLength="254"
                      required
                      onChange={this.handleTitleChange.bind(this)}
               />
+              <div className="help-text">Title of the portfolio, should be unique.</div>
             </div>
             <div className="field_wrapper">
               {this.getFieldErrors('draft')}

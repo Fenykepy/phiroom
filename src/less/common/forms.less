@@ -18,15 +18,19 @@ div.field_wrapper {
 form {
     margin-top: 1em;
     margin-bottom: 1em;
-
-    .help_text {
-        display: block;
+    p {
+        margin-bottom: 0.5em;
+    }
+    .help-text {
         margin-top: 5px;
         margin-bottom: 5px;
         color: @help-text;
     }
+    article {
+        margin-top: 0;
+    }
 }
-input, option, select, textarea, ul.errorlist li {
+input, option, select, textarea, ul.error-list li, ul.warning-list li {
     font-family: @sans;
     width: 100%;
     border-radius: 4px;
@@ -38,6 +42,26 @@ input, option, select, textarea, ul.errorlist li {
     padding: 6px 12px;
     margin-top: 5px;
     box-sizing: border-box;
+}
+ul.error-list li, ul.warning-list li {
+        display: block;
+        min-height: 34px;
+        line-height: 20px;
+        vertical-align: middle;
+}
+ul.error-list, ul.warning-list {
+    padding: 0;
+}
+ul.error-list li {
+    color: @error;
+    border: 1px solid @error;
+    background: @error-background;
+}
+ul.warning-list li {
+    color: @warning;
+    border: 1px solid @warning;
+    background: @warning-background;
+
 }
 textarea {
     resize: vertical;
