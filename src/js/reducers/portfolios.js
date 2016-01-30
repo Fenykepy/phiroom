@@ -60,14 +60,14 @@ function edited(state = {}, action) {
       })
     case REQUEST_CREATE_PORTFOLIO:
       return Object.assign({}, state, {
-        sending: true,
+        is_posting: true,
         errors: {}
       })
     case REQUEST_CREATE_PORTFOLIO_SUCCESS:
       return {}
     case REQUEST_CREATE_PORTFOLIO_FAILURE:
       return Object.assign({}, state, {
-        sending: false,
+        is_posting: false,
         errors: action.errors
       })
     default:

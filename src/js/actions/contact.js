@@ -71,12 +71,61 @@ export function fetchDescription() {
 }
 
 
+/***********************************/
+/*         MESSAGE FORM            */
+/***********************************/
+
 
 export function resetMessage() {
   return {
     type: types.RESET_MESSAGE
   }
 }
+
+
+
+export function messageSetName(name) {
+  return {
+    type: types.CONTACT_MESSAGE_SET_NAME,
+    name
+  }
+}
+
+export function messageSetEmail(email) {
+  return {
+    type: types.CONTACT_MESSAGE_SET_EMAIL,
+    mail
+  }
+}
+
+export function messageSetWebsite(website) {
+  return {
+    type: types.CONTACT_MESSAGE_SET_WEBSITE,
+    website
+  }
+}
+
+export function messageSetSubject(subject) {
+  return {
+    type: types.CONTACT_MESSAGE_SET_SUBJECT,
+    subject
+  }
+}
+
+export function messageSetMessage(message) {
+  return {
+    type: types.CONTACT_MESSAGE_SET_MESSAGE,
+    message
+  }
+}
+
+export function messageSetForward(forward) {
+  return {
+    type: types.CONTACT_MESSAGE_SET_FORWARD,
+    forward
+  }
+}
+
 
 
 export function requestPostMessage() {
@@ -100,13 +149,26 @@ export function requestPostMessageFailure(errors) {
 }
 
 
-export function postMessage(data) {
+export function postMessage() {
   /*
    * post a message
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestPostMessage())
+    let state = getState()
+    let msg = state.contact.message
+    let data = {
+      subject: msg.subject,
+      message: msg.message,
+      forward: msg.forward,
+    }
+    // if user is not authenticated, send more infos
+    if (! state.user.is_authenticated) {
+      data.name = message.name
+      data.mail = message.mail
+      data.website = message.website
+    }
 
     // return a promise
     return Fetch.post('api/contact/messages/',
@@ -120,8 +182,12 @@ export function postMessage(data) {
             dispatch(requestPostMessageSuccess())
         )
         .catch(error => {
-            console.warn(error)
-            dispatch(requestPostMessageFailure(error.message))
+            error.response.json().then(json => {
+              // store error json in state
+              dispatch(requestPostMessageFailure(json))
+              // throw error to catch it in form and display it
+              throw error
+            })
         })
     }
 }
