@@ -7,7 +7,9 @@ export default class ResetContactForm extends Component {
       <div>
         <div className="info"><em>Your message has been sent.</em></div>
         <div className="centered">
-          <button onClick={this.props.resetForm}>Ok</button>
+          <button
+            className="primary"
+            onClick={this.props.handleReset}>Ok</button>
         </div>
       </div>
     )

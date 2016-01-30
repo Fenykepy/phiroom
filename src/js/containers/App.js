@@ -83,7 +83,6 @@ class App extends Component {
         {React.cloneElement(this.props.children, {
             dispatch: this.props.dispatch,                                     
             common: this.props.common,
-            contact: this.props.contact,
             lightbox: this.props.lightbox,
             librairy: this.props.librairy,
             modules: this.props.modules,

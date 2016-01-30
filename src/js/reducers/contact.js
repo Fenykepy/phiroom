@@ -14,6 +14,7 @@ import {
   CONTACT_MESSAGE_SET_SUBJECT,
   CONTACT_MESSAGE_SET_MESSAGE,
   CONTACT_MESSAGE_SET_FORWARD,
+  LOGOUT,
 } from '../constants/actionsTypes'
 
 
@@ -87,6 +88,8 @@ function message(state = {}, action) {
         is_posting: false,
         errors: action.errors
       })
+    case LOGOUT:
+      return {}
     default:
       return state
   }

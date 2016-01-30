@@ -1,4 +1,5 @@
 import { fetchPortfoliosHeadersIfNeeded } from '../actions/portfolios'
+import { fetchCSRFTokenIfNeeded } from '../actions/common'
 
 export const fetchCommonData = function(store) {
   let promises = []
@@ -6,7 +7,8 @@ export const fetchCommonData = function(store) {
   // fetch settings
   // fetch portfolios headers if necessary
   promises.push(
-      store.dispatch(fetchPortfoliosHeadersIfNeeded())
+      store.dispatch(fetchPortfoliosHeadersIfNeeded()),
+      store.dispatch(fetchCSRFTokenIfNeeded())
   )
   // return a list of promises to wait for server side
   return promises
