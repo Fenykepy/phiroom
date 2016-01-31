@@ -1,31 +1,24 @@
 import React, { Component, PropTypes } from 'react'
 
-import LoginForm from './LoginForm'
+import { connect } from 'react-redux'
+
+import { loginSelector } from '../selectors/loginSelector'
+
+import LoginForm from '../components/LoginForm'
 
 import { login } from '../actions/user'
 import { fetchCSRFTokenIfNeeded } from '../actions/common'
 import { setModule } from '../actions/modules'
 
-export default class Login extends Component {
+class Login extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
-    let promises = []
-    // get csrfToken
-    promises.push(dispatch(fetchCSRFTokenIfNeeded()))
-    if (! clientSide) {
-      // set module
-      dispatch(setModule('user'))
-    }
-
-    return promises
+    // set module
+    dispatch(setModule('user'))
   }
   
   componentDidMount() {
     this.constructor.fetchData(this.props.dispatch, null, true)
-    // set module
-    if (this.props.modules.current != 'user') {
-      this.props.dispatch(setModule('user'))
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,16 +39,28 @@ export default class Login extends Component {
   }
   
   render() {
+    // injected by connect call
+    const {
+      dispatch,
+      user,
+      csrf,
+    } = this.props
+
     return (
       <section role="main">
         <h1>Login</h1>
       {/*<div id="overlay"></div>*/}
         <LoginForm
          id="loginForm"
-         csrf={this.props.common.csrfToken.token}
+         csrf={this.props.csrf}
          handleSubmit={this.handleLogin.bind(this)}
         />
       </section>
     )
   }
 }
+
+
+
+// Wrap the component to inject dispatch and state into it
+export default connect(loginSelector)(Login)

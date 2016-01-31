@@ -39,7 +39,7 @@ export default class LoginForm extends Component {
         {/* csrf protection */}
         <input type='hidden'
                name='csrfmiddlewaretoken'
-               value={this.state.csrf}
+               value={this.props.csrf}
         />
         <div className="field_wrapper">
           <label htmlFor="id_username">Username:<span className="red"> *</span></label>

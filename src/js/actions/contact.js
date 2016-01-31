@@ -94,7 +94,7 @@ export function messageSetName(name) {
 export function messageSetEmail(email) {
   return {
     type: types.CONTACT_MESSAGE_SET_EMAIL,
-    mail
+    email
   }
 }
 
@@ -164,10 +164,10 @@ export function postMessage() {
       forward: msg.forward,
     }
     // if user is not authenticated, send more infos
-    if (! state.user.is_authenticated) {
-      data.name = message.name
-      data.mail = message.mail
-      data.website = message.website
+    if (! state.common.user.is_authenticated) {
+      data.name = msg.name
+      data.mail = msg.email
+      data.website = msg.website
     }
 
     // return a promise

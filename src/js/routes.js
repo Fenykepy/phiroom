@@ -4,6 +4,8 @@ import { Route, Redirect, IndexRoute } from 'react-router'
 
 import App from './containers/App'
 import Contact from './containers/Contact'
+import Login from './containers/Login'
+import Logout from './containers/Logout'
 
 import Librairy from './components/Librairy'
 import LibrairyPortfolio from './components/LibrairyPortfolio'
@@ -16,8 +18,6 @@ import WeblogListByTag from './components/WeblogListByTag'
 import WeblogDetail from './components/WeblogDetail'
 import Lightbox from './components/Lightbox'
 import LightboxStarter from './components/LightboxStarter'
-import Login from './components/Login'
-import Logout from './components/Logout'
 
 function appendSlash(nextState, replaceState) {
   // add a slash at urls' end
@@ -53,8 +53,8 @@ export default () => {
           <Route path="portfolio/:slug(/)" component={LibrairyPortfolio} onEnter={appendSlash} />
           <Route path="all(/)" component={LibrairyAll} onEnter={appendSlash} />
         </Route>
-        <Route path="login(/)" component={Login} />
-        <Route path="logout(/)" component={Logout} />
+        <Route path="login(/)" component={Login} onEnter={appendSlash} />
+        <Route path="logout(/)" component={Logout} onEnter={appendSlash} />
       </Route>
     </Route>
   )

@@ -65,22 +65,19 @@
     - Portfolio -> dispatch only
         - PortfolioDetail -> portfolioDetailSelector
         - PortfolioEditionForm -> portfolioEditionSelector
-    - Contact -> contactDescriptionSelector
-        - ContactMessage -> contactMessageSelector
     - Weblog -> dispatch only
         - WeblogList -> weblogListSelector
         - WeblogListByTag -> weblogListByTagSelector
         - WeblogDetail -> weblogDetailSelector
-    - Contact -> dispatch only
-        - ContactDescription -> contactDescriptionSelector
-        - ContactMessage -> contactMessageSelector
+#    - Contact -> contactDescriptionSelector
+#        - ContactMessage -> contactMessageSelector
     - Librairy -> dispatch only
         - LibrairyLeftPanel -> librairyLeftPanelSelector
         - LibrairyRightPanel -> librairyRightPanelSelector
         - LibrairyList -> librairyListSelector
         - LibrairyDetail -> librairyDetailSelector
-    - User -> dispatch only
-        - LoginForm -> loginSelector
+#    - Login -> loginSelector
+#    - Logout -> dispatch only
     - ContextualMenu -> contextualMenuSelector
     - Lightbox -> lightboxSelector
     - Modal -> modalSelector

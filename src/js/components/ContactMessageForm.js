@@ -45,8 +45,8 @@ export default class ContactMessageForm extends Component {
             <input id="id_mail"
                    name="mail"
                    type="email"
-                   value={this.props.mail}
-                   onChange={this.props.handleMailChange}
+                   value={this.props.email}
+                   onChange={this.props.handleEmailChange}
                    required
             />
           </div>

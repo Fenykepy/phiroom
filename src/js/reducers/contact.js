@@ -53,7 +53,7 @@ function message(state = {}, action) {
       })
     case CONTACT_MESSAGE_SET_EMAIL:
       return Object.assign({}, state, {
-        mail: action.mail
+        email: action.email
       })
     case CONTACT_MESSAGE_SET_WEBSITE:
       return Object.assign({}, state, {
