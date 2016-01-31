@@ -32,7 +32,7 @@ export function requestAuthorFailure(author, error) {
 
 function shouldFetchAuthor(state, author) {
   // returns true if author hasn't been fetched yet
-  const item = state.authors[author]
+  const item = state.common.authors[author]
   if (! item) { return true }
   if (item.is_fetching || item.fetched) { return false }
   return true

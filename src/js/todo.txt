@@ -68,7 +68,7 @@
 #    - Weblog -> dispatch only
 #        - WeblogList -> weblogListSelector
         - WeblogListByTag -> weblogListByTagSelector
-        - WeblogDetail -> weblogDetailSelector
+#        - WeblogDetail -> weblogDetailSelector
 #    - Contact -> contactDescriptionSelector
 #        - ContactMessage -> contactMessageSelector
     - Librairy -> dispatch only

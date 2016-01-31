@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 
+import { connect } from 'react-redux'
+
+import { weblogDetailSelector } from '../selectors/weblogDetailSelector'
+
+
 // actions
 import {
   fetchPostIfNeeded,
@@ -12,15 +17,16 @@ import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { lightboxStart } from '../actions/lightbox'
 
 import { Link } from 'react-router'
-import Spinner from './Spinner'
-import WeblogTime from './WeblogTime'
-import WeblogAuthor from './WeblogAuthor'
-import WeblogDescription from './WeblogDescription'
-import WeblogTags from './WeblogTags'
-import WeblogPostNavigation from './WeblogPostNavigation'
-import WeblogGallery from './WeblogGallery'
+import Spinner from '../components/Spinner'
+import WeblogTime from '../components/WeblogTime'
+import WeblogAuthor from '../components/WeblogAuthor'
+import WeblogDescription from '../components/WeblogDescription'
+import WeblogTags from '../components/WeblogTags'
+import WeblogPostNavigation from '../components/WeblogPostNavigation'
+import WeblogGallery from '../components/WeblogGallery'
 
-export default class WeblogDetail extends Component {
+
+class WeblogDetail extends Component {
 
   static fetchData(dispatch, params, clientSide=false) {
     let promises = []
@@ -77,47 +83,62 @@ export default class WeblogDetail extends Component {
       this.fetchData(nextProps.params)
     }
   }
+  getLightbox() {
+    return null
+  }
 
-  render() {
-    let child, lightboxStarter = ''
-    if (this.props.children && this.props.weblog.selectedPost) {
-      lightboxStarter = React.cloneElement(this.props.children, {
-            pictures: this.props.weblog.selectedPost.pictures,
-            dispatch: this.props.dispatch,
-      })
+  getPost() {
+    // show spinner if no post
+    if (this.props.is_fetching || ! this.props.fetched) {
+      return (<Spinner message="Fetching..." />)
     }
-
-    // show spinner if no selected post or post is fetching
-    if (! this.props.weblog.selectedPost ||
-        this.props.weblog.selectedPost.is_fetching) {
-      child = (<Spinner message="Fetching…" />)
-    } else {
-      child = (
-        <div>
+    return (
+      <div>
         <article>
           <header>
-            <WeblogTime date={this.props.weblog.selectedPost.pub_date} />
-            <h1>{this.props.weblog.selectedPost.title}</h1>
-            <WeblogDescription description={this.props.weblog.selectedPost.description} />
+            <WeblogTime date={this.props.pub_date} />
+            <h1>{this.props.title}</h1>
+            <WeblogDescription description={this.props.description} />
           </header>
-          <div className="content" dangerouslySetInnerHTML={{__html: this.props.weblog.selectedPost.content}} />
-          <WeblogAuthor author={this.props.weblog.author} />
-          <WeblogGallery pictures={this.props.weblog.pictures} path={this.props.location.pathname} />
+          <div className="content" dangerouslySetInnerHTML={{__html: this.props.content}} />
+          <WeblogAuthor author={this.props.author} />
+          <WeblogGallery pictures={this.props.pictures} path={this.props.location.pathname} />
           <footer>
-              <WeblogTags tags={this.props.weblog.selectedPost.tags} />
+              <WeblogTags tags={this.props.tags} />
           </footer>
         </article>
         <WeblogPostNavigation
-          next={this.props.weblog.selectedPost.next}
-          previous={this.props.weblog.selectedPost.previous}  
+          next={this.props.next}
+          previous={this.props.previous}  
         />
-        {lightboxStarter}
-        </div>
-      )
-    }
+        {this.getLightbox()}
+      </div>
+    )
+  }
+
+  render() {
+
+    const {
+      dispatch,
+      title,
+      description,
+      content,
+      draft,
+      pub_date,
+      author,
+      n_pictures,
+      pictures,
+      next,
+      previous,
+      tags,
+      is_fetching,
+    } = this.props
 
     return (
-        <section role="main">{child}</section>
+        <section role="main">{this.getPost()}</section>
     )
   }
 }
+
+// Wrap the component to inject dispatch and state into it
+export default connect(weblogDetailSelector)(WeblogDetail)

@@ -32,14 +32,14 @@ export function requestShortPictureFailure(picture, error) {
 }
 
 function shouldFetchShortPicture(state, picture) {
-  const item = state.pictures.short[picture]
+  const item = state.common.pictures.short[picture]
   if (! item) { return true }
   if (item.is_fetching || item.fetched) { return false }
   return true
 }
 
 function shouldFetchPicture(state, picture) {
-  const item = state.pictures.full[picture]
+  const item = state.common.pictures.full[picture]
   if (! item) { return true }
   if (item.is_fetching || item.fetched) { return false }
   return true
@@ -106,7 +106,7 @@ export function requestPictureFailure(picture, error) {
 }
 
 function shouldFetchPicture(state, picture) {
-  const item = state.pictures.full[picture]
+  const item = state.common.pictures.full[picture]
   if (! item) { return true }
   if (item.is_fetching || item.fetched) { return false }
   return true
@@ -187,7 +187,7 @@ export function requestPicturesPksFailure(error) {
 }
 
 function shouldFetchPicturesPks(state) {
-  const item = state.pictures.all
+  const item = state.common.pictures.all
   if (! item) { return true }
   if (item.is_fetching || item.fetched) { return false }
   return true
@@ -285,7 +285,7 @@ function uploadPicture() {
    */
   return function(dispatch, getState) {
     let state = getState()
-    let uploading = state.pictures.uploading
+    let uploading = state.common.pictures.uploading
     let id = uploading.list[0]
     if (! id) {
       return
