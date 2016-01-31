@@ -52,6 +52,6 @@
 - Move weblog component to containers
 - Move portfolio component to containers
 - Move librairy component to containers
-- Simplify mainReducer to get only common
-- Change common reducer to wrap csrf, lightbox, modal, contextualmenu, settings, user, authors, modules, viewport, add a reducer for notifications
+#- Change common reducer to wrap csrf, lightbox, modal, contextualmenu, settings, user, authors, modules, viewport,
 - Change selectors same way
+- Remove mainSelector to use only common at top level

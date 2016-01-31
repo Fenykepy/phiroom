@@ -1,38 +1,27 @@
 import { combineReducers } from 'redux'
 
-import {
-  REQUEST_CSRF_TOKEN,
-  REQUEST_CSRF_TOKEN_SUCCESS,
-  REQUEST_CSRF_TOKEN_FAILURE
-} from '../constants/actionsTypes'
+import settings from './settings'
+import modules from './modules'
+import viewport from './viewport'
+import csrf from './csrf'
+import authors from './authors'
+import user from './user'
+import lightbox from './lightbox'
+import modal from './modal'
+import pictures from './pictures'
+import { routeReducer } from 'redux-simple-router'
 
+/* !!! add here contextual menu and notifications reducer */
 
-
-function csrfToken(state = {}, action) {
-  switch (action.type) {
-    case REQUEST_CSRF_TOKEN:
-      return Object.assign({}, state, {
-        is_fetching: true
-      })
-    case REQUEST_CSRF_TOKEN_SUCCESS:
-      return Object.assign({}, state, {
-        is_fetching: false,
-        fetched: true,
-        token: action.data.token,
-        receivedAt: action.receivedAt
-      })
-    case REQUEST_CSRF_TOKEN_FAILURE:
-      return Object.assign({}, state, {
-        is_fetching: false,
-        error: action.error
-      })
-    default:
-      return state
-  }
-}
-
-const common = combineReducers({
-  csrfToken,
+const commonReducer = combineReducers({
+  settings,
+  modules,
+  viewport,
+  csrf,
+  authors,
+  user,
+  lightbox,
+  modal,
+  pictures,
+  routing: routeReducer,
 })
-
-export default common

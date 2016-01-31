@@ -15,7 +15,7 @@ import config from '../../webpack.config'
 
 import { createStoreWithMiddleware } from './store'
 import getRoutes from './routes'
-import rootReducer from './reducers'
+import rootReducer from './reducers/main'
 
 import { fetchCommonData } from './helpers/fetchCommonData'
 import Fetch from './helpers/http'

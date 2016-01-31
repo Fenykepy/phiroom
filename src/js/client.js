@@ -11,7 +11,7 @@ import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { syncReduxAndRouter } from 'redux-simple-router'
 import { createStoreWithMiddleware } from './store'
 import getRoutes from './routes'
-import rootReducer from './reducers'
+import rootReducer from './reducers/main'
 
 import { fetchCommonData } from './helpers/fetchCommonData'
 
