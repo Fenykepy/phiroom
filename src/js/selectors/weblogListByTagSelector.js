@@ -1,13 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 
 
-
-
-/*
- * input selectors
- */
-
-
 const pagesByTagSelector = state => state.weblog.pagesByTag
 const selectedPageByTagDataSelector = state => state.weblog.selectedPageByTag
 
@@ -23,11 +16,6 @@ const selectedPageByTagSelector = createSelector(
 )
 
 
-export const weblogSelector = createStructuredSelector({
-  selectedPage: selectedPageSelector,
+export const weblogListByTagSelector = createStructuredSelector({
   selectedPageByTag: selectedPageByTagSelector,
-  selectedPost: selectedPostSelector,
-  n_pictures: postPicturesNumberSelector,
-  pictures: postPicturesSelector,
-  author: postAuthorSelector,
 })

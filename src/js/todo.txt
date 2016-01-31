@@ -49,7 +49,9 @@
 ==== Refactoring ====
 
 #- Move contact component to containers
-- Move weblog component to containers
+#- Move weblog component to containers
+- Review modal to stand in child components
+- Review lightbox to stand in child components
 - Move portfolio component to containers
 - Move librairy component to containers
 #- Change common reducer to wrap csrf, lightbox, modal, contextualmenu, settings, user, authors, modules, viewport,
@@ -67,7 +69,7 @@
         - PortfolioEditionForm -> portfolioEditionSelector
 #    - Weblog -> dispatch only
 #        - WeblogList -> weblogListSelector
-        - WeblogListByTag -> weblogListByTagSelector
+#        - WeblogListByTag -> weblogListByTagSelector
 #        - WeblogDetail -> weblogDetailSelector
 #    - Contact -> contactDescriptionSelector
 #        - ContactMessage -> contactMessageSelector
