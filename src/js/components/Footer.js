@@ -17,7 +17,6 @@ export default class Footer extends Component {
   }
 
   render () {
-    console.log(this.props)
     return (
         <footer role="contentinfo">
           <p id="powered"><a target="_blank" href="http://phiroom.org">Powered by Phiroom</a> | {this.getLinks()}</p>

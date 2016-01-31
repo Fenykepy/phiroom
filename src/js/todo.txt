@@ -65,8 +65,8 @@
     - Portfolio -> dispatch only
         - PortfolioDetail -> portfolioDetailSelector
         - PortfolioEditionForm -> portfolioEditionSelector
-    - Weblog -> dispatch only
-        - WeblogList -> weblogListSelector
+#    - Weblog -> dispatch only
+#        - WeblogList -> weblogListSelector
         - WeblogListByTag -> weblogListByTagSelector
         - WeblogDetail -> weblogDetailSelector
 #    - Contact -> contactDescriptionSelector
