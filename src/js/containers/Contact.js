@@ -6,7 +6,9 @@ import { contactDescriptionSelector } from '../selectors/contactDescriptionSelec
 
 import ContactMessage from '../containers/ContactMessage'
 
+import ContactDescription from '../components/ContactDescription'
 import Spinner from '../components/Spinner'
+
 
 import { fetchDescriptionIfNeeded } from '../actions/contact'
 import { setModule } from '../actions/modules'
@@ -34,12 +36,7 @@ class Contact extends Component {
       // show a spinner
       return (<Spinner message="Fetching..." />)
     }
-    return (
-      <article>
-        <h1>{desc.title}</h1>
-        <span dangerouslySetInnerHTML={{__html: desc.content}} />
-      </article>
-    )
+    return (<ContactDescription description={desc} />)
   }
 
   render() {
@@ -48,7 +45,7 @@ class Contact extends Component {
       dispatch,
       description,
     } = this.props
-
+    
     return (
       <section role="main">
         {this.getDescription()}
@@ -57,8 +54,6 @@ class Contact extends Component {
         <article>
           <h1>Leave me a message</h1>
           <ContactMessage
-            user={this.props.user}
-            csrf={this.props.common.csrfToken.token}
           />
         </article>
       </section>

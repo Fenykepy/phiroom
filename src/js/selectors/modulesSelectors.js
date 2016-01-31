@@ -7,9 +7,9 @@ import { createSelector, createStructuredSelector } from 'reselect'
 
 const portfoliosHeadersSelector = state => state.portfolio.headers.data
 
-const modulesListSelector = state => state.modules.list
+const modulesListSelector = state => state.common.modules.list
 
-const currentModuleSelector = state => state.modules.current
+const currentModuleSelector = state => state.common.modules.current
 
 const mainMenuSelector = createSelector(
   portfoliosHeadersSelector,

@@ -8,7 +8,6 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
-import { syncReduxAndRouter } from 'redux-simple-router'
 import { createStoreWithMiddleware } from './store'
 import getRoutes from './routes'
 import rootReducer from './reducers/main'
@@ -26,7 +25,6 @@ if (initialState) {
 }
 const history = createBrowserHistory()
 
-syncReduxAndRouter(history, store)
 
 // Every time the state changes, log it
 

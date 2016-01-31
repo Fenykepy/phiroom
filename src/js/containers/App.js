@@ -11,7 +11,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Lightbox from '../components/Lightbox'
 
-import { mainSelector } from '../selectors/mainSelector'
+import { appSelector } from '../selectors/appSelector'
 
 
 
@@ -56,13 +56,8 @@ class App extends Component {
       dispatch,
       settings,
       modules,
-      portfolio,
       viewport,
-      routing,
-      lightbox,
-      librairy,
       user,
-      modal,
     } = this.props
     
     //console.log('app',this.props)
@@ -80,18 +75,7 @@ class App extends Component {
           settings={this.props.settings}
           user={this.props.user}
         />
-        {React.cloneElement(this.props.children, {
-            dispatch: this.props.dispatch,                                     
-            common: this.props.common,
-            lightbox: this.props.lightbox,
-            librairy: this.props.librairy,
-            modules: this.props.modules,
-            portfolio: this.props.portfolio,
-            settings: this.props.settings,
-            user: this.props.user,
-            weblog: this.props.weblog,
-            viewport: this.props.viewport,
-        })}
+        {this.props.children}
         <Footer
           user={this.props.user}
         />
@@ -103,4 +87,4 @@ class App extends Component {
 
 
 // Wrap the component to inject dispatch and state into it
-export default connect(mainSelector)(App)
+export default connect(appSelector)(App)

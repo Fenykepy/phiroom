@@ -141,7 +141,7 @@ function requestCurrentUserFailure(error) {
 }
 
 function shouldFetchCurrentUser(state) {
-  const user = state.user
+  const user = state.common.user
   if (! user.is_authenticated || user.is_fetching_user ||
       user.user_fetched) { return false }
   return true

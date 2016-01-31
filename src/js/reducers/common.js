@@ -9,11 +9,10 @@ import user from './user'
 import lightbox from './lightbox'
 import modal from './modal'
 import pictures from './pictures'
-import { routeReducer } from 'redux-simple-router'
 
 /* !!! add here contextual menu and notifications reducer */
 
-const commonReducer = combineReducers({
+const common = combineReducers({
   settings,
   modules,
   viewport,
@@ -23,5 +22,6 @@ const commonReducer = combineReducers({
   lightbox,
   modal,
   pictures,
-  routing: routeReducer,
 })
+
+export default common

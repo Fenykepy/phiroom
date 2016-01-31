@@ -65,6 +65,8 @@ class ContactMessage extends Component {
     const {
       dispatch,
       message,
+      user,
+      csrf
     } = this.props
 
     if (this.props.message.is_posting) {
@@ -76,6 +78,8 @@ class ContactMessage extends Component {
       // show validation text
       return (<ResetContactForm handleReset={this.handleReset.bind(this)} />)
     }
+
+    console.log(this.props)
      
     // show form
     return (

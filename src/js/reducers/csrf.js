@@ -8,7 +8,7 @@ import {
 
 
 
-function csrfToken(state = {}, action) {
+function csrf(state = {}, action) {
   switch (action.type) {
     case REQUEST_CSRF_TOKEN:
       return Object.assign({}, state, {
@@ -31,8 +31,5 @@ function csrfToken(state = {}, action) {
   }
 }
 
-const common = combineReducers({
-  csrfToken,
-})
 
-export default common
+export default csrf
