@@ -16,16 +16,16 @@
 #- Add a confirmation modal on deletePicture action
 - Add a refresh for token
 - Redirect when user is unauthenticated in librairy
-- Handle status codes in http.Fetch
+#- Handle status codes in http.Fetch
 - Add collections manager to librairy
 - Add right panel with metadatas to librairy
 - Refactoring of viewport width to handle scroll bar
 #- Add a way to sort pictures in librairy list
 - Add a single view to librairy
 - Add a way to download a zip archive from librairy
-- Add a way to import pictures via http
+#- Add a way to import pictures via http
 - Add a way to import pictures from server hard drive
-- Add a way to create portfolio
+#- Add a way to create portfolio
 - Add a way to edit portfolio
 - Add a way to delete portfolio
 - Add a way to create post
@@ -33,13 +33,25 @@
 - Add a way to delete post
 - Add a way to edit contact description
 - Improve contextual menu to go on right or left side depending of viewport width
+- Move contextual menu state to main redux state
 #- Improve selection to unselect all on background click
 - Use dynamic settings
 - Add a way to edit settings
 - Add a notifications system
+- Add a progress bar to picture uploader
+- Add a popup window to cancel leaving page while uploading
 #- Add a weblog list by tag
 - Add an error page (404, 500)
 - Add infinite pagination to librairy list
 #- Fix bug with submenus hover in main menu (space where over is left)
 #- Add scroll to top on lightbox openning
 
+==== Refactoring ====
+
+#- Move contact component to containers
+- Move weblog component to containers
+- Move portfolio component to containers
+- Move librairy component to containers
+- Simplify mainReducer to get only common
+- Change common reducer to wrap csrf, lightbox, modal, contextualmenu, settings, user, authors, modules, viewport, add a reducer for notifications
+- Change selectors same way
