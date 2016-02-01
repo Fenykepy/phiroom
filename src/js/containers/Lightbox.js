@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 
+import { connect } from 'react-redux'
+
+import { lightboxSelector } from '../selectors/lightboxSelectors'
 
 import {
   lightboxStop,
@@ -13,9 +16,9 @@ import {
 
 import { Link } from 'react-router'
 
-import LightboxFigure from './LightboxFigure'
+import LightboxFigure from '../components/LightboxFigure'
 
-export default class Lightbox extends Component {
+class Lightbox extends Component {
 
   componentDidMount() {
     this.loadImages()
@@ -122,7 +125,24 @@ export default class Lightbox extends Component {
   }
 
   render() {
-    //    console.log('lb', this.props)
+    // injected by connect call:
+    const {
+      clientSide,
+      current,
+      currentIndex,
+      currentLoaded,
+      next,
+      nextLoaded,
+      previous,
+      previousLoaded,
+      pictures,
+      length,
+      activated,
+      slideshow,
+      showInfo,
+    } = this.props
+
+    console.log('lb', this.props)
     if (! this.props.activated || ! this.props.current) {
       return (<div />)
     }
@@ -155,3 +175,6 @@ export default class Lightbox extends Component {
       )
   }
 }
+
+// Wrap the component to inject dispatch and state into it
+export default connect(lightboxSelector)(Lightbox)

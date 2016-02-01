@@ -5,36 +5,39 @@ import { createSelector, createStructuredSelector } from 'reselect'
  * input selectors
  */
 
+// client side
+const clientSideSelector = state => state.common.viewport.clientSide
+
 // pictures public data database
-const picturesShortSelector = state => state.pictures.short
+const picturesShortSelector = state => state.common.pictures.short
 
 // pictures pk in a list [2, 8, 16]
-const lightboxPicturesSelector = state => state.lightbox.pictures
+const lightboxPicturesSelector = state => state.common.lightbox.pictures
 
 // selected picture pk, must be in PicturesSelector
-const lightboxCurrentSelector = state => state.lightbox.current
+const lightboxCurrentSelector = state => state.common.lightbox.current
 
 // boolean if lightbox is visible or not
-const lightboxActivatedSelector = state => state.lightbox.activated
+const lightboxActivatedSelector = state => state.common.lightbox.activated
 
 // boolean if lightbox slideshow is started or not
-const lightboxSlideshowSelector = state => state.lightbox.slideshow
+const lightboxSlideshowSelector = state => state.common.lightbox.slideshow
 
 // boolean if lightbox image data (legend) is visible or not
-const lightboxShowInfoSelector = state => state.lightbox.showInfo
+const lightboxShowInfoSelector = state => state.common.lightbox.showInfo
 
 // number of images in lightbox
-const lightboxLengthSelector = state => state.lightbox.pictures.length
+const lightboxLengthSelector = state => state.common.lightbox.pictures.length
 
 
 // boolean if current <img /> file is loaded
-const lightboxCurrentLoadedSelector = state => state.lightbox.currentLoaded
+const lightboxCurrentLoadedSelector = state => state.common.lightbox.currentLoaded
 
 // boolean if next <img /> file is loaded
-const lightboxNextLoadedSelector = state => state.lightbox.nextLoaded
+const lightboxNextLoadedSelector = state => state.common.lightbox.nextLoaded
 
 // boolean if previous <img /> file is loaded
-const lightboxPreviousLoadedSelector = state => state.lightbox.previousLoaded
+const lightboxPreviousLoadedSelector = state => state.common.lightbox.previousLoaded
 
 
 
@@ -99,6 +102,7 @@ const lightboxNextPictSelector = createSelector(
 )
 
 export const lightboxSelector = createStructuredSelector({
+  clientSide: clientSideSelector,
   current: lightboxCurrentPictSelector,
   currentIndex: lightboxCurrentIndexSelector,
   currentLoaded: lightboxCurrentLoadedSelector,

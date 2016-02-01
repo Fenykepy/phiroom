@@ -84,6 +84,12 @@ class WeblogDetail extends Component {
     }
   }
   getLightbox() {
+    if (this.props.children) {
+      return React.cloneElement(this.props.children, {
+        dispatch: this.props.dispatch,
+        pictures: this.props.pictures,
+      })
+    }
     return null
   }
 

@@ -74,7 +74,6 @@ export const weblogDetailSelector = createSelector(
   postAuthorSelector,
   postPicturesSelector,
   (selected, n_picts, author, pictures) => {
-    console.log(selected)
     return Object.assign({},
         selected,
         {author: author},

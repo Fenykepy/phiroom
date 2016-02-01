@@ -6,10 +6,12 @@ import { verifyToken } from '../actions/user'
 
 import { getCookie } from '../helpers/cookieManager'
 
+// containers
+import Lightbox from '../containers/Lightbox'
+
 // components
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import Lightbox from '../components/Lightbox'
 
 import { appSelector } from '../selectors/appSelector'
 
@@ -49,6 +51,14 @@ class App extends Component {
     }))
   }
 
+  getLightbox() {
+    // we show lightbox only if we have a "lightbox" url param
+    if (this.props.params.lightbox) {
+      return (<Lightbox location={this.props.location} />)
+    }
+    return null
+  }
+
   render() {
 
     // Injected by connect() call:
@@ -56,20 +66,13 @@ class App extends Component {
       dispatch,
       settings,
       modules,
-      viewport,
       user,
     } = this.props
     
     //console.log('app',this.props)
-    // we show lightbox only if we have a "lightbox" url param
-    let lb = (<Lightbox {...this.props.lightbox}
-              dispatch={this.props.dispatch}
-              location={this.props.location}
-              clientSide={this.props.viewport.clientSide}
-    />)
     return (
       <div id={this.props.modules.current}>
-        {this.props.params.lightbox ? lb : ''}
+        {this.getLightbox()}
         <Header
           modules={this.props.modules}
           settings={this.props.settings}

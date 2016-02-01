@@ -16,7 +16,6 @@ import LibrairyPortfolio from './components/LibrairyPortfolio'
 import LibrairyAll from './components/LibrairyAll'
 import Portfolio from './components/Portfolio'
 import PortfolioDetail from './components/PortfolioDetail'
-import Lightbox from './components/Lightbox'
 import LightboxStarter from './components/LightboxStarter'
 
 function appendSlash(nextState, replaceState) {
