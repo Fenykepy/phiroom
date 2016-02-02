@@ -3,6 +3,8 @@ import { render } from 'react-dom'
 import { Route, Redirect, IndexRoute } from 'react-router'
 
 import App from './containers/App'
+import Portfolio from './containers/Portfolio'
+import PortfolioDetail from './containers/PortfolioDetail'
 import Weblog from './containers/Weblog'
 import WeblogList from './containers/WeblogList'
 import WeblogListByTag from './containers/WeblogListByTag'
@@ -14,8 +16,6 @@ import Logout from './containers/Logout'
 import Librairy from './components/Librairy'
 import LibrairyPortfolio from './components/LibrairyPortfolio'
 import LibrairyAll from './components/LibrairyAll'
-import Portfolio from './components/Portfolio'
-import PortfolioDetail from './components/PortfolioDetail'
 import LightboxStarter from './components/LightboxStarter'
 
 function appendSlash(nextState, replaceState) {
