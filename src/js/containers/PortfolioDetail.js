@@ -1,8 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 
-import Carousel from './Carousel'
-import CarouselInline from './CarouselInline'
-import Spinner from './Spinner'
+import { connect } from 'react-redux'
+
+import { portfolioDetailSelector } from '../selectors/portfolioDetailSelector'
+
+import Carousel from '../components/Carousel'
+import CarouselInline from '../components/CarouselInline'
+import Spinner from '../components/Spinner'
 
 
 // actions
@@ -18,7 +22,7 @@ import { lightboxStart } from '../actions/lightbox'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 
 
-export default class PortfolioDetail extends Component {
+class PortfolioDetail extends Component {
 
   static fetchData(dispatch, params, clientSide=false) {
     let promises = []
@@ -121,4 +125,7 @@ export default class PortfolioDetail extends Component {
     )
   }
 }
+
+
+export default connect(portfolioDetailSelector)(PortfolioDetail)
 

@@ -64,9 +64,9 @@
 ==== Containers and selectors ====
 
 - App -> appSelector
-    - Portfolio -> portfolioSelector
+#    - Portfolio -> portfolioSelector
         - PortfolioDetail -> portfolioDetailSelector
-        - PortfolioEditionForm -> portfolioEditionSelector
+#        - PortfolioEditionForm -> portfolioEditionSelector
 #    - Weblog -> dispatch only
 #        - WeblogList -> weblogListSelector
 #        - WeblogListByTag -> weblogListByTagSelector
