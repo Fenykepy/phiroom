@@ -25,6 +25,16 @@ const selectedPostSelector = state => state.weblog.posts[
   state.weblog.selectedPost
 ]
 
+// post list of picture's pks
+const postPicturesListSelector = createSelector(
+  selectedPostSelector,
+  (selectedPost) => {
+    if (selectedPost) {
+      return selectedPost.pictures
+    }
+    return []
+  }
+)
 
 // post number of pictures
 const postPicturesNumberSelector = createSelector(
@@ -71,11 +81,13 @@ const postPicturesSelector = createSelector(
 export const weblogDetailSelector = createSelector(
   selectedPostSelector,
   postPicturesNumberSelector,
+  postPicturesListSelector,
   postAuthorSelector,
   postPicturesSelector,
-  (selected, n_picts, author, pictures) => {
+  (selected, n_picts, pictsList, author, pictures) => {
     return Object.assign({},
         selected,
+        {picturesList: pictsList},
         {author: author},
         {n_pictures: n_picts},
         {pictures: pictures}

@@ -57,7 +57,7 @@
 #- Change common reducer to wrap csrf, lightbox, modal, contextualmenu, settings, user, authors, modules, viewport,
 - Change selectors same way, 1 selector per container
 
-- Remove mainSelector to use only common at top level
+#- Remove mainSelector to use only common at top level
 
 
 
@@ -81,7 +81,7 @@
 #    - Login -> loginSelector
 #    - Logout -> dispatch only
     - ContextualMenu -> contextualMenuSelector
-    - Lightbox -> lightboxSelector
+#    - Lightbox -> lightboxSelector
     - Modal -> modalSelector
 
 
