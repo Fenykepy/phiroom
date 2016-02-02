@@ -85,7 +85,6 @@ class WeblogDetail extends Component {
   }
   getLightbox() {
     if (this.props.children) {
-      console.log('picts', this.props.pictures_list)
       return React.cloneElement(this.props.children, {
         dispatch: this.props.dispatch,
         pictures: this.props.picturesList,

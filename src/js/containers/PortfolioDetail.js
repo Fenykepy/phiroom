@@ -65,15 +65,62 @@ class PortfolioDetail extends Component {
   }
 
   goNext() {
-    this.props.dispatch(nextPict(this.props.portfolio.pictures.length))
+    this.props.dispatch(nextPict(this.props.pictures.length))
   }
 
   goPrev() {
-    this.props.dispatch(prevPict(this.props.portfolio.pictures.length))
+    this.props.dispatch(prevPict(this.props.pictures.length))
   }
 
   toggleSlideshow() {
     this.props.dispatch(toggleSlideshow())
+  }
+
+  getLightbox() {
+    if (this.props.children) {
+      return React.cloneElement(this.props.children, {
+        dispatch: this.props.dispatch,
+        pictures: this.props.picturesList,
+      })
+    }
+    return null
+  }
+
+  getCarousel() {
+    // show error message if portfolio has no pictures
+    if (this.props.n_pictures == 0) {
+      return (
+        <div className="carousel-error">
+          <em>Sorry, no pictures in this portfolio yet...</em>
+        </div>
+      )
+    }
+    // show a spinner if data's are fetching
+    // or if first image isn't arrived yet
+    if (this.props.is_fetching || this.props.pictures.length == 0) {
+      return (<Spinner message="Fetching..." />)
+    }
+    // show a dynamic carousel if we are clientside and client has js
+    if (this.props.carousel.dynamic) {
+      return (
+        <Carousel
+          history={this.props.history}
+          location={this.props.location}
+          pictures={this.props.pictures}
+          carousel={this.props.carousel}
+          toggleSlideshow={this.toggleSlideshow.bind(this)}
+          goNext={this.goNext.bind(this)}
+          goPrev={this.goPrev.bind(this)}
+        />
+      )
+    }
+    // show a full css carousel if client hasn't javascript
+    // or if we are server side
+    return (<CarouselInline
+        pictures={this.props.pictures}
+        path={this.props.location.pathname}
+    />)
+
   }
 
   render() { 
@@ -82,46 +129,22 @@ class PortfolioDetail extends Component {
      * server side rendering gives a classical horizontal scroll list
      * and client side only enable slide show if any js available.
      */
-    //console.log('port detail', this.props)
-    let lightboxStarter = ''
-    let carousel
-    // show error message if portfolio has no pictures
-    if (this.props.portfolio.n_pictures == 0) {
-      carousel = (<div className="carousel-error"
-        ><em>Sorry, no pictures in this portfolio yet…</em></div>)
-    } else if (this.props.portfolio.selected.is_fetching ||
-        this.props.portfolio.pictures.length == 0) {
-    // show a spinner if datas are fetching
-      carousel = (<Spinner message="Fetching…" />)
-    } else if (this.props.portfolio.carousel.dynamic) { // we are client side
-    // show a javascript driven carousel if client has javascript
-      carousel = (<Carousel
-        history={this.props.history}
-        location={this.props.location}
-        pictures={this.props.portfolio.pictures}
-        carousel={this.props.portfolio.carousel}
-        toggleSlideshow={this.toggleSlideshow.bind(this)}
-        goNext={this.goNext.bind(this)}
-        goPrev={this.goPrev.bind(this)}
-      />)
-      if (this.props.children) {
-        lightboxStarter = React.cloneElement(this.props.children, {
-          pictures: this.props.portfolio.selected.pictures,
-          clientSide: this.props.viewport.clientSide,
-          dispatch: this.props.dispatch,
-
-        })
-      }
-    } else { // we are server side
-    // show a full css carousel if client hasn't javascript or if serverside
-      carousel = <CarouselInline
-        pictures={this.props.portfolio.pictures}
-        path={this.props.location.pathname}
-      />
-    }
+    const {
+      dispatch,
+      is_fetching,
+      carousel,
+      pictures,
+      n_pictures,
+      picturesList,
+    } = this.props
+    
+    console.log('port detail', this.props)
 
     return (
-        <section role="main">{carousel}{lightboxStarter}</section>
+        <section role="main">
+          {this.getCarousel()}
+          {this.getLightbox()}
+        </section>
     )
   }
 }

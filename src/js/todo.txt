@@ -26,6 +26,7 @@
 #- Add a way to import pictures via http
 - Add a way to import pictures from server hard drive
 #- Add a way to create portfolio
+- Display more info about portfolio (title) for SEO
 - Add a way to edit portfolio
 - Add a way to delete portfolio
 - Add a way to create post
@@ -52,7 +53,7 @@
 #- Move weblog component to containers
 - Review modal to stand in child components
 - Review lightbox to stand in child components
-- Move portfolio component to containers
+#- Move portfolio component to containers
 - Move librairy component to containers
 #- Change common reducer to wrap csrf, lightbox, modal, contextualmenu, settings, user, authors, modules, viewport,
 - Change selectors same way, 1 selector per container
@@ -63,9 +64,9 @@
 
 ==== Containers and selectors ====
 
-- App -> appSelector
+#- App -> appSelector
 #    - Portfolio -> portfolioSelector
-        - PortfolioDetail -> portfolioDetailSelector
+#        - PortfolioDetail -> portfolioDetailSelector
 #        - PortfolioEditionForm -> portfolioEditionSelector
 #    - Weblog -> dispatch only
 #        - WeblogList -> weblogListSelector
