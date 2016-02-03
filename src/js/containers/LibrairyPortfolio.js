@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 
-import LibrairyPicturesList from './LibrairyPicturesList'
+import { connect } from 'react-redux'
+
+import { librairyPortfolioSelector } from '../selectors/librairyPortfolioSelector'
+
+import LibrairyPicturesList from '../components/LibrairyPicturesList'
 
 import {
   fetchPortfolioIfNeeded,
@@ -14,7 +18,7 @@ import {
   orderPictInPortfolio,
 } from '../actions/librairy'
 
-export default class LibrairyPortfolio extends Component {
+class LibrairyPortfolio extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
     let promises = []
@@ -43,8 +47,8 @@ export default class LibrairyPortfolio extends Component {
   removePicture(picture) {
     let to_remove = [picture]
     // picture is selected, remove all selection
-    if (this.props.librairy.selected_list.indexOf(picture) > -1) {
-      to_remove = this.props.librairy.selected_list
+    if (this.props.selectedList.indexOf(picture) > -1) {
+      to_remove = this.props.selectedList
     } 
     // remove all picts in array
     to_remove.map(item => {
@@ -68,15 +72,22 @@ export default class LibrairyPortfolio extends Component {
   }
 
   render() {
+    const {
+      dispatch,
+      selected_list,
+    } = this.props
     return (
           <LibrairyPicturesList
-            {...this.props.librairy}
             container={'portfolio'}
             orderable={true}
-            dispatch={this.props.dispatch}
             removePicture={this.removePicture.bind(this)}
             reorderPictures={this.reorderPictures.bind(this)}
           />
     )
   }
 }
+
+
+// Wrap the component to inject dispatch and state into it
+export default connect(librairyPortfolioSelector)(LibrairyPortfolio)
+

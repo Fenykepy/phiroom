@@ -77,6 +77,10 @@
 #    - Librairy -> dispatch only
 #        - LibrairyLeftPanel -> librairyLeftPanelSelector
         - LibrairyRightPanel -> librairyRightPanelSelector
+        - LibrairyAll -> librairyAllSelector
+#        - LibrairyPortfolio -> librairyPortfolioSelector
+        - LibrairyPost -> librairyPostSelector
+        - LibrairyCollection -> librairyCollectionSelector
         - LibrairyList -> librairyListSelector
         - LibrairyDetail -> librairyDetailSelector
 #    - Login -> loginSelector
