@@ -75,7 +75,7 @@
 #    - Contact -> contactDescriptionSelector
 #        - ContactMessage -> contactMessageSelector
 #    - Librairy -> dispatch only
-        - LibrairyLeftPanel -> librairyLeftPanelSelector
+#        - LibrairyLeftPanel -> librairyLeftPanelSelector
         - LibrairyRightPanel -> librairyRightPanelSelector
         - LibrairyList -> librairyListSelector
         - LibrairyDetail -> librairyDetailSelector

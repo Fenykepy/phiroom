@@ -1,18 +1,17 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 
+import { portfolioHeadersSelector } from './portfolioSelector'
 
 /*
  * input selectors
  */
-
-const portfoliosHeadersSelector = state => state.portfolio.headers.data
 
 const modulesListSelector = state => state.common.modules.list
 
 const currentModuleSelector = state => state.common.modules.current
 
 const mainMenuSelector = createSelector(
-  portfoliosHeadersSelector,
+  portfolioHeadersSelector,
   modulesListSelector,
   (portfolios, list) => {
     return list.map((item) => {

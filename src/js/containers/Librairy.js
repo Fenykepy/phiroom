@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import { Link } from 'react-router'
-import LibrairyLeftPanel from '../components/LibrairyLeftPanel'
+import LibrairyLeftPanel from '../containers/LibrairyLeftPanel'
 
 import { setModule } from '../actions/modules'
 import { dragEnd } from '../actions/librairy'
