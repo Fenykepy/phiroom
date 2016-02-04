@@ -74,8 +74,8 @@
 #        - WeblogDetail -> weblogDetailSelector
 #    - Contact -> contactDescriptionSelector
 #        - ContactMessage -> contactMessageSelector
-    - Librairy -> librairySelector
-        - LibrairyLeftPanel -> librairyLeftPanelSelector
+#    - Librairy -> librairySelector
+#        - LibrairyLeftPanel -> librairyLeftPanelSelector
         - LibrairyRightPanel -> librairyRightPanelSelector
 #    - Login -> loginSelector
 #    - Logout -> dispatch only

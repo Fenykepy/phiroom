@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-import LibrairyPicturesList from '../components/LibrairyPicturesList'
+import LibrairyPicturesList from './LibrairyPicturesList'
 
 import {
   fetchPortfolioIfNeeded,
@@ -43,8 +43,8 @@ export default class LibrairyPortfolio extends Component {
   removePicture(picture) {
     let to_remove = [picture]
     // picture is selected, remove all selection
-    if (this.props.selectedList.indexOf(picture) > -1) {
-      to_remove = this.props.selectedList
+    if (this.props.selected_list.indexOf(picture) > -1) {
+      to_remove = this.props.selected_list
     } 
     // remove all picts in array
     to_remove.map(item => {
@@ -68,16 +68,14 @@ export default class LibrairyPortfolio extends Component {
   }
 
   render() {
-    const {
-      dispatch,
-      selected_list,
-    } = this.props
+
     return (
           <LibrairyPicturesList
             container={'portfolio'}
             orderable={true}
             removePicture={this.removePicture.bind(this)}
             reorderPictures={this.reorderPictures.bind(this)}
+            {...this.props}
           />
     )
   }

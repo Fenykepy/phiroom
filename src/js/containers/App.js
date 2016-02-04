@@ -69,7 +69,7 @@ class App extends Component {
       user,
     } = this.props
     
-    //console.log('app',this.props)
+    console.log('app',this.props)
     return (
       <div id={this.props.modules.current}>
         {this.getLightbox()}

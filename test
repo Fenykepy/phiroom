@@ -25,12 +25,12 @@
 === implementation ===
 
 - Librairy:
-    - dispatch
-    - selected_list
-    - n_selected
-    - pictures
+#    - dispatch
+#    - selected_list
+#    - n_selected
+#    - pictures
 #    - drag
-    - columns_width
+#    - columns_width
 #    - user
 
 #- LibrairyLeftPanel:

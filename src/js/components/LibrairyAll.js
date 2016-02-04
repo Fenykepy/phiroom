@@ -32,7 +32,7 @@ export default class LibrairyAll extends Component {
     //console.log(this.props)
     return (
           <LibrairyPicturesList
-            {...this.props.librairy}
+            {...this.props}
             container={'all'}
             dispatch={this.props.dispatch}
           />
