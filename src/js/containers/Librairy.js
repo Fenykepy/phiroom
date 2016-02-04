@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react'
 
 import { connect } from 'react-redux'
 
+import { librairySelector } from '../selectors/librairySelector'
+
 import { Link } from 'react-router'
 import LibrairyLeftPanel from '../containers/LibrairyLeftPanel'
 
@@ -42,11 +44,18 @@ class Librairy extends Component {
 
   render() {
     // injected by connect call:
-    const { dispatch } = this.props
+    const { 
+      dispatch,
+      user,
+      drag
+    } = this.props
     //console.log('lib', this.props)
     return (
         <section role="main">
-          <LibrairyLeftPanel />
+          <LibrairyLeftPanel
+            user={this.props.user}
+            drag={this.props.drag}
+          />
           {this.props.children}
         </section>
     )
@@ -54,4 +63,4 @@ class Librairy extends Component {
 }
 
 
-export default connect()(Librairy)
+export default connect(librairySelector)(Librairy)

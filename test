@@ -1,0 +1,42 @@
+=== requirements ===
+
+- Librairy:
+    - dispatch
+- LibrairyLeftPanel:
+    - dispatch
+    - user
+    - portfolioHeaders
+    - drag
+
+- LibrairyPicturesList:
+    - dispatch
+    - selected_list
+    - n_selected
+    - pictures
+    - drag
+    - columns_width
+- LibrairyAll:
+    - dispatch
+- LibrairyPortfolio:
+    - dispatch
+    - selectedList
+
+
+=== implementation ===
+
+- Librairy:
+    - dispatch
+    - selected_list
+    - n_selected
+    - pictures
+#    - drag
+    - columns_width
+#    - user
+
+#- LibrairyLeftPanel:
+#    - dispatch
+#    - portfolioHeaders
+
+- LibrairyRightPanel:
+    - dispatch
+  

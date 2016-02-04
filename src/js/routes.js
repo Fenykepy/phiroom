@@ -11,10 +11,10 @@ import WeblogListByTag from './containers/WeblogListByTag'
 import WeblogDetail from './containers/WeblogDetail'
 import Contact from './containers/Contact'
 import Librairy from './containers/Librairy'
-import LibrairyPortfolio from './containers/LibrairyPortfolio'
 import Login from './containers/Login'
 import Logout from './containers/Logout'
 
+import LibrairyPortfolio from './components/LibrairyPortfolio'
 import LibrairyAll from './components/LibrairyAll'
 import LightboxStarter from './components/LightboxStarter'
 

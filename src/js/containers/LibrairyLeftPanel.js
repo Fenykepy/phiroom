@@ -18,9 +18,7 @@ class LibrairyLeftPanel extends Component {
     // injected by connect() call:
     const {
       dispatch,
-      user,
       portfolioHeaders,
-      drag,
     } = this.props
     
     return (

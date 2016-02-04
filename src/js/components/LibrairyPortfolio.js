@@ -1,9 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 
-import { connect } from 'react-redux'
-
-import { librairyPortfolioSelector } from '../selectors/librairyPortfolioSelector'
-
 import LibrairyPicturesList from '../components/LibrairyPicturesList'
 
 import {
@@ -18,7 +14,7 @@ import {
   orderPictInPortfolio,
 } from '../actions/librairy'
 
-class LibrairyPortfolio extends Component {
+export default class LibrairyPortfolio extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
     let promises = []
@@ -86,8 +82,4 @@ class LibrairyPortfolio extends Component {
     )
   }
 }
-
-
-// Wrap the component to inject dispatch and state into it
-export default connect(librairyPortfolioSelector)(LibrairyPortfolio)
 
