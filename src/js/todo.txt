@@ -33,6 +33,7 @@
 - Add a way to edit post
 - Add a way to delete post
 - Add a way to edit contact description
+- Add a setting to prevent right clicks on pictures
 - Improve contextual menu to go on right or left side depending of viewport width
 - Move contextual menu state to main redux state
 #- Improve selection to unselect all on background click
@@ -79,7 +80,6 @@
         - LibrairyRightPanel -> librairyRightPanelSelector
 #    - Login -> loginSelector
 #    - Logout -> dispatch only
-    - ContextualMenu -> contextualMenuSelector
 #    - Lightbox -> lightboxSelector
 
 
