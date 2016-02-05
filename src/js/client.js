@@ -27,11 +27,11 @@ const history = createBrowserHistory()
 
 
 // Every time the state changes, log it
-/*
+
 let unsubscribe = store.subscribe(() =>
   console.log('state', store.getState())
 )
-*/
+
 // fetch common data
 let promises = fetchCommonData(store)
 

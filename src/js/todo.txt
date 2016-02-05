@@ -54,9 +54,9 @@
 - Review modal to stand in child components
 - Review lightbox to stand in child components
 #- Move portfolio component to containers
-- Move librairy component to containers
+#- Move librairy component to containers
 #- Change common reducer to wrap csrf, lightbox, modal, contextualmenu, settings, user, authors, modules, viewport,
-- Change selectors same way, 1 selector per container
+#- Change selectors same way, 1 selector per container
 
 #- Remove mainSelector to use only common at top level
 
@@ -81,6 +81,5 @@
 #    - Logout -> dispatch only
     - ContextualMenu -> contextualMenuSelector
 #    - Lightbox -> lightboxSelector
-    - Modal -> modalSelector
 
 

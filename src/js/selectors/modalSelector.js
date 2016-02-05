@@ -2,4 +2,4 @@
  * input selectors
  */
 
-export const modalSelector = state => state.modal
+export const modalSelector = state => state.common.modal

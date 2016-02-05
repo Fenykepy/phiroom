@@ -67,6 +67,7 @@ class App extends Component {
       settings,
       modules,
       user,
+      modal,
     } = this.props
     
     console.log('app',this.props)
