@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 import { connect } from 'react-redux'
 
-import { lightboxSelector } from '../selectors/lightboxSelectors'
+import { lightboxSelector } from '../selectors/lightboxSelector'
 
 import {
   lightboxStop,

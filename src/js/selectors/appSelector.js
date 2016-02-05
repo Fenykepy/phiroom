@@ -1,7 +1,7 @@
 import { createStructuredSelector } from 'reselect'
 
-import { modulesSelector } from './modulesSelectors'
-import { settingsSelector } from './settingsSelectors'
+import { modulesSelector } from './modulesSelector'
+import { settingsSelector } from './settingsSelector'
 import { userSelector } from './userSelector'
 import { modalSelector } from './modalSelector'
 

@@ -1,7 +1,7 @@
 import { createStructuredSelector } from 'reselect'
 
 import { userSelector } from './userSelector'
-import { csrfTokenSelector } from './csrfSelectors'
+import { csrfTokenSelector } from './csrfSelector'
 
 
 export const loginSelector = createStructuredSelector({
