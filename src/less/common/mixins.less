@@ -58,6 +58,33 @@
     border-left: @height solid transparent;
 }
 
+.plus(@size: 8px, @thick: 2px,  @color: #444) {
+    // (side - thick) / 2 should return an integer
+    position: relative;
+    text-indent: -999em;
+    overflow: hidden;
+    @side: (@size - @thick) / 2;
+    &:before {
+        // vertical bar
+        content:"";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: @size;
+        width: @side;
+        border-right: @thick solid @color;
+    }
+    &:after {
+        // horizontal bar
+        content:"";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: @size;
+        height: @side;
+        border-bottom: @thick solid @color;
+    }
+}
 
 // degraded
 .degrade(@colorstart: #444, @colorend: #222, @colorback: #222) {

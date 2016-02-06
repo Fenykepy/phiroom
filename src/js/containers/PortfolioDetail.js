@@ -138,7 +138,7 @@ class PortfolioDetail extends Component {
       picturesList,
     } = this.props
     
-    console.log('port detail', this.props)
+    //console.log('port detail', this.props)
 
     return (
         <section role="main">

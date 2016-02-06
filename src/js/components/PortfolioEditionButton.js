@@ -49,11 +49,13 @@ export default class PortfolioEditionButton extends Component {
   }
 
   render() {
+    let title = this.getTitle()
     return (
       <button
-        className="primary"
+        title={title}
+        className={this.props.className}
         onClick={this.handleClick.bind(this)}
-      >{this.getTitle()}</button>
+      >{title}</button>
     )
   }
 }

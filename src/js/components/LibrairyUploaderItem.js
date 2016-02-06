@@ -33,7 +33,7 @@ export default class LibrairyUploaderItem extends Component {
       >
         <article>
           <button
-            className="close"
+            className="overlay"
             title="Don't upload this picture"
             onClick={this.remove.bind(this)}
           >×</button>

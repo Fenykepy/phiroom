@@ -26,10 +26,12 @@ export default class LibrairyLeftPanelPortfolios extends Component {
     if (this.props.user.is_staff) {
       return (
         <div>
-          <h6>Portfolios</h6>
-          <PortfolioEditionButton
-            dispatch={this.props.dispatch}
-          />
+          <h6>Portfolios
+            <PortfolioEditionButton
+              className="plus"
+              dispatch={this.props.dispatch}
+            />
+          </h6>
           <ul>
             {this.props.portfolios.map((port) => 
               <LibrairyLeftPanelPortfolioItem

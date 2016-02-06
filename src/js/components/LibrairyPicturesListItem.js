@@ -95,6 +95,7 @@ export default class LibrairyPicturesListItem extends Component {
 
   handleRightClick(e) {
     e.preventDefault()
+    e.stopPropagation()
     // show context menu
     this.setState({
       contextual_menu: true,
@@ -175,6 +176,11 @@ export default class LibrairyPicturesListItem extends Component {
         onDragEnter={this.handleWrapperDragEnter.bind(this)}
       >
         <article className={this.props.selected ? 'selected' : null}>
+          <button
+            className="overlay"
+            title="Open menu"
+            onClick={this.handleRightClick.bind(this)}
+          >&#8226; &#8226; &#8226;</button>
           <img
             style={this.getImageStyle()}
             src={'/media/images/previews/max-500/' + this.props.previews_path}
