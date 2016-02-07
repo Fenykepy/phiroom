@@ -101,7 +101,7 @@ export default class Carousel extends Component {
 
   componentWillUnmount() {
     if (this.interval) {
-      this.resetInterval(this.interval);
+      this.stopInterval(this.interval);
     }
   }
 
@@ -112,13 +112,13 @@ export default class Carousel extends Component {
     }
   }
 
-  resetInterval(interval) {
+  stopInterval(interval) {
     clearInterval(interval)
     interval = false;
   }
 
   resetInterval() {
-    this.resetInterval(this.interval);
+    this.stopInterval(this.interval);
     if (this.props.carousel.slideshow) {
       this.interval = setInterval(this.goNext.bind(this), this.props.carousel.slideshowDuration)
     }
