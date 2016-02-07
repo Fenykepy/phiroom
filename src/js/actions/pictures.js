@@ -53,7 +53,7 @@ export function fetchShortPictureIfNeeded(picture) {
     }
     // else return a resolved promise
     return new Promise((resolve, reject) => resolve(
-          {data: getState().pictures.short[picture]}
+          {data: getState().common.pictures.short[picture]}
     ))
   }
 }
@@ -120,7 +120,7 @@ export function fetchPictureIfNeeded(picture) {
     }
     // else return a resolved promise
     return new Promise((resolve, reject) => resolve(
-          {data: getState().pictures[picture]}
+          {data: getState().common.pictures[picture]}
     ))
   }
 }
@@ -201,7 +201,7 @@ export function fetchPicturesPksIfNeeded() {
     }
     // else return a resolved promise
     return new Promise((resolve, reject) => resolve(
-          {data: getState().pictures.all.pks}
+          {data: getState().common.pictures.all.pks}
     ))
   }
 }
@@ -271,7 +271,7 @@ export function uploadPictures(files) {
     files.map(file => {
       dispatch(addPictureToUpload(file, uuid))
     })
-    let uploading = getState().pictures.uploading
+    let uploading = getState().common.pictures.uploading
     if (! uploading.current) {
       // if no current uploading picture, start uploading
       dispatch(uploadPicture())

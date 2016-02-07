@@ -15,6 +15,7 @@ export default class LibrairyAll extends Component {
   static fetchData(dispatch, params=null, clientSide=false) {
     let promises = []
     promises.push(dispatch(fetchPicturesPksIfNeeded()).then(data => {
+      console.log('set picture', data.data)
       dispatch(setPictures(data.data))
       data.data.map(pk => {
         dispatch(fetchPictureIfNeeded(pk))
@@ -29,7 +30,7 @@ export default class LibrairyAll extends Component {
   }
 
   render() {
-    //console.log(this.props)
+    console.log('librairy all', this.props)
     return (
           <LibrairyPicturesList
             {...this.props}

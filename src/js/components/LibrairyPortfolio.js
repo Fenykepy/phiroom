@@ -68,7 +68,7 @@ export default class LibrairyPortfolio extends Component {
   }
 
   render() {
-
+    console.log('librairy portfolio', this.props)
     return (
           <LibrairyPicturesList
             container={'portfolio'}
