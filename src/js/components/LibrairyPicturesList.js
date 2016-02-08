@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
+import capitalize from '../helpers/utils'
+
 import LibrairyPicturesListItem from './LibrairyPicturesListItem'
 import Modal from './Modal'
 import LibrairyDeletePictureConfirm from './LibrairyDeletePictureConfirm'
@@ -248,6 +250,9 @@ export default class LibrairyPicturesList extends Component {
         onDrop={this.handleBackgroundDrop.bind(this)}
         onDragOver={this.handleBackgroundDragOver.bind(this)}
       >
+        <header>
+          {this.props.title}
+        </header>
         {this.props.pictures.map((pict, index) =>
           <LibrairyPicturesListItem
             key={pict.pk}

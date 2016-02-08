@@ -68,9 +68,10 @@ export default class LibrairyPortfolio extends Component {
   }
 
   render() {
-    //console.log('librairy portfolio', this.props)
+    console.log('librairy portfolio', this.props)
     return (
           <LibrairyPicturesList
+            container_title={'Portfolio'}
             container={'portfolio'}
             orderable={true}
             removePicture={this.removePicture.bind(this)}

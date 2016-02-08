@@ -19,3 +19,15 @@ export function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
             s4() + '-' + s4() + s4() + s4();
 }
+
+export function humanBytes(bytes, precision = 1) {
+  if (isNaN(bytes) || ! isFinite(bytes)) return '-'
+  let units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
+  let number = Math.floor(Math.log(bytes) / Math.log(1024))
+  return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + units[number]
+}
+
+
+export function capitalize(string) {
+  return string[0].toUpperCase() + string.slice(1)
+}
