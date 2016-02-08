@@ -63,6 +63,7 @@ export default class LibrairyLeftPanelPortfolioItem extends Component {
               onDragOver={this.handleDragOver.bind(this)}
               onDrop={this.handleDrop.bind(this)}
         >{this.props.title}</Link>
+        <button className="arrow">Menu</button>
       </li>
     )
   }
