@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesList from './LibrairyPicturesList'
+import PortfolioEditionButton from './PortfolioEditionButton'
 
 import {
   fetchPortfolioIfNeeded,
@@ -75,6 +76,11 @@ export default class LibrairyPortfolio extends Component {
           <LibrairyPicturesList
             container_title={'Portfolio'}
             container={'portfolio'}
+            edition_button={(
+              <PortfolioEditionButton
+                dispatch={this.props.dispatch}
+                portfolio={this.props.params.slug}
+            />)}
             orderable={true}
             removePicture={this.removePicture.bind(this)}
             reorderPictures={this.reorderPictures.bind(this)}

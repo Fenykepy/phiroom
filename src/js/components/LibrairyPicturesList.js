@@ -243,7 +243,7 @@ export default class LibrairyPicturesList extends Component {
   }
 
   render() {
-    console.log('picturesList', this.props)
+    //console.log('picturesList', this.props)
     return (
       <section id="librairy-list"
         onClick={this.unselectAll.bind(this)}
@@ -255,9 +255,9 @@ export default class LibrairyPicturesList extends Component {
             <strong>{this.props.container_title}:</strong> <h2>{this.props.title}</h2>
           </div>
           <div className="selection">
-            {this.props.n_selected}/{this.props.n_pictures}  pictures
+            selected pictures: {this.props.n_selected}/{this.props.n_pictures}
           </div>
-          <button>Edit</button>
+          {this.props.edition_button}
         </header>
         {this.props.pictures.map((pict, index) =>
           <LibrairyPicturesListItem
