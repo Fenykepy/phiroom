@@ -6,6 +6,12 @@ import Fetch from '../helpers/http'
 import { invalidatePortfolio } from './portfolios'
 // action creators
 
+export function setTitle(title) {
+  return {
+    type: types.LIBRAIRY_SET_TITLE,
+    title
+  }
+}
 
 export function setPictures(pictures) {
   return {

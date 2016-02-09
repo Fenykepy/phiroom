@@ -4,6 +4,7 @@ import {
   SELECT_PICTURE,
   UNSELECT_PICTURE,
   UNSELECT_ALL,
+  LIBRAIRY_SET_TITLE,
   SET_PICTURES,
   UNSET_PICTURE,
   ORDER_PORTFOLIO_PICTURES,
@@ -13,7 +14,14 @@ import {
   LOGOUT
 } from '../constants/actionsTypes'
 
-
+function title(state = null, action) {
+  switch (action.type) {
+    case LIBRAIRY_SET_TITLE:
+      return action.title
+    default:
+      return state
+  }
+}
 
 function selected(state = [], action) {
   switch (action.type) {
@@ -124,6 +132,7 @@ const librairy = combineReducers({
   left_panel_width,
   right_panel_width,
   drag,
+  title,
 })
 
 export default librairy

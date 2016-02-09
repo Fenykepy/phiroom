@@ -8,6 +8,7 @@ import {
 } from '../actions/portfolios'
 import { fetchPictureIfNeeded } from '../actions/pictures'
 import { 
+  setTitle,
   setPictures,
   removePictFromPortfolio,
   unsetPicture,
@@ -22,6 +23,7 @@ export default class LibrairyPortfolio extends Component {
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then((data) => {
         dispatch(setPictures(data.data.pictures))
+        dispatch(setTitle(data.data.title))
         data.data.pictures.map((item) => {
           dispatch(fetchPictureIfNeeded(item))
         })
@@ -68,7 +70,7 @@ export default class LibrairyPortfolio extends Component {
   }
 
   render() {
-    console.log('librairy portfolio', this.props)
+    //console.log('librairy portfolio', this.props)
     return (
           <LibrairyPicturesList
             container_title={'Portfolio'}

@@ -243,15 +243,21 @@ export default class LibrairyPicturesList extends Component {
   }
 
   render() {
-    //console.log('picturesList', this.props)
+    console.log('picturesList', this.props)
     return (
       <section id="librairy-list"
         onClick={this.unselectAll.bind(this)}
         onDrop={this.handleBackgroundDrop.bind(this)}
         onDragOver={this.handleBackgroundDragOver.bind(this)}
       >
-        <header>
-          {this.props.title}
+        <header className="toolbar">
+          <div className="title">
+            <strong>{this.props.container_title}:</strong> <h2>{this.props.title}</h2>
+          </div>
+          <div className="selection">
+            {this.props.n_selected}/{this.props.n_pictures}  pictures
+          </div>
+          <button>Edit</button>
         </header>
         {this.props.pictures.map((pict, index) =>
           <LibrairyPicturesListItem

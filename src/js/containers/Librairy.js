@@ -45,11 +45,13 @@ class Librairy extends Component {
     if (this.props.children) {
       return React.cloneElement(this.props.children, {
         dispatch: this.props.dispatch,
+        title: this.props.title,
         user: this.props.user,
         drag: this.props.drag,
         pictures: this.props.pictures,
         selected_list: this.props.selected_list,
-        n_pictures: this.props.pictures,
+        n_selected: this.props.n_selected,
+        n_pictures: this.props.n_pictures,
         n_columns: this.props.n_columns,
         columns_width: this.props.columns_width,
         left_panel_width: this.props.left_panel_width,
@@ -64,6 +66,7 @@ class Librairy extends Component {
     // injected by connect call:
     const { 
       dispatch,
+      title,
       user,
       drag,
       pictures,

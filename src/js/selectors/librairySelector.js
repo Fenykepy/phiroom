@@ -3,6 +3,8 @@ import { createSelector, createStructuredSelector } from 'reselect'
 
 import { userSelector } from './userSelector'
 
+// librairy current displayed element title
+const titleSelector = state => state.librairy.title
 
 // draged element
 const dragSelector = state => state.librairy.drag
@@ -108,6 +110,7 @@ const columnsWidthSelector = createSelector(
 
 
 export const librairySelector = createStructuredSelector({
+  title: titleSelector,
   user: userSelector,
   drag: dragSelector,
   pictures: librairySelectedPicturesSelector,

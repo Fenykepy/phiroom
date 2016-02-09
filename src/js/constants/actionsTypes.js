@@ -154,6 +154,8 @@ export const CONTACT_MESSAGE_SET_FORWARD = 'CONTACT_MESSAGE_SET_FORWARD'
 /*
  * Librairy actions
  */
+
+
 export const SELECT_PICTURE = 'SELECT_PICTURE'
 export const UNSELECT_PICTURE = 'UNSELECT_PICTURE'
 export const UNSELECT_ALL = 'UNSELECT_ALL'
@@ -161,6 +163,8 @@ export const UNSELECT_ALL = 'UNSELECT_ALL'
 export const SET_PICTURES = 'SET_PICTURES'
 export const UNSET_PICTURE = 'REMOVE_PICTURE'
 export const SET_N_COLUMNS = 'SET_N_COLUMNS'
+
+export const LIBRAIRY_SET_TITLE = 'LIBRAIRY_SET_TITLE'
 
 export const DRAG_START = 'DRAG_START'
 export const DRAG_END = 'DRAG_END'
