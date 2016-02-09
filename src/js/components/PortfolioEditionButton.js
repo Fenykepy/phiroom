@@ -30,7 +30,6 @@ export default class PortfolioEditionButton extends Component {
   }
 
   handleClick() {
-    console.log('handleclick', this.props.portfolio)
     if (this.props.portfolio) {
       // feed form with portfolio to update
       this.props.dispatch(updatePortfolio(this.props.portfolio))

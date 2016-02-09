@@ -245,14 +245,13 @@ export function newPortfolio() {
 export function updatePortfolio(portfolio) {
   return function(dispatch, getState) {
     return dispatch(fetchPortfolioIfNeeded(portfolio))
-      .then(() => {
-        portfolio_data = getState().portfolio.portfolios[portfolio]
+      .then(data => {
         return dispatch(editPortfolio({
-            slug: portfolio_data.slug,
-            title: portfolio_data.title,
-            draft: portfolio_data.draft,
-            pub_date: portfolio_data.pub_date,
-            order: portfolio_data.order,
+            slug: data.data.slug,
+            title: data.data.title,
+            draft: data.data.draft,
+            pub_date: data.data.pub_date,
+            order: data.data.order,
         }))
       })
   }
@@ -342,6 +341,3 @@ export function createPortfolio() {
   }
 }
 
-export function updatePortfolio() {
-
-}

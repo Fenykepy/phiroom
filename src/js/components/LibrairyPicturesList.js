@@ -250,14 +250,18 @@ export default class LibrairyPicturesList extends Component {
         onDrop={this.handleBackgroundDrop.bind(this)}
         onDragOver={this.handleBackgroundDragOver.bind(this)}
       >
-        <header className="toolbar">
+        <header id="toolbar">
           <div className="title">
             <strong>{this.props.container_title}:</strong> <h2>{this.props.title}</h2>
           </div>
-          <div className="selection">
-            selected pictures: {this.props.n_selected}/{this.props.n_pictures}
+          <div className="right-bar">
+            <div className="selection">
+              selected pictures: {this.props.n_selected}/{this.props.n_pictures}
+            </div>
+            <div className="edition">
+              {this.props.edition_button}
+            </div>
           </div>
-          {this.props.edition_button}
         </header>
         {this.props.pictures.map((pict, index) =>
           <LibrairyPicturesListItem

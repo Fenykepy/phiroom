@@ -51,6 +51,14 @@ class PortfolioEditionForm extends Component {
     this.props.dispatch(portfolioSetOrder(e.target.value))
   }
 
+  getDeleteButton() {
+    // we update existing portfolio
+    if (this.props.edited.slug) {
+      return (<button>Delete</button>)
+    }
+    return null
+  }
+
   getFieldErrors(field = 'non_field_errors') {
     if (this.props.edited.errors && this.props.edited.errors[field]) {
       let errors = this.props.edited.errors[field]
@@ -73,13 +81,14 @@ class PortfolioEditionForm extends Component {
       dispatch,
       edited, 
     } = this.props
-
+    
     return (
       <div>
         <form
             onSubmit={this.handleSubmit.bind(this)}
         >
         <article>
+          {this.getDeleteButton()}
           <p><span className="red">*</span> : required fields.</p>
             {this.getFieldErrors()}
             <div className="field_wrapper">
@@ -113,9 +122,9 @@ class PortfolioEditionForm extends Component {
               <label htmlFor="id_pubdate">Publication date:</label>
               {this.getFieldErrors('pubdate')}
               <input id="id_pubdate"
-                     name="title"
-                     type="datetime-local"
-                     value={this.props.edited.pubdate}
+                     name="pub_date"
+                     type="datetime"
+                     value={this.props.edited.pub_date}
                      onChange={this.handlePubdateChange.bind(this)}
               />
             </div>
