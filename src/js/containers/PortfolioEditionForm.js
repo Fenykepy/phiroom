@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 
 import { portfolioEditionSelector } from '../selectors/portfolioEditionSelector'
 
+
+import Modal from '../components/Modal'
+import LibrairyDeletePortfolioConfirm from '../components/LibrairyDeletePortfolioConfirm'
+
 import {
   portfolioSetTitle,
   portfolioSetDraft,
@@ -13,6 +17,10 @@ import {
   updatePortfolio,
 } from '../actions/portfolios'
 
+import {
+  setModal,
+  closeModal,
+} from '../actions/modal'
 
 class PortfolioEditionForm extends Component {
 
@@ -50,11 +58,27 @@ class PortfolioEditionForm extends Component {
   handleOrderChange(e) {
     this.props.dispatch(portfolioSetOrder(e.target.value))
   }
-
+  
+  confirmDeletePortfolio() {
+    let modal = (
+        <Modal
+          modal_closable={true}
+          modal_small={true}
+          modal_title={Delete a portfolio}
+          modal_child={LibrairyDeletePortfolioConfirm}
+          portfolio={this.props.edited}
+          delete={() => this.deletePortfolio(this.props.edited.slug)}
+        />
+    )
+    this.props.dispatch(setModal(modal))
+  }
   getDeleteButton() {
     // we update existing portfolio
     if (this.props.edited.slug) {
-      return (<button>Delete</button>)
+      return (
+        <button
+          onClick={this.confirmDeletePortfolio}
+        >Delete portfolio</button>)
     }
     return null
   }
