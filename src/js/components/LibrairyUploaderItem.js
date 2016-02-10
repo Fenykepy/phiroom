@@ -1,6 +1,6 @@
 import React, { Component, Proptypes } from 'react'
 
-import formatFileSize from '../helpers/utils'
+import { formatFileSize } from '../helpers/utils'
 
 
 export default class LibrairyUploaderItem extends Component {

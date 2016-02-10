@@ -21,6 +21,7 @@ export function guid() {
 }
 
 export function formatFileSize(bytes, precision = 1) {
+  console.log('toto')
   if (isNaN(bytes) || ! isFinite(bytes)) return '-'
   let units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
   let number = Math.floor(Math.log(bytes) / Math.log(1024))
