@@ -7,7 +7,10 @@ import {
   fetchPictureIfNeeded,
 } from '../actions/pictures'
 
-import { setPictures } from '../actions/librairy'
+import {
+  setTitle,
+  setPictures,
+} from '../actions/librairy'
 
 
 export default class LibrairyAll extends Component {
@@ -16,6 +19,7 @@ export default class LibrairyAll extends Component {
     let promises = []
     promises.push(dispatch(fetchPicturesPksIfNeeded()).then(data => {
       dispatch(setPictures(data.data))
+      dispatch(setTitle(null))
       data.data.map(pk => {
         dispatch(fetchPictureIfNeeded(pk))
       })
@@ -33,8 +37,10 @@ export default class LibrairyAll extends Component {
     return (
           <LibrairyPicturesList
             {...this.props}
+            container_title={'All pictures'}
             container={'all'}
             dispatch={this.props.dispatch}
+
           />
     )
   }

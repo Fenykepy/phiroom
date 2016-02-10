@@ -16,6 +16,7 @@ export default class ContextualMenu extends Component {
       console.warn('ContextualMenu component should always receive'
           + ' a closing function a "close" property.') 
     }
+    e.stopPropagation()
     this.props.close(e)
   }
 

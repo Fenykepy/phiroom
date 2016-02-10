@@ -227,7 +227,7 @@ export function fetchPortfoliosHeaders() {
  * Portfolio edition
  */
 
-function editPortfolio(data = {}) {
+function prefillPortfolioForm(data = {}) {
   // start portfolio edition with given datas
   return {
     type: types.PORTFOLIO_EDIT_PREFILL,
@@ -238,15 +238,15 @@ function editPortfolio(data = {}) {
 export function newPortfolio() {
   // start a new portfolio edition with empty datas
   return function(dispatch) {
-    return dispatch(editPortfolio())
+    return dispatch(prefillPortfolioForm())
   }
 }
 
-export function updatePortfolio(portfolio) {
+export function editPortfolio(portfolio) {
   return function(dispatch, getState) {
     return dispatch(fetchPortfolioIfNeeded(portfolio))
       .then(data => {
-        return dispatch(editPortfolio({
+        return dispatch(prefillPortfolioForm({
             slug: data.data.slug,
             title: data.data.title,
             draft: data.data.draft,
@@ -341,3 +341,5 @@ export function createPortfolio() {
   }
 }
 
+export function updatePortfolio() {
+}

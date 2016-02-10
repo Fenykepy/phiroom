@@ -252,7 +252,7 @@ export default class LibrairyPicturesList extends Component {
       >
         <header id="toolbar">
           <div className="title">
-            <strong>{this.props.container_title}:</strong> <h2>{this.props.title}</h2>
+            <strong>{this.props.container_title}</strong> <h2>{this.props.title}</h2>
           </div>
           <div className="right-bar">
             <div className="selection">

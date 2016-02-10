@@ -74,7 +74,7 @@ export default class LibrairyPortfolio extends Component {
     //console.log('librairy portfolio', this.props)
     return (
           <LibrairyPicturesList
-            container_title={'Portfolio'}
+            container_title={'Portfolio:'}
             container={'portfolio'}
             edition_button={(
               <PortfolioEditionButton

@@ -10,7 +10,7 @@ import {
 
 import {
   newPortfolio,
-  updatePortfolio,
+  editPortfolio,
 } from '../actions/portfolios'
 
 export default class PortfolioEditionButton extends Component {
@@ -32,7 +32,7 @@ export default class PortfolioEditionButton extends Component {
   handleClick() {
     if (this.props.portfolio) {
       // feed form with portfolio to update
-      this.props.dispatch(updatePortfolio(this.props.portfolio))
+      this.props.dispatch(editPortfolio(this.props.portfolio))
     } else {
       // new portfolio is created
       this.props.dispatch(newPortfolio())
