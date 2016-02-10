@@ -1,5 +1,7 @@
 import React, { Component, Proptypes } from 'react'
 
+import formatFileSize from '../helpers/utils'
+
 
 export default class LibrairyUploaderItem extends Component {
   
@@ -29,7 +31,7 @@ export default class LibrairyUploaderItem extends Component {
       <div
         className="thumb-wrapper"
         title={'filename: ' + this.props.file.name + '\n'
-          + 'weight: ' + this.props.file.size}
+          + 'weight: ' + formatFileSize(this.props.file.size)}
       >
         <article>
           <button

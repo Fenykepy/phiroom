@@ -20,7 +20,7 @@ export function guid() {
             s4() + '-' + s4() + s4() + s4();
 }
 
-export function humanBytes(bytes, precision = 1) {
+export function formatFileSize(bytes, precision = 1) {
   if (isNaN(bytes) || ! isFinite(bytes)) return '-'
   let units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
   let number = Math.floor(Math.log(bytes) / Math.log(1024))
