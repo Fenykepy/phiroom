@@ -256,7 +256,7 @@ export default class LibrairyPicturesList extends Component {
           </div>
           <div className="right-bar">
             <div className="selection">
-              selected pictures: {this.props.n_selected}/{this.props.n_pictures}
+              {this.props.n_selected} selected / {this.props.n_pictures} pictures
             </div>
             <div className="edition">
               {this.props.edition_button}
