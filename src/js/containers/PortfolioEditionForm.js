@@ -15,6 +15,7 @@ import {
   portfolioSetOrder,
   createPortfolio,
   updatePortfolio,
+  deletePortfolio,
 } from '../actions/portfolios'
 
 import {
@@ -61,8 +62,7 @@ class PortfolioEditionForm extends Component {
   }
 
   deletePortfolio(portfolio) {
-    //this.props.dispatch(deletePortfolio(portfolio))
-    console.log('delete portfolio ' + portfolio)
+    this.props.dispatch(deletePortfolio(portfolio))
   }
 
   confirmDeletePortfolio() {

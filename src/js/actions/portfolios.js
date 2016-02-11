@@ -343,3 +343,6 @@ export function createPortfolio() {
 
 export function updatePortfolio() {
 }
+
+export function deletePortfolio(portfolio) {
+}
