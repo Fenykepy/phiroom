@@ -25,6 +25,7 @@ import {
   PORTFOLIO_EDIT_SET_DRAFT,
   PORTFOLIO_EDIT_SET_PUBDATE,
   PORTFOLIO_EDIT_SET_ORDER,
+  PORTFOLIO_DELETE,
 } from '../constants/actionsTypes'
 
 
@@ -111,6 +112,7 @@ function headers(state = {fetched: false, data: []}, action) {
 }
 
 function portfolios(state = {}, action) {
+  let new_state
   switch (action.type) {
     case INVALIDATE_PORTFOLIO:
       return Object.assign({}, state, {
@@ -153,7 +155,7 @@ function portfolios(state = {}, action) {
       })
     case REQUEST_UPDATE_PORTFOLIO_SUCCESS:
       // delete existing portfolio from state
-      let new_state = Object.assign({}, state)
+      new_state = Object.assign({}, state)
       delete new_state[action.old_slug]
       return Object.assign({}, new_state, {
         [action.slug]: Object.assign({}, {
@@ -182,6 +184,12 @@ function portfolios(state = {}, action) {
           pictures: action.new_order
         })
       })
+    case PORTFOLIO_DELETE:
+      // delete existing portfolio from state
+      new_state = Object.assign({}, state)
+      delete new_state[action.portfolio]
+
+      return new_state
     default:
       return state
   }

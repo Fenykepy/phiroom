@@ -398,4 +398,19 @@ export function updatePortfolio(portfolio) {
 }
 
 export function deletePortfolio(portfolio) {
+  /*
+   * delete a portfolio from server
+   */
+  return function(dispatch) {
+    Fetch.delete(`api/portfolio/portfolios/${portfolio}/`)
+      .then(() => {
+        // refetch portfolios headers
+        dispatch(fetchPortfoliosHeaders())
+      })
+
+    return {
+      type: types.PORTFOLIO_DELETE,
+      portfolio
+    }
+  }
 }
