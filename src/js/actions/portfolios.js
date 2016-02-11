@@ -345,9 +345,55 @@ export function createPortfolio() {
   }
 }
 
-export function updatePortfolio() {
+function requestUpdatePortfolio() {
+  return {
+    type: types.REQUEST_UPDATE_PORTFOLIO,
+  }
+}
+
+function receiveUpdatedPortfolio(portfolio, json) {
+  return {
+    type: types.REQUEST_UPDATE_PORTFOLIO_SUCCESS,
+    slug: json.slug,
+    old_slug: portfolio,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+function requestUpdatePortfolioFailure(errors) {
+  return {
+    type: types.REQUEST_UPDATE_PORTFOLIO_FAILURE,
+    errors
+  }
+}
+
+
+export function updatePortfolio(portfolio) {
   return function(dispatch, getState) {
     dispatch(requestUpdatePortfolio())
+    let data = getEditedData(getState())
+
+    return Fetch.patch(`api/portfolio/portfolios/${portfolio}/`,
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify(data)
+    )
+    .then(json => {
+      // refetch portfolios headers
+      dispatch(fetchPortfoliosHeaders())
+      return dispatch(receiveUpdatedPortfolio(portfolio, json))
+    })
+    .catch(error =>
+      error.response.json().then(json => {
+        // store error json in state
+        dispatch(requestUpdatePortfolioFailure(json))
+        // throw error to catch it in form and display it
+        throw error
+      })
+    )
   }
 }
 

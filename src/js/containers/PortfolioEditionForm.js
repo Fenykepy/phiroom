@@ -30,8 +30,8 @@ class PortfolioEditionForm extends Component {
     e.preventDefault()
     // we update an existing portfolio
     let promise
-    if (this.props.edited.slug) {
-      promise = this.props.dispatch(updatePortfolio())
+    if (this.props.portfolio) {
+      promise = this.props.dispatch(updatePortfolio(this.props.portfolio))
     } else {
       // we create a new portfolio
       promise = this.props.dispatch(createPortfolio())

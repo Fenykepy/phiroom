@@ -70,6 +70,18 @@ function edited(state = {}, action) {
         is_posting: false,
         errors: action.errors
       })
+    case REQUEST_UPDATE_PORTFOLIO:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_UPDATE_PORTFOLIO_SUCCESS:
+      return {}
+    case REQUEST_UPDATE_PORTFOLIO_FAILURE:
+      return Object.assign({}, state, {
+        is_posting: false,
+        errors: action.errors
+      })
     default:
       return state
   }
@@ -122,6 +134,14 @@ function portfolios(state = {}, action) {
         },
         action.data)
       })
+    case REQUEST_PORTFOLIO_FAILURE:
+      return Object.assign({}, state, {
+        [action.portfolio]: Object.assign({}, state[action.portfolio], {
+          is_fetching: false,
+          fetched: false,
+          error: action.error
+        })
+      })
     case REQUEST_CREATE_PORTFOLIO_SUCCESS:
       return Object.assign({}, state, {
         [action.portfolio]: Object.assign({}, state[action.portfolio], {
@@ -131,13 +151,17 @@ function portfolios(state = {}, action) {
         },
         action.data)
       })
-    case REQUEST_PORTFOLIO_FAILURE:
-      return Object.assign({}, state, {
-        [action.portfolio]: Object.assign({}, state[action.portfolio], {
+    case REQUEST_UPDATE_PORTFOLIO_SUCCESS:
+      // delete existing portfolio from state
+      let new_state = Object.assign({}, state)
+      delete new_state[action.old_slug]
+      return Object.assign({}, new_state, {
+        [action.slug]: Object.assign({}, {
           is_fetching: false,
-          fetched: false,
-          error: action.error
-        })
+          fetched: true,
+          receivedAt: action.receivedAt
+        },
+        action.data)
       })
     case PORTFOLIO_REMOVE_PICTURE:
       // create new array
