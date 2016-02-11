@@ -307,16 +307,20 @@ function requestCreatePortfolioFailure(errors) {
   }
 }
 
-export function createPortfolio() {
-  return function(dispatch, getState) {
-    dispatch(requestCreatePortfolio())
-    let port = getState().portfolio.edited
-    let data = {
+function getEditedData(state) {
+    let port = state.portfolio.edited
+    return  {
       title: port.title,
       draft: port.draft,
       pub_date: port.pubdate,
       order: port.order,
     }
+}
+
+export function createPortfolio() {
+  return function(dispatch, getState) {
+    dispatch(requestCreatePortfolio())
+    let data = getEditedData(getState())
 
     return Fetch.post('api/portfolio/portfolios/',
       {
@@ -342,6 +346,9 @@ export function createPortfolio() {
 }
 
 export function updatePortfolio() {
+  return function(dispatch, getState) {
+    dispatch(requestUpdatePortfolio())
+  }
 }
 
 export function deletePortfolio(portfolio) {
