@@ -87,6 +87,7 @@ class PortfolioEditionForm extends Component {
     if (this.props.edited.slug) {
       return (
         <button
+          type="button"
           onClick={this.confirmDeletePortfolio.bind(this)}
         >Delete portfolio</button>)
     }
@@ -177,6 +178,7 @@ class PortfolioEditionForm extends Component {
         </article>
         <footer>
           <button
+              type="button"
               onClick={this.props.modal_close}
             >Cancel</button>
           <input
