@@ -25,6 +25,7 @@ import {
 class PortfolioEditionForm extends Component {
 
   handleSubmit(e) {
+    console.log('submit')
     e.preventDefault()
     // we update an existing portfolio
     let promise
@@ -58,26 +59,35 @@ class PortfolioEditionForm extends Component {
   handleOrderChange(e) {
     this.props.dispatch(portfolioSetOrder(e.target.value))
   }
-  
+
+  deletePortfolio(portfolio) {
+    //this.props.dispatch(deletePortfolio(portfolio))
+    console.log('delete portfolio ' + portfolio)
+  }
+
   confirmDeletePortfolio() {
+    console.log(this.props)
     let modal = (
         <Modal
           modal_closable={true}
+          modal_close={this.props.modal_close}
           modal_small={true}
-          modal_title={Delete a portfolio}
+          modal_title={'Delete a portfolio'}
           modal_child={LibrairyDeletePortfolioConfirm}
-          portfolio={this.props.edited}
+          title={this.props.title}
+          n_pictures={this.props.n_pictures}
           delete={() => this.deletePortfolio(this.props.edited.slug)}
         />
     )
     this.props.dispatch(setModal(modal))
   }
+  
   getDeleteButton() {
     // we update existing portfolio
     if (this.props.edited.slug) {
       return (
         <button
-          onClick={this.confirmDeletePortfolio}
+          onClick={this.confirmDeletePortfolio.bind(this)}
         >Delete portfolio</button>)
     }
     return null
@@ -105,14 +115,15 @@ class PortfolioEditionForm extends Component {
       dispatch,
       edited, 
     } = this.props
+    //console.log('portfolio edition form', this.props)
     
     return (
       <div>
+        {this.getDeleteButton()}
         <form
             onSubmit={this.handleSubmit.bind(this)}
         >
         <article>
-          {this.getDeleteButton()}
           <p><span className="red">*</span> : required fields.</p>
             {this.getFieldErrors()}
             <div className="field_wrapper">

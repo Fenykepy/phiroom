@@ -80,6 +80,8 @@ export default class LibrairyPortfolio extends Component {
               <PortfolioEditionButton
                 dispatch={this.props.dispatch}
                 portfolio={this.props.params.slug}
+                n_pictures={this.props.n_pictures}
+                title={this.props.title}
             />)}
             orderable={true}
             removePicture={this.removePicture.bind(this)}

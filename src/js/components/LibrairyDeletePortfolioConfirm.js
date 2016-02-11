@@ -3,12 +3,14 @@ import React, { Component, PropTypes } from 'react'
 export default class LibrairyDeletePortfolioConfirm extends Component {
   
   render() {
+    console.log('delete portfolio confirm', this.props)
     return (
         <div>
           <article>
-            <h6>Are you sure you want to delete this portfolio: {this.props.portfolio.title}</h6>
-            <em>It contains {this.props.portfolio.n_pictures} pictures.</em>
-            <strong><em>(this operation is irreversible)</em></strong>
+            <h6>Are you sure you want to delete this portfolio:</h6>
+            <p>{this.props.title}</p>
+            <p><em>It contains {this.props.n_pictures} pictures.</em></p>
+            <p><strong><em>(this operation is irreversible)</em></strong></p>
           </article>
           <footer>
             <button

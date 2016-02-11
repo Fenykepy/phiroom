@@ -43,6 +43,9 @@ export default class PortfolioEditionButton extends Component {
         modal_close={this.closeModal.bind(this)}
         modal_title={this.getTitle()}
         modal_child={PortfolioEditionForm}
+        portfolio={this.props.portfolio}
+        n_pictures={this.props.n_pictures}
+        title={this.props.title}
       />
     )
     this.props.dispatch(setModal(modal))
