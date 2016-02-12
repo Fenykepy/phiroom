@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import { setViewport } from '../actions/viewport'
 import { verifyToken } from '../actions/user'
 
-import { getCookie } from '../helpers/cookieManager'
-
 // containers
 import Lightbox from '../containers/Lightbox'
 
@@ -26,12 +24,7 @@ class App extends Component {
       dispatch,
     } = this.props
     // try to authenticate user
-    let token = getCookie('auth_token')
-    if (token) {
-      // verify if token is valid
-      dispatch(verifyToken(token))
-
-    }
+    dispatch(verifyToken())
     // keep track of viewport size
     window.addEventListener('resize', this.handleResize.bind(this))
     // set initial viewport size

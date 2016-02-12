@@ -32,3 +32,7 @@ export function formatFileSize(bytes, precision = 1) {
 export function capitalize(string) {
   return string[0].toUpperCase() + string.slice(1)
 }
+
+export function getJWTDate(token) {
+  return JSON.parse(window.atob(token.split('.')[1]))['exp']
+}

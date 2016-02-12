@@ -1,7 +1,9 @@
 import * as types from '../constants/actionsTypes'
 
 import Fetch from '../helpers/http'
-import { setCookie, deleteCookie } from '../helpers/cookieManager'
+import { getJWTDate } from '../helpers/utils'
+
+import { setCookie, getCookie, deleteCookie } from '../helpers/cookieManager'
 
 // action creators
 
@@ -84,27 +86,38 @@ export function verifyToken(token) {
    * verify if given token is valid
    */
   return function(dispatch) {
-    // start request
-    dispatch(requestVerifyToken())
-    // return a promise
-    return Fetch.post('api/token-verify/',
-        {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        JSON.stringify({'token': token})
-      )
-      .then(json =>
-        dispatch(receivedVerifiedToken(json.token))
-      )
-      .then(() =>
-        // fetch authenticated user's data
-        dispatch(fetchCurrentUserIfNeeded())
-      )
-      .catch(error => {
-        console.warn(error)
-        dispatch(requestVerifyTokenFailure(error))
-      })
+    let token = getCookie('auth_token')
+    if (token) {
+      // we pass expiration date in milliseconds
+      let exp = getJWTDate(token) * 1000
+      console.log(token)
+      let delta = 24 * 60 * 60
+      if (exp < Date.now() + delta) {
+        console.log('refresh')
+      }
+
+      // start request
+      dispatch(requestVerifyToken())
+      // return a promise
+      return Fetch.post('api/token-verify/',
+          {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          JSON.stringify({'token': token})
+        )
+        .then(json =>
+          dispatch(receivedVerifiedToken(json.token))
+        )
+        .then(() =>
+          // fetch authenticated user's data
+          dispatch(fetchCurrentUserIfNeeded())
+        )
+        .catch(error => {
+          console.warn(error)
+          dispatch(requestVerifyTokenFailure(error))
+        })
+    }
   }
 }
 

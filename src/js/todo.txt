@@ -15,6 +15,7 @@
 - Add authentication for server rendering
 #- Add a confirmation modal on deletePicture action
 - Add a refresh for token
+- Display username somewhere
 - Redirect when user is unauthenticated in librairy
 #- Handle status codes in http.Fetch
 - Add collections manager to librairy
@@ -27,8 +28,10 @@
 - Add a way to import pictures from server hard drive
 #- Add a way to create portfolio
 - Display more info about portfolio (title) for SEO
-- Add a way to edit portfolio
-- Add a way to delete portfolio
+#- Add a way to edit portfolio
+#- Add a way to delete portfolio
+- Add a way to refresh view after portfolio deletion
+- Add a way to refresh view after portfolio update
 - Add a way to create post
 - Add a way to edit post
 - Add a way to delete post
