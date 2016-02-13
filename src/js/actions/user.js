@@ -61,6 +61,79 @@ export function login(credentials) {
 
 
 
+function requestRefreshToken() {
+  return {
+    type: types.REQUEST_REFRESH_TOKEN
+  }
+}
+
+function receivedRefreshToken(token) {
+  return {
+    type: types.REQUEST_REFRESH_TOKEN_SUCCESS,
+    token
+  }
+}
+
+function requestRefreshTokenFailure(error) {
+  return {
+    type: types.REQUEST_REFRESH_TOKEN_FAILURE,
+    error
+  }
+}
+
+export function refreshTokenIfNeeded(token) {
+  /*
+   * refresh token if it expires in less than one day
+   */
+  return function(dispatch) {
+    console.log('refresh token if needed')
+    // we pass expiration date in milliseconds
+    let exp = getJWTDate(token) * 1000
+    //let delta = 24 * 60 * 60 * 1000
+    let delta = 24 * 60 * 60 * 50 * 1000
+
+    if (exp < Date.now() + delta) {
+      // token need to be refreshed
+      dispatch(refreshToken(token))
+    }
+  }
+}
+
+function refreshToken(token) {
+  /*
+   * refresh token
+   */
+  return function(dispatch) {
+    console.log('refresh token')
+    // start request
+    dispatch(requestRefreshToken())
+    // return a promise
+    return Fetch.post('api/token-refresh/',
+          {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          JSON.stringify({'token': token})
+        )
+        .then(json => {
+          console.log('refresh token success')
+          setCookie('auth_token', json.token, 7)
+          return dispatch(receivedRefreshToken(json.token))
+        })
+        .then(() =>
+          // fetch authenticated user's data
+          dispatch(fetchCurrentUserIfNeeded())
+        )
+        .catch(error => {
+          console.warn(error)
+          // check if token is valid
+          dispatch(verifyToken())
+          dispatch(requestRefreshTokenFailure(error))
+        })
+  }
+}
+
+
 function requestVerifyToken() {
   return {
     type: types.REQUEST_VERIFY_TOKEN
@@ -81,21 +154,13 @@ function requestVerifyTokenFailure(error) {
   }
 }
 
-export function verifyToken(token) {
+export function verifyToken() {
   /*
    * verify if given token is valid
    */
   return function(dispatch) {
     let token = getCookie('auth_token')
     if (token) {
-      // we pass expiration date in milliseconds
-      let exp = getJWTDate(token) * 1000
-      console.log(token)
-      let delta = 24 * 60 * 60
-      if (exp < Date.now() + delta) {
-        console.log('refresh')
-      }
-
       // start request
       dispatch(requestVerifyToken())
       // return a promise
@@ -106,9 +171,10 @@ export function verifyToken(token) {
           },
           JSON.stringify({'token': token})
         )
-        .then(json =>
-          dispatch(receivedVerifiedToken(json.token))
-        )
+        .then(json => {
+          dispatch(refreshTokenIfNeeded(json.token))
+          return dispatch(receivedVerifiedToken(json.token))
+        })
         .then(() =>
           // fetch authenticated user's data
           dispatch(fetchCurrentUserIfNeeded())

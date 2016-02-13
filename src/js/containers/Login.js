@@ -32,8 +32,8 @@ class Login extends Component {
     this.props.dispatch(login(credentials)).then(() => {
       // if we have a redirection go to it
       console.log('login',this.props)
-      if (this.props.user.redirect) {
-        this.props.history.pushState(null, redirect)
+      if (this.props.location.query.next) {
+        this.props.history.pushState(null, this.props.location.query.next)
       }
     })
   }
@@ -46,6 +46,8 @@ class Login extends Component {
       csrf,
     } = this.props
 
+    console.log('login', this.props)
+    
     return (
       <section role="main">
         <h1>Login</h1>
