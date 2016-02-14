@@ -24,6 +24,7 @@ class Login extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.is_authenticated) {
         // redirect to home page
+        // !!! redirect to profil page when it's done
         this.props.history.pushState(null, '/')
     }
   }
@@ -46,7 +47,7 @@ class Login extends Component {
       csrf,
     } = this.props
 
-    console.log('login', this.props)
+    console.log('login', this.props, this.context)
     
     return (
       <section role="main">
@@ -62,7 +63,9 @@ class Login extends Component {
   }
 }
 
-
+Login.contextTypes = {
+  router: React.PropTypes.func.isRequired,
+}
 
 // Wrap the component to inject dispatch and state into it
 export default connect(loginSelector)(Login)

@@ -5,12 +5,13 @@ require('../less/controller.less')
 
 import React from 'react'
 import { render } from 'react-dom'
+
 import { Provider } from 'react-redux'
-import { Router } from 'react-router'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { createStoreWithMiddleware } from './store'
-import getRoutes from './routes'
 import rootReducer from './reducers/main'
+
+import { Router, browserHistory } from 'react-router'
+import getRoutes from './routes'
 
 import { fetchCommonData } from './helpers/fetchCommonData'
 
@@ -23,8 +24,6 @@ if (initialState) {
 } else {
   store = createStoreWithMiddleware(rootReducer)
 }
-const history = createBrowserHistory()
-
 
 // Every time the state changes, log it
 /*
@@ -36,7 +35,7 @@ let unsubscribe = store.subscribe(() =>
 let promises = fetchCommonData(store)
 
 
-const routes = <Router history={history} routes={getRoutes()} />
+const routes = <Router history={browserHistory} routes={getRoutes()} />
 
 render(
   <Provider store={store}>
