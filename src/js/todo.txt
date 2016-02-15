@@ -14,7 +14,7 @@
 #- Add authentication
 - Add authentication for server rendering
 #- Add a confirmation modal on deletePicture action
-- Add a refresh for token
+#- Add a refresh for token
 - Display username somewhere
 - Redirect when user is unauthenticated in librairy
 #- Handle status codes in http.Fetch

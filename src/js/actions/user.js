@@ -86,7 +86,7 @@ export function refreshTokenIfNeeded(token) {
    * refresh token if it expires in less than one day
    */
   return function(dispatch) {
-    console.log('refresh token if needed')
+    //console.log('refresh token if needed')
     // we pass expiration date in milliseconds
     let exp = getJWTDate(token) * 1000
     //let delta = 24 * 60 * 60 * 1000
@@ -104,7 +104,7 @@ function refreshToken(token) {
    * refresh token
    */
   return function(dispatch) {
-    console.log('refresh token')
+    //console.log('refresh token')
     // start request
     dispatch(requestRefreshToken())
     // return a promise
@@ -116,7 +116,7 @@ function refreshToken(token) {
           JSON.stringify({'token': token})
         )
         .then(json => {
-          console.log('refresh token success')
+          //console.log('refresh token success')
           setCookie('auth_token', json.token, 7)
           return dispatch(receivedRefreshToken(json.token))
         })
