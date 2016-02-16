@@ -88,8 +88,6 @@ class Picture(models.Model):
     )
     previews_path = models.CharField(max_length=254,
             blank=True, null=True)
-    directory = models.ForeignKey('Directory', verbose_name="Folder",
-            null=True, blank=True)
     title = models.CharField(max_length=140, null=True, blank=True,
             verbose_name="Title")
     legend = models.TextField(null=True, blank=True,
@@ -445,40 +443,6 @@ class Label(models.Model):
 
 
     
-class Directory(MPTTModel):
-    """Table for all directorys."""
-    name = models.CharField(max_length=150, verbose_name="Name")
-    slug = models.SlugField(max_length=150, verbose_name="Slug")
-    parent = TreeForeignKey('self', null=True, blank=True,
-            related_name="children")
-
-    def get_children_pictures(self):
-        """Returns all pictures of a directory and its sub directorys."""
-        # if dir is leaf node, return query
-        if self.is_leaf_node():
-            return self.picture_set.all()
-        # if not, search descendants
-        dir_descendants = self.get_descendants(include_self=True)
-        lists = [item.picture_set.all() for item in dir_descendants]
-        return list(chain.from_iterable(lists))
-
-
-    class MPTTMeta:
-        order_insertion_by = ['name']
-
-    def __str__(self):
-        return self.name
-
-
-    def save(self, **kwargs):
-        """Set slug from name then save."""
-        self.slug = slugify(self.name)
-        super(Directory, self).save()
-
-
-    
-
-
 class Collection(models.Model):
     """Table for all collections"""
     name = models.CharField(max_length=150, verbose_name="Collection")
@@ -592,16 +556,13 @@ def keep_or_delete_picturefiles(sender, instance, **kwargs):
 class PictureFactory(object):
     """Class to create new pictures objects."""
 
-    def __init__(self, file=None, directory=None, **kwargs):
+    def __init__(self, file=None, **kwargs):
         """
         Make a picture object from given file.
         file: pathname. It MUST be an image file.
-        directory: directory object.
         """
         self.picture = Picture()
         self.cloned = False
-        if directory and isinstance(directory, Directory):
-            self.picture.directory = directory
         # if we got an in memory openned file (from upload)
         if not isinstance(file, str):
             self._scan_image(file)
@@ -642,7 +603,6 @@ class PictureFactory(object):
             clone.pk = None
             clone.name_import = self.picture.name_import
             clone.name = clone.name_import
-            clone.directory = self.picture.directory
             self.picture = clone
             self.picture.save()
             self.cloned = True
@@ -672,17 +632,6 @@ class PictureFactory(object):
         except:
             return None
         return clone
-
-
-    def _get_directory(self, directory_id):
-        """Return directory object or None."""
-        try:
-            directory = Directory.objects.get(
-                    pk=directory_id
-            )
-        except:
-            return None
-        return directory
 
 
     def _get_picture_type(self, file):

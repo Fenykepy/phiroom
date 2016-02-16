@@ -10,7 +10,7 @@ from phiroom.permissions import IsStaffOrReadOnly
 
 from librairy.serializers import *
 from librairy.models import Tag, Collection, CollectionsEnsemble, \
-        Label, Directory, Picture
+        Label, Picture
 
 
 class PicturesList(generics.ListCreateAPIView):
@@ -50,59 +50,6 @@ class PictureShortDetail(generics.RetrieveAPIView):
     queryset = Picture.objects.all()
     serializer_class = PictureShortSerializer
     permission_classes = (IsStaffOrReadOnly,)
-
-
-
-
-class DirectoriesList(generics.ListCreateAPIView):
-    """
-    This view presents a hierarchical tree (list) of all directories
-    and allows to create new directories.
-    """
-    queryset = Directory.objects.filter(parent=None)
-    serializer_class = DirectoriesListSerializer
-    permission_classes = (IsAdminUser,)
-
-
-
-class DirectoryDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-    This view presents a specific directory and allows to update or delete it.
-    """
-
-    queryset = Directory.objects.all()
-    serializer_class = DirectorySerializer
-    permission_classes = (IsAdminUser,)
-
-
-
-class DirectoryPicturesList(generics.ListAPIView):
-    """
-    This view presents a list of all pictures related to one directory.
-    """
-    serializer_class = PictureSerializer
-    permission_classes = (IsAdminUser,)
-
-    def list(self, request, pk, format=None):
-        """
-        returns a list of all pictures in a directory.
-        "-" pk will return pictures with no directory.
-        """
-        if pk == '-':
-            pictures = Picture.objects.filter(directory=None)
-        # get related directory
-        else:
-            try:
-                dir = Directory.objects.get(pk=pk)
-                pictures = dir.get_children_pictures()
-            except:
-                raise Http404
-        # get directory's pictures
-        serializer = PictureSerializer(pictures, many=True,
-                context={'request': request}
-        )
-
-        return Response(serializer.data)
 
 
 @api_view(['GET'])

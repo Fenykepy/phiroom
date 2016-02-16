@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from librairy.models import Picture, Tag, Label, Directory, \
+from librairy.models import Picture, Tag, Label, \
         Collection, CollectionsEnsemble, PictureFactory
 
 
@@ -25,29 +25,6 @@ class LabelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Label
         fields = ('name', 'slug', 'color')
-
-
-
-class DirectorySerializer(serializers.ModelSerializer):
-    """Directory objects serializer."""
-    slug = serializers.CharField(read_only=True)
-    children = serializers.HyperlinkedRelatedField(
-            many=True,
-            read_only=True,
-            view_name='directory-detail'
-    )
-
-    class Meta:
-        model = Directory
-        fields = ('url', 'pk', 'name', 'slug', 'parent', 'children')
-
-
-
-class DirectoriesListSerializer(DirectorySerializer):
-    """Serializer for tree of directory objects."""
-    children = RecursiveField(many=True, read_only=True)
-
-
 
 
 

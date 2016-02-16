@@ -10,7 +10,7 @@ from rest_framework.test import APIClient, APITestCase
 
 from user.models import User
 from librairy.models import Picture, Collection, CollectionsEnsemble, \
-        Label, Tag, Directory, PictureFactory, set_picturename
+        Label, Tag, PictureFactory, set_picturename
 
 from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
         PREVIEWS_CROP, PREVIEWS_MAX, PREVIEWS_HEIGHT, \
@@ -27,12 +27,7 @@ class PictureFactoryTest(TestCase):
     def test_picture_factory(self):
         """PictureFactory test."""
 
-        # create a test Directory
-        dir = Directory(name="Test")
-        dir.save()
-        
         # create a first Picture from test file with factory
-        # without directory
         factory = PictureFactory(file=PICT_PATH)
         self.assertEqual(factory.cloned, False) 
         
@@ -51,7 +46,6 @@ class PictureFactoryTest(TestCase):
             os.path.join(LIBRAIRY, 'ae/2b/ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092.jpeg')
         )
         self.assertEqual(pict.lens, '150mm')
-        self.assertEqual(pict.directory, None)
         # get large preview path
         preview_path = os.path.join(
                 PREVIEWS_DIR,
@@ -67,8 +61,7 @@ class PictureFactoryTest(TestCase):
 
         
         # create a second Picture from test file with factory
-        # use given directory
-        factory = PictureFactory(file=PICT_PATH, directory=dir)
+        factory = PictureFactory(file=PICT_PATH)
         self.assertEqual(factory.cloned, True)
 
         # assert new picture has been created
@@ -86,8 +79,6 @@ class PictureFactoryTest(TestCase):
             os.path.join(LIBRAIRY, 'ae/2b/ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092.jpeg')
         )
         self.assertEqual(pict2.lens, '150mm')
-        # assert directory is good one
-        self.assertEqual(pict2.directory, dir)
         # assert previews haven't been regenerated
         new_mod_time = os.path.getmtime(preview_path)
         self.assertEqual(mod_time, new_mod_time)
@@ -384,154 +375,6 @@ class APITest(APITestCase):
 
 
 
-    def test_directorysAPI(self):
-        directory = Directory.objects.create(name="test")
-
-        url = reverse('directories-list')
-        url2 = reverse('directory-detail', kwargs={'pk': directory.pk})
-        url3 = reverse('directory-pictures-list', kwargs={'pk': directory.pk})
-        # try to get directory list without login
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-        # try to post a new directory without login
-        data = {"name":"root directory"}
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 401)
-        # try to put without login
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, 401)
-        # try to delete without login
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 401)
-
-        # try to get particular directory without login
-        response = self.client.get(url2)
-        # try to post to particular directory without login
-        response = self.client.post(url2, data, format='json')
-        self.assertEqual(response.status_code, 401)
-        # try to put  particular directory without login
-        response = self.client.put(url2, data, format='json')
-        self.assertEqual(response.status_code, 401)
-        # try to delete particular directory without login
-        response = self.client.delete(url2)
-        self.assertEqual(response.status_code, 401)
-        # try to get particular directory's pictures list without login
-        response = self.client.get(url3)
-        self.assertEqual(response.status_code, 401)
-
-        
-
-
-        # login with normal user
-        self.client.login(username='tom', password='foo')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-        # try to post with normal user
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 403)
-        # try to put with normal user
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, 403)
-        # try to delete with normal user
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 403)
-
-        # try to get particular directory with normal user
-        response = self.client.get(url2)
-        # try to post to particular directory with normal user
-        response = self.client.post(url2, data, format='json')
-        self.assertEqual(response.status_code, 403)
-        # try to put  particular directory with normal user
-        response = self.client.put(url2, data, format='json')
-        self.assertEqual(response.status_code, 403)
-        # try to delete particular directory with normal user
-        response = self.client.delete(url2)
-        self.assertEqual(response.status_code, 403)
-        # try to get particular directory's pictures list with normal user
-        response = self.client.get(url3)
-        self.assertEqual(response.status_code, 403)
-
-
-        # delete test directory
-        directory.delete()
-        
-        # only admin should access to directory
-        # login with staff user
-        self.client.login(username='flr', password='foo')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['results'], [])
-        # try to post a new directory
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.data['name'], 'root directory')
-        self.assertEqual(response.data['slug'], 'root-directory')
-        self.assertEqual(response.data['parent'], None)
-        self.assertEqual(response.data['children'], [])
-        pk = response.data['pk']
-        # assert directory has been stored in db
-        dir = Directory.objects.get(pk=pk)
-        self.assertEqual(dir.name, 'root directory')
-        # try to update directory
-        data = {"name":"first directory"}
-        url2 = reverse('directory-detail', kwargs={'pk': pk})
-        response = self.client.put(url2, data, format='json')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['name'], 'first directory')
-        self.assertEqual(response.data['slug'], 'first-directory')
-        # assert change has been stored in db
-        dir = Directory.objects.get(pk=pk)
-        self.assertEqual(dir.name, 'first directory')
-        # create a second directory to test hierarchy
-        data = {"name": "child directory", "parent": dir.pk}
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.data['name'], 'child directory')
-        self.assertEqual(response.data['slug'], 'child-directory')
-        self.assertEqual(response.data['parent'], dir.pk)
-        pk2 = response.data['pk']
-        dir2 = Directory.objects.get(pk=pk2)
-        # assert directory has been stored in db
-        self.assertEqual(dir2.name, 'child directory')
-        self.assertEqual(dir2.parent, dir)
-        # list directorys and verify hierarchy
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        # only root directory should be listed
-        self.assertEqual(response.data['count'], 1)
-        self.assertEqual(response.data['results'][0]['pk'], dir.pk)
-        # child directory should be in children
-        self.assertEqual(response.data['results'][0]['children'][0]['pk'], dir2.pk)
-
-        #test directory's pictures listing
-        url = reverse('directory-pictures-list', kwargs={'pk': dir.pk})
-        pict = create_test_picture()
-        pict2 = create_test_picture()
-        pict.directory = dir
-        pict.save()
-        pict2.directory = dir2
-        pict2.save()
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data), 2)
-
-        # create a picture to test null directory's pictures list
-        pict3 = create_test_picture()
-        # test null directory's pictures listing
-        url = reverse('directory-pictures-list', kwargs={'pk': '-'})
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data[0]['pk'], pict3.pk)
-        self.assertEqual(len(response.data), 1)
-
-        # try to delete first directory
-        response = self.client.delete(url2)
-        self.assertEqual(response.status_code, 204)
-        # assert both directory and children are deleted from db
-        n_dir = Directory.objects.all().count()
-        self.assertEqual(n_dir, 0)
-
-    
     def test_picturesPkList(self):
         url = reverse('all-pictures-list')
         data = { 'pks': [1, 2, 3] }
@@ -589,11 +432,8 @@ class APITest(APITestCase):
     
     def test_picturesAPI(self):
         url_list = reverse('pictures-list')
-        # create directory and picture for tests
-        dir = Directory.objects.create(name="test")
+        # create picture for tests
         pict = create_test_picture()
-        pict.directory = dir
-        pict.save()
         url_detail = reverse('picture-detail', kwargs={'pk': pict.pk})
 
         # try to get pictures list without login
@@ -659,22 +499,19 @@ class APITest(APITestCase):
         with open(PICT_PATH, 'rb') as file:
             response = self.client.post(url_list, {
                 'file':file,
-                'directory': dir.pk
             })
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.data['directory'], 1)
         self.assertEqual(response.data['pk'], 2)
         self.assertEqual(response.data['name_import'], 'FLR_15_2822.jpg')
         # assert picture has been saved in db
         n_pict = Picture.objects.all().count()
         self.assertEqual(n_pict, 2)
-        # post a picture with no directory
+        # post a picture
         with open(PICT_PATH, 'rb') as file:
             response = self.client.post(url_list, {
                 'file':file,
             })
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.data['directory'], None)
         self.assertEqual(response.data['pk'], 3)
         self.assertEqual(response.data['name_import'], 'FLR_15_2822.jpg')
         # assert picture has been saved in db
@@ -692,7 +529,6 @@ class APITest(APITestCase):
             'legend': 'My beautiful legend',
             'name': 'my_name.jpg',
             'rate': 4,
-            'directory': 1,
             'color': True,
             'copyright': 'LAVILOTTE-ROLLE Frédéric',
             'copyright_state': "True",
@@ -705,7 +541,6 @@ class APITest(APITestCase):
         self.assertEqual(pict.legend, 'My beautiful legend')
         self.assertEqual(pict.name, 'my_name.jpg')
         self.assertEqual(pict.rate, 4)
-        self.assertEqual(pict.directory, dir)
         self.assertEqual(pict.color, True)
         # test get picture
         response = self.client.get(url_detail)
