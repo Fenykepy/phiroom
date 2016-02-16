@@ -41,7 +41,8 @@ class IsStaffOrCreateOnly(permissions.BasePermission):
 
 class IsWeblogAuthorOrReadOnly(permissions.BasePermission):
     """
-    Custom permission to only allow staff members to edit object.
+    Custom permission to only allow staff members or weblog authors
+    to create object.
     """
 
     def has_permission(self, request, view):

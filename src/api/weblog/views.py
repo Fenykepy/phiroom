@@ -9,7 +9,8 @@ from weblog.models import Post, Tag
 from librairy.models import Picture
 from librairy.serializers import PictureShortSerializer
 
-from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
+from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly, \
+        IsWeblogAuthorOrReadOnly
 
 
 
@@ -21,7 +22,7 @@ class PostList(generics.ListCreateAPIView):
     """
     queryset = Post.published.all()
     serializer_class = PostAbstractSerializer
-    permission_classes = (IsStaffOrReadOnly,)    
+    permission_classes = (IsWeblogAuthorOrReadOnly, IsStaffOrReadOnly,)    
     lookup_field = 'slug'
 
     # allow staff members to list not published posts.
@@ -42,17 +43,14 @@ class PostList(generics.ListCreateAPIView):
 
 
 
-
-
-
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     API endpoint that presents a specific post and allows to
-    update or delete it.
+    update or delete it if user is author or staff.
     """
     queryset = Post.published.all().prefetch_related('tags')
     serializer_class = PostSerializer
-    permission_classes = (IsAuthorOrReadOnly,)
+    permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
     lookup_field = 'slug'
     
     # allow staff members to retrieve not published posts.
@@ -80,6 +78,7 @@ class PostPictureList(generics.ListCreateAPIView):
     """
     queryset = PostPicture.objects.all()
     serializer_class = PostPictureSerializer
+    permission_classes = (IsWeblogAuthorOrReadOnly, IsStaffOrReadOnly)
 
 
 
@@ -90,6 +89,7 @@ class PostPictureDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = PostPicture.objects.all()
     serializer_class = PostPictureSerializer
+    permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
     def get_object(self):
         try:
             post = Post.objects.get(slug=self.kwargs['post'])
@@ -109,7 +109,7 @@ class PostPictureDetail(generics.RetrieveUpdateDestroyAPIView):
 def flat_tags_list(request, format=None):
     """
     Returns a flat list of all tags name.
-    without
+    without pagination.
     """
     tags = Tag.objects.values_list('name', flat=True).order_by('-n_posts')
 
@@ -122,12 +122,12 @@ def posts_headers_list(request, format=None):
     """
     Returns a list of all posts headers (slug, name) without pagination.
     All posts are returned if user is admin.
-    Only published ones else.
+    Only user's ones else.
     """
     if request.user.is_staff:
-        posts = Post.objects.filter(author=request.user)
+        posts = Posts.objects.all()
     else:
-        posts = Post.published.all()
+        posts = Post.objects.filter(author=request.user)
 
     serializer = PostHeadSerializer(posts, many=True)
 
@@ -136,7 +136,7 @@ def posts_headers_list(request, format=None):
 
 
 @api_view(['GET'])
-@permission_classes((IsStaffOrReadOnly, ))
+@permission_classes((IsAuthorOrReadOnly, IsStaffOrReadOnly, ))
 def post_pictures(request, slug, format=None):
     """
     Returns a list of all pictures short data (public) of a post
@@ -163,7 +163,7 @@ class TagList(generics.ListCreateAPIView):
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
-    permission_classes = (IsStaffOrReadOnly,)
+    permission_classes = (IsWeblogAuthorOrReadOnly, IsStaffOrReadOnly,)
  
 
 
@@ -174,5 +174,5 @@ class TagDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsStaffOrReadOnly,)
  
