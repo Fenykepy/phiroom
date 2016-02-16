@@ -8,15 +8,19 @@ conf:
     - use '/' relatives urls for logos instead of absolute urls
 
 portfolio:
-    - add views
-    - add tests
+#    - add views
+#    - add tests
 
 weblog:
-    - add pk relation field for pictures instead of nesting
-    - add pk relation field for author instead of nesting
+#    - add pk relation field for pictures instead of nesting
+#    - add pk relation field for author instead of nesting
+    - add view for posts headers
 
 librairy:
-    - add pictures_full view
-    - add pictures_short view
-    - delete all others except list
-    - test ratio in models
+#    - add pictures_full view
+#    - add pictures_short view
+#    - delete all others except list
+#    - test ratio in models
+    - add view for collections headers
+    - add view for collection (CRUD)
+    - add view for collection ensembles (CRUD)

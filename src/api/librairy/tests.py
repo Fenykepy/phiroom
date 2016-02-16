@@ -258,6 +258,7 @@ class PictureTest(TestCase):
         self.assertEqual(self.pict.rate, 5)
         self.assertEqual(self.pict.label.slug, 'vert')
         self.assertEqual(self.pict.tags.count(), 4)
+        self.assertEqual(self.pict.ratio, 0.75)
 
 
 
