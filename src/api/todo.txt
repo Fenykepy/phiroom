@@ -22,5 +22,4 @@ librairy:
 #    - delete all others except list
 #    - test ratio in models
     - add view for collections headers
-    - add view for collection (CRUD)
-    - add view for collection ensembles (CRUD)
+    - add view for collections (CRUD)
