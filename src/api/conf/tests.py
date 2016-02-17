@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from user.models import User
 from conf.models import Conf, Page
 
+from user.tests import create_test_users, login
 
 class ConfModelTest(TestCase):
     """Conf model test class."""
@@ -116,22 +117,8 @@ class APITest(APITestCase):
     """Class to test rest API."""
 
     def setUp(self):
-        #create test users
-        self.user = User.objects.create_user(
-                username="tom",
-                email="tom@lavilotte-rolle.fr",
-                password="foo",
-        )
-        self.user.save()
-        # create staff user
-        self.staffuser = User.objects.create_user(
-                username="flr",
-                email="pro@lavilotte-rolle.fr",
-                password="foo",
-        )
-        self.staffuser.is_staff = True
-        self.staffuser.save()
-
+        # create users
+        create_test_users(self)
 
         # setup client
         self.client = APIClient()
@@ -159,7 +146,7 @@ class APITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # login with normal user
-        self.client.login(username='tom', password='foo')
+        login(self, self.normalUser)
         # try to get last conf with normal user
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -176,7 +163,7 @@ class APITest(APITestCase):
 
         # only admin should have write access to settings
         # login with staff user
-        self.client.login(username='flr', password='foo')
+        login(self, self.staffUser)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         # try to post data with admin user
