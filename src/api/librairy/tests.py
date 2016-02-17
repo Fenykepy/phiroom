@@ -16,6 +16,8 @@ from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
         PREVIEWS_CROP, PREVIEWS_MAX, PREVIEWS_HEIGHT, \
         PREVIEWS_WIDTH, LARGE_PREVIEWS_FOLDER, BASE_DIR
 
+from user.tests import create_test_users, login
+
 PICT_FILE = 'librairy/test_files/FLR_15_2822.jpg'
 PICT_PATH = os.path.join(BASE_DIR, PICT_FILE)
 
@@ -354,22 +356,8 @@ class APITest(APITestCase):
     """Class to test rest API."""
 
     def setUp(self):
-        # create test users
-        self.user = User.objects.create_user(
-                username="tom",
-                email="tom@lavilotte-rolle.fr",
-                password="foo",
-        )
-        self.user.save()
-        # create staff user
-        self.staffuser = User.objects.create_user(
-                username="flr",
-                email="pro@lavilotte-rolle.fr",
-                password="foo",
-        )
-        self.staffuser.is_staff = True
-        self.staffuser.save()
-
+        # create users
+        create_test_users(self)
 
         # setup client
         self.client = APIClient()
@@ -400,7 +388,7 @@ class APITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # try with normal user
-        self.client.login(username='tom', password='foo')
+        login(self, self.normalUser)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
         response = self.client.post(url, data)
@@ -413,7 +401,7 @@ class APITest(APITestCase):
         self.assertEqual(response.status_code, 403)
 
         # try with admin user
-        self.client.login(username='flr', password='foo')
+        login(self, self.staffUser)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         for index, item in enumerate(results):
