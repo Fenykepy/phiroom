@@ -452,7 +452,7 @@ class APITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # login with normal user
-        self.client.login(username='tom', password='foo')
+        login(self, self.normalUser)
         response = self.client.get(url_list)
         self.assertEqual(response.status_code, 403)
         # try to post with normal user
@@ -480,7 +480,7 @@ class APITest(APITestCase):
         # only admin should access to pictures (except in allowed collections
         # not implemenented yet)
         # login with staff user
-        self.client.login(username='flr', password='foo')
+        login(self, self.staffUser)
         response = self.client.get(url_list)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['results']), 1)

@@ -25,4 +25,4 @@ librairy:
 #    - test ratio in models
     - add view for collections headers
     - add view for collections (CRUD)
-    - review tests to use create_test_users
+#    - review tests to use create_test_users
