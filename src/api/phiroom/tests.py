@@ -36,7 +36,7 @@ class CSRFTokenAPITest(APITestCase):
         self.assertEqual(response.status_code, 405)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client should get token
         response=self.client.get(url)
         self.assertTrue(response.data['token'])
@@ -55,7 +55,7 @@ class CSRFTokenAPITest(APITestCase):
         self.assertEqual(response.status_code, 405)
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get token
         response=self.client.get(url)
         self.assertEqual(response.status_code, 200)

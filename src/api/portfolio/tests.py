@@ -20,15 +20,15 @@ def create_test_portfolios(instance):
     """
     instance.port = Portfolio.objects.create(
         title="My first title",
-        author=instance.user
+        author=instance.staffUser
     )
     instance.port2 = Portfolio.objects.create(
         title="My second title",
-        author=instance.user2
+        author=instance.normalUser
     )
     instance.port3 = Portfolio.objects.create(
         title="My third title",
-        author=instance.user
+        author=instance.staffUser
     )
 
 class PortfolioModelTest(TestCase):
@@ -47,7 +47,7 @@ class PortfolioModelTest(TestCase):
         # create a portfolio
         port = Portfolio(
             title="My title",
-            author=self.user
+            author=self.staffUser
         )
         port.save()
         # assert slug is correctly generated
@@ -62,7 +62,7 @@ class PortfolioModelTest(TestCase):
         port2 = Portfolio(
             title="My title",
             order=2,
-            author=self.user
+            author=self.staffUser
         )
         port2.save()
         # assert slugs are unique
@@ -168,14 +168,14 @@ class PortfolioAPITest(APITestCase):
 
         # test with normal user
         # client shouldn't receive unpublished portfolios
-        login(self, self.user2)
+        login(self, self.normalUser)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
         
         # test with admin user
         # client should have all posts
-        login(self, self.user)
+        login(self, self.staffUser)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 3)
@@ -232,7 +232,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client shouldn't get list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -250,7 +250,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 403)
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get all portfolios list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -324,7 +324,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client shouldn't get 
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -342,7 +342,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 403)
         
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get port
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -396,7 +396,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client should get published portfolios list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -415,7 +415,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 403)
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get all portfolios list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -426,7 +426,7 @@ class PortfolioAPITest(APITestCase):
         # assert portfolio has been saved in db
         port = Portfolio.objects.get(slug="portfolio-title")
         # assert user has been saved as author
-        self.assertEqual(port.author, self.user)
+        self.assertEqual(port.author, self.staffUser)
 
         # client shouldn't be able to put
         response = self.client.put(url, data)
@@ -474,7 +474,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client should get port
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -495,7 +495,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 403)
         
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get port
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -589,7 +589,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client should get port
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -610,7 +610,7 @@ class PortfolioAPITest(APITestCase):
         self.assertEqual(response.status_code, 403)
         
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get port
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)

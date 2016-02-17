@@ -10,23 +10,63 @@ from user.models import User
 
 
 def create_test_users(instance):
-    """Create two users for tests."""
-    instance.user = User.objects.create_superuser(
+    """Create users for tests:
+        - One normal user
+        - One staff member
+        - One superuser
+        - One weblogauthor
+        - One librairymember
+    """
+    instance.superUser = User.objects.create_superuser(
+        username="bob",
+        first_name="robert",
+        last_name="chin",
+        email='bob@phiroom.org',
+        password='top_secret',
+    )
+    # set this here because save User's methods isn't call
+    # when usinge create_user or create_superuser
+    instance.superUser.is_staff = True
+    instance.superUser.is_weblog_author = True
+    instance.superUser.mail_contact = True
+    instance.superUser.mail_registration = True
+    instance.superUser.save()
+
+    instance.staffUser = User.objects.create_user(
         username="tom",
         first_name="Tom",
         last_name="Poe",
         email='tom@phiroom.org',
         password='top_secret',
     )
-    instance.user.is_staff = True
-    instance.user.save()
+    instance.staffUser.is_staff = True
+    instance.staffUser.is_weblog_author = True
+    instance.staffUser.mail_contact = True
+    instance.staffUser.mail_registration = True
+    instance.staffUser.save()
+    
+    instance.weblogAuthorUser = User.objects.create_user(
+        username="Bill",
+        email='bill@phiroom.org',
+        password='top_secret',
+    )
+    instance.weblogAuthorUser.is_weblog_author = True
+    instance.weblogAuthorUser.save()
+   
+    instance.librairyMemberUser = User.objects.create_user(
+        username="Jim",
+        email='jim@phiroom.org',
+        password='top_secret',
+    )
+    instance.librairyMemberUser.is_librairy_member = True
+    instance.librairyMemberUser.save()
 
-    instance.user2 = User.objects.create_user(
+    instance.normalUser = User.objects.create_user(
         username="John",
         email='john@phiroom.org',
         password='top_secret',
     )
-    instance.user2.save()
+    instance.normalUser.save()
 
 
 
@@ -50,30 +90,30 @@ class ModelTest(TestCase):
 
     def test_get_short_name(self):
         # should return first_name
-        short_name = self.user.get_short_name()
+        short_name = self.staffUser.get_short_name()
         self.assertEqual(short_name, "Tom")
 
         # should return username as no first_name
-        short_name = self.user2.get_short_name()
+        short_name = self.normalUser.get_short_name()
         self.assertEqual(short_name, "John")
 
 
     def test_get_full_name(self):
         # should return first_name + last_name
-        full_name = self.user.get_full_name()
+        full_name = self.staffUser.get_full_name()
         self.assertEqual(full_name, "Tom Poe")
 
         # should return get_short_name (so username)
-        full_name = self.user2.get_full_name()
+        full_name = self.normalUser.get_full_name()
         self.assertEqual(full_name, 'John')
 
 
     def test_save(self):
         # should have set user author_name to get_full_name()
-        self.assertEqual(self.user.author_name, "Tom Poe")
+        self.assertEqual(self.staffUser.author_name, "Tom Poe")
         # should have set user mail_contact and mail_registration to True
-        self.assertTrue(self.user.mail_contact)
-        self.assertTrue(self.user.mail_registration)
+        self.assertTrue(self.staffUser.mail_contact)
+        self.assertTrue(self.staffUser.mail_registration)
 
 
 
@@ -164,7 +204,7 @@ class UserAPITest(TestCase):
         self.assertEqual(response.status_code, 401)
 
         # login with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # detail should be accessible
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -185,19 +225,19 @@ class UserAPITest(TestCase):
         }
 
         # test without login
-        url = base_url.format(self.user.pk)
+        url = base_url.format(self.staffUser.pk)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['username'], self.user.username)
-        self.assertEqual(response.data['website'], self.user.website)
-        self.assertEqual(response.data['author_name'], self.user.author_name)
-        self.assertEqual(response.data['avatar'], self.user.avatar)
-        self.assertEqual(response.data['flickr_link'], self.user.flickr_link)
-        self.assertEqual(response.data['twitter_link'], self.user.twitter_link)
-        self.assertEqual(response.data['gplus_link'], self.user.gplus_link)
-        self.assertEqual(response.data['facebook_link'], self.user.facebook_link)
-        self.assertEqual(response.data['pinterest_link'], self.user.pinterest_link)
-        self.assertEqual(response.data['vk_link'], self.user.vk_link)
+        self.assertEqual(response.data['username'], self.staffUser.username)
+        self.assertEqual(response.data['website'], self.staffUser.website)
+        self.assertEqual(response.data['author_name'], self.staffUser.author_name)
+        self.assertEqual(response.data['avatar'], self.staffUser.avatar)
+        self.assertEqual(response.data['flickr_link'], self.staffUser.flickr_link)
+        self.assertEqual(response.data['twitter_link'], self.staffUser.twitter_link)
+        self.assertEqual(response.data['gplus_link'], self.staffUser.gplus_link)
+        self.assertEqual(response.data['facebook_link'], self.staffUser.facebook_link)
+        self.assertEqual(response.data['pinterest_link'], self.staffUser.pinterest_link)
+        self.assertEqual(response.data['vk_link'], self.staffUser.vk_link)
         response = self.client.post(url, {})
         self.assertEqual(response.status_code, 405)
         response = self.client.put(url, {})
@@ -208,7 +248,7 @@ class UserAPITest(TestCase):
         self.assertEqual(response.status_code, 405)
  
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
 
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -222,7 +262,7 @@ class UserAPITest(TestCase):
         self.assertEqual(response.status_code, 405)
 
         # try to get a non author user
-        url = base_url.format(self.user2.pk)
+        url = base_url.format(self.normalUser.pk)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         

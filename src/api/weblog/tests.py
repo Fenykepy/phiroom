@@ -28,13 +28,13 @@ def create_test_tags(instance):
 def create_test_weblog_users(instance):
     """Create users for tests."""
     create_test_users(instance)
-    instance.user3 = User.objects.create_user(
+    instance.weblogUser = User.objects.create_user(
         username="bill",
         email="bill@bill.com",
         password='top_secret',
         is_weblog_author=True,
     )
-    instance.user3.save()
+    instance.weblogUser.save()
 
 
 
@@ -46,7 +46,7 @@ def create_test_posts(instance):
             title="My first title",
             description="",
             source="some text [...] end of abstract",
-            author= instance.user
+            author= instance.staffUser
         )
     instance.post.save()
 
@@ -54,7 +54,7 @@ def create_test_posts(instance):
             title="My second title",
             description="",
             source="some text [...] end of abstract",
-            author= instance.user
+            author= instance.staffUser
         )
     instance.post2.save()
 
@@ -63,7 +63,7 @@ def create_test_posts(instance):
             description="",
             draft=True,
             source="some text [...] end of abstract",
-            author= instance.user
+            author= instance.staffUser
         )
     instance.post3.save()
 
@@ -71,7 +71,7 @@ def create_test_posts(instance):
             title="My fourth title",
             description="",
             source="some text [...] end of abstract",
-            author= instance.user
+            author= instance.staffUser
         )
     instance.post4.save()
 
@@ -79,7 +79,7 @@ def create_test_posts(instance):
             title="My fifth title",
             description="",
             source="some text [...] end of abstract",
-            author= instance.user
+            author= instance.staffUser
         )
     instance.post5.save()
 
@@ -213,7 +213,7 @@ class PostModelTest(TestCase):
             title="My title",
             description="A short description",
             source="some text [...] end of abstract",
-            author=self.user
+            author=self.staffUser
         )
         post.save()
 
@@ -251,7 +251,7 @@ class PostModelTest(TestCase):
             title="My title",
             description="A short description",
             source="some text [...] end of abstract",
-            author= self.user
+            author= self.staffUser
         )
         post2.save()
 
@@ -375,7 +375,7 @@ class TagAPITest(APITestCase):
 
     def test_list_tags(self):
         # login with staff member
-        #login(self, self.user)
+        #login(self, self.staffUser)
 
         data = {'count': 2,
                 'next': None,
@@ -414,7 +414,7 @@ class TagAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # login with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # detail shouldn't be accessible
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -429,7 +429,7 @@ class TagAPITest(APITestCase):
 
 
         # login with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         
         data = {'name': 'test', 'n_posts': 0, 'slug': 'test',
                 'url': 'http://testserver/api/weblog/tags/1/'}
@@ -467,7 +467,7 @@ class TagAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # login with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # detail shouldn't be accessible
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -482,7 +482,7 @@ class TagAPITest(APITestCase):
 
 
         # login with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         
         data = ['test2', 'test']
 
@@ -546,7 +546,7 @@ class PostPictureAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client shouldn't get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -565,7 +565,7 @@ class PostPictureAPITest(APITestCase):
 
 
         # test with staff member and post owner
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -624,7 +624,7 @@ class PostPictureAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client shouldn't get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -643,7 +643,7 @@ class PostPictureAPITest(APITestCase):
 
 
         # test with staff member and post owner
-        login(self, self.user)
+        login(self, self.staffUser)
         # client shouldn't get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -699,14 +699,14 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client shouldn't receive anything
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
 
         # test with admin user
-        login(self, self.user)
+        login(self, self.staffUser)
         # client shouldn't get any posts in list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -715,11 +715,11 @@ class PostAPITest(APITestCase):
         self.assertTrue(response.data[0]['title'])
         
         # admin user should only see post he is author of
-        self.user2.is_staff = True
-        self.user2.save()
-        self.post3.author = self.user2
+        self.normalUser.is_staff = True
+        self.normalUser.save()
+        self.post3.author = self.normalUser
         self.post3.save()
-        login(self, self.user2)
+        login(self, self.normalUser)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
@@ -753,7 +753,7 @@ class PostAPITest(APITestCase):
 
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client should get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -771,7 +771,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 403)
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -782,7 +782,7 @@ class PostAPITest(APITestCase):
         # assert post has been saved in db
         post = Post.objects.get(title="Post title")
         # assert user has been saved as author
-        self.assertEqual(post.author, self.user)
+        self.assertEqual(post.author, self.staffUser)
         # client shouldn't be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 405)
@@ -825,7 +825,7 @@ class PostAPITest(APITestCase):
 
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client should get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -843,7 +843,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 403)
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -860,7 +860,7 @@ class PostAPITest(APITestCase):
         for key in data:
             self.assertEqual(response.data[key], data[key])
         self.assertEqual(response.data['author'],
-                self.user.pk)
+                self.staffUser.pk)
 
         self.assertTrue(response.data['pub_date'])
         self.assertTrue(response.data['tags'])
@@ -952,7 +952,7 @@ class PostAPITest(APITestCase):
 
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client should get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -970,7 +970,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 403)
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 201)
@@ -997,7 +997,7 @@ class PostAPITest(APITestCase):
         for key in data:
             self.assertEqual(response.data['results'][0][key], data[key])
         self.assertEqual(response.data['results'][0]['author'],
-                self.user.pk)
+                self.staffUser.pk)
 
         self.assertTrue(response.data['results'][0]['pub_date'])
         self.assertTrue(response.data['results'][0]['slug'])
@@ -1014,7 +1014,7 @@ class PostAPITest(APITestCase):
         }
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, 201)
         # all created tags should be in response
@@ -1044,7 +1044,7 @@ class PostAPITest(APITestCase):
         }
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         response = self.client.put(url, data, format="json")
         self.assertEqual(response.status_code, 200)
         # all created tags should be in response
@@ -1142,7 +1142,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client should get pictures
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -1163,7 +1163,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 403)
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get pictures
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)

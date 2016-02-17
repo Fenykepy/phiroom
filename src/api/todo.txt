@@ -6,6 +6,7 @@ Change slug generation to exclude settings.RESERVED_WORDS
 
 conf:
     - use '/' relatives urls for logos instead of absolute urls
+    - review tests to use create_test_users
 
 portfolio:
 #    - add views
@@ -15,6 +16,7 @@ weblog:
 #    - add pk relation field for pictures instead of nesting
 #    - add pk relation field for author instead of nesting
     - add view for posts headers
+    - add tests for new rights with is_weblog_author
 
 librairy:
 #    - add pictures_full view
@@ -23,3 +25,4 @@ librairy:
 #    - test ratio in models
     - add view for collections headers
     - add view for collections (CRUD)
+    - review tests to use create_test_users

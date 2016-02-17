@@ -14,10 +14,10 @@ def create_test_messages(instance):
     Run create_test_users first.
     """
     instance.mesg = Message.objects.create(
-        name=instance.user.username,
-        user=instance.user,
-        mail=instance.user.email,
-        website=instance.user.website,
+        name=instance.staffUser.username,
+        user=instance.staffUser,
+        mail=instance.staffUser.email,
+        website=instance.staffUser.website,
         subject="contact",
         message="Hello",
     )
@@ -45,12 +45,12 @@ class DescriptionModelTest(TestCase):
         desc = Description.objects.create(
                 title="Contact",
                 source="My beautiful source \n##titre##",
-                author=self.user
+                author=self.staffUser
         )
         # assert description has been saved in db
         desc = Description.objects.get(pk=2)
         self.assertEqual(desc.title, "Contact")
-        self.assertEqual(desc.author, self.user)
+        self.assertEqual(desc.author, self.staffUser)
         self.assertEqual(desc.source, 
                 "My beautiful source \n##titre##")
         self.assertEqual(desc.content,
@@ -59,12 +59,12 @@ class DescriptionModelTest(TestCase):
 
         # assert updating description always save as a new one
         desc.title = "New contact"
-        desc.author = self.user2
+        desc.author = self.normalUser
         desc.save()
         
         desc2 = Description.objects.get(pk=3)
         self.assertEqual(desc2.title, "New contact")
-        self.assertEqual(desc2.author, self.user2)
+        self.assertEqual(desc2.author, self.normalUser)
        
         # assert latest always returns latest description
         latest = Description.objects.latest()
@@ -102,18 +102,18 @@ class MessageModelTest(TestCase):
         mesg = Message(
             subject="A second subject",
             message="A second message",
-            user=self.user2,
+            user=self.normalUser,
             forward=False
         )
         mesg.save()
         # assert it has been saved in db
         mesg = Message.objects.get(pk=2)
-        self.assertEqual(mesg.name, self.user2.username)
-        self.assertEqual(mesg.mail, self.user2.email)
+        self.assertEqual(mesg.name, self.normalUser.username)
+        self.assertEqual(mesg.mail, self.normalUser.email)
         self.assertEqual(mesg.subject,  "A second subject")
         self.assertEqual(mesg.message, "A second message")
         self.assertEqual(mesg.forward, False)
-        self.assertEqual(mesg.user, self.user2)
+        self.assertEqual(mesg.user, self.normalUser)
         self.assertTrue(mesg.date)
 
 
@@ -128,17 +128,17 @@ class DescriptionAPITest(APITestCase):
         self.desc = Description.objects.create(
                 title="Contact",
                 source="My beautiful source \n##titre##",
-                author=self.user
+                author=self.staffUser
         )
         self.desc2 = Description.objects.create(
                 title="Contact2",
                 source="My beautiful source \n##titre##",
-                author=self.user
+                author=self.staffUser
         )
         self.desc3 = Description.objects.create(
                 title="Contact3",
                 source="My beautiful source \n##titre##",
-                author=self.user
+                author=self.staffUser
         )
 
 
@@ -171,7 +171,7 @@ class DescriptionAPITest(APITestCase):
         self.assertEqual(response.status_code, 405)
  
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client should get last description
         response=self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -191,7 +191,7 @@ class DescriptionAPITest(APITestCase):
 
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get last description
         response=self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -236,7 +236,7 @@ class DescriptionAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
  
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client shouldn't get
         response=self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -255,7 +255,7 @@ class DescriptionAPITest(APITestCase):
 
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get list of descriptions
         response=self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -270,7 +270,7 @@ class DescriptionAPITest(APITestCase):
         self.assertTrue(desc.date_update)
         self.assertTrue(desc.content)
         # assert user is save as author
-        self.assertEqual(desc.author, self.user)
+        self.assertEqual(desc.author, self.staffUser)
         # client shouldn't be able to put
         response=self.client.put(url, data)
         self.assertEqual(response.status_code, 405)
@@ -309,7 +309,7 @@ class DescriptionAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
  
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client shouldn't get
         response=self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -328,7 +328,7 @@ class DescriptionAPITest(APITestCase):
 
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get list of descriptions
         response=self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -388,7 +388,7 @@ class MessageAPITest(APITestCase):
         self.assertTrue(mail.outbox[0].message)
         self.assertTrue(data['message'] in mail.outbox[0].body)
         self.assertTrue(data['subject'] in mail.outbox[0].body)
-        self.assertTrue(self.user.email in mail.outbox[0].to)
+        self.assertTrue(self.staffUser.email in mail.outbox[0].to)
         # client shouldn't be able to put
         response=self.client.put(url, data)
         self.assertEqual(response.status_code, 401)
@@ -400,7 +400,7 @@ class MessageAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
  
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client shouldn't get
         response=self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -409,10 +409,10 @@ class MessageAPITest(APITestCase):
         self.assertEqual(response.status_code, 201)
 
         mesg = Message.objects.latest('pk')
-        self.assertEqual(mesg.name, self.user2.username)
-        self.assertEqual(mesg.mail, self.user2.email)
-        self.assertEqual(mesg.website, self.user2.website)
-        self.assertEqual(mesg.user, self.user2)
+        self.assertEqual(mesg.name, self.normalUser.username)
+        self.assertEqual(mesg.mail, self.normalUser.email)
+        self.assertEqual(mesg.website, self.normalUser.website)
+        self.assertEqual(mesg.user, self.normalUser)
         # !!! assert mail has been sent
         # 2 mails should have been sent (forward is true)
         self.assertEqual(len(mail.outbox), 3)
@@ -420,9 +420,9 @@ class MessageAPITest(APITestCase):
         self.assertTrue(mail.outbox[1].message)
         self.assertTrue(data2['message'] in mail.outbox[1].body)
         self.assertTrue(data2['subject'] in mail.outbox[1].body)
-        self.assertTrue(self.user.email in mail.outbox[1].to)
+        self.assertTrue(self.staffUser.email in mail.outbox[1].to)
         # assert user email is in recipient list
-        self.assertTrue(self.user2.email in mail.outbox[2].to)
+        self.assertTrue(self.normalUser.email in mail.outbox[2].to)
         # assert message in email body
         self.assertTrue(data2['message'] in mail.outbox[2].body)
         # client shouldn't be able to put
@@ -437,7 +437,7 @@ class MessageAPITest(APITestCase):
 
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get list of messages
         response=self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -463,7 +463,7 @@ class MessageAPITest(APITestCase):
         self.assertTrue(mail.outbox[3].message)
         self.assertTrue(data2['message'] in mail.outbox[3].body)
         self.assertTrue(data2['subject'] in mail.outbox[3].body)
-        self.assertTrue(self.user.email in mail.outbox[3].to)
+        self.assertTrue(self.staffUser.email in mail.outbox[3].to)
         # client shouldn't be able to put
         response=self.client.put(url, data)
         self.assertEqual(response.status_code, 403)
@@ -504,7 +504,7 @@ class MessageAPITest(APITestCase):
         self.assertEqual(response.status_code, 401)
  
         # test with normal user
-        login(self, self.user2)
+        login(self, self.normalUser)
         # client shouldn't get
         response=self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -523,7 +523,7 @@ class MessageAPITest(APITestCase):
 
 
         # test with staff member
-        login(self, self.user)
+        login(self, self.staffUser)
         # client should get specific message
         response=self.client.get(url)
         self.assertEqual(response.status_code, 200)
