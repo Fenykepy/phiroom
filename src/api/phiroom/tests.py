@@ -21,7 +21,8 @@ class CSRFTokenAPITest(APITestCase):
         }
         # test without login
         test_status_codes(self, url, [200, 405, 405, 405, 405],
-            postData = data, putData = data, patchData = data)
+            postData=data, putData=data, patchData=data)
+        
         # client should get token
         response=self.client.get(url)
         self.assertTrue(response.data['token'])
@@ -29,7 +30,7 @@ class CSRFTokenAPITest(APITestCase):
         # test with normal user
         login(self, self.normalUser)
         test_status_codes(self, url, [200, 405, 405, 405, 405],
-            postData = data, putData = data, patchData = data)
+            postData=data, putData=data, patchData=data)
  
         # client should get token
         response=self.client.get(url)
@@ -38,7 +39,7 @@ class CSRFTokenAPITest(APITestCase):
         # test with staff member
         login(self, self.staffUser)
         test_status_codes(self, url, [200, 405, 405, 405, 405],
-            postData = data, putData = data, patchData = data)
+            postData=data, putData=data, patchData=data)
 
         # client should get token
         response=self.client.get(url)
