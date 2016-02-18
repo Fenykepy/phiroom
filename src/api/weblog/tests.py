@@ -25,18 +25,6 @@ def create_test_tags(instance):
     instance.tag2 = Tag(name="test2")
     instance.tag2.save()
 
-def create_test_weblog_users(instance):
-    """Create users for tests."""
-    create_test_users(instance)
-    instance.weblogUser = User.objects.create_user(
-        username="bill",
-        email="bill@bill.com",
-        password='top_secret',
-        is_weblog_author=True,
-    )
-    instance.weblogUser.save()
-
-
 
 def create_test_posts(instance):
     """Create 4 test posts for tests.

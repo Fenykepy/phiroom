@@ -8,6 +8,8 @@ from user.models import User
 
 from user.tests import create_test_users, login
 
+from phiroom.tests_utils import test_status_codes
+
 
 def create_test_messages(instance):
     """Create messages for tests.
@@ -153,62 +155,28 @@ class DescriptionAPITest(APITestCase):
         }
 
         # test without login
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
         # client should get last description
         response=self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['title'], self.desc3.title)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 405)
  
         # test with normal user
         login(self, self.normalUser)
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
         # client should get last description
         response=self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['title'], self.desc3.title)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 405)       
-
 
         # test with staff member
         login(self, self.staffUser)
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+
         # client should get last description
         response=self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['title'], self.desc3.title)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 405)       
-
 
 
     def test_descriptions_list(self):
@@ -219,50 +187,23 @@ class DescriptionAPITest(APITestCase):
         }
 
         # test without login
-        # client shouldn't get
-        response=self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 401)
- 
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
+
         # test with normal user
         login(self, self.normalUser)
-        # client shouldn't get
-        response=self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 403)       
-
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data)
 
         # test with staff member
         login(self, self.staffUser)
+        test_status_codes(self, url, [200, 201, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+
+
         # client should get list of descriptions
         response=self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data['results']), 4)
-        # client should be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(len(response.data['results']), 5)
         #self.assertEqual(len(response.data['results']), 4)
         desc = Description.objects.latest()
         self.assertEqual(desc.title, data['title'])
@@ -271,15 +212,6 @@ class DescriptionAPITest(APITestCase):
         self.assertTrue(desc.content)
         # assert user is save as author
         self.assertEqual(desc.author, self.staffUser)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 405)       
 
 
  
@@ -292,59 +224,21 @@ class DescriptionAPITest(APITestCase):
         }
 
         # test without login
-        # client shouldn't get
-        response=self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 401)
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
  
         # test with normal user
         login(self, self.normalUser)
-        # client shouldn't get
-        response=self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 403)       
-
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data)
 
         # test with staff member
         login(self, self.staffUser)
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
         # client should get list of descriptions
         response=self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['title'], self.desc.title)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 405)       
 
        
 
@@ -487,59 +381,25 @@ class MessageAPITest(APITestCase):
         }
 
         # test without login
-        # client shouldn't get
-        response=self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 401)
- 
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
+        
         # test with normal user
         login(self, self.normalUser)
-        # client shouldn't get
-        response=self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 403)       
-
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data)
 
         # test with staff member
         login(self, self.staffUser)
+        
         # client should get specific message
         response=self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['subject'], self.mesg.subject)
-        # client shouldn't be able to post
-        response=self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to put
-        response=self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response=self.client.patch(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client should be able to delete
-        response=self.client.delete(url)
-        self.assertEqual(response.status_code, 204)       
+        
+        # test status codes
+        test_status_codes(self, url, [200, 405, 405, 405, 204],
+            postData=data, putData=data, patchData=data)
+        
         # assert object has been deleted
         m = Message.objects.filter(pk=1).count()
         self.assertEqual(m, 0)
