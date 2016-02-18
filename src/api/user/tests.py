@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 
 from rest_framework.test import APIClient, APITestCase
 
+from phiroom.tests_utils import test_status_codes
 from user.models import User
 
 
@@ -192,30 +193,13 @@ class UserAPITest(TestCase):
 
         # test without login
         # nothing should be accessible
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-        response = self.client.post(url, {})
-        self.assertEqual(response.status_code, 401)
-        response = self.client.put(url, {})
-        self.assertEqual(response.status_code, 401)
-        response = self.client.patch(url, {})
-        self.assertEqual(response.status_code, 401)
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 401)
+        test_status_codes(self, url, [401, 401, 401, 401, 401])
 
         # login with normal user
         login(self, self.normalUser)
         # detail should be accessible
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
-        response = self.client.put(url, data2)
-        self.assertEqual(response.status_code, 200)
-        response = self.client.patch(url, data)
-        self.assertEqual(response.status_code, 200)
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 405)
+        test_status_codes(self, url, [200, 405, 200, 200, 405],
+            postData = data, putData = data2, patchData = data)
 
 
     def test_author_detail(self):
@@ -226,6 +210,7 @@ class UserAPITest(TestCase):
 
         # test without login
         url = base_url.format(self.staffUser.pk)
+        test_status_codes(self, url, [200, 405, 405, 405, 405])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['username'], self.staffUser.username)
@@ -238,38 +223,16 @@ class UserAPITest(TestCase):
         self.assertEqual(response.data['facebook_link'], self.staffUser.facebook_link)
         self.assertEqual(response.data['pinterest_link'], self.staffUser.pinterest_link)
         self.assertEqual(response.data['vk_link'], self.staffUser.vk_link)
-        response = self.client.post(url, {})
-        self.assertEqual(response.status_code, 405)
-        response = self.client.put(url, {})
-        self.assertEqual(response.status_code, 405)
-        response = self.client.patch(url, {})
-        self.assertEqual(response.status_code, 405)
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 405)
  
         # test with staff member
         login(self, self.staffUser)
-
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        response = self.client.post(url, {})
-        self.assertEqual(response.status_code, 405)
-        response = self.client.put(url, {})
-        self.assertEqual(response.status_code, 405)
-        response = self.client.patch(url, {})
-        self.assertEqual(response.status_code, 405)
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 405)
-
-        # try to get a non author user
-        url = base_url.format(self.normalUser.pk)
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        # shouldn't get anything more
+        test_status_codes(self, url, [200, 405, 405, 405, 405])
         
-
-
-
-
+        # try to get a non author user
+        login(self, self.normalUser)
+        url = base_url.format(self.normalUser.pk)
+        test_status_codes(self, url, [200, 405, 405, 405, 405])
 
 
 
