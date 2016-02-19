@@ -12,6 +12,7 @@ from portfolio.models import Portfolio, PortfolioPicture
 from librairy.tests import create_test_picture
 from user.tests import create_test_users, login
 from librairy.tests import create_test_picture
+from phiroom.tests_utils import test_status_codes
 
 
 def create_test_portfolios(instance):
@@ -160,41 +161,30 @@ class PortfolioAPITest(APITestCase):
         self.port3.save()
         
         # test without login
+        test_status_codes(self, url, [200, 401, 401, 401, 401])
         # client shouldn't receive unpublished portfolios
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
         self.assertEqual(response.data[0]['slug'], "my-second-title")
 
         # test with normal user
-        # client shouldn't receive unpublished portfolios
         login(self, self.normalUser)
+        test_status_codes(self, url, [200, 403, 403, 403, 403])
+        # client shouldn't receive unpublished portfolios
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
         
         # test with admin user
-        # client should have all posts
         login(self, self.staffUser)
+        data = {'slug': "slug", 'title': "title"}
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+        # client should have all posts
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 3)
-        
-        data = {'slug': "slug", 'title': "title"}
-        
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 405)
-        
+       
+
     
     def test_portfolio_picture_list(self):
 
@@ -215,55 +205,32 @@ class PortfolioAPITest(APITestCase):
         }
  
         # test without login
-        # client shouldn't get list
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 401)
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data2)
 
         # test with normal user
         login(self, self.normalUser)
-        # client shouldn't get list
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 403)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data2)
+
 
         # test with staff member
         login(self, self.staffUser)
+        test_status_codes(self, url, [200, 201, 405, 405, 405],
+            postData=data, putData=data, patchData=data2)
+
+
         # client should get all portfolios list
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data['results']), 1)
-        # client should be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(len(response.data['results']), 2)
+
         # assert portfolio has been saved in db
         pp_new = PortfolioPicture.objects.get(pk=2)
         # assert user has been saved as author
         self.assertEqual(pp_new.picture, self.pict)
         self.assertEqual(pp_new.portfolio, self.port)
         self.assertEqual(pp_new.order, 10)
+        
         # Creating 2 portfolioPicture relation with same picture and portfolio
         # shouldn't be possible
         count = PortfolioPicture.objects.all().count()
@@ -274,15 +241,6 @@ class PortfolioAPITest(APITestCase):
         # assert object hasn't change
         pp_new = PortfolioPicture.objects.get(pk=2)
         self.assertEqual(pp_new.order, 10)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 405)
 
  
 
@@ -307,62 +265,27 @@ class PortfolioAPITest(APITestCase):
         }
 
         # test without login
-        # client shouldn't get
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to delete
-        response = self.client.delete(url, data)
-        self.assertEqual(response.status_code, 401)
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data2)
 
         # test with normal user
         login(self, self.normalUser)
-        # client shouldn't get 
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to delete
-        response = self.client.delete(url, data)
-        self.assertEqual(response.status_code, 403)
-        
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data2)
+
+
         # test with staff member
         login(self, self.staffUser)
-        # client should get port
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client should be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 200)
         # client should be able to patch
         response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 200)
         pp = PortfolioPicture.objects.get(
                 portfolio=self.port,
                 picture=self.pict2)
         # assert order has been updated
         self.assertEqual(pp.order, 1)
-        # client should be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 204)      
+        # test other methods
+        test_status_codes(self, url, [200, 405, 200, 200, 204],
+            postData=data, putData=data, patchData=data2)
 
 
 
@@ -378,65 +301,38 @@ class PortfolioAPITest(APITestCase):
         self.port3.save()
 
         # test without login
+        test_status_codes(self, url, [200, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data2)
+
+
         # client should get published portfolios list
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['results']), 2)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 401)
 
         # test with normal user
         login(self, self.normalUser)
+        test_status_codes(self, url, [200, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data2)
         # client should get published portfolios list
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['results']), 2)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 403)
 
         # test with staff member
         login(self, self.staffUser)
         # client should get all portfolios list
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['results']), 3)
         # client should be able to post
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 201)
         # assert portfolio has been saved in db
         port = Portfolio.objects.get(slug="portfolio-title")
         # assert user has been saved as author
         self.assertEqual(port.author, self.staffUser)
 
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 405)
-        # client shouldn't be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 405)
+        # test other methods
+        test_status_codes(self, url, [200, 201, 405, 405, 405],
+            postData=data, putData=data, patchData=data2)
+
 
 
     def test_portfolio_detail(self):
@@ -454,57 +350,25 @@ class PortfolioAPITest(APITestCase):
         self.port3.save()
 
         # test without login
-        # client should get port
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        test_status_codes(self, url, [200, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data2)
         # client shouldn't be able to get draft port
         response = self.client.get(url3)
         self.assertEqual(response.status_code, 404)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 401)
-        # client shouldn't be able to delete
-        response = self.client.delete(url, data)
-        self.assertEqual(response.status_code, 401)
 
         # test with normal user
         login(self, self.normalUser)
-        # client should get port
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        test_status_codes(self, url, [200, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data2)
         # client shouldn't be able to get draft port
         response = self.client.get(url3)
         self.assertEqual(response.status_code, 404)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to put
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to patch
-        response = self.client.patch(url, data2)
-        self.assertEqual(response.status_code, 403)
-        # client shouldn't be able to delete
-        response = self.client.delete(url, data)
-        self.assertEqual(response.status_code, 403)
         
         # test with staff member
         login(self, self.staffUser)
-        # client should get port
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         # client should be able to get draft port
         response = self.client.get(url3)
         self.assertEqual(response.status_code, 200)
-        # client shouldn't be able to post
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
         # client should be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 200)
@@ -513,10 +377,9 @@ class PortfolioAPITest(APITestCase):
         response = self.client.patch(url, data2)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['draft'], True)
-
-        # client should be able to delete
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 204)
+        # test other methods
+        test_status_codes(self, url, [200, 405, 200, 200, 204],
+            postData=data, putData=data, patchData=data2)
 
 
 
