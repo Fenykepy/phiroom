@@ -6,6 +6,7 @@ from user.models import User
 from conf.models import Conf, Page
 
 from user.tests import create_test_users, login
+from phiroom.tests_utils import test_status_codes
 
 class ConfModelTest(TestCase):
     """Conf model test class."""
@@ -126,78 +127,44 @@ class APITest(APITestCase):
 
     def test_confAPI(self):
         url = reverse('last-conf')
+        data = {'comment': "my comment"}
 
-        # try to get last conf without login
+        # test without login
+        test_status_codes(self, url, [200, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
+        
+        # assert response is ok
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-
         self.assertEqual(response.data['comment'], 'Default settings')
         self.assertEqual(response.data['home_page_state'], 'portfolios')
         
-        # try to post data without login
-        data = {'comment': "my comment"}
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 401)
-        # try to put without login
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, 401)
-        # try to delete without login
-        response = self.client.delete(url, data, format='json')
-        self.assertEqual(response.status_code, 401)
-
         # login with normal user
         login(self, self.normalUser)
-        # try to get last conf with normal user
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        test_status_codes(self, url, [200, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data)
         
-        # try to post data with normal user
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 403)
-        # try to put with normal user
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, 403)
-        # try to delete with normal user
-        response = self.client.delete(url, data, format='json')
-        self.assertEqual(response.status_code, 403)
-
         # only admin should have write access to settings
         # login with staff user
         login(self, self.staffUser)
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        # try to post data with admin user
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 405)
-        # try to put with admin user
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, 200)
-        # try to delete with admin user
-        response = self.client.delete(url, data, format='json')
-        self.assertEqual(response.status_code, 405)
+        test_status_codes(self, url, [200, 405, 200, 200, 405],
+            postData=data, putData=data, patchData=data)
 
-        
 
 
     def test_pageAPI(self):
         conf = Conf.objects.latest()
 
         url = reverse('main-menu')
-        data = {}
 
         # try to get last conf without login
+        test_status_codes(self, url, [200, 401, 401, 401, 401])
+        
+        # assert response is ok
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
 
         self.assertEqual(response.data['results'][0]['name'], 'portfolios')
         self.assertEqual(response.data['results'][1]['name'], 'weblog')
         self.assertEqual(response.data['results'][2]['name'], 'contact')
-
-        # try to post without login
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 401)
-
-
 
         
 
