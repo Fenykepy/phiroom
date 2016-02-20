@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux'
 
 import {
+  REQUEST_POSTS_HEADERS,
+  REQUEST_POSTS_HEADERS_SUCCESS,
+  REQUEST_POSTS_HEADERS_FAILURE,
   REQUEST_WEBLOG_PAGE,
   REQUEST_WEBLOG_PAGE_FAILURE,
   REQUEST_WEBLOG_PAGE_SUCCESS,
@@ -140,6 +143,29 @@ function pagesByTag(state = {}, action) {
             error: action.error
           })
         })
+      })
+    default:
+      return state
+  }
+}
+
+function headers(state = {fetched: false, data: []}, action) {
+  switch (action.type) {
+    case REQUEST_POSTS_HEADERS:
+      return Object.assign({}, state, {
+        is_fetching: true,
+      })
+    case REQUEST_POSTS_HEADERS_SUCCESS:
+      return Object.assign({}, state, {
+        is_fetching: false,
+        fetched: true,
+        data: action.data,
+        receivedAt: action.receivedAt
+      })
+    case REQUEST_POSTS_HEADERS_FAILURE:
+      return Object.assign({}, state, {
+        is_fetching: false,
+        error: action.error
       })
     default:
       return state
