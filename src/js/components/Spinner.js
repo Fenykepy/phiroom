@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 /*
- * using svg spinner rotating with css3
+ * using a svg spinner optimized with svgo rotating with css3
  * we pass from 8kb to 4kb
  */
 export default class Spinner extends Component {
