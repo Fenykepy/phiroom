@@ -2,6 +2,7 @@ from django.http import Http404
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from weblog.serializers import *
@@ -13,7 +14,12 @@ from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly, \
         IsWeblogAuthorOrReadOnly
 
 
-
+@api_view(('GET',))
+def weblog_root(request, format=None):
+    return Response({
+        'headers': reverse('posts-headers', request=request, format=format),
+        'list': reverse('posts-list', request=request, format=format),
+    })
 
 class PostList(generics.ListCreateAPIView):
     """
@@ -118,6 +124,7 @@ def flat_tags_list(request, format=None):
 
 
 @api_view(['GET'])
+@permission_classes((IsAuthenticated,))
 def posts_headers_list(request, format=None):
     """
     Returns a list of all posts headers (slug, name) without pagination.
@@ -125,7 +132,7 @@ def posts_headers_list(request, format=None):
     Only user's ones else.
     """
     if request.user.is_staff:
-        posts = Posts.objects.all()
+        posts = Post.objects.all()
     else:
         posts = Post.objects.filter(author=request.user)
 

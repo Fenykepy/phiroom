@@ -116,12 +116,13 @@ class PostAbstractSerializer(PostSerializer):
         )
 
 
+class PostPictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostPicture
+
+
 class PostHeadSerializer(PostSerializer):
     class Meta:
         model = Post
         fields = ('title', 'slug')
 
-
-class PostPictureSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostPicture
