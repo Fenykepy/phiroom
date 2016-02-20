@@ -33,8 +33,8 @@ class Login extends Component {
     this.props.dispatch(login(credentials)).then(() => {
       // if we have a redirection go to it
       console.log('login',this.props)
-      if (this.context.location.query.next) {
-        this.context.router.push(this.context.location.query.next)
+      if (this.props.location.query.next) {
+        this.context.router.push(this.props.location.query.next)
       }
     })
   }
@@ -65,7 +65,6 @@ class Login extends Component {
 
 Login.contextTypes = {
   router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object,
 }
 
 // Wrap the component to inject dispatch and state into it

@@ -18,11 +18,11 @@ import LibrairyPortfolio from './components/LibrairyPortfolio'
 import LibrairyAll from './components/LibrairyAll'
 import LightboxStarter from './components/LightboxStarter'
 
-function appendSlash(nextState, replaceState) {
+function appendSlash(nextState, replace) {
   // add a slash at urls' end
   let url = nextState.location.pathname
   if (url.slice(-1) != "/") {
-    replaceState(null, url + '/')
+    replace(url + '/')
   }
 }
 

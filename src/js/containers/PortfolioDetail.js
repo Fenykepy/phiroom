@@ -104,7 +104,6 @@ class PortfolioDetail extends Component {
     if (this.props.carousel.dynamic) {
       return (
         <Carousel
-          history={this.props.history}
           location={this.props.location}
           pictures={this.props.pictures}
           carousel={this.props.carousel}
