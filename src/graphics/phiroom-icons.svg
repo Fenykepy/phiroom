@@ -1249,6 +1249,19 @@
          offset="1"
          id="stop9051-3" />
     </linearGradient>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter7664"
+       x="-0.16319995"
+       width="1.3263999"
+       y="-0.16320007"
+       height="1.3264">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.8700007"
+         id="feGaussianBlur7666" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -1257,9 +1270,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="22522.908"
-     inkscape:cy="3191.9325"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="1034.9136"
+     inkscape:cy="1514.974"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -6420,5 +6433,109 @@
          ry="3"
          transform="matrix(-0.8660254,0.5,-0.5,-0.8660254,0,0)" />
     </g>
+    <g
+       id="g7668"
+       transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,-1550.4267,2757.0937)">
+      <g
+         style="fill:#000000;filter:url(#filter7664)"
+         id="g7314"
+         transform="translate(11.667262,-67.175144)">
+        <g
+           transform="translate(-10.921108,-1.9173374)"
+           style="fill:#000000"
+           id="g7316">
+          <rect
+             style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.69999999;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             id="rect7318"
+             width="25"
+             height="5"
+             x="4000"
+             y="-417.93411" />
+          <circle
+             style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.69999999;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             id="circle7320"
+             cx="4000"
+             cy="-415.43411"
+             r="2.5" />
+        </g>
+        <g
+           id="g7322"
+           style="fill:#000000"
+           transform="matrix(0,1,-1,0,3596.1448,-4439.8514)">
+          <rect
+             y="-417.93411"
+             x="4000"
+             height="5"
+             width="25"
+             id="rect7324"
+             style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.69999999;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          <circle
+             r="2.5"
+             cy="-415.43411"
+             cx="4000"
+             id="circle7326"
+             style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.69999999;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        </g>
+      </g>
+      <g
+         style="fill:#ffffff"
+         transform="translate(11.667262,-67.175144)"
+         id="g7306">
+        <g
+           id="g6822-3"
+           style="fill:#ffffff"
+           transform="translate(-10.921108,-1.9173374)">
+          <rect
+             y="-417.93411"
+             x="4000"
+             height="5"
+             width="25"
+             id="rect6650-2"
+             style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.69999999;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          <circle
+             r="2.5"
+             cy="-415.43411"
+             cx="4000"
+             id="path6820-7"
+             style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.69999999;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        </g>
+        <g
+           transform="matrix(0,1,-1,0,3596.1448,-4439.8514)"
+           style="fill:#ffffff"
+           id="g7300-8">
+          <rect
+             style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.69999999;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             id="rect7302-4"
+             width="25"
+             height="5"
+             x="4000"
+             y="-417.93411" />
+          <circle
+             style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.69999999;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             id="circle7304-4"
+             cx="4000"
+             cy="-415.43411"
+             r="2.5" />
+        </g>
+      </g>
+    </g>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:4.36178398;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4245-9"
+       width="193.99536"
+       height="130.78107"
+       x="848.91821"
+       y="-515.7735" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="860.02319"
+       y="-471.09723"
+       id="text4247-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4249-4"
+         x="860.02319"
+         y="-471.09723">Lightbox</tspan></text>
   </g>
 </svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="45" viewBox="0 0 50.000001 45.000001">
+    <defs>
+        <filter id="a" x="-.163" width="1.326" y="-.163" height="1.326" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="1.87"/>
+        </filter>
+    </defs>
+    <g filter="url(#a)" transform="rotate(-45 2548.465 4616.664)">
+        <g transform="translate(-10.92 -1.917)">
+            <path d="M4000-417.934h25v5h-25z"/>
+            <circle cx="4000" cy="-415.434" r="2.5"/>
+        </g>
+        <g transform="rotate(90 4017.998 -421.853)">
+            <path d="M4000-417.934h25v5h-25z"/>
+            <circle r="2.5" cy="-415.434" cx="4000"/>
+        </g>
+    </g>
+    <g fill="#fff">
+        <g transform="rotate(-45 2551.61 4630.806)">
+            <path d="M4000-417.934h25v5h-25z"/>
+            <circle r="2.5" cy="-415.434" cx="4000"/>
+        </g>
+        <g transform="rotate(45 1494.345 -5023.74)">
+            <path d="M4000-417.934h25v5h-25z"/>
+            <circle cx="4000" cy="-415.434" r="2.5"/>
+        </g>
+    </g>
+</svg>
