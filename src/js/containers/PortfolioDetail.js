@@ -141,6 +141,7 @@ class PortfolioDetail extends Component {
 
     return (
         <section role="main">
+          <h1 className="accessibility">{this.props.title}</h1>
           {this.getCarousel()}
           {this.getLightbox()}
         </section>

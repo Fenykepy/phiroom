@@ -27,7 +27,7 @@
 #- Add a way to import pictures via http
 - Add a way to import pictures from server hard drive
 #- Add a way to create portfolio
-- Display more info about portfolio (title) for SEO
+#- Display more info about portfolio (title) for SEO
 #- Add a way to edit portfolio
 #- Add a way to delete portfolio
 - Add a way to refresh view after portfolio deletion
