@@ -47,7 +47,7 @@ const LEFT_TRANSITION = 300
 const SWIPED_TRANSITION = 300
 const PICT_MARGIN = 6
 
-export default class Carousel extends Component {
+class Carousel extends Component {
   
   constructor(props) {
     super(props)
@@ -177,7 +177,7 @@ export default class Carousel extends Component {
   }
 
   onImageDoubleClick(pk) {
-    this.props.history.pushState(null, setLightboxLink(
+    this.context.router.push(setLightboxLink(
       this.props.location.pathname,
       pk
     ))
@@ -202,7 +202,6 @@ export default class Carousel extends Component {
               index={index}
               position={positions[index]}
               swaping={this.state.swaping == index}
-
               {...pict} />
           )}
         </ul>
@@ -220,3 +219,10 @@ Carousel.PropTypes = {
   }).isRequired).isRequired,
   picture_height: PropTypes.number.isRequired
 }
+
+Carousel.contextTypes = {
+  router: React.PropTypes.object.isRequired,
+}
+
+
+export default Carousel

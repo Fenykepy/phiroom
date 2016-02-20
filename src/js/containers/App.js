@@ -82,6 +82,5 @@ class App extends Component {
   }
 }
 
-
 // Wrap the component to inject dispatch and state into it
 export default connect(appSelector)(App)

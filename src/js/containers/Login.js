@@ -24,8 +24,8 @@ class Login extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.is_authenticated) {
         // redirect to home page
-        // !!! redirect to profil page when it's done
-        this.props.history.pushState(null, '/')
+        // TODO redirect to profil page when it's done
+        this.context.router.push('/')
     }
   }
 
@@ -33,8 +33,8 @@ class Login extends Component {
     this.props.dispatch(login(credentials)).then(() => {
       // if we have a redirection go to it
       console.log('login',this.props)
-      if (this.props.location.query.next) {
-        this.props.history.pushState(null, this.props.location.query.next)
+      if (this.context.location.query.next) {
+        this.context.router.push(this.context.location.query.next)
       }
     })
   }
@@ -47,7 +47,7 @@ class Login extends Component {
       csrf,
     } = this.props
 
-    console.log('login', this.props, this.context)
+    //console.log('login', this.props, this.context)
     
     return (
       <section role="main">
@@ -64,7 +64,8 @@ class Login extends Component {
 }
 
 Login.contextTypes = {
-  router: React.PropTypes.func.isRequired,
+  router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object,
 }
 
 // Wrap the component to inject dispatch and state into it

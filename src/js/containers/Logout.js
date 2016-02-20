@@ -11,13 +11,17 @@ class Logout extends Component {
     // logout user
     this.props.dispatch(logout())
     // redirect to home page
-    this.props.history.pushState(null, '/login/')
+    this.context.router.push('/login/')
   }
 
 
   render() {
     return (<div/>)
   }
+}
+
+Logout.contextTypes = {
+  router: React.PropTypes.object.isRequired,
 }
 
 

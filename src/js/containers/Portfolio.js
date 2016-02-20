@@ -16,7 +16,7 @@ class Portfolio extends Component {
   goToDefaultPortfolioIfNeeded(props) {
     if ((! props.params.slug || props.params.slug == 'undefined') &&
         props.defaultPortfolio) {
-      props.history.pushState(null, `/portfolio/${props.defaultPortfolio}/`)
+      this.context.router.push(`/portfolio/${props.defaultPortfolio}/`)
     }
   }
   
@@ -39,6 +39,10 @@ class Portfolio extends Component {
 
     return this.props.children
   } 
+}
+
+Portfolio.contextTypes = {
+  router: React.PropTypes.object.isRequired,
 }
 
 export default connect(portfolioSelector)(Portfolio)
