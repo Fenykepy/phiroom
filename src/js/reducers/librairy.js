@@ -8,6 +8,7 @@ import {
   SET_PICTURES,
   UNSET_PICTURE,
   ORDER_PORTFOLIO_PICTURES,
+  ORDER_POST_PICTURES,
   SET_N_COLUMNS,
   DRAG_START,
   DRAG_END,
@@ -68,6 +69,8 @@ function pictures(state = [], action) {
     case SET_PICTURES:
       return action.pictures
     case ORDER_PORTFOLIO_PICTURES:
+      return action.new_order
+    case ORDER_POST_PICTURES:
       return action.new_order
     case UNSET_PICTURE:
       // create a new array
