@@ -4,6 +4,7 @@ import {
   REQUEST_POSTS_HEADERS,
   REQUEST_POSTS_HEADERS_SUCCESS,
   REQUEST_POSTS_HEADERS_FAILURE,
+  INVALIDATE_POST,
   REQUEST_WEBLOG_PAGE,
   REQUEST_WEBLOG_PAGE_FAILURE,
   REQUEST_WEBLOG_PAGE_SUCCESS,
@@ -16,6 +17,9 @@ import {
   REQUEST_WEBLOG_PAGE_BYTAG_FAILURE,
   REQUEST_WEBLOG_PAGE_BYTAG_SUCCESS,
   SELECT_WEBLOG_PAGE_BYTAG,
+  POST_REMOVE_PICTURE,
+  ORDER_POST_PICTURES,
+  POST_DELETE,
 } from '../constants/actionsTypes'
 
 
@@ -39,6 +43,12 @@ function selectedPage(state = null, action) {
 
 function posts(state = {}, action) {
   switch (action.type) {
+    case INVALIDATE_POST:
+      return Object.assign({}, state, {
+        [action.post]: Object.assign({}, state[action.post], {
+          did_invalidate: true
+        })
+      })
     case REQUEST_POST:
       return Object.assign({}, state, {
         [action.post]: Object.assign({}, state[action.post], {
@@ -63,6 +73,31 @@ function posts(state = {}, action) {
           error: action.error
         })
       })
+    case POST_REMOVE_PICTURE:
+      // create new arry
+      let pictures = state[action.post].pictures.slice()
+      let index = pictures.indexOf(action.picture)
+      if (index > -1 ) {
+        // remove picture from it
+        pictures.splice(index, 1)
+      }
+      return Object.assign({}, state, {
+        [action.post]: Object.assign({}, state[action.post], {
+          pictures: pictures
+        })
+      })
+    case ORDER_POST_PICTURES:
+      return Object.assign({}, state, {
+        [action.post]: Object.assign({}, state[action.post], {
+          pictures: action.new_order
+        })
+      })
+    case POST_DELETE:
+      // delete existing post from state
+      new_state = Object.assign({}, state)
+      delete new_state[action.post]
+
+      return new_state
     default:
       return state
   }

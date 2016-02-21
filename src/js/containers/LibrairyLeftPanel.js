@@ -33,6 +33,8 @@ class LibrairyLeftPanel extends Component {
           <LibrairyLeftPanelPosts
             user={this.props.user}
             posts={this.props.postsHeaders}
+            drag={this.props.drag}
+            dispatch={this.props.dispatch}
           />
           <LibrairyLeftPanelPortfolios
             user={this.props.user}

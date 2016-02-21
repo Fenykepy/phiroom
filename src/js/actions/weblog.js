@@ -115,6 +115,23 @@ export function requestPostPicturesFailure(post, error) {
   }
 }
 
+
+export function invalidatePost(post) {
+  return {
+    type: types.INVALIDATE_POST,
+    post,
+  }
+}
+
+export function orderPostPictures(post, new_order) {
+  return {
+    type: types.ORDER_POST_PICTURES,
+    post,
+    new_order
+  }
+}
+
+
 export function selectPost(post) {
   return { type: types.SELECT_POST, post}
 }

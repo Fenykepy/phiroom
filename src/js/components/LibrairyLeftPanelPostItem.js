@@ -55,7 +55,7 @@ export default class LibrairyLeftPanelPostItem extends Component {
   render() {
     return (
       <li>
-        <Link to={`/librairy/posts/${this.props.slug}/`}
+        <Link to={`/librairy/post/${this.props.slug}/`}
           activeClassName="selected"
           className={this.state.dragover ? "dragover" : ""}
           onDragEnter={this.handleDragEnter.bind(this)}

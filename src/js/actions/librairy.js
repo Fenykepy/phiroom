@@ -4,6 +4,7 @@ import { PICTURE } from '../constants/dragTypes'
 import Fetch from '../helpers/http'
 
 import { invalidatePortfolio } from './portfolios'
+import { invalidatePost } from './weblog'
 // action creators
 
 export function setTitle(title) {
@@ -62,7 +63,7 @@ export function dragEnd() {
   }
 }
 
-export function addPicts2Portfolio(portfolio, picture) {
+export function addPict2Portfolio(portfolio, picture) {
   return (dispatch) => {
     // add pictures to portfolio
     return Fetch.post('api/portfolio/portfolio-picture/',
@@ -119,6 +120,69 @@ export function orderPictInPortfolio(portfolio, picture, order) {
     .catch(error => {
       console.warn(error)
       dispatch(invalidatePortfolio(portfolio))
+    })
+  }
+}
+
+export function addPict2Post(post, picture) {
+  return (dispatch) => {
+    // add picture to post
+    return Fetch.post('api/weblog/post-picture/',
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify({
+        post: post,
+        picture: picture
+      })
+    )
+    .then(json => {
+      dispatch(invalidatePost(post))
+    })
+    .catch(error =>
+        console.log(error.message)
+    )
+  }
+}
+
+
+export function removePictFromPost(post, picture) {
+  return (dispatch) => {
+    Fetch.delete('api/weblog/post-picture/post/'
+          + post + '/picture/' + picture + '/')
+    .then(json => {
+      console.log(json)
+    })
+    .catch(error => {
+      console.warn(error)
+      dispatch(invalidatePost(post))
+    })
+    // optimistically remove picture from post
+    dispatch({
+      type: types.POST_REMOVE_PICTURE,
+      post,
+      picture
+    })
+  }
+}
+
+
+export function orderPictInPost(post, picture, order) {
+  return (dispatch) => {
+    Fetch.patch('api/weblog/post-picture/post/'
+        + post + '/picture/' + picture + '/',
+          {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          JSON.stringify({
+            order: order
+          })
+    )
+    .catch(error => {
+      console.warn(error)
+      dispatch(invalidatePost(post))
     })
   }
 }

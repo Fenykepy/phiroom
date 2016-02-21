@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import { PICTURE } from '../constants/dragTypes'
 
 import {
-  //addPicts2Post,
+  addPict2Post,
   dragEnd
 } from '../actions/librairy'
 
@@ -17,8 +17,9 @@ export default class LibrairyLeftPanelPosts extends Component {
     if (! this.props.type == PICTURE) {
       return this.props.dispatch(dragEnd())
     }
+    console.log(this.props)
     this.props.drag.data.map(picture => {
-      //this.props.dispatch(addPicts2Post(post, picture))
+      this.props.dispatch(addPict2Post(post, picture))
     })
   }
 
