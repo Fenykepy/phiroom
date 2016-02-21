@@ -7,6 +7,65 @@ import { receiveShortPicture } from './pictures'
 
 // action creators
 
+
+export function requestPostsHeaders() {
+  return {
+    type: types.REQUEST_POSTS_HEADERS
+  }
+}
+
+export function receivePostsHeaders(json) {
+  return {
+    type: types.REQUEST_POSTS_HEADERS_SUCCESS,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+export function requestPostsHeadersFailure(error) {
+  return {
+    type: types.REQUEST_POSTS_HEADERS_FAILURE,
+    error
+  }
+}
+
+
+function shouldFetchPostsHeaders(state) {
+  // returns true if headers haven't been fetched or are invalidate
+  const headers = state.weblog.headers
+  if (! headers) { return true }
+  if (headers.is_fetching || headers.fetched) { return false }
+  return true
+}
+
+
+function fetchPostsHeaders() {
+  // fetch user's posts headers
+  return function(dispatch) {
+    // start request
+    dispatch(requestPostsHeaders())
+    // return a promise
+    return Fetch.get('api/weblog/posts/headers/')
+      .then(json =>
+          dispatch(receivePostsHeaders(json))
+      )
+      .catch(error =>
+          dispatch(requestPostsHeadersFailure(error.message))
+      )
+  }
+}
+
+export function fetchPostsHeadersIfNeeded() {
+  // fetch posts headers if it's not done yet
+  return (dispatch, getState) => {
+    if (shouldFetchPostsHeaders(getState())) {
+      return dispatch(fetchPostsHeaders())
+    }
+    // else return a resolved promise
+    return new Promise((resolve, reject) => resolve())
+  }
+}
+
 // posts
 export function requestPost(post) {
   return {

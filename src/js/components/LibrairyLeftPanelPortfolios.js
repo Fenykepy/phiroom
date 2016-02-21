@@ -33,7 +33,7 @@ export default class LibrairyLeftPanelPortfolios extends Component {
             />
           </h6>
           <ul>
-            {this.props.portfolios.map((port) => 
+            {this.props.portfolios.map(port => 
               <LibrairyLeftPanelPortfolioItem
                 key={port.slug}
                 handleDrop={this.handleDrop.bind(this)}

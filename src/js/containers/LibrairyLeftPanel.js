@@ -19,6 +19,7 @@ class LibrairyLeftPanel extends Component {
     const {
       dispatch,
       portfolioHeaders,
+      postsHeaders,
     } = this.props
     
     return (
@@ -31,6 +32,7 @@ class LibrairyLeftPanel extends Component {
           />
           <LibrairyLeftPanelPosts
             user={this.props.user}
+            posts={this.props.postsHeaders}
           />
           <LibrairyLeftPanelPortfolios
             user={this.props.user}

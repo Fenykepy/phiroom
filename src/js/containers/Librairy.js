@@ -10,6 +10,7 @@ import LibrairyLeftPanel from '../containers/LibrairyLeftPanel'
 import { setModule } from '../actions/modules'
 import { dragEnd } from '../actions/librairy'
 import { fetchPortfoliosHeadersIfNeeded } from '../actions/portfolios'
+import { fetchPostsHeadersIfNeeded } from '../actions/weblog'
 
 
 class Librairy extends Component {
@@ -19,6 +20,7 @@ class Librairy extends Component {
     // fetch portfolios headers
     dispatch(fetchPortfoliosHeadersIfNeeded())
     // fetch posts headers if user is weblog_author
+    dispatch(fetchPostsHeadersIfNeeded())
     // fetch collections headers
     // set module
     dispatch(setModule('librairy'))
@@ -28,7 +30,6 @@ class Librairy extends Component {
 
   componentDidMount() {
     this.constructor.fetchData(this.props.dispatch, null, true)
-
     // listen for dragEnd events
     document.addEventListener('dragend', this.handleDragEnd.bind(this))
   }

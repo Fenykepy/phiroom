@@ -173,6 +173,7 @@ function headers(state = {fetched: false, data: []}, action) {
 }
 
 const weblog = combineReducers({
+  headers,
   selectedPost,
   selectedPage,
   selectedPageByTag,
