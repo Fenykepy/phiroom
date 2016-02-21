@@ -117,8 +117,13 @@ class PostAbstractSerializer(PostSerializer):
 
 
 class PostPictureSerializer(serializers.ModelSerializer):
+    post = serializers.SlugRelatedField(
+            slug_field="slug",
+            queryset=Post.objects.all()
+    )
     class Meta:
         model = PostPicture
+        field = ('post', 'picture', 'order')
 
 
 class PostHeadSerializer(PostSerializer):
