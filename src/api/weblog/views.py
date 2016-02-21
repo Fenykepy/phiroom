@@ -95,7 +95,7 @@ class PostPictureDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = PostPicture.objects.all()
     serializer_class = PostPictureSerializer
-    permission_classes = (IsAuthorOrReadOnly, IsStaffOrReadOnly)
+    permission_classes = (IsStaffOrReadOnly,)
     def get_object(self):
         try:
             post = Post.objects.get(slug=self.kwargs['post'])
