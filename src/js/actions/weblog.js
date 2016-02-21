@@ -348,5 +348,39 @@ function fetchWeblogPageByTag(tag, page) {
 
 
 
+/*
+ * Posts edition
+ */
+function prefillPostForm(data = {}) {
+  // start post edition with given datas
+  return {
+    type: types.POST_EDIT_PREFILL,
+    data: data
+  }
+}
+
+export function newPost()  {
+  // start a new post edition with empty datas
+  return function(dispatch) {
+    return dispatch(prefillPostForm())
+  }
+}
+
+export function editPost(post) {
+  return function(dispatch, getState) {
+    return dispatch(fetchPostIfNeeded(post))
+      .then(data => {
+        dispatch(prefillPostForm({
+          slug: data.data.slug,
+          title: data.data.title,
+          description: data.data.description,
+          source: data.data.source,
+          tags: data.data.tags,
+          draft: data.data.draft,
+          pub_date: data.data.pub_date,
+        }))
+      })
+  }
+}
 
 

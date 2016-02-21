@@ -19,8 +19,58 @@ import {
   SELECT_WEBLOG_PAGE_BYTAG,
   POST_REMOVE_PICTURE,
   ORDER_POST_PICTURES,
+  POST_EDIT_PREFILL,
+  POST_EDIT_SET_TITLE,
+  POST_EDIT_SET_DESCRIPTION,
+  POST_EDIT_SET_SOURCE,
+  POST_EDIT_SET_DRAFT,
+  POST_EDIT_SET_PUB_DATE,
+  POST_EDIT_ADD_TAG,
+  POST_EDIT_DELETE_TAG,
   POST_DELETE,
 } from '../constants/actionsTypes'
+
+
+function edited(state = {}, action) {
+  switch (action.type) {
+    case POST_EDIT_PREFILL:
+      return action.data
+    case POST_EDIT_SET_TITLE:
+      return Object.assign({}, state, {
+        title: action.title
+      })
+    case POST_EDIT_SET_DESCRIPTION:
+      return Object.assign({}, state, {
+        description: action.description
+      })
+    case POST_EDIT_SET_SOURCE:
+      return Object.assign({}, state, {
+        source: action.source
+      })
+    case POST_EDIT_SET_DRAFT:
+      return Object.assign({}, state, {
+        draft: action.draft
+      })
+    case POST_EDIT_SET_PUB_DATE:
+      return Object.assign({}, state, {
+        pub_date: action.pub_date
+      })
+    case POST_EDIT_ADD_TAG:
+      let tags = state.tags.slice()
+      tag = tags.indexOf(action.tag)
+      if (tag > -1) {
+        // tag is already in list
+        return state
+      }
+      // add new tag to list
+      tags.push(action.tag)
+      return Object.assign({}, state, {
+        tags: tags
+      })
+    default:
+      return state
+  }
+}
 
 
 function selectedPost(state = null, action) {
