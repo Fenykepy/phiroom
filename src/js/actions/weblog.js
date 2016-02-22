@@ -384,3 +384,51 @@ export function editPost(post) {
 }
 
 
+export function postSetTitle(title) {
+  return {
+    type: types.POST_EDIT_SET_TITLE,
+    title
+  }
+}
+
+export function postSetDescription(description) {
+  return {
+    type: types.POST_EDIT_SET_DESCRIPTION,
+    description
+  }
+}
+
+export function postSetSource(source) {
+  return {
+    type: types.POST_EDIT_SET_SOURCE,
+    source
+  }
+}
+
+export function postSetDraft(draft) {
+  return {
+    type: types.POST_EDIT_SET_DRAFT,
+    draft
+  }
+}
+
+export function postSetPubDate(pubdate) {
+  return {
+    type: types.POST_EDIT_SET,
+    pubdate
+  }
+}
+
+export function postAddTag(tag) {
+  return {
+    type: types.POST_EDIT_ADD_TAG,
+    tag
+  }
+}
+
+export function postDeleteTag(tag) {
+  return {
+    type: types.POST_EDIT_DELETE_TAG,
+    tag
+  }
+}

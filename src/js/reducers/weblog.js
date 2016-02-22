@@ -67,6 +67,15 @@ function edited(state = {}, action) {
       return Object.assign({}, state, {
         tags: tags
       })
+      case POST_EDIT_DELETE_TAG:
+        let tags = state.tags.slice()
+        let index = tags.indexOf(action.tag)
+        if (index > -1 ) {
+          // remove tag from it
+          tags.splice(index, 1)
+          return tags
+        }
+        return state
     default:
       return state
   }
