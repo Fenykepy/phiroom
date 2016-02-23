@@ -12,6 +12,12 @@ import {
   REQUEST_POST,
   REQUEST_POST_FAILURE,
   REQUEST_POST_SUCCESS,
+  REQUEST_UPDATE_POST,
+  REQUEST_UPDATE_POST_FAILURE,
+  REQUEST_UPDATE_POST_SUCCESS,
+  REQUEST_CREATE_POST,
+  REQUEST_CREATE_POST_FAILURE,
+  REQUEST_CREATE_POST_SUCCESS,
   SELECT_POST,
   REQUEST_WEBLOG_PAGE_BYTAG,
   REQUEST_WEBLOG_PAGE_BYTAG_FAILURE,
@@ -77,6 +83,30 @@ function edited(state = {}, action) {
           return tags
         }
         return state
+    case REQUEST_CREATE_POST:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_CREATE_POST_SUCCESS:
+      return {}
+    case REQUEST_CREATE_POST_FAILURE:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_UPDATE_POST:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_UPDATE_POST_SUCCESS:
+      return {}
+    case REQUEST_UPDATE_POST_FAILURE:
+      return Object.assign({}, state, {
+        is_posting: false,
+        errors: action.errors
+      })
     default:
       return state
   }

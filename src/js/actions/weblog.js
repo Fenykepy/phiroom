@@ -546,3 +546,21 @@ export function updatePost(post) {
     )
   }
 }
+
+export function deletePortfolio(portfolio) {
+  /*
+   * delete a post from server
+   */
+  return function(dispatch) {
+    Fetch.delete(`api/weblog/posts/${post}/`)
+      .then(() => {
+        // refetch posts headers
+        dispatch(fetchPostsHeaders())
+      })
+
+    return {
+      type: types.POST_DELETE,
+      post
+    }
+  }
+}
