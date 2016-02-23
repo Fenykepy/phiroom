@@ -132,6 +132,7 @@ function selectedPage(state = null, action) {
 }
 
 function posts(state = {}, action) {
+  let new_state
   switch (action.type) {
     case INVALIDATE_POST:
       return Object.assign({}, state, {
@@ -162,6 +163,27 @@ function posts(state = {}, action) {
           fetched: false,
           error: action.error
         })
+      })
+    case REQUEST_CREATE_POST_SUCCESS:
+      return Object.assign({}, state, {
+        [action.post]: Object.assign({}, state[action.post], {
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
+        },
+        action.data)
+      })
+    case REQUEST_UPDATE_POST_SUCCESS:
+      // delete existing post from state
+      new_state = Object.assign({}, state)
+      delete new_state[action.old_slug]
+      return Object.assign({}, new_state, {
+        [action.slug]: Object.assign({}, {
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
+        },
+        action.data)
       })
     case POST_REMOVE_PICTURE:
       // create new arry
