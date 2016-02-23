@@ -432,3 +432,117 @@ export function postDeleteTag(tag) {
     tag
   }
 }
+
+function requestCreatePost() {
+  return {
+    type: types.REQUEST_CREATE_POST,
+  }
+}
+
+function receiveNewPost(json) {
+  return {
+    type: types.REQUEST_CREATE_POST_SUCCESS,
+    post: json.slug,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+function requestCreatePostFailure(errors) {
+  return {
+    type: types.REQUEST_CREATE_POST_FAILURE,
+    errors
+  }
+}
+
+function getEditedData(state) {
+  let post = state.post.edited
+  return {
+    title: post.title,
+    draft: post.draft,
+    description: post.description,
+    source: post.source,
+    pub_date: post.pubdate,
+    tags: post.tags,
+  }
+}
+
+export function createPost() {
+  return function(dispatch, getState) {
+    dispatch(requestCreatePost())
+    let data = getEditedData(getState())
+
+    return Fetch.post('api/weblog/posts/',
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify(data)
+    )
+    .then(json => {
+      // refetch new posts headers
+      dispatch(fetchPostsHeaders())
+      return dispatch(receiveNewPost(json))
+    })
+    .catch(error =>
+      error.response.json().then(json => {
+        // store error json in state
+        dispatch(requestCreatePostFailure(json))
+        // throw error to catch it in form and display it
+        throw error
+      })
+    )
+  }
+}
+
+
+function requestUpdatePost() {
+  return {
+    type: types.REQUEST_UPDATE_POST,
+  }
+}
+
+function receiveUpdatedPost(post, json) {
+  return {
+    type: types.REQUEST_UPDATE_POST_SUCCESS,
+    slug: json.slug,
+    old_slug: post,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+function requestUpdatePostFailure(errors) {
+  return {
+    type: types.REQUEST_UPDATE_POST_FAILURE,
+    errors
+  }
+}
+
+export function updatePost(post) {
+  return function(dispatch, getState) {
+    dispatch(requestUpdatePost())
+    let data = getEditedData(getState())
+
+    return Fetch.patch(`api/weblog/posts/${post}/`,
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify(data)
+    )
+    .then(json => {
+      // refetch posts headers
+      dispatch(fetchPostsHeaders())
+      return dispatch(receiveUpdatedPost(post, json))
+    })
+    .catch(error =>
+      error.response.json().then(json => {
+        // store error json in state
+        dispatch(requestUpdatePostFailure(json))
+        // throw error to catch it in form and display it
+        throw error
+      })
+    )
+  }
+}

@@ -32,6 +32,7 @@ import {
 
 
 function edited(state = {}, action) {
+  let tags
   switch (action.type) {
     case POST_EDIT_PREFILL:
       return action.data
@@ -56,7 +57,7 @@ function edited(state = {}, action) {
         pub_date: action.pub_date
       })
     case POST_EDIT_ADD_TAG:
-      let tags = state.tags.slice()
+      tags = state.tags.slice()
       tag = tags.indexOf(action.tag)
       if (tag > -1) {
         // tag is already in list
@@ -68,7 +69,7 @@ function edited(state = {}, action) {
         tags: tags
       })
       case POST_EDIT_DELETE_TAG:
-        let tags = state.tags.slice()
+        tags = state.tags.slice()
         let index = tags.indexOf(action.tag)
         if (index > -1 ) {
           // remove tag from it
