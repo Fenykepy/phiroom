@@ -320,6 +320,7 @@ function headers(state = {fetched: false, data: []}, action) {
 }
 
 const weblog = combineReducers({
+  edited,
   headers,
   selectedPost,
   selectedPage,
