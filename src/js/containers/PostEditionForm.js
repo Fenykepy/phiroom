@@ -75,7 +75,7 @@ class PostEditionForm extends Component {
         <button
           type="button"
           onClick={this.confirmDeletePost.bind(this)}
-        >Delete post</button>))
+        >Delete post</button>)
     }
     return null
   }

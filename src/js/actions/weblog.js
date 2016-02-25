@@ -456,7 +456,7 @@ function requestCreatePostFailure(errors) {
 }
 
 function getEditedData(state) {
-  let post = state.post.edited
+  let post = state.weblog.edited
   return {
     title: post.title,
     draft: post.draft,

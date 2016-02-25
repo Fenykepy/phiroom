@@ -26,7 +26,7 @@ import WeblogPostNavigation from '../components/WeblogPostNavigation'
 import WeblogGallery from '../components/WeblogGallery'
 
 
-export function  buildPostSlug(params) {
+export function buildPostSlug(params) {
   // concatenate params to return a slug
   if (! params.slug || ! params.d || ! params.y || ! params.m) return false
   return params.y + '/'
@@ -41,7 +41,7 @@ class WeblogDetail extends Component {
 
   static fetchData(dispatch, params, clientSide=false) {
     let promises = []
-    let slug = builPostSlug(params)
+    let slug = buildPostSlug(params)
     if (! slug) return promises
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPostIfNeeded(slug)).then((data) => {

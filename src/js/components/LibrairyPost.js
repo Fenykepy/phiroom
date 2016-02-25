@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesList from './LibrairyPicturesList'
-//import PostEditionButton from './PostEditionButton'
+import PostEditionButton from './PostEditionButton'
 
 import {
   fetchPostIfNeeded,
@@ -82,6 +82,13 @@ export default class LibrairyPost extends Component {
       <LibrairyPicturesList
         container_title={'Post:'}
         container={'post'}
+        edition_button={(
+        <PostEditionButton
+          dispatch={this.props.dispatch}
+          post={buildPostSlug(this.props.params)}
+          n_pictures={this.props.n_pictures}
+          title={this.props.title}
+        />)}
         orderable={true}
         removePicture={this.removePicture.bind(this)}
         reorderPictures={this.reorderPictures.bind(this)}
