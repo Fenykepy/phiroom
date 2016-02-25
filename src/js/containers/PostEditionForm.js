@@ -102,7 +102,7 @@ class PostEditionForm extends Component {
       dispatch,
       edited,
     } = this.props
-    // console.log('post edition form', this.props)
+    console.log('post edition form', this.props)
 
     return (
       <div>
@@ -170,13 +170,30 @@ class PostEditionForm extends Component {
             </div>
             <div className="field_wrapper">
               <label htmlFor="id_pubdate">Publication date:</label>
-              {this.getFieldErrors('pubdate')}
+              {this.getFieldErrors('pub_date')}
               <input id="id_pubdate"
                      name="pub_date"
                      type="datetime"
                      value={this.props.edited.pub_date}
                      onChange={this.handlePubdateChange.bind(this)}
               />
+            </div>
+            <div className="field_wrapper">
+              <label htmlFor="id_tags">Keywords:</label>
+              {this.getFieldErrors('tags_flat_list')}
+              <div class="tags_container">
+                <input id="id_tags"
+                  name="tags_flat_list"
+                  type="text"
+                  placeholder="add tags..."
+                />
+                {this.props.edited.tags.map(tag =>
+                  <div 
+                    class="tag"
+                    key={tag}
+                  >{tag}<span class="del">×</span></div>
+                )}
+              </div>
             </div>
         </article>
         <footer>

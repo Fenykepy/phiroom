@@ -463,7 +463,7 @@ function getEditedData(state) {
     description: post.description,
     source: post.source,
     pub_date: post.pubdate,
-    tags: post.tags,
+    tags_flat_list: post.tags || [],
   }
 }
 

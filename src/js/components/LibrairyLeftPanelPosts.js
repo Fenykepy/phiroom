@@ -7,7 +7,7 @@ import {
   dragEnd
 } from '../actions/librairy'
 
-//import PostEditionButton from './PostEditionButton'
+import PostEditionButton from './PostEditionButton'
 import LibrairyLeftPanelPostItem from './LibrairyLeftPanelPostItem'
 
 
@@ -28,10 +28,10 @@ export default class LibrairyLeftPanelPosts extends Component {
       return (
         <div>
           <h6>Posts
-            {/*<PostEditionButton
+            <PostEditionButton
               className="plus"
               dispatch={this.props.dispatch}
-              />*/}
+            />
           </h6>
           <ul>
             {this.props.posts.map(post =>

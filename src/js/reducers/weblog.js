@@ -63,7 +63,7 @@ function edited(state = {}, action) {
         pub_date: action.pub_date
       })
     case POST_EDIT_ADD_TAG:
-      tags = state.tags.slice()
+      tags = state.tags_flat_list.slice()
       tag = tags.indexOf(action.tag)
       if (tag > -1) {
         // tag is already in list
@@ -80,7 +80,9 @@ function edited(state = {}, action) {
         if (index > -1 ) {
           // remove tag from it
           tags.splice(index, 1)
-          return tags
+          return Object.assign({}, state, {
+            tags: tags
+          })
         }
         return state
     case REQUEST_CREATE_POST:
