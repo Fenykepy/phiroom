@@ -64,6 +64,14 @@ class PostEditionForm extends Component {
     this.props.dispatch(postSetPubdate(e.target.value))
   }
 
+  handleAddTag(e) {
+    let TAB_KEY = 9
+    let ENTER_KEY = 13
+    if (e.which === TAB_KEY || e.which === ENTER_KEY) {
+      this.props.dispatch(postAddTag())
+    }
+  }
+
   confirmDeletePost() {
     console.log(this.props)
   }
@@ -200,6 +208,8 @@ class PostEditionForm extends Component {
                   name="tags_flat_list"
                   type="text"
                   placeholder="add tags..."
+                  onKeyDown={this.handleAddTag.bind(this)}
+                  onKeyPress={this.handleAddTag.bind(this)}
                 />
                 {this.listTags()}
               </div>
