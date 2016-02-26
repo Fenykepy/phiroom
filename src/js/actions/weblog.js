@@ -370,12 +370,16 @@ export function editPost(post) {
   return function(dispatch, getState) {
     return dispatch(fetchPostIfNeeded(post))
       .then(data => {
-        dispatch(prefillPostForm({
+        // get only tags names
+        let tags = data.data.tags.map(tag => {
+          return tag.name
+        })
+        return dispatch(prefillPostForm({
           slug: data.data.slug,
           title: data.data.title,
           description: data.data.description,
           source: data.data.source,
-          tags: data.data.tags,
+          tags: tags,
           draft: data.data.draft,
           pub_date: data.data.pub_date,
         }))

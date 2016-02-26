@@ -80,6 +80,19 @@ class PostEditionForm extends Component {
     return null
   }
 
+  listTags() {
+    // if we have tags we list them
+    if (this.props.edited.tags) {
+      return this.props.edited.tags.map(tag =>
+        <div 
+          className="tag"
+          key={tag}
+        >{tag}<span className="del">×</span></div>
+      )
+    }
+    return null
+  }
+
   getFieldErrors(field = 'non_field_errors') {
     if (this.props.edited.errors && this.props.edited.errors[field]) {
       let errors = this.props.edited.errors[field]
@@ -103,6 +116,7 @@ class PostEditionForm extends Component {
       edited,
     } = this.props
     console.log('post edition form', this.props)
+    console.log('render post edition form')
 
     return (
       <div>
@@ -181,18 +195,13 @@ class PostEditionForm extends Component {
             <div className="field_wrapper">
               <label htmlFor="id_tags">Keywords:</label>
               {this.getFieldErrors('tags_flat_list')}
-              <div class="tags_container">
+              <div className="tags_container">
                 <input id="id_tags"
                   name="tags_flat_list"
                   type="text"
                   placeholder="add tags..."
                 />
-                {this.props.edited.tags.map(tag =>
-                  <div 
-                    class="tag"
-                    key={tag}
-                  >{tag}<span class="del">×</span></div>
-                )}
+                {this.listTags()}
               </div>
             </div>
         </article>
