@@ -13,6 +13,8 @@ import {
   postSetDraft,
   postSetSource,
   postSetPubdate,
+  postAddTag,
+  postDeleteTag,
   createPost,
   updatePost,
   deletePost,
@@ -65,10 +67,18 @@ class PostEditionForm extends Component {
   }
 
   handleAddTag(e) {
+    // if we have nothing in input, return
+    if (! e.target.value) return
+    // react on tab and enter key to add a tag
     let TAB_KEY = 9
     let ENTER_KEY = 13
     if (e.which === TAB_KEY || e.which === ENTER_KEY) {
-      this.props.dispatch(postAddTag())
+      // prevent for submit or loose focus
+      e.preventDefault()
+      // add tag to list
+      this.props.dispatch(postAddTag(e.target.value))
+      // reset input
+      e.target.value = ""
     }
   }
 
