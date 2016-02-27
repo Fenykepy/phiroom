@@ -163,6 +163,7 @@ class PortfolioEditionForm extends Component {
                      value={this.props.edited.pub_date}
                      onChange={this.handlePubdateChange.bind(this)}
               />
+              <div className="help-text">Leave blank to publish on save.</div>
             </div>
             <div className="field_wrapper">
               <label htmlFor="id_order">Order:</label>
