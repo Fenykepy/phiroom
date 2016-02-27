@@ -1,3 +1,4 @@
+import marked from 'marked'
 
 export function listsHaveCommon(list1, list2) {
   /*
@@ -36,3 +37,5 @@ export function capitalize(string) {
 export function getJWTDate(token) {
   return JSON.parse(window.atob(token.split('.')[1]))['exp']
 }
+
+

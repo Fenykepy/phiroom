@@ -110,7 +110,7 @@ blockquote {
     }
 }
 #modal-content {
-    margin: 1em 0;
+    margin: 0;
 }
 button.modal-close {
     position: absolute;
@@ -152,6 +152,33 @@ button.modal-close {
     text-align: right;
 }
 
+// tabing
+.tabs-bar {
+    border-bottom: 1px solid @tabs-border;
+    padding: 12px 12px 0 12px;
+    background: @tabs-bg;
+    button {
+        background: @tabs-bg;
+        width: 25%;
+        height: 40px;
+        margin: 0 0 -1px -1px;
+        border-radius: 0;
+        border: 1px solid @tabs-border;
+        color: @tabs;
+        &:hover, &:focus {
+            color: @tabs-hover;
+        }
+        &.active {
+            background: @tabs-active-bg;
+            border-bottom: none;
+            border-bottom: none;
+            color: @tabs-active;
+            &:hover, &:focus {
+                color: @tabs-active;
+            }
+        }
+    }
+}
 // headings
 h1, h2, h3, h4, h5, h6 {
     font-weight: bold;

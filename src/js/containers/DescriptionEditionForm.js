@@ -72,6 +72,18 @@ class DescriptionEditionForm extends Component {
 
     return (
       <div>
+        <div className="tabs-bar">
+          <button
+            type="button"
+            className="active"
+            onClick={this.showForm}
+          >Edit</button>
+          <button
+            type="button"
+            onClick={this.showPreview}
+          >Preview</button>
+
+        </div>
         <form
           onSubmit={this.handleSubmit.bind(this)}
         >
