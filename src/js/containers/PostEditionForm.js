@@ -28,7 +28,6 @@ import {
 class PostEditionForm extends Component {
 
   handleSubmit(e) {
-    console.log('submit')
     e.preventDefault()
     let promise
     if (this.props.post) {
@@ -38,7 +37,7 @@ class PostEditionForm extends Component {
       promise = this.props.dispatch(createPost())
     }
     promise.then(() => {
-      console.log('close modal')
+      //console.log('close modal')
       this.props.modal_close()
     })
     .catch(error =>
@@ -92,7 +91,7 @@ class PostEditionForm extends Component {
   }
 
   confirmDeletePost() {
-    console.log(this.props)
+    //console.log(this.props)
     let modal = (
       <Modal
         modal_closable={true}
@@ -113,10 +112,12 @@ class PostEditionForm extends Component {
     // we update existing post
     if (this.props.edited.slug) {
       return (
-        <button
-          type="button"
-          onClick={this.confirmDeletePost.bind(this)}
-        >Delete post</button>)
+        <div className="admin-links">
+          <button
+            type="button"
+            onClick={this.confirmDeletePost.bind(this)}
+          >Delete post</button>
+        </div>)
     }
     return null
   }
@@ -160,16 +161,15 @@ class PostEditionForm extends Component {
       dispatch,
       edited,
     } = this.props
-    console.log('post edition form', this.props)
-    console.log('render post edition form')
+    //console.log('post edition form', this.props)
 
     return (
       <div>
-        {this.getDeleteButton()}
         <form
           onSubmit={this.handleSubmit.bind(this)}
         >
           <article>
+          {this.getDeleteButton()}
           <p><span className="red">*</span> : required fields.</p>
             {this.getFieldErrors()}
             <div className="field_wrapper">

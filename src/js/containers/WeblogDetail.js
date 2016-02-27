@@ -24,7 +24,7 @@ import WeblogDescription from '../components/WeblogDescription'
 import WeblogTags from '../components/WeblogTags'
 import WeblogPostNavigation from '../components/WeblogPostNavigation'
 import WeblogGallery from '../components/WeblogGallery'
-
+import PostEditionButton from '../components/PostEditionButton'
 
 export function buildPostSlug(params) {
   // concatenate params to return a slug
@@ -101,6 +101,7 @@ class WeblogDetail extends Component {
       <div>
         <article>
           <header>
+            {this.getEditionButton()}
             <WeblogTime date={this.props.pub_date} />
             <h1>{this.props.title}</h1>
             <WeblogDescription description={this.props.description} />
@@ -121,6 +122,23 @@ class WeblogDetail extends Component {
     )
   }
 
+  getEditionButton() {
+    if (this.props.user.is_weblog_author) {
+      return (
+        <div className="admin-links">
+          <PostEditionButton
+            className="Primary"
+            dispatch={this.props.dispatch}
+            post={buildPostSlug(this.props.params)}
+            n_pictures={this.props.n_pictures}
+            title={this.props.title}
+          />
+        </div>
+      )
+    }
+    return null
+  }
+
   render() {
 
     const {
@@ -138,6 +156,7 @@ class WeblogDetail extends Component {
       previous,
       tags,
       is_fetching,
+      user,
     } = this.props
 
     return (

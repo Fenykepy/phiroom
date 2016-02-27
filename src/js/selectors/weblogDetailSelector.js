@@ -1,5 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 
+import { userSelector } from './userSelector'
 
 /*
  * selectedPost
@@ -84,13 +85,15 @@ export const weblogDetailSelector = createSelector(
   postPicturesListSelector,
   postAuthorSelector,
   postPicturesSelector,
-  (selected, n_picts, pictsList, author, pictures) => {
+  userSelector,
+  (selected, n_picts, pictsList, author, pictures, user) => {
     return Object.assign({},
         selected,
         {picturesList: pictsList},
         {author: author},
         {n_pictures: n_picts},
-        {pictures: pictures}
+        {pictures: pictures},
+        {user: user}
     )
   }
 )

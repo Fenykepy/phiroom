@@ -26,7 +26,6 @@ import {
 class PortfolioEditionForm extends Component {
 
   handleSubmit(e) {
-    console.log('submit')
     e.preventDefault()
     // we update an existing portfolio
     let promise
@@ -37,7 +36,7 @@ class PortfolioEditionForm extends Component {
       promise = this.props.dispatch(createPortfolio())
     }
     promise.then(() => {
-      console.log('close modal')
+      //console.log('close modal')
       this.props.modal_close()
     })
     .catch(error =>
@@ -67,7 +66,6 @@ class PortfolioEditionForm extends Component {
   }
 
   confirmDeletePortfolio() {
-    console.log(this.props)
     let modal = (
         <Modal
           modal_closable={true}
@@ -88,10 +86,12 @@ class PortfolioEditionForm extends Component {
     // we update existing portfolio
     if (this.props.edited.slug) {
       return (
-        <button
-          type="button"
-          onClick={this.confirmDeletePortfolio.bind(this)}
-        >Delete portfolio</button>)
+        <div className="admin-links">
+          <button
+            type="button"
+            onClick={this.confirmDeletePortfolio.bind(this)}
+          >Delete portfolio</button>
+        </div>)
     }
     return null
   }
@@ -122,11 +122,11 @@ class PortfolioEditionForm extends Component {
     
     return (
       <div>
-        {this.getDeleteButton()}
         <form
             onSubmit={this.handleSubmit.bind(this)}
         >
         <article>
+          {this.getDeleteButton()}
           <p><span className="red">*</span> : required fields.</p>
             {this.getFieldErrors()}
             <div className="field_wrapper">
