@@ -79,3 +79,46 @@
         }
     }
 }
+
+.tags-container {
+    background: @inputs-bg;
+    width: 100%;
+    border-radius: 4px;
+    border: @inputs-border;
+    padding: 12px;
+    box-sizing: border-box;
+    &:hover, &:focus {
+        box-shadow: @inputs-hover-focus-shadow;
+        border: @inputs-border-hover-focus;
+    }
+    input, input:hover, input:focus {
+        box-shadow: none;
+        border: none;
+        margin: 0;
+        padding: 0 5px;
+    }
+    .tag {
+        display: inline-block;
+        height: 34px;
+        line-height: 32px;
+        border: 1px solid @blog-tag-border;
+        margin: 5px 0 0 5px;
+        padding: 0px 0px 0px 12px;
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: @blog-tag-color;
+        background: @blog-tag-bg;
+        .del {
+            border: none;
+            box-shadow: none;
+            margin: 0;
+            font-size: 22px;
+            height: 32px;
+            float: right;
+            color: @blog-tag-color;
+            &:hover, &:active {
+                color: @blog-tag-color-hover;
+            }
+        }
+    }
+}

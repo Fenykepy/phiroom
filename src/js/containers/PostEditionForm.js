@@ -195,7 +195,6 @@ class PostEditionForm extends Component {
                      value={this.props.edited.description}
                      placeholder="description"
                      maxLength="254"
-                     required
                      onChange={this.handleDescriptionChange.bind(this)}
               />
               <div className="help-text">Description of the post, shown under title in detail view.</div>
@@ -241,7 +240,7 @@ class PostEditionForm extends Component {
             <div className="field_wrapper">
               <label htmlFor="id_tags">Keywords:</label>
               {this.getFieldErrors('tags_flat_list')}
-              <div className="tags_container">
+              <div className="tags-container">
                 <input id="id_tags"
                   name="tags_flat_list"
                   type="text"

@@ -1,5 +1,7 @@
 import * as types from '../constants/actionsTypes'
 
+import { browserHistory } from 'react-router'
+
 import Fetch from '../helpers/http'
 
 import { receiveShortPicture } from './pictures'
@@ -560,6 +562,9 @@ export function deletePost(post) {
       .then(() => {
         // refetch posts headers
         dispatch(fetchPostsHeaders())
+        // go to parent component (librairy or weblog)
+        // as current post is now unavailable
+        console.log(browserHistory)
       })
 
     return {

@@ -30,11 +30,13 @@
 #- Display more info about portfolio (title) for SEO
 #- Add a way to edit portfolio
 #- Add a way to delete portfolio
-- Add a way to refresh view after portfolio deletion
-- Add a way to refresh view after portfolio update
+- Add a redirection after portfolio deletion
+- Add a redirection after portfolio update
 - Add a way to create post
-- Add a way to edit post
-- Add a way to delete post
+#- Add a way to edit post
+#- Add a way to delete post
+- Add a redirection after post deletion
+- Add a redirection after post update
 - Add a way to edit contact description
 - Add a setting to prevent right clicks on pictures
 - Improve contextual menu to go on right or left side depending of viewport width
