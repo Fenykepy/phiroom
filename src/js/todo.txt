@@ -30,6 +30,8 @@
 #- Display more info about portfolio (title) for SEO
 #- Add a way to edit portfolio
 #- Add a way to delete portfolio
+- Add tags to portfolios
+- Add description to portfolios
 - Add a redirection after portfolio deletion
 - Add a redirection after portfolio update
 - Add a way to create post
@@ -37,7 +39,7 @@
 #- Add a way to delete post
 - Add a redirection after post deletion
 - Add a redirection after post update
-- Add a way to edit contact description
+#- Add a way to edit contact description
 - Add a setting to prevent right clicks on pictures
 - Improve contextual menu to go on right or left side depending of viewport width
 - Move contextual menu state to main redux state
@@ -52,6 +54,7 @@
 - Add infinite pagination to librairy list
 #- Fix bug with submenus hover in main menu (space where over is left)
 #- Add scroll to top on lightbox openning
+- Add a preview for forms with markdown
 
 ==== Refactoring ====
 
@@ -87,4 +90,8 @@
 #    - Logout -> dispatch only
 #    - Lightbox -> lightboxSelector
 
+==== Security ====
 
+- clear post edition state on logout
+- clear portfolio edition state on logout
+- clear description edition state on logout

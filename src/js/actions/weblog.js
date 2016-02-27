@@ -369,7 +369,7 @@ export function newPost()  {
 }
 
 export function editPost(post) {
-  return function(dispatch, getState) {
+  return function(dispatch) {
     return dispatch(fetchPostIfNeeded(post))
       .then(data => {
         // get only tags names

@@ -36,7 +36,11 @@ class Contact extends Component {
       // show a spinner
       return (<Spinner message="Fetching..." />)
     }
-    return (<ContactDescription description={desc} />)
+    return (<ContactDescription
+      description={desc}
+      user={this.props.user}
+      dispatch={this.props.dispatch}
+      />)
   }
 
   render() {
@@ -44,6 +48,7 @@ class Contact extends Component {
     const {
       dispatch,
       description,
+      user,
     } = this.props
     
     return (

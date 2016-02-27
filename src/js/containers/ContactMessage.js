@@ -79,7 +79,7 @@ class ContactMessage extends Component {
       return (<ResetContactForm handleReset={this.handleReset.bind(this)} />)
     }
 
-    console.log(this.props)
+    //console.log('contact message', this.props)
      
     // show form
     return (

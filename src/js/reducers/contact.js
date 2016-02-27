@@ -4,6 +4,12 @@ import {
   REQUEST_DESCRIPTION,
   REQUEST_DESCRIPTION_SUCCESS,
   REQUEST_DESCRIPTION_FAILURE,
+  DESCRIPTION_EDIT_PREFILL,
+  DESCRIPTION_EDIT_SET_TITLE,
+  DESCRIPTION_EDIT_SET_SOURCE,
+  REQUEST_UPDATE_DESCRIPTION,
+  REQUEST_UPDATE_DESCRIPTION_SUCCESS,
+  REQUEST_UPDATE_DESCRIPTION_FAILURE,
   RESET_MESSAGE,
   REQUEST_POST_MESSAGE,
   REQUEST_POST_MESSAGE_SUCCESS,
@@ -17,6 +23,36 @@ import {
   LOGOUT,
 } from '../constants/actionsTypes'
 
+
+
+function edited(state = {}, action) {
+  switch (action.type) {
+    case DESCRIPTION_EDIT_PREFILL:
+      return action.data
+    case DESCRIPTION_EDIT_SET_TITLE:
+      return Object.assign({}, state, {
+        title: action.title
+      })
+    case DESCRIPTION_EDIT_SET_SOURCE:
+      return Object.assign({}, state, {
+        source: action.source
+      })
+    case REQUEST_UPDATE_DESCRIPTION:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_UPDATE_DESCRIPTION_SUCCESS:
+      return {}
+    case REQUEST_UPDATE_DESCRIPTION_FAILURE:
+      return Object.assign({}, state, {
+        is_posting: false,
+        errors: action.errors
+      })
+    default:
+      return state
+  }
+}
 
 function description(state = {}, action) {
   switch (action.type) {
@@ -37,6 +73,13 @@ function description(state = {}, action) {
         is_fetching: false,
         error: action.error
       })
+    case REQUEST_UPDATE_DESCRIPTION_SUCCESS:
+      return Object.assign({}, state, {
+        is_fetching: false,
+        fetched: true,
+        receivedAt: action.receivedAt
+      },
+      action.data)
     default:
       return state
   }
@@ -97,6 +140,7 @@ function message(state = {}, action) {
 
 
 const contact = combineReducers({
+  edited,
   description,
   message
 })

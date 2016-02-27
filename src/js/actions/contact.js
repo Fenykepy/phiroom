@@ -41,12 +41,13 @@ function shouldFetchDescription(state) {
 export function fetchDescriptionIfNeeded() {
   // fetch description if it's not done yet
   return (dispatch, getState) => {
-    if (shouldFetchDescription(getState())) {
+    let state = getState()
+    if (shouldFetchDescription(state)) {
       return dispatch(fetchDescription())
     }
     // else, return a resolved promise
     return new Promise((resolve, reject) => resolve(
-        {}
+      state.contact.description
     ))
   }
 }
@@ -67,6 +68,89 @@ export function fetchDescription() {
       .catch(error =>
           dispatch(requestDescriptionFailure(error.message))
       )
+  }
+}
+
+
+/***********************************/
+/*      DESCRIPTION UPDATE         */
+/***********************************/
+
+
+export function editDescription() {
+  return function(dispatch) {
+    return dispatch(fetchDescriptionIfNeeded())
+      .then(data => {
+        dispatch({
+          type: types.DESCRIPTION_EDIT_PREFILL,
+          data: data,
+        })
+      })
+  }
+}
+
+export function descriptionSetTitle(title) {
+  return {
+    type: types.DESCRIPTION_EDIT_SET_TITLE,
+    title: title,
+  }
+}
+
+export function descriptionSetSource(source) {
+  return {
+    type: types.DESCRIPTION_EDIT_SET_SOURCE,
+    source: source,
+  }
+}
+
+function requestUpdateDescription() {
+  return {
+    type: types.REQUEST_UPDATE_DESCRIPTION
+  }
+}
+
+function receiveUpdatedDescription(json) {
+  return {
+    type: types.REQUEST_UPDATE_DESCRIPTION_SUCCESS,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+function requestUpdateDescriptionFailure(errors) {
+  return {
+    type: types.REQUEST_UPDATE_DESCRIPTION_FAILURE,
+    errors
+  }
+}
+
+export function updateDescription() {
+  return function(dispatch, getState) {
+    dispatch(requestUpdateDescription())
+
+    let new_desc = getState().contact.edited
+
+    return Fetch.post('api/contact/descriptions/',
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify({
+        title: new_desc.title,
+        source: new_desc.source,
+      })
+    )
+    .then(json => {
+      return dispatch(receiveUpdatedDescription(json))
+    })
+    .catch(error =>
+      error.response.json().then(json => {
+        // store error json in state
+        dispatch(requestUpdateDescriptionFailure(json))
+        // throw error to catch it in form and display it
+        throw error
+      })
+    )
   }
 }
 

@@ -127,7 +127,6 @@ class WeblogDetail extends Component {
       return (
         <div className="admin-links">
           <PostEditionButton
-            className="Primary"
             dispatch={this.props.dispatch}
             post={buildPostSlug(this.props.params)}
             n_pictures={this.props.n_pictures}

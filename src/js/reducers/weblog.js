@@ -94,8 +94,8 @@ function edited(state = {}, action) {
       return {}
     case REQUEST_CREATE_POST_FAILURE:
       return Object.assign({}, state, {
-        is_posting: true,
-        errors: {}
+        is_posting: false,
+        errors: action.errors
       })
     case REQUEST_UPDATE_POST:
       return Object.assign({}, state, {
