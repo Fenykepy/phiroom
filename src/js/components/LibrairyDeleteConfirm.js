@@ -1,17 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 
-export default class LibrairyDeletePortfolioConfirm extends Component {
-  
+export default class LibrairyDeleteConfirm extends Component {
+
   render() {
-    console.log('delete portfolio confirm', this.props)
+    console.log('librairy delete confirm', this.props)
     return (
-        <div>
-          <article>
-            <h6>Are you sure you want to delete this portfolio:</h6>
+      <div>
+        <article>
+            <h6>Are you sure you want to delete this {this.props.type}:</h6>
             <p>{this.props.title}</p>
             <p><em>It contains {this.props.n_pictures} pictures.</em></p>
             <p><strong><em>(this operation is irreversible)</em></strong></p>
-          </article>
+        </article>
           <footer>
             <button
               onClick={this.props.modal_close}
@@ -21,7 +21,7 @@ export default class LibrairyDeletePortfolioConfirm extends Component {
               onClick={this.props.delete}
             >Delete</button>
           </footer>
-        </div>
+      </div>
     )
   }
 }

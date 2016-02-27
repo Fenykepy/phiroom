@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { postEditionSelector } from '../selectors/postEditionSelector'
 
 import Modal from '../components/Modal'
-//import LibrairyDeletePost Confirm from '../components/LibrairyDeletePostConfirm'
+import LibrairyDeleteConfirm from '../components/LibrairyDeleteConfirm'
 
 import {
   postSetTitle,
@@ -82,8 +82,31 @@ class PostEditionForm extends Component {
     }
   }
 
+  handleDeleteTag(tag) {
+    this.props.dispatch(postDeleteTag(tag))
+  }
+
+  handleDeletePost() {
+    this.props.dispatch(deletePost(this.props.edited.slug))
+    this.props.modal_close()
+  }
+
   confirmDeletePost() {
     console.log(this.props)
+    let modal = (
+      <Modal
+        modal_closable={true}
+        modal_close={this.props.modal_close}
+        modal_small={true}
+        modal_title={'Delete a post'}
+        modal_child={LibrairyDeleteConfirm}
+        title={this.props.title}
+        type={'post'}
+        n_pictures={this.props.n_pictures}
+        delete={this.handleDeletePost.bind(this)}
+      />
+    )
+    this.props.dispatch(setModal(modal))
   }
 
   getDeleteButton() {
@@ -105,7 +128,11 @@ class PostEditionForm extends Component {
         <div 
           className="tag"
           key={tag}
-        >{tag}<span className="del">×</span></div>
+        >{tag}<button
+            className="del"
+            type="button"
+            onClick={() => this.handleDeleteTag(tag)}
+        >×</button></div>
       )
     }
     return null

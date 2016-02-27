@@ -551,7 +551,7 @@ export function updatePost(post) {
   }
 }
 
-export function deletePortfolio(portfolio) {
+export function deletePost(post) {
   /*
    * delete a post from server
    */

@@ -6,7 +6,7 @@ import { portfolioEditionSelector } from '../selectors/portfolioEditionSelector'
 
 
 import Modal from '../components/Modal'
-import LibrairyDeletePortfolioConfirm from '../components/LibrairyDeletePortfolioConfirm'
+import LibrairyDeleteConfirm from '../components/LibrairyDeleteConfirm'
 
 import {
   portfolioSetTitle,
@@ -61,8 +61,9 @@ class PortfolioEditionForm extends Component {
     this.props.dispatch(portfolioSetOrder(e.target.value))
   }
 
-  deletePortfolio(portfolio) {
-    this.props.dispatch(deletePortfolio(portfolio))
+  handleDeletePortfolio() {
+    this.props.dispatch(deletePortfolio(this.props.edited.slug))
+    this.props.modal_close()
   }
 
   confirmDeletePortfolio() {
@@ -73,10 +74,11 @@ class PortfolioEditionForm extends Component {
           modal_close={this.props.modal_close}
           modal_small={true}
           modal_title={'Delete a portfolio'}
-          modal_child={LibrairyDeletePortfolioConfirm}
+          modal_child={LibrairyDeleteConfirm}
           title={this.props.title}
+          type={'portfolio'}
           n_pictures={this.props.n_pictures}
-          delete={() => this.deletePortfolio(this.props.edited.slug)}
+          delete={this.handleDeletePortfolio.bind(this)}
         />
     )
     this.props.dispatch(setModal(modal))
