@@ -351,7 +351,7 @@ function fetchWeblogPageByTag(tag, page) {
 /*
  * Posts edition
  */
-function prefillPostForm(data = {}) {
+function prefillPostForm(data = {tags: []}) {
   // start post edition with given datas
   return {
     type: types.POST_EDIT_PREFILL,
