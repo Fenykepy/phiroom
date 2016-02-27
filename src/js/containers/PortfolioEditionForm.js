@@ -7,6 +7,7 @@ import { portfolioEditionSelector } from '../selectors/portfolioEditionSelector'
 
 import Modal from '../components/Modal'
 import LibrairyDeleteConfirm from '../components/LibrairyDeleteConfirm'
+import Spinner from '../components/Spinner'
 
 import {
   portfolioSetTitle,
@@ -120,6 +121,13 @@ class PortfolioEditionForm extends Component {
     } = this.props
     //console.log('portfolio edition form', this.props)
     
+    if (this.props.edited.is_fetching) {
+      return <Spinner message="Fetching..." />
+    }
+    if (this.props.edited.is_posting) {
+      return <Spinner message="Sending..." />
+    }
+
     return (
       <div>
         <form

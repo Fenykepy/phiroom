@@ -6,6 +6,7 @@ import { postEditionSelector } from '../selectors/postEditionSelector'
 
 import Modal from '../components/Modal'
 import LibrairyDeleteConfirm from '../components/LibrairyDeleteConfirm'
+import Spinner from '../components/Spinner'
 
 import {
   postSetTitle,
@@ -162,6 +163,13 @@ class PostEditionForm extends Component {
       edited,
     } = this.props
     //console.log('post edition form', this.props)
+    
+    if (this.props.edited.is_fetching) {
+      return <Spinner message="Fetching..." />
+    }
+    if (this.props.edited.is_posting) {
+      return <Spinner message="Sending..." />
+    }
 
     return (
       <div>

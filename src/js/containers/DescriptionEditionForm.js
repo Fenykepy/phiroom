@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { descriptionEditionSelector } from '../selectors/descriptionEditionSelector'
 
 import Modal from '../components/Modal'
+import Spinner from '../components/Spinner'
 
 import {
   descriptionSetTitle,
@@ -61,6 +62,13 @@ class DescriptionEditionForm extends Component {
       edited,
     } = this.props
     //console.log('description edition form', this.props)
+    
+    if (this.props.edited.is_fetching) {
+      return <Spinner message="Fetching..." />
+    }
+    if (this.props.edited.is_posting) {
+      return <Spinner message="Sending..." />
+    }
 
     return (
       <div>
