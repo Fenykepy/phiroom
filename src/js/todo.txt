@@ -34,7 +34,7 @@
 - Add description to portfolios
 - Add a redirection after portfolio deletion
 - Add a redirection after portfolio update
-- Add a way to create post
+#- Add a way to create post
 #- Add a way to edit post
 #- Add a way to delete post
 - Add a redirection after post deletion
@@ -54,7 +54,8 @@
 - Add infinite pagination to librairy list
 #- Fix bug with submenus hover in main menu (space where over is left)
 #- Add scroll to top on lightbox openning
-- Add a preview for forms with markdown
+#- Add a preview for forms with markdown
+- Style markdow previews
 
 ==== Refactoring ====
 

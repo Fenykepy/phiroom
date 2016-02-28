@@ -8,7 +8,7 @@ import Modal from '../components/Modal'
 import Spinner from '../components/Spinner'
 import TabsBar from '../components/TabsBar'
 import PostEditionForm from '../components/PostEditionForm'
-//import PostEditionPreview from '../components/PostEditionPreview'
+import PostEditionPreview from '../components/PostEditionPreview'
 import LibrairyDeleteConfirm from '../components/LibrairyDeleteConfirm'
 
 import {
@@ -149,6 +149,11 @@ class PostEdition extends Component {
         title: 'Preview',
         component: 
           (<article id="modal-content">
+            <PostEditionPreview
+              pub_date={this.props.edited.pub_date}
+              title={this.props.edited.title}
+              source={this.props.edited.source}
+            />
           </article>)
       }
     ]
