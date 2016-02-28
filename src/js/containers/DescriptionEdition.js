@@ -6,6 +6,7 @@ import { descriptionEditionSelector } from '../selectors/descriptionEditionSelec
 
 import Modal from '../components/Modal'
 import Spinner from '../components/Spinner'
+import TabsBar from '../components/TabsBar'
 import DescriptionEditionForm from '../components/DescriptionEditionForm'
 import DescriptionEditionPreview from '../components/DescriptionEditionPreview'
 
@@ -25,18 +26,8 @@ import {
 
 class DescriptionEdition extends Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      preview: false
-    }
-  }
-
   handleSubmit(e) {
     e.preventDefault()
-    // switch back to form if necessary, else promise fails
-    if (this.state.preview) this.setState({preview: false}) 
     this.props.dispatch(updateDescription())
       .then(() =>
         this.props.modal_close()
@@ -52,53 +43,6 @@ class DescriptionEdition extends Component {
 
   handleSourceChange(e) {
     this.props.dispatch(descriptionSetSource(e.target.value))
-  }
-
-  showForm() {
-    if (this.state.preview) {
-      this.setState({ preview: false })
-    }
-  }
-
-  showPreview() {
-    if ( ! this.state.preview) {
-      this.setState({ preview: true })
-    }
-  }
-
-  getTabs() {
-    return(
-      <div className="tabs-bar">
-        <button
-          type="button"
-          className={ ! this.state.preview ? "active" : ""}
-          onClick={this.showForm.bind(this)}
-        >Edit</button>
-        <button
-          type="button"
-          className={this.state.preview ? "active" : ""}
-          onClick={this.showPreview.bind(this)}
-        >Preview</button>
-      </div>
-    )
-  }
-
-  getContent() {
-    if (this.state.preview) {
-      return (
-        <DescriptionEditionPreview
-          title={this.props.edited.title}
-          source={this.props.edited.source}
-        />
-      )
-    }
-    return (
-      <DescriptionEditionForm
-        edited={this.props.edited}
-        handleTitleChange={this.handleTitleChange.bind(this)}
-        handleSourceChange={this.handleSourceChange.bind(this)}
-      />
-    )
   }
 
 
@@ -117,12 +61,35 @@ class DescriptionEdition extends Component {
       return <Spinner message="Sending..." />
     }
 
+    let tabs = [
+      {
+        title: 'Edit',
+        component:
+          (<article id="modal-content">
+            <DescriptionEditionForm
+              edited={this.props.edited}
+              handleTitleChange={this.handleTitleChange.bind(this)}
+              handleSourceChange={this.handleSourceChange.bind(this)}
+            />
+          </article>)
+      },
+      {
+        title: 'Preview',
+        component: 
+          (<article id="modal-content">
+            <DescriptionEditionPreview
+              title={this.props.edited.title}
+              source={this.props.edited.source}
+            />
+          </article>)
+      }
+    ]
+
     return (
       <div>
-        {this.getTabs()}
-        <article id="modal-content">
-          {this.getContent()}
-        </article>
+        <TabsBar
+          tabs={tabs}
+        />
         <footer>
           <button
               type="button"
