@@ -75,6 +75,7 @@ class App extends Component {
         {this.props.children}
         <Footer
           user={this.props.user}
+          location={this.props.location}
         />
         {this.props.modal}
       </div>

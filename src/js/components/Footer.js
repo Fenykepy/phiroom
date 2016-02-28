@@ -11,12 +11,13 @@ export default class Footer extends Component {
       )
     } else {
       return (
-          <Link to='/login/'>Sign in</Link>
+          <Link to={'/login/?next=' + this.props.location.pathname}>Sign in</Link>
       )
     }
   }
 
   render () {
+    //console.log('footer', this.props)
     return (
         <footer role="contentinfo">
           <p id="powered"><a target="_blank" href="http://phiroom.org">Powered by Phiroom</a> | {this.getLinks()}</p>

@@ -22,17 +22,23 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // redirect if user is authenticated
     if (nextProps.user.is_authenticated) {
+      // redirect to target page if we have a next
+      if (this.props.location.query.next) {
+        this.context.router.push(this.props.location.query.next)
+      } else {
         // redirect to home page
         // TODO redirect to profil page when it's done
         this.context.router.push('/')
+      }
     }
   }
 
   handleLogin(credentials) {
     this.props.dispatch(login(credentials)).then(() => {
       // if we have a redirection go to it
-      console.log('login',this.props)
+      //console.log('login',this.props)
       if (this.props.location.query.next) {
         this.context.router.push(this.props.location.query.next)
       }
