@@ -6,6 +6,7 @@ import { postEditionSelector } from '../selectors/postEditionSelector'
 
 import Modal from '../components/Modal'
 import Spinner from '../components/Spinner'
+import TabsBar from '../components/TabsBar'
 import PostEditionForm from '../components/PostEditionForm'
 //import PostEditionPreview from '../components/PostEditionPreview'
 import LibrairyDeleteConfirm from '../components/LibrairyDeleteConfirm'
@@ -30,18 +31,8 @@ import {
 
 class PostEdition extends Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      preview: false
-    }
-  }
-
   handleSubmit(e) {
     e.preventDefault()
-    // switch back to form if necessary, else promise fails
-    if (this.state.preview) this.setState({preview: false}) 
     let promise
     if (this.props.post) {
       // we update an existing post
@@ -121,55 +112,6 @@ class PostEdition extends Component {
     this.props.dispatch(setModal(modal))
   }
 
-  showForm() {
-    if (this.state.preview) {
-      this.setState({ preview: false })
-    }
-  }
-
-  showPreview() {
-    if ( ! this.state.preview) {
-      this.setState({ preview: true })
-    }
-  }
-
-  getTabs() {
-    return(
-      <div className="tabs-bar">
-        <button
-          type="button"
-          className={ ! this.state.preview ? "active" : ""}
-          onClick={this.showForm.bind(this)}
-        >Edit</button>
-        <button
-          type="button"
-          className={this.state.preview ? "active" : ""}
-          onClick={this.showPreview.bind(this)}
-        >Preview</button>
-      </div>
-    )
-  }
-
-  getContent() {
-    if (this.state.preview) {
-      return null
-    }
-    return (
-      <PostEditionForm
-        edited={this.props.edited}
-        handleTitleChange={this.handleTitleChange.bind(this)}
-        handleDescriptionChange={this.handleDescriptionChange.bind(this)}
-        handleDraftChange={this.handleDraftChange.bind(this)}
-        handleSourceChange={this.handleSourceChange.bind(this)}
-        handlePubdateChange={this.handlePubdateChange.bind(this)}
-        handleAddTag={this.handleAddTag.bind(this)}
-        handleDeleteTag={this.handleDeleteTag.bind(this)}
-        confirmDeletePost={this.confirmDeletePost.bind(this)}
-      />
-    )
-  }
-
-  
   render() {
     // injected by connect() call:
     const {
@@ -185,12 +127,38 @@ class PostEdition extends Component {
       return <Spinner message="Sending..." />
     }
 
+    let tabs = [
+      {
+        title: 'Edit',
+        component:
+          (<article id="modal-content">
+            <PostEditionForm
+              edited={this.props.edited}
+              handleTitleChange={this.handleTitleChange.bind(this)}
+              handleDescriptionChange={this.handleDescriptionChange.bind(this)}
+              handleDraftChange={this.handleDraftChange.bind(this)}
+              handleSourceChange={this.handleSourceChange.bind(this)}
+              handlePubdateChange={this.handlePubdateChange.bind(this)}
+              handleAddTag={this.handleAddTag.bind(this)}
+              handleDeleteTag={this.handleDeleteTag.bind(this)}
+              confirmDeletePost={this.confirmDeletePost.bind(this)}
+            />
+          </article>)
+      },
+      {
+        title: 'Preview',
+        component: 
+          (<article id="modal-content">
+          </article>)
+      }
+    ]
+
+
     return (
       <div>
-        {this.getTabs()}
-        <article id="modal-content">
-          {this.getContent()}
-        </article>
+        <TabsBar
+          tabs={tabs}
+        />
         <footer>
           <button
               type="button"
