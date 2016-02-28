@@ -23,6 +23,21 @@ export default class PostEditionForm extends Component {
     return null
   }
 
+  getDeleteButton() {
+    // we update existing post
+    if (this.props.edited.slug) {
+      return (
+        <div className="admin-links">
+          <button
+            type="button"
+            onClick={this.props.confirmDeletePost}
+          >Delete post</button>
+        </div>)
+    }
+    return null
+  }
+
+
 
   render() {
     //console.log('post edition form', this.props)
@@ -31,6 +46,7 @@ export default class PostEditionForm extends Component {
       <form
         id="post-form"
       >
+        {this.getDeleteButton()}
         <FormRequiredFields />
         <FormFieldErrors
           errors_list={this.props.edited.errors}
@@ -99,7 +115,7 @@ export default class PostEditionForm extends Component {
                    onChange={this.props.handleDraftChange}
                    defaultChecked={false}
             />Draft (won't be published yet.)
-</label>
+            </label>
           </div>
         </div>
         <div className="field_wrapper">

@@ -1,7 +1,7 @@
 import React, { Component, Proptypes } from 'react'
 
 import Modal from './Modal'
-import PortfolioEditionForm from '../containers/PortfolioEditionForm'
+import PortfolioEdition from '../containers/PortfolioEdition'
 
 import {
   closeModal,
@@ -42,7 +42,7 @@ export default class PortfolioEditionButton extends Component {
         modal_closable={true}
         modal_close={this.closeModal.bind(this)}
         modal_title={this.getTitle()}
-        modal_child={PortfolioEditionForm}
+        modal_child={PortfolioEdition}
         portfolio={this.props.portfolio}
         n_pictures={this.props.n_pictures}
         title={this.props.title}

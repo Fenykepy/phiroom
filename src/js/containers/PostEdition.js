@@ -121,20 +121,6 @@ class PostEdition extends Component {
     this.props.dispatch(setModal(modal))
   }
 
-  getDeleteButton() {
-    // we update existing post
-    if (this.props.edited.slug) {
-      return (
-        <div className="admin-links">
-          <button
-            type="button"
-            onClick={this.confirmDeletePost.bind(this)}
-          >Delete post</button>
-        </div>)
-    }
-    return null
-  }
-
   showForm() {
     if (this.state.preview) {
       this.setState({ preview: false })
@@ -178,6 +164,7 @@ class PostEdition extends Component {
         handlePubdateChange={this.handlePubdateChange.bind(this)}
         handleAddTag={this.handleAddTag.bind(this)}
         handleDeleteTag={this.handleDeleteTag.bind(this)}
+        confirmDeletePost={this.confirmDeletePost.bind(this)}
       />
     )
   }
@@ -202,7 +189,6 @@ class PostEdition extends Component {
       <div>
         {this.getTabs()}
         <article id="modal-content">
-          {this.getDeleteButton()}
           {this.getContent()}
         </article>
         <footer>
