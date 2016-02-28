@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import Modal from './Modal'
-import DescriptionEditionForm from '../containers/DescriptionEditionForm'
+import DescriptionEdition from '../containers/DescriptionEdition'
 
 import {
   closeModal,
@@ -27,7 +27,7 @@ export default class DescriptionEditionButton extends Component {
         modal_closable={true}
         modal_close={this.closeModal.bind(this)}
         modal_title={'Edit contact page\'s description'}
-        modal_child={DescriptionEditionForm}
+        modal_child={DescriptionEdition}
       />
     )
     this.props.dispatch(setModal(modal))
