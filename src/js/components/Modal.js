@@ -54,9 +54,7 @@ export default class Modal extends Component {
               <h1>{this.props.modal_title || ""}</h1>
               {this.getCloseButton()}
           </header>
-          <div id="modal-content">
-            {this.getChild()}	
-          </div>
+          {this.getChild()}	
         </section>
       </div>
     )

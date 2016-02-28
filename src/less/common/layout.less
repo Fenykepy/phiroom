@@ -80,24 +80,27 @@ blockquote {
     position: relative;
     margin: 40px auto;
     background: @blog-bg;
-    width: 700px;
+    width: 770px;
     border: 1px solid @blog-hr;
     border-radius: 4px;
     box-shadow: 0 0 4px #000;
     header {
-        padding: 22px;
+        padding: 30px 60px;
         border-bottom: 1px solid @blog-hr;
+        h1 {
+            margin: 0;
+        }
         button.modal-close {
-            right: 17px;
-            top: 17px;
+            right: 30px;
+            top: 23px;
         }
     }
-    article {
+    #modal-content {
         margin: 0;
-        padding: 22px;
+        padding: 45px;
     }
     footer {
-        padding: 10px 22px 5px;
+        padding: 25px 45px 30px;
         border-top: 1px solid @blog-hr;
         text-align: right;
     }
@@ -108,9 +111,6 @@ blockquote {
        width: auto;
        margin: 40px;
     }
-}
-#modal-content {
-    margin: 0;
 }
 button.modal-close {
     position: absolute;

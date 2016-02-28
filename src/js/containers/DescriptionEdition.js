@@ -120,7 +120,7 @@ class DescriptionEdition extends Component {
     return (
       <div>
         {this.getTabs()}
-        <article>
+        <article id="modal-content">
           {this.getContent()}
         </article>
         <footer>
