@@ -7,6 +7,7 @@ import { portfolioEditionSelector } from '../selectors/portfolioEditionSelector'
 
 import Modal from '../components/Modal'
 import Spinner from '../components/Spinner'
+import TabsBar from '../components/TabsBar'
 import PortfolioEditionForm from '../components/PortfolioEditionForm'
 import LibrairyDeleteConfirm from '../components/LibrairyDeleteConfirm'
 
@@ -100,18 +101,28 @@ class PortfolioEdition extends Component {
       return <Spinner message="Sending..." />
     }
 
+    let tabs = [
+      {
+        title: 'Edit',
+        component:
+          (<article id="modal-content">
+              <PortfolioEditionForm
+                edited={this.props.edited}
+                handleTitleChange={this.handleTitleChange.bind(this)}
+                handleDraftChange={this.handleDraftChange.bind(this)}
+                handlePubdateChange={this.handlePubdateChange.bind(this)}
+                handleOrderChange={this.handleOrderChange.bind(this)}
+                confirmDeletePortfolio={this.confirmDeletePortfolio.bind(this)}
+              />
+          </article>)
+      },
+    ]
+
     return (
       <div>
-        <article id="modal-content">
-          <PortfolioEditionForm
-            edited={this.props.edited}
-            handleTitleChange={this.handleTitleChange.bind(this)}
-            handleDraftChange={this.handleDraftChange.bind(this)}
-            handlePubdateChange={this.handlePubdateChange.bind(this)}
-            handleOrderChange={this.handleOrderChange.bind(this)}
-            confirmDeletePortfolio={this.confirmDeletePortfolio.bind(this)}
-          />
-        </article>
+        <TabsBar
+          tabs={tabs}
+        />
         <footer>
           <button
               type="button"
