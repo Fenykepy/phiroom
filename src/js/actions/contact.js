@@ -140,17 +140,17 @@ export function updateDescription() {
         source: new_desc.source,
       })
     )
-    .then(json => {
-      return dispatch(receiveUpdatedDescription(json))
-    })
-    .catch(error =>
-      error.response.json().then(json => {
+    .then(json =>
+      dispatch(receiveUpdatedDescription(json))
+    )
+    .catch(error => {
+      return error.response.json().then(json => {
         // store error json in state
         dispatch(requestUpdateDescriptionFailure(json))
         // throw error to catch it in form and display it
         throw error
       })
-    )
+    })
   }
 }
 

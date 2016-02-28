@@ -35,6 +35,8 @@ class DescriptionEdition extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
+    // switch back to form if necessary, else promise fails
+    if (this.state.preview) this.setState({preview: false}) 
     this.props.dispatch(updateDescription())
       .then(() =>
         this.props.modal_close()
