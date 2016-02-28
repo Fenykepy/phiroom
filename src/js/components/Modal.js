@@ -50,7 +50,9 @@ export default class Modal extends Component {
           className={modal_classes.join(' ')}
           onClick={e => e.stopPropagation()}
         >
-          <header>
+          <header
+            id="modal-header"
+          >
               <h1>{this.props.modal_title || ""}</h1>
               {this.getCloseButton()}
           </header>
