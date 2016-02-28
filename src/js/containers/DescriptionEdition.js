@@ -7,7 +7,7 @@ import { descriptionEditionSelector } from '../selectors/descriptionEditionSelec
 import Modal from '../components/Modal'
 import Spinner from '../components/Spinner'
 import DescriptionEditionForm from '../components/DescriptionEditionForm'
-//import DescriptionEditionPreview from '../components/DescriptionEditionPreview'
+import DescriptionEditionPreview from '../components/DescriptionEditionPreview'
 
 
 
@@ -24,6 +24,14 @@ import {
 
 
 class DescriptionEdition extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      preview: false
+    }
+  }
 
   handleSubmit(e) {
     e.preventDefault()
@@ -44,6 +52,53 @@ class DescriptionEdition extends Component {
     this.props.dispatch(descriptionSetSource(e.target.value))
   }
 
+  showForm() {
+    if (this.state.preview) {
+      this.setState({ preview: false })
+    }
+  }
+
+  showPreview() {
+    if ( ! this.state.preview) {
+      this.setState({ preview: true })
+    }
+  }
+
+  getTabs() {
+    return(
+      <div className="tabs-bar">
+        <button
+          type="button"
+          className={ ! this.state.preview ? "active" : ""}
+          onClick={this.showForm.bind(this)}
+        >Edit</button>
+        <button
+          type="button"
+          className={this.state.preview ? "active" : ""}
+          onClick={this.showPreview.bind(this)}
+        >Preview</button>
+      </div>
+    )
+  }
+
+  getContent() {
+    if (this.state.preview) {
+      return (
+        <DescriptionEditionPreview
+          title={this.props.edited.title}
+          source={this.props.edited.source}
+        />
+      )
+    }
+    return (
+      <DescriptionEditionForm
+        edited={this.props.edited}
+        handleTitleChange={this.handleTitleChange.bind(this)}
+        handleSourceChange={this.handleSourceChange.bind(this)}
+      />
+    )
+  }
+
 
   render() {
     // injected by connect() call:
@@ -51,7 +106,7 @@ class DescriptionEdition extends Component {
       dispatch,
       edited,
     } = this.props
-    //console.log('description edition form', this.props)
+    //console.log('description edition', this.props)
     
     if (this.props.edited.is_fetching) {
       return <Spinner message="Fetching..." />
@@ -62,24 +117,9 @@ class DescriptionEdition extends Component {
 
     return (
       <div>
-        <div className="tabs-bar">
-          <button
-            type="button"
-            className="active"
-            onClick={this.showForm}
-          >Edit</button>
-          <button
-            type="button"
-            onClick={this.showPreview}
-          >Preview</button>
-
-        </div>
+        {this.getTabs()}
         <article>
-          <DescriptionEditionForm
-            edited={this.props.edited}
-            handleTitleChange={this.handleTitleChange.bind(this)}
-            handleSourceChange={this.handleSourceChange.bind(this)}
-          />
+          {this.getContent()}
         </article>
         <footer>
           <button
