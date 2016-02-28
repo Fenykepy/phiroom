@@ -13,23 +13,11 @@ export default class PortfolioEditionForm extends Component {
         <div className="admin-links">
           <button
             type="button"
-            onClick={this.confirmDeletePortfolio.bind(this)}
+            onClick={this.props.confirmDeletePortfolio}
           >Delete portfolio</button>
         </div>)
     }
     return null
-  }
-
-  componentDidUpdate() {
-    console.log('updated !')
-  }
-  componentDidMount() {
-    console.log('mounted !')
-  }
-  componentWillReceiveProps(props) {
-    console.log(this.props.edited === props.edited)
-    console.log('edited', this.props.edited) 
-    console.log('will receive props', props.edited)
   }
 
   render() {
