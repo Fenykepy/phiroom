@@ -418,9 +418,9 @@ export function postSetDraft(draft) {
   }
 }
 
-export function postSetPubDate(pubdate) {
+export function postSetPubdate(pubdate) {
   return {
-    type: types.POST_EDIT_SET,
+    type: types.POST_EDIT_SET_PUBDATE,
     pubdate
   }
 }

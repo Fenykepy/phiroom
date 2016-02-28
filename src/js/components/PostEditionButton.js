@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import Modal from './Modal'
-import PostEditionForm from '../containers/PostEditionForm'
+import PostEdition from '../containers/PostEdition'
 
 import {
   closeModal,
@@ -42,7 +42,7 @@ export default class PostEditionButton extends Component {
         modal_closable={true}
         modal_close={this.closeModal.bind(this)}
         modal_title={this.getTitle()}
-        modal_child={PostEditionForm}
+        modal_child={PostEdition}
         post={this.props.post}
         n_pictures={this.props.n_pictures}
         title={this.props.title}

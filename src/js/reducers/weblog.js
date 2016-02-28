@@ -30,7 +30,7 @@ import {
   POST_EDIT_SET_DESCRIPTION,
   POST_EDIT_SET_SOURCE,
   POST_EDIT_SET_DRAFT,
-  POST_EDIT_SET_PUB_DATE,
+  POST_EDIT_SET_PUBDATE,
   POST_EDIT_ADD_TAG,
   POST_EDIT_DELETE_TAG,
   POST_DELETE,
@@ -58,7 +58,7 @@ function edited(state = {}, action) {
       return Object.assign({}, state, {
         draft: action.draft
       })
-    case POST_EDIT_SET_PUB_DATE:
+    case POST_EDIT_SET_PUBDATE:
       return Object.assign({}, state, {
         pub_date: action.pub_date
       })
