@@ -123,7 +123,7 @@ class PortfolioEdition extends Component {
         <TabsBar
           tabs={tabs}
         />
-        <footer>
+        <footer id="modal-footer">
           <button
               type="button"
               onClick={this.props.modal_close}

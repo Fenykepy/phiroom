@@ -143,7 +143,7 @@ export default class LibrairyUploader extends Component {
             onChange={this.handleInputChange.bind(this)}
           />
         </article>
-        <footer>
+        <footer id="modal-footer">
           <button
               onClick={this.props.modal_close}
             >Cancel</button>
