@@ -1,26 +1,12 @@
 import React, { Component, Proptypes } from 'react'
 
+import FormFieldErrors from './FormFieldErrors'
+import FormRequiredFields from './FormRequiredFields'
 
 import { base_url } from '../config'
 
 export default class ContactMessageForm extends Component {
   
-  getFieldErrors(field = 'non_field_errors') {
-    if (this.props.errors && this.props.errors[field]) {
-      let errors = this.props.errors[field]
-      return (
-        <ul className="error-list">
-          {errors.map(error =>
-            <li
-              key={error}
-            >{error}</li>
-          )}
-        </ul>
-      )
-    }
-    return null
-  }
-
   getAnonymousFields() {
     if (this.props.user && this.props.user.is_authenticated) {
       return null
@@ -29,7 +15,10 @@ export default class ContactMessageForm extends Component {
         <div>
           <div className="field_wrapper">
             <label htmlFor="id_name">Name:<span className="red"> *</span></label>
-            {this.getFieldErrors('name')}
+            <FormFieldErrors
+              errors_list={this.props.errors}
+              field={'name'}
+            />
             <input id="id_name"
                    name="name"
                    type="text"
@@ -41,7 +30,10 @@ export default class ContactMessageForm extends Component {
           </div>
           <div className="field_wrapper">
             <label htmlFor="id_mail">Email:<span className="red"> *</span></label>
-            {this.getFieldErrors('mail')}
+            <FormFieldErrors
+              errors_list={this.props.errors}
+              field={'mail'}
+            />
             <input id="id_mail"
                    name="mail"
                    type="email"
@@ -52,7 +44,10 @@ export default class ContactMessageForm extends Component {
           </div>
           <div className="field_wrapper">
             <label htmlFor="id_website">Website:</label>
-            {this.getFieldErrors('website')}
+            <FormFieldErrors
+              errors_list={this.props.errors}
+              field={'website'}
+            />
             <input id="id_website"
                    name="website"
                    value={this.props.website}
@@ -79,34 +74,47 @@ export default class ContactMessageForm extends Component {
                  name='csrfmiddlewaretoken'
                  value={this.props.csrf}
           />
-          {this.getFieldErrors()}
+          <FormFieldErrors
+            errors_list={this.props.errors}
+            field={'non_field_errors'}
+          />
           {this.getAnonymousFields()}
           <div className="field_wrapper">
             <label htmlFor="id_subject">Subject:<span className="red"> *</span></label>
-            {this.getFieldErrors('subject')}
+            <FormFieldErrors
+              errors_list={this.props.errors}
+              field={'subject'}
+            />
             <input id="id_subject"
                    name="subject"
                    type="text"
                    value={this.props.subject}
                    onChange={this.props.handleSubjectChange}
                    maxLength="254"
+                   placeholder="Enter subject of your message here…"
                    required
              />
           </div>
           <div className="field_wrapper">
             <label htmlFor="id_message">Message:<span className="red"> *</span></label>
-            {this.getFieldErrors('message')}
+            <FormFieldErrors
+              errors_list={this.props.errors}
+              field={'message'}
+            />
             <textarea id="id_message"
                    name="message"
                    rows="15"
                    value={this.props.message}
                    onChange={this.props.handleMessageChange}
-                   placeholder="Type your message here"
+                   placeholder="Type your message here…"
                    required
              />
           </div>
           <div className="field_wrapper">
-            {this.getFieldErrors('forward')}
+            <FormFieldErrors
+              errors_list={this.props.errors}
+              field={'forward'}
+            />
             <div className="checkbox">
               <label htmlFor="id_forward"><input id="id_forward"
                      name="forward"
