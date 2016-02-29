@@ -12,16 +12,16 @@ def format_drop_cap(string):
 
 
 
-def format_abstract(source, delimiter="[...]"):
+def format_abstract(source, delimiter="[...]", replaced_chars=",.!?…", last_char="…"):
     """select abstract from source delimited by delimiter (default "[...]"),
     format it with markdown and returns html"""
     # separate abstract
     abstract_tuple = source.partition(delimiter)
-    abstract = abstract_tuple[0].rstrip('.!?…') + "…"
+    abstract = abstract_tuple[0].rstrip(replaced_chars) + last_char
     # parse markdown
     abstract = markdown.markdown(abstract, safe_mode="escape")
     # parse lettrine
-    abstract = format_drop_cap(abstract)
+    #abstract = format_drop_cap(abstract)
 
     return abstract
 
@@ -34,7 +34,7 @@ def format_content(source, delimiter="[...]"):
     # parse markdown
     content = markdown.markdown(content, safe_mode="escape")
     # parse lettrine
-    content = format_drop_cap(content)
+    #content = format_drop_cap(content)
 
     return content
 

@@ -7,7 +7,8 @@ Change slug generation to exclude settings.RESERVED_WORDS
 conf:
     - use '/' relatives urls for logos instead of absolute urls
 #    - review tests to use create_test_users
-    - review model to match client side requirements
+#    - review model to match client side requirements
+    - review pages to match client requirements
 
 portfolio:
 #    - add views
@@ -19,6 +20,8 @@ weblog:
 #    - add view for posts headers
     - add tests for posts headers
     - add tests for new rights with is_weblog_author
+    - use abstract delimiter, replaced, and end from conf model
+    - use n_post_per_page in weblog list serializer
 
 librairy:
 #    - add pictures_full view
