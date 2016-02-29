@@ -27,7 +27,7 @@ input, option, select, textarea, ul.error-list li, ul.warning-list li {
     width: 100%;
     border-radius: 4px;
     background: @inputs-bg;
-    border: @inputs-border;
+    border: 1px solid @inputs-border;
     font-size: 1em;
     color: @inputs-text-color;
     text-align: left;
@@ -113,8 +113,13 @@ input[type="radio"], input[type="checkbox"] {
     margin-left: 20px;
 }
 
-input:hover, input:focus, textarea:focus, textarea:hover, select:focus, select:hover {
-    box-shadow: @inputs-hover-focus-shadow;
+
+input:hover, textarea:hover, select:hover {
+    border-color: @inputs-border-hover;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: @inputs-border-focus;
 }
 
 input[type="submit"], button {
