@@ -33,12 +33,6 @@ class ConfModelTest(TestCase):
         self.assertEqual(conf.pk, 2)
         self.assertEqual(conf.comment, "New configuration")
     
-    def test_get_home_page_state(self):
-        # assert get_home_page_state returns good one
-        conf = Conf.objects.latest()
-        self.assertEqual(conf.get_home_page_state(), "portfolios")
-
-
 
 class PageModelTest(TestCase):
     """Page model test class."""
@@ -136,7 +130,6 @@ class APITest(APITestCase):
         # assert response is ok
         response = self.client.get(url)
         self.assertEqual(response.data['comment'], 'Default settings')
-        self.assertEqual(response.data['home_page_state'], 'portfolios')
         
         # login with normal user
         login(self, self.normalUser)

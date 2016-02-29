@@ -4,10 +4,6 @@ from django.conf import settings
 
 class Conf(models.Model):
     """Main configuration of phiroom."""
-    domain = models.CharField(max_length=100, default="phiroom.org",
-            verbose_name="Domain name",
-            help_text="Website's domain name, e.g. phiroom.com, \
-                    or www.phiroom.org.")
     title = models.CharField(max_length=254, default="Phiroom",
             verbose_name="Title",
             help_text="Website's main title, will be display in page header.",)
@@ -30,11 +26,23 @@ class Conf(models.Model):
     n_posts_per_page = models.PositiveSmallIntegerField(default=3,
             verbose_name="Paginate by",
             help_text="Maximum number of posts per list page.")
-    home_page = models.ForeignKey('Page', default=1,
-            limit_choices_to = {'is_active': True},
-            verbose_name="Home page",
-            help_text="Page to use as \"home page\" (when \"/\" url \
-                    is given.")
+    abstract_delimiter = models.CharField(max_length=254, default="[...]",
+            verbose_name="Abstract delimiter",
+            help_text="Characters sequence used to separate abstract part of a \
+                    weblog post.")
+    abstract_last_char = models.CharField(max_length=254, default="…",
+            verbose_name="Abstract last character",
+            help_text="Characters sequence added at the end of each abstract, in \
+                    replacement of the abstract delimiter.")
+    abstract_replaced_chars = models.CharField(max_length=254, default=",.!?…",
+            verbose_name="Abstract replaced characters",
+            help_text="List of characters that will be replaced by abstract last \
+                    character if they end abstract.")
+    slideshow_duration = models.PositiveIntegerField(
+            default=3000,
+            verbose_name="Carousel slideshow duration",
+            help_text="Duration between 2 slides in portfolio's \
+                    carousel, in milliseconds.")
     large_previews_size = models.PositiveIntegerField(
             choices=settings.LARGE_PREVIEWS_SIZE_CHOICES,
             default=settings.DEFAULT_LARGE_PREVIEWS_SIZE,
@@ -62,7 +70,18 @@ class Conf(models.Model):
             verbose_name="Vkontakte page link",
             help_text="Url to a vkontakte page, will be displayed on \
                     under a small logo.")
-
+    pinterest_link = models.URLField(null=True, blank=True,
+            verbose_name="Pinterest page link",
+            help_text="Url to a pinterest page, will be displayed on \
+                    under a small logo.")
+    px500_link = models.URLField(null=True, blank=True,
+            verbose_name="500px page link",
+            help_text="Url to a 500px page, will be displayed on \
+                    under a small logo.")
+    insta_link = models.URLField(null=True, blank=True,
+            verbose_name="Instagram page link",
+            help_text="Url to a instagram page, will be displayed on \
+                    under a small logo.")
     registration_mail = models.BooleanField(default=True,
             verbose_name="Registration mail",
             help_text = "Whether or not admins receive a mail for each \
@@ -77,9 +96,6 @@ class Conf(models.Model):
         get_latest_by = 'date'
 
 
-    def get_home_page_state(self):
-        return self.home_page.state
-
     def save(self, **kwargs):
         """Always save as a new conf entry."""
         self.pk = None
@@ -90,6 +106,21 @@ class Conf(models.Model):
         return "{} {}".format(str(self.date)[:19], self.comment)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# to remove
 
 class MainMenuManager(models.Manager):
     """Returns a queryset with ordered pages which are in main menu."""

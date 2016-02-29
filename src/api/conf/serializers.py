@@ -4,31 +4,30 @@ from conf.models import Conf, Page
 
 
 class ConfSerializer(serializers.ModelSerializer):
-    home_page_state = serializers.SerializerMethodField()
-
+    
     class Meta:
         model = Conf
-        fields = ('domain',
-                  'title',
-                  'subtitle',
-                  'weblog_logo',
-                  'librairy_logo', 
-                  'n_posts_per_page',
-                  'home_page',
-                  'fb_link',
-                  'twitter_link',
-                  'gplus_link',
-                  'flickr_link',
-                  'vk_link',
-                  'registration_mail',
-                  'comment',
-                  'home_page_state',
+        fields = (
+              'title',
+              'subtitle',
+              'weblog_logo',
+              'librairy_logo', 
+              'n_posts_per_page',
+              'abstract_delimiter',
+              'abstract_last_char',
+              'abstract_replaced_chars',
+              'slideshow_duration',
+              'fb_link',
+              'twitter_link',
+              'gplus_link',
+              'flickr_link',
+              'vk_link',
+              'pinterest_link',
+              'px500_link',
+              'insta_link',
+              'registration_mail',
+              'comment',
         )
-
-    def get_home_page_state(self, obj):
-        """Returns home page state from home_page instance."""
-        return obj.get_home_page_state()
-
 
     def update(self, instance, validated_data):
         """create new instance at each update."""
