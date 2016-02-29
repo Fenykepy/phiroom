@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import WeblogTime from './WeblogTime'
 
-export default class WeblogAbstract extends Component {
+export default class WeblogPostAbstract extends Component {
   render() {
     return (
       <article className="abstract">

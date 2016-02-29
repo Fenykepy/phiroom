@@ -153,6 +153,8 @@ class PostEdition extends Component {
               pub_date={this.props.edited.pub_date}
               title={this.props.edited.title}
               source={this.props.edited.source}
+              description={this.props.edited.description}
+              tags={this.props.edited.tags}
             />
           </article>)
       }

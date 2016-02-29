@@ -11,7 +11,7 @@ import  {
 } from '../actions/weblog'
 
 import WeblogPagination from '../components/WeblogPagination'
-import WeblogAbstract from '../components/WeblogAbstract'
+import WeblogPostAbstract from '../components/WeblogPostAbstract'
 import Spinner from '../components/Spinner'
 
 class WeblogList extends Component {
@@ -53,7 +53,7 @@ class WeblogList extends Component {
     return (
       <div>
         {selected.results.map(post =>
-          <WeblogAbstract
+          <WeblogPostAbstract
             key={post.slug}
             {...post}
           />
