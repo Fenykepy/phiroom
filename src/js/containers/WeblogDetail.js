@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 import { weblogDetailSelector } from '../selectors/weblogDetailSelector'
 
-
 // actions
 import {
   fetchPostIfNeeded,
@@ -17,14 +16,11 @@ import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { lightboxStart } from '../actions/lightbox'
 
 import { Link } from 'react-router'
+
 import Spinner from '../components/Spinner'
-import WeblogTime from '../components/WeblogTime'
-import WeblogAuthor from '../components/WeblogAuthor'
-import WeblogDescription from '../components/WeblogDescription'
-import WeblogTags from '../components/WeblogTags'
+import WeblogPostDetail from '../components/WeblogPostDetail'
 import WeblogPostNavigation from '../components/WeblogPostNavigation'
-import WeblogGallery from '../components/WeblogGallery'
-import PostEditionButton from '../components/PostEditionButton'
+
 
 export function buildPostSlug(params) {
   // concatenate params to return a slug
@@ -99,20 +95,20 @@ class WeblogDetail extends Component {
     }
     return (
       <div>
-        <article>
-          <header>
-            {this.getEditionButton()}
-            <WeblogTime date={this.props.pub_date} />
-            <h1>{this.props.title}</h1>
-            <WeblogDescription description={this.props.description} />
-          </header>
-          <div className="content" dangerouslySetInnerHTML={{__html: this.props.content}} />
-          <WeblogAuthor author={this.props.author} />
-          <WeblogGallery pictures={this.props.pictures} path={this.props.location.pathname} />
-          <footer>
-              <WeblogTags tags={this.props.tags} />
-          </footer>
-        </article>
+        <WeblogPostDetail
+          user={this.props.user}
+          dispatch={this.props.dispatch}
+          post={buildPostSlug(this.props.params)}
+          n_pictures={this.props.n_pictures}
+          title={this.props.title}
+          pub_date={this.props.pub_date}
+          description={this.props.description}
+          content={this.props.content}
+          author={this.props.author}
+          pictures={this.props.pictures}
+          tags={this.props.tags}
+          path={this.props.location.pathname}
+        />
         <WeblogPostNavigation
           next={this.props.next}
           previous={this.props.previous}  
@@ -120,22 +116,6 @@ class WeblogDetail extends Component {
         {this.getLightbox()}
       </div>
     )
-  }
-
-  getEditionButton() {
-    if (this.props.user.is_weblog_author) {
-      return (
-        <div className="admin-links">
-          <PostEditionButton
-            dispatch={this.props.dispatch}
-            post={buildPostSlug(this.props.params)}
-            n_pictures={this.props.n_pictures}
-            title={this.props.title}
-          />
-        </div>
-      )
-    }
-    return null
   }
 
   render() {
