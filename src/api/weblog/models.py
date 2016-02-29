@@ -151,7 +151,7 @@ class Post(models.Model):
                 slugify(self.title)
             )
         unique_slugify(self, slug, slugify_value=False)
-
+        # TODO import conf here and use abstract delimiter from it.
         self.abstract = format_abstract(self.source)
         self.content = format_content(self.source)
 
