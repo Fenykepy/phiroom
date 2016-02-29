@@ -14,7 +14,7 @@ export default class LibrairyDeletePictureConfirm extends Component {
 
     return (
         <div className="delete-picture-confirm">
-          <article>
+          <article id="modal-content">
             <div className="thumbs-wrapper">
             {this.props.pictures.map(picture =>
                 <img 
@@ -27,7 +27,7 @@ export default class LibrairyDeletePictureConfirm extends Component {
             <h6>{title}</h6>
             <strong><em>(this operation is irreversible)</em></strong>
           </article>
-          <footer>
+          <footer id="modal-footer">
             <button
               onClick={this.props.modal_close}
             >Cancel</button>
