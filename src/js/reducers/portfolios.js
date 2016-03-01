@@ -198,7 +198,7 @@ function portfolios(state = {}, action) {
 
 const carouselInitialState = {
   current_pict: 0,
-  slideshow: false,
+  slideshow: true,
 }
 
 function carousel(state = carouselInitialState, action) {
