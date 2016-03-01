@@ -22,6 +22,7 @@ class ConfSerializer(serializers.ModelSerializer):
               'abstract_delimiter',
               'abstract_last_char',
               'abstract_replaced_chars',
+              'carousel_default_height',
               'slideshow_duration',
               'fb_link',
               'twitter_link',

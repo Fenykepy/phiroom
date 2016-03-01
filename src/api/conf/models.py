@@ -38,6 +38,10 @@ class Conf(models.Model):
             verbose_name="Abstract replaced characters",
             help_text="List of characters that will be replaced by abstract last \
                     character if they end abstract.")
+    carousel_default_height = models.PositiveIntegerField(
+            default=600,
+            verbose_name="Max height of carousels."
+    )
     slideshow_duration = models.PositiveIntegerField(
             default=3000,
             verbose_name="Carousel slideshow duration",
