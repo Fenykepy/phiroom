@@ -1,27 +1,31 @@
+import {
+  REQUEST_SETTINGS,
+  REQUEST_SETTINGS_SUCCESS,
+  REQUEST_SETTINGS_FAILURE,
+} from '../constants/actionsTypes'
 
-const initialState = {
-  domain: "phiroom.org",
-  title: "Phiroom",
-  subtitle: "Le cms des photographes…",
-  weblog_logo: "/media/images/default/default_logo.png",
-  librairy_logo: "/media/images/default/librairy_default_logo.png",
-  n_posts_per_page: 3,
-  slideshow_duration: 3000,
-  carousel_default_height: 600,
-  fb_link: '/',
-  twitter_link: '/',
-  gplus_link: '/',
-  flickr_link: '/',
-  vk_link: '/',
-  pinterest_link: '/',
-  px500_link: '/',
-  insta_link: '/',
-  comment: "Default settings",
+function settings(state = {}, action) {
+  switch (action.type) {
+    case REQUEST_SETTINGS:
+      return Object.assign({}, state, {
+        is_fetching: true,
+      })
+    case REQUEST_SETTINGS_SUCCESS:
+      return Object.assign({}, state, {
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
+        },
+        action.data
+      )
+    case REQUEST_SETTINGS_FAILURE:
+      return Object.assign({}, state, {
+        is_fetching: false,
+        error: action.error
+      })
+    default:
+      return state
+  }
 }
 
-
-export default function settings(state = initialState, action) {
-  return state
-}
-
-
+export default settings

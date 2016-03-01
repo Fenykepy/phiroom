@@ -7,7 +7,6 @@ import { loginSelector } from '../selectors/loginSelector'
 import LoginForm from '../components/LoginForm'
 
 import { login } from '../actions/user'
-import { fetchCSRFTokenIfNeeded } from '../actions/common'
 import { setModule } from '../actions/modules'
 
 class Login extends Component {

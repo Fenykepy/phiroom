@@ -6,15 +6,14 @@ import { setCookie } from '../helpers/cookieManager'
 
 // action creators
 
-
-export function requestCSRFToken() {
+function requestCSRFToken() {
   return {
     type: types.REQUEST_CSRF_TOKEN
   }
 }
 
 
-export function receiveCSRFToken(json) {
+function receiveCSRFToken(json) {
   return {
     type: types.REQUEST_CSRF_TOKEN_SUCCESS,
     data: json,
@@ -23,7 +22,7 @@ export function receiveCSRFToken(json) {
 }
 
 
-export function requestCSRFTokenFailure(error) {
+function requestCSRFTokenFailure(error) {
   return {
     type: types.REQUEST_CSRF_TOKEN_FAILURE,
     error
@@ -41,18 +40,19 @@ function shouldFetchCSRFToken(state) {
 export function fetchCSRFTokenIfNeeded() {
   // fetch csrf token if it's not done yet
   return (dispatch, getState) => {
-    if (shouldFetchCSRFToken(getState())) {
+    let state = getState()
+    if ( shouldFetchCSRFToken(state) ) {
       return dispatch(fetchCSRFToken())
     }
     // else return a resolved promise
     return new Promise((resolve, reject) => resolve(
-          {}
+          state.common.csrfToken
     ))
   }
 }
 
 
-export function fetchCSRFToken() {
+function fetchCSRFToken() {
   /*
    * fetch csrf token
    */
