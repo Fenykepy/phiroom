@@ -5,6 +5,12 @@ from conf.models import Conf, Page
 
 class ConfSerializer(serializers.ModelSerializer):
     
+    # set files as charfield else we get
+    # api link (127.0.0.1:8000 in dev) instead
+    # of relative link
+    weblog_logo = serializers.CharField()
+    librairy_logo = serializers.CharField()
+    
     class Meta:
         model = Conf
         fields = (

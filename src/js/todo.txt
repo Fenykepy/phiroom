@@ -44,7 +44,7 @@
 - Improve contextual menu to go on right or left side depending of viewport width
 - Move contextual menu state to main redux state
 #- Improve selection to unselect all on background click
-- Use dynamic settings
+#- Use dynamic settings
 - Add a way to edit settings
 - Add a notifications system
 - Add a progress bar to picture uploader

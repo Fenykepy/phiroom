@@ -6,7 +6,7 @@ export default class Logo extends Component {
     return (
       <div id="logo">
         <Link to="/">
-          <img src={this.props.logo} alt={this.props.title + ', ' + this.props.subTitle} />
+          <img src={"/media/" + this.props.logo} alt={this.props.title + ', ' + this.props.subTitle} />
         </Link>
       </div>  
     )

@@ -5,7 +5,7 @@
 Change slug generation to exclude settings.RESERVED_WORDS
 
 conf:
-    - use '/' relatives urls for logos instead of absolute urls
+#    - use '/' relatives urls for logos instead of absolute urls
 #    - review tests to use create_test_users
 #    - review model to match client side requirements
     - review pages to match client requirements
