@@ -6,7 +6,7 @@ import { renderToString } from 'react-dom/server'
 
 import { Provider } from 'react-redux'
 
-import { match, RoutingContext } from 'react-router'
+import { match, RouterContext } from 'react-router'
 
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
@@ -24,7 +24,8 @@ import { statics_proxy, port } from './config'
 
 var app = new Express()
 
-var SERVER_RENDERING = false
+//var SERVER_RENDERING = false
+var SERVER_RENDERING = true
 
 // we are in development mode
 if (process.env.NODE_ENV != 'production') {
@@ -90,7 +91,7 @@ function handleRender(req, res) {
         // compile react components
         const html = renderToString(
           <Provider store={store}>
-            <RoutingContext {...renderProps}/>
+            <RouterContext {...renderProps}/>
           </Provider>
         )
         res.status(200).send(renderFullPage(html, initialState))
