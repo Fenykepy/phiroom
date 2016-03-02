@@ -14,6 +14,8 @@ class Login extends Component {
   static fetchData(dispatch, params=null, clientSide=false) {
     // set module
     dispatch(setModule('user'))
+    // return empty promises array
+    return []
   }
   
   componentDidMount() {
