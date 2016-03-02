@@ -34,13 +34,13 @@ export default class DescriptionEditionPreview extends Component {
   render() {
     return (
       <div id="preview">
-        <h5>Abstract view</h5>
+        <h5 className="underlined">Abstract view</h5>
         <WeblogPostAbstract
           pub_date={this.props.pub_date}
           title={this.props.title}
           abstract={this.formatAbstract()}
         /> 
-        <h5>Detail view</h5>
+        <h5 className="underlined" style={{marginTop: "75px"}}>Detail view</h5>
         <WeblogPostDetail
           user={{}}
           pub_date={this.props.pub_date}
