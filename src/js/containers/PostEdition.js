@@ -117,6 +117,7 @@ class PostEdition extends Component {
     const {
       dispatch,
       edited,
+      user,
     } = this.props
     //console.log('post edition form', this.props)
     
@@ -155,6 +156,7 @@ class PostEdition extends Component {
               source={this.props.edited.source}
               description={this.props.edited.description}
               tags={this.props.edited.tags}
+              user={this.props.user}
             />
           </article>)
       }

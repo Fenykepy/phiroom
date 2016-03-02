@@ -42,6 +42,7 @@ export default class DescriptionEditionPreview extends Component {
         /> 
         <h5 className="underlined" style={{marginTop: "75px"}}>Detail view</h5>
         <WeblogPostDetail
+          author={this.props.user}
           user={{}}
           pub_date={this.props.pub_date}
           title={this.props.title}
