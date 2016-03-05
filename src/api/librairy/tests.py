@@ -10,7 +10,7 @@ from rest_framework.test import APIClient, APITestCase
 
 from user.models import User
 from librairy.models import Picture, Collection, CollectionsEnsemble, \
-        Label, Tag, PictureFactory, set_picturename
+        Label, Tag, PictureFactory, set_picturename, recursive_import
 
 from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
         PREVIEWS_CROP, PREVIEWS_MAX, PREVIEWS_HEIGHT, \
@@ -21,6 +21,25 @@ from user.tests import create_test_users, login
 PICT_FILE = 'librairy/test_files/FLR_15_2822.jpg'
 PICT_PATH = os.path.join(BASE_DIR, PICT_FILE)
 
+class RecursiveImportTest(TestCase):
+    """Command line import test class."""
+
+    def test_with_folder(self):
+        """Test with one folder path as argument."""
+        path = os.path.join(BASE_DIR, 'librairy/test_files')
+        # it should import 2 pictures from dir and subdir with
+        # no error for othe file type in the directories.
+        recursive_import(path)
+        picts = Picture.objects.all().count()
+        self.assertEqual(picts, 2)
+
+    def test_with_picture(self):
+        """Test with a picture path as argument."""
+        # it should import given picture
+        recursive_import(PICT_PATH)
+        picts = Picture.objects.all().count()
+        self.assertEqual(picts, 1)
+    
 
 
 class PictureFactoryTest(TestCase):

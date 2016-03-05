@@ -31,3 +31,5 @@ librairy:
     - add view for collections headers
     - add view for collections (CRUD)
 #    - review tests to use create_test_users
+#    - add a way to import pictures from command line
+    - add a way to import pictures from an archive

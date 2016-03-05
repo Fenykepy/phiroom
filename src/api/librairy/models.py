@@ -1,4 +1,5 @@
 import os
+import imghdr
 
 from PIL import Image
 
@@ -647,4 +648,17 @@ class PictureFactory(object):
 
 
 
+def recursive_import(path):
+    """recursively import all pictures in a folder."""
+    # if path is a directory, import it's files
+    if os.path.isdir(path):
+        print(("found a directory:\n"
+               "{}\n"
+               "scanning it for pictures...").format(path))
+        for file in os.listdir(path):
+            recursive_import(os.path.join(path, file))
+    elif imghdr.what(path):
+        print('importing {}'.format(path))
+        factory = PictureFactory(file=path)
+        print('done')
 

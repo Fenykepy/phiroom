@@ -25,7 +25,7 @@
 - Add a single view to librairy
 - Add a way to download a zip archive from librairy
 #- Add a way to import pictures via http
-- Add a way to import pictures from server hard drive
+#- Add a way to import pictures from server hard drive -> command line only
 #- Add a way to create portfolio
 #- Display more info about portfolio (title) for SEO
 #- Add a way to edit portfolio
@@ -55,7 +55,7 @@
 #- Fix bug with submenus hover in main menu (space where over is left)
 #- Add scroll to top on lightbox openning
 #- Add a preview for forms with markdown
-- Style markdow previews
+#- Style markdow previews
 
 ==== Refactoring ====
 
@@ -96,3 +96,4 @@
 - clear post edition state on logout
 - clear portfolio edition state on logout
 - clear description edition state on logout
+- force https in production
