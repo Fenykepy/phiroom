@@ -27,11 +27,21 @@ class RecursiveImportTest(TestCase):
     def test_with_folder(self):
         """Test with one folder path as argument."""
         path = os.path.join(BASE_DIR, 'librairy/test_files')
-        # it should import 2 pictures from dir and subdir with
+        # it should import 3 pictures from dir, subdir and zip archive with
         # no error for othe file type in the directories.
         recursive_import(path)
         picts = Picture.objects.all().count()
-        self.assertEqual(picts, 2)
+        self.assertEqual(picts, 3)
+    
+
+    def test_with_zip_archive(self):
+        """Test with one archive as argument."""
+        path = os.path.join(BASE_DIR, 'librairy/test_files/test.zip')
+        # it should import 1 picture from zip archive
+        recursive_import(path)
+        picts = Picture.objects.all().count()
+        self.assertEqual(picts, 1)
+
 
     def test_with_picture(self):
         """Test with a picture path as argument."""

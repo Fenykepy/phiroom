@@ -1,5 +1,7 @@
 import os
 import imghdr
+import zipfile
+import tempfile
 
 from PIL import Image
 
@@ -649,8 +651,9 @@ class PictureFactory(object):
 
 
 def recursive_import(path):
-    """recursively import all pictures in a folder."""
-    # if path is a directory, import it's files
+    """recursively import all pictures in a folder or 
+    in zip archive."""
+    # if path is a directory, import it's files,
     if os.path.isdir(path):
         print(("found a directory:\n"
                "{}\n"
@@ -661,4 +664,20 @@ def recursive_import(path):
         print('importing {}'.format(path))
         factory = PictureFactory(file=path)
         print('done')
+    elif zipfile.is_zipfile(path):
+        print(("found a zip archive:\n"
+               "{}\n"
+               "extract it...").format(path))
+        zip_import(path)
+
+
+def zip_import(path):
+    """import all pictures found in a zip file."""
+    # create a temporary directory
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        # extract archive in this directory
+        with zipfile.ZipFile(path) as zip_archive:
+            zip_archive.extractall(path=tmpdirname)
+        # recursively import all content
+        recursive_import(tmpdirname)
 
