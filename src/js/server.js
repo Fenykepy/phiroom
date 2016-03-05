@@ -60,7 +60,7 @@ function handleRender(req, res) {
       })
   }
 
-  console.log(req.cookies)
+  //  console.log(req.cookies)
 
   
   match({ routes: getRoutes(), location: req.url }, (error, redirectLocation, renderProps) => {
