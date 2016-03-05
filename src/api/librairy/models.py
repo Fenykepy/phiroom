@@ -681,3 +681,8 @@ def zip_import(path):
         # recursively import all content
         recursive_import(tmpdirname)
 
+
+def zip_export(pks):
+    """export all given pictures in a zip file."""
+    pass
+
