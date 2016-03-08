@@ -24,11 +24,10 @@ A tree:
 [OK]        - portfolio-picture-list: /api/portfolio/portfolio-picture/
             #[GET-PUT-PATCH-DELETE:(admin)] get update delete a portfolio picture relation
 [OK]        - portfolio-picture-detail: /api/portfolio/portfolio-picture/portfolio/:slug/picture/:pk/
-
-    #[GET:(admin)] get a list of urls
-    - weblog-root: "/api/weblog/"
+        #[GET:(admin)] get a list of urls
+[OK]    - weblog-root: "/api/weblog/"
         #[GET:(any)](publishde posts only except if admin) get a flat list of all x ten posts
-        - posts-headers: "/api/weblog/posts/headers"
+[OK]        - posts-headers: "/api/weblog/posts/headers"
             #[GET:(any)(published posts only except if admin) get a paginated list of posts
 [OK]        - posts-list: "/api/weblog/posts/"
                 #[GET:(any), PUT-PATCH-DELETE:(admin)] get update delete a specific post
@@ -62,8 +61,10 @@ A tree:
             #[GET-PUT-PATCH-DELETE:(admin)] get update delete a picture
 [OK]        - picture-delail: "/api/librairy/pictures/:pk/"
             #[GET:(any)] get public info about one picture
-[OK]        - picture-detail-short: "/api/librairy/pictures/:pk/short/
-            #[GET:(logued in with object level rights)] get a flat list of all collections
+[OK]        - picture-detail-short: "/api/librairy/pictures/:pk/short/"
+            #[POST: (libmairy_member) post a list of pictures'pk and get an archive with them
+            - pictures-zip-export: "/api/librairy/pictures/zip-export/"
+        #[GET:(logued in with object level rights)] get a flat list of all collections
         - collection-headers: "/api/librairy/collections/headers/"
         #[GET-POST:(admin)] get a list of all collections paginated, post a new one
         - collection-list: "/api/librairy/collections/"

@@ -81,11 +81,19 @@ class PictureSerializer(serializers.ModelSerializer):
             )
 
 
-class PictureShortSerializer(PictureSerializer):
+class PictureShortSerializer(serializers.ModelSerializer):
     """A serializer to show public data of pictures."""
     class Meta:
         model = Picture
         fields = ('pk', 'sha1', 'title', 'legend', 'previews_path', 'ratio')
+
+
+
+class PicturePkSerializer(PictureSerializer):
+    """A serializer to show only a picture's pk."""
+    class Meta:
+        model = Picture
+        fields = ('pk', )
 
 
 
@@ -124,6 +132,16 @@ class PictureUploadSerializer(PictureSerializer):
         self.instance = factory.picture
         return self.instance
 
+
+
+class ZipExportSerializer(serializers.Serializer):
+    """A serializer to upload a list of pictures and
+    get an zip archive of them.
+    """
+    pictures_list = serializers.ListField(
+        write_only=True,
+        child=PicturePkSerializer()
+    )
 
 
 

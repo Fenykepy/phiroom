@@ -62,3 +62,17 @@ def PicturesPkList(request, format=None):
     pks = Picture.objects.values_list('pk', flat=True).order_by('-importation_date')
 
     return Response(pks)
+
+@api_view(['POST'])
+@permission_classes((IsAdminUser,))
+def PicturesZipExport(request, format=None):
+    """
+    Parse a list of pictures' pks and returns an 
+    zip archive with all pictures files.
+    """
+    serializer = ZipExportSelializer(data=request.data)
+    if serializer.is_valid():
+        print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
