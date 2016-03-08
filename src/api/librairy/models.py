@@ -1,4 +1,9 @@
 import os
+import imghdr
+import zipfile
+import tempfile
+
+from uuid import uuid4
 
 from PIL import Image
 
@@ -644,6 +649,132 @@ class PictureFactory(object):
         del img
         
         return type.lower()
+
+
+
+def recursive_import(path):
+    """recursively import all pictures in a folder or 
+    in zip archive."""
+    # if path is a directory, import it's files,
+    if os.path.isdir(path):
+        print(("found a directory:\n"
+               "{}\n"
+               "scanning it for pictures...").format(path))
+        for file in os.listdir(path):
+            recursive_import(os.path.join(path, file))
+    elif imghdr.what(path):
+        print('importing {}'.format(path))
+        factory = PictureFactory(file=path)
+        print('done')
+    elif zipfile.is_zipfile(path):
+        print(("found a zip archive:\n"
+               "{}\n"
+               "extract it...").format(path))
+        zip_import(path)
+
+
+def zip_import(path):
+    """import all pictures found in a zip file."""
+    # create a temporary directory
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        # extract archive in this directory
+        with zipfile.ZipFile(path) as zip_archive:
+            zip_archive.extractall(path=tmpdirname)
+        # recursively import all content
+        recursive_import(tmpdirname)
+
+
+def zip_export(pictures):
+    """export all given pictures in a zip file."""
+    zip_name = 'phiroom-export_{}'.format(uuid4())
+    # create a new zipfile
+    with zipfile.ZipFile(zip_name, 'x') as zip_archive:
+        for picture in pictures:
+            zip_archive.write(
+                picture._get_pathname(),
+                os.path.join(zip_name, picture.name)
+            )
+
+
+
+class ZipExport(object):
+    """Class to export an zip archive with pictures."""
+    
+    def __init__(self, pictures=None, *args, **kwargs):
+        self.zip_name = 'phiroom-export_{}'.format(uuid4())
+        self.pictures = pictures
+        self._archnames = self._get_archnames()
+
+
+
+    def get_full(self):
+        """
+        Export original files of given pictures objects
+        in an archive with their current name.
+        """
+        files = [pict._get_pathname() for pict in self.pictures]
+
+        return self._build_archive(files)
+
+
+    def get_large(self):
+        """
+        Export large previews files of given pictures objects
+        in an archive with their current name.
+        """
+        files = [os.path.join(PREVIEWS_DIR, LARGE_PREVIEWS_FOLDER, pict.previews_path) 
+                for pict in self.pictures]
+
+        return self._build_archive(files)
+    
+    def _build_archive(self, files):
+        """
+        Build the archive with given files.
+        """
+        # get names from db
+        archnames = self._get_archnames()
+        # create a new zipfile
+        temp = tempfile.TemporaryFile()
+        with zipfile.ZipFile(temp, 'w') as zip_archive:
+            for index, name in enumerate(archnames):
+                zip_archive.write(files[index],
+                    os.path.join(self.zip_name, name)
+                )
+        return temp
+
+    
+    def _get_archnames(self):
+        """
+        Return a list of names that will be used in archive
+        for set of pictures, ensure they are unique.
+        """
+        archnames = []
+        for pict in self.pictures:
+            archnames = self._uniquify(pict.name, archnames)
+        return archnames
+
+
+    def _uniquify(self, name, archnames, suffix=0):
+        """
+        Ensure name is not already in array,
+        else add a suffix to it.
+        """
+        if name in archnames:
+            # try again incrementing suffix
+            suffix += 1
+            name = self._add_suffix(name, suffix)
+            return self._uniquify(name, archnames, suffix)
+        archnames.append(name)
+        return archnames
+    
+    
+    def _add_suffix(self, name, suffix):
+        """
+        Add suffix between extention and name.
+        """
+        filename, ext = os.path.splitext(name)
+        return '{}_({}){}'.format(filename, suffix, ext)
+
 
 
 

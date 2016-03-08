@@ -282,6 +282,7 @@ Run as root:
         ../bin/gunicorn_start &
 
         # launch node
+        npm run build
         npm run start_prod
 
 
