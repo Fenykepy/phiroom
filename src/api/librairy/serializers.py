@@ -140,7 +140,8 @@ class ZipExportSerializer(serializers.Serializer):
     """
     pictures_list = serializers.ListField(
         write_only=True,
-        child=PicturePkSerializer()
+        required=True,
+        child=serializers.IntegerField()
     )
 
 

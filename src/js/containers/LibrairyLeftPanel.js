@@ -6,6 +6,8 @@ import { librairyLeftPanelSelector } from '../selectors/librairyLeftPanelSelecto
 
 import { Link } from 'react-router'
 
+import { requestPicturesZip } from '../actions/librairy'
+
 import LibrairyLeftPanelLibrairy from '../components/LibrairyLeftPanelLibrairy'
 import LibrairyLeftPanelCollections from '../components/LibrairyLeftPanelCollections'
 import LibrairyLeftPanelPosts from '../components/LibrairyLeftPanelPosts'
@@ -42,6 +44,12 @@ class LibrairyLeftPanel extends Component {
             drag={this.props.drag}
             dispatch={this.props.dispatch}
           />
+          <button
+            onClick={() =>
+              this.props.dispatch(
+                requestPicturesZip([2, 3])
+            )}
+          >Export selection</button>
           <LibrairyImportButton
             user={this.props.user}
             dispatch={this.props.dispatch}

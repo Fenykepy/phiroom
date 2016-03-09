@@ -63,6 +63,8 @@ def PicturesPkList(request, format=None):
 
     return Response(pks)
 
+
+
 @api_view(['POST'])
 @permission_classes((IsAdminUser,))
 def PicturesZipExport(request, format=None):
@@ -70,7 +72,8 @@ def PicturesZipExport(request, format=None):
     Parse a list of pictures' pks and returns an 
     zip archive with all pictures files.
     """
-    serializer = ZipExportSelializer(data=request.data)
+    serializer = ZipExportSerializer(data=request.data)
+    print(request.data)
     if serializer.is_valid():
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

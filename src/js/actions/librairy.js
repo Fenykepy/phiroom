@@ -187,3 +187,17 @@ export function orderPictInPost(post, picture, order) {
     })
   }
 }
+
+export function requestPicturesZip(pictures) {
+  return dispatch => {
+    Fetch.post('api/librairy/pictures/zip-export/',
+          {
+            'Content-Type': 'application/json',
+          },
+          JSON.stringify({
+            pictures_list: pictures
+          })
+    )
+  }
+}
+
