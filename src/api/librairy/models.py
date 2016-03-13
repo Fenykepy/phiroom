@@ -727,7 +727,7 @@ class ZipExport(object):
                 zip_archive.write(files[index],
                     os.path.join(self.zip_name, name)
                 )
-        return temp, self.zip_name + '.zip'
+        return temp, self.zip_name
 
     
     def _get_archnames(self):

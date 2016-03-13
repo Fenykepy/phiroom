@@ -1,4 +1,4 @@
-from django.http import Http404, HttpResponseForbidden, HttpResponse
+from django.http import Http404, HttpResponseForbidden, HttpResponse, FileResponse
 
 from rest_framework.response import Response
 from rest_framework import generics, status
@@ -85,10 +85,9 @@ class PicturesZipExport(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         zip, name = serializer.save()
         zip.seek(0)
-        response = HttpResponse(zip.read(), content_type='application/zip')
+        response = FileResponse(zip, content_type='application/zip')
         response['Content-Disposition'] = 'attachment; filename="{}.zip"'.format(name)
-        response['Content-Length'] = zip.tell()
-
+        
         return response
 
 
