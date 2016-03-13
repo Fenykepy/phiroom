@@ -21,6 +21,27 @@ from user.tests import create_test_users, login
 PICT_FILE = 'librairy/test_files/FLR_15_2822.jpg'
 PICT_PATH = os.path.join(BASE_DIR, PICT_FILE)
 
+
+
+class ZipExportTest(TestCase):
+    """Zip archive export test class."""
+
+
+    def import_test_pictures(self):
+        # import pictures to export in db
+        path = os.path.join(BASE_DIR, 'librairy/test_files')
+        recursive_import(path)
+
+
+    def test_export(self):
+                
+        pictures = Picture.objects.all()
+        
+        
+
+    
+
+
 class RecursiveImportTest(TestCase):
     """Command line import test class."""
 
