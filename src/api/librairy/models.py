@@ -684,18 +684,6 @@ def zip_import(path):
         recursive_import(tmpdirname)
 
 
-def zip_export(pictures):
-    """export all given pictures in a zip file."""
-    zip_name = 'phiroom-export_{}'.format(uuid4())
-    # create a new zipfile
-    with zipfile.ZipFile(zip_name, 'x') as zip_archive:
-        for picture in pictures:
-            zip_archive.write(
-                picture._get_pathname(),
-                os.path.join(zip_name, picture.name)
-            )
-
-
 
 class ZipExport(object):
     """Class to export an zip archive with pictures."""
@@ -703,8 +691,6 @@ class ZipExport(object):
     def __init__(self, pictures=None, *args, **kwargs):
         self.zip_name = 'phiroom-export_{}'.format(uuid4())
         self.pictures = pictures
-        self._archnames = self._get_archnames()
-
 
 
     def get_full(self):
@@ -726,7 +712,8 @@ class ZipExport(object):
                 for pict in self.pictures]
 
         return self._build_archive(files)
-    
+   
+
     def _build_archive(self, files):
         """
         Build the archive with given files.
@@ -740,7 +727,7 @@ class ZipExport(object):
                 zip_archive.write(files[index],
                     os.path.join(self.zip_name, name)
                 )
-        return temp
+        return temp, self.zip_name + '.zip'
 
     
     def _get_archnames(self):

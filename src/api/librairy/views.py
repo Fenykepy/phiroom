@@ -1,4 +1,4 @@
-from django.http import Http404, HttpResponseForbidden
+from django.http import Http404, HttpResponseForbidden, HttpResponse
 
 from rest_framework.response import Response
 from rest_framework import generics, status
@@ -11,6 +11,7 @@ from phiroom.permissions import IsStaffOrReadOnly
 from librairy.serializers import *
 from librairy.models import Tag, Collection, CollectionsEnsemble, \
         Label, Picture
+
 
 
 class PicturesList(generics.ListCreateAPIView):
@@ -32,6 +33,7 @@ class PicturesList(generics.ListCreateAPIView):
         return PictureSerializer
 
 
+
 class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     This view presents a specific picture and allows to update or delete it.
@@ -42,6 +44,7 @@ class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAdminUser,)
 
 
+
 class PictureShortDetail(generics.RetrieveAPIView):
     """
     This view presents a specific picture's public datas.
@@ -50,6 +53,7 @@ class PictureShortDetail(generics.RetrieveAPIView):
     queryset = Picture.objects.all()
     serializer_class = PictureShortSerializer
     permission_classes = (IsStaffOrReadOnly,)
+
 
 
 @api_view(['GET'])
@@ -65,17 +69,26 @@ def PicturesPkList(request, format=None):
 
 
 
-@api_view(['POST'])
-@permission_classes((IsAdminUser,))
-def PicturesZipExport(request, format=None):
+class PicturesZipExport(generics.ListCreateAPIView):
     """
-    Parse a list of pictures' pks and returns an 
-    zip archive with all pictures files.
+    This view presents nothing and allows to post a list of
+    pictures pks to get an archive of the images files.
     """
-    serializer = ZipExportSerializer(data=request.data)
-    print(request.data)
-    if serializer.is_valid():
-        print(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer_class = ZipExportSerializer
+    permission_classes = (IsStaffOrReadOnly,)
+
+    def get_queryset(self):
+        return []
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        zip, name = serializer.save()
+        zip.seek(0)
+        response = HttpResponse(zip.read(), content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename="{}.zip"'.format(name)
+        response['Content-Length'] = zip.tell()
+
+        return response
+
 

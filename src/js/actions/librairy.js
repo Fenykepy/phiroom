@@ -195,7 +195,7 @@ export function requestPicturesZip(pictures) {
             'Content-Type': 'application/json',
           },
           JSON.stringify({
-            pictures_list: pictures
+            pks: pictures
           })
     )
   }

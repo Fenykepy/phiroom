@@ -12,6 +12,6 @@ urlpatterns = [
             name="picture-detail"),
         url(r'^pictures/(?P<pk>[0-9]+)/short/$', views.PictureShortDetail.as_view(),
             name="picture-detail-short"),
-        url(r'^pictures/zip-export/$', views.PicturesZipExport,
+        url(r'^pictures/zip-export/$', views.PicturesZipExport.as_view(),
             name="pictures-zip-export"),
 ]

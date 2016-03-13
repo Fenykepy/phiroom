@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from librairy.models import Picture, Tag, Label, \
-        Collection, CollectionsEnsemble, PictureFactory
+        Collection, CollectionsEnsemble, PictureFactory, \
+        ZipExport
 
 
 
@@ -134,15 +135,33 @@ class PictureUploadSerializer(PictureSerializer):
 
 
 
-class ZipExportSerializer(serializers.Serializer):
-    """A serializer to upload a list of pictures and
-    get an zip archive of them.
-    """
-    pictures_list = serializers.ListField(
-        write_only=True,
-        required=True,
-        child=serializers.IntegerField()
+class PicturePkListSerializer(serializers.Serializer):
+    """A serializer to get a list of pk."""
+    pks = serializers.PrimaryKeyRelatedField(
+        queryset=Picture.objects.all(),
+        many=True
     )
+
+
+class ZipExportSerializer(PicturePkListSerializer):
+    """
+    A serializer to get a zip archive with images files:
+    take a list of pictures pks.
+    """
+    full = serializers.BooleanField(default=True)
+
+    def save(self):
+        zip = ZipExport(pictures = self.validated_data['pks'])
+        if self.validated_data['full']:
+            return zip.get_full()
+        return zip.get_large()
+
+    class Meta:
+        write_only_fields = ('full', 'pks')
+
+
+
+
 
 
 
