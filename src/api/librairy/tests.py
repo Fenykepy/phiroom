@@ -1,4 +1,5 @@
 import os
+import zipfile
 
 from PIL import Image
 
@@ -10,7 +11,8 @@ from rest_framework.test import APIClient, APITestCase
 
 from user.models import User
 from librairy.models import Picture, Collection, CollectionsEnsemble, \
-        Label, Tag, PictureFactory, set_picturename, recursive_import
+        Label, Tag, PictureFactory, set_picturename, recursive_import, \
+        ZipExport
 
 from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
         PREVIEWS_CROP, PREVIEWS_MAX, PREVIEWS_HEIGHT, \
@@ -33,9 +35,19 @@ class ZipExportTest(TestCase):
         recursive_import(path)
 
 
-    def test_export(self):
-                
+    def test_export_full(self):
         pictures = Picture.objects.all()
+        zip_export = ZipExport(pictures=pictures)
+        zip = zip_export.get_full()
+          
+
+
+    
+
+
+        
+        
+        
         
         
 
