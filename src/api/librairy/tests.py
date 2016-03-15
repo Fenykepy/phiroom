@@ -36,10 +36,60 @@ class ZipExportTest(TestCase):
 
 
     def test_export_full(self):
+        self.import_test_pictures()
         pictures = Picture.objects.all()
         zip_export = ZipExport(pictures=pictures)
-        zip = zip_export.get_full()
-          
+        zip, name = zip_export.get_full()
+        with zipfile.ZipFile(zip, 'r') as zip_archive:
+            info = zip_archive.infolist()
+        # there should be 3 files in archive
+        self.assertEqual(len(info), 3)
+        # assert file sizes are ok
+        self.assertEqual(info[0].file_size, 13468551)
+        self.assertEqual(info[1].file_size, 188787)
+        self.assertEqual(info[2].file_size, 150910)
+        # assert file names have been generated correctly
+        name = info[0].filename.split('/')
+        self.assertEqual(name[0][:14], 'phiroom-export')
+        self.assertEqual(len(name[0]), 51)
+        self.assertEqual(name[1], 'FLR_15_2822.jpg')
+        name = info[1].filename.split('/')
+        self.assertEqual(name[0][:14], 'phiroom-export')
+        self.assertEqual(len(name[0]), 51)
+        self.assertEqual(name[1], '230.jpg')
+        name = info[2].filename.split('/')
+        self.assertEqual(name[0][:14], 'phiroom-export')
+        self.assertEqual(len(name[0]), 51)
+        self.assertEqual(name[1], '320.jpg')
+
+    def test_export_large(self):
+        self.import_test_pictures()
+        pictures = Picture.objects.all()
+        zip_export = ZipExport(pictures=pictures)
+        zip, name = zip_export.get_large()
+        with zipfile.ZipFile(zip, 'r') as zip_archive:
+            info = zip_archive.infolist()
+        # there should be 3 files in archive
+        self.assertEqual(len(info), 3)
+        # assert file sizes are ok
+        self.assertEqual(info[0].file_size, 212760)
+        self.assertEqual(info[1].file_size, 188726)
+        self.assertEqual(info[2].file_size, 150347)
+        # assert file names have been generated correctly
+        name = info[0].filename.split('/')
+        self.assertEqual(name[0][:14], 'phiroom-export')
+        self.assertEqual(len(name[0]), 51)
+        self.assertEqual(name[1], 'FLR_15_2822.jpg')
+        name = info[1].filename.split('/')
+        self.assertEqual(name[0][:14], 'phiroom-export')
+        self.assertEqual(len(name[0]), 51)
+        self.assertEqual(name[1], '230.jpg')
+        name = info[2].filename.split('/')
+        self.assertEqual(name[0][:14], 'phiroom-export')
+        self.assertEqual(len(name[0]), 51)
+        self.assertEqual(name[1], '320.jpg')
+
+
 
 
     
