@@ -32,15 +32,15 @@ class LabelSerializer(serializers.ModelSerializer):
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
-        fields = ('name', 'slug')
+        fields = ('name', 'slug', 'ensemble', 'n_pict')
+        read_only_fields = ('slug', 'n_pict')
 
 
 
 class CollectionsEnsembleSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollectionsEnsemble
-        fields = ('name', 'slug')
-    
+        fields = ('name', 'slug', 'collection_set', 'parent')
 
 
 class PictureSerializer(serializers.ModelSerializer):

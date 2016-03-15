@@ -35,3 +35,4 @@ librairy:
 #    - add a way to import pictures from an archive
 #    - add a way to export a bunch of pictures in an archive
     - add test for zip export 
+    - add test for collection and collectionensembles api endpoints.

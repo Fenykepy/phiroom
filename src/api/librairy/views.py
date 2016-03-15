@@ -33,7 +33,6 @@ class PicturesList(generics.ListCreateAPIView):
         return PictureSerializer
 
 
-
 class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     This view presents a specific picture and allows to update or delete it.
@@ -53,6 +52,53 @@ class PictureShortDetail(generics.RetrieveAPIView):
     queryset = Picture.objects.all()
     serializer_class = PictureShortSerializer
     permission_classes = (IsStaffOrReadOnly,)
+
+
+class CollectionEnsembleList(generics.ListCreateAPIView):
+    """
+    This view presents a list a all collections ensembles and allows
+    new collection ensembles to be created.
+    """
+
+    queryset = CollectionsEnsemble.objects.all()
+    serializer_class = CollectionsEnsembleSerializer
+    permission_classes = (IsAdminUser,)
+
+
+
+class CollectionEnsembleDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    This view presents a specific collection ensemble and allows
+    to update or delete it.
+    """
+
+    queryset = CollectionsEnsemble.objects.all()
+    serializer_class = CollectionsEnsembleSerializer
+    permission_classes = (IsAdminUser,)
+
+
+class CollectionList(generics.ListCreateAPIView):
+    """
+    This view presents a list a all collections and allows new collection
+    to be created.
+    """
+
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+    permission_classes = (IsAdminUser,)
+
+
+
+class CollectionDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    This view presents a specific collection and allows to update or delete it.
+    """
+
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+    permission_classes = (IsAdminUser,)
+
+
 
 
 

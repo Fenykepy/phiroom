@@ -87,6 +87,7 @@
 #    - Librairy -> librairySelector
 #        - LibrairyLeftPanel -> librairyLeftPanelSelector
         - LibrairyRightPanel -> librairyRightPanelSelector
+        - LibrairyDetail
 #    - Login -> loginSelector
 #    - Logout -> dispatch only
 #    - Lightbox -> lightboxSelector

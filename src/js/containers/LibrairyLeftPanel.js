@@ -44,12 +44,6 @@ class LibrairyLeftPanel extends Component {
             drag={this.props.drag}
             dispatch={this.props.dispatch}
           />
-          <button
-            onClick={() =>
-              this.props.dispatch(
-                requestPicturesZip([2, 3])
-            )}
-          >Export selection</button>
           <LibrairyImportButton
             user={this.props.user}
             dispatch={this.props.dispatch}

@@ -67,10 +67,15 @@ A tree:
         #[GET:(logued in with object level rights)] get a flat list of all collections
         - collection-headers: "/api/librairy/collections/headers/"
         #[GET-POST:(admin)] get a list of all collections paginated, post a new one
-        - collection-list: "/api/librairy/collections/"
+[OK]        - collection-list: "/api/librairy/collections/"
         #[GET:(logued in with object level rights
         # PUT-PATCH-DELETE:(admin] get update delete a specific collection
-        - collection-detail: "/api/libairy/collections/:pk/"
+[OK]       - collection-detail: "/api/libairy/collections/:pk/"
+        #[GET-POST:(admin)] get a list of all collections paginated, post a new one
+[OK]       - collection-ensemble-list: "/api/librairy/collection-ensembles/"
+        #[GET:(logued in with object level rights
+        # PUT-PATCH-DELETE:(admin] get update delete a specific collection
+[OK]       - collection-ensemble-detail: "/api/libairy/collection-ensembles/:pk/"
     - settings
     - user
     - auth
