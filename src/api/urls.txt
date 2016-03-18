@@ -63,9 +63,9 @@ A tree:
             #[GET:(any)] get public info about one picture
 [OK]        - picture-detail-short: "/api/librairy/pictures/:pk/short/"
             #[POST: (libmairy_member) post a list of pictures'pk and get an archive with them
-            - pictures-zip-export: "/api/librairy/pictures/zip-export/"
+[OK]            - pictures-zip-export: "/api/librairy/pictures/zip-export/"
         #[GET:(logued in with object level rights)] get a flat list of all collections
-        - collection-headers: "/api/librairy/collections/headers/"
+[OK]        - collection-headers: "/api/librairy/collections/headers/"
         #[GET-POST:(admin)] get a list of all collections paginated, post a new one
 [OK]        - collection-list: "/api/librairy/collections/"
         #[GET:(logued in with object level rights

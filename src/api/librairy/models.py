@@ -503,6 +503,10 @@ class CollectionsEnsemble(MPTTModel):
     parent = models.ForeignKey('CollectionsEnsemble', null=True, blank=True,
             default=ROOT_ENSEMBLE)
 
+    @property
+    def children(self):
+        return self.get_children()
+
     def get_pictures(self):
         """Return all pictures of a collection ensembles."""
         # select ensemble descendants

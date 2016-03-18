@@ -28,11 +28,14 @@ librairy:
 #    - add pictures_short view
 #    - delete all others except list
 #    - test ratio in models
-    - add view for collections headers
-    - add view for collections (CRUD)
+#    - add view for collections headers
+#    - add view for collections (CRUD)
 #    - review tests to use create_test_users
 #    - add a way to import pictures from command line
 #    - add a way to import pictures from an archive
 #    - add a way to export a bunch of pictures in an archive
-    - add test for zip export 
-    - add test for collection and collectionensembles api endpoints.
+#    - add test for zip export 
+    - add test for zip export API
+    - add test for collection API
+    - add test for collection ensemble API
+    - add test for collections headers

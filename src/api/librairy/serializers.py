@@ -41,21 +41,23 @@ class CollectionsEnsembleSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollectionsEnsemble
         fields = ('name', 'slug', 'collection_set', 'parent')
+        read_only_fields = ('slug', 'collection_set')
+
+
+
+class RecursiveField(serializers.Serializer):
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
 
 
 
 class RecursiveCollectionSerializer(serializers.ModelSerializer):
-    children = serializers.SerializerMethodField()
+    children = RecursiveField(many=True)
 
     class Meta:
         model = CollectionsEnsemble
         fields = ('name', 'slug', 'collection_set', 'children')
-
-    def get_children(self, object):
-        children = object.get_children()
-        print(object)
-
-        return RecursiveCollectionSerializer(children, many=True)
 
 
 
