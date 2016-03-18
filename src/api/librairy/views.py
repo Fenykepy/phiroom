@@ -114,6 +114,20 @@ def PicturesPkList(request, format=None):
     return Response(pks)
 
 
+@api_view(['GET'])
+@permission_classes((IsAdminUser,))
+def collections_headers_list(request, format=None):
+    """
+    Returns a list of all collections and their descendants.
+    """
+    # get root collection ensemble
+    ensemble = CollectionsEnsemble.objects.get(pk=1)
+    serializer = RecursiveCollectionSerializer(ensemble)
+
+    return Response(serializer.data)
+
+
+
 
 class PicturesZipExport(generics.ListCreateAPIView):
     """

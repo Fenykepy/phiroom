@@ -449,11 +449,12 @@ class Label(models.Model):
 
     
 class Collection(models.Model):
+    ROOT_ENSEMBLE = 1
     """Table for all collections"""
     name = models.CharField(max_length=150, verbose_name="Collection")
     slug = models.SlugField(max_length=150, verbose_name="Slug")
     ensemble = models.ForeignKey('CollectionsEnsemble', null=True,
-            blank=True)
+            blank=True, default=ROOT_ENSEMBLE)
     pictures = models.ManyToManyField(Picture,
             through='Collection_pictures', blank=True,
             verbose_name="Pictures")
@@ -495,10 +496,12 @@ class Collection_pictures(models.Model):
 
 class CollectionsEnsemble(MPTTModel):
     """Collections ensembles table"""
+    ROOT_ENSEMBLE = 1
     name = models.CharField(max_length=150,
             verbose_name="Ensemble de collection")
     slug = models.SlugField(max_length=150, verbose_name="slug")
-    parent = models.ForeignKey('CollectionsEnsemble', null=True, blank=True)
+    parent = models.ForeignKey('CollectionsEnsemble', null=True, blank=True,
+            default=ROOT_ENSEMBLE)
 
     def get_pictures(self):
         """Return all pictures of a collection ensembles."""

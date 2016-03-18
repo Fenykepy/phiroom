@@ -43,6 +43,22 @@ class CollectionsEnsembleSerializer(serializers.ModelSerializer):
         fields = ('name', 'slug', 'collection_set', 'parent')
 
 
+
+class RecursiveCollectionSerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CollectionsEnsemble
+        fields = ('name', 'slug', 'collection_set', 'children')
+
+    def get_children(self, object):
+        children = object.get_children()
+        print(object)
+
+        return RecursiveCollectionSerializer(children, many=True)
+
+
+
 class PictureSerializer(serializers.ModelSerializer):
     importation_date = serializers.DateTimeField(read_only=True)
     last_update = serializers.DateTimeField(read_only=True)
