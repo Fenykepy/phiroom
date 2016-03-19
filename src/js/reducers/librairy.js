@@ -15,6 +15,8 @@ import {
   LOGOUT
 } from '../constants/actionsTypes'
 
+import collections from './collections'
+
 function title(state = null, action) {
   switch (action.type) {
     case LIBRAIRY_SET_TITLE:
@@ -136,6 +138,7 @@ const librairy = combineReducers({
   right_panel_width,
   drag,
   title,
+  collections,
 })
 
 export default librairy

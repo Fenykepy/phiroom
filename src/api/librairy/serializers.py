@@ -52,7 +52,7 @@ class RecursiveField(serializers.Serializer):
 
 
 
-class RecursiveCollectionSerializer(serializers.ModelSerializer):
+class CollectionHeadersSerializer(serializers.ModelSerializer):
     children = RecursiveField(many=True)
 
     class Meta:

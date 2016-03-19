@@ -496,7 +496,8 @@ class CollectionsEnsemble(MPTTModel):
     name = models.CharField(max_length=150,
             verbose_name="Ensemble de collection")
     slug = models.SlugField(max_length=150, verbose_name="slug")
-    parent = models.ForeignKey('CollectionsEnsemble', default=ROOT_ENSEMBLE)
+    parent = models.ForeignKey('CollectionsEnsemble', default=ROOT_ENSEMBLE,
+            null=True, blank=True)
 
     @property
     def children(self):
