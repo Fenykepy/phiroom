@@ -32,16 +32,16 @@ class LabelSerializer(serializers.ModelSerializer):
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
-        fields = ('name', 'slug', 'ensemble', 'n_pict')
-        read_only_fields = ('slug', 'n_pict')
+        fields = ('name', 'pk', 'ensemble', 'n_pict')
+        read_only_fields = ('pk', 'n_pict')
 
 
 
 class CollectionsEnsembleSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollectionsEnsemble
-        fields = ('name', 'slug', 'collection_set', 'parent')
-        read_only_fields = ('slug', 'collection_set')
+        fields = ('name', 'pk', 'collection_set', 'parent')
+        read_only_fields = ('pk', 'collection_set')
 
 
 
@@ -51,13 +51,19 @@ class RecursiveField(serializers.Serializer):
         return serializer.data
 
 
-
 class CollectionHeadersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ('name', 'pk')
+
+
+class CollectionsEnsembleHeadersSerializer(serializers.ModelSerializer):
     children = RecursiveField(many=True)
+    collection_set = CollectionHeadersSerializer(many=True)
 
     class Meta:
         model = CollectionsEnsemble
-        fields = ('name', 'slug', 'collection_set', 'children')
+        fields = ('name', 'pk', 'collection_set', 'children')
 
 
 

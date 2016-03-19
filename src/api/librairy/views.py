@@ -127,7 +127,7 @@ def collections_headers_list(request, format=None):
     print(ensemble.children)
     print('get_children')
     print(ensemble.get_children())
-    serializer = CollectionHeadersSerializer(ensemble)
+    serializer = CollectionsEnsembleHeadersSerializer(ensemble)
 
     return Response(serializer.data)
 
