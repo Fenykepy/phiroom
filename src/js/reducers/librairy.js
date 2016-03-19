@@ -15,7 +15,7 @@ import {
   LOGOUT
 } from '../constants/actionsTypes'
 
-import collections from './collections'
+import collection from './collections'
 
 function title(state = null, action) {
   switch (action.type) {
@@ -138,7 +138,7 @@ const librairy = combineReducers({
   right_panel_width,
   drag,
   title,
-  collections,
+  collection,
 })
 
 export default librairy

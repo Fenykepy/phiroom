@@ -7,8 +7,10 @@ import { portfolioHeadersSelector } from './portfolioSelector'
  */
 
 const postsHeadersSelector = state => state.weblog.headers.data
+const collectionsHeadersSelector = state => state.librairy.collection.headers.data
 
 export const librairyLeftPanelSelector = createStructuredSelector({
   portfolioHeaders: portfolioHeadersSelector,
   postsHeaders: postsHeadersSelector,
+  collectionsHeaders: collectionsHeadersSelector,
 })

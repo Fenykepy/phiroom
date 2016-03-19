@@ -2,6 +2,10 @@ import React, { Component, PropTypes } from 'react'
 
 import { Link } from 'react-router'
 
+import LibrairyLeftPanelCollectionsSet from './LibrairyLeftPanelCollectionsSet'
+import LibrairyLeftPanelCollectionsEnsemblesSet from './LibrairyLeftPanelCollectionsEnsemblesSet'
+
+
 export default class LibrairyLeftPanelCollections extends Component {
 
   render() {
@@ -9,9 +13,12 @@ export default class LibrairyLeftPanelCollections extends Component {
       return (
         <div>
           <h6>Collections</h6>
-          <ul>
-            <li><Link to="/librairy/collections/">A collection</Link></li>
-          </ul>
+          <LibrairyLeftPanelCollectionsEnsemblesSet
+            ensembles={this.props.collections.children}
+          />
+          <LibrairyLeftPanelCollectionsSet
+            collections={this.props.collections.collection_set}
+          />
         </div>
       )
     }

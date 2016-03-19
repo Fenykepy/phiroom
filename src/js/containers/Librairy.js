@@ -11,6 +11,7 @@ import { setModule } from '../actions/modules'
 import { dragEnd } from '../actions/librairy'
 import { fetchPortfoliosHeadersIfNeeded } from '../actions/portfolios'
 import { fetchPostsHeadersIfNeeded } from '../actions/weblog'
+import { fetchCollectionsHeadersIfNeeded } from '../actions/collections'
 
 
 class Librairy extends Component {
@@ -22,6 +23,7 @@ class Librairy extends Component {
     // fetch posts headers if user is weblog_author
     dispatch(fetchPostsHeadersIfNeeded())
     // fetch collections headers
+    dispatch(fetchCollectionsHeadersIfNeeded())
     // set module
     dispatch(setModule('librairy'))
     

@@ -35,7 +35,7 @@ function shouldFetchCollectionsHeaders(state) {
 }
 
 
-function fetcheCollectionsHeaders() {
+function fetchCollectionsHeaders() {
   // fetche collections headers
   return function(dispatch) {
     //start request
