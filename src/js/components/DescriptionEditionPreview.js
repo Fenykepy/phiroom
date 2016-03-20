@@ -7,8 +7,8 @@ import ContactDescription from './ContactDescription'
 
 export default class DescriptionEditionPreview extends Component {
 
-  formatSource() {
-    return marked(this.props.source, {sanitize: true})
+  formatSource(source='') {
+    return marked(source, {sanitize: true})
   }
 
   render() {
@@ -17,7 +17,7 @@ export default class DescriptionEditionPreview extends Component {
         user={{}}
         description={{
           title: this.props.title,
-          content: this.formatSource()
+          content: this.formatSource(this.props.source)
         }}
       /> 
     )

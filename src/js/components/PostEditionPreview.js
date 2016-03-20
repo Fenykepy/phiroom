@@ -10,25 +10,25 @@ export default class DescriptionEditionPreview extends Component {
   /*
    * TODO : fetch delimiter [...] from settings
    */
-  formatContent() {
-    let content = this.props.source.replace('[...]', "")
+  formatContent(source='') {
+    let content = source.replace('[...]', "")
     return marked(content, {sanitize: true})
   }
 
-  formatAbstract() {
-    let abstract = this.props.source.split('[...]')[0]
+  formatAbstract(source='') {
+    let abstract = source.split('[...]')[0]
     abstract = abstract.replace(/,*\s*\.*\?*!*…*$/, "") + "…"
     return marked(abstract, {sanitize: true})
   }
 
-  formatTags() {
-    let tags = []
-    if (this.props.tags) {
+  formatTags(tags) {
+    let tags_map = []
+    if (tags) {
       this.props.tags.map(tag =>
-        tags.push({name: tag})
+        tags_map.push({name: tag})
       )
     }
-    return tags
+    return tags_map
   }
 
   render() {
@@ -38,7 +38,7 @@ export default class DescriptionEditionPreview extends Component {
         <WeblogPostAbstract
           pub_date={this.props.pub_date}
           title={this.props.title}
-          abstract={this.formatAbstract()}
+          abstract={this.formatAbstract(this.props.source)}
         /> 
         <h5 className="underlined" style={{marginTop: "75px"}}>Detail view</h5>
         <WeblogPostDetail
@@ -47,8 +47,8 @@ export default class DescriptionEditionPreview extends Component {
           pub_date={this.props.pub_date}
           title={this.props.title}
           description={this.props.description}
-          content={this.formatContent()}
-          tags={this.formatTags()}
+          content={this.formatContent(this.props.source)}
+          tags={this.formatTags(this.props.tags)}
           path={''}
           pictures={[]}
         />
