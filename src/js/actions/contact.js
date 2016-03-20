@@ -83,7 +83,7 @@ export function editDescription() {
       .then(data => {
         dispatch({
           type: types.DESCRIPTION_EDIT_PREFILL,
-          data: data,
+          data: data.data,
         })
       })
   }
