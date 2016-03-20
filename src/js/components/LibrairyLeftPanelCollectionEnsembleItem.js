@@ -11,7 +11,7 @@ export default class LibrairyLeftPanelCollectionEnsembleItem extends Component {
   render() {
     //console.log('collectionEnsembleItem', this.props)
     return (
-      <li>
+      <li className="collection-ensemble">
         <Link to={`/librairy/collections-ensemble/${this.props.pk}/`}
           activeClassName="Selected"
         >{this.props.name}</Link>
