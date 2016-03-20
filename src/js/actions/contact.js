@@ -47,7 +47,7 @@ export function fetchDescriptionIfNeeded() {
     }
     // else, return a resolved promise
     return new Promise((resolve, reject) => resolve(
-      state.contact.description
+      {data: state.contact.description}
     ))
   }
 }

@@ -46,7 +46,7 @@ export function fetchAuthorIfNeeded(author) {
     }
     // else return a resolved promise
     return new Promise((resolve, reject) => resolve(
-      {data: getState().authors[author]}
+      {data: getState().common.authors[author]}
     ))
   }
 }

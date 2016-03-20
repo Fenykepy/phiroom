@@ -8,7 +8,7 @@
 #- Add a list and detail views for weblog posts
 #- Add a form for contact
 #- Add a description for contact
-- Add a title property to state
+#- Add a title property to state
 #- Add a default_portfolio property to state, use it for redirects in routes
 #- Add a librairy app
 #- Add authentication

@@ -59,7 +59,7 @@ class WeblogDetail extends Component {
       return data
     }).then((data) => {
       // fetch author if necessary
-      return dispatch(fetchAuthorIfNeeded(data.data.author))
+      dispatch(fetchAuthorIfNeeded(data.data.author))
     }))
     if (! clientSide) {
       // fetch all pictures at once serverside

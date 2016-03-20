@@ -9,7 +9,8 @@ import LibrairyLeftPanelCollectionsEnsemblesSet from './LibrairyLeftPanelCollect
 export default class LibrairyLeftPanelCollections extends Component {
 
   render() {
-    if (this.props.user.is_librairy_member) {
+    //console.log('librairyLeftPanelCollections', this.props)
+    if (this.props.user.is_librairy_member && this.props.collections) {
       return (
         <div>
           <h6>Collections</h6>
