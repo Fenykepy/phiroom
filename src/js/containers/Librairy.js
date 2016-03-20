@@ -14,6 +14,7 @@ import { dragEnd, setContainer } from '../actions/librairy'
 import { fetchPortfoliosHeadersIfNeeded } from '../actions/portfolios'
 import { fetchPostsHeadersIfNeeded } from '../actions/weblog'
 import { fetchCollectionsHeadersIfNeeded } from '../actions/collections'
+import { setDocumentTitleIfNeeded } from '../actions/title'
 
 
 class Librairy extends Component {
@@ -28,6 +29,8 @@ class Librairy extends Component {
     dispatch(fetchCollectionsHeadersIfNeeded())
     // set module
     dispatch(setModule('librairy'))
+    // set document title
+    dispatch(setDocumentTitleIfNeeded('Librairy'))
     
     return promises
   }
@@ -99,7 +102,7 @@ class Librairy extends Component {
       left_panel_width,
       right_panel_width,
     } = this.props
-    console.log('lib', this.props)
+    //console.log('lib', this.props)
     return (
       <div>
         <Header

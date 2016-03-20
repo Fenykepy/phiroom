@@ -109,7 +109,13 @@ function handleRender(req, res) {
 }
 
 
-function renderFullPage(html, initialState, title='') {
+function renderFullPage(html, initialState) {
+  // set document title if necessary
+  if (initialState && initialState.common.title) {
+    var title = initialState.common.title
+  } else {
+    var title = ''
+  }
   return `
     <!DOCTYPE html>
     <html lang="en">

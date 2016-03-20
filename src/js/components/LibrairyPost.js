@@ -16,6 +16,7 @@ import {
   unsetPicture,
   orderPictInPost,
 } from '../actions/librairy'
+import { setDocumentTitleIfNeeded } from '../actions/title'
 
 import { buildPostSlug } from '../containers/WeblogDetail'
 
@@ -29,6 +30,8 @@ export default class LibrairyPost extends Component {
     promises.push(dispatch(fetchPostIfNeeded(slug)).then(data => {
       dispatch(setPictures(data.data.pictures))
       dispatch(setTitle(data.data.title))
+      // set document title
+      dispatch(setDocumentTitleIfNeeded(data.data.title))
       // fetch all post's pictures
       data.data.pictures.map(item => {
         dispatch(fetchPictureIfNeeded(item))

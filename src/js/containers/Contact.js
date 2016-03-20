@@ -12,6 +12,7 @@ import SocialLinks from '../components/SocialLinks'
 
 import { fetchDescriptionIfNeeded } from '../actions/contact'
 import { setModule } from '../actions/modules'
+import { setDocumentTitleIfNeeded } from '../actions/title'
 
 
 class Contact extends Component {
@@ -19,9 +20,13 @@ class Contact extends Component {
   static fetchData(dispatch, params=null, clientSide=false) {
     let promises = []
     // get description
-    promises.push(dispatch(fetchDescriptionIfNeeded()))
+    promises.push(dispatch(fetchDescriptionIfNeeded()).then(data => {
+      // set document title
+      dispatch(setDocumentTitleIfNeeded(data.data.title))
+    }))
     // set module
     dispatch(setModule('contact'))
+
 
     return promises
   }

@@ -15,6 +15,7 @@ import {
   unsetPicture,
   orderPictInPortfolio,
 } from '../actions/librairy'
+import { setDocumentTitleIfNeeded } from '../actions/title'
 
 export default class LibrairyPortfolio extends Component {
 
@@ -25,6 +26,8 @@ export default class LibrairyPortfolio extends Component {
     promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then(data => {
         dispatch(setPictures(data.data.pictures))
         dispatch(setTitle(data.data.title))
+        // set document title
+        dispatch(setDocumentTitleIfNeeded(data.data.title))
         // fetch all portfolio's pictures
         data.data.pictures.map(item => {
           dispatch(fetchPictureIfNeeded(item))

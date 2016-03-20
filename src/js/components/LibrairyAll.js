@@ -12,6 +12,7 @@ import {
   setPictures,
 } from '../actions/librairy'
 
+import { setDocumentTitleIfNeeded } from '../actions/title'
 
 export default class LibrairyAll extends Component {
 
@@ -20,6 +21,9 @@ export default class LibrairyAll extends Component {
     promises.push(dispatch(fetchPicturesPksIfNeeded()).then(data => {
       dispatch(setPictures(data.data))
       dispatch(setTitle(null))
+      // set document title
+      dispatch(setDocumentTitleIfNeeded('All pictures'))
+      
       data.data.map(pk => {
         dispatch(fetchPictureIfNeeded(pk))
       })

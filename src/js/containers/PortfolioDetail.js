@@ -20,6 +20,7 @@ import {
 } from '../actions/portfolios'
 import { lightboxStart } from '../actions/lightbox'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
+import { setDocumentTitleIfNeeded } from '../actions/title'
 
 
 class PortfolioDetail extends Component {
@@ -30,6 +31,8 @@ class PortfolioDetail extends Component {
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then((data) => {
         dispatch(selectPortfolio(params.slug))
+        // set document title
+        dispatch(setDocumentTitleIfNeeded(data.data.title))
         // launch lightbox if needed
         if (params.lightbox) {
           dispatch(lightboxStart(data.data.pictures,
@@ -56,6 +59,7 @@ class PortfolioDetail extends Component {
 
   componentDidMount() {
     this.fetchData(this.props.params)
+
   }
 
   componentWillReceiveProps(nextProps) {

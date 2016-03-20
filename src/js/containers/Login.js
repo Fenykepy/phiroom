@@ -8,12 +8,15 @@ import LoginForm from '../components/LoginForm'
 
 import { login } from '../actions/user'
 import { setModule } from '../actions/modules'
+import { setDocumentTitleIfNeeded } from '../actions/title'
 
 class Login extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
     // set module
     dispatch(setModule('user'))
+    // set document title
+    dispatch(setDocumentTitleIfNeeded('Login page'))
     // return empty promises array
     return []
   }

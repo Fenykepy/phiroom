@@ -38,4 +38,8 @@ export function getJWTDate(token) {
   return JSON.parse(window.atob(token.split('.')[1]))['exp']
 }
 
+export function capitalize(s) {
+  return s && s[0].toUpperCase() + s.slice(1);
+}
+
 
