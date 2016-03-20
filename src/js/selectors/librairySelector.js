@@ -34,8 +34,11 @@ const columnsSelector = state => state.librairy.columns
 // width of viewport
 const viewportWidthSelector = state => state.common.viewport.width
 
+// modules (for headers)
+import { modulesSelector } from './modulesSelector'
 
-
+// settings (for headers)
+import { settingsSelector } from './settingsSelector'
 
 
 // displayed pictures in librairy
@@ -112,6 +115,8 @@ const columnsWidthSelector = createSelector(
 export const librairySelector = createStructuredSelector({
   title: titleSelector,
   user: userSelector,
+  modules: modulesSelector,
+  settings: settingsSelector,
   drag: dragSelector,
   pictures: librairySelectedPicturesSelector,
   selected_list: selectedSelector,

@@ -7,7 +7,7 @@ export default class Header extends Component {
     return (
       <header role="banner">
         <Logo
-          logo={this.props.settings.weblog_logo}
+          logo={this.props.logo}
           title={this.props.settings.title}
           subTitle={this.props.settings.subtitle}
         />

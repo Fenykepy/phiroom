@@ -13,13 +13,13 @@ class Conf(models.Model):
     weblog_logo = models.ImageField(null=True, blank=True,
             upload_to="images/logos/",
             verbose_name="Weblog's logo.",
-            default='images/default/default_logo.png',
+            default='images/default/default_logo.svg',
             help_text="The logo you can see on each weblog's page header. \
                     Leave blank to use default one.")
     librairy_logo = models.ImageField(null=True, blank=True,
             upload_to="images/logos/",
             verbose_name="Librairy's logo.",
-            default='images/default/librairy_default_logo.png',
+            default='images/default/librairy_default_logo.svg',
             help_text="The logo you can see on librairy page header. \
                     Idealy 50px height. \
                     Leave blank to use default one.")

@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import { Route, Redirect, IndexRoute } from 'react-router'
 
 import App from './containers/App'
+import WeblogWrapper from './containers/WeblogWrapper'
 import Portfolio from './containers/Portfolio'
 import PortfolioDetail from './containers/PortfolioDetail'
 import Weblog from './containers/Weblog'
@@ -33,29 +34,31 @@ export default () => {
       <Redirect from="/" to="/portfolio/" />
       <Redirect from="/weblog/page/1/" to="/weblog/" />
       <Route path="/" component={App} onEnter={appendSlash}>
-        <Route path="/portfolio(/)" component={Portfolio}>
-          <IndexRoute component={PortfolioDetail} />
-          <Route path="/portfolio/:slug(/)" component={PortfolioDetail}>
-            <Route path="/portfolio/:slug/lightbox/:lightbox(/)" component={LightboxStarter} onEnter={appendSlash} />
+        <Route component={WeblogWrapper}>
+          <Route path="/portfolio(/)" component={Portfolio}>
+            <IndexRoute component={PortfolioDetail} />
+            <Route path="/portfolio/:slug(/)" component={PortfolioDetail}>
+              <Route path="/portfolio/:slug/lightbox/:lightbox(/)" component={LightboxStarter} onEnter={appendSlash} />
+            </Route>
           </Route>
-        </Route>
-        <Route path="weblog(/)" component={Weblog} onEnter={appendSlash} >
-          <IndexRoute component={WeblogList} />
-          <Route path="/weblog/page/:page(/)" component={WeblogList} onEnter={appendSlash} />
-          <Route path="/weblog/tag/:tag/page/:page(/)" component={WeblogListByTag} onEnter={appendSlash} />
-          <Route path="/weblog/tag/:tag(/)" component={WeblogListByTag} onEnter={appendSlash} />
-          <Route path="/weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash}>
-            <Route path="/weblog/:y/:m/:d/:slug/lightbox/:lightbox(/)" component={LightboxStarter} onEnter={appendSlash} />
+          <Route path="weblog(/)" component={Weblog} onEnter={appendSlash} >
+            <IndexRoute component={WeblogList} />
+            <Route path="/weblog/page/:page(/)" component={WeblogList} onEnter={appendSlash} />
+            <Route path="/weblog/tag/:tag/page/:page(/)" component={WeblogListByTag} onEnter={appendSlash} />
+            <Route path="/weblog/tag/:tag(/)" component={WeblogListByTag} onEnter={appendSlash} />
+            <Route path="/weblog/:y/:m/:d/:slug(/)" component={WeblogDetail} onEnter={appendSlash}>
+              <Route path="/weblog/:y/:m/:d/:slug/lightbox/:lightbox(/)" component={LightboxStarter} onEnter={appendSlash} />
+            </Route>
           </Route>
+          <Route path="contact(/)" component={Contact} onEnter={appendSlash} />
+          <Route path="login(/)" component={Login} onEnter={appendSlash} />
+          <Route path="logout(/)" component={Logout} onEnter={appendSlash} />
         </Route>
-        <Route path="contact(/)" component={Contact} onEnter={appendSlash} />
         <Route path="librairy(/)" component={Librairy} onEnter={appendSlash}>
           <Route path="portfolio/:slug(/)" component={LibrairyPortfolio} onEnter={appendSlash} />
           <Route path="post/:y/:m/:d/:slug(/)" component={LibrairyPost} onEnter={appendSlash} />
           <Route path="all(/)" component={LibrairyAll} onEnter={appendSlash} />
         </Route>
-        <Route path="login(/)" component={Login} onEnter={appendSlash} />
-        <Route path="logout(/)" component={Logout} onEnter={appendSlash} />
       </Route>
     </Route>
   )

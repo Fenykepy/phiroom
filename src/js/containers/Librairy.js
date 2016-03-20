@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { librairySelector } from '../selectors/librairySelector'
 
 import { Link } from 'react-router'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 import LibrairyLeftPanel from '../containers/LibrairyLeftPanel'
 
 import { setModule } from '../actions/modules'
@@ -73,6 +75,8 @@ class Librairy extends Component {
       user,
       drag,
       pictures,
+      modules,
+      settings,
       selected_list,
       n_selected,
       n_pictures,
@@ -83,13 +87,25 @@ class Librairy extends Component {
     } = this.props
     //console.log('lib', this.props)
     return (
-        <section role="main">
+      <div>
+        <Header
+          modules={this.props.modules}
+          settings={this.props.settings}
+          user={this.props.user}
+          logo={this.props.settings.librairy_logo}
+        />
           <LibrairyLeftPanel
             user={this.props.user}
             drag={this.props.drag}
           />
+        <section role="main">
           {this.getChildren()}
+          <Footer
+            user={this.props.user}
+            location={this.props.location}
+          />
         </section>
+      </div>
     )
   }
 }

@@ -4,10 +4,17 @@
 
 #librairy {
     header[role="banner"] {
-        padding: 0;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        height: 80px;
         text-align: left;
+        background: @blog-bg;
+        z-index: 5;
+        padding: 0; 
         #logo {
-            margin: 15px 15px 15px 4vw;
+            margin: 15px 15px 15px 30px;
             line-height: 0px;
         }
         h1, h2 {
@@ -22,8 +29,9 @@
     }
     #left-panel {
         min-height: calc(~'100vh - 80px');
-        position: absolute;
-        top: 0;
+        position: fixed;
+        overflow-y: auto;
+        top: 80px;
         left: 0;
         bottom: 0;
         display: block;
@@ -31,7 +39,6 @@
         border-right: 1px solid #CCC;
         background: @lib-panels-bg;
         box-sizing: border-box;
-        padding-bottom: 54px;
         h6 {
             margin: 20px 15px 8px;
             font-size: 14px;
@@ -65,13 +72,12 @@
         }
     }
     #import-button {
-        position: absolute;
+        position: relative;
         bottom: 2px;
-        margin: 10px;
+        margin: 50px 10px 10px 10px;
         width: calc(~'100% - 20px');
     }
     #librairy-list {
-        margin-left: 300px;
         padding-bottom: 10px;
         min-height: 100vh;
         .basket-right, .basket-left {
@@ -195,6 +201,8 @@
     }
 
     section[role="main"] {
+        margin-top: 80px;
+        margin-left: 300px;
         position: relative;
     }
 

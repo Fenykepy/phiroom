@@ -1,8 +1,6 @@
 import { createStructuredSelector } from 'reselect'
 
 import { modulesSelector } from './modulesSelector'
-import { settingsSelector } from './settingsSelector'
-import { userSelector } from './userSelector'
 import { modalSelector } from './modalSelector'
 
 /*
@@ -11,8 +9,6 @@ import { modalSelector } from './modalSelector'
 
 export const appSelector = createStructuredSelector({
   modules: modulesSelector,
-  settings: settingsSelector,
-  user: userSelector,
   modal: modalSelector,
 })
 

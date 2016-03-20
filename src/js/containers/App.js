@@ -57,9 +57,7 @@ class App extends Component {
     // Injected by connect() call:
     const {
       dispatch,
-      settings,
       modules,
-      user,
       modal,
     } = this.props
     
@@ -67,16 +65,7 @@ class App extends Component {
     return (
       <div id={this.props.modules.current}>
         {this.getLightbox()}
-        <Header
-          modules={this.props.modules}
-          settings={this.props.settings}
-          user={this.props.user}
-        />
         {this.props.children}
-        <Footer
-          user={this.props.user}
-          location={this.props.location}
-        />
         {this.props.modal}
       </div>
     )
