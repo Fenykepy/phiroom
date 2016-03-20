@@ -54,7 +54,7 @@ export default class LibrairyLeftPanelCollectionItem extends Component {
 
   render() {
     return (
-      <li>
+      <li className="collection">
         <Link to={`/librairy/collections/${this.props.pk}/`}
           activeClassName="Selected"
           className={this.state.dragover ? "dragover" : ""}
