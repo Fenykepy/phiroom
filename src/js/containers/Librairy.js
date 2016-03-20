@@ -10,7 +10,7 @@ import Footer from '../components/Footer'
 import LibrairyLeftPanel from '../containers/LibrairyLeftPanel'
 
 import { setModule } from '../actions/modules'
-import { dragEnd } from '../actions/librairy'
+import { dragEnd, setContainer } from '../actions/librairy'
 import { fetchPortfoliosHeadersIfNeeded } from '../actions/portfolios'
 import { fetchPostsHeadersIfNeeded } from '../actions/weblog'
 import { fetchCollectionsHeadersIfNeeded } from '../actions/collections'
@@ -36,10 +36,24 @@ class Librairy extends Component {
     this.constructor.fetchData(this.props.dispatch, null, true)
     // listen for dragEnd events
     document.addEventListener('dragend', this.handleDragEnd.bind(this))
+    // store current pathname in state as default link to librairy
+    this.handleContainerChange(this.props.location.pathname)
   }
 
   componentWillUnmount() {
     document.removeEventListener('dragend', this.handleDragEnd)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.pathname != this.props.location.pathname) {
+      // store current pathname in state as default link to librairy
+      this.handleContainerChange(nextProps.location.pathname)
+    }
+  }
+
+  handleContainerChange(pathname) {
+    // store current pathname in state as default link to librairy
+    this.props.dispatch(setContainer(pathname))
   }
 
   handleDragEnd() {
@@ -85,7 +99,7 @@ class Librairy extends Component {
       left_panel_width,
       right_panel_width,
     } = this.props
-    //console.log('lib', this.props)
+    console.log('lib', this.props)
     return (
       <div>
         <Header

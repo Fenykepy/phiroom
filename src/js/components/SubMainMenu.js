@@ -9,6 +9,7 @@ export default class SubMainMenu extends Component {
         <ul className="sub-main-menu">
           {this.props.subMenu.map((item, index) =>
               <SubMainMenuItem
+                url={this.props.url}
                 key={item.slug}
                 module={this.props.module}
                 index={index}

@@ -10,7 +10,7 @@ export default class MainMenuItem extends Component {
   render() {
     var submenu
     if (this.props.subMenu.length > 0) { // show submenu only if necessary
-      submenu = (<SubMainMenu subMenu={this.props.subMenu} module={this.props.name} />)
+      submenu = (<SubMainMenu subMenu={this.props.subMenu} url={this.props.url} module={this.props.name} />)
     } else {
       submenu = ''
     }

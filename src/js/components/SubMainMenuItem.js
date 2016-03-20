@@ -5,7 +5,7 @@ export default class SubMainMenuItem extends Component {
   
   render () {
     return (
-        <li><Link to={`/portfolio/${this.props.slug}/`}
+      <li><Link to={this.props.url + this.props.slug + '/'}
           activeClassName="selected">{this.props.title}</Link></li>
     )
   }

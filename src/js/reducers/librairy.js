@@ -5,6 +5,7 @@ import {
   UNSELECT_PICTURE,
   UNSELECT_ALL,
   LIBRAIRY_SET_TITLE,
+  LIBRAIRY_SET_CONTAINER,
   SET_PICTURES,
   UNSET_PICTURE,
   ORDER_PORTFOLIO_PICTURES,
@@ -129,6 +130,18 @@ function drag(state = {}, action) {
   }
 }
 
+/* current container url (portfolio, post, collection...)
+ * used to populate main menu link to librairy
+ * and avoid arriving on /librairy/ each time
+ */
+function container(state='/librairy/', action) {
+  switch (action.type) {
+    case LIBRAIRY_SET_CONTAINER:
+      return action.container
+    default:
+      return state
+  }
+}
 
 const librairy = combineReducers({
   selected,
@@ -139,6 +152,7 @@ const librairy = combineReducers({
   drag,
   title,
   collection,
+  container,
 })
 
 export default librairy

@@ -52,6 +52,7 @@
 #- Add a weblog list by tag
 - Add an error page (404, 500)
 - Add infinite pagination to librairy list
+#- Remember last librairy page visited
 #- Fix bug with submenus hover in main menu (space where over is left)
 #- Add scroll to top on lightbox openning
 #- Add a preview for forms with markdown

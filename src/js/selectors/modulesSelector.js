@@ -6,6 +6,8 @@ import { portfolioHeadersSelector } from './portfolioSelector'
  * input selectors
  */
 
+const librairyContainerSelector = state => state.librairy.container
+
 const modulesListSelector = state => state.common.modules.list
 
 const currentModuleSelector = state => state.common.modules.current
@@ -31,4 +33,5 @@ const mainMenuSelector = createSelector(
 export const modulesSelector = createStructuredSelector({
   current: currentModuleSelector,
   mainMenu: mainMenuSelector,
+  librairyLink: librairyContainerSelector,
 })

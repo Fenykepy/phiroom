@@ -14,6 +14,13 @@ export function setTitle(title) {
   }
 }
 
+export function setContainer(container) {
+  return {
+    type: types.LIBRAIRY_SET_CONTAINER,
+    container
+  }
+}
+
 export function setPictures(pictures) {
   return {
     type: types.SET_PICTURES,
