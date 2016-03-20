@@ -1,32 +1,44 @@
 import * as types from '../constants/actionsTypes'
 
-import { capitalize } from '../helpers/utils'
+import {
+  capitalize,
+  isTrue,
+} from '../helpers/utils'
 
 
-function buildDocumentTitle(state, title_tail) {
+export function buildDocumentTitle(state) {
+  // return empty string if we have no state
+  if (! state || ! state.common) {
+    return ''
+  }
+
   let title = state.common.settings.title
   let subtitle = state.common.settings.subtitle
   let module = capitalize(state.common.modules.current)
+  let title_tail = state.common.title
   
-  let base_title = `${title} - ${subtitle} - ${module}`
-  if (title_tail) {
-    base_title = `${base_title} - ${title_tail}`      
-  }
-  return base_title
+  let items = [title, subtitle, module, title_tail]
+  // return non empty values separate with dash 
+  return isTrue(items).join(' - ') 
 }
 
 
 export function setDocumentTitleIfNeeded(title = '') {
   return function(dispatch, getState) {
+    
     let state = getState()
-    let full_title = buildDocumentTitle(state, title)
-    // set title if necessary
-    if (full_title != document.title) { 
-      if (state.common.viewport.clientSide) {
-        // set document title if we are client side
-        document.title = full_title
-      }
-      return dispatch(setDocumentTitle(title))
+    
+    // store title tail in state
+    if (state.common.title != title) {
+      dispatch(setDocumentTitle(title))
+      // refetch new state
+      state = getState()
+    }
+
+    // if we are client side, we set document title if necessary
+    if (state.common.viewport.clientSide) {
+      let full_title = buildDocumentTitle(state)
+      if (document.title != full_title) document.title = full_title
     }
   }
 }

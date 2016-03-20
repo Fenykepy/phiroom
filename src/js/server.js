@@ -19,13 +19,16 @@ import rootReducer from './reducers/main'
 
 import { fetchCommonData } from './helpers/fetchCommonData'
 import Fetch from './helpers/http'
+
+import { buildDocumentTitle } from './actions/title'
+
 import { statics_proxy, port } from './config'
 
 
 var app = new Express()
 
-var SERVER_RENDERING = false
-//var SERVER_RENDERING = true
+//var SERVER_RENDERING = false
+var SERVER_RENDERING = true
 
 // we are in development mode
 if (process.env.NODE_ENV != 'production') {
@@ -96,7 +99,11 @@ function handleRender(req, res) {
             <RouterContext {...renderProps}/>
           </Provider>
         )
-        res.status(200).send(renderFullPage(html, initialState))
+        // set document title if necessary
+        const title = buildDocumentTitle(initialState)
+
+        // serve rendered html
+        res.status(200).send(renderFullPage(html, initialState, title))
       })
       .catch((error) => {
         // send error if a promise fail
@@ -109,13 +116,7 @@ function handleRender(req, res) {
 }
 
 
-function renderFullPage(html, initialState) {
-  // set document title if necessary
-  if (initialState && initialState.common.title) {
-    var title = initialState.common.title
-  } else {
-    var title = ''
-  }
+function renderFullPage(html, initialState, title='') {
   return `
     <!DOCTYPE html>
     <html lang="en">
