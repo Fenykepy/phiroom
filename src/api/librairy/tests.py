@@ -478,45 +478,24 @@ class APITest(APITestCase):
         
         # try to get without login
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 401)
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 401)
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 401)
-        response = self.client.patch(url, data)
-        self.assertEqual(response.status_code, 401)
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 401)
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+                postData=data, putData=data, patchData=data)
 
         # try with normal user
         login(self, self.normalUser)
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 403)
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 403)
-        response = self.client.patch(url, data)
-        self.assertEqual(response.status_code, 403)
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 403)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+                postData=data, putData=data, patchData=data)
+
 
         # try with admin user
         login(self, self.staffUser)
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+                postData=data, putData=data, patchData=data)
+
+
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         for index, item in enumerate(results):
             self.assertEqual(response.data[index], item)
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 405)
-        response = self.client.patch(url, data)
-        self.assertEqual(response.status_code, 405)
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, 405)
-
-
 
 
     
