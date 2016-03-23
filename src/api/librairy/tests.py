@@ -555,7 +555,7 @@ class CollectionPictureModelTest(TestCase):
                 picture=self.pict2)
         cp2.order = 1
         cp2.save()
-        # picture list should be ordered by "order
+        # picture list should be ordered by "order"
         picts = self.collection1.get_pictures()
         self.assertEqual(picts[0], cp2)
         self.assertEqual(picts[1], cp)
@@ -608,6 +608,63 @@ class CollectionsEnsembleModelTest(TestCase):
 
         # slug should have been uniquified
         self.assertTrue(ens3.slug != ens1.slug)
+
+
+    def test_get_ensemble_children(self):
+        # create test collections
+        create_test_collections(self)
+        
+        children = self.ensemble1.children
+        self.assertEqual(len(children), 1)
+        self.assertEqual(children[0], self.ensemble2)
+
+        children = self.ensemble2.children
+        self.assertEqual(len(children), 0)
+
+
+    def test_get_ensemble_pictures(self):
+        # create test collections
+        create_test_collections(self)
+        # create test pictures
+        self.pict = create_test_picture()
+        self.pict2 = create_test_picture()
+        self.pict3 = create_test_picture()
+        # create collection pictures relations
+        CollectionPicture.objects.create(
+            collection = self.collection1,
+            picture=self.pict)
+        CollectionPicture.objects.create(
+            collection = self.collection1,
+            picture=self.pict2)
+        CollectionPicture.objects.create(
+            collection = self.collection2,
+            picture=self.pict3)
+        CollectionPicture.objects.create(
+            collection = self.collection3,
+            picture=self.pict)
+        CollectionPicture.objects.create(
+            collection = self.collection4,
+            picture=self.pict2)
+        
+        # ensemble1 should have 4 picture and 3 unique ones
+        # get_pictures should return only unique ones
+        picts = self.ensemble1.get_pictures()
+        self.assertEqual(len(picts), 3)
+
+        # ensemble2 should have 1 picture
+        picts = self.ensemble2.get_pictures()
+        self.assertEqual(len(picts), 1)
+        self.assertEqual(picts[0], self.pict)
+        
+
+
+
+
+
+        
+
+
+
 
 
         

@@ -15,6 +15,7 @@ from django.http import Http404
 from django.core.files.images import ImageFile
 from django.template.defaultfilters import slugify
 from django.db.models.signals import pre_delete
+from django.db.models import Q
 from django.dispatch import receiver
 
 
@@ -532,7 +533,7 @@ class CollectionsEnsemble(MPTTModel):
                     collections_list.append(collection)
 
         # set Q objects list with collections_list
-        queries = [Q(collections__id=collection.id) for collection in collections_list]
+        queries = [Q(collection__id=collection.id) for collection in collections_list]
         # Take one Q object from the list
         query = queries.pop()
         # Or the Q object with the ones remaining in the list
