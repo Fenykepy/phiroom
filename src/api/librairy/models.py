@@ -28,6 +28,7 @@ from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
 
 from librairy.xmpinfo import XmpInfo
 from librairy.utils import get_sha1_hexdigest
+from weblog.slug import unique_slugify
 from conf.models import Conf
 
 
@@ -528,7 +529,7 @@ class CollectionsEnsemble(MPTTModel):
         return Picture.objects.filter(query)
 
     class Meta:
-        unique_together = ('name', 'parent')
+        unique_together = ('slug', 'parent')
 
     def __str__(self):
         return self.name
@@ -537,6 +538,13 @@ class CollectionsEnsemble(MPTTModel):
     def save(self, **kwargs):
         """Set slug from name then save."""
         self.slug = slugify(self.name)
+        if not self.parent:
+            self.parent = ROOT_ENSEMBLE
+
+        unique_slugify(self, self.name,
+                queryset=CollectionsEnsemble.objects.filter(
+                    parent=self.parent)
+        )
         super(CollectionsEnsemble, self).save()
 
 

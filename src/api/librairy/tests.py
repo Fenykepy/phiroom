@@ -453,8 +453,103 @@ class PictureTest(TestCase):
 
 
 
-class APITest(APITestCase):
-    """Class to test rest API."""
+
+class CollectionsEnsembleTest(TestCase):
+    """Class to test collections ensembles model."""
+
+    def test_ensemble_creation(self):
+        # create new ensemble
+        ens = CollectionsEnsemble()
+        ens.name = "ensemble 1"
+        ens.save()
+
+        n_ens = CollectionsEnsemble.objects.all().count()
+        # assert default root ensemble has been created
+        self.assertEqual(n_ens, 2)
+        # assert parent of new ensemble is root one
+        ens = CollectionsEnsemble.objects.get(name="ensemble 1")
+        root = CollectionsEnsemble.objects.get(pk=1)
+        self.assertEqual(ens.pk, 2)
+        self.assertEqual(ens.parent, root)
+        # assert slug has been generated
+        self.assertEqual(ens.slug, "ensemble-1")
+
+    def test_ensemble_slug_generation(self):
+        
+        name = "ensemble"
+        # create new ensemble
+        ens1 = CollectionsEnsemble()
+        ens1.name = name
+        ens1.save()
+        
+        # slug should equal name
+        self.assertEqual(ens1.slug, name)
+
+        # create a child with same name
+        ens2 = CollectionsEnsemble()
+        ens2.name = name
+        ens2.parent = ens1
+        ens2.save()
+
+        # slug should equal name
+        self.assertEqual(ens2.slug, name)
+
+        # create new ensemble with root parent
+        ens3 = CollectionsEnsemble()
+        ens3.name = name
+        ens3.save()
+
+        # slug should have been uniquified
+        self.assertTrue(ens3.slug != ens1.slug)
+
+
+        
+
+
+def create_test_collections(instance):
+    """Create collections for tests."""
+    # - Ensemble1
+    #   - Collection1
+    #   - Collection2
+    #   - Ensemble2
+    #       - Collection3
+    # - Collection4
+
+    instance.ensemble1 = CollectionsEnsemble.create(
+            name="ensemble1")
+    instance.ensemble2 = CollectionsEnsemble.create(
+            name="ensemble2",
+            parent=instance.ensemble1)
+    instance.collection1 = Collection.create(
+            name="collection1",
+            ensemble=instance.ensemble1)
+    instance.collection2 = Collection.create(
+            name="collection2",
+            ensemble=instance.ensemble1)
+    instance.collection3 = Collection.create(
+            name="collection2",
+            ensemble=instance.ensemble2)
+    instance.collection4 = Collection.create(
+            name="collection2")
+    
+    
+    
+
+class CollectionsAPITest(APITestCase):
+    """Class to collections rest API."""
+
+    def setUp(self):
+        # creat users
+        create_test_users(self)
+
+        # setup client
+        self.client = APIClient()
+
+
+
+
+class PicturesAPITest(APITestCase):
+    """Class to test pictures rest API."""
 
     def setUp(self):
         # create users
@@ -492,7 +587,7 @@ class APITest(APITestCase):
         test_status_codes(self, url, [200, 405, 405, 405, 405],
                 postData=data, putData=data, patchData=data)
 
-
+ 
         response = self.client.get(url)
         for index, item in enumerate(results):
             self.assertEqual(response.data[index], item)
