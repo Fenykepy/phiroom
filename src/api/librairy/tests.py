@@ -553,8 +553,8 @@ class CollectionPictureModelTest(TestCase):
         cp2 = CollectionPicture(
                 collection = self.collection1,
                 picture=self.pict2)
-        cp.order = 1
-        cp.save()
+        cp2.order = 1
+        cp2.save()
         # picture list should be ordered by "order
         picts = self.collection1.get_pictures()
         self.assertEqual(picts[0], cp2)

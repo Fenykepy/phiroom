@@ -458,18 +458,17 @@ class Collection(models.Model):
     n_pict = models.PositiveIntegerField(default=0,
             verbose_name="Pictures number")
 
-    @property
+
     def get_pictures(self):
         """
-        Returns collection's pictures ordered by
-        CollectionPicture.order.
+        Returns collection's pictures ordered by CollectionPicture.order.
         """
-        return [collection.picture for collection in
-                CollectionPicture.objects.filter(collection=self)
-                .order_by('order')]
+        return CollectionPicture.objects.filter(collection=self)
+
 
     class Meta:
         unique_together = ('slug', 'ensemble')
+
 
     def __str__(self):
         return self.name
@@ -496,7 +495,13 @@ class CollectionPicture(models.Model):
     order = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('order',)
+        ordering = ['order']
+        unique_together = ("collection", "picture")
+
+    def __str__(self):
+        return "collection {} - picture {}".format(
+                self.collection, self.picture)
+
 
 
 
