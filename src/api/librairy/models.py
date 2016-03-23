@@ -453,16 +453,19 @@ class Collection(models.Model):
     slug = models.SlugField(max_length=150, verbose_name="Slug")
     ensemble = models.ForeignKey('CollectionsEnsemble', default=ROOT_ENSEMBLE)
     pictures = models.ManyToManyField(Picture,
-            through='Collection_pictures', blank=True,
+            through='CollectionPicture', blank=True,
             verbose_name="Pictures")
     n_pict = models.PositiveIntegerField(default=0,
             verbose_name="Pictures number")
 
     @property
-    def get_sorted_pictures(self):
-        """Returns collection's pictures ordered"""
+    def get_pictures(self):
+        """
+        Returns collection's pictures ordered by
+        CollectionPicture.order.
+        """
         return [collection.picture for collection in
-                Collection_pictures.objects.filter(collection=self)
+                CollectionPicture.objects.filter(collection=self)
                 .order_by('order')]
 
     class Meta:
@@ -486,7 +489,7 @@ class Collection(models.Model):
 
 
 
-class Collection_pictures(models.Model):
+class CollectionPicture(models.Model):
     """Through class for collection's pictures relation, add order column"""
     collection = models.ForeignKey(Collection)
     picture = models.ForeignKey(Picture)

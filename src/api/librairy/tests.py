@@ -12,7 +12,7 @@ from rest_framework.test import APIClient, APITestCase
 from user.models import User
 from librairy.models import Picture, Collection, CollectionsEnsemble, \
         Label, Tag, PictureFactory, set_picturename, recursive_import, \
-        ZipExport
+        ZipExport, CollectionPicture 
 
 from phiroom.settings import MEDIA_ROOT, LIBRAIRY, PREVIEWS_DIR, \
         PREVIEWS_CROP, PREVIEWS_MAX, PREVIEWS_HEIGHT, \
@@ -462,21 +462,21 @@ def create_test_collections(instance):
     #       - Collection3
     # - Collection4
 
-    instance.ensemble1 = CollectionsEnsemble.create(
+    instance.ensemble1 = CollectionsEnsemble.objects.create(
             name="ensemble1")
-    instance.ensemble2 = CollectionsEnsemble.create(
+    instance.ensemble2 = CollectionsEnsemble.objects.create(
             name="ensemble2",
             parent=instance.ensemble1)
-    instance.collection1 = Collection.create(
+    instance.collection1 = Collection.objects.create(
             name="collection1",
             ensemble=instance.ensemble1)
-    instance.collection2 = Collection.create(
+    instance.collection2 = Collection.objects.create(
             name="collection2",
             ensemble=instance.ensemble1)
-    instance.collection3 = Collection.create(
+    instance.collection3 = Collection.objects.create(
             name="collection2",
             ensemble=instance.ensemble2)
-    instance.collection4 = Collection.create(
+    instance.collection4 = Collection.objects.create(
             name="collection2")
 
 
@@ -517,6 +517,48 @@ class CollectionModelTest(TestCase):
         # slug should have been uniquified
         self.assertTrue(col1.slug != col2.slug)
 
+
+class CollectionPictureModelTest(TestCase):
+    """Class to test collection picture relation model."""
+   
+    def setUp(self):
+        # create test pictures
+        self.pict = create_test_picture()
+        self.pict2 = create_test_picture()
+        self.pict3 = create_test_picture()
+        # create test collections
+        create_test_collections(self)
+
+    def test_create_CollectionPicture(self):
+        cp = CollectionPicture(
+            collection = self.collection1,
+            picture=self.pict
+        )
+        cp.order = 28
+        cp.save()
+
+        # Collection picture object should have been saved in db
+        c = CollectionPicture.objects.get(pk=1)
+        self.assertEqual(c.picture, self.pict)
+        self.assertEqual(c.collection, self.collection1)
+        self.assertEqual(c.order, 28)
+
+
+    def test_collection_list_picture(self):
+        cp = CollectionPicture(
+                collection = self.collection1,
+                picture=self.pict)
+        cp.order = 3
+        cp.save()
+        cp2 = CollectionPicture(
+                collection = self.collection1,
+                picture=self.pict2)
+        cp.order = 1
+        cp.save()
+        # picture list should be ordered by "order
+        picts = self.collection1.get_pictures()
+        self.assertEqual(picts[0], cp2)
+        self.assertEqual(picts[1], cp)
 
 
 class CollectionsEnsembleModelTest(TestCase):
