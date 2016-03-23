@@ -541,7 +541,7 @@ class CollectionsEnsemble(MPTTModel):
             query |= item
 
         # return queryset
-        return Picture.objects.filter(query)
+        return Picture.objects.filter(query).distinct()
 
     class Meta:
         unique_together = ('slug', 'parent')
