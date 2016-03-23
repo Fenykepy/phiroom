@@ -453,8 +453,73 @@ class PictureTest(TestCase):
 
 
 
+def create_test_collections(instance):
+    """Create collections for tests."""
+    # - Ensemble1
+    #   - Collection1
+    #   - Collection2
+    #   - Ensemble2
+    #       - Collection3
+    # - Collection4
 
-class CollectionsEnsembleTest(TestCase):
+    instance.ensemble1 = CollectionsEnsemble.create(
+            name="ensemble1")
+    instance.ensemble2 = CollectionsEnsemble.create(
+            name="ensemble2",
+            parent=instance.ensemble1)
+    instance.collection1 = Collection.create(
+            name="collection1",
+            ensemble=instance.ensemble1)
+    instance.collection2 = Collection.create(
+            name="collection2",
+            ensemble=instance.ensemble1)
+    instance.collection3 = Collection.create(
+            name="collection2",
+            ensemble=instance.ensemble2)
+    instance.collection4 = Collection.create(
+            name="collection2")
+
+
+class CollectionModelTest(TestCase):
+    """Class to test collection model."""
+
+    def test_collection_creation(self):
+        # create new collection
+        col = Collection()
+        col.name = "collection 1"
+        col.save()
+        
+        # assert ensemble of new collection is root one
+        root = CollectionsEnsemble.objects.get(pk=1)
+        self.assertEqual(col.ensemble, root)
+        # assert slug has been generated
+        self.assertEqual(col.slug, "collection-1")
+        
+
+
+    def test_collection_slug_generation(self):
+
+        name = "collection"
+
+        # create a root collection
+        col1 = Collection()
+        col1.name = name
+        col1.save()
+
+        # slug should equal name
+        self.assertEqual(col1.slug, col1.name)
+
+        # create new collection with same name and ensemble
+        col2 = Collection()
+        col2.name = name
+        col2.save()
+
+        # slug should have been uniquified
+        self.assertTrue(col1.slug != col2.slug)
+
+
+
+class CollectionsEnsembleModelTest(TestCase):
     """Class to test collections ensembles model."""
 
     def test_ensemble_creation(self):
@@ -505,34 +570,6 @@ class CollectionsEnsembleTest(TestCase):
 
         
 
-
-def create_test_collections(instance):
-    """Create collections for tests."""
-    # - Ensemble1
-    #   - Collection1
-    #   - Collection2
-    #   - Ensemble2
-    #       - Collection3
-    # - Collection4
-
-    instance.ensemble1 = CollectionsEnsemble.create(
-            name="ensemble1")
-    instance.ensemble2 = CollectionsEnsemble.create(
-            name="ensemble2",
-            parent=instance.ensemble1)
-    instance.collection1 = Collection.create(
-            name="collection1",
-            ensemble=instance.ensemble1)
-    instance.collection2 = Collection.create(
-            name="collection2",
-            ensemble=instance.ensemble1)
-    instance.collection3 = Collection.create(
-            name="collection2",
-            ensemble=instance.ensemble2)
-    instance.collection4 = Collection.create(
-            name="collection2")
-    
-    
     
 
 class CollectionsAPITest(APITestCase):

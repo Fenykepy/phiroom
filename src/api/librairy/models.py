@@ -466,7 +466,7 @@ class Collection(models.Model):
                 .order_by('order')]
 
     class Meta:
-        unique_together = ('name', 'ensemble')
+        unique_together = ('slug', 'ensemble')
 
     def __str__(self):
         return self.name
@@ -474,7 +474,13 @@ class Collection(models.Model):
 
     def save(self, **kwargs):
         """Set slug from name then save."""
-        self.slug = slugify(self.name)
+        if not self.ensemble:
+            self.ensemble = ROOT_ENSEMBLE
+
+        unique_slugify(self, self.name,
+                queryset=Collection.objects.filter(
+                    ensemble=self.ensemble)
+        )
         super(Collection, self).save()
 
 
