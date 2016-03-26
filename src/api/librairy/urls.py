@@ -34,6 +34,9 @@ urlpatterns = [
         url(r'^collection-ensembles/(?P<pk>[0-9]+)/$',
             views.CollectionEnsembleDetail.as_view(),
             name="collection-ensemble-detail"),
+        url(r'^collection-ensembles/(?P<pk>[0-9]+)/pictures/$',
+            views.collections_ensemble_pictures,
+            name="collection-ensemble-pictures"),
         
         url(r'^collections/headers/$',
             views.collections_headers_list,

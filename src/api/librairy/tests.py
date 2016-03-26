@@ -817,6 +817,7 @@ class CollectionsAPITest(APITestCase):
         login(self, self.staffUser)
         response = self.client.get(url)
         data = response.data
+        self.assertEqual(len(data), 2)
         self.assertTrue(data[0]['pk'])
         self.assertTrue(data[0]['sha1'])
         self.assertEqual(data[0]['title'], 'title 1')
@@ -883,8 +884,53 @@ class CollectionsAPITest(APITestCase):
         test_status_codes(self, url, [200, 405, 200, 200, 204],
             postData=data, putData=data, patchData=data2)    
 
+
+
+
+    def test_collections_ensemble_pictures(self):
+        url = '/api/librairy/collection-ensembles/{}/pictures/'.format(
+                self.ensemble1.pk)
+        data = {'pictures': [2, 1]}
+        # add pictures to collection1
+        CollectionPicture.objects.create(
+            collection = self.collection1,
+            picture=self.pict)
+        CollectionPicture.objects.create(
+            collection = self.collection1,
+            picture=self.pict2)
+
+        # add some infos to pictures
+        self.pict.title = 'title 1'
+        self.pict.legend = 'legend 1'
+        self.pict.previews_path = 'xx/xx/xxxxxx'
+        self.pict.ratio = 0.75
+        self.pict.save()
+
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
+
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+                postData=data, putData=data, patchData=data)
+
+        # test with admin user
+        login(self, self.staffUser)
+        response = self.client.get(url)
+        data = response.data
+        self.assertEqual(len(data), 2)
+        self.assertTrue(data[0]['pk'])
+        self.assertTrue(data[0]['sha1'])
+        self.assertEqual(data[0]['title'], 'title 1')
+        self.assertEqual(data[0]['legend'], 'legend 1')
+        self.assertEqual(data[0]['previews_path'], 'xx/xx/xxxxxx')
+        self.assertEqual(data[0]['ratio'], 0.75)
+        test_status_codes(self, url, [200, 405, 405, 405, 405])
+
         
-        
+
+
     def test_collection_picture_list(self):
 
         # add pictures to collection1

@@ -83,7 +83,7 @@ A tree:
         # PUT-PATCH-DELETE:(admin] get update delete a specific collection
 [OK]       - collection-ensemble-detail: "/api/libairy/collection-ensembles/:pk/"
                 #[GET:(any)] get all pictures public info of a specific collection ensemble
-                - collection-ensemble-pictures: "/api/librairy/collection-ensembles/:pk/pictures/"
+[OK]                - collection-ensemble-pictures: "/api/librairy/collection-ensembles/:pk/pictures/"
     - settings
     - user
     - auth
