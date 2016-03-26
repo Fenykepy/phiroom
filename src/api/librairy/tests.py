@@ -657,29 +657,98 @@ class CollectionsEnsembleModelTest(TestCase):
         self.assertEqual(picts[0], self.pict)
         
 
-
-
-
-
-        
-
-
-
-
-
-        
-
     
 
 class CollectionsAPITest(APITestCase):
     """Class to collections rest API."""
 
     def setUp(self):
-        # creat users
+        # create test collections users
         create_test_users(self)
-
+        # create test collections
+        create_test_collections(self)
+        # create pictures
+        self.pict = create_test_picture()
+        self.pict2 = create_test_picture()
         # setup client
         self.client = APIClient()
+
+
+    def test_collections_headers(self):
+        url = '/api/librairy/collections/headers/'
+        
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401])
+
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403])
+    
+        # test with admin user
+        login(self, self.staffUser)
+        data = {'slug': 'slug', 'name': 'name'}
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+
+        # client should get headers as staff member
+        response = self.client.get(url)
+        self.assertEqual(len(response.data['collection_set']), 1)
+        self.assertEqual(len(response.data['children']), 1)
+
+        
+    def test_collections_list(self):
+        url = '/api/librairy/collections/'
+        
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401])
+
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403])
+    
+        # test with admin user
+        login(self, self.staffUser)
+        data = {'name': 'new_collection', 'ensemble': 1}
+        test_status_codes(self, url, [200, 201, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+        
+        # assert new collection has been saved in db
+        n_collections = Collection.objects.all().count()
+        # 4 created with create_test_collections and the new one
+        self.assertEqual(n_collections, 5)
+        last_col = Collection.objects.get(pk=5)
+        self.assertEqual(last_col.name, 'new_collection')
+        self.assertEqual(last_col.ensemble.pk, 1)
+
+
+    def test_collections_ensembles_list(self):
+        url = '/api/librairy/collection-ensembles/'
+ 
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401])
+
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403])
+    
+        # test with admin user
+        login(self, self.staffUser)
+        data = {'name': 'new_ensemble', 'parent': 1}
+        test_status_codes(self, url, [200, 201, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+
+        # assert new ensemble has been saved in db
+        n_ensembles = CollectionsEnsemble.objects.all().count()
+        # 2 created with create_test_collections, 1 default root and the new one
+        self.assertEqual(n_ensembles, 4)
+        last_ens = CollectionsEnsemble.objects.get(pk=4)
+        self.assertEqual(last_ens.name, 'new_ensemble')
+        self.assertEqual(last_ens.parent.pk, 1)
+
+
+        
+
+        
 
 
 
