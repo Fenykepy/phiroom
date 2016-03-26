@@ -220,13 +220,12 @@ class PortfolioAPITest(APITestCase):
             postData=data, putData=data, patchData=data2)
 
 
-        # client should get all portfolios list
+        # client should get all portfolio-picture list
         response = self.client.get(url)
         self.assertEqual(len(response.data['results']), 2)
 
-        # assert portfolio has been saved in db
+        # assert portfolio-picture has been saved in db
         pp_new = PortfolioPicture.objects.get(pk=2)
-        # assert user has been saved as author
         self.assertEqual(pp_new.picture, self.pict)
         self.assertEqual(pp_new.portfolio, self.port)
         self.assertEqual(pp_new.order, 10)

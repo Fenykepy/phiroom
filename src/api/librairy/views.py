@@ -10,7 +10,7 @@ from phiroom.permissions import IsStaffOrReadOnly
 
 from librairy.serializers import *
 from librairy.models import Tag, Collection, CollectionsEnsemble, \
-        Label, Picture
+        CollectionPicture, Label, Picture
 
 
 
@@ -100,6 +100,38 @@ class CollectionDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+class CollectionPictureList(generics.ListCreateAPIView):
+    """
+    API endpoint that presents a list of collection-picture relations and allows new
+    collection-pictuer relations to be created.
+    """
+    queryset = CollectionPicture.objects.all()
+    serializer_class = CollectionPictureSerializer
+    permission_classes = (IsAdminUser,)
+
+
+
+class CollectionPictureDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that presents a specific collection-picture relation and allows to
+    update or delete it.
+    """
+    queryset = CollectionPicture.objects.all()
+    serializer_class = CollectionPictureSerializer
+    permission_classes = (IsAdminUser,)
+
+    def get_object(self):
+        try:
+            col = Collection.objects.get(pk=self.kwargs['collection'])
+            pict = Picture.objects.get(pk=self.kwargs['picture'])
+            col_pict = CollectionPicture.objects.get(
+                    collection=col,
+                    picture=pict)
+        except:
+            raise Http404
+
+        return col_pict
+
 
 
 @api_view(['GET'])
@@ -112,6 +144,7 @@ def PicturesPkList(request, format=None):
     pks = Picture.objects.values_list('pk', flat=True).order_by('-importation_date')
 
     return Response(pks)
+
 
 
 @api_view(['GET'])

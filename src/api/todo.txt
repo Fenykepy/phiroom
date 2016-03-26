@@ -39,5 +39,9 @@ librairy:
 #    - add test for collection API
 #    - add test for collection ensemble API
 #    - add test for collections headers
-    - add API endpoint for collection pictures relation
-    - test collection pictures API
+    - add API endpoint to get all collection pictures at once
+    - test it
+    - add API endpoint to get all collection ensemble pictures at once
+    - test it
+#    - add API endpoint for collection pictures relation
+#    - test collection pictures API

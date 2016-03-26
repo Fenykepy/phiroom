@@ -842,9 +842,102 @@ class CollectionsAPITest(APITestCase):
             postData=data, putData=data, patchData=data2)    
 
         
+        
+    def test_collection_picture_list(self):
 
+        # add pictures to collection1
+        CollectionPicture.objects.create(
+            collection = self.collection1,
+            picture=self.pict)
+        
+        url = '/api/librairy/collection-picture/'
+        data = {'order': 10,
+                'picture': self.pict.pk,
+                'collection': self.collection2.pk
+        }
+        data2 = {'order': 1,
+                'picture': self.pict.pk,
+                'collection': self.collection2.pk
+        }
+
+
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+                postData=data, putData=data, patchData=data2)
+
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+                postData=data, putData=data, patchData=data2)
+       
+        # test with admin user
+        login(self, self.staffUser) 
+        test_status_codes(self, url, [200, 201, 405, 405, 405],
+            postData=data, putData=data, patchData=data2)
+
+        # client should get all collection-picture list
+        response = self.client.get(url)
+        self.assertEqual(len(response.data['results']), 2)
+
+        # assert relation has been saved in db
+        cp_new = CollectionPicture.objects.get(pk=2)
+        self.assertEqual(cp_new.picture, self.pict)
+        self.assertEqual(cp_new.collection, self.collection2)
+        self.assertEqual(cp_new.order, 10)
+
+        # creating 2 collectionPicture relation with same picture and
+        # collection shouldn't be possible
+        count = CollectionPicture.objects.all().count()
+        response = self.client.post(url, data2)
+        self.assertEqual(response.status_code, 400)
+        count2 = CollectionPicture.objects.all().count()
+        self.assertEqual(count, count2)
+        # assert object hasn't change
+        cp_new = CollectionPicture.objects.get(pk=2)
+        self.assertEqual(cp_new.order, 10)
         
 
+        
+    def test_collection_picture_detail(self):
+
+        # add pictures to collection1
+        CollectionPicture.objects.create(
+            collection = self.collection1,
+            picture=self.pict)
+        
+        url = '/api/librairy/collection-picture/collection/{}/picture/{}/'.format(
+                self.collection1.pk, self.pict.pk)
+        data = {'order': 10,
+                'picture': self.pict.pk,
+                'collection': self.collection1.pk
+        }
+        data2 = {'order': 1,
+                'picture': self.pict.pk,
+                'collection': self.collection1.pk
+        }
+
+
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+                postData=data, putData=data, patchData=data2)
+
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+                postData=data, putData=data, patchData=data2)
+       
+        # test with admin user
+        login(self, self.staffUser) 
+        # client should be able to patch
+        response = self.client.patch(url, data2)
+        cp = CollectionPicture.objects.get(
+                collection=self.collection1,
+                picture=self.pict)
+        # assert order has been updated
+        self.assertEqual(cp.order, 1)
+        # test other methods
+        test_status_codes(self, url, [200, 405, 200, 200, 204],
+            postData=data, putData=data, patchData=data2)
 
 
 

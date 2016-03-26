@@ -71,6 +71,12 @@ A tree:
         #[GET:(logued in with object level rights
         # PUT-PATCH-DELETE:(admin] get update delete a specific collection
 [OK]       - collection-detail: "/api/libairy/collections/:pk/"
+                #[GET:(any)] get all pictures public info of a specific collection
+                - collection-pictures: /api/librairy/collections/:pk/pictures/
+        #[GET-POST:(admin)] get a list of all collection-pictures relation, post a new one
+[OK]        - collection-picture-list: /api/librairy/collection-picture/
+        #[GET-PUT-PATCH-DELETE:(admin)] get update delete a collection-picture relation
+[OK]        - collection-picture-detail: /api/librairy/collection-picture/collection/:pk/picture/:pk/
         #[GET-POST:(admin)] get a list of all collections paginated, post a new one
 [OK]       - collection-ensemble-list: "/api/librairy/collection-ensembles/"
         #[GET:(logued in with object level rights
