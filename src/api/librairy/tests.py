@@ -518,6 +518,22 @@ class CollectionModelTest(TestCase):
         self.assertTrue(col1.slug != col2.slug)
 
 
+
+    def test_collection_n_pict(self):
+
+        col = Collection.objects.create(name='collection')
+        self.assertEqual(col.n_pict, 0)
+        # add a picture relation
+        pict = create_test_picture()
+        cp = CollectionPicture.objects.create(collection=col,
+                picture=pict)
+        self.assertEqual(col.n_pict, 1)
+        # delete picture relation
+        cp.delete()
+        self.assertEqual(col.n_pict, 0)
+
+
+
 class CollectionPictureModelTest(TestCase):
     """Class to test collection picture relation model."""
    
@@ -695,6 +711,8 @@ class CollectionsAPITest(APITestCase):
         self.assertEqual(len(response.data['collection_set']), 1)
         self.assertEqual(len(response.data['children']), 1)
 
+
+
         
     def test_collections_list(self):
         url = '/api/librairy/collections/'
@@ -721,6 +739,52 @@ class CollectionsAPITest(APITestCase):
         self.assertEqual(last_col.ensemble.pk, 1)
 
 
+
+
+    def test_collection_detail(self):
+        url = '/api/librairy/collections/{}/'.format(
+                self.collection1.pk)
+        data = {'name': 'new_name', 'ensemble' : 3}
+        data2 = {'name': 'new_name'}
+
+        # add pictures to collection1
+        CollectionPicture.objects.create(
+            collection = self.collection1,
+            picture=self.pict)
+        CollectionPicture.objects.create(
+            collection = self.collection1,
+            picture=self.pict2)
+                    
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+                postData=data, putData=data, patchData=data2)
+
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+                postData=data, putData=data, patchData=data2)
+    
+        # test with admin user
+        login(self, self.staffUser)
+        # client should get collection
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name'], 'collection1')
+        self.assertEqual(response.data['pk'], self.collection1.pk)
+        self.assertEqual(response.data['ensemble'],
+                self.collection1.ensemble.pk)
+        # assert picture's number has been set
+        self.assertEqual(response.data['n_pict'], 2)
+        # assert pictures pk's are serialized in a list
+        self.assertEqual(response.data['pictures'][0], 1)
+        self.assertEqual(response.data['pictures'][1], 2)
+
+        test_status_codes(self, url, [200, 405, 200, 200, 204],
+            postData=data, putData=data, patchData=data2)    
+
+
+
+
     def test_collections_ensembles_list(self):
         url = '/api/librairy/collection-ensembles/'
  
@@ -745,6 +809,37 @@ class CollectionsAPITest(APITestCase):
         self.assertEqual(last_ens.name, 'new_ensemble')
         self.assertEqual(last_ens.parent.pk, 1)
 
+
+
+    def test_collections_ensemble_detail(self):
+        url = '/api/librairy/collection-ensembles/{}/'.format(
+                self.ensemble1.pk)
+        data = {'name': 'new_name', 'parent': 1}
+        data2 = {'name': 'new_name'}
+
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+                postData=data, putData=data, patchData=data2)
+
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+                postData=data, putData=data, patchData=data2)
+    
+        # test with admin user
+        login(self, self.staffUser)
+        # client should get collection
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name'], 'ensemble1')
+        self.assertEqual(response.data['pk'], self.ensemble1.pk)
+        self.assertEqual(response.data['parent'], 1)
+        # assert collections pk's are serialized in a list
+        self.assertEqual(response.data['collection_set'][0], 1)
+        self.assertEqual(response.data['collection_set'][1], 2)
+
+        test_status_codes(self, url, [200, 405, 200, 200, 204],
+            postData=data, putData=data, patchData=data2)    
 
         
 

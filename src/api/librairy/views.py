@@ -122,11 +122,6 @@ def collections_headers_list(request, format=None):
     """
     # get root collection ensemble
     ensemble = CollectionsEnsemble.objects.get(pk=1)
-    print(ensemble)
-    print('children')
-    print(ensemble.children)
-    print('get_children')
-    print(ensemble.get_children())
     serializer = CollectionsEnsembleHeadersSerializer(ensemble)
 
     return Response(serializer.data)

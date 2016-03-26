@@ -30,10 +30,18 @@ class LabelSerializer(serializers.ModelSerializer):
 
 
 class CollectionSerializer(serializers.ModelSerializer):
+    
+    pictures = serializers.SerializerMethodField()
+    
     class Meta:
         model = Collection
-        fields = ('name', 'pk', 'ensemble', 'n_pict')
+        fields = ('name', 'pk', 'ensemble', 'n_pict', 'pictures')
         read_only_fields = ('pk', 'n_pict')
+
+    def get_pictures(self, object):
+        # because many to many relation order is not respected
+        # by drf, we get list manually
+        return object.get_pictures().values_list('picture', flat=True)
 
 
 

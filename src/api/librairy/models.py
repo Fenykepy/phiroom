@@ -14,7 +14,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import Http404
 from django.core.files.images import ImageFile
 from django.template.defaultfilters import slugify
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, post_save, post_delete
 from django.db.models import Q
 from django.dispatch import receiver
 
@@ -467,6 +467,14 @@ class Collection(models.Model):
         return CollectionPicture.objects.filter(collection=self)
 
 
+    def set_n_pict(self):
+        """
+        Update collection number of pictures.
+        """
+        self.n_pict = self.pictures.count()
+        self.save()
+    
+    
     class Meta:
         unique_together = ('slug', 'ensemble')
 
@@ -503,6 +511,14 @@ class CollectionPicture(models.Model):
         return "collection {} - picture {}".format(
                 self.collection, self.picture)
 
+
+
+@receiver(post_save, sender=CollectionPicture)
+@receiver(post_delete, sender=CollectionPicture)
+def collection_picture_changed(sender, instance, **kwargs):
+    """Update collection n_pict after change in relation."""
+    
+    instance.collection.set_n_pict()
 
 
 
