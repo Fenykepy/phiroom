@@ -10,7 +10,8 @@ export default class LibrairyLeftPanelCollectionsEnsemblesSet extends Component 
         <ul>
           {this.props.ensembles.map(ensemble =>
             <LibrairyLeftPanelCollectionEnsembleItem
-               key={ensemble.pk}
+              key={ensemble.pk}
+              handleDrop={this.props.handleDrop}
               {...ensemble}
             />
           )}

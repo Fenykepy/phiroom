@@ -17,6 +17,7 @@ import Logout from './containers/Logout'
 
 import LibrairyPortfolio from './components/LibrairyPortfolio'
 import LibrairyPost from './components/LibrairyPost'
+import LibrairyCollection from './components/LibrairyCollection'
 import LibrairyAll from './components/LibrairyAll'
 import LightboxStarter from './components/LightboxStarter'
 
@@ -57,6 +58,7 @@ export default () => {
         <Route path="librairy(/)" component={Librairy} onEnter={appendSlash}>
           <Route path="portfolio/:slug(/)" component={LibrairyPortfolio} onEnter={appendSlash} />
           <Route path="post/:y/:m/:d/:slug(/)" component={LibrairyPost} onEnter={appendSlash} />
+          <Route path="collection/:pk(/)" component={LibrairyCollection} onEnter={appendSlash} />
           <Route path="all(/)" component={LibrairyAll} onEnter={appendSlash} />
         </Route>
       </Route>

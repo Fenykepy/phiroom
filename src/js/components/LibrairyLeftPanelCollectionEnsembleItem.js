@@ -17,9 +17,11 @@ export default class LibrairyLeftPanelCollectionEnsembleItem extends Component {
         >{this.props.name}</Link>
         <LibrairyLeftPanelCollectionsEnsemblesSet
           ensembles={this.props.children}
+          handleDrop={this.props.handleDrop}
         />
         <LibrairyLeftPanelCollectionsSet
           collections={this.props.collection_set}
+          handleDrop={this.props.handleDrop}
         />
       </li>
     )

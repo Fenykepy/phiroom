@@ -5,6 +5,7 @@ import Fetch from '../helpers/http'
 
 import { invalidatePortfolio } from './portfolios'
 import { invalidatePost } from './weblog'
+import { invalidateCollection } from './collections'
 // action creators
 
 export function setTitle(title) {
@@ -69,6 +70,30 @@ export function dragEnd() {
     type: types.DRAG_END
   }
 }
+
+
+export function addPict2Collection(collection, picture) {
+  return (dispatch) => {
+    // add picture to collection
+    return Fetch.post('api/librairy/collection-picture/',
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify({
+        collection: collection,
+        picture: picture
+      })
+    )
+    .then(json => {
+      dispatch(invalidateCollection(collection))
+    })
+    .catch(error =>
+           console.log('error', error.message)
+    )
+  }
+}
+
 
 export function addPict2Portfolio(portfolio, picture) {
   return (dispatch) => {

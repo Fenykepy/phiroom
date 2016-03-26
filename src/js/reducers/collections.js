@@ -5,11 +5,48 @@ import {
   REQUEST_COLLECTIONS_HEADERS,
   REQUEST_COLLECTIONS_HEADERS_SUCCESS,
   REQUEST_COLLECTIONS_HEADERS_FAILURE,
+  REQUEST_COLLECTION,
+  REQUEST_COLLECTION_SUCCESS,
+  REQUEST_COLLECTION_FAILURE,
+  INVALIDATE_COLLECTION,
+  REQUEST_ENSEMBLE,
+  REQUEST_ENSEMBLE_SUCCESS,
+  REQUEST_ENSEMBLE_FAILURE,
 } from '../constants/actionsTypes'
 
 
 function collections(state = {}, action) {
   switch (action.type) {
+    case INVALIDATE_COLLECTION:
+      return Object.assign({}, state, {
+        [action.collection]: Object.assign({}, state[action.collection], {
+          did_invalidate: true
+        })
+      })
+    case REQUEST_COLLECTION:
+      return Object.assign({}, state, {
+        [action.collection]: Object.assign({}, state[action.collection], {
+          is_fetching: true,
+          fetched: false
+        })
+      })
+    case REQUEST_COLLECTION_SUCCESS:
+      return Object.assign({}, state, {
+        [action.collection]: Object.assign({}, state[action.collection], {
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
+        },
+        action.data)
+      })
+    case REQUEST_COLLECTION_FAILURE:
+      return Object.assign({}, state, {
+        [action.collection]: Object.assign({}, state[action.collection], {
+          is_fetching: false,
+          fetched: false,
+          error: action.error
+        })
+      })
     default:
       return state
   }
@@ -17,6 +54,30 @@ function collections(state = {}, action) {
 
 function ensembles(state = {}, action) {
   switch (action.type) {
+    case REQUEST_ENSEMBLE:
+      return Object.assign({}, state, {
+        [action.ensemble]: Object.assign({}, state[action.ensemble], {
+          is_fetching: true,
+          fetched: false
+        })
+      })
+    case REQUEST_ENSEMBLE_SUCCESS:
+      return Object.assign({}, state, {
+        [action.ensemble]: Object.assign({}, state[action.ensemble], {
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
+        },
+        action.data)
+      })
+    case REQUEST_ENSEMBLE_FAILURE:
+      return Object.assign({}, state, {
+        [action.ensemble]: Object.assign({}, state[action.ensemble], {
+          is_fetching: false,
+          fetched: false,
+          error: action.error
+        })
+      })
     default:
       return state
   }
