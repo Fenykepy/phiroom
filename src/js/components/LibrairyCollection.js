@@ -51,7 +51,7 @@ export default class LibrairyCollection extends Component {
   }
 
   render() {
-    console.log('librairy collection', this.props)
+    //console.log('librairy collection', this.props)
     return (
       <LibrairyPicturesList
         container_title={'Collection:'}

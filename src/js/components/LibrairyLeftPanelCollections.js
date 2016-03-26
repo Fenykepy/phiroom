@@ -29,7 +29,7 @@ export default class LibrairyLeftPanelCollections extends Component {
 
 
   render() {
-    console.log('librairyLeftPanelCollections', this.props)
+    //console.log('librairyLeftPanelCollections', this.props)
     if (this.props.user.is_librairy_member && this.props.collections) {
       return (
         <div>
