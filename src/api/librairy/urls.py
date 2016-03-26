@@ -19,6 +19,8 @@ urlpatterns = [
             name="collection-list"),
         url(r'^collections/(?P<pk>[0-9]+)/$', views.CollectionDetail.as_view(),
             name="collection-detail"),
+        url(r'^collections/(?P<pk>[0-9]+)/pictures/$', views.collection_pictures,
+            name="collection-pictures"),
 
         url(r'^collection-picture/$',
             views.CollectionPictureList.as_view(),

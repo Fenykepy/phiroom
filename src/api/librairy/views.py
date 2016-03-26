@@ -160,6 +160,23 @@ def collections_headers_list(request, format=None):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+@permission_classes((IsAdminUser,))
+def collection_pictures(request, pk, format=None):
+    """
+    Returns a list of all pictures full data (private) of a collection
+    without pagination.
+    """
+    try:
+        collection = Collection.objects.get(pk=pk)
+    except:
+        raise Http404
+
+    pictures = collection.pictures.all()
+    serializer = PictureSerializer(pictures, many=True,
+            context={'request': request})
+
+    return Response(serializer.data)
 
 
 class PicturesZipExport(generics.ListCreateAPIView):
