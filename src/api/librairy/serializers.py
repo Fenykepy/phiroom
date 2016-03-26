@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from librairy.models import Picture, Tag, Label, \
-        Collection, CollectionsEnsemble, PictureFactory, \
-        ZipExport
+        Collection, CollectionPicture, CollectionsEnsemble, \
+        PictureFactory, ZipExport
 
 
 
@@ -45,6 +45,13 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 
 
+class CollectionPictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CollectionPicture
+        fields = ('collection', 'picture', 'order')
+
+
+
 class CollectionsEnsembleSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollectionsEnsemble
@@ -53,16 +60,11 @@ class CollectionsEnsembleSerializer(serializers.ModelSerializer):
 
 
 
-class RecursiveField(serializers.Serializer):
-    def to_representation(self, value):
-        serializer = self.parent.parent.__class__(value, context=self.context)
-        return serializer.data
-
-
 class CollectionHeadersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
         fields = ('name', 'pk')
+
 
 
 class CollectionsEnsembleHeadersSerializer(serializers.ModelSerializer):

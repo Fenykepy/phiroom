@@ -36,6 +36,8 @@ librairy:
 #    - add a way to export a bunch of pictures in an archive
 #    - add test for zip export 
     - add test for zip export API
-    - add test for collection API
-    - add test for collection ensemble API
-    - add test for collections headers
+#    - add test for collection API
+#    - add test for collection ensemble API
+#    - add test for collections headers
+    - add API endpoint for collection pictures relation
+    - test collection pictures API
