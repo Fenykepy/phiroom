@@ -263,6 +263,7 @@ export default class LibrairyPicturesList extends Component {
             </div>
           </div>
         </header>
+        <div className="pictures-wrapper">
         {this.props.pictures.map((pict, index) =>
           <LibrairyPicturesListItem
             key={pict.pk}
@@ -278,7 +279,8 @@ export default class LibrairyPicturesList extends Component {
             unselectAll={this.unselectAll.bind(this)}
             {...pict}
           />
-        )}
+          )}
+        </div>
       </section>
     )
   }

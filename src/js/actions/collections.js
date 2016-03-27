@@ -93,6 +93,7 @@ function requestCollectionFailure(collection, error) {
 
 
 export function invalidateCollection(collection) {
+  // TODO dispatch invalidate ensembles if necessary (not root ensemble)
   return {
     type: types.INVALIDATE_COLLECTION,
     collection,

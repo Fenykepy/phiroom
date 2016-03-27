@@ -12,7 +12,7 @@ import { fetchPictureIfNeeded } from '../actions/pictures'
 import { 
   setTitle,
   setPictures,
-  //removePictFromCollection,
+  removePictFromCollection,
   unsetPicture,
   //orderPictInCollection,
 } from '../actions/librairy'
@@ -39,7 +39,6 @@ export default class LibrairyCollection extends Component {
     return promises
   }
 
-
   componentDidMount() {
     this.constructor.fetchData(this.props.dispatch, this.props.params, true)
   }
@@ -50,6 +49,22 @@ export default class LibrairyCollection extends Component {
     }
   }
 
+  removePicture(picture) {
+    let to_remove = [picture]
+    // picture is selected, remove all selection
+    if (this.props.selected_list.indexOf(picture) > -1) {
+      to_remove = this.props.selected_list
+    }
+    // remove all picts in array
+    to_remove.map(item => {
+      this.props.dispatch(unsetPicture(item))
+      this.props.dispatch(removePictFromCollection(
+        this.props.params.pk,
+        item
+      ))
+    })
+  }
+
   render() {
     //console.log('librairy collection', this.props)
     return (
@@ -57,6 +72,7 @@ export default class LibrairyCollection extends Component {
         container_title={'Collection:'}
         container={'collection'}
         orderable={true}
+        removePicture={this.removePicture.bind(this)}
         {...this.props}
       />
     )

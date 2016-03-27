@@ -8,6 +8,7 @@ import {
   REQUEST_COLLECTION,
   REQUEST_COLLECTION_SUCCESS,
   REQUEST_COLLECTION_FAILURE,
+  COLLECTION_REMOVE_PICTURE,
   INVALIDATE_COLLECTION,
   REQUEST_ENSEMBLE,
   REQUEST_ENSEMBLE_SUCCESS,
@@ -45,6 +46,19 @@ function collections(state = {}, action) {
           is_fetching: false,
           fetched: false,
           error: action.error
+        })
+      })
+    case COLLECTION_REMOVE_PICTURE:
+      // create new array
+      let pictures = state[action.collection].pictures.slice()
+      let index = pictures.indexOf(action.picture)
+      if (index > -1 ) {
+        // remove picture from it
+        pictures.splice(index, 1)
+      }
+      return Object.assign({}, state, {
+        [action.collection]: Object.assign({}, state[action.collection], {
+          picture: pictures
         })
       })
     default:

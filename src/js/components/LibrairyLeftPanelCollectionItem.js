@@ -56,7 +56,7 @@ export default class LibrairyLeftPanelCollectionItem extends Component {
     return (
       <li className="collection">
         <Link to={`/librairy/collection/${this.props.pk}/`}
-          activeClassName="Selected"
+          activeClassName="selected"
           className={this.state.dragover ? "dragover" : ""}
           onDragEnter={this.handleDragEnter.bind(this)}
           onDragLeave={this.handleDragLeave.bind(this)}

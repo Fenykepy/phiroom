@@ -94,6 +94,27 @@ export function addPict2Collection(collection, picture) {
   }
 }
 
+export function removePictFromCollection(collection, picture) {
+  return (dispatch) => {
+    Fetch.delete('api/librairy/collection-picture/collection/'
+      + collection + '/picture/' + picture + '/')
+    .then(json => {
+      console.log(json)
+    })
+    .catch(error => {
+      console.warn(error)
+      dispatch(invalidateCollection(collection))
+    })
+    // optimistically remove picture from collection
+    dispatch({
+      type: types.COLLECTION_REMOVE_PICTURE,
+      collection,
+      picture
+    })
+  }
+}
+
+
 
 export function addPict2Portfolio(portfolio, picture) {
   return (dispatch) => {
