@@ -141,9 +141,98 @@ export function fetchCollectionIfNeeded(collection) {
     if (shouldFetchCollection(getState(), collection)) {
       return dispatch(fetchCollection(collection))
     }
-    // else return a resolved primise
+    // else return a resolved promise
     return new Promise((resolve, reject) => resolve(
       {data: getState().librairy.collection.collections[collection]}
     ))
+  }
+}
+
+
+function requestEnsemble(ensemble) {
+  return {
+    type: types.REQUEST_ENSEMBLE,
+    ensemble
+  }
+}
+
+
+function receiveEnsemble(ensemble, json) {
+  return {
+    type: types.REQUEST_ENSEMBLE_SUCCESS,
+    ensemble,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+
+function requestEnsembleFailure(ensemble, error) {
+  return {
+    type: types.REQUEST_ENSEMBLE_FAILURE,
+    ensemble,
+    error
+  }
+}
+
+
+function shouldFetchCollectionEnsemble(state, ensemble) {
+  // returns true if ensemble hasn't been fetched yet
+  const item = state.librairy.collection.ensembles[ensemble]
+  if (! item || item.did_invalidate) { return true }
+  if (item.is_fetching || item.fetched) { return false }
+  return true
+}
+
+
+function fetchCollectionEnsemble(ensemble) {
+  // fetch a collection ensemble's data
+  return function(dispatch) {
+    // start request
+    dispatch(requestEnsemble(ensemble))
+    // return a promise
+    return Fetch.get(`api/librairy/collection-ensembles/${ensemble}/`)
+      .then(json =>
+          dispatch(receiveEnsemble(ensemble, json))
+      )
+      .catch(error =>
+          dispatch(requestEnsembleFailure(ensemble, error.message))
+      )
+  }
+}
+
+
+export function fetchCollectionEnsembleIfNeeded(ensemble) {
+  // fetch a collection ensemble if it's not done yet
+  return (dispatch, getState) => {
+    if (shouldFetchCollectionEnsemble(getState(), ensemble)) {
+      return dispatch(fetchCollectionEnsemble(ensemble))
+    }
+    // else return a resolved promise
+    return new Promise((resolve, reject) => resolve(
+      {data: getState().librairy.collection.ensembles[ensemble]}
+    ))
+  }
+}
+
+
+function invalidateCollectionEnsemble(ensemble) {
+  return {
+    type: types.INVALIDATE_ENSEMBLE,
+    ensemble,
+  }
+}
+
+
+export function invalidateEnsemblesHierarchy(ensemble) {
+  // recursively invalidate collection ensembles and all parents
+  return (dispatch, getState) => {
+    // invalidate given ensemble
+    dispatch(invalidateCollectionEnsemble(ensemble))
+    // invalidate parent if it's not root ensemble (pk=1)
+    parent = getState().librairy.collection.ensembles[ensemble].parent
+    if (parent && parent > 1) {
+      dispatch(invalidateEnsemblesHierarchy(parent))
+    }
   }
 }

@@ -14,6 +14,7 @@ import {
   REQUEST_ENSEMBLE,
   REQUEST_ENSEMBLE_SUCCESS,
   REQUEST_ENSEMBLE_FAILURE,
+  INVALIDATE_ENSEMBLE,
 } from '../constants/actionsTypes'
 
 
@@ -75,6 +76,12 @@ function collections(state = {}, action) {
 
 function ensembles(state = {}, action) {
   switch (action.type) {
+    case INVALIDATE_ENSEMBLE:
+      return Object.assign({}, state, {
+        [action.ensemble]: Object.assign({}, state[action.ensemble], {
+          did_invalidate: true
+        })
+      })
     case REQUEST_ENSEMBLE:
       return Object.assign({}, state, {
         [action.ensemble]: Object.assign({}, state[action.ensemble], {
