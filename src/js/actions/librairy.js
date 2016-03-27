@@ -114,6 +114,25 @@ export function removePictFromCollection(collection, picture) {
   }
 }
 
+export function orderPictInCollection(collection, picture, order) {
+  return (dispatch) => {
+    Fetch.patch('api/librairy/collection-picture/collection/'
+        + collection + '/picture/' + picture + '/',
+          {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          JSON.stringify({
+            order: order
+          })
+    )
+    .catch(error => {
+      console.warn(error)
+      dispatch(invalidateCollection(collection))
+    })
+
+  }
+}
 
 
 export function addPict2Portfolio(portfolio, picture) {

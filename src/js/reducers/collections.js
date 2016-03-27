@@ -9,6 +9,7 @@ import {
   REQUEST_COLLECTION_SUCCESS,
   REQUEST_COLLECTION_FAILURE,
   COLLECTION_REMOVE_PICTURE,
+  ORDER_COLLECTION_PICTURES,
   INVALIDATE_COLLECTION,
   REQUEST_ENSEMBLE,
   REQUEST_ENSEMBLE_SUCCESS,
@@ -59,6 +60,12 @@ function collections(state = {}, action) {
       return Object.assign({}, state, {
         [action.collection]: Object.assign({}, state[action.collection], {
           picture: pictures
+        })
+      })
+    case ORDER_COLLECTION_PICTURES:
+      return Object.assign({}, state, {
+        [action.collection]: Object.assign({}, state[action.portfolio], {
+          pictures: action.new_order
         })
       })
     default:

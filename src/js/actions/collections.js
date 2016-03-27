@@ -92,6 +92,14 @@ function requestCollectionFailure(collection, error) {
 }
 
 
+export function orderCollectionPictures(collection, new_order) {
+  return {
+    type: types.ORDER_COLLECTION_PICTURES,
+    collection,
+    new_order
+  }
+}
+
 export function invalidateCollection(collection) {
   // TODO dispatch invalidate ensembles if necessary (not root ensemble)
   return {

@@ -5,7 +5,7 @@ import LibrairyPicturesList from './LibrairyPicturesList'
 
 import {
   fetchCollectionIfNeeded,
-  //orderCollectionPictures
+  orderCollectionPictures
 } from '../actions/collections'
 import { fetchPictureIfNeeded } from '../actions/pictures'
 
@@ -14,7 +14,7 @@ import {
   setPictures,
   removePictFromCollection,
   unsetPicture,
-  //orderPictInCollection,
+  orderPictInCollection,
 } from '../actions/librairy'
 import { setDocumentTitleIfNeeded } from '../actions/title'
 
@@ -65,6 +65,17 @@ export default class LibrairyCollection extends Component {
     })
   }
 
+  reorderPictures(new_order) {
+    new_order.map((picture, order) => {
+      // upgrade collection-picture relation
+      this.props.dispatch(orderPictInCollection(
+          this.props.params.pk, picture, order))
+    })
+    // upgrade collection
+    this.props.dispatch(orderCollectionPictures(
+        this.props.params.pk, new_order))
+  }
+
   render() {
     //console.log('librairy collection', this.props)
     return (
@@ -73,6 +84,7 @@ export default class LibrairyCollection extends Component {
         container={'collection'}
         orderable={true}
         removePicture={this.removePicture.bind(this)}
+        reorderPictures={this.reorderPictures.bind(this)}
         {...this.props}
       />
     )
