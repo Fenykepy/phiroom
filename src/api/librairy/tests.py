@@ -853,7 +853,6 @@ class CollectionsAPITest(APITestCase):
         self.assertEqual(last_ens.parent.pk, 1)
 
 
-
     def test_collections_ensemble_detail(self):
         url = '/api/librairy/collection-ensembles/{}/'.format(
                 self.ensemble1.pk)
@@ -880,11 +879,12 @@ class CollectionsAPITest(APITestCase):
         # assert collections pk's are serialized in a list
         self.assertEqual(response.data['collection_set'][0], 1)
         self.assertEqual(response.data['collection_set'][1], 2)
+        # assert pictures of descendants collections are
+        # serialized in a list
+        self.assertEqual(len(response.data['pictures']), 0)
 
         test_status_codes(self, url, [200, 405, 200, 200, 204],
             postData=data, putData=data, patchData=data2)    
-
-
 
 
     def test_collections_ensemble_pictures(self):

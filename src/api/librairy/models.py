@@ -15,7 +15,6 @@ from django.http import Http404
 from django.core.files.images import ImageFile
 from django.template.defaultfilters import slugify
 from django.db.models.signals import pre_delete, post_save, post_delete
-from django.db.models import Q
 from django.dispatch import receiver
 
 
@@ -538,26 +537,11 @@ class CollectionsEnsemble(MPTTModel):
     def get_pictures(self):
         """Return all pictures of a collection ensembles."""
         # select ensemble descendants
-        ensemble_descendants = self.get_descendants(include_self=True)
-
-        collections_list = []
-        # for each descendant of ensemble append children collections to list
-        for descendant in ensemble_descendants:
-            collections = Collection.objects.filter(ensemble=descendant)
-            if collections:
-                for collection in collections:
-                    collections_list.append(collection)
-
-        # set Q objects list with collections_list
-        queries = [Q(collection__id=collection.id) for collection in collections_list]
-        # Take one Q object from the list
-        query = queries.pop()
-        # Or the Q object with the ones remaining in the list
-        for item in queries:
-            query |= item
-
-        # return queryset
-        return Picture.objects.filter(query).distinct()
+        descendants = self.get_descendants(include_self=True)
+        # select descendants' collections
+        collections = Collection.objects.filter(ensemble__in=descendants)
+        # return queryset with collections's pictures
+        return Picture.objects.filter(collection__in=collections).distinct()
 
     class Meta:
         unique_together = ('slug', 'parent')

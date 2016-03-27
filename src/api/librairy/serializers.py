@@ -53,10 +53,16 @@ class CollectionPictureSerializer(serializers.ModelSerializer):
 
 
 class CollectionsEnsembleSerializer(serializers.ModelSerializer):
+    
+    pictures = serializers.SerializerMethodField()
+    
     class Meta:
         model = CollectionsEnsemble
-        fields = ('name', 'pk', 'collection_set', 'parent')
+        fields = ('name', 'pk', 'collection_set', 'parent', 'pictures')
         read_only_fields = ('pk', 'collection_set')
+
+    def get_pictures(self, object):
+        return object.get_pictures().values_list('pk', flat=True)
 
 
 
