@@ -11,12 +11,71 @@ import {
   COLLECTION_REMOVE_PICTURE,
   ORDER_COLLECTION_PICTURES,
   INVALIDATE_COLLECTION,
+  REQUEST_CREATE_COLLECTION,
+  REQUEST_CREATE_COLLECTION_SUCCESS,
+  REQUEST_CREATE_COLLECTION_FAILURE,
+  REQUEST_UPDATE_COLLECTION,
+  REQUEST_UPDATE_COLLECTION_SUCCESS,
+  REQUEST_UPDATE_COLLECTION_FAILURE,
+  COLLECTION_EDIT_PREFILL,
+  COLLECTION_EDIT_SET_NAME,
+  COLLECTION_EDIT_SET_ENSEMBLE,
   REQUEST_ENSEMBLE,
   REQUEST_ENSEMBLE_SUCCESS,
   REQUEST_ENSEMBLE_FAILURE,
+  REQUEST_CREATE_ENSEMBLE,
+  REQUEST_CREATE_ENSEMBLE_SUCCESS,
+  REQUEST_CREATE_ENSEMBLE_FAILURE,
+  REQUEST_UPDATE_ENSEMBLE,
+  REQUEST_UPDATE_ENSEMBLE_SUCCESS,
+  REQUEST_UPDATE_ENSEMBLE_FAILURE,
   INVALIDATE_ENSEMBLE,
+  ENSEMBLE_EDIT_PREFILL,
+  ENSEMBLE_EDIT_SET_NAME,
+  ENSEMBLE_EDIT_SET_PARENT,
+  LOGOUT,
 } from '../constants/actionsTypes'
 
+function editedCollection(state = {}, action) {
+  switch (action.type) {
+    case COLLECTION_EDIT_PREFILL:
+      return action.data
+    case COLLECTION_EDIT_SET_NAME:
+      return Object.assign({}, state, {
+        name: action.name
+      })
+    case COLLECTION_EDIT_SET_ENSEMBLE:
+      return Object.assign({}, state, {
+        ensemble: action.ensemble
+      })
+    case REQUEST_CREATE_COLLECTION:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_CREATE_COLLECTION_SUCCESS:
+      return {}
+    case REQUEST_CREATE_COLLECTION_FAILURE:
+      return Object.assign({}, state, {
+        is_posting: false,
+        errors: action.errors
+      })
+    case REQUEST_UPDATE_COLLECTION:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_UPDATE_COLLECTION_SUCCESS:
+      return {}
+    case REQUEST_UPDATE_COLLECTION_FAILURE:
+      return Object.assign({}, state, {
+        is_posting: false,
+        errors: action.errors
+      })
+    default:
+      return state
+  }
+}
 
 function collections(state = {}, action) {
   switch (action.type) {
@@ -68,6 +127,47 @@ function collections(state = {}, action) {
         [action.collection]: Object.assign({}, state[action.portfolio], {
           pictures: action.new_order
         })
+      })
+    default:
+      return state
+  }
+}
+
+function editedEnsemble(state = {}, action) {
+  switch (action.type) {
+    case ENSEMBLE_EDIT_PREFILL:
+      return action.data
+    case ENSEMBLE_EDIT_SET_NAME:
+      return Object.assign({}, state, {
+        name: action.name
+      })
+    case ENSEMBLE_EDIT_SET_PARENT:
+      return Object.assign({}, state, {
+        parent: action.parent
+      })
+    case REQUEST_CREATE_ENSEMBLE:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_CREATE_ENSEMBLE_SUCCESS:
+      return {}
+    case REQUEST_CREATE_ENSEMBLE_FAILURE:
+      return Object.assign({}, state, {
+        is_posting: false,
+        errors: action.errors
+      })
+    case REQUEST_UPDATE_ENSEMBLE:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_UPDATE_ENSEMBLE_SUCCESS:
+      return {}
+    case REQUEST_UPDATE_ENSEMBLE_FAILURE:
+      return Object.assign({}, state, {
+        is_posting: false,
+        errors: action.errors
       })
     default:
       return state
@@ -135,7 +235,9 @@ function headers(state = {}, action) {
 }
 
 const collection = combineReducers({
+  editedCollection,
   collections,
+  editedEnsemble,
   ensembles,
   headers,
 })

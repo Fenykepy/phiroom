@@ -101,10 +101,25 @@ export function orderCollectionPictures(collection, new_order) {
 }
 
 export function invalidateCollection(collection) {
-  // TODO dispatch invalidate ensembles if necessary (not root ensemble)
   return {
     type: types.INVALIDATE_COLLECTION,
     collection,
+  }
+}
+
+export function invalidateCollectionHierarchy(collection) {
+  // recursively invalidate collection's ensemble and all parents
+  return (dispatch, getState) => {
+    // invalidate given collection
+    dispatch(invalidateCollection(collection))
+    // invalidate ensemble if it's not root ensemble (pk=1)
+    let ensemble = getState().librairy.collection.collections[collection].ensemble
+    if (ensemble && ensemble > 1) {
+      // TODO this fails when one of ancestors hasn't been fetched yet :/
+      // an idea could be to unnest collections headers when they arrive
+      // to populate collections and ensembles flat lists with headers
+      dispatch(invalidateEnsemblesHierarchy(ensemble))
+    }
   }
 }
 

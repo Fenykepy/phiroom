@@ -69,7 +69,7 @@ export default class PortfolioEditionForm extends Component {
           <label htmlFor="id_pubdate">Publication date:</label>
           <FormFieldErrors
             errors_list={this.props.edited.errors}
-            field={'pubdate'}
+            field={'pub_date'}
           />
           <input id="id_pubdate"
                  name="pub_date"

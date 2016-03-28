@@ -5,7 +5,7 @@ import Fetch from '../helpers/http'
 
 import { invalidatePortfolio } from './portfolios'
 import { invalidatePost } from './weblog'
-import { invalidateCollection } from './collections'
+import { invalidateCollectionHierarchy } from './collections'
 // action creators
 
 export function setTitle(title) {
@@ -86,11 +86,12 @@ export function addPict2Collection(collection, picture) {
       })
     )
     .then(json => {
-      dispatch(invalidateCollection(collection))
+      console.log('picture added')
+      dispatch(invalidateCollectionHierarchy(collection))
     })
-    .catch(error =>
+    /*.catch(error =>
            console.log('error', error.message)
-    )
+           )*/
   }
 }
 
@@ -103,7 +104,6 @@ export function removePictFromCollection(collection, picture) {
     })
     .catch(error => {
       console.warn(error)
-      dispatch(invalidateCollection(collection))
     })
     // optimistically remove picture from collection
     dispatch({
@@ -111,6 +111,8 @@ export function removePictFromCollection(collection, picture) {
       collection,
       picture
     })
+    // optimistically invalidate ensembles
+    dispatch(invalidateCollectionHierarchy(collection))
   }
 }
 
@@ -128,7 +130,7 @@ export function orderPictInCollection(collection, picture, order) {
     )
     .catch(error => {
       console.warn(error)
-      dispatch(invalidateCollection(collection))
+      dispatch(invalidateCollectionHierarchy(collection))
     })
 
   }
