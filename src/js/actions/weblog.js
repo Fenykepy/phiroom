@@ -361,7 +361,7 @@ function prefillPostForm(data = {tags: []}) {
   }
 }
 
-export function newPost()  {
+export function newPost() {
   // start a new post edition with empty datas
   return function(dispatch) {
     return dispatch(prefillPostForm())

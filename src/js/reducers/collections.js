@@ -109,6 +109,24 @@ function collections(state = {}, action) {
           error: action.error
         })
       })
+    case REQUEST_CREATE_COLLECTION_SUCCESS:
+      return Object.assign({}, state, {
+        [action.collection]: Object.assign({}, state[action.collection], {
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
+        },
+        action.data)
+      })
+    case REQUEST_UPDATE_COLLECTION_SUCCESS:
+      return Object.assign({}, state, {
+        [action.collection]: Object.assign({}, {
+          is_fetching: false,
+          fetched: true,
+          receivedAt: action.receivedAt
+        },
+        action.data)
+      })
     case COLLECTION_REMOVE_PICTURE:
       // create new array
       let pictures = state[action.collection].pictures.slice()

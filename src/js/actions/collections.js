@@ -251,3 +251,181 @@ export function invalidateEnsemblesHierarchy(ensemble) {
     }
   }
 }
+
+
+/*
+ * Creating new collection
+ */
+
+function prefillCollectionForm(data = {}) {
+  // start collection edition with given datas
+  return {
+    type: types.COLLECTION_EDIT_PREFILL,
+    data: data
+  }
+}
+
+export function newCollection() {
+  // start collection edition with empty datas
+  return function(dispatch) {
+    return dispatch(prefillCollectionForm())
+  }
+}
+
+export function editCollection(collection) {
+  return function(dispatch) {
+    return dispatch(fetchCollectionIfNeeded(collection))
+      .then(data => {
+        return dispatch(prefillCollectionForm({
+          name: data.data.name,
+          ensemble: data.data.ensemble,
+        }))
+      })
+  }
+}
+
+export function collectionSetName(name) {
+  return {
+    type: types.COLLECTION_EDIT_SET_NAME,
+    name
+  }
+}
+
+export function collectionSetEnsemble(ensemble) {
+  return {
+    type: types.COLLECTION_EDIT_SET_ENSEMBLE,
+    ensemble
+  }
+}
+
+function requestCreatePost() {
+  return {
+    type: types.REQUEST_CREATE_COLLECTION,
+  }
+}
+
+function receiveNewCollection(json) {
+  return {
+    type: types.REQUEST_CREATE_COLLECTION_SUCCESS,
+    collection: json.pk,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+function requestCreateCollectionFailure(errors) {
+  return {
+    type: types.REQUEST_CREATE_COLLECTION_FAILURE,
+    errors
+  }
+}
+
+function getEditedCollectionData(state) {
+  let collection = state.librairy.collection.editedCollection
+  return {
+    name: collection.name,
+    ensemble: collection.ensemble
+  }
+}
+
+export function createCollection() {
+  return function(dispatch, getState) {
+    dispatch(requestCreateCollection())
+    let data = getEditedCollectionData(getState())
+
+    return Fetch.post('api/librairy/collections/',
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify(data)
+    )
+    .then(json => {
+      // refetch new collections headers
+      dispatch(fetchCollectionsHeaders())
+      return dispatch(receiveNewCollection(json))
+    })
+    .catch(error =>
+      error.response.json().then(json => {
+        // store error json in state
+        dispatch(requestCreateCollectionFailure(json))
+        // throw error to catch it in form and display it
+        throw error
+      })
+    )
+  }
+}
+
+/*
+ * Updating existing collection
+ */
+
+function requestUpdateCollection() {
+  return {
+    type: types.REQUEST_UPDATE_COLLECTION,
+  }
+}
+
+function receiveUpdatedCollection(collection, json) {
+  return {
+    type: types.REQUEST_UPDATE_COLLECTION_SUCCESS,
+    collection: collection,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+function requestUpdateCollectionFailure(errors) {
+  return {
+    type: types.REQUEST_UPDATE_COLLECTION_FAILURE,
+    errors
+  }
+}
+
+export function updateCollection(collection) {
+  return function(dispatch, getState) {
+    dispatch(requestUpdateCollection())
+    let data = getEditedData(getState())
+
+    return Fetch.patch(`api/librairy/collections/${collection}/`,
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify(data)
+    )
+    .then(json => {
+      // refetch collections headers
+      dispatch(fetchCollectionsHeaders())
+      return dispatch(receiveUpdatedcollection(collection, json))
+    })
+    .catch(error =>
+      error.response.json().then(json => {
+        // store error json in state
+        dispatch(requestUpdateCollectionFailure(json))
+        // throw error to catch it in form and display it
+        throw error
+      })
+    )
+  }
+}
+
+/*
+ * Deleting a collection
+ */
+
+
+/*
+ * Creating new ensemble
+ */
+
+/*
+ * Updating existing ensemble
+ */
+
+/*
+ * Deleting an ensemble
+ */
+
+
+
