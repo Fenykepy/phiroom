@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="Phiroom-auth.svg">
+   sodipodi:docname="Phiroom-auth.svg"
+   inkscape:export-filename="/home/fred/sites/phiroom-env/phiroom/src/graphics/Phiroom-auth.svg.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -26,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="639.47632"
-     inkscape:cy="591.51044"
+     inkscape:cx="379.7752"
+     inkscape:cy="497.77362"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"

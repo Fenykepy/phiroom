@@ -21,6 +21,7 @@ import { fetchCommonData } from './helpers/fetchCommonData'
 import Fetch from './helpers/http'
 
 import { buildDocumentTitle } from './actions/title'
+import { receiveToken } from './actions/user'
 
 import { statics_proxy, port } from './config'
 
@@ -49,10 +50,11 @@ if (! statics_proxy) {
   app.use('/static', Express.static(__dirname + '/../../dist'))
 }
 
-// get cookies
+
+// get parsed cookies
 app.use(cookieParser())
-
-
+  
+  
 function handleRender(req, res) {
 
   // redirect to default portfolio
@@ -63,8 +65,6 @@ function handleRender(req, res) {
       })
   }
 
-  //  console.log(req.cookies)
-
   
   match({ routes: getRoutes(), location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
@@ -74,6 +74,10 @@ function handleRender(req, res) {
     } else if (renderProps) {
       // create a new redux store instance
       const store = createStoreWithMiddleware(rootReducer)
+      // authenticate user if necessary
+      if (req.cookies.auth_token) {
+        store.dispatch(receiveToken(req.cookies.auth_token))
+      }
       // fetch common datas 
       let promises = fetchCommonData(store)
 
@@ -101,6 +105,11 @@ function handleRender(req, res) {
         )
         // set document title if necessary
         const title = buildDocumentTitle(initialState)
+
+        // set auth_token cookie if user is authenticated
+        if (initialState.common.user.token) {
+          res.cookie('auth_token', initialState.common.user.token)
+        }
 
         // serve rendered html
         res.status(200).send(renderFullPage(html, initialState, title))

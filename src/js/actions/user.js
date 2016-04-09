@@ -13,8 +13,7 @@ function requestToken() {
   }
 }
 
-function receiveToken(token) {
-  // store token to cookies here
+export function receiveToken(token) {
   return {
     type: types.REQUEST_TOKEN_SUCCESS,
     token
