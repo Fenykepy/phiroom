@@ -36,7 +36,9 @@ class Fetch {
   }
 
   checkStatus(response) {
+    console.log(response.url)
     if (response.status == 401) {
+      console.log('need authentication')
       // redirect to login page
     }
     if (response.status >= 200 && response.status < 300) {
