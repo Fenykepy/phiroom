@@ -73,9 +73,10 @@ export function dragEnd() {
 
 
 export function addPict2Collection(collection, picture) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     // add picture to collection
     return Fetch.post('api/librairy/collection-picture/',
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -96,9 +97,10 @@ export function addPict2Collection(collection, picture) {
 }
 
 export function removePictFromCollection(collection, picture) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     Fetch.delete('api/librairy/collection-picture/collection/'
-      + collection + '/picture/' + picture + '/')
+                 + collection + '/picture/' + picture + '/',
+    getState())
     .then(json => {
       console.log(json)
     })
@@ -117,9 +119,10 @@ export function removePictFromCollection(collection, picture) {
 }
 
 export function orderPictInCollection(collection, picture, order) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     Fetch.patch('api/librairy/collection-picture/collection/'
-        + collection + '/picture/' + picture + '/',
+                + collection + '/picture/' + picture + '/',
+          getState(),
           {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -138,9 +141,10 @@ export function orderPictInCollection(collection, picture, order) {
 
 
 export function addPict2Portfolio(portfolio, picture) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     // add pictures to portfolio
     return Fetch.post('api/portfolio/portfolio-picture/',
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -160,9 +164,10 @@ export function addPict2Portfolio(portfolio, picture) {
 }
 
 export function removePictFromPortfolio(portfolio, picture) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     Fetch.delete('api/portfolio/portfolio-picture/portfolio/'
-      + portfolio + '/picture/' + picture + '/')
+                 + portfolio + '/picture/' + picture + '/',
+    getState())
     .then(json => {
         console.log(json)
     })
@@ -180,9 +185,10 @@ export function removePictFromPortfolio(portfolio, picture) {
 }
 
 export function orderPictInPortfolio(portfolio, picture, order) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     Fetch.patch('api/portfolio/portfolio-picture/portfolio/'
-        + portfolio + '/picture/' + picture + '/',
+                + portfolio + '/picture/' + picture + '/',
+          getState(),
           {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -200,9 +206,10 @@ export function orderPictInPortfolio(portfolio, picture, order) {
 
 export function addPict2Post(post, picture) {
   console.log(post, picture)
-  return (dispatch) => {
+  return (dispatch, getState) => {
     // add picture to post
     return Fetch.post('api/weblog/post-picture/',
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -223,9 +230,10 @@ export function addPict2Post(post, picture) {
 
 
 export function removePictFromPost(post, picture) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     Fetch.delete('api/weblog/post-picture/post/'
-          + post + '/picture/' + picture + '/')
+                 + post + '/picture/' + picture + '/',
+    getState())
     .then(json => {
       console.log(json)
     })
@@ -244,9 +252,10 @@ export function removePictFromPost(post, picture) {
 
 
 export function orderPictInPost(post, picture, order) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     Fetch.patch('api/weblog/post-picture/post/'
-        + post + '/picture/' + picture + '/',
+                + post + '/picture/' + picture + '/',
+          getState(),
           {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -263,8 +272,9 @@ export function orderPictInPost(post, picture, order) {
 }
 
 export function requestPicturesZip(pictures) {
-  return dispatch => {
+  return (dispatch, getState) => {
     Fetch.post('api/librairy/pictures/zip-export/',
+          getState(),
           {
             'Content-Type': 'application/json',
           },

@@ -57,11 +57,11 @@ export function fetchDescription() {
   /*
    * fetch contact page's description
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestDescription())
     // return a promise
-    return Fetch.get('api/contact/description/')
+    return Fetch.get('api/contact/description/', getState())
       .then(json =>
           dispatch(receiveDescription(json))
       )
@@ -131,6 +131,7 @@ export function updateDescription() {
     let new_desc = getState().contact.edited
 
     return Fetch.post('api/contact/descriptions/',
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -256,6 +257,7 @@ export function postMessage() {
 
     // return a promise
     return Fetch.post('api/contact/messages/',
+          state,
           {
             'Content-Type': 'application/json',
             'Accept': 'application/json',

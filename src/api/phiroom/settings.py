@@ -168,7 +168,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'user.authentication.JSONWebTokenAuthenticationCookie', # for api
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # for api with header
+        'user.authentication.JSONWebTokenAuthenticationCookie', # for api with cookie
         'rest_framework.authentication.SessionAuthentication', # for django rest framework browser
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',

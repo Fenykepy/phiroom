@@ -167,11 +167,11 @@ export function fetchPortfolio(portfolio) {
   /*
    * fetch a portfolio's data
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestPortfolio(portfolio))
     // return a promise
-    return Fetch.get(`api/portfolio/portfolios/${portfolio}/`)
+    return Fetch.get(`api/portfolio/portfolios/${portfolio}/`, getState())
       .then(json =>
           dispatch(receivePortfolio(portfolio, json))
       )
@@ -186,11 +186,11 @@ export function fetchPortfolioPictures(portfolio) {
   /*
    * fetch all pictures of a portfolio at once
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestPortfolioPictures(portfolio))
     // return a promise
-    return Fetch.get(`api/portfolio/portfolios/${portfolio}/pictures/`)
+    return Fetch.get(`api/portfolio/portfolios/${portfolio}/pictures/`, getState())
       .then(json => {
         json.map((item) => {
             dispatch(receiveShortPicture(item.pk, item))
@@ -207,11 +207,11 @@ export function fetchPortfolioPictures(portfolio) {
 
 export function fetchPortfoliosHeaders() {
   // fetch all portfolios headers
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestPortfoliosHeaders())
     // return a promise
-    return Fetch.get('api/portfolio/headers/')
+    return Fetch.get('api/portfolio/headers/', getState())
       .then(json => 
           dispatch(receivePortfoliosHeaders(json))
       )
@@ -323,6 +323,7 @@ export function createPortfolio() {
     let data = getEditedData(getState())
 
     return Fetch.post('api/portfolio/portfolios/',
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -375,6 +376,7 @@ export function updatePortfolio(portfolio) {
     let data = getEditedData(getState())
 
     return Fetch.patch(`api/portfolio/portfolios/${portfolio}/`,
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -401,8 +403,8 @@ export function deletePortfolio(portfolio) {
   /*
    * delete a portfolio from server
    */
-  return function(dispatch) {
-    Fetch.delete(`api/portfolio/portfolios/${portfolio}/`)
+  return function(dispatch, getState) {
+    Fetch.delete(`api/portfolio/portfolios/${portfolio}/`, getState())
       .then(() => {
         // refetch portfolios headers
         dispatch(fetchPortfoliosHeaders())

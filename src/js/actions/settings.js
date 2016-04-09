@@ -50,11 +50,11 @@ function fetchSettings() {
   /*
    * fetch settings
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestSettings())
     // return a promise
-    return Fetch.get('api/settings/latest/')
+    return Fetch.get('api/settings/latest/', getState())
       .then(json =>
         dispatch(receiveSettings(json))
       )

@@ -6,6 +6,7 @@ import { base_url } from '../config'
  * to set default headers
  * and some helper methods.
  */
+
 class Fetch {
 
   constructor() {
@@ -14,10 +15,22 @@ class Fetch {
     }
   }
 
-  setDefaultHeaders(headers={}) {
+  setAuthorization(headers, state) {
+    console.log('test')
+    if (state && state.common && state.common.user.token) {
+      console.log(state.common.user.token)
+      return Object.assign(
+        headers,
+        {'Authorization': 'JWT ' + state.common.user.token}
+      )
+    }
+    return headers
+  }
+
+  setDefaultHeaders(headers={}, state) {
     headers = Object.assign(
         this.default_headers,
-        headers
+        this.setAuthorization(headers, state)
     )
     return new Headers(headers)
   }
@@ -35,12 +48,11 @@ class Fetch {
     }
   }
 
-  get(url, headers={}) {
+  get(url, state, headers={}) {
     return fetch(base_url + url,
         {
-          credentials: 'include',
           method: "GET",
-          headers: this.setDefaultHeaders(headers)
+          headers: this.setDefaultHeaders(headers, state)
         })
         .then(this.checkStatus)
         .then(response => 
@@ -48,12 +60,11 @@ class Fetch {
         )
   }
 
-  post(url, headers={}, body) {
+  post(url, state, headers={}, body) {
     return fetch(base_url + url,
         {
-          credentials: 'include',
           method: "POST",
-          headers: new Headers(headers),
+          headers: new Headers(this.setAuthorization(headers, state)),
           body: body
         })
         .then(this.checkStatus)
@@ -62,12 +73,11 @@ class Fetch {
         )
   }
 
-  patch(url, headers={}, body) {
+  patch(url, state, headers={}, body) {
     return fetch(base_url + url,
         {
-          credentials: 'include',
           method: "PATCH",
-          headers: new Headers(headers),
+          headers: new Headers(this.setAuthorization(headers, state)),
           body: body
         })
         .then(this.checkStatus)
@@ -76,12 +86,11 @@ class Fetch {
         )
   }
 
-  delete(url, headers={}) {
+  delete(url, state, headers={}) {
     return fetch(base_url + url,
         {
-          credentials: 'include',
           method: "DELETE",
-          headers: this.setDefaultHeaders(headers)
+          headers: this.setDefaultHeaders(headers, state)
         })
         .then(this.checkStatus)
   }

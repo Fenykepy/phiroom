@@ -62,11 +62,11 @@ export function fetchShortPicture(picture) {
   /*
    * fetch a picture's short data
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestShortPicture(picture))
     // return a promise
-    return Fetch.get(`api/librairy/pictures/${picture}/short/`)
+    return Fetch.get(`api/librairy/pictures/${picture}/short/`, getState())
       .then(json =>
           dispatch(receiveShortPicture(picture, json))
       )
@@ -129,11 +129,11 @@ export function fetchPicture(picture) {
   /*
    * fetch a picture's data
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestPicture(picture))
     // return a promise
-    return Fetch.get(`api/librairy/pictures/${picture}/`)
+    return Fetch.get(`api/librairy/pictures/${picture}/`, getState())
       .then(json =>
           dispatch(receivePicture(picture, json))
       )
@@ -148,13 +148,16 @@ export function deletePicture(picture) {
   /*
    * delete a picture from server
    */
-  Fetch.delete(`api/librairy/pictures/${picture}/`)
-    /*.catch(error => {
-      console.log(error)
-    })*/
-  return {
-    type: types.DELETE_PICTURE,
-    picture
+
+  return function(dispatch, getState) {
+    Fetch.delete(`api/librairy/pictures/${picture}/`, getState())
+      /*.catch(error => {
+        console.log(error)
+      })*/
+    return {
+      type: types.DELETE_PICTURE,
+      picture
+    }
   }
 }
 

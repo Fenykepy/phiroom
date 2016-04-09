@@ -43,11 +43,11 @@ function shouldFetchPostsHeaders(state) {
 
 function fetchPostsHeaders() {
   // fetch user's posts headers
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestPostsHeaders())
     // return a promise
-    return Fetch.get('api/weblog/posts/headers/')
+    return Fetch.get('api/weblog/posts/headers/', getState())
       .then(json =>
           dispatch(receivePostsHeaders(json))
       )
@@ -165,11 +165,11 @@ function fetchPost(post) {
   /*
    * Fetch a weblog's post data
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestPost(post))
     // return a promise
-    return Fetch.get(`api/weblog/posts/${post}/`)
+    return Fetch.get(`api/weblog/posts/${post}/`, getState())
       .then(json =>
         dispatch(receivePost(post, json))
       )
@@ -185,11 +185,11 @@ export function fetchPostPictures(post) {
   /*
    * fetch all pictures of a post at once
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestPostPictures(post))
     // return a promise
-    return Fetch.get(`api/weblog/posts/${post}/pictures/`)
+    return Fetch.get(`api/weblog/posts/${post}/pictures/`, getState())
       .then(json => {
         json.map((item) => {
           dispatch(receiveShortPicture(item.pk, item))
@@ -254,11 +254,11 @@ function fetchWeblogPage(page) {
   /*
    * Fetch a weblog's page data
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestWeblogPage(page))
     // return a promise
-    return Fetch.get(`api/weblog/posts/?page=${page}`)
+    return Fetch.get(`api/weblog/posts/?page=${page}`, getState())
       .then(json => {
         // add post to state
         dispatch(receiveWeblogPage(page, json))
@@ -333,11 +333,11 @@ function fetchWeblogPageByTag(tag, page) {
   /*
    * Fetch a weblog's page by tag data
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestWeblogPageByTag(tag, page))
     // return a promise
-    return Fetch.get(`api/weblog/posts/tag/${tag}/?page=${page}`)
+    return Fetch.get(`api/weblog/posts/tag/${tag}/?page=${page}`, getState())
       .then(json => {
         // add post to state
         dispatch(receiveWeblogPageByTag(tag, page, json))
@@ -479,6 +479,7 @@ export function createPost() {
     let data = getEditedData(getState())
 
     return Fetch.post('api/weblog/posts/',
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -531,6 +532,7 @@ export function updatePost(post) {
     let data = getEditedData(getState())
 
     return Fetch.patch(`api/weblog/posts/${post}/`,
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -557,8 +559,8 @@ export function deletePost(post) {
   /*
    * delete a post from server
    */
-  return function(dispatch) {
-    Fetch.delete(`api/weblog/posts/${post}/`)
+  return function(dispatch, getState) {
+    Fetch.delete(`api/weblog/posts/${post}/`, getState())
       .then(() => {
         // refetch posts headers
         dispatch(fetchPostsHeaders())

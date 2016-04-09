@@ -37,11 +37,11 @@ function shouldFetchCollectionsHeaders(state) {
 
 function fetchCollectionsHeaders() {
   // fetche collections headers
-  return function(dispatch) {
+  return function(dispatch, getState) {
     //start request
     dispatch(requestCollectionsHeaders())
     // return a promise
-    return Fetch.get('api/librairy/collections/headers/')
+    return Fetch.get('api/librairy/collections/headers/', getState())
       .then(json =>
         dispatch(receiveCollectionsHeaders(json))
       )
@@ -135,11 +135,11 @@ function shouldFetchCollection(state, collection) {
 
 function fetchCollection(collection) {
   // fetch a collection's data
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestCollection(collection))
     // return a promise
-    return Fetch.get(`api/librairy/collections/${collection}/`)
+    return Fetch.get(`api/librairy/collections/${collection}/`, getState())
       .then(json =>
           dispatch(receiveCollection(collection, json))
       )
@@ -202,11 +202,12 @@ function shouldFetchCollectionEnsemble(state, ensemble) {
 
 function fetchCollectionEnsemble(ensemble) {
   // fetch a collection ensemble's data
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestEnsemble(ensemble))
     // return a promise
-    return Fetch.get(`api/librairy/collection-ensembles/${ensemble}/`)
+    return Fetch.get(`api/librairy/collection-ensembles/${ensemble}/`,
+      getState())
       .then(json =>
           dispatch(receiveEnsemble(ensemble, json))
       )
@@ -334,6 +335,7 @@ export function createCollection() {
     let data = getEditedCollectionData(getState())
 
     return Fetch.post('api/librairy/collections/',
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -388,6 +390,7 @@ export function updateCollection(collection) {
     let data = getEditedData(getState())
 
     return Fetch.patch(`api/librairy/collections/${collection}/`,
+      getState(),
       {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

@@ -31,11 +31,12 @@ export function login(credentials) {
   /*
    * try to get token with given credentials
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestToken())
     // return a promise
     return Fetch.post('api/token-auth/',
+        getState(),
         {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -102,12 +103,13 @@ function refreshToken(token) {
   /*
    * refresh token
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     //console.log('refresh token')
     // start request
     dispatch(requestRefreshToken())
     // return a promise
     return Fetch.post('api/token-refresh/',
+          getState(),
           {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -157,13 +159,14 @@ export function verifyToken() {
   /*
    * verify if given token is valid
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     let token = getCookie('auth_token')
     if (token) {
       // start request
       dispatch(requestVerifyToken())
       // return a promise
       return Fetch.post('api/token-verify/',
+          getState(),
           {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -242,11 +245,11 @@ function fetchCurrentUser() {
   /*
    * fetch current (authenticated) user's data
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestCurrentUser())
     // return a promise
-    return Fetch.get('api/users/current/')
+    return Fetch.get('api/users/current/', getState())
       .then(json =>
           dispatch(receiveCurrentUser(json))
       )

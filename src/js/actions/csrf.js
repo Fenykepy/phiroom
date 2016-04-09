@@ -56,11 +56,11 @@ function fetchCSRFToken() {
   /*
    * fetch csrf token
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestCSRFToken())
     // return a promise
-    return Fetch.get('api/token-csrf/')
+    return Fetch.get('api/token-csrf/', getState())
       .then(json => {
           // keep cookie with token for 7 days
           setCookie('csrftoken', json.token, 7)

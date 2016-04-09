@@ -55,11 +55,11 @@ function fetchAuthor(author) {
   /*
    * Fetch a user's author's datas
    */
-  return function (dispatch) {
+  return function (dispatch, getState) {
     // start request
     dispatch(requestAuthor(author))
     // return a promise
-    return Fetch.get(`api/users/author/${author}/`)
+    return Fetch.get(`api/users/author/${author}/`, getState())
       .then(json =>
         dispatch(receiveAuthor(author, json))
       )
