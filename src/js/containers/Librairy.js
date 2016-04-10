@@ -22,11 +22,11 @@ class Librairy extends Component {
   static fetchData(dispatch, params=null, clientSide=false) {
     let promises = []
     // fetch portfolios headers
-    dispatch(fetchPortfoliosHeadersIfNeeded())
+    promises.push(dispatch(fetchPortfoliosHeadersIfNeeded()))
     // fetch posts headers if user is weblog_author
-    dispatch(fetchPostsHeadersIfNeeded())
+    promises.push(dispatch(fetchPostsHeadersIfNeeded()))
     // fetch collections headers
-    dispatch(fetchCollectionsHeadersIfNeeded())
+    promises.push(dispatch(fetchCollectionsHeadersIfNeeded()))
     // set module
     dispatch(setModule('librairy'))
     // set document title

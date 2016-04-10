@@ -33,10 +33,15 @@ export default class LibrairyPost extends Component {
       // set document title
       dispatch(setDocumentTitleIfNeeded(data.data.title))
       // fetch all post's pictures
-      data.data.pictures.map(item => {
-        dispatch(fetchPictureIfNeeded(item))
-      })
+      if (clientSide) {
+        data.data.pictures.map(item => {
+          dispatch(fetchPictureIfNeeded(item))
+        })
+      }
     }))
+    if (! clientSide) {
+      // fetch all pictures at once serverside
+    }
     return promises
   }
 

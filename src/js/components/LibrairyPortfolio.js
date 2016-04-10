@@ -29,10 +29,15 @@ export default class LibrairyPortfolio extends Component {
         // set document title
         dispatch(setDocumentTitleIfNeeded(data.data.title))
         // fetch all portfolio's pictures
-        data.data.pictures.map(item => {
-          dispatch(fetchPictureIfNeeded(item))
-        })
+        if (clientSide) {
+          data.data.pictures.map(item => {
+            dispatch(fetchPictureIfNeeded(item))
+          })
+        }
     }))
+    if (! clientSide) {
+      // fetch all pictures at once serverside
+    }
     return promises
   }
 

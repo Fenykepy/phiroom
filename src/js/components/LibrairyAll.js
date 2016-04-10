@@ -23,12 +23,16 @@ export default class LibrairyAll extends Component {
       dispatch(setTitle(null))
       // set document title
       dispatch(setDocumentTitleIfNeeded('All pictures'))
-      
-      data.data.map(pk => {
-        dispatch(fetchPictureIfNeeded(pk))
-      })
+      // fetch all pictures if needed
+      if (clientSide) {
+        data.data.map(pk => {
+          dispatch(fetchPictureIfNeeded(pk))
+        })
+      }
     }))
-    // fetch all full pictures
+    if (! clientSide) {
+      // fetch all pictures at once serverside
+    }
     return promises
   }
 
