@@ -16,9 +16,7 @@ class Fetch {
   }
 
   setAuthorization(headers, state) {
-    console.log('test')
     if (state && state.common && state.common.user.token) {
-      console.log(state.common.user.token)
       return Object.assign(
         headers,
         {'Authorization': 'JWT ' + state.common.user.token}
@@ -36,7 +34,6 @@ class Fetch {
   }
 
   checkStatus(response) {
-    console.log(response.url)
     if (response.status == 401) {
       console.log('need authentication')
       // redirect to login page

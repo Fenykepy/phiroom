@@ -300,6 +300,7 @@ function uploadPicture() {
     let fd = new FormData()
     fd.append('file', uploading.files[id].file)
     Fetch.post('api/librairy/pictures/',
+        state,
         {},
         fd
     )

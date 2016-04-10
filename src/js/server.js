@@ -76,9 +76,7 @@ function handleRender(req, res) {
       const store = createStoreWithMiddleware(rootReducer)
       // authenticate user if necessary
       if (req.cookies.auth_token) {
-        console.log('authenticate user')
         store.dispatch(receiveToken(req.cookies.auth_token))
-        console.log(store.getState().common.user)
       }
       // fetch common datas 
       let promises = fetchCommonData(store)

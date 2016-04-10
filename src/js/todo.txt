@@ -12,13 +12,19 @@
 #- Add a default_portfolio property to state, use it for redirects in routes
 #- Add a librairy app
 #- Add authentication
-- Add authentication for server rendering
+#- Add authentication for server rendering
 #- Add a confirmation modal on deletePicture action
 #- Add a refresh for token
 - Display username somewhere
 - Redirect when user is unauthenticated in librairy
 #- Handle status codes in http.Fetch
 - Add collections manager to librairy
+- Create collection
+- Update collection
+- Delete collection
+- Create ensemble
+- Update ensemble
+- Delete ensemble
 - Add right panel with metadatas to librairy
 - Refactoring of viewport width to handle scroll bar
 #- Add a way to sort pictures in librairy list
@@ -39,6 +45,8 @@
 #- Add a way to delete post
 - Add a redirection after post deletion
 - Add a redirection after post update
+- Invalidate post lists after post deletion
+- Fix bug with preview on empty markdown fields
 #- Add a way to edit contact description
 - Add a setting to prevent right clicks on pictures
 - Improve contextual menu to go on right or left side depending of viewport width

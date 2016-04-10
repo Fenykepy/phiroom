@@ -120,7 +120,9 @@ function all (state = {}, action) {
         error: action.error
       })
     case UPLOAD_PICTURE_SUCCESS:
-      let pks = state.pks.slice()
+      // add new pictur to all pks array
+      let pks = []
+      if (state.pks) pks = state.pks.slice()
       pks.unshift(action.data.pk)
       return Object.assign({}, state, {
         pks: pks,
