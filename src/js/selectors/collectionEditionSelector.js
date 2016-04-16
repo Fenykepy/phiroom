@@ -5,7 +5,7 @@ const collectionEditedSelector = state => state.librairy.collection.editedCollec
 const collectionHeadersSelector = state => state.librairy.collection.headers.data
 
 
-function flattenHeaders(depth = -1) {
+function flattenHeaders(depth = 1) {
   return (prevValue, curValue) => {
     prevValue.push({pk: curValue.pk, name: curValue.name, depth: depth})
     return curValue.children.reduce(flattenHeaders(depth + 1), prevValue)
@@ -14,7 +14,6 @@ function flattenHeaders(depth = -1) {
 const flatEnsemblesSelector = createSelector(
   collectionHeadersSelector,
   (headers) => {
-    console.log(headers)
     return flattenHeaders()([], headers)
   }
 )

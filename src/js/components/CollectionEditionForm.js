@@ -48,6 +48,25 @@ export default class CollectionEditionForm extends Component {
           />
           <div className="help-text">Name of the collection.</div>
         </div>
+        <div className="field_wrapper">
+          <label htmlFor="id_name">Ensemble:<span className="red"> *</span></label>
+          <FormFieldErrors
+            errors_list={this.props.edited.errors}
+            field={'ensemble'}
+          />
+          <select id="id_ensemble"
+                  name="ensemble"
+                  value={this.props.edited.ensemble || 1}
+                  onChange={this.props.handleEnsembleChange}
+          >
+            {this.props.ensembles.map(item =>
+              <option
+                key={item.pk}
+                value={item.pk}
+              >{Array(item.depth).join('\u2014') + ' ' + item.name}</option>
+            )}
+          </select>
+        </div>
       </form>
     )
   }

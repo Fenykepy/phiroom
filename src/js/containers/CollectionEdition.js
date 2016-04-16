@@ -92,6 +92,7 @@ class CollectionEdition extends Component {
         <article id="modal-content">
           <CollectionEditionForm
             edited={this.props.edited}
+            ensembles={this.props.ensembles}
             handleNameChange={this.handleNameChange.bind(this)}
             handleEnsembleChange={this.handleEnsembleChange.bind(this)}
           />
