@@ -14,7 +14,7 @@ import {
   collectionSetEnsemble,
   createCollection,
   updateCollection,
-  //deleteCollection,
+  deleteCollection,
 } from '../actions/collections'
 
 import {
@@ -51,7 +51,7 @@ class CollectionEdition extends Component {
   }
 
   handleDeleteCollection() {
-    //this.props.dispatch(deleteCollection(this.props.collection))
+    this.props.dispatch(deleteCollection(this.props.collection))
     this.props.modal_close()
   }
 
@@ -65,6 +65,7 @@ class CollectionEdition extends Component {
         modal_child={LibrairyDeleteConfirm}
         title={this.props.name}
         type={'collection'}
+        n_pictures={this.props.n_pictures}
         delete={this.handleDeleteCollection.bind(this)}
       />
     )
@@ -95,6 +96,7 @@ class CollectionEdition extends Component {
             ensembles={this.props.ensembles}
             handleNameChange={this.handleNameChange.bind(this)}
             handleEnsembleChange={this.handleEnsembleChange.bind(this)}
+            confirmDeleteCollection={this.confirmDeleteCollection.bind(this)}
           />
         </article>
         <footer id="modal-footer">

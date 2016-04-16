@@ -43,6 +43,7 @@ export default class CollectionEditionButton extends Component {
         modal_title={this.getTitle()}
         modal_child={CollectionEdition}
         collection={this.props.collection}
+        n_pictures={this.props.n_pictures}
         name={this.props.name}
       />
     )
@@ -50,6 +51,7 @@ export default class CollectionEditionButton extends Component {
   }
 
   render() {
+    //console.log('collection edition button', this.props)
     let title = this.getTitle()
     return (
       <button

@@ -20,6 +20,7 @@ import {
   COLLECTION_EDIT_PREFILL,
   COLLECTION_EDIT_SET_NAME,
   COLLECTION_EDIT_SET_ENSEMBLE,
+  COLLECTION_DELETE,
   REQUEST_ENSEMBLE,
   REQUEST_ENSEMBLE_SUCCESS,
   REQUEST_ENSEMBLE_FAILURE,
@@ -78,6 +79,7 @@ function editedCollection(state = {}, action) {
 }
 
 function collections(state = {}, action) {
+  let new_state
   switch (action.type) {
     case INVALIDATE_COLLECTION:
       return Object.assign({}, state, {
@@ -146,6 +148,12 @@ function collections(state = {}, action) {
           pictures: action.new_order
         })
       })
+    case COLLECTION_DELETE:
+      // delete existing collection from state
+      new_state = Object.assign({}, state)
+      delete new_state[action.collection]
+      
+      return new_state
     default:
       return state
   }

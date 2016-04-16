@@ -12,6 +12,7 @@ export default class CollectionEditionForm extends Component {
         <div className="admin-links">
           <button
             type="button"
+            onClick={this.props.confirmDeleteCollection}
           >Delete collection</button>
         </div>
       )

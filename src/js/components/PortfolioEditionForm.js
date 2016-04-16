@@ -21,7 +21,7 @@ export default class PortfolioEditionForm extends Component {
   }
 
   render() {
-    //console.log('portfolio edition form', this.props)
+    console.log('portfolio edition form', this.props)
     return (
       <form
         id="portfolio-form"

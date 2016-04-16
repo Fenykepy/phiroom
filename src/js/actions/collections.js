@@ -280,6 +280,7 @@ export function editCollection(collection) {
         return dispatch(prefillCollectionForm({
           name: data.data.name,
           ensemble: data.data.ensemble,
+          pk: collection,
         }))
       })
   }
@@ -418,6 +419,24 @@ export function updateCollection(collection) {
  * Deleting a collection
  */
 
+export function deleteCollection(collection) {
+  /*
+   * delete a collection from server
+   */
+  return function(dispatch, getState) {
+    Fetch.delete(`api/librairy/collections/${collection}/`,
+      getState())
+      .then(() => {
+        dispatch(fetchCollectionsHeaders())
+      })
+
+    // optimistically delete collection from state
+    return {
+      type: types.COLLECTION_DELETE,
+      collection
+    }
+  }
+}
 
 /*
  * Creating new ensemble

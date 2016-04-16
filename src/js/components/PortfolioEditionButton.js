@@ -52,6 +52,7 @@ export default class PortfolioEditionButton extends Component {
   }
 
   render() {
+    //console.log('portfolio edition button', this.props)
     let title = this.getTitle()
     return (
       <button

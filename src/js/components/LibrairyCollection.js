@@ -91,7 +91,8 @@ export default class LibrairyCollection extends Component {
           <CollectionEditionButton
             dispatch={this.props.dispatch}
             collection={this.props.params.pk}
-            name={this.props.name}
+            n_pictures={this.props.n_pictures}
+            name={this.props.title}
           />
         )}
         orderable={true}
