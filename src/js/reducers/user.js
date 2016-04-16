@@ -10,12 +10,17 @@ import {
   REQUEST_VERIFY_TOKEN,
   REQUEST_VERIFY_TOKEN_SUCCESS,
   REQUEST_VERIFY_TOKEN_FAILURE,
+  STORE_TOKEN,
   LOGOUT
 } from '../constants/actionsTypes'
 
 
 function user(state = {}, action) {
-	switch (action.type) {
+  switch (action.type) {
+    case STORE_TOKEN:
+      return Object.assign({}, state, {
+        token: action.token
+      })
     case REQUEST_CURRENT_USER:
       return Object.assign({}, state, {
         is_fetching_user: true,

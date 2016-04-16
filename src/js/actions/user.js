@@ -134,6 +134,12 @@ function refreshToken(token) {
   }
 }
 
+function storeToken(token) {
+  return {
+    type: types.STORE_TOKEN,
+    token
+  }
+}
 
 function requestVerifyToken() {
   return {
@@ -162,6 +168,8 @@ export function verifyToken() {
   return function(dispatch, getState) {
     let token = getCookie('auth_token')
     if (token) {
+      // store token in state
+      dispatch(storeToken(token))
       // start request
       dispatch(requestVerifyToken())
       // return a promise

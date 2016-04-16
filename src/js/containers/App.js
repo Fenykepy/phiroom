@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { setViewport } from '../actions/viewport'
-import { verifyToken } from '../actions/user'
 
 // containers
 import Lightbox from '../containers/Lightbox'
@@ -23,8 +22,6 @@ class App extends Component {
     const {
       dispatch,
     } = this.props
-    // try to authenticate user
-    dispatch(verifyToken())
     // keep track of viewport size
     window.addEventListener('resize', this.handleResize.bind(this))
     // set initial viewport size

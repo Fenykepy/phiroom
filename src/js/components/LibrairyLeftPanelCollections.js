@@ -8,9 +8,7 @@ import {
   dragEnd
 } from '../actions/librairy'
 
-
-import { Link } from 'react-router'
-
+import CollectionEditionButton from './CollectionEditionButton'
 import LibrairyLeftPanelCollectionsSet from './LibrairyLeftPanelCollectionsSet'
 import LibrairyLeftPanelCollectionsEnsemblesSet from './LibrairyLeftPanelCollectionsEnsemblesSet'
 
@@ -33,7 +31,12 @@ export default class LibrairyLeftPanelCollections extends Component {
     if (this.props.user.is_librairy_member && this.props.collections) {
       return (
         <div>
-          <h6>Collections</h6>
+          <h6>Collections
+            <CollectionEditionButton
+              className="plus"
+              dispatch={this.props.dispatch}
+            />
+          </h6>
           <LibrairyLeftPanelCollectionsEnsemblesSet
             ensembles={this.props.collections.children}
             handleDrop={this.handleDrop.bind(this)}

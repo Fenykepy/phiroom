@@ -76,6 +76,7 @@ class CollectionEdition extends Component {
     const {
       dispatch,
       edited,
+      ensembles,
     } = this.props
     console.log('collection edition', this.props)
 
@@ -113,4 +114,4 @@ class CollectionEdition extends Component {
 }
 
 // Wrap the component to inject dispatch and state into it
-export default connect(collectionEditionSelector(CollectionEdition)
+export default connect(collectionEditionSelector)(CollectionEdition)

@@ -14,6 +14,7 @@ import { Router, browserHistory } from 'react-router'
 import getRoutes from './routes'
 
 import { fetchCommonData } from './helpers/fetchCommonData'
+import { verifyToken } from './actions/user'
 
 // get state provided by server
 const initialState = window.__INITIAL_STATE__
@@ -31,6 +32,10 @@ let unsubscribe = store.subscribe(() =>
   console.log('state', store.getState())
 )
 */
+
+// try to authenticate user
+store.dispatch(verifyToken())
+
 // fetch common data
 let promises = fetchCommonData(store)
 
