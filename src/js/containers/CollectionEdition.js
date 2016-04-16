@@ -78,7 +78,7 @@ class CollectionEdition extends Component {
       edited,
       ensembles,
     } = this.props
-    console.log('collection edition', this.props)
+    //console.log('collection edition', this.props)
 
     if (this.props.edited.is_fetching) {
       return <Spinner message="Fetching..." />

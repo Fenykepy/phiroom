@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesList from './LibrairyPicturesList'
-//import CollectionEditionButton from './CollectionEditionButton'
+import CollectionEditionButton from './CollectionEditionButton'
 
 import {
   fetchCollectionIfNeeded,
@@ -87,6 +87,13 @@ export default class LibrairyCollection extends Component {
       <LibrairyPicturesList
         container_title={'Collection:'}
         container={'collection'}
+        edition_button={(
+          <CollectionEditionButton
+            dispatch={this.props.dispatch}
+            collection={this.props.params.pk}
+            name={this.props.name}
+          />
+        )}
         orderable={true}
         removePicture={this.removePicture.bind(this)}
         reorderPictures={this.reorderPictures.bind(this)}

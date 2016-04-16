@@ -20,7 +20,7 @@ export default class CollectionEditionForm extends Component {
   }
 
   render() {
-    console.log('collection edition form', this.props)
+    //console.log('collection edition form', this.props)
     return (
       <form
         id="collection-form"

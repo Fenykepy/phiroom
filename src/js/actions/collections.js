@@ -299,7 +299,7 @@ export function collectionSetEnsemble(ensemble) {
   }
 }
 
-function requestCreatePost() {
+function requestCreateCollection() {
   return {
     type: types.REQUEST_CREATE_COLLECTION,
   }
@@ -387,7 +387,7 @@ function requestUpdateCollectionFailure(errors) {
 export function updateCollection(collection) {
   return function(dispatch, getState) {
     dispatch(requestUpdateCollection())
-    let data = getEditedData(getState())
+    let data = getEditedCollectionData(getState())
 
     return Fetch.patch(`api/librairy/collections/${collection}/`,
       getState(),
@@ -400,16 +400,17 @@ export function updateCollection(collection) {
     .then(json => {
       // refetch collections headers
       dispatch(fetchCollectionsHeaders())
-      return dispatch(receiveUpdatedcollection(collection, json))
+      return dispatch(receiveUpdatedCollection(collection, json))
     })
-    .catch(error =>
-      error.response.json().then(json => {
+    .catch(error => {
+      console.log(error)
+      return error.response.json().then(json => {
         // store error json in state
         dispatch(requestUpdateCollectionFailure(json))
         // throw error to catch it in form and display it
         throw error
       })
-    )
+    })
   }
 }
 
