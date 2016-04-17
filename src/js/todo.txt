@@ -18,7 +18,7 @@
 - Display username somewhere
 - Redirect when user is unauthenticated in librairy
 #- Handle status codes in http.Fetch
-- Add collections manager to librairy
+#- Add collections manager to librairy
 #- Create collection
 #- Update collection
 #- Delete collection

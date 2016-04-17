@@ -26,9 +26,9 @@ export default class EnsembleEditionButton extends Component {
       return this.props.title
     }
     if (this.props.ensemble) {
-      return 'Edit collection\'s ensemble'
+      return 'Edit collections\' ensemble'
     }
-    return 'New collection\'s ensemble'
+    return 'New collections\' ensemble'
   }
 
   handleClick() {

@@ -13,7 +13,7 @@ export default class EnsembleEditionForm extends Component {
           <button
             type="button"
             onClick={this.props.confirmDeleteEnsemble}
-          >Delete collection's ensemble</button>
+          >Delete collections' ensemble</button>
         </div>
       )
     }
