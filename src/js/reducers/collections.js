@@ -34,6 +34,7 @@ import {
   ENSEMBLE_EDIT_PREFILL,
   ENSEMBLE_EDIT_SET_NAME,
   ENSEMBLE_EDIT_SET_PARENT,
+  ENSEMBLE_DELETE,
   LOGOUT,
 } from '../constants/actionsTypes'
 
@@ -201,6 +202,7 @@ function editedEnsemble(state = {}, action) {
 }
 
 function ensembles(state = {}, action) {
+  let new_state
   switch (action.type) {
     case INVALIDATE_ENSEMBLE:
       return Object.assign({}, state, {
@@ -232,6 +234,12 @@ function ensembles(state = {}, action) {
           error: action.error
         })
       })
+    case ENSEMBLE_DELETE:
+      // delete existing ensemble from state
+      new_state = Object.assign({}, state)
+      delete new_state[action.ensemble]
+
+      return new_state
     default:
       return state
   }

@@ -442,13 +442,183 @@ export function deleteCollection(collection) {
  * Creating new ensemble
  */
 
+function prefillEnsembleForm(data = {}) {
+  // start ensemble edition with given datas
+  return {
+    type: types.ENSEMBLE_EDIT_PREFILL,
+    data: data
+  }
+}
+
+export function newEnsemble() {
+  // start ensemble edition with empty datas
+  return function(dispatch) {
+    return dispatch(prefillEnsembleForm())
+  }
+}
+
+export function ensembleSetName(name) {
+  return {
+    type: types.ENSEMBLE_EDIT_SET_NAME,
+    name
+  }
+}
+
+export function ensembleSetParent(parent) {
+  return {
+    type: types.ENSEMBLE_EDIT_SET_PARENT,
+    parent
+  }
+}
+
+function requestCreateEnsemble() {
+  return {
+    type: types.REQUEST_CREATE_ENSEMBLE,
+  }
+}
+
+function receiveNewEnsemble(json) {
+  return {
+    type: types.REQUEST_CREATE_ENSEMBLE_SUCCESS,
+    ensemble: json.pk,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+function requestCreateEnsembleFailure(errors) {
+  return {
+    type: types.REQUEST_CREATE_ENSEMBLE_FAILURE,
+    errors
+  }
+}
+
+function getEditedEnsembleData(state) {
+  let ensemble = state.librairy.collection.editedEnsemble
+  return {
+    name: ensemble.name,
+    parent: ensemble.parent
+  }
+}
+
+export function createEnsemble() {
+  return function(dispatch, getState) {
+    dispatch(requestCreateEnsemble())
+    let data = getEditedEnsembleData(getState())
+
+    return Fetch.post('api/librairy/collection-ensembles/',
+      getState(),
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify(data)
+    )
+    .then(json => {
+      // refetch new collections headers
+      dispatch(fetchCollectionsHeaders())
+      return dispatch(receiveNewEnsemble(json))
+    })
+    .catch(error =>
+      error.response.json().then(json => {
+        // store error json in state
+        dispatch(requestCreateEnsembleFailure(json))
+        // throw error to catch it in form and display it
+        throw error
+      })
+    )
+  }
+}
+
 /*
  * Updating existing ensemble
  */
+
+export function editEnsemble(ensemble) {
+  return function(dispatch) {
+    return dispatch(fetchEnsembleIfNeeded(ensemble))
+      .then(data => {
+        return dispatch(prefillEnsembleForm({
+          name: data.data.name,
+          parent: data.data.parent,
+          pk: ensemble,
+        }))
+      })
+  }
+}
+
+
+function requestUpdateEnsemble() {
+  return {
+    type: types.REQUEST_UPDATE_ENSEMBLE,
+  }
+}
+
+function receiveUpdatedEnsemble(ensemble, json) {
+  return {
+    type: types.REQUEST_UPDATE_ENSEMBLE_SUCCESS,
+    ensemble: ensemble,
+    data: json,
+    receivedAt: Date.now()
+  }
+}
+
+function requestUpdateEnsembleFailure(errors) {
+  return {
+    type: types.REQUEST_UPDATE_ENSEMBLE_FAILURE,
+    errors
+  }
+}
+
+export function updateEnsemble(ensemble) {
+  return function(dispatch, getState) {
+    dispatch(requestUpdateEnsemble())
+    let data = getEditedEnsembleData(getState())
+
+    return Fetch.patch(`api/librairy/collection-ensembles/${ensemble}/`,
+      getState(),
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify(data)
+    )
+    .then(json => {
+      // refetch collections headers
+      dispatch(fetchCollectionsHeaders())
+      return dispatch(receiveUpdatedEnsemble(ensemble, json))
+    })
+    .catch(error => {
+      return error.response.json().then(json => {
+        // store error json in state
+        dispatch(requestUpdateEnsembleFailure(json))
+        // throw error to catch it in form and display it
+        throw error
+      })
+    })
+  }
+}
 
 /*
  * Deleting an ensemble
  */
 
 
+export function deleteEnsemble(ensemble) {
+  /*
+   * delete a collection ensemble from server
+   */
+  return function(dispatch, getState) {
+    Fetch.delete(`api/librairy/collection-ensembles/${ensemble}/`,
+      getState())
+      .then(() => {
+        dispatch(fetchCollectionsHeaders())
+      })
 
+    // optimistically delete ensemble from state
+    return {
+      type: types.ENSEMBLE_DELETE,
+      ensemble
+    }
+  }
+}
