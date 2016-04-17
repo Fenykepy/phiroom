@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import LibrairyPicturesList from './LibrairyPicturesList'
-//import CollectionEditionButton from './EnsembleEditionButton'
+import EnsembleEditionButton from './EnsembleEditionButton'
 
 import {
   fetchCollectionEnsembleIfNeeded,
@@ -56,11 +56,17 @@ export default class LibrairyCollectionEnsemble extends Component {
       <LibrairyPicturesList
         container_title={'Collection ensemble:'}
         container={'collection ensemble'}
+        edition_button={(
+          <EnsembleEditionButton
+            dispatch={this.props.dispatch}
+            ensemble={this.props.params.pk}
+            n_pictures={this.props.n_pictures}
+            name={this.props.title}
+          />
+        )}
         orderable={false}
         {...this.props}
       />
     )
-
   }
-
 }

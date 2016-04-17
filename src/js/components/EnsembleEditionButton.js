@@ -45,7 +45,7 @@ export default class EnsembleEditionButton extends Component {
         modal_close={this.closeModal.bind(this)}
         modal_title={this.getTitle()}
         modal_child={EnsembleEdition}
-        collection={this.props.ensemble}
+        ensemble={this.props.ensemble}
         n_pictures={this.props.n_pictures}
         name={this.props.name}
       />

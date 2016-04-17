@@ -80,7 +80,7 @@ class EnsembleEdition extends Component {
       ensembles,
     } = this.props
 
-    // console.log('ensemble edition', this.props)
+    //console.log('ensemble edition', this.props)
     
     if (this.props.edited.is_fetching) {
       return <Spinner message="Fetching..." />

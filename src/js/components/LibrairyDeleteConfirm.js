@@ -4,7 +4,7 @@ export default class LibrairyDeleteConfirm extends Component {
 
   render() {
     let picts = this.props.n_pictures ? this.props.n_pictures : 'no'
-    console.log('librairy delete confirm', this.props)
+    //console.log('librairy delete confirm', this.props)
     return (
       <div>
         <article id="modal-content">

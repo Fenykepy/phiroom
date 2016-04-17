@@ -536,7 +536,7 @@ export function createEnsemble() {
 
 export function editEnsemble(ensemble) {
   return function(dispatch) {
-    return dispatch(fetchEnsembleIfNeeded(ensemble))
+    return dispatch(fetchCollectionEnsembleIfNeeded(ensemble))
       .then(data => {
         return dispatch(prefillEnsembleForm({
           name: data.data.name,

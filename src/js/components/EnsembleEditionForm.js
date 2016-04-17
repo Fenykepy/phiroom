@@ -22,7 +22,7 @@ export default class EnsembleEditionForm extends Component {
 
 
   render() {
-    console.log('ensemble edition form', this.props)
+    //console.log('ensemble edition form', this.props)
     return (
       <form
         id="ensemble-form"

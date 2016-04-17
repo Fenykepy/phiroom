@@ -24,9 +24,9 @@
 #- Delete collection
 - Add a redirection after collection deletion
 - Add a redirection after collection update
-- Create ensemble
-- Update ensemble
-- Delete ensemble
+#- Create ensemble
+#- Update ensemble
+#- Delete ensemble
 - Add a redirection after ensemble deletion
 - Add a redirection after ensemble update
 - Add right panel with metadatas to librairy
