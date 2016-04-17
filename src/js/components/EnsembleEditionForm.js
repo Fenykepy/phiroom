@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import FormFieldErrors from './FormFieldErrors'
 import FormRequiredFields from './FormRequiredFields'
 
-export default class CollectionEditionForm extends Component {
+export default class EnsembleEditionForm extends Component {
 
   getDeleteButton() {
     // we update existing collection
@@ -12,19 +12,20 @@ export default class CollectionEditionForm extends Component {
         <div className="admin-links">
           <button
             type="button"
-            onClick={this.props.confirmDeleteCollection}
-          >Delete collection</button>
+            onClick={this.props.confirmDeleteEnsemble}
+          >Delete collection's ensemble</button>
         </div>
       )
     }
     return null
   }
 
+
   render() {
-    //console.log('collection edition form', this.props)
+    console.log('ensemble edition form', this.props)
     return (
       <form
-        id="collection-form"
+        id="ensemble-form"
       >
         {this.getDeleteButton()}
         <FormRequiredFields />
@@ -42,23 +43,23 @@ export default class CollectionEditionForm extends Component {
                  name="name"
                  type="text"
                  value={this.props.edited.name}
-                 placeholder="Collection name"
+                 placeholder="Collection's ensemble name"
                  maxLength="254"
                  required
                  onChange={this.props.handleNameChange}
           />
-          <div className="help-text">Name of the collection.</div>
+          <div className="help-text">Name of the collection's ensemble.</div>
         </div>
         <div className="field_wrapper">
-          <label htmlFor="id_ensemble">Ensemble:<span className="red"> *</span></label>
+          <label htmlFor="id_parent">Ensemble:<span className="red"> *</span></label>
           <FormFieldErrors
             errors_list={this.props.edited.errors}
             field={'ensemble'}
           />
-          <select id="id_ensemble"
-                  name="ensemble"
+          <select id="id_parent"
+                  name="parent"
                   value={this.props.edited.ensemble || 1}
-                  onChange={this.props.handleEnsembleChange}
+                  onChange={this.props.handleParentChange}
           >
             {this.props.ensembles.map(item =>
               <option
@@ -67,10 +68,9 @@ export default class CollectionEditionForm extends Component {
               >{Array(item.depth).join('\u2014') + ' ' + item.name}</option>
             )}
           </select>
+          <div className="help-text">Parent of the collection's ensemble.</div>
         </div>
       </form>
     )
   }
 }
-
-

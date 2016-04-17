@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import CollectionEditionButton from './CollectionEditionButton'
-//import EnsembleEditionButton from './EnsembleEditionButton'
+import EnsembleEditionButton from './EnsembleEditionButton'
 
 
 export default class CollectionOrEnsembleCreation extends Component {
@@ -12,7 +12,10 @@ export default class CollectionOrEnsembleCreation extends Component {
           dispatch={this.props.dispatch}
           title={"Collection"}
         />
-        <button>Ensemble</button>
+        <EnsembleEditionButton
+          dispatch={this.props.dispatch}
+          title={"Ensemble"}
+        />
       </footer>
     )
   }
