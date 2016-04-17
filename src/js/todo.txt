@@ -19,12 +19,16 @@
 - Redirect when user is unauthenticated in librairy
 #- Handle status codes in http.Fetch
 - Add collections manager to librairy
-- Create collection
-- Update collection
-- Delete collection
+#- Create collection
+#- Update collection
+#- Delete collection
+- Add a redirection after collection deletion
+- Add a redirection after collection update
 - Create ensemble
 - Update ensemble
 - Delete ensemble
+- Add a redirection after ensemble deletion
+- Add a redirection after ensemble update
 - Add right panel with metadatas to librairy
 - Refactoring of viewport width to handle scroll bar
 #- Add a way to sort pictures in librairy list
