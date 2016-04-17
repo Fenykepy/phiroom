@@ -17,7 +17,6 @@ export default class DescriptionEditionPreview extends Component {
 
   formatAbstract(source='') {
     let abstract = source.split('[...]')[0]
-    abstract = abstract.replace(/,*\s*\.*\?*!*…*$/, "") + "…"
     return marked(abstract, {sanitize: true})
   }
 
@@ -36,7 +35,7 @@ export default class DescriptionEditionPreview extends Component {
       <div id="preview">
         <h5 className="underlined">Abstract view</h5>
         <WeblogPostAbstract
-          pub_date={this.props.pub_date}
+          pub_date={this.props.pub_date || Date.now()}
           title={this.props.title}
           abstract={this.formatAbstract(this.props.source)}
         /> 
@@ -44,7 +43,7 @@ export default class DescriptionEditionPreview extends Component {
         <WeblogPostDetail
           author={this.props.user}
           user={{}}
-          pub_date={this.props.pub_date}
+          pub_date={this.props.pub_date || Date.now()}
           title={this.props.title}
           description={this.props.description}
           content={this.formatContent(this.props.source)}

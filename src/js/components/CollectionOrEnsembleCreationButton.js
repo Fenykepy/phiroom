@@ -30,7 +30,7 @@ export default class CollectionOrEnsembleCreationButton extends Component {
   }
 
   render() {
-    console.log('collection edition selector', this.props)
+    //console.log('collection edition selector', this.props)
     let title = "Create new collection or new ensemble"
     return (
       <button
