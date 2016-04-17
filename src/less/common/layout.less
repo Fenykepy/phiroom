@@ -185,6 +185,30 @@ button.modal-close {
         }
     }
 }
+
+// adjoined buttons
+.adjoined-buttons-bar {
+    button {
+        width: 50%;
+        margin: 0;
+        height: 150px;
+        border-radius: 0;
+        background: @tabs-bg;
+        box-sizing: border-box;
+        border: none;
+        border-right: 1px solid @tabs-border;
+        font-size: 100%;
+        &:last-child {
+            border-right: none;
+        }
+        &:hover, &:focus, &:active {
+            background: @blog-bg;
+            color: @tabs-active;
+        }
+    }
+}
+
+
 // headings
 h1, h2, h3, h4, h5, h6 {
     font-weight: bold;

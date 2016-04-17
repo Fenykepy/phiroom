@@ -8,7 +8,7 @@ import {
   dragEnd
 } from '../actions/librairy'
 
-import CollectionEditionButton from './CollectionEditionButton'
+import CollectionOrEnsembleCreationButton from './CollectionOrEnsembleCreationButton'
 import LibrairyLeftPanelCollectionsSet from './LibrairyLeftPanelCollectionsSet'
 import LibrairyLeftPanelCollectionsEnsemblesSet from './LibrairyLeftPanelCollectionsEnsemblesSet'
 
@@ -32,7 +32,7 @@ export default class LibrairyLeftPanelCollections extends Component {
       return (
         <div>
           <h6>Collections
-            <CollectionEditionButton
+            <CollectionOrEnsembleCreationButton
               className="plus"
               dispatch={this.props.dispatch}
             />

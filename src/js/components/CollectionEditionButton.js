@@ -22,6 +22,9 @@ export default class CollectionEditionButton extends Component {
   }
 
   getTitle() {
+    if (this.props.title) {
+      return this.props.title
+    }
     if (this.props.collection) {
       return 'Edit collection'
     }
