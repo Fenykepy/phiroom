@@ -19,7 +19,7 @@
 - Display user info on a dropdown menu
 - Add register form
 - Add profile form
-- Redirect when user is unauthenticated in librairy
+#- Redirect when user is unauthenticated in librairy
 #- Handle status codes in http.Fetch
 #- Add collections manager to librairy
 #- Create collection

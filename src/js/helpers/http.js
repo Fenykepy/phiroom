@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import { base_url } from '../config'
 
+import { browserHistory } from 'react-router'
 /*
  * A wrapper arround fetch.
  * to set default headers
@@ -37,6 +38,8 @@ class Fetch {
     if (response.status == 401) {
       console.log('need authentication')
       // redirect to login page
+      // TODO Add next link
+      browserHistory.push('/login/')
     }
     if (response.status >= 200 && response.status < 300) {
       return response
