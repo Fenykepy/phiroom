@@ -346,9 +346,11 @@ export function createCollection() {
       JSON.stringify(data)
     )
     .then(json => {
+      dispatch(receiveNewCollection(json))
+      // navigate to updated collection
+      browserHistory.push(`/librairy/collection/${json.pk}/`)
       // refetch new collections headers
-      dispatch(fetchCollectionsHeaders())
-      return dispatch(receiveNewCollection(json))
+      return dispatch(fetchCollectionsHeaders())
     })
     .catch(error =>
       error.response.json().then(json => {
@@ -401,9 +403,11 @@ export function updateCollection(collection) {
       JSON.stringify(data)
     )
     .then(json => {
+      dispatch(receiveUpdatedCollection(collection, json))
+      // navigate to updated collection
+      browserHistory.push(`/librairy/collection/${json.pk}/`)
       // refetch collections headers
-      dispatch(fetchCollectionsHeaders())
-      return dispatch(receiveUpdatedCollection(collection, json))
+      return dispatch(fetchCollectionsHeaders())
     })
     .catch(error => {
       console.log(error)
@@ -519,9 +523,11 @@ export function createEnsemble() {
       JSON.stringify(data)
     )
     .then(json => {
+      dispatch(receiveNewEnsemble(json))
+      // navigate to updated collection
+      browserHistory.push(`/librairy/collection-ensemble/${json.pk}/`)
       // refetch new collections headers
-      dispatch(fetchCollectionsHeaders())
-      return dispatch(receiveNewEnsemble(json))
+      return dispatch(fetchCollectionsHeaders())
     })
     .catch(error =>
       error.response.json().then(json => {
@@ -588,9 +594,11 @@ export function updateEnsemble(ensemble) {
       JSON.stringify(data)
     )
     .then(json => {
+      dispatch(receiveUpdatedEnsemble(ensemble, json))
+      // navigate to updated collection
+      browserHistory.push(`/librairy/collection-ensemble/${json.pk}/`)
       // refetch collections headers
-      dispatch(fetchCollectionsHeaders())
-      return dispatch(receiveUpdatedEnsemble(ensemble, json))
+      return dispatch(fetchCollectionsHeaders())
     })
     .catch(error => {
       return error.response.json().then(json => {

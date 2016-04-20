@@ -27,13 +27,13 @@
 #- Delete collection
 #- Add a redirection after collection deletion
 - Add a redirection after collection update
-- Add redirection after collection creation
+#- Add redirection after collection creation
 #- Create ensemble
 #- Update ensemble
 #- Delete ensemble
 #- Add a redirection after ensemble deletion
 - Add a redirection after ensemble update
-- Add a redirection after ensemble creation
+#- Add a redirection after ensemble creation
 - Add right panel with metadatas to librairy
 - Refactoring of viewport width to handle scroll bar
 #- Add a way to sort pictures in librairy list
