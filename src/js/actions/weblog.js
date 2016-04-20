@@ -4,8 +4,9 @@ import { browserHistory } from 'react-router'
 
 import Fetch from '../helpers/http'
 
+import { setTitle } from './librairy'
+import { setDocumentTitleIfNeeded } from './title'
 import { receiveShortPicture } from './pictures'
-
 
 // action creators
 
@@ -493,9 +494,11 @@ export function createPost() {
       JSON.stringify(data)
     )
     .then(json => {
+      dispatch(receiveNewPost(json))
+      // navigate to new post
+      browserHistory.push(`/librairy/post/${json.slug}/`)
       // refetch new posts headers
-      dispatch(fetchPostsHeaders())
-      return dispatch(receiveNewPost(json))
+      return dispatch(fetchPostsHeaders())
     })
     .catch(error =>
       error.response.json().then(json => {
@@ -548,6 +551,9 @@ export function updatePost(post) {
     .then(json => {
       // refetch posts headers
       dispatch(fetchPostsHeaders())
+      // set librairy title and document title
+      dispatch(setTitle(json.title))
+      dispatch(setDocumentTitleIfNeeded(json.title))
       return dispatch(receiveUpdatedPost(post, json))
     })
     .catch(error =>

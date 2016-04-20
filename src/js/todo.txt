@@ -54,8 +54,8 @@
 #- Add a way to edit post
 #- Add a way to delete post
 #- Add a redirection after post deletion
-- Add a redirection after post update
-- Add a redirection after post creation
+#- Add a redirection after post update
+#- Add a redirection after post creation
 #- Invalidate post lists after post deletion
 #- Fix bug with preview on empty markdown fields
 #- Add a way to edit contact description
