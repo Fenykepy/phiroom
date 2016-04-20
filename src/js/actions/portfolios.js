@@ -4,6 +4,8 @@ import { browserHistory } from 'react-router'
 
 import Fetch from '../helpers/http'
 
+import { setTitle } from './librairy'
+import { setDocumentTitleIfNeeded } from './title'
 import { receiveShortPicture } from './pictures'
 
 
@@ -333,9 +335,11 @@ export function createPortfolio() {
       JSON.stringify(data)
     )
     .then(json => {
+      dispatch(receiveNewPortfolio(json))
+      // navigate to new portfolio
+      browserHistory.push(`/librairy/portfolio/${json.title}/`)
       // refetch new portfolios headers
-      dispatch(fetchPortfoliosHeaders())
-      return dispatch(receiveNewPortfolio(json))
+      return dispatch(fetchPortfoliosHeaders())
     })
     .catch(error =>
       error.response.json().then(json => {
@@ -388,6 +392,9 @@ export function updatePortfolio(portfolio) {
     .then(json => {
       // refetch portfolios headers
       dispatch(fetchPortfoliosHeaders())
+      // set librairy title and document title
+      dispatch(setTitle(json.title))
+      dispatch(setDocumentTitleIfNeeded(json.title))
       return dispatch(receiveUpdatedPortfolio(portfolio, json))
     })
     .catch(error =>

@@ -48,8 +48,8 @@
 - Add tags to portfolios
 - Add description to portfolios
 #- Add a redirection after portfolio deletion
-- Add a redirection after portfolio update
-- Add a redirection after portfolio creation
+#- Add a redirection after portfolio update
+#- Add a redirection after portfolio creation
 #- Add a way to create post
 #- Add a way to edit post
 #- Add a way to delete post
