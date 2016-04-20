@@ -4,6 +4,9 @@ import { browserHistory } from 'react-router'
 
 import Fetch from '../helpers/http'
 
+import { setTitle } from './librairy'
+import { setDocumentTitleIfNeeded } from './title'
+
 
 // action creators
 
@@ -403,11 +406,12 @@ export function updateCollection(collection) {
       JSON.stringify(data)
     )
     .then(json => {
-      dispatch(receiveUpdatedCollection(collection, json))
-      // navigate to updated collection
-      browserHistory.push(`/librairy/collection/${json.pk}/`)
       // refetch collections headers
-      return dispatch(fetchCollectionsHeaders())
+      dispatch(fetchCollectionsHeaders())
+      // set librairy title and document title
+      dispatch(setTitle(json.name))
+      dispatch(setDocumentTitleIfNeeded(json.name))
+      return dispatch(receiveUpdatedCollection(collection, json))
     })
     .catch(error => {
       console.log(error)
@@ -594,11 +598,12 @@ export function updateEnsemble(ensemble) {
       JSON.stringify(data)
     )
     .then(json => {
-      dispatch(receiveUpdatedEnsemble(ensemble, json))
-      // navigate to updated collection
-      browserHistory.push(`/librairy/collection-ensemble/${json.pk}/`)
       // refetch collections headers
-      return dispatch(fetchCollectionsHeaders())
+      dispatch(fetchCollectionsHeaders())
+      // set librairy title and document title
+      dispatch(setTitle(json.name))
+      dispatch(setDocumentTitleIfNeeded(json.name))
+      return dispatch(receiveUpdatedEnsemble(ensemble, json))
     })
     .catch(error => {
       return error.response.json().then(json => {
