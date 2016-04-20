@@ -1,5 +1,7 @@
 import * as types from '../constants/actionsTypes'
 
+import { browserHistory } from 'react-router'
+
 import Fetch from '../helpers/http'
 
 import { receiveShortPicture } from './pictures'
@@ -408,6 +410,8 @@ export function deletePortfolio(portfolio) {
       .then(() => {
         // refetch portfolios headers
         dispatch(fetchPortfoliosHeaders())
+        // go to librairy root
+        browserHistory.push('/librairy/')
       })
 
     return {

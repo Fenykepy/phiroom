@@ -1,5 +1,7 @@
 import * as types from '../constants/actionsTypes'
 
+import { browserHistory } from 'react-router'
+
 import Fetch from '../helpers/http'
 
 
@@ -428,6 +430,8 @@ export function deleteCollection(collection) {
       getState())
       .then(() => {
         dispatch(fetchCollectionsHeaders())
+        // go to librairy root
+        browserHistory.push('/librairy/')
       })
 
     // optimistically delete collection from state
@@ -613,6 +617,9 @@ export function deleteEnsemble(ensemble) {
       getState())
       .then(() => {
         dispatch(fetchCollectionsHeaders())
+        // go to librairy root
+        browserHistory.push('/librairy/')
+
       })
 
     // optimistically delete ensemble from state

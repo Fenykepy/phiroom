@@ -564,9 +564,11 @@ export function deletePost(post) {
       .then(() => {
         // refetch posts headers
         dispatch(fetchPostsHeaders())
-        // go to parent component (librairy or weblog)
+        // TODO go to parent component (librairy or weblog)
         // as current post is now unavailable
-        console.log(browserHistory)
+
+        // go to librairy root
+        browserHistory.push('/librairy/')
       })
 
     return {

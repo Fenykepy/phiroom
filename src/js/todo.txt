@@ -25,13 +25,15 @@
 #- Create collection
 #- Update collection
 #- Delete collection
-- Add a redirection after collection deletion
+#- Add a redirection after collection deletion
 - Add a redirection after collection update
+- Add redirection after collection creation
 #- Create ensemble
 #- Update ensemble
 #- Delete ensemble
-- Add a redirection after ensemble deletion
+#- Add a redirection after ensemble deletion
 - Add a redirection after ensemble update
+- Add a redirection after ensemble creation
 - Add right panel with metadatas to librairy
 - Refactoring of viewport width to handle scroll bar
 #- Add a way to sort pictures in librairy list
@@ -45,13 +47,15 @@
 #- Add a way to delete portfolio
 - Add tags to portfolios
 - Add description to portfolios
-- Add a redirection after portfolio deletion
+#- Add a redirection after portfolio deletion
 - Add a redirection after portfolio update
+- Add a redirection after portfolio creation
 #- Add a way to create post
 #- Add a way to edit post
 #- Add a way to delete post
-- Add a redirection after post deletion
+#- Add a redirection after post deletion
 - Add a redirection after post update
+- Add a redirection after post creation
 - Invalidate post lists after post deletion
 #- Fix bug with preview on empty markdown fields
 #- Add a way to edit contact description
