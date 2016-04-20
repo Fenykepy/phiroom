@@ -201,6 +201,12 @@ export function fetchPostPictures(post) {
 
 
 // pages
+function clearWeblogPages() {
+  return {
+    type: types.CLEAR_WEBLOG_PAGES,
+  }
+}
+
 export function requestWeblogPage(page) {
   return {
     type: types.REQUEST_WEBLOG_PAGE,
@@ -564,6 +570,8 @@ export function deletePost(post) {
       .then(() => {
         // refetch posts headers
         dispatch(fetchPostsHeaders())
+        // clear all pages
+        dispatch(clearWeblogPages())
         // TODO go to parent component (librairy or weblog)
         // as current post is now unavailable
 

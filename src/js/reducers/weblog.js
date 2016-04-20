@@ -9,6 +9,7 @@ import {
   REQUEST_WEBLOG_PAGE_FAILURE,
   REQUEST_WEBLOG_PAGE_SUCCESS,
   SELECT_WEBLOG_PAGE,
+  CLEAR_WEBLOG_PAGES,
   REQUEST_POST,
   REQUEST_POST_FAILURE,
   REQUEST_POST_SUCCESS,
@@ -219,6 +220,8 @@ function posts(state = {}, action) {
 
 function pages(state = {}, action) {
   switch (action.type) {
+    case CLEAR_WEBLOG_PAGES:
+      return {}
     case REQUEST_WEBLOG_PAGE:
       return Object.assign({}, state, {
         [action.page]: Object.assign({}, state[action.page], {
@@ -250,6 +253,8 @@ function pages(state = {}, action) {
 
 function selectedPageByTag(state = null, action) {
   switch (action.type) {
+    case CLEAR_WEBLOG_PAGES:
+      return null
     case SELECT_WEBLOG_PAGE_BYTAG:
       return Object.assign({}, {
         tag: action.tag || null,

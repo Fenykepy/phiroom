@@ -56,7 +56,7 @@
 #- Add a redirection after post deletion
 - Add a redirection after post update
 - Add a redirection after post creation
-- Invalidate post lists after post deletion
+#- Invalidate post lists after post deletion
 #- Fix bug with preview on empty markdown fields
 #- Add a way to edit contact description
 - Add a setting to prevent right clicks on pictures
