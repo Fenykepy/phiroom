@@ -80,23 +80,28 @@ export default class LibrairyPortfolio extends Component {
 
   render() {
     //console.log('librairy portfolio', this.props)
-    return (
-          <LibrairyPicturesList
-            container_title={'Portfolio:'}
-            container={'portfolio'}
-            edition_button={(
-              <PortfolioEditionButton
-                dispatch={this.props.dispatch}
-                portfolio={this.props.params.slug}
-                n_pictures={this.props.n_pictures}
-                title={this.props.title}
-            />)}
-            orderable={true}
-            removePicture={this.removePicture.bind(this)}
-            reorderPictures={this.reorderPictures.bind(this)}
-            {...this.props}
-          />
-    )
+    return React.cloneElement(this.props.children, {
+      container_title: 'Portfolio: ',
+      container: 'portfolio',
+      edition_button: (
+        <PortfolioEditionButton
+          dispatch={this.props.dispatch}
+          portfolio={this.props.params.slug}
+          n_pictures={this.props.n_pictures}
+          title={this.props.title}
+        />),
+      orderable: true,
+      removePicture: this.removePicture.bind(this),
+      reorderPictures: this.reorderPictures.bind(this),
+      dispatch: this.props.dispatch,
+      selected_list: this.props.selected_list, 
+      pictures: this.props.pictures,
+      n_pictures: this.props.n_pictures,
+      n_selected: this.props.n_selected,
+      title: this.props.title, 
+      drag: this.props.drag,
+      columns_width: this.props.columns_width,
+    })
   }
 }
 

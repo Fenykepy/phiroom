@@ -6,7 +6,7 @@ export default class LibrairyPictureDetail extends Component {
       <section id="librairy-detail">
         <header id="toolbar">
           <div className="title">
-            <strong>{this.props.title}</div>
+            <strong>{this.props.title}</strong>
           </div>
         </header>
         <article>

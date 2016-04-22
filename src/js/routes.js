@@ -21,6 +21,8 @@ import LibrairyCollection from './components/LibrairyCollection'
 import LibrairyCollectionEnsemble from './components/LibrairyCollectionEnsemble'
 import LibrairyAll from './components/LibrairyAll'
 import LightboxStarter from './components/LightboxStarter'
+import LibrairyPicturesList from './components/LibrairyPicturesList'
+import LibrairyPictureDetail from './components/LibrairyPictureDetail'
 
 function appendSlash(nextState, replace) {
   // add a slash at urls' end
@@ -57,7 +59,10 @@ export default () => {
           <Route path="logout(/)" component={Logout} onEnter={appendSlash} />
         </Route>
         <Route path="librairy(/)" component={Librairy} onEnter={appendSlash}>
-          <Route path="portfolio/:slug(/)" component={LibrairyPortfolio} onEnter={appendSlash} />
+          <Route path="portfolio/:slug(/)" component={LibrairyPortfolio} onEnter={appendSlash}>
+            <IndexRoute component={LibrairyPicturesList} />
+            <Route path="single/:picture(/)" component={LibrairyPictureDetail} />
+          </Route>
           <Route path="post/:y/:m/:d/:slug(/)" component={LibrairyPost} onEnter={appendSlash} />
           <Route path="collection/:pk(/)" component={LibrairyCollection} onEnter={appendSlash} />
           <Route path="collection-ensemble/:pk(/)" component={LibrairyCollectionEnsemble} onEnter={appendSlash} />

@@ -82,7 +82,12 @@ export default class LibrairyPicturesListItem extends Component {
     return null
 
   }
-
+  
+  handleDoubleClick(e) {
+    e.preventDefault()
+    console.log(this.props.location)
+    console.log(this.context.router)
+  }
   handleClick(e) {
     e.stopPropagation() // to avoid unselectAll to trigger
     this.props.handleClick(this.props.index, e.ctrlKey, e.shiftKey)
@@ -186,6 +191,7 @@ export default class LibrairyPicturesListItem extends Component {
             src={'/media/images/previews/max-500/' + this.props.previews_path}
             draggable="true"
             onClick={this.handleClick.bind(this)}
+            onDoubleClick={this.handleDoubleClick.bind(this)}
             onDragStart={this.handleDrag.bind(this)}
             onContextMenu={this.handleRightClick.bind(this)}
           />
