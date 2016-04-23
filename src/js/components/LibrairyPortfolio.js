@@ -101,6 +101,7 @@ export default class LibrairyPortfolio extends Component {
       title: this.props.title, 
       drag: this.props.drag,
       columns_width: this.props.columns_width,
+      location: this.props.location,
     })
   }
 }

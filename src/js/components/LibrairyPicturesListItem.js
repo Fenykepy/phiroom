@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
+import { Link } from 'react-router'
+
 import ContextualMenu from './ContextualMenu'
 import LibrairyPicturesListItemMenu from './LibrairyPicturesListItemMenu'
 
@@ -83,11 +85,6 @@ export default class LibrairyPicturesListItem extends Component {
 
   }
   
-  handleDoubleClick(e) {
-    e.preventDefault()
-    console.log(this.props.location)
-    console.log(this.context.router)
-  }
   handleClick(e) {
     e.stopPropagation() // to avoid unselectAll to trigger
     this.props.handleClick(this.props.index, e.ctrlKey, e.shiftKey)
@@ -182,18 +179,22 @@ export default class LibrairyPicturesListItem extends Component {
       >
         <article className={this.props.selected ? 'selected' : null}>
           <button
-            className="overlay"
+            className="overlay tr"
             title="Open menu"
             onClick={this.handleRightClick.bind(this)}
           >&#8226; &#8226; &#8226;</button>
+          <button
+            className="overlay br zoom"
+            title="Open in single view"
+          ><Link
+              to={`${this.props.location.pathname}single/${this.props.pk}/`}
+          ><span className="accessibility">Single</span></Link></button>
           <img
             style={this.getImageStyle()}
             src={'/media/images/previews/max-500/' + this.props.previews_path}
             draggable="true"
             onClick={this.handleClick.bind(this)}
-            onDoubleClick={this.handleDoubleClick.bind(this)}
             onDragStart={this.handleDrag.bind(this)}
-            onContextMenu={this.handleRightClick.bind(this)}
           />
         </article>
         {this.getContextualMenu()}
@@ -202,3 +203,4 @@ export default class LibrairyPicturesListItem extends Component {
     )
   }
 }
+

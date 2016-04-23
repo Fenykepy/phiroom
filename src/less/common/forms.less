@@ -167,15 +167,40 @@ input[type="submit"]:hover, input[type="submit"]:focus, button.primary:hover,
 
 button.overlay {
     position: absolute;
-    top: 0;
-    right: 0;
-    border-radius: 0 0 0 4px;
     border: none;
     margin: 0;
     color: @blog-text;
     background-color: rgba(255, 255, 255, 0.5);
     &:hover {
         color: #222;
+    }
+    &.tr {
+        top: 0;
+        right: 0;
+        border-radius: 0 0 0 4px;
+    }
+    &.br {
+        bottom: 0;
+        right: 0;
+        border-radius: 4px 0 0 0;
+    }
+}
+
+.zoom {
+    height: 32px;
+    width: 32px;
+    background: url("/assets/images/zoom.svg") center center no-repeat;
+    &:hover {
+        background: url("/assets/images/zoom-hover.svg") center center no-repeat;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+    a {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
     }
 }
 

@@ -277,6 +277,7 @@ export default class LibrairyPicturesList extends Component {
             removePicture={this.props.removePicture}
             deletePicture={this.confirmDeletePicture.bind(this)}
             unselectAll={this.unselectAll.bind(this)}
+            location={this.props.location}
             {...pict}
           />
           )}
