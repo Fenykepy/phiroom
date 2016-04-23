@@ -220,13 +220,39 @@ button.plus {
     }
 }
 
+button.grid-view {
+    position: relative;
+    vertical-align: middle;
+    height: 20px;
+    width: 30px;
+    border-radius: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    line-height: 0;
+    font-size: 0;
+    div {
+        display: inline-block;
+        margin: 1px 1px 0 0;
+        width: 5px;
+        height: 4px;
+        background: @lib-toolbar-icons;
+        &.visual {
+            opacity: 0.3;
+        }
+    }
+    &:hover div {
+        background: @lib-toolbar-icons-hover;
+    }
+}
+
 button.single-view {
     position: relative;
     height: 20px;
-    border-radius: 0;
-    margin: 0 15px;
     width: 30px;
+    border-radius: 0;
     box-sizing: border-box;
+    vertical-align: middle;
     border: 2px solid @lib-toolbar-icons;
     padding: 0;
     &:before {

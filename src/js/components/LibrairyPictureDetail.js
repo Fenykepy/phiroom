@@ -1,20 +1,42 @@
 import React, { Component, PropTypes } from 'react'
 
+import LibrairyGridViewButton from './LibrairyGridViewButton'
+
+import { getItemByKey } from '../helpers/utils'
+
+
 export default class LibrairyPictureDetail extends Component {
   render() {
-    return (
-      <section id="librairy-detail">
-        <header id="toolbar">
-          <div className="title">
-            <strong>{this.props.title}</strong>
-          </div>
-        </header>
-        <article>
-          <img
-            src={'/media/images/previews/large/' + this.props.previews_path}
-          />
-        </article>
-      </section>
-    )
+    //console.log('librairy picture detail', this.props)
+    let picture = getItemByKey(this.props.pictures, 'pk', parseInt(this.props.params.picture))
+
+    if (picture) {
+      return (
+        <section id="librairy-detail">
+          <header id="toolbar">
+            <div className="title">
+              <strong>{picture.name}</strong> | <h2>{picture.title || "No title"}</h2>
+            </div>
+            <div className="right-bar">
+              <div className="grid">
+                <LibrairyGridViewButton
+                  pathname={this.props.location.pathname}
+                />
+              </div>
+              <div className="selection">
+                {this.props.n_selected} selected / {this.props.n_pictures} pictures
+              </div>
+            </div>
+          </header>
+          <article>
+            <img
+              src={'/media/images/previews/large/' + picture.previews_path}
+            />
+          </article>
+        </section>
+      )
+    }
+    // TODO redirect to 404
+    return null 
   }
 }

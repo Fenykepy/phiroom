@@ -45,3 +45,10 @@ export function capitalize(s) {
 export function isTrue(array) {
   return array.filter(i => i)
 }
+
+export function getItemByKey(array, propertyName, propertyValue) {
+  // return first array element where propertyName equal propertyValue
+  return array.find((item) =>
+    item[propertyName] === propertyValue
+  )
+}
