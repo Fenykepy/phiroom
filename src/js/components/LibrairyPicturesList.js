@@ -5,6 +5,7 @@ import capitalize from '../helpers/utils'
 import LibrairyPicturesListItem from './LibrairyPicturesListItem'
 import Modal from './Modal'
 import LibrairyDeletePictureConfirm from './LibrairyDeletePictureConfirm'
+import LibrairySingleViewButton from './LibrairySingleViewButton'
 
 import { PICTURE } from '../constants/dragTypes'
 
@@ -255,6 +256,13 @@ export default class LibrairyPicturesList extends Component {
             <strong>{this.props.container_title}</strong> <h2>{this.props.title}</h2>
           </div>
           <div className="right-bar">
+            <div className="single">
+              <LibrairySingleViewButton
+                selected_list={this.props.selected_list}
+                pictures={this.props.pictures}
+                pathname={this.props.location.pathname}
+              />
+            </div>
             <div className="selection">
               {this.props.n_selected} selected / {this.props.n_pictures} pictures
             </div>

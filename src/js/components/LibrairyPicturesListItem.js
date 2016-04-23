@@ -188,7 +188,7 @@ export default class LibrairyPicturesListItem extends Component {
             title="Open in single view"
           ><Link
               to={`${this.props.location.pathname}single/${this.props.pk}/`}
-          ><span className="accessibility">Single</span></Link></button>
+          ><span className="accessibility">Single view</span></Link></button>
           <img
             style={this.getImageStyle()}
             src={'/media/images/previews/max-500/' + this.props.previews_path}

@@ -194,14 +194,16 @@ button.overlay {
         background: url("/assets/images/zoom-hover.svg") center center no-repeat;
         background-color: rgba(255, 255, 255, 0.5);
     }
-    a {
-        display: block;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-    }
+}
+
+// make links inside a button filling all space
+button a {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 button.plus {
@@ -218,6 +220,32 @@ button.plus {
     }
 }
 
+button.single-view {
+    position: relative;
+    height: 20px;
+    border-radius: 0;
+    margin: 0 15px;
+    width: 30px;
+    box-sizing: border-box;
+    border: 2px solid @lib-toolbar-icons;
+    padding: 0;
+    &:before {
+        display: block;
+        content: "";
+        position: absolute;
+        top: 2px;
+        bottom: 2px;
+        right: 2px;
+        left: 2px;
+        background: @lib-toolbar-icons;
+    }
+    &:hover {
+        border-color: @lib-toolbar-icons-hover;
+        &:before {
+            background: @lib-toolbar-icons-hover;
+        }
+    }
+}
 .form-horizontal {
     //background: green;
     .clear;
