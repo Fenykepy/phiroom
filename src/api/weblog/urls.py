@@ -26,7 +26,7 @@ urlpatterns = [
 
     url(r'^post-picture/$', views.PostPictureList.as_view(),
         name="post-picture-list"),
-    url(r'^post-picture/post/(?P<post>\d{4}/\d{2}/\d{2}/[-\w]+)/picture/(?P<picture>[0-9]+)/$',
+    url(r'^post-picture/post/(?P<post>\d{4}/\d{2}/\d{2}/[-\w]+)/picture/(?P<picture>[0-9A-Fa-f]{40})/$',
         views.PostPictureDetail.as_view(),
         name="post-picture-detail"),
 ]

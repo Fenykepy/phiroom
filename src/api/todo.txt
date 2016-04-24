@@ -35,6 +35,7 @@ librairy:
 #    - add a way to import pictures from an archive
 #    - add a way to export a bunch of pictures in an archive
 #    - add test for zip export 
+    - use sha1 to retrieve pictures
     - add test for zip export API
     - add user specific access to collections and collections ensembles
     - change 400 error on existing picture - {post, portfolio, collection} relation to no op.

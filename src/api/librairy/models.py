@@ -88,7 +88,7 @@ class Picture(models.Model):
             verbose_name="Importation date")
     last_update = models.DateTimeField(auto_now=True,
             verbose_name="Last update date")
-    sha1 = models.CharField(max_length=42, db_index=True)
+    sha1 = models.CharField(max_length=40, primary_key=True)
     source_file = models.ImageField(upload_to=set_picturename,
             storage=PictureFileSystemStorage()
     )
@@ -629,13 +629,9 @@ class PictureFactory(object):
         # try to get a clone
         clone = self._get_clone(self.picture.sha1)
         if clone:
-            # use it's attributes to create new Picture
+            # no need to add picture to db
             # no need to create previews and load metadatas
-            clone.pk = None
-            clone.name_import = self.picture.name_import
-            clone.name = clone.name_import
             self.picture = clone
-            self.picture.save()
             self.cloned = True
 
             return 

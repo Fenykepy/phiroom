@@ -62,7 +62,7 @@ class CollectionsEnsembleSerializer(serializers.ModelSerializer):
         read_only_fields = ('pk', 'collection_set')
 
     def get_pictures(self, object):
-        return object.get_pictures().values_list('pk', flat=True)
+        return object.get_pictures().values_list('sha1', flat=True)
 
 
 
@@ -109,10 +109,14 @@ class PictureSerializer(serializers.ModelSerializer):
     previews_path = serializers.ReadOnlyField()
     ratio = serializers.ReadOnlyField()
     sha1 = serializers.ReadOnlyField()
+    url = serializers.HyperlinkedIdentityField(
+            view_name='picture-detail',
+            lookup_field='sha1'
+    )
 
     class Meta:
         model = Picture
-        fields = ('url', 'pk', 'sha1', 'importation_date', 'last_update', 'source_file',
+        fields = ('url', 'sha1', 'importation_date', 'last_update', 'source_file',
                 'title', 'legend', 'name_import', 'name', 'type',
                 'weight','width', 'height', 'ratio', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
@@ -126,15 +130,15 @@ class PictureShortSerializer(serializers.ModelSerializer):
     """A serializer to show public data of pictures."""
     class Meta:
         model = Picture
-        fields = ('pk', 'sha1', 'title', 'legend', 'previews_path', 'ratio')
+        fields = ('sha1', 'title', 'legend', 'previews_path', 'ratio')
 
 
 
-class PicturePkSerializer(PictureSerializer):
-    """A serializer to show only a picture's pk."""
+class PictureSha1Serializer(PictureSerializer):
+    """A serializer to show only a picture's sha1."""
     class Meta:
         model = Picture
-        fields = ('pk', )
+        fields = ('sha1', )
 
 
 
@@ -152,7 +156,7 @@ class PictureUploadSerializer(PictureSerializer):
 
     class Meta:
         model = Picture
-        fields = ('url', 'pk', 'importation_date', 'last_update', 'source_file',
+        fields = ('url', 'importation_date', 'last_update', 'source_file',
                 'title', 'legend', 'name_import', 'name', 'type',
                 'weight','width', 'height', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
@@ -175,29 +179,29 @@ class PictureUploadSerializer(PictureSerializer):
 
 
 
-class PicturePkListSerializer(serializers.Serializer):
-    """A serializer to get a list of pk."""
-    pks = serializers.PrimaryKeyRelatedField(
+class PictureSha1ListSerializer(serializers.Serializer):
+    """A serializer to get a list of sha1'."""
+    sha1s = serializers.PrimaryKeyRelatedField(
         queryset=Picture.objects.all(),
         many=True
     )
 
 
-class ZipExportSerializer(PicturePkListSerializer):
+class ZipExportSerializer(PictureSha1ListSerializer):
     """
     A serializer to get a zip archive with images files:
-    take a list of pictures pks.
+    take a list of pictures sha1's.
     """
     full = serializers.BooleanField(default=True)
 
     def save(self):
-        zip = ZipExport(pictures = self.validated_data['pks'])
+        zip = ZipExport(pictures = self.validated_data['sha1s'])
         if self.validated_data['full']:
             return zip.get_full()
         return zip.get_large()
 
     class Meta:
-        write_only_fields = ('full', 'pks')
+        write_only_fields = ('full', 'sha1s')
 
 
 

@@ -83,7 +83,7 @@ class PortfolioPictureDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         try:
             port = Portfolio.objects.get(slug=self.kwargs['portfolio'])
-            pict = Picture.objects.get(pk=self.kwargs['picture'])
+            pict = Picture.objects.get(sha1=self.kwargs['picture'])
             port_pict = PortfolioPicture.objects.get(
                     portfolio=port,
                     picture=pict)
@@ -127,7 +127,7 @@ def portfolio_pictures(request, slug, format=None):
         except:
             raise Http404
     pictures = portfolio.pictures.all().only(
-            'pk', 'sha1', 'title', 'legend',
+            'sha1', 'title', 'legend',
             'previews_path', 'ratio')
     serializer = PictureShortSerializer(pictures, many=True)
 

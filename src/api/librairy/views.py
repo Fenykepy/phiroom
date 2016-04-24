@@ -22,6 +22,7 @@ class PicturesList(generics.ListCreateAPIView):
 
     queryset = Picture.objects.all()
     permission_classes = (IsAdminUser,)
+    lookup_field = 'sha1'
 
     def get_serializer_class(self):
         """
@@ -41,6 +42,7 @@ class PictureDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Picture.objects.all()
     serializer_class = PictureSerializer
     permission_classes = (IsAdminUser,)
+    lookup_field = 'sha1'
 
 
 
@@ -52,6 +54,7 @@ class PictureShortDetail(generics.RetrieveAPIView):
     queryset = Picture.objects.all()
     serializer_class = PictureShortSerializer
     permission_classes = (IsStaffOrReadOnly,)
+    lookup_field = 'sha1'
 
 
 class CollectionEnsembleList(generics.ListCreateAPIView):
@@ -123,7 +126,7 @@ class CollectionPictureDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         try:
             col = Collection.objects.get(pk=self.kwargs['collection'])
-            pict = Picture.objects.get(pk=self.kwargs['picture'])
+            pict = Picture.objects.get(sha1=self.kwargs['picture'])
             col_pict = CollectionPicture.objects.get(
                     collection=col,
                     picture=pict)
@@ -138,12 +141,12 @@ class CollectionPictureDetail(generics.RetrieveUpdateDestroyAPIView):
 @permission_classes((IsAdminUser,))
 def PicturesPkList(request, format=None):
     """
-    Returns a flat list of all pictures pks
+    Returns a flat list of all pictures sha1s
     ordered by importation date without pagination
     """
-    pks = Picture.objects.values_list('pk', flat=True).order_by('-importation_date')
+    sha1s = Picture.objects.values_list('sha1', flat=True).order_by('-importation_date')
 
-    return Response(pks)
+    return Response(sha1s)
 
 
 

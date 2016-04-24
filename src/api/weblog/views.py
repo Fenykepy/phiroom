@@ -99,7 +99,7 @@ class PostPictureDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         try:
             post = Post.objects.get(slug=self.kwargs['post'])
-            pict = Picture.objects.get(pk=self.kwargs['picture'])
+            pict = Picture.objects.get(sha1=self.kwargs['picture'])
             post_pict = PostPicture.objects.get(
                     post=post,
                     picture=pict)
@@ -157,7 +157,7 @@ def post_pictures(request, slug, format=None):
         except:
             raise Http404
     pictures = post.pictures.all().only(
-            'pk', 'sha1', 'title', 'legend',
+            'sha1', 'title', 'legend',
             'previews_path', 'ratio')
     serializer = PictureShortSerializer(pictures, many=True)
 

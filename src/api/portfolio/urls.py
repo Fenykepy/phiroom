@@ -15,7 +15,7 @@ urlpatterns = [
         name="portfolio-pictures"),
     url(r'^portfolio-picture/$', views.PortfolioPictureList.as_view(),
         name="portfolio-picture-list"),
-    url(r'^portfolio-picture/portfolio/(?P<portfolio>[-\w]+)/picture/(?P<picture>[0-9]+)/$',
+    url(r'^portfolio-picture/portfolio/(?P<portfolio>[-\w]+)/picture/(?P<picture>[0-9A-Fa-f]{40})/$',
         views.PortfolioPictureDetail.as_view(),
         name="portfolio-picture-detail"),
 ]
