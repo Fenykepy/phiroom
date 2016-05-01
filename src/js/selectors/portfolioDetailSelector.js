@@ -24,7 +24,7 @@ const portfolioPicturesNumberSelector = createSelector(
   }
 )
 
-// post list of picture's pks
+// post list of picture's sha1s
 const portfolioPicturesListSelector = createSelector(
     selectedPortfolioSelector,
     (selectedPortfolio) => {

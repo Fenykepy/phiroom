@@ -6,7 +6,7 @@ export default class LibrairyPicturesListItemMenu extends Component {
     // don't follow link
     e.preventDefault()
     // remove pict from portfolio || post || collection
-    this.props.removePicture(this.props.pk)
+    this.props.removePicture(this.props.sha1)
     // close context menu
     this.props.close()
   }
@@ -15,7 +15,7 @@ export default class LibrairyPicturesListItemMenu extends Component {
     // don't follow link
     e.preventDefault()
     // delete picture from phiroom
-    this.props.deletePicture(this.props.pk)
+    this.props.deletePicture(this.props.sha1)
     // close context menu
     this.props.close()
   }

@@ -58,10 +58,10 @@ export default class LibrairyPicturesList extends Component {
 
   getActionTargets(picture) {
     /*
-     * Take a picture pk as argument
-     * returns an array with all selected pictures pk
+     * Take a picture sha1 as argument
+     * returns an array with all selected pictures sha1
      * if picture is selected
-     * else return an array with only picture pk
+     * else return an array with only picture sha1
      * 
      * used to get all target of an action
      */
@@ -73,13 +73,13 @@ export default class LibrairyPicturesList extends Component {
     return [picture]
   }
 
-  getPicturesByPks(pks) {
+  getPicturesBySha1s(sha1s) {
     /*
-     * Return a list of picture objects corresponding to pks
+     * Return a list of picture objects corresponding to sha1
      * in given array
      */
     return this.props.pictures.filter((pict) => {
-      if (pks.indexOf(pict.pk) > -1) return true
+      if (sha1s.indexOf(pict.sha1) > -1) return true
       return false
     })
   }
@@ -103,8 +103,8 @@ export default class LibrairyPicturesList extends Component {
      * Open a modal window to confirm
      * pictures deletion from Phiroom
      */
-    let pks = this.getActionTargets(picture)
-    let pictures = this.getPicturesByPks(pks)
+    let sha1s = this.getActionTargets(picture)
+    let pictures = this.getPicturesBySha1s(sha1s)
 
     let title, small
     if (pictures.length > 1) {
@@ -122,7 +122,7 @@ export default class LibrairyPicturesList extends Component {
           modal_title={title}
           modal_child={LibrairyDeletePictureConfirm}
           pictures={pictures}
-          delete={() => this.deletePictures(pks)}
+          delete={() => this.deletePictures(sha1s)}
         />
     )
     this.props.dispatch(setModal(modal))
@@ -142,9 +142,9 @@ export default class LibrairyPicturesList extends Component {
     // if ctrl key was pressed, toggle picture selection
     if (ctrlKey) {
       if (pict.selected) {
-        return this.props.dispatch(unselectPicture(pict.pk))
+        return this.props.dispatch(unselectPicture(pict.sha1))
       }
-      return this.props.dispatch(selectPicture(pict.pk))
+      return this.props.dispatch(selectPicture(pict.sha1))
     }
     // if shiftkey was pressed and at least one picture is selected
     if (shiftKey && this.props.n_selected) {
@@ -167,7 +167,7 @@ export default class LibrairyPicturesList extends Component {
         this.props.dispatch(unselectAll())
         for (let i=start_index; i < end_index; i++) {
           this.props.dispatch(selectPicture(
-                this.props.pictures[i].pk
+                this.props.pictures[i].sha1
           ))
         }
         return
@@ -176,7 +176,7 @@ export default class LibrairyPicturesList extends Component {
     // if shift key was pressed, select all pictures between selected and clicked
     // unselect all and select picture
     this.props.dispatch(unselectAll())
-    return this.props.dispatch(selectPicture(pict.pk))
+    return this.props.dispatch(selectPicture(pict.sha1))
   }
   
   unselectAll() {
@@ -200,7 +200,7 @@ export default class LibrairyPicturesList extends Component {
   handleDrop(basket_index) {
     /*
      * Reorder pictures in display area :
-     * we reorder pks in array here for it to be common to
+     * we reorder sha1s in array here for it to be common to
      * all pictures list, then send results to parent function
      * which dispatchs with good container
      */
@@ -208,15 +208,15 @@ export default class LibrairyPicturesList extends Component {
     let statics_after = []
     let moved = []
     this.props.pictures.map((item, index) => {
-      if (this.props.drag.data.indexOf(item.pk) > -1) {
+      if (this.props.drag.data.indexOf(item.sha1) > -1) {
         // picture will be moved, push it to moved ones
-        moved.push(item.pk)
+        moved.push(item.sha1)
       } else {
         // picture won't be moved, add it to statics ones
         if (index < basket_index) {
-          statics_before.push(item.pk)
+          statics_before.push(item.sha1)
         } else {
-          statics_after.push(item.pk)
+          statics_after.push(item.sha1)
         }
       }
     })
@@ -274,7 +274,7 @@ export default class LibrairyPicturesList extends Component {
         <div className="pictures-wrapper">
         {this.props.pictures.map((pict, index) =>
           <LibrairyPicturesListItem
-            key={pict.pk}
+            key={pict.sha1}
             index={index}
             handleClick={this.handleClick.bind(this)}
             handleDrag={this.handleDrag.bind(this)}

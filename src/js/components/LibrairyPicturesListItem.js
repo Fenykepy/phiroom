@@ -45,7 +45,7 @@ export default class LibrairyPicturesListItem extends Component {
           container={this.props.container}
           X={this.state.X}
           Y={this.state.Y}
-          pk={this.props.pk}
+          sha1={this.props.sha1}
           index={this.props.index}
           previews_path={this.props.previews_path}
           source_file={this.props.source_file}
@@ -108,7 +108,7 @@ export default class LibrairyPicturesListItem extends Component {
 
   handleDrag(e) {
     //e.preventDefault()
-    this.props.handleDrag(e, this.props.pk)
+    this.props.handleDrag(e, this.props.sha1)
   }
 
   handleWrapperDragEnter(e) {
@@ -187,7 +187,7 @@ export default class LibrairyPicturesListItem extends Component {
             className="overlay br zoom"
             title="Open in single view"
           ><Link
-              to={`${this.props.location.pathname}single/${this.props.pk}/`}
+              to={`${this.props.location.pathname}single/${this.props.sha1}/`}
           ><span className="accessibility">Single view</span></Link></button>
           <img
             style={this.getImageStyle()}

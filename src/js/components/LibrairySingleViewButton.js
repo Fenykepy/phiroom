@@ -5,12 +5,12 @@ import { Link } from 'react-router'
 export default class extends Component {
 
   render() {
-    console.log(this.props.selected_list)
+    //console.log(this.props.selected_list)
     let picture
     if (this.props.selected_list[0]) {
       picture = this.props.selected_list[0]
     } else if (this.props.pictures[0]) {
-      picture = this.props.pictures[0].pk
+      picture = this.props.pictures[0].sha1
     }
     if (picture) {
       return (

@@ -8,7 +8,7 @@ import { getItemByKey } from '../helpers/utils'
 export default class LibrairyPictureDetail extends Component {
   render() {
     //console.log('librairy picture detail', this.props)
-    let picture = getItemByKey(this.props.pictures, 'pk', parseInt(this.props.params.picture))
+    let picture = getItemByKey(this.props.pictures, 'sha1', this.props.params.picture)
 
     if (picture) {
       return (

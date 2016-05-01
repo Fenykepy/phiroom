@@ -111,7 +111,7 @@ class Lightbox extends Component {
   getPreviousPath() {
     if (this.props.previous) {
       return this.getBasePath() +
-        '/lightbox/' + this.props.previous.pk + '/'
+        '/lightbox/' + this.props.previous.sha1 + '/'
     }
     return ""
   }
@@ -119,7 +119,7 @@ class Lightbox extends Component {
   getNextPath() {
     if (this.props.next) {
       return this.getBasePath() +
-        '/lightbox/' + this.props.next.pk + '/'
+        '/lightbox/' + this.props.next.sha1 + '/'
     }
     return "" 
   }
@@ -142,7 +142,7 @@ class Lightbox extends Component {
       showInfo,
     } = this.props
 
-    console.log('lb', this.props)
+    //console.log('lb', this.props)
     if (! this.props.activated || ! this.props.current) {
       return (<div />)
     }

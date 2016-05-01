@@ -76,7 +76,7 @@ const librairySelectedPicturesSelector = createSelector(
     (selected, pictures) => {
       let picts = []
       pictures.forEach((pict) => {
-        let index = selected.indexOf(pict.pk)
+        let index = selected.indexOf(pict.sha1)
         // picture is selected
         if (index > -1) {
           picts.push(Object.assign({}, pict, {

@@ -176,10 +176,10 @@ class Carousel extends Component {
     } 
   }
 
-  onImageDoubleClick(pk) {
+  onImageDoubleClick(sha1) {
     this.context.router.push(setLightboxLink(
       this.props.location.pathname,
-      pk
+      sha1
     ))
   }
 

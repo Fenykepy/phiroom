@@ -168,58 +168,58 @@ export function deletePicture(picture) {
 
 
 
-export function requestPicturesPks() {
+function requestAllPictures() {
   return {
-    type: types.REQUEST_PICTURES_PKS,
+    type: types.REQUEST_ALL_PICTURES,
   }
 }
 
-export function receivePicturesPks(json) {
+function receiveAllPictures(json) {
   return {
-    type: types.REQUEST_PICTURES_PKS_SUCCESS,
+    type: types.REQUEST_ALL_PICTURES_SUCCESS,
     data: json,
     receivedAt: Date.now()
   }
 }
 
-export function requestPicturesPksFailure(error) {
+function requestAllPicturesFailure(error) {
   return {
-    type: types.REQUEST_PICTURES_PKS_FAILURE,
+    type: types.REQUEST_ALL_PICTURES_FAILURE,
     error
   }
 }
 
-function shouldFetchPicturesPks(state) {
+function shouldFetchAllPictures(state) {
   const item = state.common.pictures.all
   if (! item) { return true }
   if (item.is_fetching || item.fetched) { return false }
   return true
 }
 
-export function fetchPicturesPksIfNeeded() {
+export function fetchAllPicturesIfNeeded() {
   // fetch picture if it's not done yet
   return (dispatch, getState) => {
-    if (shouldFetchPicturesPks(getState())) {
-      return dispatch(fetchPicturesPks())
+    if (shouldFetchAllPictures(getState())) {
+      return dispatch(fetchAllPictures())
     }
     // else return a resolved promise
     return new Promise((resolve, reject) => resolve(
-          {data: getState().common.pictures.all.pks}
+          {data: getState().common.pictures.all.pictures}
     ))
   }
 }
 
-export function fetchPicturesPks() {
+function fetchAllPictures() {
   /*
    * fetch a picture's data
    */
   return function(dispatch) {
     // start request
-    dispatch(requestPicturesPks())
+    dispatch(requestAllPictures())
     // return a promise
     return Fetch.get('api/librairy/pictures/all/')
       .then(json =>
-          dispatch(receivePicturesPks(json))
+          dispatch(receiveAllPictures(json))
       )
       /*.catch(error => {
           console.log(error)

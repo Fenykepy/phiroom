@@ -20,7 +20,7 @@ export default class LibrairyDeletePictureConfirm extends Component {
                 <img 
                   src={'/media/images/previews/max-500/'
                   + picture.previews_path}
-                  key={picture.pk}
+                  key={picture.sha1}
                 />
             )}
             </div>

@@ -197,7 +197,7 @@ export function fetchPortfolioPictures(portfolio) {
     return Fetch.get(`api/portfolio/portfolios/${portfolio}/pictures/`, getState())
       .then(json => {
         json.map((item) => {
-            dispatch(receiveShortPicture(item.pk, item))
+            dispatch(receiveShortPicture(item.sha1, item))
         })
       })
       /*.catch(error => {

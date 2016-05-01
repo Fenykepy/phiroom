@@ -7,9 +7,9 @@ import {
   REQUEST_SHORT_PICTURE,
   REQUEST_SHORT_PICTURE_SUCCESS,
   REQUEST_SHORT_PICTURE_FAILURE,
-  REQUEST_PICTURES_PKS,
-  REQUEST_PICTURES_PKS_SUCCESS,
-  REQUEST_PICTURES_PKS_FAILURE,
+  REQUEST_ALL_PICTURES,
+  REQUEST_ALL_PICTURES_SUCCESS,
+  REQUEST_ALL_PICTURES_FAILURE,
   ADD_PICTURE_TO_UPLOAD,
   UPLOAD_PICTURE,
   UPLOAD_PICTURE_SUCCESS,
@@ -82,7 +82,7 @@ function full (state = {}, action) {
       })
     case UPLOAD_PICTURE_SUCCESS:
       return Object.assign({}, state, {
-        [action.data.pk]: Object.assign({}, action.data, {
+        [action.data.sha1]: Object.assign({}, action.data, {
           is_fetching: false,
           fetched: true,
           receivedAt: action.receivedAt
@@ -101,31 +101,31 @@ function full (state = {}, action) {
 
 function all (state = {}, action) {
   switch (action.type) {
-    case REQUEST_PICTURES_PKS:
+    case REQUEST_ALL_PICTURES:
       return Object.assign({}, state, {
         is_fetching: true,
         fetched: false
       })
-    case REQUEST_PICTURES_PKS_SUCCESS:
+    case REQUEST_ALL_PICTURES_SUCCESS:
       return Object.assign({}, state, {
         is_fetching: false,
         fetched: true,
         receivedAt: action.receivedAt,
-        pks: action.data
+        pictures: action.data
       })
-    case REQUEST_PICTURES_PKS_FAILURE:
+    case REQUEST_ALL_PICTURES_FAILURE:
       return Object.assign({}, state, {
         is_fetching: false,
         fetched: false,
         error: action.error
       })
     case UPLOAD_PICTURE_SUCCESS:
-      // add new pictur to all pks array
-      let pks = []
-      if (state.pks) pks = state.pks.slice()
-      pks.unshift(action.data.pk)
+      // add new picture to all pictures array
+      let pictures = []
+      if (state.pictures) pictures = state.pictures.slice()
+      pictures.unshift(action.data.sha1)
       return Object.assign({}, state, {
-        pks: pks,
+        pictures: pictures,
       })
     case LOGOUT:
       return {}

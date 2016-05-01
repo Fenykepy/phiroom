@@ -193,7 +193,7 @@ export function fetchPostPictures(post) {
     return Fetch.get(`api/weblog/posts/${post}/pictures/`, getState())
       .then(json => {
         json.map((item) => {
-          dispatch(receiveShortPicture(item.pk, item))
+          dispatch(receiveShortPicture(item.sha1, item))
         })
       })
     }

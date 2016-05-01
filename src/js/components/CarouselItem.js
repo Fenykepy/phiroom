@@ -17,7 +17,7 @@ export default class CarouselItem extends Component {
              src={'/media/images/previews/height-600/' + this.props.previews_path}
              alt={this.props.legend}
              onClick={() => this.props.onClick(this.props.index)}
-             onDoubleClick={() => this.props.onDoubleClick(this.props.pk)}
+             onDoubleClick={() => this.props.onDoubleClick(this.props.sha1)}
              height={this.props.height}
              width={this.props.width}
              title="Double click me !"

@@ -33,7 +33,7 @@ function slideshow(state = false, action) {
   }
 }
 
-// contain list of all pictures pk
+// contain list of all pictures sha1
 function pictures(state = [], action) {
   switch(action.type) {
     case LIGHTBOX_START:
@@ -45,13 +45,13 @@ function pictures(state = [], action) {
   }
 }
 
-// contain current lightbox's main picture pk
+// contain current lightbox's main picture sha1
 function current(state = null, action) {
   switch(action.type) {
     case LIGHTBOX_START:
-      return parseInt(action.picture) || null
+      return action.picture || null
     case LIGHTBOX_SET_CURRENT:
-      return parseInt(action.picture) || null
+      return action.picture || null
     case LIGHTBOX_STOP:
       return null
     default:

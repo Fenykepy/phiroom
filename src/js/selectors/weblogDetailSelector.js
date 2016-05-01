@@ -26,7 +26,7 @@ const selectedPostSelector = state => state.weblog.posts[
   state.weblog.selectedPost
 ]
 
-// post list of picture's pks
+// post list of picture's sha1s
 const postPicturesListSelector = createSelector(
   selectedPostSelector,
   (selectedPost) => {

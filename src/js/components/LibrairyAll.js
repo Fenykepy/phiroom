@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import LibrairyPicturesList from './LibrairyPicturesList'
 
 import {
-  fetchPicturesPksIfNeeded,
+  fetchAllPicturesIfNeeded,
   fetchPictureIfNeeded,
 } from '../actions/pictures'
 
@@ -18,15 +18,15 @@ export default class LibrairyAll extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
     let promises = []
-    promises.push(dispatch(fetchPicturesPksIfNeeded()).then(data => {
+    promises.push(dispatch(fetchAllPicturesIfNeeded()).then(data => {
       dispatch(setPictures(data.data))
       dispatch(setTitle(null))
       // set document title
       dispatch(setDocumentTitleIfNeeded('All pictures'))
       // fetch all pictures if needed
       if (clientSide) {
-        data.data.map(pk => {
-          dispatch(fetchPictureIfNeeded(pk))
+        data.data.map(sha1 => {
+          dispatch(fetchPictureIfNeeded(sha1))
         })
       }
     }))

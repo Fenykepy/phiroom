@@ -11,10 +11,10 @@ const clientSideSelector = state => state.common.viewport.clientSide
 // pictures public data database
 const picturesShortSelector = state => state.common.pictures.short
 
-// pictures pk in a list [2, 8, 16]
+// pictures sha1s in a list [2, 8, 16]
 const lightboxPicturesSelector = state => state.common.lightbox.pictures
 
-// selected picture pk, must be in PicturesSelector
+// selected picture sha1s, must be in PicturesSelector
 const lightboxCurrentSelector = state => state.common.lightbox.current
 
 // boolean if lightbox is visible or not
