@@ -15,9 +15,36 @@ import {
   UPLOAD_PICTURE_SUCCESS,
   UPLOAD_PICTURE_FAILURE,
   DELETE_PICTURE,
+  PICTURE_EDIT_SET_TITLE,
+  REQUEST_UPDATE_PICTURE,
+  REQUEST_UPDATE_PICTURE_SUCCESS,
+  REQUEST_UPDATE_PICTURE_FAILURE,
   LOGOUT,
 } from '../constants/actionsTypes'
 
+
+function edited(state = {}, action) {
+  switch (action.type) {
+    case PICTURE_EDIT_SET_TITLE:
+      return Object.assign({}, state, {
+        title: action.title
+      })
+    case REQUEST_UPDATE_PICTURE:
+      return Object.assign({}, state, {
+        is_posting: true,
+        errors: {}
+      })
+    case REQUEST_UPDATE_PICTURE_SUCCESS:
+      return {}
+    case REQUEST_UPDATE_PICTURE_FAILURE:
+      return Object.assign({}, state, {
+        is_posting: false,
+        errors: action.errors
+      })
+    default:
+      return state
+  }
+}
 
 function short (state = {}, action) {
   switch (action.type) {
@@ -49,6 +76,12 @@ function short (state = {}, action) {
       let new_state = Object.assign({}, state)
       delete new_state[action.picture]
       return new_state
+    case REQUEST_UPDATE_PICTURE_SUCCESS:
+      return Object.assign({}, state, {
+        [action.picture]: Object.assign({}, state[action.picture], {
+          did_invalidate: true,
+        })
+      })
     default:
       return state
   }
@@ -92,6 +125,12 @@ function full (state = {}, action) {
       let new_state = Object.assign({}, state)
       delete new_state[action.picture]
       return new_state
+    case REQUEST_UPDATE_PICTURE_SUCCESS:
+      return Object.assign({}, state, {
+        [action.picture]: Object.assign({}, state[action.picture], {
+          did_invalidate: true,
+        })
+      })
     case LOGOUT:
       return {}
     default:
@@ -218,6 +257,7 @@ const uploading = combineReducers({
 
 
 const pictures = combineReducers({
+  edited,
   short,
   full,
   all,

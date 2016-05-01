@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import LibrairyGridViewButton from './LibrairyGridViewButton'
+import LibrairyPictureTitle from './LibrairyPictureTitle'
 
 import { getItemByKey } from '../helpers/utils'
 
@@ -15,7 +16,9 @@ export default class LibrairyPictureDetail extends Component {
         <section id="librairy-detail">
           <header id="toolbar">
             <div className="title">
-              <strong>{picture.name}</strong> | <h2>{picture.title || "No title"}</h2>
+              <strong>{picture.name}</strong> | <LibrairyPictureTitle
+                title={picture.title}
+              />
             </div>
             <div className="right-bar">
               <div className="grid">

@@ -315,3 +315,12 @@ function uploadPicture() {
 
   }
 }
+
+
+export function editTitle(title) {
+  return {
+    type: types.PICTURE_EDIT_SET_TITLE,
+    title
+  }
+}
+
