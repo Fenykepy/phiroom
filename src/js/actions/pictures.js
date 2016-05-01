@@ -310,17 +310,44 @@ function uploadPicture() {
       // upload next pict if necessary
       dispatch(uploadPicture())
     })
-
-
-
   }
 }
 
 
-export function editTitle(title) {
+function setPictureTitle(picture, title) {
   return {
-    type: types.PICTURE_EDIT_SET_TITLE,
-    title
+    type: types.PICTURE_SET_TITLE,
+    picture,
+    title,
   }
 }
 
+function requestUpdatePictureFailure(errors) {
+  return {
+    type: types.PICTURE_SET_TITLE,
+    errors
+  }
+}
+
+export function updatePictureTitle(picture, title) {
+  return function(dispatch, getState) {
+    // we store old title in case of fail
+    let old_title = getState().common.pictures.full[picture].title
+    console.log(old_title)
+    // we optimistically update title
+    dispatch(setPictureTitle(picture, title))
+    return Fetch.patch(`api/librairy/pictures/${picture}/`,
+      getState(),
+      {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      JSON.stringify({title: title})
+    )
+    .catch(error => {
+      // reset title
+      dispatch(setPictureTitle(picture, old_title))
+      throw error
+    })
+  }
+}

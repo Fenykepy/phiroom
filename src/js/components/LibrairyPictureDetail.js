@@ -18,6 +18,7 @@ export default class LibrairyPictureDetail extends Component {
             <div className="title">
               <strong>{picture.name}</strong> | <LibrairyPictureTitle
                 title={picture.title}
+                picture={picture.sha1}
               />
             </div>
             <div className="right-bar">

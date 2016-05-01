@@ -2,27 +2,25 @@ import React, { Component, PropTypes } from 'react'
 
 import { connect } from 'react-redux'
 
-import { pictureEditionSelector } from '../selectors/pictureEditionSelector'
-
-import { editTitle } from '../actions/pictures'
+import { updatePictureTitle } from '../actions/pictures'
 
 class PictureTitleEdition extends Component {
 
-  componentWillMount() {
-    this.props.dispatch(editTitle(this.props.title))
-  }
-
   componentDidMount() {
+    // we give focus on input and we select its text
     this.refs.titleInput.focus()
+    this.refs.titleInput.select()
   }
 
   handleValidate(e) {
-    this.props.dispatch(editTitle(e.target.value))
+    this.props.dispatch(updatePictureTitle(
+      this.props.picture,
+      e.target.value))
     console.log(e.target.value)
     this.props.stopEdition()
   }
 
-  handleKeyPress(e) {
+  handleTabEnter(e) {
     // react on tab and enter key to validate
     let TAB_KEY = 9
     let ENTER_KEY = 13
@@ -35,7 +33,6 @@ class PictureTitleEdition extends Component {
     // injected by connect call:
     const {
       dispatch,
-      edited,
     } = this.props
 
     // console.log('picture title edition', this.props)
@@ -44,10 +41,10 @@ class PictureTitleEdition extends Component {
         ref="titleInput"
         name="title"
         type="text"
-        defaultValue={this.props.edited.title}
+        defaultValue={this.props.title}
         maxLength="140"
-        onKeyDown={this.handleKeyPress.bind(this)}
-        onKeyPress={this.handleKeyPress.bind(this)}
+        onKeyDown={this.handleTabEnter.bind(this)}
+        onKeyPress={this.handleTabEnter.bind(this)}
         onBlur={this.handleValidate.bind(this)}
       />
     )
@@ -55,4 +52,4 @@ class PictureTitleEdition extends Component {
 }
 
 // Wrap the component to inject dispatch and state into it
-export default connect(pictureEditionSelector)(PictureTitleEdition)
+export default connect((state) => state )(PictureTitleEdition)

@@ -26,6 +26,7 @@ export default class LibrairyPictureTitle extends Component {
     if (this.state.editing) {
       return (<PictureTitleEdition
         title={this.props.title}
+        picture={this.props.picture}
         stopEdition={this.stopEdition.bind(this)}
       />)
     } else {
