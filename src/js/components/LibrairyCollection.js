@@ -83,24 +83,30 @@ export default class LibrairyCollection extends Component {
 
   render() {
     //console.log('librairy collection', this.props)
-    return (
-      <LibrairyPicturesList
-        container_title={'Collection:'}
-        container={'collection'}
-        edition_button={(
-          <CollectionEditionButton
-            dispatch={this.props.dispatch}
-            collection={this.props.params.pk}
-            n_pictures={this.props.n_pictures}
-            name={this.props.title}
-          />
-        )}
-        orderable={true}
-        removePicture={this.removePicture.bind(this)}
-        reorderPictures={this.reorderPictures.bind(this)}
-        {...this.props}
-      />
-    )
+    return React.cloneElement(this.props.children, {
+      container_title: 'Collection:',
+      container: 'collection',
+      edition_button: (
+        <CollectionEditionButton
+          dispatch={this.props.dispatch}
+          collection={this.props.params.pk}
+          n_pictures={this.props.n_pictures}
+          name={this.props.title}
+        />
+      ),
+      orderable: true,
+      removePicture: this.removePicture.bind(this),
+      reorderPictures: this.reorderPictures.bind(this),
+      dispatch: this.props.dispatch,
+      selected_list: this.props.selected_list, 
+      pictures: this.props.pictures,
+      n_pictures: this.props.n_pictures,
+      n_selected: this.props.n_selected,
+      title: this.props.title, 
+      drag: this.props.drag,
+      columns_width: this.props.columns_width,
+      location: this.props.location,
+    })
   }
 }
 

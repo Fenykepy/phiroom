@@ -86,23 +86,30 @@ export default class LibrairyPost extends Component {
 
   render() {
     //console.log('librairy post', this.props)
-    return (
-      <LibrairyPicturesList
-        container_title={'Post:'}
-        container={'post'}
-        edition_button={(
+    return React.cloneElement(this.props.children, {
+      container_title: 'Post:',
+      container: 'post',
+      edition_button: (
         <PostEditionButton
           dispatch={this.props.dispatch}
           post={buildPostSlug(this.props.params)}
           n_pictures={this.props.n_pictures}
           title={this.props.title}
-        />)}
-        orderable={true}
-        removePicture={this.removePicture.bind(this)}
-        reorderPictures={this.reorderPictures.bind(this)}
-        {...this.props}
-      />
-    )
+        />
+      ),
+      orderable: true,
+      removePicture: this.removePicture.bind(this),
+      reorderPictures: this.reorderPictures.bind(this),
+      dispatch: this.props.dispatch,
+      selected_list: this.props.selected_list,
+      pictures: this.props.pictures,
+      n_pictures: this.props.n_pictures,
+      n_selected: this.props.n_selected,
+      title: this.props.title,
+      drag: this.props.drag,
+      columns_width: this.props.columns_width,
+      location: this.props.location,
+    })
   }
 }
 
