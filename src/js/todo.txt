@@ -37,7 +37,7 @@
 - Add right panel with metadatas to librairy
 - Refactoring of viewport width to handle scroll bar
 #- Add a way to sort pictures in librairy list
-- Add a single view to librairy
+#- Add a single view to librairy
 - Add a way to download a zip archive from librairy
 #- Add a way to import pictures via http
 #- Add a way to import pictures from server hard drive -> command line only
@@ -108,7 +108,7 @@
 #    - Librairy -> librairySelector
 #        - LibrairyLeftPanel -> librairyLeftPanelSelector
         - LibrairyRightPanel -> librairyRightPanelSelector
-        - LibrairyDetail
+#        - LibrairyDetail
 #    - Login -> loginSelector
 #    - Logout -> dispatch only
 #    - Lightbox -> lightboxSelector

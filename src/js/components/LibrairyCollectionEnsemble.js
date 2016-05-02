@@ -52,21 +52,27 @@ export default class LibrairyCollectionEnsemble extends Component {
 
   render() {
     //console.log('librairy collection ensemble', this.props)
-    return (
-      <LibrairyPicturesList
-        container_title={'Collection ensemble:'}
-        container={'collection ensemble'}
-        edition_button={(
-          <EnsembleEditionButton
-            dispatch={this.props.dispatch}
-            ensemble={this.props.params.pk}
-            n_pictures={this.props.n_pictures}
-            name={this.props.title}
-          />
-        )}
-        orderable={false}
-        {...this.props}
-      />
-    )
+    return React.cloneElement(this.props.children, {
+      container_title: 'Collection ensemble:',
+      container: 'collection ensemble',
+      edition_button: (
+        <EnsembleEditionButton
+          dispatch={this.props.dispatch}
+          ensemble={this.props.params.pk}
+          n_pictures={this.props.n_pictures}
+          name={this.props.title}
+        />
+      ),
+      orderable: false,
+      dispatch: this.props.dispatch,
+      selected_list: this.props.selected_list, 
+      pictures: this.props.pictures,
+      n_pictures: this.props.n_pictures,
+      n_selected: this.props.n_selected,
+      title: this.props.title, 
+      drag: this.props.drag,
+      columns_width: this.props.columns_width,
+      location: this.props.location,
+    })
   }
 }
