@@ -63,10 +63,22 @@ export default () => {
             <IndexRoute component={LibrairyPicturesList} />
             <Route path="single/:picture(/)" component={LibrairyPictureDetail} />
           </Route>
-          <Route path="post/:y/:m/:d/:slug(/)" component={LibrairyPost} onEnter={appendSlash} />
-          <Route path="collection/:pk(/)" component={LibrairyCollection} onEnter={appendSlash} />
-          <Route path="collection-ensemble/:pk(/)" component={LibrairyCollectionEnsemble} onEnter={appendSlash} />
-          <Route path="all(/)" component={LibrairyAll} onEnter={appendSlash} />
+          <Route path="post/:y/:m/:d/:slug(/)" component={LibrairyPost} onEnter={appendSlash}>
+            <IndexRoute component={LibrairyPicturesList} />
+            <Route path="single/:picture(/)" component={LibrairyPictureDetail} />
+          </Route>
+          <Route path="collection/:pk(/)" component={LibrairyCollection} onEnter={appendSlash}>
+            <IndexRoute component={LibrairyPicturesList} />
+            <Route path="single/:picture(/)" component={LibrairyPictureDetail} />
+          </Route>
+          <Route path="collection-ensemble/:pk(/)" component={LibrairyCollectionEnsemble} onEnter={appendSlash}>
+            <IndexRoute component={LibrairyPicturesList} />
+            <Route path="single/:picture(/)" component={LibrairyPictureDetail} />
+          </Route>
+          <Route path="all(/)" component={LibrairyAll} onEnter={appendSlash}>
+            <IndexRoute component={LibrairyPicturesList} />
+            <Route path="single/:picture(/)" component={LibrairyPictureDetail} />
+          </Route>
         </Route>
       </Route>
     </Route>

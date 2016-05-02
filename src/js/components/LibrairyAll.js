@@ -42,14 +42,18 @@ export default class LibrairyAll extends Component {
 
   render() {
     //console.log('librairy all', this.props)
-    return (
-          <LibrairyPicturesList
-            {...this.props}
-            container_title={'All pictures'}
-            container={'all'}
-            dispatch={this.props.dispatch}
-
-          />
-    )
+    return React.cloneElement(this.props.children, {
+      container_title: 'All pictures',
+      container: 'all',
+      orderable: false,
+      dispatch: this.props.dispatch,
+      selected_list: this.props.selected_list,
+      pictures: this.props.pictures,
+      n_pictures: this.props.n_pictures,
+      n_selected: this.props.n_selected,
+      drag: this.props.drag,
+      columns_width: this.props.columns_width,
+      location: this.props.location
+    })
   }
 }
