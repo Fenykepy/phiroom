@@ -14,6 +14,7 @@ import Contact from './containers/Contact'
 import Librairy from './containers/Librairy'
 import Login from './containers/Login'
 import Logout from './containers/Logout'
+import NotFound from './components/NotFound'
 
 import LibrairyPortfolio from './components/LibrairyPortfolio'
 import LibrairyPost from './components/LibrairyPost'
@@ -79,6 +80,9 @@ export default () => {
             <IndexRoute component={LibrairyPicturesList} />
             <Route path="single/:picture(/)" component={LibrairyPictureDetail} />
           </Route>
+        </Route>
+        <Route component={WeblogWrapper}>
+          <Route path="*" component={NotFound} />
         </Route>
       </Route>
     </Route>
