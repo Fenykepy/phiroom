@@ -21,7 +21,7 @@ import { Link } from 'react-router'
 import Spinner from '../components/Spinner'
 import WeblogPostDetail from '../components/WeblogPostDetail'
 import WeblogPostNavigation from '../components/WeblogPostNavigation'
-
+import ErrorPage from '../components/ErrorPage'
 
 export function buildPostSlug(params) {
   // concatenate params to return a slug
@@ -92,6 +92,10 @@ class WeblogDetail extends Component {
   }
 
   getPost() {
+    // show error page if error
+    if (this.props.error) {
+      return (<ErrorPage />)
+    }
     // show spinner if no post
     if (this.props.is_fetching || ! this.props.fetched) {
       return (<Spinner message="Fetching..." />)

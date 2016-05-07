@@ -14,7 +14,7 @@ import Contact from './containers/Contact'
 import Librairy from './containers/Librairy'
 import Login from './containers/Login'
 import Logout from './containers/Logout'
-import NotFound from './components/NotFound'
+import ErrorPage from './components/ErrorPage'
 
 import LibrairyPortfolio from './components/LibrairyPortfolio'
 import LibrairyPost from './components/LibrairyPost'
@@ -82,7 +82,7 @@ export default () => {
           </Route>
         </Route>
         <Route component={WeblogWrapper}>
-          <Route path="*" component={NotFound} />
+          <Route path="*" component={ErrorPage} />
         </Route>
       </Route>
     </Route>

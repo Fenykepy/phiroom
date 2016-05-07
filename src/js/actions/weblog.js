@@ -175,7 +175,7 @@ function fetchPost(post) {
         dispatch(receivePost(post, json))
       )
       .catch(error =>
-          dispatch(requestPostFailure(post, error.message))
+          dispatch(requestPostFailure(post, error))
       )
   }
 }

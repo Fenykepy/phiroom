@@ -41,7 +41,7 @@ const postPicturesListSelector = createSelector(
 const postPicturesNumberSelector = createSelector(
     selectedPostSelector,
     (selectedPost) => {
-      if (selectedPost) {
+      if (selectedPost && selectedPost.pictures) {
         return selectedPost.pictures.length
       }
       return 0
@@ -66,7 +66,7 @@ const postPicturesSelector = createSelector(
     picturesShortSelector,
     (selectedPost, picturesShort) => {
       let pictures = []
-      if (selectedPost) {
+      if (selectedPost && selectedPost.pictures) {
         selectedPost.pictures.forEach(pict => {
           if (picturesShort[pict] && picturesShort[pict].fetched) {
             pictures.push(picturesShort[pict])
