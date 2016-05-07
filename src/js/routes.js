@@ -60,6 +60,7 @@ export default () => {
           <Route path="logout(/)" component={Logout} onEnter={appendSlash} />
         </Route>
         <Route path="librairy(/)" component={Librairy} onEnter={appendSlash}>
+          <IndexRoute component={LibrairyPicturesList} />
           <Route path="portfolio/:slug(/)" component={LibrairyPortfolio} onEnter={appendSlash}>
             <IndexRoute component={LibrairyPicturesList} />
             <Route path="single/:picture(/)" component={LibrairyPictureDetail} />

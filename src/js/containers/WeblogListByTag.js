@@ -61,6 +61,7 @@ class WeblogListByTag extends Component {
         />
       )
     }
+    // show error message if no posts found
     if (! selected.count) {
       return (
         <article>

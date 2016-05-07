@@ -69,7 +69,7 @@
 - Add a progress bar to picture uploader
 - Add a popup window to cancel leaving page while uploading
 #- Add a weblog list by tag
-- Add an error page (404, 500)
+#- Add an error page (404, 500)
 - Add infinite pagination to librairy list
 - Redirect to « last import » tab after picture import
 #- Remember last librairy page visited

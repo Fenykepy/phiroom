@@ -243,6 +243,38 @@ export default class LibrairyPicturesList extends Component {
     }
   }
 
+  listPictures() {
+    if (this.props.pictures < 1) {
+      return (
+        <article>
+          <p className="centered">
+            Sorry, no pictures here...
+          </p>
+          <p className="centered">
+            You can add pictures by drag & drop from the selected container to another one.
+          </p>
+        </article>
+      )
+    }
+    return this.props.pictures.map((pict, index) =>
+          <LibrairyPicturesListItem
+            key={pict.sha1}
+            index={index}
+            handleClick={this.handleClick.bind(this)}
+            handleDrag={this.handleDrag.bind(this)}
+            handleDrop={this.handleDrop.bind(this)}
+            dropValid={this.dropValid.bind(this)}
+            columns_width={this.props.columns_width}
+            container={this.props.container}
+            removePicture={this.props.removePicture}
+            deletePicture={this.confirmDeletePicture.bind(this)}
+            unselectAll={this.unselectAll.bind(this)}
+            location={this.props.location}
+            {...pict}
+          />
+    )
+  }
+
   render() {
     //console.log('picturesList', this.props)
     return (
@@ -272,23 +304,7 @@ export default class LibrairyPicturesList extends Component {
           </div>
         </header>
         <div className="pictures-wrapper">
-        {this.props.pictures.map((pict, index) =>
-          <LibrairyPicturesListItem
-            key={pict.sha1}
-            index={index}
-            handleClick={this.handleClick.bind(this)}
-            handleDrag={this.handleDrag.bind(this)}
-            handleDrop={this.handleDrop.bind(this)}
-            dropValid={this.dropValid.bind(this)}
-            columns_width={this.props.columns_width}
-            container={this.props.container}
-            removePicture={this.props.removePicture}
-            deletePicture={this.confirmDeletePicture.bind(this)}
-            unselectAll={this.unselectAll.bind(this)}
-            location={this.props.location}
-            {...pict}
-          />
-          )}
+          {this.listPictures()}
         </div>
       </section>
     )
