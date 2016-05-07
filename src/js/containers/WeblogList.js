@@ -59,6 +59,16 @@ class WeblogList extends Component {
         />
       )
     }
+    // show error message if no posts found
+    if (! selected.count) {
+      return (
+        <article>
+          <p className="centered">
+            Sorry, no published posts yet...
+          </p>
+        </article>
+      )
+    }
     return (
       <div>
         {selected.results.map(post =>

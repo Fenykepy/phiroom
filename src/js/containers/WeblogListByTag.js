@@ -61,6 +61,15 @@ class WeblogListByTag extends Component {
         />
       )
     }
+    if (! selected.count) {
+      return (
+        <article>
+          <p className="centered">
+            Sorry, no results with tag "{this.props.params.tag}"...
+          </p>
+        </article>
+      )
+    }
     return (
       <div>
         {selected.results.map(post =>
