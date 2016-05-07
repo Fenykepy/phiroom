@@ -53,7 +53,7 @@ function fetchPostsHeaders() {
           dispatch(receivePostsHeaders(json))
       )
       .catch(error =>
-          dispatch(requestPostsHeadersFailure(error.message))
+          dispatch(requestPostsHeadersFailure(error))
       )
   }
 }
@@ -270,8 +270,10 @@ function fetchWeblogPage(page) {
         // add post to state
         dispatch(receiveWeblogPage(page, json))
       })
-      .catch(error =>
-          dispatch(requestWeblogPageFailure(page, error.message))
+      .catch(error => {
+        console.log(error)
+        dispatch(requestWeblogPageFailure(page, error))
+      }
       )
   }
 }
@@ -350,7 +352,7 @@ function fetchWeblogPageByTag(tag, page) {
         dispatch(receiveWeblogPageByTag(tag, page, json))
       })
       .catch(error =>
-          dispatch(requestWeblogPageByTagFailure(tag, page, error.message))
+          dispatch(requestWeblogPageByTagFailure(tag, page, error))
       )
   }
 }

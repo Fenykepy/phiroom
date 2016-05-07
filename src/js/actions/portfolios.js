@@ -180,7 +180,7 @@ export function fetchPortfolio(portfolio) {
           dispatch(receivePortfolio(portfolio, json))
       )
       .catch(error => 
-          dispatch(requestPortfolioFailure(portfolio, error.message))
+          dispatch(requestPortfolioFailure(portfolio, error))
       )
   }
 }
@@ -200,11 +200,6 @@ export function fetchPortfolioPictures(portfolio) {
             dispatch(receiveShortPicture(item.sha1, item))
         })
       })
-      /*.catch(error => {
-          console.log(error.message)
-          dispatch(requestPortfolioPicturesFailure(
-              portfolio, error.message))
-      })*/
   }
 }
 
@@ -220,7 +215,7 @@ export function fetchPortfoliosHeaders() {
           dispatch(receivePortfoliosHeaders(json))
       )
       .catch(error =>
-          dispatch(requestPortfoliosHeadersFailure(error.message))
+          dispatch(requestPortfoliosHeadersFailure(error))
       )
   }
 }

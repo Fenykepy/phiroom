@@ -13,6 +13,7 @@ import  {
 import WeblogPagination from '../components/WeblogPagination'
 import WeblogPostAbstract from '../components/WeblogPostAbstract'
 import Spinner from '../components/Spinner'
+import ErrorPage from '../components/ErrorPage'
 
 class WeblogListByTag extends Component {
   
@@ -51,6 +52,14 @@ class WeblogListByTag extends Component {
     // show spinner if no selected page or if page is fetching
     if (! selected || selected.is_fetching) {
       return (<Spinner message="Fetching..." />)
+    }
+    // show error page if error
+    if (selected.error) {
+      return (
+        <ErrorPage
+          status={this.props.error.response.status}
+        />
+      )
     }
     return (
       <div>

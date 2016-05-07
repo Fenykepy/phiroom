@@ -94,7 +94,11 @@ class WeblogDetail extends Component {
   getPost() {
     // show error page if error
     if (this.props.error) {
-      return (<ErrorPage />)
+      return (
+        <ErrorPage
+          status={this.props.error.response.status}
+        />
+      )
     }
     // show spinner if no post
     if (this.props.is_fetching || ! this.props.fetched) {

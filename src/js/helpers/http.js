@@ -35,8 +35,8 @@ class Fetch {
   }
 
   checkStatus(response) {
+    console.log(response.status, response.url)
     if (response.status == 401) {
-      console.log('need authentication')
       // redirect to login page
       // TODO Add next link
       browserHistory.push('/login/')

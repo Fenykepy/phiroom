@@ -7,6 +7,7 @@ import { portfolioDetailSelector } from '../selectors/portfolioDetailSelector'
 import Carousel from '../components/Carousel'
 import CarouselInline from '../components/CarouselInline'
 import Spinner from '../components/Spinner'
+import ErrorPage from '../components/ErrorPage'
 
 
 // actions
@@ -91,6 +92,14 @@ class PortfolioDetail extends Component {
   }
 
   getCarousel() {
+    // show error page if error
+    if (this.props.error) {
+      return (
+        <ErrorPage
+          status={this.props.error.response.status}
+        />
+      )
+    }
     // show error message if portfolio has no pictures
     if (this.props.n_pictures == 0) {
       return (
