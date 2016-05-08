@@ -7,7 +7,7 @@ const SWIPED_TRANSITION = 300
 const PICT_MARGIN = 6
 
 const DEFAULT_STATE = {
-  slideshow: false, // boolean, slideshow running or not
+  slideshow: true, // boolean, slideshow running or not
   current: 0, // index of current picture
   widths: [], // widths of pictures
   prevs: [], // pictures indexes displayed before current
@@ -152,7 +152,8 @@ export default class Carousel2 extends Component {
 
     // swape first picture to end
     let last = this.state.nexts[this.state.nexts.length - 1]
-    let first = this.state.prevs[0] || current
+    let first = this.state.prevs[0]
+    if (this.props.pictures.length == 2) first = current
     let positions = this.state.positions.slice()
     positions[first] = positions[last] + widths[last] + PICT_MARGIN
 
@@ -174,7 +175,7 @@ export default class Carousel2 extends Component {
 
     // swape last picture to beginning
     let last = this.state.nexts[this.state.nexts.length - 1]
-    let first = this.state.prevs[0] || current
+    let first = this.state.prevs[0]
     let positions = this.state.positions.slice()
     positions[last] = positions[first] - widths[last] - PICT_MARGIN
 
