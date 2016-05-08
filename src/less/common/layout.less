@@ -516,6 +516,27 @@ hr {
         margin: 1em auto 4em auto;
     }
 }
+.carousel2 {
+    margin: 24px 0;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 0;
+    li {
+        position: absolute;
+        box-sizing: border-box;
+        left: 50%;
+        opacity: 0.6;
+        transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        &.selected {
+            opacity: 1;
+        }
+    }
+    img {
+        display: block;
+        position: relative;
+    }
+}
 // Carousel (automatique, client side rendering)
 .carousel {
     position: relative;

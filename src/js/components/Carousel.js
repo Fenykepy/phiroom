@@ -187,7 +187,7 @@ class Carousel extends Component {
   render() {
     let positions = this.setPositions()
 
-    //console.log('carousel', this.props)
+    console.log('carousel', this.props)
 
     return (
         <ul className="carousel" style={{height: this.props.carousel.height + 'px'}}>
