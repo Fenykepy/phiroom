@@ -193,7 +193,8 @@ class Carousel extends Component {
         <ul className="carousel" style={{height: this.props.carousel.height + 'px'}}>
 
           {this.props.pictures.map((pict, index) =>
-            <CarouselItem key={pict.previews_path}
+            <CarouselItem
+              key={pict.previews_path}
               onClick={this.onImageClick.bind(this)}
               onDoubleClick={this.onImageDoubleClick.bind(this)}
               height={this.props.carousel.height}

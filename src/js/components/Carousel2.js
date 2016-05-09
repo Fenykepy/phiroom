@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 
+import CarouselItem from './CarouselItem'
+
+import { setLightboxLink } from '../helpers/urlParser'
+
 
 // constants
 const LEFT_TRANSITION = 300
@@ -7,13 +11,14 @@ const SWIPED_TRANSITION = 300
 const PICT_MARGIN = 6
 
 const DEFAULT_STATE = {
-  slideshow: true, // boolean, slideshow running or not
+  slideshow: false, // boolean, slideshow running or not
   current: 0, // index of current picture
   widths: [], // widths of pictures
   prevs: [], // pictures indexes displayed before current
   nexts: [], // pictures indexes displayed after current
   positions: [], // left css property of pictures
   translate: 0, // default translateX
+  swaping: null, // index of tail pictures moving to other side of rubber
 }
 
 export default class Carousel2 extends Component {
@@ -56,7 +61,7 @@ export default class Carousel2 extends Component {
 
   getPictWidth(index) {
     if (this.refs[index]) {
-      return this.refs[index].offsetWidth
+      return this.refs[index].getWidth()
     }
     return 0
   }
@@ -98,6 +103,7 @@ export default class Carousel2 extends Component {
   }
 
   initPictures() {
+    console.log('init')
     let current = this.state.current
     let positions = []
     let widths = this.getWidths(this.props.pictures) 
@@ -202,25 +208,24 @@ export default class Carousel2 extends Component {
   }
 
   render() {
-    //console.log('carousel2', this.props)
+    //console.log('carousel2', this.state)
     return (
-        <ul ref="carousel" className="carousel2" style={{height: this.props.carousel.height + 'px'}}>
+      <ul ref="carousel"
+          className="carousel2"
+          style={{height: this.props.carousel.height + 'px'}}>
           {this.props.pictures.map((pict, index) =>
-            <li
-              onClick={() => this.onImageClick(index)}
-              className={this.state.current == index ? "selected" : ""}
+            <CarouselItem
               ref={index}
-              key={index}
-              style={{
-                left: this.state.positions[index] || 0,
-                transform: "translateX(" + this.state.translate + "px)",
-              }}
-            >
-              <img
-                src={'/media/images/previews/height-600/' + pict.previews_path}
-                onLoad={this.initPictures.bind(this)}
-              />
-            </li>
+              key={pict.sha1}
+              current={this.state.current == index}
+              swapping={this.state.swapping == index}
+              onLoad={this.initPictures.bind(this)}
+              onClick={() => this.onImageClick(index)}
+              lightboxLink={setLightboxLink(this.props.location.pathname,
+                pict.sha1)}
+              left={this.state.positions[index] || 0}
+              translate={this.state.translate}
+              {...pict} />
           )}
         </ul>
     )
