@@ -103,7 +103,6 @@ export default class Carousel2 extends Component {
   }
 
   initPictures() {
-    console.log('init')
     let current = this.state.current
     let positions = []
     let widths = this.getWidths(this.props.pictures) 
