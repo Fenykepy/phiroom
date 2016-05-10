@@ -40,6 +40,7 @@ export default class CarouselItem extends Component {
          src={'/media/images/previews/height-600/' + this.props.previews_path}
          alt={this.props.legend}
          onLoad={this.onLoad.bind(this)}
+         style={{height: this.props.height}}
       />
     )
     // if we have current picture return it with lightbox link wrapper

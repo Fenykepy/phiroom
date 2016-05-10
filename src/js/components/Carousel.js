@@ -39,6 +39,9 @@ export default class Carousel extends Component {
     if (prev_props.pictures != this.props.pictures) {
       this.setState(DEFAULT_STATE, this.initPictures)
     }
+    if (prev_props.carousel.height != this.props.carousel.height) {
+      this.initPictures()
+    }
   }
 
   
@@ -46,9 +49,9 @@ export default class Carousel extends Component {
     // start slideshow if necessary
     if (prev_state.slideshow != this.state.slideshow) {
       this.resetInterval()
+    }
     if (prev_props.pictures != this.props.pictures) {
       this.initPictures()
-    }
     }
   }
 
@@ -105,6 +108,7 @@ export default class Carousel extends Component {
   }
 
   initPictures() {
+    //console.log(this.props.carousel.height)
     let current = this.state.current
     let positions = []
     let widths = this.getWidths(this.props.pictures) 
@@ -135,6 +139,8 @@ export default class Carousel extends Component {
       nexts: nexts,
       prevs: prevs,
       positions: positions,
+      current: current,
+      swapping: null,
     })
     
   }
@@ -220,13 +226,15 @@ export default class Carousel extends Component {
   }
 
   render() {
-    //console.log('carousel2', this.state)
+    //console.log('carousel', this.props)
     return (
       <ul ref="carousel"
           className="carousel"
           style={{height: this.props.carousel.height + 'px'}}>
           {this.props.pictures.map((pict, index) =>
             <CarouselItem
+              height={this.props.carousel.height}
+              width={this.state.widths[index]}
               ref={index}
               key={pict.sha1}
               current={this.state.current == index}
