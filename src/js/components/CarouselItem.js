@@ -44,15 +44,29 @@ export default class CarouselItem extends Component {
     )
     // if we have current picture return it with lightbox link wrapper
     if (this.props.current) {
+
+      let play = (
+        <div className="play"></div>
+      )
+      let pause = (
+        <div className="pause"></div>
+      )
       return (
         <li
           ref="li"
           className="selected"
           style={style}
+          title="Open in lightbox"
         >
           <Link to={this.props.lightboxLink}>
             {img}
           </Link>
+          <button
+            className="overlay slideshow"
+            onClick={this.props.toggleSlideshow}
+            title="Toggle slideshow"
+          ><span className="accessibility">Toggle slideshow</span>
+          {this.props.slideshow ? pause : play}</button>
         </li>
       )
     }

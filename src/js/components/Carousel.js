@@ -10,7 +10,7 @@ const SWAP_TRANSITION = 300
 const PICT_MARGIN = 6
 
 const DEFAULT_STATE = {
-  slideshow: true, // boolean, slideshow running or not
+  slideshow: false, // boolean, slideshow running or not
   current: 0, // index of current picture
   widths: [], // widths of pictures
   prevs: [], // pictures indexes displayed before current

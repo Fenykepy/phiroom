@@ -186,6 +186,39 @@ button.overlay {
     }
 }
 
+// carousel slideshow toggle button
+button.slideshow {
+    width: 100%;
+    bottom: 0;
+    border-radius: 0;
+    line-height: 20px;
+    .pause, .play {
+        position: relative;
+        vertical-align: middle;
+        display: inline-block;
+        box-sizing: border-box;
+        width: 20px;
+        height: 20px;
+    }
+    .pause {
+        border-width: 7px;
+        border-style: solid;
+        border-color: @blog-text;
+        border-top: none;
+        border-bottom: none;
+    }
+    &:hover .pause {
+        border-color: #222;
+    }
+    .play:before {
+        left: 0;
+        .arrow-right(@blog-text, 10px, 20px);
+    }
+    &:hover .play:before {
+        .arrow-right(#222, 10px, 20px);
+    }
+}
+
 .zoom {
     height: 32px;
     width: 32px;
