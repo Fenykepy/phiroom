@@ -516,7 +516,8 @@ hr {
         margin: 1em auto 4em auto;
     }
 }
-.carousel2 {
+// Carousel (automatique, client side rendering)
+.carousel {
     margin: 24px 0;
     position: relative;
     overflow: hidden;
@@ -537,33 +538,6 @@ hr {
     img {
         display: block;
         position: relative;
-    }
-}
-// Carousel (automatique, client side rendering)
-.carousel {
-    position: relative;
-    margin: 24px 0;
-    overflow: hidden;
-    li {
-        position: absolute;
-        box-sizing: border-box;
-        opacity: 0.6;
-        transition: left 0.4s ease-in-out, opacity 0.4s ease-in-out ;
-        -webkit-transition: left 0.4s ease-in-out, opacity 0.4s ease-in-out;
-        &.selected {
-            opacity: 1;
-        }
-        &.swaping {
-            .transition(none);
-            img {
-                opacity: 0;
-            }
-        }
-        img {
-            display: block;
-            position: relative;
-            .transition(opacity 0.4s ease-in-out);
-        }
     }
 }
 

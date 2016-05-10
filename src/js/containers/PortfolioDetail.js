@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 
 import { portfolioDetailSelector } from '../selectors/portfolioDetailSelector'
 
-import Carousel from '../components/Carousel2'
-//import Carousel from '../components/Carousel'
+import Carousel from '../components/Carousel'
 import CarouselInline from '../components/CarouselInline'
 import Spinner from '../components/Spinner'
 import ErrorPage from '../components/ErrorPage'
