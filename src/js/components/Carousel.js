@@ -151,6 +151,10 @@ export default class Carousel extends Component {
     }
   }
 
+  toggleSlideshow() {
+    this.setState({slideshow: ! this.state.slideshow})
+  }
+
   goNext() {
     let widths = this.state.widths
     let current = this.state.current
@@ -229,6 +233,8 @@ export default class Carousel extends Component {
               swaping={this.state.swaping == index}
               onLoad={this.initPictures.bind(this)}
               onClick={() => this.onImageClick(index)}
+              toggleSlideshow={this.toggleSlideshow.bind(this)}
+              slideshow={this.state.slideshow}
               lightboxLink={setLightboxLink(this.props.location.pathname,
                 pict.sha1)}
               left={this.state.positions[index] || 0}
