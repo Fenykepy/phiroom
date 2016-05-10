@@ -6,8 +6,8 @@ import { setLightboxLink } from '../helpers/urlParser'
 
 
 // constants
-const LEFT_TRANSITION = 300
-const SWIPED_TRANSITION = 300
+const LEFT_TRANSITION = 400
+const SWAP_TRANSITION = 300
 const PICT_MARGIN = 6
 
 const DEFAULT_STATE = {
@@ -56,6 +56,9 @@ export default class Carousel2 extends Component {
   componentWillUnmount() {
     if (this.interval) {
       this.stopInterval(this.interval);
+    }
+    if (this.timeout) {
+      clearTimeout(this.timeout)
     }
   }
 
@@ -161,15 +164,18 @@ export default class Carousel2 extends Component {
     if (this.props.pictures.length == 2) first = current
     let positions = this.state.positions.slice()
     positions[first] = positions[last] + widths[last] + PICT_MARGIN
-
-    this.setState({
-      current: next,
-      nexts: this.getNexts(next, this.props.pictures),
-      prevs: this.getPrevs(next, this.props.pictures),
-      translate: this.state.translate + step,
-      positions: positions,
-    })
-
+    
+    // make first image disappear
+    this.setState({swaping: first})
+    this.timeout = setTimeout(() => 
+      this.setState({
+        current: next,
+        nexts: this.getNexts(next, this.props.pictures),
+        prevs: this.getPrevs(next, this.props.pictures),
+        translate: this.state.translate + step,
+        positions: positions,
+        swaping: null,
+    }), SWAP_TRANSITION)
   }
 
   goPrev() {
@@ -183,14 +189,18 @@ export default class Carousel2 extends Component {
     let first = this.state.prevs[0]
     let positions = this.state.positions.slice()
     positions[last] = positions[first] - widths[last] - PICT_MARGIN
-
-    this.setState({
-      current: prev,
-      nexts: this.getNexts(prev, this.props.pictures),
-      prevs: this.getPrevs(prev, this.props.pictures),
-      translate: this.state.translate + step,
-      positions: positions,
-    })
+    
+    // make last image disapper
+    this.setState({swaping: last})
+    this.timeout = setTimeout(() =>
+      this.setState({
+        current: prev,
+        nexts: this.getNexts(prev, this.props.pictures),
+        prevs: this.getPrevs(prev, this.props.pictures),
+        translate: this.state.translate + step,
+        positions: positions,
+        swaping: null,
+    }), SWAP_TRANSITION)
   }
 
   onImageClick(index) {
@@ -217,7 +227,7 @@ export default class Carousel2 extends Component {
               ref={index}
               key={pict.sha1}
               current={this.state.current == index}
-              swapping={this.state.swapping == index}
+              swaping={this.state.swaping == index}
               onLoad={this.initPictures.bind(this)}
               onClick={() => this.onImageClick(index)}
               lightboxLink={setLightboxLink(this.props.location.pathname,

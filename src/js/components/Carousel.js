@@ -124,7 +124,6 @@ class Carousel extends Component {
     }
   }
 
-
   goNext() {
     let index = this.props.carousel.prevs[0]
     this.setState({

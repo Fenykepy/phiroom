@@ -62,7 +62,7 @@ export default class CarouselItem extends Component {
       <li
         ref="li"
         style={style}
-        className={this.props.swapping ? "swapping" : ""}
+        className={this.props.swaping ? "swaping" : ""}
         onClick={this.props.onClick}>
         {img}
       </li>
