@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react'
 
 import { Link } from 'react-router'
 
+import { setLightboxLink } from '../helpers/urlParser'
+
 export default class CarouselItem extends Component {
 
   constructor(props) {
@@ -29,6 +31,7 @@ export default class CarouselItem extends Component {
   onLoad() {
     // launch carousel onLoad on image load
     if (! this.state.imageLoaded) {
+      console.log('loaded')
       this.setState({imageLoaded: true})
       this.props.onLoad()
     }
@@ -53,6 +56,9 @@ export default class CarouselItem extends Component {
     // if we have current picture return it with lightbox link wrapper
     if (this.props.current) {
 
+      let lightboxLink= setLightboxLink(this.props.pathname,
+        this.props.sha1)
+
       let play = (
         <div className="play"></div>
       )
@@ -66,7 +72,7 @@ export default class CarouselItem extends Component {
           style={style}
           title="Open in lightbox"
         >
-          <Link to={this.props.lightboxLink}>
+          <Link to={lightboxLink}>
             {img}
           </Link>
           <button
@@ -90,4 +96,20 @@ export default class CarouselItem extends Component {
       </li>
     )
   }
+}
+
+CarouselItem.propTypes = {
+  pathname: PropTypes.string.isRequired,
+  current: PropTypes.bool.isRequired,
+  swaping: PropTypes.bool.isRequired,
+  onLoad: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  toggleSlideshow: PropTypes.func.isRequired,
+  slideshow: PropTypes.bool.isRequired,
+  translate: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  left: PropTypes.number.isRequired,
+  previews_path: PropTypes.string.isRequired,
+  sha1: PropTypes.string.isRequired,
+  legend: PropTypes.string,
 }

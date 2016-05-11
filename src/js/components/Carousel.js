@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 
 import CarouselItem from './CarouselItem'
 
-import { setLightboxLink } from '../helpers/urlParser'
 
 
 // constants
@@ -10,7 +9,7 @@ const SWAP_TRANSITION = 300
 const PICT_MARGIN = 6
 
 const DEFAULT_STATE = {
-  slideshow: false, // boolean, slideshow running or not
+  slideshow: true, // boolean, slideshow running or not
   current: 0, // index of current picture
   widths: [], // widths of pictures
   prevs: [], // pictures indexes displayed before current
@@ -36,7 +35,9 @@ export default class Carousel extends Component {
 
   componentWillUpdate(prev_props, prev_state) {
     if (prev_props.pictures != this.props.pictures) {
-      this.setState(DEFAULT_STATE, this.initPictures)
+      console.log('pictures changed')
+      this.setState(this.initPictures)
+      this.resetInterval()
     }
   }
   
@@ -103,9 +104,10 @@ export default class Carousel extends Component {
   }
 
   initPictures() {
-    //console.log(this.props.carousel.height)
+    console.log(this.state)
     let current = this.state.current
     let positions = []
+    console.log('getPicturesWidth')
     let widths = this.getWidths(this.props.pictures) 
     // get carousel width and set current position
     let width = this.refs.carousel.offsetWidth
@@ -229,21 +231,22 @@ export default class Carousel extends Component {
           style={{height: this.props.carousel.height + 'px'}}>
           {this.props.pictures.map((pict, index) =>
             <CarouselItem
-              height={this.props.carousel.height}
-              width={this.state.widths[index]}
               ref={index}
-              key={pict.sha1}
+              key={pict.sha1+index}
+              pathname={this.props.location.pathname}
               current={this.state.current == index}
               swaping={this.state.swaping == index}
               onLoad={this.initPictures.bind(this)}
               onClick={() => this.onImageClick(index)}
               toggleSlideshow={this.toggleSlideshow.bind(this)}
               slideshow={this.state.slideshow}
-              lightboxLink={setLightboxLink(this.props.location.pathname,
-                pict.sha1)}
+              height={this.props.carousel.height}
               left={this.state.positions[index] || 0}
               translate={this.state.translate}
-              {...pict} />
+              previews_path={pict.previews_path}
+              legend={pict.legend}
+              sha1={pict.sha1}
+            />
           )}
         </ul>
     )
