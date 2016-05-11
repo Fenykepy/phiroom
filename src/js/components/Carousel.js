@@ -34,16 +34,11 @@ export default class Carousel extends Component {
     this.initPictures()
   }
 
-
   componentWillUpdate(prev_props, prev_state) {
     if (prev_props.pictures != this.props.pictures) {
       this.setState(DEFAULT_STATE, this.initPictures)
     }
-    if (prev_props.carousel.height != this.props.carousel.height) {
-      this.initPictures()
-    }
   }
-
   
   componentDidUpdate(prev_props, prev_state) {
     // start slideshow if necessary
@@ -141,6 +136,7 @@ export default class Carousel extends Component {
       positions: positions,
       current: current,
       swapping: null,
+      translate: 0,
     })
     
   }

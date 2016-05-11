@@ -11,6 +11,13 @@ export default class CarouselItem extends Component {
     this.state = {imageLoaded: false}
   }
 
+  componentDidUpdate(prev_props) {
+    // trigger load event if height changed
+    if (prev_props.height != this.props.height) {
+      this.props.onLoad()
+    }
+  }
+
   getWidth() {
     // return picture width
     if (this.refs.li) {
