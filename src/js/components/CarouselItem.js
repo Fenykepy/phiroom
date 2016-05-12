@@ -47,7 +47,7 @@ export default class CarouselItem extends Component {
     let img = (
       <img
          src={'/media/images/previews/height-600/' + this.props.previews_path}
-         alt={this.props.legend}
+         alt={this.props.title}
          onLoad={this.onLoad.bind(this)}
          style={{height: this.props.height}}
       />
@@ -110,5 +110,5 @@ CarouselItem.propTypes = {
   left: PropTypes.number.isRequired,
   previews_path: PropTypes.string.isRequired,
   sha1: PropTypes.string.isRequired,
-  legend: PropTypes.string,
+  title: PropTypes.string.isRequired,
 }

@@ -243,7 +243,7 @@ export default class Carousel extends Component {
               left={this.state.positions[index] || 0}
               translate={this.state.translate}
               previews_path={pict.previews_path}
-              legend={pict.legend}
+              title={pict.title}
               sha1={pict.sha1}
             />
           )}
@@ -253,7 +253,13 @@ export default class Carousel extends Component {
 }
 
 Carousel.propTypes = {
-  pictures: PropTypes.array.isRequired,
+  pictures: PropTypes.arrayOf(
+    PropTypes.shape({
+      previews_path: PropTypes.string.isRequired,
+      sha1: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
   slideshowDuration: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   pathname: PropTypes.string.isRequired,

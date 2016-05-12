@@ -1,28 +1,26 @@
 import React, { Component, PropTypes } from 'react'
 
+import { Link } from 'react-router'
+
+import { setLightboxLink } from '../helpers/urlParser'
 
 export default class CarouselInlineItem extends Component {
   
-  getLightboxPath(sha1) {
-    let path = this.props.path
-    if (path.slice(-1) != '/') {
-      path = path + '/'
-    }
-    return path + 'lightbox/' + sha1 + '/'
-  }
-
   render() {
     //console.log('carousel inline item', this.props)
+    let lightboxLink = setLightboxLink(this.props.pathname,
+      this.props.sha1)
+    
     return (
-      <li><a href={this.getLightboxPath(this.props.sha1)}
+      <li><Link to={lightboxLink}
           ><img src={'/media/images/previews/height-600/' + this.props.previews_path}
-            alt={this.props.legend} /></a></li>
+            alt={this.props.title} /></Link></li>
     )
   }
 }
 
-CarouselInlineItem.PropTypes = {
+CarouselInlineItem.propTypes = {
+  pathname: PropTypes.string.isRequired,
   previews_path: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  legend: PropTypes.string.isRequired,
 }
