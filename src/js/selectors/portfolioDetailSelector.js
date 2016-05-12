@@ -40,16 +40,15 @@ export const portfolioPicturesSelector = createSelector(
   selectedPortfolioSelector,
   picturesShortSelector,
   (selectedPortfolio, picturesShort) => {
+    let picts = []
     if (selectedPortfolio && selectedPortfolio.pictures) {
-      let picts = []
       selectedPortfolio.pictures.forEach((pict) => {
         if (picturesShort[pict] && picturesShort[pict].fetched) {
           picts.push(picturesShort[pict])
         }
       })
-      return picts
     }
-    else { return [] }
+    return picts
   }
 )
 
@@ -81,15 +80,13 @@ const carouselHeightSelector = createSelector(
 )
 
 
-let carousel
+let carousel = {}
 if (dynamicCarouselSelector) { //client side
   carousel = {
     dynamic: dynamicCarouselSelector,
     slideshowDuration: slideshowDurationSelector,
     height: carouselHeightSelector,
   }
-} else {
-  carousel = {}
 }
 
 export const carouselSelector = createStructuredSelector(carousel)

@@ -86,7 +86,7 @@ class PortfolioDetail extends Component {
       )
     }
     // show error message if portfolio has no pictures
-    if (this.props.n_pictures == 0) {
+    if (! this.props.is_fetching && this.props.n_pictures == 0) {
       return (
         <div className="carousel-error">
           <em>Sorry, no pictures in this portfolio yet...</em>
@@ -106,10 +106,6 @@ class PortfolioDetail extends Component {
           pictures={this.props.pictures}
           slideshowDuration={this.props.carousel.slideshowDuration}
           height={this.props.carousel.height}
-
-          toggleSlideshow={this.toggleSlideshow.bind(this)}
-          goNext={this.goNext.bind(this)}
-          goPrev={this.goPrev.bind(this)}
         />
       )
     }
@@ -133,11 +129,12 @@ class PortfolioDetail extends Component {
       is_fetching,
       carousel,
       pictures,
+      title,
       n_pictures,
       picturesList,
     } = this.props
     
-    console.log('port detail', this.props)
+    //console.log('port detail', this.props)
 
     return (
         <section role="main">
@@ -148,6 +145,20 @@ class PortfolioDetail extends Component {
     )
   }
 }
+
+PortfolioDetail.propTypes = {
+  title: PropTypes.string,
+  pictures: PropTypes.arrayOf(
+    PropTypes.shape({
+      previews_path: PropTypes.string.isRequired,
+      sha1: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
+  carousel: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+}
+
 
 
 export default connect(portfolioDetailSelector)(PortfolioDetail)

@@ -70,9 +70,10 @@ export function fetchShortPicture(picture) {
       .then(json =>
           dispatch(receiveShortPicture(picture, json))
       )
-      .catch(error =>
+      .catch(error => {
           dispatch(requestShortPictureFailure(picture, error.message))
-      )
+          throw error
+      })
   }
 }
 
