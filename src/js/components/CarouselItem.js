@@ -31,7 +31,6 @@ export default class CarouselItem extends Component {
   onLoad() {
     // launch carousel onLoad on image load
     if (! this.state.imageLoaded) {
-      console.log('loaded')
       this.setState({imageLoaded: true})
       this.props.onLoad()
     }

@@ -35,8 +35,8 @@ export default class Carousel extends Component {
 
   componentWillUpdate(prev_props, prev_state) {
     if (prev_props.pictures != this.props.pictures) {
-      console.log('pictures changed')
-      this.setState(this.initPictures)
+      // reset to first picture and compute positions
+      this.setState({current: 0}, this.initPictures)
       this.resetInterval()
     }
   }
@@ -104,10 +104,8 @@ export default class Carousel extends Component {
   }
 
   initPictures() {
-    console.log(this.state)
     let current = this.state.current
     let positions = []
-    console.log('getPicturesWidth')
     let widths = this.getWidths(this.props.pictures) 
     // get carousel width and set current position
     let width = this.refs.carousel.offsetWidth
@@ -130,6 +128,7 @@ export default class Carousel extends Component {
       positions[index] = cursor + PICT_MARGIN
       cursor = positions[index] + widths[index]
     }
+
 
     this.setState({
       widths: widths,
