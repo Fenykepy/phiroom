@@ -9,9 +9,6 @@ import {
   REQUEST_PORTFOLIOS_HEADERS_FAILURE,
   INVALIDATE_PORTFOLIO,
   SELECT_PORTFOLIO,
-  PORTFOLIO_NEXT_PICT,
-  PORTFOLIO_PREV_PICT,
-  PORTFOLIO_TOGGLE_SLIDESHOW,
   PORTFOLIO_REMOVE_PICTURE,
   ORDER_PORTFOLIO_PICTURES,
   REQUEST_CREATE_PORTFOLIO,
@@ -196,46 +193,11 @@ function portfolios(state = {}, action) {
 }
 
 
-const carouselInitialState = {
-  current_pict: 0,
-  slideshow: true,
-}
-
-function carousel(state = carouselInitialState, action) {
-  switch (action.type) {
-    case SELECT_PORTFOLIO:
-      // reset current picture
-      return Object.assign({}, state, {
-        current_pict: 0
-      })
-    case PORTFOLIO_NEXT_PICT:
-      let next_index = state.current_pict + 1
-      next_index = next_index == action.length ? 0 : next_index
-      return Object.assign({}, state, {
-        current_pict: next_index
-      })
-    case PORTFOLIO_PREV_PICT:
-      let prev_index = state.current_pict - 1
-      prev_index = prev_index < 0 ? action.length - 1 : prev_index
-      return Object.assign({}, state, {
-        current_pict: prev_index
-      })
-    case PORTFOLIO_TOGGLE_SLIDESHOW:
-      return Object.assign({}, state, {
-        slideshow: ! state.slideshow
-      })
-    default:
-      return state
-  }
-}
-
-
 const portfolio = combineReducers({
   selected,
   edited,
   headers,
   portfolios,
-  carousel,
 })
 
 export default portfolio

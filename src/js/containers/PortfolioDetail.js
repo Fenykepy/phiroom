@@ -15,9 +15,6 @@ import {
   fetchPortfolioIfNeeded,
   fetchPortfolioPictures,
   selectPortfolio,
-  nextPict,
-  prevPict,
-  toggleSlideshow
 } from '../actions/portfolios'
 import { lightboxStart } from '../actions/lightbox'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
@@ -67,18 +64,6 @@ class PortfolioDetail extends Component {
     if (this.props.params.slug != nextProps.params.slug) {
       this.fetchData(nextProps.params)
     }
-  }
-
-  goNext() {
-    this.props.dispatch(nextPict(this.props.pictures.length))
-  }
-
-  goPrev() {
-    this.props.dispatch(prevPict(this.props.pictures.length))
-  }
-
-  toggleSlideshow() {
-    this.props.dispatch(toggleSlideshow())
   }
 
   getLightbox() {
@@ -132,7 +117,7 @@ class PortfolioDetail extends Component {
     // or if we are server side
     return (<CarouselInline
         pictures={this.props.pictures}
-        path={this.props.location.pathname}
+        pathname={this.props.location.pathname}
     />)
 
   }
@@ -152,7 +137,7 @@ class PortfolioDetail extends Component {
       picturesList,
     } = this.props
     
-    //console.log('port detail', this.props)
+    console.log('port detail', this.props)
 
     return (
         <section role="main">

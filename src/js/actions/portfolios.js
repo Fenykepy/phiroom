@@ -108,18 +108,6 @@ export function selectPortfolio(portfolio) {
   return {type: types.SELECT_PORTFOLIO, portfolio}
 }
 
-export function nextPict(length) {
-  return { type: types.PORTFOLIO_NEXT_PICT, length }
-}
-
-export function prevPict(length) {
-  return { type: types.PORTFOLIO_PREV_PICT, length }
-}
-
-export function toggleSlideshow() {
-  return { type: types.PORTFOLIO_TOGGLE_SLIDESHOW }
-}
-
 export function toggleLightbox() {
   return { type: types.TOGGLE_LIGHTBOX }
 }
