@@ -46,9 +46,6 @@ export default class Carousel extends Component {
     if (prev_state.slideshow != this.state.slideshow) {
       this.resetInterval()
     }
-    if (prev_props.pictures != this.props.pictures) {
-      this.initPictures()
-    }
   }
 
   componentWillUnmount() {
