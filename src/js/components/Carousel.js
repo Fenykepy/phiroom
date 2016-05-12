@@ -150,7 +150,7 @@ export default class Carousel extends Component {
   resetInterval() {
     this.stopInterval(this.interval);
     if (this.state.slideshow) {
-      this.interval = setInterval(this.goNext.bind(this), this.props.carousel.slideshowDuration)
+      this.interval = setInterval(this.goNext.bind(this), this.props.slideshowDuration)
     }
   }
 
@@ -227,19 +227,19 @@ export default class Carousel extends Component {
     return (
       <ul ref="carousel"
           className="carousel"
-          style={{height: this.props.carousel.height + 'px'}}>
+          style={{height: this.props.height + 'px'}}>
           {this.props.pictures.map((pict, index) =>
             <CarouselItem
               ref={index}
               key={pict.sha1+index}
-              pathname={this.props.location.pathname}
+              pathname={this.props.pathname}
               current={this.state.current == index}
               swaping={this.state.swaping == index}
               onLoad={this.initPictures.bind(this)}
               onClick={() => this.onImageClick(index)}
               toggleSlideshow={this.toggleSlideshow.bind(this)}
               slideshow={this.state.slideshow}
-              height={this.props.carousel.height}
+              height={this.props.height}
               left={this.state.positions[index] || 0}
               translate={this.state.translate}
               previews_path={pict.previews_path}
@@ -250,4 +250,11 @@ export default class Carousel extends Component {
         </ul>
     )
   }
+}
+
+Carousel.propTypes = {
+  pictures: PropTypes.array.isRequired,
+  slideshowDuration: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  pathname: PropTypes.string.isRequired,
 }

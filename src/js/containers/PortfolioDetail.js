@@ -117,9 +117,11 @@ class PortfolioDetail extends Component {
     if (this.props.carousel.dynamic) {
       return (
         <Carousel
-          location={this.props.location}
+          pathname={this.props.location.pathname}
           pictures={this.props.pictures}
-          carousel={this.props.carousel}
+          slideshowDuration={this.props.carousel.slideshowDuration}
+          height={this.props.carousel.height}
+
           toggleSlideshow={this.toggleSlideshow.bind(this)}
           goNext={this.goNext.bind(this)}
           goPrev={this.goPrev.bind(this)}
