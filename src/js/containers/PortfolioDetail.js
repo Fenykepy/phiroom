@@ -86,7 +86,7 @@ class PortfolioDetail extends Component {
       )
     }
     // show error message if portfolio has no pictures
-    if (! this.props.is_fetching && this.props.n_pictures == 0) {
+    if (this.props.fetched && this.props.n_pictures == 0) {
       return (
         <div className="carousel-error">
           <em>Sorry, no pictures in this portfolio yet...</em>
@@ -127,6 +127,7 @@ class PortfolioDetail extends Component {
     const {
       dispatch,
       is_fetching,
+      fetched,
       carousel,
       pictures,
       title,
@@ -134,7 +135,7 @@ class PortfolioDetail extends Component {
       picturesList,
     } = this.props
     
-    //console.log('port detail', this.props)
+    console.log('port detail', this.props)
 
     return (
         <section role="main">
