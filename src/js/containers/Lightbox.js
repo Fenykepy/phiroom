@@ -124,6 +124,10 @@ class Lightbox extends Component {
     return "" 
   }
 
+  handleKeyPress(e) {
+    console.log('key pressed', e.which)
+  }
+
   render() {
     // injected by connect call:
     const {

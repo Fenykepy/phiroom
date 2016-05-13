@@ -5,7 +5,6 @@ import * as types from '../constants/actionsTypes'
 
 
 export function lightboxStart(pictures, picture) {
-  console.log('start', pictures, picture)
   return {
     type: types.LIGHTBOX_START,
     pictures,
@@ -14,7 +13,6 @@ export function lightboxStart(pictures, picture) {
 }
 
 export function lightboxSetCurrent(picture) {
-  console.log('set current', picture)
   return {
     type: types.LIGHTBOX_SET_CURRENT,
     picture

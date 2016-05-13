@@ -15,7 +15,7 @@ export default class LightboxStarter extends Component {
   }
 
   componentWillMount() {
-    console.log('lb starter', this.props.pictures)
+    //console.log('lb starter', this.props.pictures)
     this.startLightbox(
         this.props.pictures,
         this.props.params.lightbox
