@@ -20,6 +20,16 @@ import LightboxFigure from '../components/LightboxFigure'
 
 class Lightbox extends Component {
 
+  componentWillMount() {
+    // listen for keyboard events
+    document.addEventListener('keydown', this.handleKeyPress)
+  }
+
+  componentWillUnmount() {
+    // listen for keyboard events
+    document.removeEventListener('keydown', this.handleKeyPress)
+  }
+
   componentDidMount() {
     this.loadImages()
   }
@@ -125,7 +135,33 @@ class Lightbox extends Component {
   }
 
   handleKeyPress(e) {
-    console.log('key pressed', e.which)
+    const SPACE = 32
+    const BACKSPACE = 8
+    const ESCAPE = 27
+    const LEFT_ARROW = 37
+    const RIGHT_ARROW = 39
+    let reset = false
+    
+    // move to next pict
+    if (e.which == SPACE || e.which == RIGHT_ARROW) {
+      this.context.router.push(this.getNextPath())
+      reset = true
+    }
+    // move to prev pict
+    if (e.which == BACKSPACE || e.which == LEFT_ARROW) {
+      this.context.router.push(this.getPreviousPath())
+      reset = true
+    }
+    // close lightbox
+    if (e.which == ESCAPE) {
+      reset = true
+    }
+    // prevent bubbling if necessary
+    if (reset) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    //console.log('key pressed', e.which)
   }
 
   render() {
@@ -146,7 +182,7 @@ class Lightbox extends Component {
       showInfo,
     } = this.props
 
-    //console.log('lb', this.props)
+    console.log('lb', this.props)
     if (! this.props.activated || ! this.props.current) {
       return (<div />)
     }
@@ -179,6 +215,11 @@ class Lightbox extends Component {
       )
   }
 }
+
+Lightbox.contextTypes = {
+  router: React.PropTypes.object.isRequired,
+}
+
 
 // Wrap the component to inject dispatch and state into it
 export default connect(lightboxSelector)(Lightbox)
