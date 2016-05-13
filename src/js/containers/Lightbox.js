@@ -22,12 +22,12 @@ class Lightbox extends Component {
 
   componentWillMount() {
     // listen for keyboard events
-    document.addEventListener('keydown', this.handleKeyPress)
+    document.addEventListener('keydown', this.handleKeyPress.bind(this))
   }
 
   componentWillUnmount() {
     // listen for keyboard events
-    document.removeEventListener('keydown', this.handleKeyPress)
+    document.removeEventListener('keydown', this.handleKeyPress.bind(this))
   }
 
   componentDidMount() {
@@ -154,6 +154,7 @@ class Lightbox extends Component {
     }
     // close lightbox
     if (e.which == ESCAPE) {
+      this.context.router.push(this.getClosePath())
       reset = true
     }
     // prevent bubbling if necessary
@@ -161,7 +162,6 @@ class Lightbox extends Component {
       e.preventDefault()
       e.stopPropagation()
     }
-    //console.log('key pressed', e.which)
   }
 
   render() {
@@ -182,7 +182,7 @@ class Lightbox extends Component {
       showInfo,
     } = this.props
 
-    console.log('lb', this.props)
+    //console.log('lb', this.context)
     if (! this.props.activated || ! this.props.current) {
       return (<div />)
     }
