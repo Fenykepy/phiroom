@@ -20,18 +20,17 @@ import LightboxFigure from '../components/LightboxFigure'
 
 class Lightbox extends Component {
 
-  componentWillMount() {
-    // listen for keyboard events
-    document.addEventListener('keydown', this.handleKeyPress.bind(this))
-  }
-
-  componentWillUnmount() {
-    // listen for keyboard events
-    document.removeEventListener('keydown', this.handleKeyPress.bind(this))
-  }
 
   componentDidMount() {
     this.loadImages()
+    // store event in variable to be able to remove it
+    this.bound_handleKeyPress = this.handleKeyPress.bind(this)
+    // listen for keyboard events
+    document.addEventListener('keydown', this.bound_handleKeyPress)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.bound_handleKeyPress)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -141,14 +140,15 @@ class Lightbox extends Component {
     const LEFT_ARROW = 37
     const RIGHT_ARROW = 39
     let reset = false
-    
     // move to next pict
     if (e.which == SPACE || e.which == RIGHT_ARROW) {
+      console.log('next') 
       this.context.router.push(this.getNextPath())
       reset = true
     }
     // move to prev pict
     if (e.which == BACKSPACE || e.which == LEFT_ARROW) {
+      console.log('prev') 
       this.context.router.push(this.getPreviousPath())
       reset = true
     }
@@ -182,7 +182,7 @@ class Lightbox extends Component {
       showInfo,
     } = this.props
 
-    //console.log('lb', this.context)
+    //console.log('lb', this.props)
     if (! this.props.activated || ! this.props.current) {
       return (<div />)
     }

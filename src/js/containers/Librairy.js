@@ -37,14 +37,16 @@ class Librairy extends Component {
 
   componentDidMount() {
     this.constructor.fetchData(this.props.dispatch, null, true)
+    // store bounded function in variable to be able to remove it
+    this.bound_handleDragEnd = this.handleDragEnd.bind(this)
     // listen for dragEnd events
-    document.addEventListener('dragend', this.handleDragEnd.bind(this))
+    document.addEventListener('dragend', this.bound_handleDragEnd)
     // store current pathname in state as default link to librairy
     this.handleContainerChange(this.props.location.pathname)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('dragend', this.handleDragEnd)
+    document.removeEventListener('dragend', this.bound_handleDragEnd)
   }
 
   componentWillReceiveProps(nextProps) {

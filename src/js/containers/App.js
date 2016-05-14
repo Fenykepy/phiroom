@@ -22,14 +22,16 @@ class App extends Component {
     const {
       dispatch,
     } = this.props
+    // store bounded function in variable to be able to remove it
+    this.bound_handleResize = this.handleResize.bind(this)
     // keep track of viewport size
-    window.addEventListener('resize', this.handleResize.bind(this))
+    window.addEventListener('resize', this.bound_handleResize)
     // set initial viewport size
     this.handleResize()
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.bound_handleResize)
   }
 
 
