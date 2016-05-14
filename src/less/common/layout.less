@@ -553,7 +553,8 @@ hr {
 .carousel-inline, .gallery-inline {
     margin-top: 24px;
     max-height: 650px;
-    overflow-x: auto;
+    overflow-x: scroll;
+    min-width: 100%;
     overflow-y: hidden;
     white-space: nowrap; // for all li to stay inline on overflow
     line-height: 0; // to remove white spaces between li
@@ -575,10 +576,10 @@ hr {
         margin: 0 3px 50px 0;
         display: inline-block;
         &:first-child {
-            margin-left: 200px;
+            margin-left: 40%;
         }
         &:last-child {
-            margin-right: 200px;
+            margin-right: 40%;
         }
     }
 }

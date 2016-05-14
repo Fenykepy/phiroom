@@ -23,7 +23,7 @@ class Lightbox extends Component {
 
   componentDidMount() {
     this.loadImages()
-    // store event in variable to be able to remove it
+    // store bounded function in variable to be able to remove it
     this.bound_handleKeyPress = this.handleKeyPress.bind(this)
     // listen for keyboard events
     document.addEventListener('keydown', this.bound_handleKeyPress)
