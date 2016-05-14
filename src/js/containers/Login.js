@@ -61,13 +61,14 @@ class Login extends Component {
     
     return (
       <section role="main">
-        <h1>Login</h1>
-      {/*<div id="overlay"></div>*/}
-        <LoginForm
-         id="loginForm"
-         csrf={this.props.csrf}
-         handleSubmit={this.handleLogin.bind(this)}
-        />
+        <article>
+          <h1>Login</h1>
+          <LoginForm
+            id="loginForm"
+            csrf={this.props.csrf}
+            handleSubmit={this.handleLogin.bind(this)}
+          />
+        </article>
       </section>
     )
   }

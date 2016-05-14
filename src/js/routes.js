@@ -14,7 +14,9 @@ import Contact from './containers/Contact'
 import Librairy from './containers/Librairy'
 import Login from './containers/Login'
 import Logout from './containers/Logout'
+import Signup from './containers/Signup'
 import ErrorPage from './components/ErrorPage'
+
 
 import LibrairyPortfolio from './components/LibrairyPortfolio'
 import LibrairyPost from './components/LibrairyPost'
@@ -58,6 +60,7 @@ export default () => {
           <Route path="contact(/)" component={Contact} onEnter={appendSlash} />
           <Route path="login(/)" component={Login} onEnter={appendSlash} />
           <Route path="logout(/)" component={Logout} onEnter={appendSlash} />
+          <Route path="signup(/)" component={Signup} onEnter={appendSlash} />
         </Route>
         <Route path="librairy(/)" component={Librairy} onEnter={appendSlash}>
           <IndexRoute component={LibrairyPicturesList} />

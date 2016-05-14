@@ -11,7 +11,10 @@ export default class Footer extends Component {
       )
     } else {
       return (
-          <Link to={'/login/?next=' + this.props.location.pathname}>Sign in</Link>
+        <Link
+          to={'/login/?next=' + this.props.location.pathname}
+          title="Sign in with existing account"
+        >Sign in</Link>
       )
     }
   }
@@ -27,7 +30,10 @@ export default class Footer extends Component {
       )
     }
     return(
-        <Link to='/register/'>Register</Link>
+      <Link
+        to='/signup/'
+        title="Create an account"
+      >Sign up</Link>
     )
   }
 

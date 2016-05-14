@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 import { base_url } from '../config'
 
+import { Link } from 'react-router'
 
 export default class LoginForm extends Component {
 
@@ -39,7 +40,7 @@ export default class LoginForm extends Component {
         {/* csrf protection */}
         <input type='hidden'
                name='csrfmiddlewaretoken'
-               value={this.props.csrf}
+               default_value={this.props.csrf}
         />
         <div className="field_wrapper">
           <label htmlFor="id_username">Username:<span className="red"> *</span></label>
@@ -63,6 +64,11 @@ export default class LoginForm extends Component {
                  required
           />
         </div>
+        <div>No account yet ? <Link
+            to="/signup/"
+          >Sign up</Link></div>
+
+        
         <div className="centered">
           <input type="submit"
                  value="Sign in"
