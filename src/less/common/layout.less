@@ -528,12 +528,20 @@ hr {
         display: inline;
         box-sizing: border-box;
         opacity: 0.6;
+        transform: translateX(0);
         transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        -moz-transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        -webkit-transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        -o-transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
         &.selected {
             opacity: 1;
         }
         &.swaping {
             opacity: 0;
+        }
+        // to fix a bug in firefox (no transition if a isn't block)
+        a {
+            display: block;
         }
         button {
             display: none;

@@ -37,7 +37,6 @@ export default class CarouselItem extends Component {
   }
 
   render() {
-
     //console.log('carousel item', this.props)
     let style = {
       left: this.props.left,
@@ -67,8 +66,8 @@ export default class CarouselItem extends Component {
       return (
         <li
           ref="li"
-          className="selected"
           style={style}
+          className="selected"
           title="Open in lightbox"
         >
           <Link to={lightboxLink}>
@@ -82,7 +81,7 @@ export default class CarouselItem extends Component {
           {this.props.slideshow ? pause : play}</button>
         </li>
       )
-    }
+      }
 
     // else return it
     return (
