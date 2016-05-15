@@ -13,6 +13,14 @@ import LibrairyLeftPanelPostItem from './LibrairyLeftPanelPostItem'
 
 export default class LibrairyLeftPanelPosts extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      show: false,
+    }
+  }
+  
   handleDrop(post) {
     if (! this.props.type == PICTURE) {
       return this.props.dispatch(dragEnd())
@@ -23,17 +31,25 @@ export default class LibrairyLeftPanelPosts extends Component {
     })
   }
 
+  handleClick() {
+    this.setState({show: ! this.state.show})
+  }
+
   render() {
     if (this.props.user.is_weblog_author) {
       return (
         <div>
-          <h6>Posts
+          <h6><span
+            onClick={this.handleClick.bind(this)}
+          >Posts</span>
             <PostEditionButton
               className="plus"
               dispatch={this.props.dispatch}
             />
           </h6>
-          <ul>
+          <ul
+            style={{display: this.state.show ? "block" : "none"}}
+          >
             {this.props.posts.map(post =>
               <LibrairyLeftPanelPostItem
                 key={post.slug}

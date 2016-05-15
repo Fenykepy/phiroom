@@ -70,10 +70,16 @@
         background: @lib-panels-bg;
         box-sizing: border-box;
         h6 {
+            cursor: default;
             margin: 20px 15px 8px;
             font-size: 14px;
             color: @lib-panels-titles;
             font-weight: bold;
+        }
+        h6 span {
+            &:hover {
+                color: @lib-panels-titles-hover;
+            }
         }
         li ul {
             padding-left: 20px;

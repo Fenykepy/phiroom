@@ -13,6 +13,14 @@ import LibrairyLeftPanelPortfolioItem from './LibrairyLeftPanelPortfolioItem'
 
 export default class LibrairyLeftPanelPortfolios extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      show: true,
+    }
+  }
+
   handleDrop(portfolio) {
     if (! this.props.drag.type == PICTURE) {
       return this.props.dispatch(dragEnd())
@@ -22,17 +30,25 @@ export default class LibrairyLeftPanelPortfolios extends Component {
     })
   }
   
+  handleClick() {
+    this.setState({show: ! this.state.show})
+  }
+
   render() {
     if (this.props.user.is_staff) {
       return (
         <div>
-          <h6>Portfolios
+          <h6><span
+            onClick={this.handleClick.bind(this)}
+          >Portfolios</span>
             <PortfolioEditionButton
               className="plus"
               dispatch={this.props.dispatch}
             />
           </h6>
-          <ul>
+          <ul
+            style={{display: this.state.show ? "block" : "none"}}
+          >
             {this.props.portfolios.map(port => 
               <LibrairyLeftPanelPortfolioItem
                 key={port.slug}

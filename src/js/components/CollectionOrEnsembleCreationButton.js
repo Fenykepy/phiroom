@@ -16,7 +16,7 @@ export default class CollectionOrEnsembleCreationButton extends Component {
     this.props.dispatch(closeModal())
   }
 
-  handleClick() {
+  handleClick(e) {
     let modal = (
       <Modal
         modal_closable={true}

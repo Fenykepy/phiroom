@@ -15,6 +15,13 @@ import LibrairyLeftPanelCollectionsEnsemblesSet from './LibrairyLeftPanelCollect
 
 export default class LibrairyLeftPanelCollections extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      show: false,
+    }
+  }
 
   handleDrop(collection) {
     if (! this.props.drag.type == PICTURE) {
@@ -25,26 +32,35 @@ export default class LibrairyLeftPanelCollections extends Component {
     })
   }
 
+  handleClick() {
+    this.setState({show: ! this.state.show})
+  }
 
   render() {
     //console.log('librairyLeftPanelCollections', this.props)
     if (this.props.user.is_librairy_member && this.props.collections) {
       return (
         <div>
-          <h6>Collections
+          <h6><span
+              onClick={this.handleClick.bind(this)}
+            >Collections</span>
             <CollectionOrEnsembleCreationButton
               className="plus"
               dispatch={this.props.dispatch}
             />
           </h6>
-          <LibrairyLeftPanelCollectionsEnsemblesSet
-            ensembles={this.props.collections.children}
-            handleDrop={this.handleDrop.bind(this)}
-          />
-          <LibrairyLeftPanelCollectionsSet
-            collections={this.props.collections.collection_set}
-            handleDrop={this.handleDrop.bind(this)}
-          />
+          <div
+            style={{display: this.state.show ? "block" : "none"}}
+          >
+            <LibrairyLeftPanelCollectionsEnsemblesSet
+              ensembles={this.props.collections.children}
+              handleDrop={this.handleDrop.bind(this)}
+            />
+            <LibrairyLeftPanelCollectionsSet
+              collections={this.props.collections.collection_set}
+              handleDrop={this.handleDrop.bind(this)}
+            />
+          </div>
         </div>
       )
     }
