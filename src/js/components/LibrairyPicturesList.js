@@ -276,7 +276,7 @@ export default class LibrairyPicturesList extends Component {
   }
 
   render() {
-    console.log('picturesList', this.props)
+    //console.log('picturesList', this.props)
     return (
       <section id="librairy-list"
         onClick={this.unselectAll.bind(this)}
