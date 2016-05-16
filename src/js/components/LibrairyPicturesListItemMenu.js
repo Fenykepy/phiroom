@@ -70,3 +70,13 @@ export default class LibrairyPicturesListItemMenu extends Component {
     )
   }
 }
+
+LibrairyPicturesListItemMenu.propTypes = {
+  source_file: PropTypes.string.isRequired,
+  sha1: PropTypes.string.isRequired,
+  previews_path: PropTypes.string.isRequired,
+  container: PropTypes.string.isRequired,
+  removePicture: PropTypes.func, // optional: not available in all pictures list
+  deletePicture: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
+}
