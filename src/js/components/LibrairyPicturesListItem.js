@@ -29,9 +29,7 @@ export default class LibrairyPicturesListItem extends Component {
   }
 
   getMenu() {
-    console.log('get menu')
     if (this.state.menu) {
-      console.log('menu visible')
       return (
           <LibrairyPicturesListItemMenu
             removePicture={this.props.removePicture}
@@ -41,6 +39,7 @@ export default class LibrairyPicturesListItem extends Component {
             index={this.props.index}
             previews_path={this.props.previews_path}
             source_file={this.props.source_file}
+            close={this.closeMenu.bind(this)}
           />
       )
     }
@@ -91,8 +90,12 @@ export default class LibrairyPicturesListItem extends Component {
   toggleMenu(e) {
     e.preventDefault()
     e.stopPropagation()
-    // show menu
+    // toggle menu
     this.setState({menu: ! this.state.menu})
+  }
+
+  closeMenu() {
+    this.setState({menu: false})
   }
 
   handleDrag(e) {

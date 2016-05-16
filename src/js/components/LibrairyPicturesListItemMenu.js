@@ -7,7 +7,6 @@ export default class LibrairyPicturesListItemMenu extends Component {
     e.preventDefault()
     // remove pict from portfolio || post || collection
     this.props.removePicture(this.props.sha1)
-    // close context menu
     this.props.close()
   }
 
@@ -45,6 +44,10 @@ export default class LibrairyPicturesListItemMenu extends Component {
   
   render() {
     return (
+      <div>
+        <div id="overlay" className="transparent"
+          onClick={this.props.close}
+        />
         <ul className="menu">
           <li><a
             target="_blank"
@@ -63,6 +66,7 @@ export default class LibrairyPicturesListItemMenu extends Component {
             onClick={this.handleDelete.bind(this)}
           >Delete from Phiroom</a></li>
         </ul>
+      </div>
     )
   }
 }
