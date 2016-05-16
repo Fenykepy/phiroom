@@ -179,7 +179,7 @@ export default class LibrairyPicturesListItem extends Component {
             className="overlay br zoom"
             title="Open in single view"
           ><Link
-              to={`${this.props.location.pathname}single/${this.props.sha1}/`}
+              to={`${this.props.pathname}single/${this.props.sha1}/`}
           ><span className="accessibility">Single view</span></Link></button>
           <img
             style={this.getImageStyle()}
@@ -194,5 +194,23 @@ export default class LibrairyPicturesListItem extends Component {
       </div>
     )
   }
+}
+
+LibrairyPicturesListItem.propTypes = {
+  columns_width: PropTypes.number.isRequired,
+  selected: PropTypes.bool.isRequired,
+  container: PropTypes.string.isRequired,
+  sha1: PropTypes.string.isRequired,
+  pathname: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  previews_path: PropTypes.string.isRequired,
+  source_file: PropTypes.string.isRequired,
+  removePicture: PropTypes.func, // optional: not available in all pictures list
+  deletePicture: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  handleDrop: PropTypes.func.isRequired,
+  handleDrag: PropTypes.func.isRequired,
+  dropValid: PropTypes.func.isRequired,
+  unselectAll: PropTypes.func.isRequired,
 }
 

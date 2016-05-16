@@ -257,21 +257,21 @@ export default class LibrairyPicturesList extends Component {
       )
     }
     return this.props.pictures.map((pict, index) =>
-          <LibrairyPicturesListItem
-            key={pict.sha1}
-            index={index}
-            handleClick={this.handleClick.bind(this)}
-            handleDrag={this.handleDrag.bind(this)}
-            handleDrop={this.handleDrop.bind(this)}
-            dropValid={this.dropValid.bind(this)}
-            columns_width={this.props.columns_width}
-            container={this.props.container}
-            removePicture={this.props.removePicture}
-            deletePicture={this.confirmDeletePicture.bind(this)}
-            unselectAll={this.unselectAll.bind(this)}
-            location={this.props.location}
-            {...pict}
-          />
+      <LibrairyPicturesListItem
+        key={pict.sha1}
+        index={index}
+        handleClick={this.handleClick.bind(this)}
+        handleDrag={this.handleDrag.bind(this)}
+        handleDrop={this.handleDrop.bind(this)}
+        dropValid={this.dropValid.bind(this)}
+        columns_width={this.props.columns_width}
+        container={this.props.container}
+        removePicture={this.props.removePicture}
+        deletePicture={this.confirmDeletePicture.bind(this)}
+        unselectAll={this.unselectAll.bind(this)}
+        pathname={this.props.location.pathname}
+        {...pict}
+      />
     )
   }
 
