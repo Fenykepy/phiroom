@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 
 import { Link } from 'react-router'
 
-import ContextualMenu from './ContextualMenu'
 import LibrairyPicturesListItemMenu from './LibrairyPicturesListItemMenu'
 
 export default class LibrairyPicturesListItem extends Component {
@@ -14,16 +13,10 @@ export default class LibrairyPicturesListItem extends Component {
       baskets: false,
       padding_right: 0,
       padding_left: 10,
-      contextual_menu: false,
-      X: null,
-      Y: null
+      menu: false,
     }
 
     this.state = this.default_state
-  }
-
-  closeContextualMenu() {
-    this.setState(this.default_state)
   }
 
   getImageStyle() {
@@ -35,21 +28,21 @@ export default class LibrairyPicturesListItem extends Component {
     return { maxHeight: max_height + 'px' }
   }
 
-  getContextualMenu() {
-    if (this.state.contextual_menu) {
-      return (<ContextualMenu
-          child={(<LibrairyPicturesListItemMenu />)}
-          close={this.closeContextualMenu.bind(this)}
-          removePicture={this.props.removePicture}
-          deletePicture={this.props.deletePicture}
-          container={this.props.container}
-          X={this.state.X}
-          Y={this.state.Y}
-          sha1={this.props.sha1}
-          index={this.props.index}
-          previews_path={this.props.previews_path}
-          source_file={this.props.source_file}
-      />)
+  getMenu() {
+    console.log('get menu')
+    if (this.state.menu) {
+      console.log('menu visible')
+      return (
+          <LibrairyPicturesListItemMenu
+            removePicture={this.props.removePicture}
+            deletePicture={this.props.deletePicture}
+            container={this.props.container}
+            sha1={this.props.sha1}
+            index={this.props.index}
+            previews_path={this.props.previews_path}
+            source_file={this.props.source_file}
+          />
+      )
     }
     return null
   }
@@ -95,15 +88,11 @@ export default class LibrairyPicturesListItem extends Component {
     this.props.unselectAll()
   }
 
-  handleRightClick(e) {
+  toggleMenu(e) {
     e.preventDefault()
     e.stopPropagation()
-    // show context menu
-    this.setState({
-      contextual_menu: true,
-      X: e.clientX,
-      Y: e.clientY
-    })
+    // show menu
+    this.setState({menu: ! this.state.menu})
   }
 
   handleDrag(e) {
@@ -181,7 +170,7 @@ export default class LibrairyPicturesListItem extends Component {
           <button
             className="overlay tr"
             title="Open menu"
-            onClick={this.handleRightClick.bind(this)}
+            onClick={this.toggleMenu.bind(this)}
           >&#8226; &#8226; &#8226;</button>
           <button
             className="overlay br zoom"
@@ -196,8 +185,8 @@ export default class LibrairyPicturesListItem extends Component {
             onClick={this.handleClick.bind(this)}
             onDragStart={this.handleDrag.bind(this)}
           />
+          {this.getMenu()}
         </article>
-        {this.getContextualMenu()}
         {this.getBaskets()}
       </div>
     )

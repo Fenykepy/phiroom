@@ -45,7 +45,7 @@ export default class LibrairyPicturesListItemMenu extends Component {
   
   render() {
     return (
-        <ul>
+        <ul className="menu">
           <li><a
             target="_blank"
             href={'/media/images/previews/large/' + this.props.previews_path}
