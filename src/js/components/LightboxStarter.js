@@ -39,7 +39,6 @@ export default class LightboxStarter extends Component {
   }
   
   render () {
-    
-    return (<div />)
+    return null
   }
 }

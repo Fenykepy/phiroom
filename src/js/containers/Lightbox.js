@@ -184,7 +184,7 @@ class Lightbox extends Component {
 
     //console.log('lb', this.props)
     if (! this.props.activated || ! this.props.current) {
-      return (<div />)
+      return null
     }
     return (
         <div>
@@ -201,15 +201,6 @@ class Lightbox extends Component {
               length={this.props.pictures.length}
               clientSide={this.props.clientSide}
             />
-            {/*<LightboxFigure
-              id="stage-2"
-              image={this.props.next}
-              loaded={this.props.nextLoaded}
-              previous_path={this.getPreviousPath()}
-              next_path={this.getNextPath()}
-              number={this.props.currentIndex + 1}
-              length={this.props.pictures.length}
-              />*/}
           </section>
         </div>
       )
