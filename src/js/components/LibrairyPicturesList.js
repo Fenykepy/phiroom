@@ -276,7 +276,7 @@ export default class LibrairyPicturesList extends Component {
   }
 
   render() {
-    //console.log('picturesList', this.props)
+    console.log('picturesList', this.props)
     return (
       <section id="librairy-list"
         onClick={this.unselectAll.bind(this)}
@@ -309,4 +309,27 @@ export default class LibrairyPicturesList extends Component {
       </section>
     )
   }
+}
+
+
+LibrairyPicturesList.propTypes = {
+  dispatch: PropTypes.func,
+  orderable: PropTypes.bool,
+  n_selected: PropTypes.number,
+  n_pictures: PropTypes.number,
+  title: PropTypes.string,
+  container_title: PropTypes.string,
+  drag: PropTypes.object,
+  selected_list: PropTypes.arrayOf(PropTypes.number),
+  pictures: PropTypes.arrayOf(
+    PropTypes.shape({
+      previews_path: PropTypes.string.isRequired,
+      sha1: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ),
+  reorderPictures: PropTypes.func,
+  columns_width: PropTypes.number,
+  location: PropTypes.object.isRequired,
+  edition_button: PropTypes.element,
 }
