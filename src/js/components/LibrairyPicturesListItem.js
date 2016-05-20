@@ -160,14 +160,16 @@ export default class LibrairyPicturesListItem extends Component {
     return (
       <div className="thumb-wrapper"
         style={{
-          height: this.props.columns_width + 'px',
-          width: this.props.columns_width + 'px',
-          lineHeight: this.props.columns_width + 'px',
-          paddingRight: this.state.padding_right + 'px',
-          paddingLeft: this.state.padding_left + 'px',
+          width: '20%',
         }}
         onClick={this.handleWrapperClick.bind(this)}
         onDragEnter={this.handleWrapperDragEnter.bind(this)}
+      >
+      <div className="content"
+        style={{
+          paddingRight: this.state.padding_right + 'px',
+          paddingLeft: this.state.padding_left + 'px',
+        }}
       >
         <article className={this.props.selected ? 'selected' : null}>
           <button
@@ -191,6 +193,7 @@ export default class LibrairyPicturesListItem extends Component {
           {this.getMenu()}
         </article>
         {this.getBaskets()}
+      </div>
       </div>
     )
   }
