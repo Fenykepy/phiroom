@@ -14,18 +14,26 @@ export default class LibrairyPicturesListItem extends Component {
       padding_right: 0,
       padding_left: 10,
       menu: false,
+      max_height: 0,
     }
 
     this.state = this.default_state
   }
 
-  getImageStyle() {
-    let max_height = this.props.columns_width;
-    // if selected, we substract padding and borders
-    if (this.props.selected) {
-      max_height = max_height - 10
+  componentDidMount() {
+    this.setImageHeight()
+  }
+
+  setImageHeight() {
+    if (this.refs.content) {
+      // we get parent (.content) width - 10 of padding
+      let max_height = this.refs.content.offsetWidth - 10
+      // if selected, we substract padding and borders
+      if (this.props.selected) {
+        max_height = max_height - 10
+      }
+      this.setState({max_height: max_height})
     }
-    return { maxHeight: max_height + 'px' }
   }
 
   getMenu() {
@@ -55,20 +63,12 @@ export default class LibrairyPicturesListItem extends Component {
               onDragLeave={this.handleBasketLeave.bind(this)}
               onDragOver={this.handleBasketOver.bind(this)}
               onDrop={this.handleBasketLeftDrop.bind(this)}
-              style={{
-                width: this.props.columns_width + 'px',
-                right: this.state.padding_right + this.props.columns_width / 2 + 'px'
-              }}
             />
             <div className="basket-right"
               onDragEnter={this.handleBasketRightEnter.bind(this)}
               onDragLeave={this.handleBasketLeave.bind(this)}
               onDragOver={this.handleBasketOver.bind(this)}
               onDrop={this.handleBasketRightDrop.bind(this)}
-              style={{
-                width: this.props.columns_width + 'px',
-                left: this.state.padding_left + this.props.columns_width / 2 + 'px'
-              }}
             />
           </div>
       )
@@ -160,9 +160,20 @@ export default class LibrairyPicturesListItem extends Component {
     return (
       <div className="thumb-wrapper"
         style={{
+<<<<<<< HEAD
           height: this.props.columns_width + 'px',
           width: this.props.columns_width + 'px',
           lineHeight: this.props.columns_width + 'px',
+=======
+          width: '20%',
+        }}
+        onClick={this.handleWrapperClick.bind(this)}
+        onDragEnter={this.handleWrapperDragEnter.bind(this)}
+      >
+      <div className="content"
+        ref="content"
+        style={{
+>>>>>>> cae4842c65855afc8e18049cffc7492f3d3a39d1
           paddingRight: this.state.padding_right + 'px',
           paddingLeft: this.state.padding_left + 'px',
         }}
@@ -182,7 +193,7 @@ export default class LibrairyPicturesListItem extends Component {
               to={`${this.props.pathname}single/${this.props.sha1}/`}
           ><span className="accessibility">Single view</span></Link></button>
           <img
-            style={this.getImageStyle()}
+            style={{ maxHeight: this.state.max_height + 'px' }}
             src={'/media/images/previews/max-500/' + this.props.previews_path}
             draggable="true"
             onClick={this.handleClick.bind(this)}

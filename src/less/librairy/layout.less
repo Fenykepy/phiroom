@@ -130,14 +130,17 @@
         .basket-right, .basket-left {
             box-sizing: border-box;
             position: absolute;
+            width: 50%;
             top: 0;
             bottom: 0;
         }
         .basket-right {
-            //border: 1px solid green;
+            right: 0;
+            border: 1px solid green;
         }
         .basket-left {
-            //border: 1px solid red;
+            left: 0;
+            border: 1px solid red;
         }
     }
     #librairy-detail {
@@ -151,6 +154,11 @@
         }
     }
     .thumb-wrapper {
+<<<<<<< HEAD
+=======
+        //border: 1px solid red;
+        .ratio-1-1; // to get 1:1 ratio
+>>>>>>> cae4842c65855afc8e18049cffc7492f3d3a39d1
         vertical-align: top;
         position: relative;
         text-align: center;
@@ -160,11 +168,18 @@
         font-size: 0;
         //background: yellow;
         article {
+            //border: 1px solid green;
+            box-sizing: border-box;
             position: relative;
             display: inline-block;
             box-sizing: border-box;
             max-width: 100%;
+<<<<<<< HEAD
             margin: 0;
+=======
+            max-height: 100%;
+            margin: auto;
+>>>>>>> cae4842c65855afc8e18049cffc7492f3d3a39d1
             line-height: 0em;
             &.selected {
                 border: 4px solid @lib-selected-thumb-border-color;
