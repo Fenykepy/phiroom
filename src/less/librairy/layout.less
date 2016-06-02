@@ -150,24 +150,21 @@
             }
         }
     }
-    .pictures-wrapper {
-        padding-right: 10px;
-    }
     .thumb-wrapper {
-        .ratio-1-1; // to get 1:1 ratio
         vertical-align: top;
-        display: inline-block;
         position: relative;
-        .content {
-            padding: 10px 0 0 10px;
-            display: flex
-        }
+        text-align: center;
+        //margin: 10px 0 0 10px;
+        padding: 10px 0 0 10px;
+        display: inline-block;
+        font-size: 0;
+        //background: yellow;
         article {
             position: relative;
             display: inline-block;
             box-sizing: border-box;
             max-width: 100%;
-            margin: auto;
+            margin: 0;
             line-height: 0em;
             &.selected {
                 border: 4px solid @lib-selected-thumb-border-color;
@@ -297,4 +294,3 @@
         }
     }
 }
-
