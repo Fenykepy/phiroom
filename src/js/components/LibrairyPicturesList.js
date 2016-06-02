@@ -191,6 +191,7 @@ export default class LibrairyPicturesList extends Component {
      * On drag start, store action targets
      * and drag type in state
      */
+    e.persist()
     e.dataTransfer.setData(PICTURE, picture)
     e.dropEffect = "copy"
     this.props.dispatch(dragStart(PICTURE,
