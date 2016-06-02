@@ -130,14 +130,17 @@
         .basket-right, .basket-left {
             box-sizing: border-box;
             position: absolute;
+            width: 50%;
             top: 0;
             bottom: 0;
         }
         .basket-right {
-            //border: 1px solid green;
+            right: 0;
+            border: 1px solid green;
         }
         .basket-left {
-            //border: 1px solid red;
+            left: 0;
+            border: 1px solid red;
         }
     }
     #librairy-detail {
@@ -154,6 +157,7 @@
         padding-right: 10px;
     }
     .thumb-wrapper {
+        //border: 1px solid red;
         .ratio-1-1; // to get 1:1 ratio
         vertical-align: top;
         display: inline-block;
@@ -163,10 +167,13 @@
             display: flex
         }
         article {
+            //border: 1px solid green;
+            box-sizing: border-box;
             position: relative;
             display: inline-block;
             box-sizing: border-box;
             max-width: 100%;
+            max-height: 100%;
             margin: auto;
             line-height: 0em;
             &.selected {
