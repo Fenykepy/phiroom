@@ -145,6 +145,7 @@ INSTALLED_APPS = [
     'user',
     'conf',
     'librairy',
+    'stats',
 ]
 
 MIDDLEWARE_CLASSES = [
