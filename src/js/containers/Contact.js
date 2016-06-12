@@ -13,6 +13,7 @@ import SocialLinks from '../components/SocialLinks'
 import { fetchDescriptionIfNeeded } from '../actions/contact'
 import { setModule } from '../actions/modules'
 import { setDocumentTitleIfNeeded } from '../actions/title'
+import { sendHit } from '../actions/hits'
 
 
 class Contact extends Component {
@@ -31,8 +32,18 @@ class Contact extends Component {
     return promises
   }
 
+  static sendHit(dispatch, ip=null) {
+    // send a contact page hit to server
+    let data = {
+      type: 'CONTACT'
+    }
+    if (ip) { data.ip = ip }
+    dispatch(sendHit(data))
+  }
+
   componentDidMount() {
     this.constructor.fetchData(this.props.dispatch, null, true)
+    this.constructor.sendHit(this.props.dispatch)
   }
 
   getDescription() {

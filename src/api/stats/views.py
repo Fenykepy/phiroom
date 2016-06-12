@@ -19,10 +19,15 @@ class HitList(generics.ListCreateAPIView):
 
     # automatically add user and IP on save
     def perform_create(self, serializer):
-        serializer.save(
-            user=self.request.user,
-            request_ip=self.request.META.get('REMOTE_ADDR')
-        )
+        if self.request.user.is_authenticated():
+            serializer.save(
+                user=self.request.user,
+                request_ip=self.request.META.get('REMOTE_ADDR')
+            )
+        else:
+            serializer.save(
+                request_ip=self.request.META.get('REMOTE_ADDR')
+            )
     
 
 

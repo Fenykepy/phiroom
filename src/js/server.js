@@ -28,8 +28,8 @@ import { statics_proxy, port } from './config'
 
 var app = new Express()
 
-var SERVER_RENDERING = false
-//var SERVER_RENDERING = true
+//var SERVER_RENDERING = false
+var SERVER_RENDERING = true
 
 // we are in development mode
 if (process.env.NODE_ENV != 'production') {
@@ -86,10 +86,16 @@ function handleRender(req, res) {
       let components = renderProps.components
       for (let i=0, l=components.length; i < l; i++) {
         if (components[i] && components[i].fetchData) {
+          // fetch components requirements
           let datas = components[i].fetchData(
             store.dispatch, renderProps.params)
           // add new promises to main array
           promises = [...promises, ...datas]
+        }
+        if (components[i] && components[i].sendHit) {
+          // send view hit if necessary with client IP
+          console.log(req.connection)
+          components[i].sendHit(store.dispatch, req.connection.remoteAddress )
         }
       }
 

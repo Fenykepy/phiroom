@@ -28,6 +28,9 @@ class Hit(models.Model):
     # we don't use FK to keep hit even if original entrie has been deleted
     related_key = models.CharField(max_length=40, blank=True, null=True)
 
+    class Meta:
+        ordering = ['-date']
+
 
     def save(self, **kwargs):
         """
