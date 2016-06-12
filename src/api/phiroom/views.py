@@ -13,8 +13,8 @@ def api_root(request, format=None):
     return Response({
         'portfolio': reverse('portfolio-root', request=request, format=format),
         'contact': reverse('contact-root', request=request, format=format),
-        
         'weblog': reverse('weblog-root', request=request, format=format),
+        'stats': reverse('hits-list', request=request, format=format),
         'pictures': reverse('pictures-list', request=request, format=format),
         'tags': reverse('tags-list', request=request, format=format),
         'flat-tags': reverse('flat-tags-list', request=request, format=format),

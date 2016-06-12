@@ -1,30 +1,10 @@
 from rest_framework import serializers
 
-from stats.models import  PortfolioHit, PostHit, PictureHit, ContactHit
+from stats.models import Hit
 
 
-class PortfolioHitSerializer(serializers.ModelSerializer):
+class HitSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PortfolioHit
-        fields = ('ip', 'date', 'user', 'portfolio')
-
-
-
-class PostHitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostHit
-        fields = ('ip', 'date', 'user', 'portfolio')   
-
-
-
-class PictureHitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PictureHit
-        fields = ('ip', 'date', 'user', 'portfolio')
-
-
-
-class ContactHitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PictureHit
-        fields = ('ip', 'date', 'user', 'portfolio')
+        model = Hit
+        fields = ('ip', 'date', 'user', 'type', 'related_key')
+        read_only_fields = ('date', 'user')

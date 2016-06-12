@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^api/contact/', include('contact.urls')), # portfolio API
     url(r'^api/librairy/', include('librairy.urls')), # librairy API
     url(r'^api/users/', include('user.urls')), # users API
+    url(r'^api/stats/', include('stats.urls')), # stats API
     url(r'^api/settings/', include('conf.urls')), # settings API
     url(r'^api/token-auth/', obtain_jwt_token,
         name='token-auth'),
