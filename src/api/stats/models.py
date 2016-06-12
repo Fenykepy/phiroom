@@ -6,21 +6,20 @@ from portfolio.models import Portfolio
 from weblog.models import Post
 
 
-class Hits(models.Model):
+class Hit(models.Model):
     """
     Abstract table for visits entries.
     """
     ip = models.CharField(max_length=39, db_index=True)
     date = models.DateTimeField(auto_now_add=True, auto_now=False)
     user = models.ForeignKey(User, null=True, blank=True)
-    staff = models.BooleanField(default=False, db_index=True)
 
     class Meta:
         abstract = True
 
 
 
-class PortfolioHits(Hits):
+class PortfolioHit(Hit):
     """
     Table for portfolio visits entries.
     """
@@ -28,7 +27,7 @@ class PortfolioHits(Hits):
 
 
 
-class PostHits(Hits):
+class PostHit(Hit):
     """
     Table for weblog post's visits entries.
     """
@@ -36,7 +35,7 @@ class PostHits(Hits):
 
 
 
-class PictureHits(Hits):
+class PictureHit(Hit):
     """
     Table for picture visits entries.
     """
@@ -44,7 +43,7 @@ class PictureHits(Hits):
 
 
 
-class ContactHits(Hits):
+class ContactHit(Hit):
     """
     Table for contact page visits entries.
     """
