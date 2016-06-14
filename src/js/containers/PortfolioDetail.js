@@ -19,6 +19,7 @@ import {
 import { lightboxStart } from '../actions/lightbox'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { setDocumentTitleIfNeeded } from '../actions/title'
+import { sendHit } from '../actions/hits'
 
 
 class PortfolioDetail extends Component {
@@ -50,8 +51,20 @@ class PortfolioDetail extends Component {
     return promises
   }
 
+  static sendHit(dispatch, params, ip=null) {
+    // send a hit to server for this weblog post
+    let data = {
+      type: 'PORT',
+      related_key: params.slug,
+      ip: ip
+    }
+
+    dispatch(sendHit(data))
+  }
+
   fetchData(params) {
     this.constructor.fetchData(this.props.dispatch, params, true)
+    this.constructor.sendHit(this.props.dispatch, params)
   }
 
 

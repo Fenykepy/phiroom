@@ -11,6 +11,8 @@ import {
   selectPost
 } from '../actions/weblog'
 
+import { sendHit } from '../actions/hits'
+
 import { fetchAuthorIfNeeded } from '../actions/authors'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { lightboxStart } from '../actions/lightbox'
@@ -68,8 +70,20 @@ class WeblogDetail extends Component {
     return promises
   }
 
+  static sendHit(dispatch, params, ip=null) {
+    // send a hit to server for this weblog post
+    let data = {
+      type: 'POST',
+      related_key: buildPostSlug(params),
+      ip: ip
+    }
+
+    dispatch(sendHit(data))
+  }
+
   fetchData(params) {
     this.constructor.fetchData(this.props.dispatch, params, true)
+    this.constructor.sendHit(this.props.dispatch, params)
   }
 
   componentDidMount() {

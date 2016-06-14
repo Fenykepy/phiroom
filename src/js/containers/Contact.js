@@ -32,12 +32,13 @@ class Contact extends Component {
     return promises
   }
 
-  static sendHit(dispatch, ip=null) {
+  static sendHit(dispatch, params=null, ip=null) {
     // send a contact page hit to server
     let data = {
-      type: 'CONTACT'
+      type: 'CONTACT',
+      ip: ip
     }
-    if (ip) { data.ip = ip }
+    
     dispatch(sendHit(data))
   }
 

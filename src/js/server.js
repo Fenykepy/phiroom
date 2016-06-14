@@ -94,8 +94,11 @@ function handleRender(req, res) {
         }
         if (components[i] && components[i].sendHit) {
           // send view hit if necessary with client IP
-          console.log(req.connection)
-          components[i].sendHit(store.dispatch, req.connection.remoteAddress )
+          components[i].sendHit(
+            store.dispatch,
+            renderProps.params,
+            req.connection.remoteAddress
+          )
         }
       }
 
