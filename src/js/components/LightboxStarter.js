@@ -4,10 +4,23 @@ import {
   lightboxStop,
   lightboxSetCurrent,
 } from '../actions/lightbox'
+import { sendHit } from '../actions/hits'
+
 
 
 // False component to launch lightbox actions
 export default class LightboxStarter extends Component {
+ 
+  static sendHit(dispatch, params, ip=null) {
+    // send a hit to server for this weblog post
+    let data = {
+      type: 'PICT',
+      related_key: params.lightbox,
+      ip: ip
+    }
+
+    dispatch(sendHit(data))
+  }
 
   startLightbox(pictures, current) {
     window.scrollTo(0, 0)
