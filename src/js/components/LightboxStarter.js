@@ -33,6 +33,7 @@ export default class LightboxStarter extends Component {
         this.props.pictures,
         this.props.params.lightbox
     )
+    this.constructor.sendHit(this.props.dispatch, this.props.params)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,6 +44,7 @@ export default class LightboxStarter extends Component {
       )
     }
     if (this.props.params.lightbox != nextProps.params.lightbox) {
+      this.constructor.sendHit(this.props.dispatch, nextProps.params)
       this.props.dispatch(lightboxSetCurrent(nextProps.params.lightbox))
     }
   }
