@@ -1,3 +1,5 @@
+from ipaddress import ip_address
+
 from django.db import models
 
 from user.models import User
@@ -36,8 +38,13 @@ class Hit(models.Model):
         """
         Set ip with request_ip if it's blank then save.
         """
+        # use request ip if it's not given
         if not self.ip:
             self.ip = self.request_ip
+        # map all ipv4 addresses to ipv6
+        # (for consistency with node who systematically does it)
+        if ip_address(self.ip).version == 4:
+            self.ip = "::ffff:" + self.ip
         
         super(Hit, self).save()
 
