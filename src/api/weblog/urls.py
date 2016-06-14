@@ -23,6 +23,9 @@ urlpatterns = [
     url(r'^posts/(?P<slug>\d{4}/\d{2}/\d{2}/[-\w]+)/pictures/$',
         views.post_pictures,
         name="post-pictures"),
+    url(r'^posts/(?P<slug>\d{4}/\d{2}/\d{2}/[-\w]+)/hits/$',
+        views.post_hits,
+        name="post-hits"),
 
     url(r'^post-picture/$', views.PostPictureList.as_view(),
         name="post-picture-list"),

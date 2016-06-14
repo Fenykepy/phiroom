@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from weblog.serializers import *
 from weblog.models import Post, Tag
 from librairy.models import Picture
+from stats.models import Hit
 from librairy.serializers import PictureShortSerializer
 
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly, \
@@ -162,6 +163,16 @@ def post_pictures(request, slug, format=None):
     serializer = PictureShortSerializer(pictures, many=True)
 
     return Response(serializer.data)
+ 
+
+@api_view(('GET', ))
+@permission_classes((IsAdminUser, ))
+def post_hits(request, slug, format=None):
+    """ Return number of uniq views for a post."""
+    n_hits = Hit.objects.filter(type="POST").filter(related_key=slug).values(
+        "ip").distinct().count()
+    return Response(n_hits)
+
 
 
 class TagList(generics.ListCreateAPIView):
@@ -182,4 +193,4 @@ class TagDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = (IsStaffOrReadOnly,)
- 
+

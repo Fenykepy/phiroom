@@ -37,7 +37,7 @@ A tree:
                     #[GET:(any)] get all pictures public info of a specific post
 [OK]                - post-pictures: /api/weblog/posts/:slug-with-date/pictures/
                     #[GET:(admin)] get number of uniq hits on a specific post
-                    - post-hits: /api/weblog/posts/:slug-with-date/hits/
+[OK]                - post-hits: /api/weblog/posts/:slug-with-date/hits/
             #[GET:(any)(published posts only except if admin) get a paginated list of posts corresponding to a tag
 [OK]        - posts-list-by-tag: "/api/weblog/posts/tag/:slug/"
             #[GET-POST:(admin)] get a list of all post-pictures relation, post a new one
@@ -57,7 +57,7 @@ A tree:
             #[GET:(admin)] get or delete detail of a message, not updatable
 [OK]        - contact-messages-detail: "/api/contact/messages/:pk/"
             #[GET:(admin)] get number of uniq hits on contact page
-            - contact-hits: "/api/contact/hits/"
+[OK]        - contact-hits: "/api/contact/hits/"
     #[GET:(admin)] get a list of urls
 [OK]    - librairy-root: "/api/librairy/"
             #[GET:(admin)] get a flat list of all pictures pk ordered by reversed importation date
