@@ -13,6 +13,8 @@ urlpatterns = [
         name="portfolio-detail"),
     url(r'^portfolios/(?P<slug>[-\w]+)/pictures/$', views.portfolio_pictures,
         name="portfolio-pictures"),
+    url(r'^portfolios/(?P<slug>[-\w]+)/hits/$', views.portfolio_hits,
+        name="portfolio-hits"),
     url(r'^portfolio-picture/$', views.PortfolioPictureList.as_view(),
         name="portfolio-picture-list"),
     url(r'^portfolio-picture/portfolio/(?P<portfolio>[-\w]+)/picture/(?P<picture>[0-9A-Fa-f]{40})/$',

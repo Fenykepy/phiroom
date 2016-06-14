@@ -9,6 +9,7 @@ from portfolio.serializers import *
 from portfolio.models import Portfolio, PortfolioPicture
 from librairy.serializers import PictureShortSerializer
 from librairy.models import Picture
+from stats.models import Hit
 
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly
 
@@ -132,6 +133,16 @@ def portfolio_pictures(request, slug, format=None):
     serializer = PictureShortSerializer(pictures, many=True)
 
     return Response(serializer.data)
+ 
+
+@api_view(('GET', ))
+@permission_classes((IsAdminUser, ))
+def portfolio_hits(request, slug, format=None):
+    """ Return number of uniq views for a portfolio."""
+    n_hits = Hit.objects.filter(type="PORT").filter(related_key=slug).values(
+        "ip").distinct().count()
+    return Response(n_hits)
+
 
 
 

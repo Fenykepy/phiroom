@@ -21,7 +21,7 @@ A tree:
                     #[GET:(any)] get all pictures public info of a specific portfolio
 [OK]                - portfolio-pictures: /api/portfolio/portfolios/:slug/pictures/
                     #[GET:(admin)] get number of uniq hits on a specific portfolio
-                    - portfolio-hits: /api/portfolio/portfolios/:slug/hits/
+[OK]                - portfolio-hits: /api/portfolio/portfolios/:slug/hits/
             #[GET-POST:(admin)] get a list of all portfolio-pictures relation, post a new one
 [OK]        - portfolio-picture-list: /api/portfolio/portfolio-picture/
             #[GET-PUT-PATCH-DELETE:(admin)] get update delete a portfolio picture relation
