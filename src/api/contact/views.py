@@ -1,9 +1,10 @@
 from django.core.mail import send_mail
 
 from rest_framework import generics, permissions
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.permissions import IsAdminUser
 
 from phiroom.settings import EMAIL_SUBJECT_PREFIX, DEFAULT_FROM_EMAIL
 from phiroom.permissions import IsStaffOrReadOnly, IsStaffOrCreateOnly
@@ -12,6 +13,7 @@ from contact.models import Message, Description
 from contact.serializers import *
 
 from user.models import sendContactMail
+from stats.models import Hit
 
 
 @api_view(('GET', ))
@@ -20,6 +22,7 @@ def contact_root(request, format=None):
         'description': reverse('contact-description', request=request, format=format),
         'descriptions': reverse('contact-descriptions-list', request=request, format=format),
         'messages': reverse('contact-messages-list', request=request, format=format),
+        'hits': reverse('contact-hits', request=request, format=format),
     })
 
 
@@ -136,6 +139,15 @@ class MessageDetail(generics.RetrieveDestroyAPIView):
     serializer_class = MessageSerializer
 
 
+
+
+@api_view(('GET', ))
+@permission_classes((IsAdminUser, ))
+def contact_hits(request, format=None):
+    """ Return number of uniq views for contact page."""
+    n_hits = Hit.objects.filter(type="CONTACT").values(
+        "ip").distinct().count()
+    return Response(n_hits)
 
 
 

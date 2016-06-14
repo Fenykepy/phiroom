@@ -59,7 +59,7 @@ A tree:
             #[GET:(admin)] get number of uniq hits on contact page
             - contact-hits: "/api/contact/hits/"
     #[GET:(admin)] get a list of urls
-    - librairy-root: "/api/librairy/"
+[OK]    - librairy-root: "/api/librairy/"
             #[GET:(admin)] get a flat list of all pictures pk ordered by reversed importation date
 [OK]        - all-pictures-list: "/api/librairy/pictures/all/"
             #[GET-POST:(admin)] get a paginated list of pictures, post a new one

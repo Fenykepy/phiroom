@@ -15,4 +15,6 @@ urlpatterns = [
         name="contact-messages-list"),
     url(r'^messages/(?P<pk>[0-9]+)/$', views.MessageDetail.as_view(),
         name="contact-messages-detail"),
+    url(r'^hits/$', views.contact_hits,
+        name="contact-hits"),
 ]
