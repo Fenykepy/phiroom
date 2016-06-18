@@ -180,7 +180,29 @@ function fetchPost(post) {
   }
 }
 
+function receiveHits(post, json) {
+  return {
+    type: types.REQUEST_POST_HITS,
+    post,
+    hits: json,
+  }
+}
 
+
+export function fetchHits(post) {
+  /*
+   * fetch a post hits number
+   */
+  return function(dispatch, getState) {
+    return Fetch.get(`api/weblog/posts/${post}/hits/`, getState())
+      .then(json =>
+          dispatch(receiveHits(post, json))
+      )
+      .catch(error => {
+        throw error
+      })
+  }
+}
 
 export function fetchPostPictures(post) {
   /*

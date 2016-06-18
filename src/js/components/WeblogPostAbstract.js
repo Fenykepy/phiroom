@@ -7,13 +7,13 @@ import HitsCounter from './HitsCounter'
 export default class WeblogPostAbstract extends Component {
 
   getHits() {
-    //if (this.props.user.is_staff) {
+    if (this.props.user.is_staff) {
       return (
         <HitsCounter
           hits={1}
         />
       )
-      //}
+    }
   }
 
   render() {

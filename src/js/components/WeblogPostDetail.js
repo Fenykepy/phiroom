@@ -30,13 +30,14 @@ export default class WeblogPostDetail extends Component {
     if (this.props.user.is_staff) {
       return (
         <HitsCounter
-          hits={1}
+          hits={this.props.hits}
         />
       )
     }
   }
 
   render() {
+    //console.log(this.props)
     return (
       <article>
         <header>

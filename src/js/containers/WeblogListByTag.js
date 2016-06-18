@@ -76,6 +76,7 @@ class WeblogListByTag extends Component {
         {selected.results.map(post =>
           <WeblogPostAbstract
             key={post.slug}
+            user={this.props.user}
             {...post}
           />
         )}
@@ -94,6 +95,7 @@ class WeblogListByTag extends Component {
     const {
       dispatch,
       selectedPageByTag,
+      user,
     } = this.props
     
     return (

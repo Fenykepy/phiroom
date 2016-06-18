@@ -19,12 +19,25 @@ const picturesShortSelector = state => state.common.pictures.short
 // all authors from store
 const authorsSelector = state => state.common.authors
 
-
+// all posts hits
+const hitsSelector = state => state.weblog.hits
 
 // post object from store
 const selectedPostSelector = state => state.weblog.posts[
   state.weblog.selectedPost
 ]
+
+const postHitsSelector = createSelector(
+  selectedPostSelector,
+  hitsSelector,
+  (selectedPost, hits) => {
+    console.log(hits)
+    if (selectedPost && hits && hits[selectedPost.slug]) {
+      return hits[selectedPost.slug]
+    }
+    return null
+  }
+)
 
 // post list of picture's sha1s
 const postPicturesListSelector = createSelector(
@@ -79,6 +92,7 @@ const postPicturesSelector = createSelector(
 
 
 
+
 export const weblogDetailSelector = createSelector(
   selectedPostSelector,
   postPicturesNumberSelector,
@@ -86,14 +100,16 @@ export const weblogDetailSelector = createSelector(
   postAuthorSelector,
   postPicturesSelector,
   userSelector,
-  (selected, n_picts, pictsList, author, pictures, user) => {
+  postHitsSelector,
+  (selected, n_picts, pictsList, author, pictures, user, postHits) => {
     return Object.assign({},
         selected,
         {picturesList: pictsList},
         {author: author},
         {n_pictures: n_picts},
         {pictures: pictures},
-        {user: user}
+        {user: user},
+        {hits: postHits}
     )
   }
 )

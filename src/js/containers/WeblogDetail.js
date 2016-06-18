@@ -8,7 +8,8 @@ import { weblogDetailSelector } from '../selectors/weblogDetailSelector'
 import {
   fetchPostIfNeeded,
   fetchPostPictures,
-  selectPost
+  fetchHits,
+  selectPost,
 } from '../actions/weblog'
 
 import { sendHit } from '../actions/hits'
@@ -84,7 +85,12 @@ class WeblogDetail extends Component {
   fetchData(params) {
     this.constructor.fetchData(this.props.dispatch, params, true)
     this.constructor.sendHit(this.props.dispatch, params)
+    // get post hits if user is staff
+    if (this.props.user.is_staff) {
+      this.props.dispatch(fetchHits(buildPostSlug(params)))
+    }
   }
+
 
   componentDidMount() {
     this.fetchData(this.props.params)
@@ -95,6 +101,7 @@ class WeblogDetail extends Component {
       this.fetchData(nextProps.params)
     }
   }
+
   getLightbox() {
     if (this.props.children) {
       return React.cloneElement(this.props.children, {
@@ -133,6 +140,7 @@ class WeblogDetail extends Component {
           pictures={this.props.pictures}
           tags={this.props.tags}
           path={this.props.location.pathname}
+          hits={this.props.hits}
         />
         <WeblogPostNavigation
           next={this.props.next}
@@ -162,6 +170,8 @@ class WeblogDetail extends Component {
       is_fetching,
       user,
     } = this.props
+
+    //console.log(this.props)
 
     return (
         <section role="main">{this.getPost()}</section>

@@ -13,6 +13,7 @@ import {
   REQUEST_POST,
   REQUEST_POST_FAILURE,
   REQUEST_POST_SUCCESS,
+  REQUEST_POST_HITS,
   REQUEST_UPDATE_POST,
   REQUEST_UPDATE_POST_FAILURE,
   REQUEST_UPDATE_POST_SUCCESS,
@@ -35,6 +36,7 @@ import {
   POST_EDIT_ADD_TAG,
   POST_EDIT_DELETE_TAG,
   POST_DELETE,
+  LOGOUT,
 } from '../constants/actionsTypes'
 
 
@@ -218,6 +220,19 @@ function posts(state = {}, action) {
   }
 }
 
+function hits(state = {}, action) {
+  switch (action.type) {
+    case REQUEST_POST_HITS:
+        return Object.assign({}, state, {
+          [action.post]: action.hits
+        })
+    case LOGOUT:
+        return {}
+    default:
+        return state
+  }
+}
+
 function pages(state = {}, action) {
   switch (action.type) {
     case CLEAR_WEBLOG_PAGES:
@@ -333,6 +348,7 @@ const weblog = combineReducers({
   selectedPage,
   selectedPageByTag,
   posts,
+  hits,
   pages,
   pagesByTag,
 })

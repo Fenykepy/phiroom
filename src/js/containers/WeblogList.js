@@ -74,6 +74,7 @@ class WeblogList extends Component {
         {selected.results.map(post =>
           <WeblogPostAbstract
             key={post.slug}
+            user={this.props.user}
             {...post}
           />
         )}
@@ -93,8 +94,9 @@ class WeblogList extends Component {
     const {
       dispatch,
       selectedPage,
+      user,
     } = this.props
-    console.log('weblog list', this.props)
+    //console.log('weblog list', this.props)
 
     return (
         <section role="main">
