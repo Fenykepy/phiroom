@@ -4,6 +4,7 @@ import {
   REQUEST_DESCRIPTION,
   REQUEST_DESCRIPTION_SUCCESS,
   REQUEST_DESCRIPTION_FAILURE,
+  REQUEST_CONTACT_HITS,
   DESCRIPTION_EDIT_PREFILL,
   DESCRIPTION_EDIT_SET_TITLE,
   DESCRIPTION_EDIT_SET_SOURCE,
@@ -85,6 +86,16 @@ function description(state = {}, action) {
   }
 }
 
+function hits(state = null, action) {
+  switch (action.type) {
+    case REQUEST_CONTACT_HITS:
+        return action.hits
+    case LOGOUT:
+        return null
+    default:
+        return state
+  }
+}
 
 function message(state = {}, action) {
   switch (action.type) {
@@ -139,8 +150,11 @@ function message(state = {}, action) {
 }
 
 
+
+
 const contact = combineReducers({
   edited,
+  hits,
   description,
   message
 })

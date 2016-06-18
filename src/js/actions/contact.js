@@ -72,6 +72,31 @@ export function fetchDescription() {
 }
 
 
+function receiveHits(json) {
+  return {
+    type: types.REQUEST_CONTACT_HITS,
+    hits: json,
+  }
+}
+
+
+export function fetchHits() {
+  /*
+   * fetch contact page's hits number
+   */
+  return function(dispatch, getState) {
+    // return a promise
+    return Fetch.get('api/contact/hits/', getState())
+      .then(json =>
+          dispatch(receiveHits(json))
+      )
+      .catch(error => {
+        throw error
+      })
+  }
+}
+
+
 /***********************************/
 /*      DESCRIPTION UPDATE         */
 /***********************************/

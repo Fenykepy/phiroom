@@ -10,10 +10,14 @@ import ContactDescription from '../components/ContactDescription'
 import Spinner from '../components/Spinner'
 import SocialLinks from '../components/SocialLinks'
 
-import { fetchDescriptionIfNeeded } from '../actions/contact'
+import { 
+  fetchDescriptionIfNeeded,
+  fetchHits,
+} from '../actions/contact'
 import { setModule } from '../actions/modules'
 import { setDocumentTitleIfNeeded } from '../actions/title'
 import { sendHit } from '../actions/hits'
+
 
 
 class Contact extends Component {
@@ -45,7 +49,12 @@ class Contact extends Component {
   componentDidMount() {
     this.constructor.fetchData(this.props.dispatch, null, true)
     this.constructor.sendHit(this.props.dispatch)
+    // get contact page hits if user is staff
+    if (this.props.user.is_staff) {
+      this.props.dispatch(fetchHits())
+    }
   }
+
 
   getDescription() {
     let desc = this.props.description
@@ -55,6 +64,7 @@ class Contact extends Component {
     }
     return (<ContactDescription
       description={desc}
+      hits={this.props.hits}
       user={this.props.user}
       dispatch={this.props.dispatch}
       />)
@@ -65,6 +75,7 @@ class Contact extends Component {
     const {
       dispatch,
       description,
+      hits,
       user,
       settings,
     } = this.props

@@ -6,6 +6,7 @@ import WeblogAuthor from './WeblogAuthor'
 import WeblogGallery from './WeblogGallery'
 import WeblogTags from './WeblogTags'
 import PostEditionButton from './PostEditionButton'
+import HitsCounter from './HitsCounter'
 
 export default class WeblogPostDetail extends Component {
 
@@ -25,12 +26,25 @@ export default class WeblogPostDetail extends Component {
     return null
   }
 
+  getHits() {
+    if (this.props.user.is_staff) {
+      return (
+        <HitsCounter
+          hits={1}
+        />
+      )
+    }
+  }
+
   render() {
     return (
       <article>
         <header>
           {this.getEditionButton()}
-          <WeblogTime date={this.props.pub_date} />
+          <div className="suptitle">
+            <WeblogTime date={this.props.pub_date} />
+            {this.getHits()}
+          </div>
           <h1>{this.props.title}</h1>
           <WeblogDescription description={this.props.description} />
         </header>
