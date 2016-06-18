@@ -8,6 +8,7 @@ import { weblogListSelector } from '../selectors/weblogListSelector'
 import  {
   fetchWeblogPageIfNeeded,
   selectWeblogPage,
+  fetchHits,
 } from '../actions/weblog'
 
 import WeblogPagination from '../components/WeblogPagination'
@@ -45,6 +46,10 @@ class WeblogList extends Component {
     }
   }
 
+  fetchHits(slug) {
+    return this.props.dispatch(fetchHits(slug))
+  }
+
   getPage() {
     let selected = this.props.selectedPage
     // show spinner if no selected page or if page is fetching
@@ -69,12 +74,15 @@ class WeblogList extends Component {
         </article>
       )
     }
+
     return (
       <div>
         {selected.results.map(post =>
           <WeblogPostAbstract
             key={post.slug}
             user={this.props.user}
+            hits={this.props.hits[post.slug]}
+            fetchHits={this.fetchHits.bind(this)}
             {...post}
           />
         )}
@@ -95,6 +103,7 @@ class WeblogList extends Component {
       dispatch,
       selectedPage,
       user,
+      hits,
     } = this.props
     //console.log('weblog list', this.props)
 

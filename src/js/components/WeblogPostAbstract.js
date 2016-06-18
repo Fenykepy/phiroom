@@ -10,9 +10,17 @@ export default class WeblogPostAbstract extends Component {
     if (this.props.user.is_staff) {
       return (
         <HitsCounter
-          hits={1}
+          hits={this.props.hits}
         />
       )
+    }
+  }
+
+  componentDidMount() {
+    console.log('did mount', this.props)
+    // if user is staff, get hits count
+    if (this.props.user.is_staff) {
+      this.props.fetchHits(this.props.slug)
     }
   }
 

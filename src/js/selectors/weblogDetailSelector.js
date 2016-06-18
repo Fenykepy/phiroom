@@ -20,7 +20,7 @@ const picturesShortSelector = state => state.common.pictures.short
 const authorsSelector = state => state.common.authors
 
 // all posts hits
-const hitsSelector = state => state.weblog.hits
+export const hitsSelector = state => state.weblog.hits
 
 // post object from store
 const selectedPostSelector = state => state.weblog.posts[

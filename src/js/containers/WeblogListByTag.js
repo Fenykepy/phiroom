@@ -8,6 +8,7 @@ import { weblogListByTagSelector } from '../selectors/weblogListByTagSelector'
 import  {
   fetchWeblogPageByTagIfNeeded,
   selectWeblogPageByTag,
+  fetchHits,
 } from '../actions/weblog'
 
 import WeblogPagination from '../components/WeblogPagination'
@@ -47,6 +48,10 @@ class WeblogListByTag extends Component {
     }
   }
 
+  fetchHits(slug) {
+    return this.props.dispatch(fetchHits(slug))
+  }
+
   getPage() {
     let selected = this.props.selectedPageByTag
     // show spinner if no selected page or if page is fetching
@@ -77,6 +82,8 @@ class WeblogListByTag extends Component {
           <WeblogPostAbstract
             key={post.slug}
             user={this.props.user}
+            hits={this.props.hits[post.slug]}
+            fetchHits={this.fetchHits.bind(this)}
             {...post}
           />
         )}
@@ -96,6 +103,7 @@ class WeblogListByTag extends Component {
       dispatch,
       selectedPageByTag,
       user,
+      hits,
     } = this.props
     
     return (
