@@ -12,6 +12,8 @@ urlpatterns = [
             name="picture-detail"),
         url(r'^pictures/(?P<sha1>[0-9A-Fa-f]{40})/short/$', views.PictureShortDetail.as_view(),
             name="picture-detail-short"),
+        url(r'^pictures/(?P<sha1>[0-9A-Fa-f]{40})/hits/$', views.picture_hits,
+            name="picture-hits"),
         url(r'^pictures/zip-export/$', views.PicturesZipExport.as_view(),
             name="pictures-zip-export"),
         

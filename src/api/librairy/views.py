@@ -12,6 +12,7 @@ from librairy.serializers import *
 from librairy.models import Tag, Collection, CollectionsEnsemble, \
         CollectionPicture, Label, Picture
 
+from stats.models import Hit
 
 
 class PicturesList(generics.ListCreateAPIView):
@@ -204,6 +205,15 @@ def collections_ensemble_pictures(request, pk, format=None):
 
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+@permission_classes((IsAdminUser, ))
+def picture_hits(request, sha1, format=None):
+    """ Return number of uniq views for a picture."""
+    n_hits = Hit.objects.filter(type="PICT").filter(related_key=sha1).values(
+            "ip").distinct().count()
+    
+    return Response(n_hits)
 
 
 
