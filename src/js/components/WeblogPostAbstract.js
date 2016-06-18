@@ -7,7 +7,7 @@ import HitsCounter from './HitsCounter'
 export default class WeblogPostAbstract extends Component {
 
   getHits() {
-    if (this.props.user.is_staff) {
+    if (this.props.user && this.props.user.is_staff) {
       return (
         <HitsCounter
           hits={this.props.hits}
@@ -19,7 +19,7 @@ export default class WeblogPostAbstract extends Component {
   componentDidMount() {
     console.log('did mount', this.props)
     // if user is staff, get hits count
-    if (this.props.user.is_staff) {
+    if (this.props.user && this.props.user.is_staff) {
       this.props.fetchHits(this.props.slug)
     }
   }

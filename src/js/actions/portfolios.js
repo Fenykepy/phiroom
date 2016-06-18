@@ -199,15 +199,50 @@ export function fetchPortfoliosHeaders() {
     dispatch(requestPortfoliosHeaders())
     // return a promise
     return Fetch.get('api/portfolio/headers/', getState())
-      .then(json => 
+      .then(json => {
           dispatch(receivePortfoliosHeaders(json))
-      )
+          // fetch hits counts
+          let staff = getState().common.user.is_staff || null
+          console.log(getState().common.user)
+          if (staff) {
+            json.map(port => {
+              dispatch(fetchHits(port.slug))
+            })
+          }
+      })
       .catch(error =>
           dispatch(requestPortfoliosHeadersFailure(error))
       )
   }
 }
 
+/*
+ * Portfolios hits
+ */
+
+function receiveHits(portfolio, json) {
+  return {
+    type: types.REQUEST_PORTFOLIO_HITS,
+    portfolio,
+    hits: json,
+  }
+}
+
+
+export function fetchHits(portfolio) {
+  /*
+   * fetch a portfolio hits number
+   */
+  return function(dispatch, getState) {
+    return Fetch.get(`api/portfolio/portfolios/${portfolio}/hits/`, getState())
+      .then(json =>
+          dispatch(receiveHits(portfolio, json))
+      )
+      .catch(error => {
+        throw error
+      })
+  }
+}
 
 
 /*

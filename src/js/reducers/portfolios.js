@@ -4,6 +4,7 @@ import {
   REQUEST_PORTFOLIO,
   REQUEST_PORTFOLIO_SUCCESS,
   REQUEST_PORTFOLIO_FAILURE,
+  REQUEST_PORTFOLIO_HITS,
   REQUEST_PORTFOLIOS_HEADERS,
   REQUEST_PORTFOLIOS_HEADERS_SUCCESS,
   REQUEST_PORTFOLIOS_HEADERS_FAILURE,
@@ -23,6 +24,7 @@ import {
   PORTFOLIO_EDIT_SET_PUBDATE,
   PORTFOLIO_EDIT_SET_ORDER,
   PORTFOLIO_DELETE,
+  LOGOUT,
 } from '../constants/actionsTypes'
 
 
@@ -105,6 +107,19 @@ function headers(state = {fetched: false, data: []}, action) {
       })
     default:
       return state
+  }
+}
+
+function hits(state = {}, action) {
+  switch (action.type) {
+    case REQUEST_PORTFOLIO_HITS:
+        return Object.assign({}, state, {
+          [action.portfolio]: action.hits
+        })
+    case LOGOUT:
+        return {}
+    default:
+        return state
   }
 }
 
@@ -198,6 +213,7 @@ const portfolio = combineReducers({
   edited,
   headers,
   portfolios,
+  hits,
 })
 
 export default portfolio
