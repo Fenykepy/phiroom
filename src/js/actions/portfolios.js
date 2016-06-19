@@ -151,6 +151,9 @@ export function fetchPortfoliosHeadersIfNeeded() {
       return dispatch(fetchPortfoliosHeaders())
     }
     // else return a resolved promise
+    // fetch hits counts
+    dispatch(fetchPortfoliosHitsIfNeeded())
+    
     return new Promise((resolve, reject) => resolve())
   }
 }
@@ -202,13 +205,7 @@ export function fetchPortfoliosHeaders() {
       .then(json => {
           dispatch(receivePortfoliosHeaders(json))
           // fetch hits counts
-          let staff = getState().common.user.is_staff || null
-          console.log(getState().common.user)
-          if (staff) {
-            json.map(port => {
-              dispatch(fetchHits(port.slug))
-            })
-          }
+          dispatch(fetchPortfoliosHitsIfNeeded())
       })
       .catch(error =>
           dispatch(requestPortfoliosHeadersFailure(error))
@@ -228,6 +225,19 @@ function receiveHits(portfolio, json) {
   }
 }
 
+export function fetchPortfoliosHitsIfNeeded() {
+  // fetch all portfolios hits
+  return function(dispatch, getState) {
+    let state = getState()
+    let staff = state.common.user.is_staff || null
+    let headers = state.portfolio.headers.data
+    if (staff && headers) {
+      headers.map(port =>
+        dispatch(fetchHits(port.slug))
+      )
+    }
+  }
+}
 
 export function fetchHits(portfolio) {
   /*

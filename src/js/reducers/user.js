@@ -57,7 +57,6 @@ function user(state = {}, action) {
     case REQUEST_VERIFY_TOKEN:
       return Object.assign({}, state, {
         is_verifying_token: true,
-        is_authenticated: false,
       })
     case REQUEST_VERIFY_TOKEN_SUCCESS:
       return Object.assign({}, state, {

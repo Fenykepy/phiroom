@@ -4,6 +4,7 @@ import Fetch from '../helpers/http'
 import { getJWTDate } from '../helpers/utils'
 
 import { setCookie, getCookie, deleteCookie } from '../helpers/cookieManager'
+import { fetchPortfoliosHitsIfNeeded } from './portfolios'
 
 // action creators
 
@@ -48,10 +49,11 @@ export function login(credentials) {
           setCookie('auth_token', json.token, 7)
           dispatch(receiveToken(json.token))
       })
-      .then(() =>
+      .then(() => {
         // fetch authenticated user's data
         dispatch(fetchCurrentUserIfNeeded())
-      )
+        dispatch(fetchPortfoliosHitsIfNeeded())
+      })
       .catch(error => {
         console.warn(error)
         dispatch(requestTokenFailure(error.message))
@@ -258,9 +260,10 @@ function fetchCurrentUser() {
     dispatch(requestCurrentUser())
     // return a promise
     return Fetch.get('api/users/current/', getState())
-      .then(json =>
-          dispatch(receiveCurrentUser(json))
-      )
+      .then(json => {
+        dispatch(receiveCurrentUser(json))
+          dispatch(fetchPortfoliosHitsIfNeeded())
+  })
       .catch(error =>
           dispatch(requestCurrentUserFailure(error.message))
       )

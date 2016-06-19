@@ -6,7 +6,8 @@ export default class HitsCounter extends Component {
     let view = " views"
     if (hits && hits <= 1) view = ' view'
     if (! hits) hits = "..."
-    return (
+      
+      return (
       <div className="hits">{hits}{view}</div>
     )
   }

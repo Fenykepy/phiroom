@@ -31,7 +31,6 @@ const postHitsSelector = createSelector(
   selectedPostSelector,
   hitsSelector,
   (selectedPost, hits) => {
-    console.log(hits)
     if (selectedPost && hits && hits[selectedPost.slug]) {
       return hits[selectedPost.slug]
     }

@@ -18,7 +18,7 @@ export default class Footer extends Component {
       )
     }
   }
-
+  /*
   getUsername() {
     if (this.props.user.is_authenticated) {
       // TODO Add dropdown menu to display user info here
@@ -36,12 +36,12 @@ export default class Footer extends Component {
       >Sign up</Link>
     )
   }
-
+  */
   render () {
     //console.log('footer', this.props)
     return (
         <footer role="contentinfo">
-          <p id="powered"><a target="_blank" href="http://phiroom.org">Powered by Phiroom</a> | {this.getUsername()} | {this.getLinks()}</p>
+          <p id="powered"><a target="_blank" href="http://phiroom.org">Powered by Phiroom</a> | {this.getLinks()}</p>
         </footer>
     )
   }

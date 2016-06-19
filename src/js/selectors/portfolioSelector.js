@@ -7,6 +7,8 @@ import { createSelector, createStructuredSelector } from 'reselect'
 
 export const portfolioHeadersSelector = state => state.portfolio.headers.data
 
+export const portfolioHitsSelector = state => state.portfolio.hits
+
 const defaultPortfolioSelector = createSelector(
     portfolioHeadersSelector,
     (headers) => {

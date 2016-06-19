@@ -391,9 +391,11 @@ h1, h2, h3, h4, h5, h6 {
 
 // sup heading
 .suptitle {
+    display: flex;
+}
+time, .hits {
     color: @blog-time;
     font-size: 0.85em;
-    display: flex;
 }
 // time indications
 time {
@@ -430,6 +432,7 @@ header[role="banner"] {
             a {
                 vertical-align: top;
                 text-decoration: none;
+                margin-right: 15px;
             }
         }
     }
@@ -514,7 +517,7 @@ hr {
                         padding: 0;
                         width: auto;
                         white-space: nowrap;
-                        display: block;
+                        display: flex;
                         position: relative;
                     }
 

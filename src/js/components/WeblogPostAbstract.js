@@ -17,7 +17,6 @@ export default class WeblogPostAbstract extends Component {
   }
 
   componentDidMount() {
-    console.log('did mount', this.props)
     // if user is staff, get hits count
     if (this.props.user && this.props.user.is_staff) {
       this.props.fetchHits(this.props.slug)
