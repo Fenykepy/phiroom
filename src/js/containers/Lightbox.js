@@ -14,9 +14,13 @@ import {
   lightboxPreviousLoaded,
 } from '../actions/lightbox'
 
+import { fetchHits } from '../actions/pictures'
+
 import { Link } from 'react-router'
 
 import LightboxFigure from '../components/LightboxFigure'
+
+
 
 class Lightbox extends Component {
 
@@ -63,6 +67,10 @@ class Lightbox extends Component {
       lightboxCurrentLoaded)
       .then(() => {
         //console.log('current loaded, load next')
+        // fetch hits if necessary
+        if (this.props.showHits) {
+          this.props.dispatch(fetchHits(this.props.current.sha1))
+        }
         this.loadImage( // then load next image file
           this.props.next,
           this.props.nextLoaded,
@@ -180,6 +188,7 @@ class Lightbox extends Component {
       activated,
       slideshow,
       showInfo,
+      showHits,
     } = this.props
 
     //console.log('lb', this.props)
@@ -200,6 +209,7 @@ class Lightbox extends Component {
               number={this.props.currentIndex + 1}
               length={this.props.pictures.length}
               clientSide={this.props.clientSide}
+              showHits={this.props.showHits}
             />
           </section>
         </div>

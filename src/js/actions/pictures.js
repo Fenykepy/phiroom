@@ -81,6 +81,31 @@ export function fetchShortPicture(picture) {
 
 
 
+function receiveHits(picture, json) {
+  return {
+    type: types.REQUEST_PICTURE_HITS,
+    picture,
+    hits: json,
+  }
+}
+
+
+export function fetchHits(picture) {
+  /*
+   * fetch a picture hits number
+   */
+  return function(dispatch, getState) {
+    return Fetch.get(`api/librairy/pictures/${picture}/hits/`, getState())
+      .then(json =>
+          dispatch(receiveHits(picture, json))
+      )
+      .catch(error => {
+        throw error
+      })
+  }
+}
+
+
 
 export function requestPicture(picture) {
   return {

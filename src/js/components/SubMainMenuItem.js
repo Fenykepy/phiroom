@@ -7,7 +7,7 @@ import HitsCounter from './HitsCounter'
 export default class SubMainMenuItem extends Component {
 
   getHits() {
-    if (this.props.staff) {
+    if (this.props.showHits) {
       return (
         <HitsCounter
           hits={this.props.hits}

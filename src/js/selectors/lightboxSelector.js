@@ -1,5 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 
+import { staffSelector } from './userSelector'
 
 /*
  * input selectors
@@ -10,6 +11,9 @@ const clientSideSelector = state => state.common.viewport.clientSide
 
 // pictures public data database
 const picturesShortSelector = state => state.common.pictures.short
+
+// pictures hits
+const picturesHitsSelector = state => state.common.pictures.hits
 
 // pictures sha1s in a list [2, 8, 16]
 const lightboxPicturesSelector = state => state.common.lightbox.pictures
@@ -54,8 +58,11 @@ const lightboxCurrentIndexSelector = createSelector(
 const lightboxCurrentPictSelector = createSelector(
   lightboxCurrentSelector,
   picturesShortSelector,
-  (current, picturesShort) => {
-    return picturesShort[current] || null
+  picturesHitsSelector,
+  (current, picturesShort, hits) => {
+    let pict_hits = hits[current] || null
+    let pict = picturesShort[current] || null
+    return Object.assign({}, pict, {hits: pict_hits})
   }
 )
 
@@ -115,4 +122,5 @@ export const lightboxSelector = createStructuredSelector({
   activated: lightboxActivatedSelector,
   slideshow: lightboxSlideshowSelector,
   showInfo: lightboxShowInfoSelector,
+  showHits: staffSelector,
 })

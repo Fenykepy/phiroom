@@ -2,12 +2,24 @@ import React, { Component, PropTypes } from 'react'
 
 import { Link } from 'react-router'
 import Spinner from './Spinner'
+import HitsCounter from './HitsCounter'
 
 export default class LightboxFigure extends Component {
 
+  getHits() {
+    if (this.props.showHits) {
+      return (
+        <HitsCounter
+          hits={this.props.image.hits}
+        />
+      )
+    }
+  }
+
+
   render () {
     // if we are clientside and image is loading, show spinner
-    if (! this.props.loaded &&this.props.clientSide) {
+    if (! this.props.loaded && this.props.clientSide) {
       //console.log('loading')
        return (
         <figure>
@@ -29,7 +41,7 @@ export default class LightboxFigure extends Component {
               </Link>
             </div>
             <figcaption>
-              {this.props.image.title}
+              <div className="lb-title"><div>{this.props.image.title}</div>{this.getHits()}</div>
               <p>Image {this.props.number} of {this.props.length}</p>
             </figcaption>
           </figure>

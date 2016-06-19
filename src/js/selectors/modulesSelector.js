@@ -5,7 +5,7 @@ import {
   portfolioHitsSelector,
 } from './portfolioSelector'
 
-import { userSelector } from './userSelector'
+import { staffSelector } from './userSelector'
 
 /*
  * input selectors
@@ -20,15 +20,15 @@ const currentModuleSelector = state => state.common.modules.current
 const portfolioMenuSelector = createSelector(
   portfolioHeadersSelector,
   portfolioHitsSelector,
-  userSelector,
-  (headers, hits, user) => {
+  staffSelector,
+  (headers, hits, staff) => {
     return headers.map(port => {
       return {
         slug: port.slug,
         url: port.url,
         title: port.title,
         hits: hits[port.slug] || null,
-        staff: user.is_staff,
+        showHits: staff,
       }
     })
   }

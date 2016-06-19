@@ -4,6 +4,7 @@ import {
   REQUEST_PICTURE,
   REQUEST_PICTURE_SUCCESS,
   REQUEST_PICTURE_FAILURE,
+  REQUEST_PICTURE_HITS,
   REQUEST_SHORT_PICTURE,
   REQUEST_SHORT_PICTURE_SUCCESS,
   REQUEST_SHORT_PICTURE_FAILURE,
@@ -111,6 +112,22 @@ function full (state = {}, action) {
       return state
   }
 }
+
+
+function hits(state = {}, action) {
+  switch (action.type) {
+    case REQUEST_PICTURE_HITS:
+        return Object.assign({}, state, {
+          [action.picture]: action.hits
+        })
+    case LOGOUT:
+        return {}
+    default:
+        return state
+  }
+}
+
+
 
 function all (state = {}, action) {
   switch (action.type) {
@@ -234,6 +251,7 @@ const pictures = combineReducers({
   short,
   full,
   all,
+  hits,
   uploading,
 })
 
