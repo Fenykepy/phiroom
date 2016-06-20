@@ -403,7 +403,7 @@ class PictureTest(TestCase):
 
 
 
-    def test_keep_or_delete_picturefiles(self):
+    def test_delete_picturefiles(self):
         """Checks that picture files are deleted when
         Picture object is deleted."""
         # generate a Picture object
@@ -530,8 +530,8 @@ class CollectionPictureModelTest(TestCase):
     def setUp(self):
         # create test pictures
         self.pict = create_test_picture()
-        self.pict2 = create_test_picture()
-        self.pict3 = create_test_picture()
+        self.pict2 = create_test_picture(sha1='bbbbbbbb')
+        self.pict3 = create_test_picture(sha1='cccccccc')
         # create test collections
         create_test_collections(self)
 
@@ -632,9 +632,9 @@ class CollectionsEnsembleModelTest(TestCase):
         # create test collections
         create_test_collections(self)
         # create test pictures
-        self.pict = create_test_picture()
-        self.pict2 = create_test_picture()
-        self.pict3 = create_test_picture()
+        self.pict = create_test_picture(sha1='bbbb')
+        self.pict2 = create_test_picture(sha1='cccc')
+        self.pict3 = create_test_picture(sha1='dddd')
         # create collection pictures relations
         CollectionPicture.objects.create(
             collection = self.collection1,
@@ -674,8 +674,8 @@ class CollectionsAPITest(APITestCase):
         # create test collections
         create_test_collections(self)
         # create pictures
-        self.pict = create_test_picture()
-        self.pict2 = create_test_picture()
+        self.pict = create_test_picture( sha1='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        self.pict2 = create_test_picture(sha1='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
         # setup client
         self.client = APIClient()
 
@@ -766,8 +766,8 @@ class CollectionsAPITest(APITestCase):
         # assert picture's number has been set
         self.assertEqual(response.data['n_pict'], 2)
         # assert pictures pk's are serialized in a list
-        self.assertEqual(response.data['pictures'][0], 1)
-        self.assertEqual(response.data['pictures'][1], 2)
+        self.assertEqual(response.data['pictures'][0], self.pict.sha1)
+        self.assertEqual(response.data['pictures'][1], self.pict2.sha1)
 
         test_status_codes(self, url, [200, 405, 200, 200, 204],
             postData=data, putData=data, patchData=data2)    
@@ -808,7 +808,6 @@ class CollectionsAPITest(APITestCase):
         response = self.client.get(url)
         data = response.data
         self.assertEqual(len(data), 2)
-        self.assertTrue(data[0]['pk'])
         self.assertTrue(data[0]['sha1'])
         self.assertEqual(data[0]['title'], 'title 1')
         self.assertEqual(data[0]['legend'], 'legend 1')
@@ -910,7 +909,6 @@ class CollectionsAPITest(APITestCase):
         response = self.client.get(url)
         data = response.data
         self.assertEqual(len(data), 2)
-        self.assertTrue(data[0]['pk'])
         self.assertTrue(data[0]['sha1'])
         self.assertEqual(data[0]['title'], 'title 1')
         self.assertEqual(data[0]['legend'], 'legend 1')
