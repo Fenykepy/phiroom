@@ -14,14 +14,14 @@ class HitModelTest(TestCase):
 
     def test_portfolio_hit_creation(self):
         hit = Hit.objects.create(
-                ip = '233',
+                ip = '127.0.0.8',
                 type = 'PORT',
                 related_key = '1'
         )
 
         # assert hit has been saved in db
         hit = Hit.objects.get(pk=1)
-        self.assertEqual(hit.ip, '233')
+        self.assertEqual(hit.ip, '::ffff:127.0.0.8')
         self.assertEqual(hit.type, 'PORT')
         self.assertEqual(hit.related_key, '1')
         self.assertEqual(hit.user, None)
@@ -30,12 +30,13 @@ class HitModelTest(TestCase):
     def test_post_hit_creation(self):
         hit = Hit.objects.create(
                 type = 'POST',
-                related_key = '1'
+                related_key = '1',
+                ip = '127.0.0.1'
         )
 
         # assert hit has been saved in db
         hit = Hit.objects.get(pk=1)
-        self.assertEqual(hit.ip, '')
+        self.assertEqual(hit.ip, '::ffff:127.0.0.1')
         self.assertEqual(hit.type, 'POST')
         self.assertEqual(hit.related_key, '1')
         self.assertEqual(hit.user, None)
@@ -43,14 +44,14 @@ class HitModelTest(TestCase):
 
     def test_picture_hit_creation(self):
         hit = Hit.objects.create(
-                ip = '234',
+                ip = '127.0.0.7',
                 type = 'PICT',
                 related_key = '1'
         )
 
         # assert hit has been saved in db
         hit = Hit.objects.get(pk=1)
-        self.assertEqual(hit.ip, '234')
+        self.assertEqual(hit.ip, '::ffff:127.0.0.7')
         self.assertEqual(hit.type, 'PICT')
         self.assertEqual(hit.related_key, '1')
         self.assertEqual(hit.user, None)
@@ -58,13 +59,13 @@ class HitModelTest(TestCase):
 
     def test_contact_hit_creation(self):
         hit = Hit.objects.create(
-                ip = '234',
+                ip = '127.0.0.8',
                 type = 'CONTACT',
         )
 
         # assert hit has been saved in db
         hit = Hit.objects.get(pk=1)
-        self.assertEqual(hit.ip, '234')
+        self.assertEqual(hit.ip, '::ffff:127.0.0.8')
         self.assertEqual(hit.type, 'CONTACT')
         self.assertEqual(hit.user, None)
 
@@ -119,7 +120,7 @@ class StatsAPITest(APITestCase):
         self.assertEqual(hit.user, self.normalUser)
         self.assertTrue(hit.ip)
         self.assertTrue(hit.request_ip)
-        self.assertTrue(hit.request_ip == hit.ip)
+        self.assertTrue('::ffff:' + hit.request_ip == hit.ip)
 
 
     def test_portfolio_hit_creation(self):
@@ -137,7 +138,7 @@ class StatsAPITest(APITestCase):
         self.assertEqual(hit.type, 'PORT')
         self.assertEqual(hit.related_key, '1')
         self.assertEqual(hit.user, None)
-        self.assertEqual(hit.ip, '127.0.0.3')
+        self.assertEqual(hit.ip, '::ffff:127.0.0.3')
         self.assertTrue(hit.request_ip)
 
 
