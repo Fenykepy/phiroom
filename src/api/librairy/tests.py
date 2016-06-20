@@ -74,9 +74,12 @@ class ZipExportTest(TestCase):
         # there should be 3 files in archive
         self.assertEqual(len(info), 3)
         # assert file sizes are ok
-        self.assertEqual(info[0].file_size, 212760)
-        self.assertEqual(info[1].file_size, 188726)
-        self.assertEqual(info[2].file_size, 150347)
+        self.assertTrue(212800 > info[0].file_size)
+        self.assertTrue(info[0].file_size > 212700)
+        self.assertTrue(188800 > info[1].file_size)
+        self.assertTrue(info[1].file_size > 188700)
+        self.assertTrue(150400 > info[2].file_size)
+        self.assertTrue(info[2].file_size > 150300)
         # assert file names have been generated correctly
         name = info[0].filename.split('/')
         self.assertEqual(name[0][:14], 'phiroom-export')
