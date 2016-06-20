@@ -404,14 +404,11 @@ class PictureTest(TestCase):
 
 
     def test_keep_or_delete_picturefiles(self):
-        """Checks that picture file deleted when last Picture object
-        with one sha1 is deleted."""
-        # generate two Picture objects with same source file
+        """Checks that picture files are deleted when
+        Picture object is deleted."""
+        # generate a Picture object
         factory = PictureFactory(file=PICT_PATH)
         self.pict2 = factory.picture
-        # generate two Picture objects with same source file
-        factory = PictureFactory(file=PICT_PATH)
-        self.pict3 = factory.picture
         # store files path
         source_file = self.pict2._get_pathname()
         preview_file = self.pict2.previews_path
@@ -426,16 +423,9 @@ class PictureTest(TestCase):
             )), bool)
         # assert picture source and large preview files exist
         picture_files_exist(True)
-        picture_files_exist(True)
         # delete pict2
         self.pict2.delete()
         # assert picture source and large preview files still exist
-        picture_files_exist(True)
-        picture_files_exist(True)
-        # delete pict3
-        self.pict3.delete()
-        # assert picture source and large preview files have been deleted
-        picture_files_exist(False)
         picture_files_exist(False)
 
 

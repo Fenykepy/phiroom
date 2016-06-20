@@ -566,18 +566,15 @@ class CollectionsEnsemble(MPTTModel):
 
 
 @receiver(pre_delete, sender=Picture)
-def keep_or_delete_picturefiles(sender, instance, **kwargs):
+def delete_picturefiles(sender, instance, **kwargs):
     """
     Delete picture's related files (original, previews), when
-    last Picture object using picture's sha1 will be deleted.
+    Picture object using picture's sha1 will be deleted.
     """
-    # count remaining pictures with instance sha1
-    nb = Picture.objects.filter(sha1=instance.sha1).count()
-    if nb == 1:
-        # last Picture object relying to files will be deleted,
-        # delete files too
-        instance.delete_picture()
-        instance.delete_previews()
+    # last Picture object relying to files will be deleted,
+    # delete files too
+    instance.delete_picture()
+    instance.delete_previews()
 
     return
 
