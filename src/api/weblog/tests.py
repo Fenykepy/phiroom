@@ -314,8 +314,8 @@ class PostPictureModelTest(TestCase):
         # create posts
         create_test_posts(self)
         # create pictures
-        self.pict = create_test_picture()
-        self.pict2 = create_test_picture()
+        self.pict = create_test_picture(sha1='a' * 40)
+        self.pict2 = create_test_picture(sha1='b' * 40)
 
 
     def test_create_PostPicture(self):
@@ -505,8 +505,8 @@ class PostPictureAPITest(APITestCase):
         # create posts
         create_test_posts(self)
         # create pictures
-        self.pict = create_test_picture()
-        self.pict2 = create_test_picture()
+        self.pict = create_test_picture(sha1='a' * 40)
+        self.pict2 = create_test_picture(sha1='b' * 40)
 
         self.client = APIClient()
 
@@ -879,8 +879,8 @@ class PostAPITest(APITestCase):
         self.post2.save()
  
         # create pictures
-        self.pict = create_test_picture()
-        self.pict2 = create_test_picture()       
+        self.pict = create_test_picture(sha1='a' * 40)
+        self.pict2 = create_test_picture(sha1='b' * 40)       
 
         # add pictures to posts
         pp = PostPicture(
@@ -1071,8 +1071,8 @@ class PostAPITest(APITestCase):
 
         data = {'pictures': [2, 1]}
 
-        self.pict = create_test_picture()
-        self.pict2 = create_test_picture()
+        self.pict = create_test_picture(sha1='a' * 40)
+        self.pict2 = create_test_picture(sha1='b' * 40)
 
         # pass post 2 draft
         self.post2.draft = True
@@ -1104,13 +1104,11 @@ class PostAPITest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         data1 = response.data
-        self.assertTrue(data1[0]['pk'])
         self.assertTrue(data1[0]['sha1'])
         self.assertEqual(data1[0]['title'], 'title1')
         self.assertEqual(data1[0]['legend'], 'legend1')
         self.assertEqual(data1[0]['previews_path'], 'xx/xx/xxxxxxx')
         self.assertEqual(data1[0]['ratio'], 0.75)
-        self.assertTrue(data1[1]['pk'])
         self.assertTrue(data1[1]['sha1'])
         self.assertEqual(data1[1]['title'], 'title2')
         self.assertEqual(data1[1]['legend'], 'legend2')
