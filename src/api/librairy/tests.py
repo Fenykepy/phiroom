@@ -74,6 +74,7 @@ class ZipExportTest(TestCase):
         # there should be 3 files in archive
         self.assertEqual(len(info), 3)
         # assert file sizes are ok
+        # we test a fork because it can change on different computers
         self.assertTrue(212800 > info[0].file_size)
         self.assertTrue(info[0].file_size > 212700)
         self.assertTrue(188800 > info[1].file_size)
@@ -196,7 +197,7 @@ class PictureFactoryTest(TestCase):
 
         
 
-def create_test_picture(sha1='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'):
+def create_test_picture(sha1='a' * 40):
     """
     Create a test picture object without generating previews (long),
     or loading metadatas.
@@ -533,8 +534,8 @@ class CollectionPictureModelTest(TestCase):
     def setUp(self):
         # create test pictures
         self.pict = create_test_picture()
-        self.pict2 = create_test_picture(sha1='bbbbbbbb')
-        self.pict3 = create_test_picture(sha1='cccccccc')
+        self.pict2 = create_test_picture(sha1='b' * 40)
+        self.pict3 = create_test_picture(sha1='c' * 40)
         # create test collections
         create_test_collections(self)
 
@@ -635,9 +636,9 @@ class CollectionsEnsembleModelTest(TestCase):
         # create test collections
         create_test_collections(self)
         # create test pictures
-        self.pict = create_test_picture(sha1='bbbb')
-        self.pict2 = create_test_picture(sha1='cccc')
-        self.pict3 = create_test_picture(sha1='dddd')
+        self.pict = create_test_picture(sha1='b' * 40)
+        self.pict2 = create_test_picture(sha1='c' * 40)
+        self.pict3 = create_test_picture(sha1='d' * 40)
         # create collection pictures relations
         CollectionPicture.objects.create(
             collection = self.collection1,
@@ -677,8 +678,8 @@ class CollectionsAPITest(APITestCase):
         # create test collections
         create_test_collections(self)
         # create pictures
-        self.pict = create_test_picture( sha1='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-        self.pict2 = create_test_picture(sha1='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+        self.pict = create_test_picture( sha1='b' * 40)
+        self.pict2 = create_test_picture(sha1='c' * 40)
         # setup client
         self.client = APIClient()
 
@@ -1036,10 +1037,10 @@ class PicturesAPITest(APITestCase):
         url = reverse('all-pictures-list')
         data = { 'pks': [1, 2, 3] }
         
-        pict = create_test_picture()
-        pict2 = create_test_picture()
-        pict3 = create_test_picture()
-        pict4 = create_test_picture()
+        pict = create_test_picture('b' * 40)
+        pict2 = create_test_picture('c' * 40)
+        pict3 = create_test_picture('d' * 40)
+        pict4 = create_test_picture('e' * 40)
 
         results = [pict4.pk, pict3.pk, pict2.pk, pict.pk]
         
@@ -1069,8 +1070,8 @@ class PicturesAPITest(APITestCase):
     def test_picturesAPI(self):
         url_list = reverse('pictures-list')
         # create picture for tests
-        pict = create_test_picture()
-        url_detail = reverse('picture-detail', kwargs={'pk': pict.pk})
+        pict = create_test_picture('b' * 40)
+        url_detail = reverse('picture-detail', kwargs={'sha1': pict.sha1})
 
         # try to get pictures list without login
         response = self.client.get(url_list)
@@ -1137,7 +1138,7 @@ class PicturesAPITest(APITestCase):
                 'file':file,
             })
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.data['pk'], 2)
+        self.assertEqual(response.data['sha1'], 'ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092')
         self.assertEqual(response.data['name_import'], 'FLR_15_2822.jpg')
         # assert picture has been saved in db
         n_pict = Picture.objects.all().count()
@@ -1148,11 +1149,11 @@ class PicturesAPITest(APITestCase):
                 'file':file,
             })
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.data['pk'], 3)
+        self.assertEqual(response.data['sha1'], 'ae2ba7dce63bd0b2f7d79996c41b6f070bfcb092')
         self.assertEqual(response.data['name_import'], 'FLR_15_2822.jpg')
-        # assert picture has been saved in db
+        # picture with same sha1 shouldn't  have been saved again
         n_pict = Picture.objects.all().count()
-        self.assertEqual(n_pict, 3)
+        self.assertEqual(n_pict, 2)
         # test patch pict.rate=0
         response = self.client.patch(url_detail, {'rate': 5})
         self.assertEqual(response.status_code, 200)

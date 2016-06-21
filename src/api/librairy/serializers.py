@@ -156,14 +156,14 @@ class PictureUploadSerializer(PictureSerializer):
 
     class Meta:
         model = Picture
-        fields = ('url', 'importation_date', 'last_update', 'source_file',
+        fields = ('url', 'sha1', 'importation_date', 'last_update', 'source_file',
                 'title', 'legend', 'name_import', 'name', 'type',
-                'weight','width', 'height', 'portrait_orientation',
+                'weight','width', 'height', 'ratio', 'portrait_orientation',
                 'landscape_orientation', 'color', 'camera', 'lens',
                 'speed', 'aperture', 'iso', 'tags', 'label', 'rate',
                 'exif_date', 'exif_origin_date', 'copyright',
-                'copyright_state', 'copyright_url', 'file'
-        )
+                'copyright_state', 'copyright_url', 'previews_path', 'file'
+            )
 
     def save(self, **kwargs):
         """Create a new Picture instance through PictureFactory."""
