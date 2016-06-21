@@ -39,7 +39,7 @@ class PortfolioModelTest(TestCase):
         # create users
         create_test_users(self)
         # create test pictures
-        create_test_picture()
+        create_test_picture(sha1='a' * 40)
         # create portfolios
         create_test_portfolios(self)
 
@@ -101,8 +101,8 @@ class PortfolioPictureModelTest(TestCase):
         # create portfolios
         create_test_portfolios(self)
         # create pictures
-        self.pict = create_test_picture()
-        self.pict2 = create_test_picture()
+        self.pict = create_test_picture(sha1='a' * 40)
+        self.pict2 = create_test_picture(sha1='b' * 40)
 
 
 
@@ -147,8 +147,8 @@ class PortfolioAPITest(APITestCase):
         # create portfolios
         create_test_portfolios(self)
         # create pictures
-        self.pict = create_test_picture()
-        self.pict2 = create_test_picture()
+        self.pict = create_test_picture(sha1='a' * 40)
+        self.pict2 = create_test_picture(sha1='b' * 40)
 
         self.client = APIClient()
 
@@ -422,14 +422,12 @@ class PortfolioAPITest(APITestCase):
         # client should get port pictures
         response = self.client.get(url)
         data1 = response.data
-        self.assertTrue(data1[0]['pk'])
         self.assertTrue(data1[0]['sha1'])
         self.assertEqual(data1[0]['title'], 'title 1')
         self.assertEqual(data1[0]['legend'], 'legend 1')
         self.assertEqual(data1[0]['previews_path'], 'xx/xx/xxxxxx')
         self.assertEqual(data1[0]['ratio'], 0.75)
         
-        self.assertTrue(data1[1]['pk'])
         self.assertTrue(data1[1]['sha1'])
         self.assertEqual(data1[1]['title'], 'title 2')
         self.assertEqual(data1[1]['legend'], 'legend 2')
