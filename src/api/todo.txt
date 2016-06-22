@@ -13,15 +13,17 @@ conf:
 portfolio:
 #    - add views
 #    - add tests
+    - add tests for portfolios hits
 
 weblog:
 #    - add pk relation field for pictures instead of nesting
 #    - add pk relation field for author instead of nesting
 #    - add view for posts headers
-    - add tests for posts headers
-    - add tests for new rights with is_weblog_author
+#    - add tests for posts headers
+#    - add tests for new rights with is_weblog_author
     - use abstract delimiter, replaced, and end from conf model
     - use n_post_per_page in weblog list serializer
+    - add tests for port hits
 
 librairy:
 #    - add pictures_full view
@@ -48,3 +50,7 @@ librairy:
 #    - test it
 #    - add API endpoint for collection pictures relation
 #    - test collection pictures API
+    - add tests for picture hits
+
+contact:
+    - add tests for contact hits

@@ -67,7 +67,7 @@ A tree:
             #[GET-PUT-PATCH-DELETE:(admin)] get update delete a picture
 [OK]        - picture-delail: "/api/librairy/pictures/:sha1/"
                 #[GET:(admin) get number of hits on a specific picture
-                - picture-hits: "/api/librairy/pictures/:sha1/hits"
+[OK]            - picture-hits: "/api/librairy/pictures/:sha1/hits"
             #[GET:(any)] get public info about one picture
 [OK]        - picture-detail-short: "/api/librairy/pictures/:sha1/short/"
             #[POST: (libmairy_member) post a list of pictures'pk and get an archive with them
@@ -199,8 +199,8 @@ specific directory,
 === librairy ===
 #- /librairy/
 #    - librairy, empty page
-- /librairy/all/
-    - librairy, all pictures
+#- /librairy/all/
+#    - librairy, all pictures
 - /librairy/last-importation/
     - librairy, last imported pictures
 - /librairy/last/
