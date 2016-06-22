@@ -12,7 +12,7 @@ from stats.models import Hit
 from librairy.serializers import PictureShortSerializer
 
 from phiroom.permissions import IsStaffOrReadOnly, IsAuthorOrReadOnly, \
-        IsWeblogAuthorOrReadOnly
+        IsWeblogAuthorOrReadOnly, IsWeblogAuthor
 
 
 @api_view(('GET',))
@@ -85,7 +85,7 @@ class PostPictureList(generics.ListCreateAPIView):
     """
     queryset = PostPicture.objects.all()
     serializer_class = PostPictureSerializer
-    permission_classes = (IsWeblogAuthorOrReadOnly, IsStaffOrReadOnly)
+    permission_classes = (IsWeblogAuthor, )
 
 
 
@@ -96,7 +96,7 @@ class PostPictureDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = PostPicture.objects.all()
     serializer_class = PostPictureSerializer
-    permission_classes = (IsStaffOrReadOnly,)
+    permission_classes = (IsWeblogAuthor, )
     def get_object(self):
         try:
             post = Post.objects.get(slug=self.kwargs['post'])
@@ -125,7 +125,7 @@ def flat_tags_list(request, format=None):
 
 
 @api_view(['GET'])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsWeblogAuthor,))
 def posts_headers_list(request, format=None):
     """
     Returns a list of all posts headers (slug, name) without pagination.
@@ -192,5 +192,5 @@ class TagDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
-    permission_classes = (IsStaffOrReadOnly,)
+    permission_classes = (IsWeblogAuthor, )
 

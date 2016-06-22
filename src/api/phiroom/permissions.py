@@ -39,6 +39,18 @@ class IsStaffOrCreateOnly(permissions.BasePermission):
 
 
 
+class IsWeblogAuthor(permissions.BasePermission):
+    """
+    Custom permission to allow only weblog authors to access
+    an object.
+    """
+
+    def has_permission(self, request, view):
+        return (request.user and request.user.is_authenticated() and 
+                request.user.is_weblog_author)
+
+
+
 class IsWeblogAuthorOrReadOnly(permissions.BasePermission):
     """
     Custom permission to only allow staff members or weblog authors
@@ -48,13 +60,9 @@ class IsWeblogAuthorOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        if (request.user and request.user.is_authenticated() and
-            request.user.is_weblog_author):
-            return True
-        
-        return False
+        return (request.method in permissions.SAFE_METHODS or
+            request.user and request.user.is_authenticated() and
+            request.user.is_weblog_author)
 
 
 

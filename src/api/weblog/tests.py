@@ -513,7 +513,7 @@ class PostPictureAPITest(APITestCase):
 
     def test_post_picture_create(self):
         url = '/api/weblog/post-picture/'
-        data = {'post': 1, 'picture': 2}
+        data = {'post': self.post.slug, 'picture': self.pict2.sha1}
         data2 = {'order': 76}
         
         # try without login
@@ -590,8 +590,10 @@ class PostPictureAPITest(APITestCase):
     def test_post_picture_detail(self):
         PostPicture.objects.create(post=self.post, picture=self.pict)
         slug = self.post.slug
-        url = '/api/weblog/post-picture/post/{}/picture/1/'.format(slug)
-        data = {'post': 1, 'picture': 2}
+        sha1 = self.pict.sha1
+        url = '/api/weblog/post-picture/post/{}/picture/{}/'.format(
+                slug, sha1)
+        data = {'post': slug, 'picture': sha1}
         data2 = {'order': 76}
   
         # try without login
@@ -635,8 +637,8 @@ class PostPictureAPITest(APITestCase):
         # client shouldn't get posts list
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['post'], 1)
-        self.assertEqual(response.data['picture'], 1)
+        self.assertEqual(response.data['post'], self.post.slug)
+        self.assertEqual(response.data['picture'], self.pict.sha1)
         # client shouldn't be able to post
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 405)
@@ -702,8 +704,8 @@ class PostAPITest(APITestCase):
         self.assertTrue(response.data[0]['slug'])
         self.assertTrue(response.data[0]['title'])
         
-        # admin user should only see post he is author of
-        self.normalUser.is_staff = True
+        # weblog author user should only see post he is author of
+        self.normalUser.is_weblog_author = True
         self.normalUser.save()
         self.post3.author = self.normalUser
         self.post3.save()
@@ -800,7 +802,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         # client shouldn't be able to post
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 401)
         # client shouldn't be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 401)
@@ -819,7 +821,7 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         # client shouldn't be able to post
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 403)
         # client shouldn't be able to put
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, 403)

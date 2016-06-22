@@ -160,10 +160,14 @@ class User(AbstractUser):
         # set weblog author and librairy membel if user is staff
         # suscribe user to mails
         if not self.pk and self.is_staff:
-            self.is_librairy_member = True
-            self.is_weblog_author = True
             self.mail_contact = True
             self.mail_registration = True
+
+        # if user is staff, he is automatically weblog_author and
+        # librairy member
+        if self.is_staff:
+            self.is_librairy_member = True
+            self.is_weblog_author = True
         
         # set author name if user has right to post
         if not self.author_name and self.is_weblog_author:
