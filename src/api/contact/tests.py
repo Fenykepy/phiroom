@@ -5,6 +5,7 @@ from rest_framework.test import APIClient, APITestCase
 
 from contact.models import Description, Message
 from user.models import User
+from stats.models import Hit
 
 from user.tests import create_test_users, login
 
@@ -146,6 +147,44 @@ class DescriptionAPITest(APITestCase):
 
         self.client = APIClient()
 
+
+    def test_contact_hits(self):
+        # create some hits, 2 with same IP
+        hit = Hit.objects.create(
+                ip = '127.0.0.8',
+                type = 'CONTACT',
+        )
+        hit = Hit.objects.create(
+                ip = '127.0.0.8',
+                type = 'CONTACT',
+        )
+        hit = Hit.objects.create(
+                ip = '127.0.0.9',
+                type = 'CONTACT',
+        )
+
+        url = '/api/contact/hits/'
+        data = { 'name': 'tom' }
+
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
+        
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data)
+        
+        # test with staff user
+        login(self, self.staffUser)
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+
+        response=self.client.get(url)
+        # only 2 hits should be counted
+        self.assertEqual(response.data, 2)
+
+
     
     def test_latest_description(self):
         url = '/api/contact/description/'
@@ -252,6 +291,7 @@ class MessageAPITest(APITestCase):
         create_test_messages(self)
 
         self.client = APIClient()
+
 
     def test_messages_list(self):
         url = '/api/contact/messages/'
