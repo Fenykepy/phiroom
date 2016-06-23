@@ -25,7 +25,6 @@ const portfolioMenuSelector = createSelector(
     return headers.map(port => {
       return {
         slug: port.slug,
-        url: port.url,
         title: port.title,
         hits: hits[port.slug] || null,
         showHits: staff,
