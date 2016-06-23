@@ -23,7 +23,6 @@ export default class LightboxStarter extends Component {
   }
 
   startLightbox(pictures, current) {
-    window.scrollTo(0, 0)
     this.props.dispatch(lightboxStart(pictures, current))
   }
 
@@ -34,6 +33,12 @@ export default class LightboxStarter extends Component {
         this.props.params.lightbox
     )
     this.constructor.sendHit(this.props.dispatch, this.props.params)
+  }
+
+  componentDidMount() {
+    // scroll to to
+    window.scrollTo(0, 0)
+
   }
 
   componentWillReceiveProps(nextProps) {
