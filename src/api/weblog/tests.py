@@ -11,10 +11,12 @@ from rest_framework.test import APIClient, APITestCase
 from user.models import User
 from librairy.models import Picture
 from weblog.models import Post, PostPicture, Tag
+from stats.models import Hit
 from weblog.utils import format_content, format_abstract, format_drop_cap
 
 from librairy.tests import create_test_picture
 from user.tests import create_test_users, login
+from phiroom.tests_utils import test_status_codes
 
 def create_test_tags(instance):
     """Create two tags for tests."""
@@ -677,6 +679,64 @@ class PostAPITest(APITestCase):
         self.post3.tags.add(self.tag) # draft
         self.post4.tags.add(self.tag)
         self.post5.tags.add(self.tag)
+
+
+    def test_post_hits(self):
+        # create some hits, 2 with same IP
+        hit = Hit.objects.create(
+                ip = '127.0.0.8',
+                type = 'POST',
+                related_key = self.post.slug,
+        )
+        hit = Hit.objects.create(
+                ip = '127.0.0.8',
+                type = 'POST',
+                related_key = self.post.slug,
+        )
+        hit = Hit.objects.create(
+                ip = '127.0.0.9',
+                type = 'POST',
+                related_key = self.post.slug,
+        )
+
+        base_url = '/api/weblog/posts/{}/hits/'
+        url = base_url.format(self.post.slug)
+        data = { 'name': 'tom' }
+
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
+        
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data)
+        
+        # test with staff user
+        login(self, self.staffUser)
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+
+        response=self.client.get(url)
+        
+        # only 2 hits should be counted
+        self.assertEqual(response.data, 2)
+        
+        # test with not visited post
+        url2 = base_url.format(self.post2.slug)
+        response=self.client.get(url2)
+        # 0 should appear with a not visited post
+        self.assertEqual(response.data, 0)
+
+        # test with false slug
+        url3 = base_url.format('2016/06/23/my-false-slug')
+        response = self.client.get(url3)
+        # we shouldn't get 404 because we keep tracks of
+        # deleted objects too
+        self.assertEqual(response.status_code, 200)
+        # 0 should appear as post never existed
+        self.assertEqual(response.data, 0)
+
 
 
 
