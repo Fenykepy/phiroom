@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from rest_framework.test import APIClient, APITestCase
 
 from user.models import User
+from stats.models import Hit
 from librairy.models import Picture, Collection, CollectionsEnsemble, \
         Label, Tag, PictureFactory, set_picturename, recursive_import, \
         ZipExport, CollectionPicture 
@@ -1030,6 +1031,66 @@ class PicturesAPITest(APITestCase):
 
         # setup client
         self.client = APIClient()
+
+
+    def test_picture_hits(self):
+        # create some hits, 2 with same IP
+        hit = Hit.objects.create(
+                ip = '127.0.0.8',
+                type = 'PICT',
+                related_key = 'a' * 40,
+        )
+        hit = Hit.objects.create(
+                ip = '127.0.0.8',
+                type = 'PICT',
+                related_key = 'a' * 40,
+        )
+        hit = Hit.objects.create(
+                ip = '127.0.0.9',
+                type = 'PICT',
+                related_key = 'a' * 40,
+        )
+
+        base_url = '/api/librairy/pictures/{}/hits/'
+        url = base_url.format('a' * 40)
+        data = { 'name': 'tom' }
+
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
+        
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data)
+        
+        # test with staff user
+        login(self, self.staffUser)
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+
+        response=self.client.get(url)
+        
+        # only 2 hits should be counted
+        self.assertEqual(response.data, 2)
+        
+        # test with not visited picture
+        url2 = base_url.format('b' * 40)
+        response=self.client.get(url2)
+        # 0 should appear with a not visited picture
+        self.assertEqual(response.data, 0)
+
+        # test with false slug
+        url3 = base_url.format('c' * 40)
+        response = self.client.get(url3)
+        # we shouldn't get 404 because we keep tracks of
+        # deleted objects too
+        self.assertEqual(response.status_code, 200)
+        # 0 should appear as picture never existed
+        self.assertEqual(response.data, 0)
+
+
+
 
 
 
