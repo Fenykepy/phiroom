@@ -149,6 +149,7 @@ class DescriptionAPITest(APITestCase):
 
 
     def test_contact_hits(self):
+
         # create some hits, 2 with same IP
         hit = Hit.objects.create(
                 ip = '127.0.0.8',
@@ -183,6 +184,14 @@ class DescriptionAPITest(APITestCase):
         response=self.client.get(url)
         # only 2 hits should be counted
         self.assertEqual(response.data, 2)
+        
+        # we reset hits count
+        for hit in Hit.objects.all():
+            hit.delete()
+
+        response=self.client.get(url)
+        # 0 hit should be returned
+        self.assertEqual(response.data, 0)
 
 
     

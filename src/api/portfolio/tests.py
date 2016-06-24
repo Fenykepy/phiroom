@@ -8,6 +8,7 @@ from rest_framework.test import APIClient, APITestCase
 from user.models import User
 from librairy.models import Picture
 from portfolio.models import Portfolio, PortfolioPicture
+from stats.models import Hit
 
 from librairy.tests import create_test_picture
 from user.tests import create_test_users, login
@@ -151,6 +152,65 @@ class PortfolioAPITest(APITestCase):
         self.pict2 = create_test_picture(sha1='b' * 40)
 
         self.client = APIClient()
+
+
+    def test_portfolio_hits(self):
+        # create some hits, 2 with same IP
+        hit = Hit.objects.create(
+                ip = '127.0.0.8',
+                type = 'PORT',
+                related_key = self.port.slug,
+        )
+        hit = Hit.objects.create(
+                ip = '127.0.0.8',
+                type = 'PORT',
+                related_key = self.port.slug,
+        )
+        hit = Hit.objects.create(
+                ip = '127.0.0.9',
+                type = 'PORT',
+                related_key = self.port.slug,
+        )
+
+        base_url = '/api/portfolio/portfolios/{}/hits/'
+        url = base_url.format(self.port.slug)
+        data = { 'name': 'tom' }
+
+        # test without login
+        test_status_codes(self, url, [401, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
+        
+        # test with normal user
+        login(self, self.normalUser)
+        test_status_codes(self, url, [403, 403, 403, 403, 403],
+            postData=data, putData=data, patchData=data)
+        
+        # test with staff user
+        login(self, self.staffUser)
+        test_status_codes(self, url, [200, 405, 405, 405, 405],
+            postData=data, putData=data, patchData=data)
+
+        response=self.client.get(url)
+        
+        # only 2 hits should be counted
+        self.assertEqual(response.data, 2)
+        
+        # test with not visited portfolio
+        url2 = base_url.format(self.port2.slug)
+        response=self.client.get(url2)
+        # 0 should appear with a not visited portfolio
+        self.assertEqual(response.data, 0)
+
+        # test with false slug
+        url3 = base_url.format('my-false-slug')
+        response = self.client.get(url3)
+        # we shouldn't get 404 because we keep tracks of
+        # deleted objects too
+        self.assertEqual(response.status_code, 200)
+        # 0 should appear as portfolio never existed
+        self.assertEqual(response.data, 0)
+
+
 
 
     def test_portfolios_headers(self):
