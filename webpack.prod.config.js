@@ -7,16 +7,18 @@
 
 var path = require('path');
 var webpack = require('webpack');
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var AssetsPlugin = require('assets-webpack-plugin');
+
 
 
 var config = {
-  entry: [
-    './src/js/client'
-    ],
+  entry: {
+    app: './src/js/client',
+  },
   output: {
     path: path.join( __dirname, 'dist' ),
-    filename: 'bundle.js',
+    filename: '[hash].bundle.js',
     publicPath: '/static/',
 
   },
@@ -24,17 +26,22 @@ var config = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin("styles.css", {
+    new AssetsPlugin(),
+    new ExtractTextPlugin("[hash].styles.css", {
       allChunks: true
     }),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production")
       }
-    })
+    }),
   ],
   module: {
     loaders: [
+      {
+        // json files
+        test: /\.json$/, loader: 'json' 
+      },
       {
         // js files
         test: /\.js$/,

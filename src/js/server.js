@@ -25,6 +25,7 @@ import { receiveToken } from './actions/user'
 
 import { statics_proxy, port } from './config'
 
+import webpackAssets from '../../webpack-assets.json'
 
 var app = new Express()
 
@@ -141,7 +142,7 @@ function renderFullPage(html, initialState, title='') {
       <head>
         <title>${title}</title>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="/static/styles.css" />
+        <link rel="stylesheet" href="${webpackAssets.app.css}" />
         <link rel="icon" type="image/png" href="/assets/images/phiroom-favicon.svg" />
       </head>
       <body>
@@ -149,7 +150,7 @@ function renderFullPage(html, initialState, title='') {
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
-      <script src="/static/bundle.js"></script>
+      <script src="${webpackAssets.app.js}"></script>
       </body>
     </html>
     `

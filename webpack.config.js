@@ -8,16 +8,19 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var AssetsPlugin = require('assets-webpack-plugin');
 
 
 var config = {
   // sourceMaps simplified to a single mapping per line
   //devtool: 'cheap-module-eval-source-map',
   devtool: 'eval',
-  entry: [
+  entry: {
+    app: [
     'webpack-hot-middleware/client',
     './src/js/client'
-    ],
+    ]
+  },
   output: {
     path: path.join( __dirname, 'dist' ),
     filename: 'bundle.js',
@@ -28,12 +31,17 @@ var config = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
+    new AssetsPlugin(),
     new ExtractTextPlugin("styles.css", {
       allChunks: true
     })
   ],
   module: {
     loaders: [
+      {
+        // json files
+        test: /\.json$/, loader: 'json'
+      },
       {
         // js files
         test: /\.js$/,
