@@ -27,6 +27,8 @@ import { statics_proxy, port } from './config'
 
 import webpackAssets from '../../webpack-assets.json'
 
+import fs from 'fs'
+
 var app = new Express()
 
 //var SERVER_RENDERING = false
@@ -168,10 +170,22 @@ if (SERVER_RENDERING) {
 }
 
 
+
+
+if (fs.lstatSync(port).isSocket()) {
+    // we unlink socket if it exists as it's not
+    // deleted at shutdown and create errors
+    fs.unlinkSync(port)
+}
+
 app.listen(port, function(error) {
   if (error) {
     console.error(error)
   } else {
+    // we give rights to socket else nginx can't use it
+    if (fs.lstatSync(port).isSocket()) {
+      fs.chmodSync(port, '777');
+    }
     console.info("==> Listening on port %s. Openup http://localhost:%s/ in your browser.", port, port)
   }
 })
