@@ -37,6 +37,18 @@ class Portfolio extends Component {
       defaultPortfolio,
     } = this.props
 
+    if (! this.props.defaultPortfolio) {
+      // we have no portoflio published yet
+      return (
+        <section role="main">
+          <div className="carousel-error">
+            <em>Sorry, no published portfolios yet...</em>
+          </div>
+        </section>
+      )
+      
+    }
+
     return this.props.children
   } 
 }
