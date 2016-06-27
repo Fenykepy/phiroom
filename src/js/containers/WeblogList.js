@@ -67,11 +67,9 @@ class WeblogList extends Component {
     // show error message if no posts found
     if (! selected.count) {
       return (
-        <article>
-          <p className="centered">
-            Sorry, no published posts yet...
-          </p>
-        </article>
+          <div className="weblog-error">
+            <em>Sorry, no published posts yet...</em>
+          </div>
       )
     }
 
