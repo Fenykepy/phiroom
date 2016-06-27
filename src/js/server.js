@@ -64,7 +64,11 @@ function handleRender(req, res) {
   if (req.url == '/portfolio/') {
     Fetch.get('api/portfolio/headers/')
       .then(json => {
-        res.redirect(302, req.url + json[0].slug)
+        // if we have portfolio
+        // we redirect to first one
+        if (json[0]) {
+          res.redirect(302, req.url + json[0].slug)
+        }
       })
   }
 
@@ -172,7 +176,7 @@ if (SERVER_RENDERING) {
 
 
 
-if (fs.lstatSync(port).isSocket()) {
+if (typeof port == "string" && fs.lstatSync(port).isSocket()) {
     // we unlink socket if it exists as it's not
     // deleted at shutdown and create errors
     fs.unlinkSync(port)
@@ -183,7 +187,7 @@ app.listen(port, function(error) {
     console.error(error)
   } else {
     // we give rights to socket else nginx can't use it
-    if (fs.lstatSync(port).isSocket()) {
+    if (typeof port == "string" && fs.lstatSync(port).isSocket()) {
       fs.chmodSync(port, '777');
     }
     console.info("==> Listening on port %s. Openup http://localhost:%s/ in your browser.", port, port)
