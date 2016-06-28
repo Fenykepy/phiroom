@@ -52,7 +52,8 @@ function user(state = {}, action) {
     case REQUEST_TOKEN_FAILURE:
       return Object.assign({}, state, {
         is_fetching_token: false,
-        token_fetched: false
+        token_fetched: false,
+        errors: action.errors
       })
     case REQUEST_VERIFY_TOKEN:
       return Object.assign({}, state, {

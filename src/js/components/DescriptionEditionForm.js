@@ -10,11 +10,13 @@ export default class DescriptionEditionForm extends Component {
       <form
         id="description-form"
       >
+      <div className="field_wrapper">
         <FormRequiredFields />
-        <FormFieldErrors
-          errors_list={this.props.edited.errors}
-          field={'non_field_errors'}
-        />
+          <FormFieldErrors
+            errors_list={this.props.edited.errors}
+            field={'non_field_errors'}
+          />
+        </div>
         <div className="field_wrapper">
           <label htmlFor="id_title">Title:<span className="red"> *</span></label>
           <FormFieldErrors

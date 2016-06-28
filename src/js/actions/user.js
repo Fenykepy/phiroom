@@ -21,10 +21,10 @@ export function receiveToken(token) {
   }
 }
 
-function requestTokenFailure(error) {
+function requestTokenFailure(errors) {
   return {
     type: types.REQUEST_TOKEN_FAILURE,
-    error
+    errors
   }
 }
 
@@ -55,8 +55,12 @@ export function login(credentials) {
         dispatch(fetchPortfoliosHitsIfNeeded())
       })
       .catch(error => {
-        console.warn(error)
-        dispatch(requestTokenFailure(error.message))
+        return error.response.json().then(json => {
+          // store error json in state
+          dispatch(requestTokenFailure(json))
+          // throw error to catch it and display it
+          throw error
+        })
       })
   }
 }

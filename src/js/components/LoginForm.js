@@ -4,6 +4,11 @@ import { base_url } from '../config'
 
 import { Link } from 'react-router'
 
+import FormFieldErrors from './FormFieldErrors'
+import FormRequiredFields from './FormRequiredFields'
+
+
+
 export default class LoginForm extends Component {
 
   constructor(props) {
@@ -29,6 +34,7 @@ export default class LoginForm extends Component {
   }
 
   render() {
+    //console.log('LoginForm', this.props)
     return (
       <form 
         action={`${base_url}api/token-auth/`}
@@ -36,14 +42,28 @@ export default class LoginForm extends Component {
         encType='application/json'
         onSubmit={this.handleSubmit.bind(this)}
       >
-      <p><span className="red">*</span> : required fields.</p>
+        <FormRequiredFields />
+        <div className="field_wrapper">
+          <FormFieldErrors
+            errors_list={this.props.errors}
+            field={'non_field_errors'}
+          />
+        </div>
         {/* csrf protection */}
+        <FormFieldErrors
+          errors_list={this.props.errors}
+          field={'csrfmiddlewaretoken'}
+        />
         <input type='hidden'
                name='csrfmiddlewaretoken'
                default_value={this.props.csrf}
         />
         <div className="field_wrapper">
           <label htmlFor="id_username">Username:<span className="red"> *</span></label>
+          <FormFieldErrors
+            errors_list={this.props.errors}
+            field={'username'}
+          />
           <input id="id_username"
                  name="username"
                  type="text"
@@ -55,6 +75,10 @@ export default class LoginForm extends Component {
         </div>
         <div className="field_wrapper">
           <label htmlFor="id_password">Password:<span className="red"> *</span></label>
+          <FormFieldErrors
+            errors_list={this.props.errors}
+            field={'password'}
+          />
           <input id="id_password"
                  name="password"
                  type="password"

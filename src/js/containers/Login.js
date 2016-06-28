@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { loginSelector } from '../selectors/loginSelector'
 
 import LoginForm from '../components/LoginForm'
+import Spinner from '../components/Spinner'
 
 import { login } from '../actions/user'
 import { setModule } from '../actions/modules'
@@ -40,13 +41,17 @@ class Login extends Component {
   }
 
   handleLogin(credentials) {
-    this.props.dispatch(login(credentials)).then(() => {
-      // if we have a redirection go to it
-      //console.log('login',this.props)
-      if (this.props.location.query.next) {
-        this.context.router.push(this.props.location.query.next)
-      }
-    })
+    this.props.dispatch(login(credentials))
+      .then(() => {
+        // if we have a redirection go to it
+        //console.log('login',this.props)
+        if (this.props.location.query.next) {
+          this.context.router.push(this.props.location.query.next)
+        }
+      })
+      .catch(error =>
+        console.log(error)
+      )
   }
   
   render() {
@@ -57,16 +62,21 @@ class Login extends Component {
       csrf,
     } = this.props
 
-    //console.log('login', this.props, this.context)
+    //console.log('Login', this.props, this.context)
+
+    if (this.props.user.is_fetching_token) {
+      return <Spinner message="Signing in..." />
+    }
     
     return (
       <section role="main">
         <article>
-          <h1>Login</h1>
+          <h1>Sign in</h1>
           <LoginForm
             id="loginForm"
             csrf={this.props.csrf}
             handleSubmit={this.handleLogin.bind(this)}
+            errors={this.props.user.errors}
           />
         </article>
       </section>
