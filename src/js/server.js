@@ -104,7 +104,7 @@ function handleRender(req, res) {
           components[i].sendHit(
             store.dispatch,
             renderProps.params,
-            req.connection.remoteAddress
+            req.headers.remote_addr
           )
         }
       }
