@@ -30,6 +30,8 @@ PICT_PATH = os.path.join(BASE_DIR, PICT_FILE)
 
 class ZipExportTest(TestCase):
     """Zip archive export test class."""
+    
+    fixtures = ["initial_data"]
 
     def import_test_pictures(self):
         # import pictures to export in db
@@ -100,6 +102,8 @@ class ZipExportTest(TestCase):
 
 class RecursiveImportTest(TestCase):
     """Command line import test class."""
+    
+    fixtures = ["initial_data"]
 
     def test_with_folder(self):
         """Test with one folder path as argument."""
@@ -131,6 +135,8 @@ class RecursiveImportTest(TestCase):
 
 class PictureFactoryTest(TestCase):
     """Picture factory test class."""
+    
+    fixtures = ["initial_data"]
 
     def test_picture_factory(self):
         """PictureFactory test."""
@@ -224,6 +230,8 @@ def create_test_picture(sha1='a' * 40):
 
 class PictureTest(TestCase):
     """Picture test class."""
+    
+    fixtures = ["initial_data"]
 
     def setUp(self): 
         # create Picture object for all tests
@@ -477,6 +485,8 @@ def create_test_collections(instance):
 
 class CollectionModelTest(TestCase):
     """Class to test collection model."""
+    
+    fixtures = ["initial_data"]
 
     def test_collection_creation(self):
         # create new collection
@@ -531,6 +541,8 @@ class CollectionModelTest(TestCase):
 
 class CollectionPictureModelTest(TestCase):
     """Class to test collection picture relation model."""
+    
+    fixtures = ["initial_data"]
    
     def setUp(self):
         # create test pictures
@@ -574,6 +586,8 @@ class CollectionPictureModelTest(TestCase):
 
 class CollectionsEnsembleModelTest(TestCase):
     """Class to test collections ensembles model."""
+    
+    fixtures = ["initial_data"]
 
     def test_ensemble_creation(self):
         # create new ensemble
@@ -672,6 +686,8 @@ class CollectionsEnsembleModelTest(TestCase):
 
 class CollectionsAPITest(APITestCase):
     """Class to collections rest API."""
+    
+    fixtures = ["initial_data"]
 
     def setUp(self):
         # create test collections users
@@ -1024,6 +1040,8 @@ class CollectionsAPITest(APITestCase):
 
 class PicturesAPITest(APITestCase):
     """Class to test pictures rest API."""
+    
+    fixtures = ["initial_data"]
 
     def setUp(self):
         # create users
