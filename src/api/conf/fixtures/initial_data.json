@@ -1,0 +1,9 @@
+[
+    {
+        "model": "conf.Conf",
+        "pk": 1,
+        "fields": {
+            "comment": "Default settings"
+        }
+    }
+]
