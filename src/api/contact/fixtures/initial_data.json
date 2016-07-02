@@ -1,0 +1,12 @@
+[
+    {
+        "model": "contact.Description",
+        "pk": 1,
+        "fields": {
+            "title": "Contact",
+            "source": "Change this to your own contact page description.",
+            "content": "<p>Change this to your own contact page description.</p>",
+            "date_update": "2016-07-02T16:55:43.511Z"
+        }
+    }
+]
