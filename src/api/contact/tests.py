@@ -37,6 +37,10 @@ def create_test_messages(instance):
 
 class DescriptionModelTest(TestCase):
     """Description model test class."""
+    
+    fixtures = ["initial_data"]
+
+
 
     def setUp(self):
         # create users
@@ -77,6 +81,10 @@ class DescriptionModelTest(TestCase):
 
 class MessageModelTest(TestCase):
     """Message model test class."""
+    
+    fixtures = ["initial_data"]
+
+
 
     def setUp(self):
         # create users
@@ -123,6 +131,10 @@ class MessageModelTest(TestCase):
 
 class DescriptionAPITest(APITestCase):
     """Description API Test class."""
+    
+    fixtures = ["initial_data"]
+
+
 
     def setUp(self):
         # create users
@@ -292,6 +304,10 @@ class DescriptionAPITest(APITestCase):
 
 class MessageAPITest(APITestCase):
     """Message API Test class."""
+    
+    fixtures = ["initial_data"]
+
+
 
     def setUp(self):
         # create users
