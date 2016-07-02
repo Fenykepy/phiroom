@@ -53,6 +53,7 @@ Run as `<my_user>` (replace `<my_user>` by your user name):
     $ cd /var/www/phiroom_env/phiroom/src/api
     $ python3 manage.py migrate
     $ python3 manage.py createsuperuser
+    $ python3 manage.py loaddata initial_data
 
  * Answer questions to create a superuser.
 
@@ -198,6 +199,10 @@ Run as `<my_user>`:
  * Collect static files:
 
         $ python3 manage.py collectstatic
+
+ * Load initial datas:
+
+        $ python3 manage.py loaddata initial_data
 
 
 #### Set up gunicorn ####
