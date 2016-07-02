@@ -10,6 +10,9 @@ from phiroom.tests_utils import test_status_codes
 
 class ConfModelTest(TestCase):
     """Conf model test class."""
+    
+    fixtures = ["initial_data"]
+    
     def test_fixtures(self):
         ## assert fixtures are correctly loaded
         # get default conf object
@@ -36,6 +39,9 @@ class ConfModelTest(TestCase):
 
 class PageModelTest(TestCase):
     """Page model test class."""
+    
+    fixtures = ["initial_data"]
+    
     def test_fixtures(self):
         ## assert fixtures are correctly loaded
         initial = [
@@ -110,6 +116,8 @@ class PageModelTest(TestCase):
 
 class APITest(APITestCase):
     """Class to test rest API."""
+    
+    fixtures = ["initial_data"]
 
     def setUp(self):
         # create users

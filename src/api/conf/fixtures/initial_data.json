@@ -5,5 +5,49 @@
         "fields": {
             "comment": "Default settings"
         }
+    },
+    {
+        "model": "conf.Page",
+        "pk": 1,
+        "fields": {
+            "name": "portfolios",
+            "title": "Portfolios",
+            "is_in_main_menu": true,
+            "position_in_main_menu": 1,
+            "state": "portfolios"
+        }
+    },
+    {
+        "model": "conf.Page",
+        "pk": 2,
+        "fields": {
+            "name": "weblog",
+            "title": "Weblog",
+            "is_in_main_menu": true,
+            "position_in_main_menu": 2,
+            "state": "weblog.list"
+        }
+    },
+    {
+        "model": "conf.Page",
+        "pk": 3,
+        "fields": {
+            "name": "contact",
+            "title": "Contact",
+            "is_in_main_menu": true,
+            "position_in_main_menu": 3,
+            "state": "contact"
+        }
+    },
+    {
+        "model": "conf.Page",
+        "pk": 4,
+        "fields": {
+            "name": "librairy",
+            "title": "Librairy",
+            "is_in_main_menu": false,
+            "position_in_main_menu": 0,
+            "state": "librairy"
+        }
     }
 ]

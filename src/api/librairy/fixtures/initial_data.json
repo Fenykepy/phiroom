@@ -1,0 +1,14 @@
+[
+    {
+        "model": "librairy.CollectionsEnsemble",
+        "pk": 1,
+        "fields": {
+            "name": "root ensemble",
+            "lft": 0,
+            "level": 0,
+            "rght": 0,
+            "tree_id": 0,
+            "parent": null
+        }
+    }
+]
