@@ -59,7 +59,7 @@ Run as `<my_user>` (replace `<my_user>` by your user name):
 
 #### to run unit tests ####
 
-    $ pip3 manage.py test
+    $ python3 manage.py test
 
 
 #### Launch development server ####
@@ -134,12 +134,14 @@ Fix those options in `/etc/postgresql/9.4/main/pg_hba.conf`:
 Relaunch postgresql:
 
     # /etc/init.d/postgresql restart
+    
+#### Configure Django app ####
 
 Run as `<my_user>`:
 
  * Copy and complete as follow `phiroom/prod_settings.py.example`:
         
-        $ cd src/api
+        $ cd /var/www/phiroom_env/phiroom/src/api
         $ cp phiroom/prod_settings.py.example phiroom/prod_settings.py
         $ vim phiroom/prod_settings.py
 
@@ -179,11 +181,11 @@ Run as `<my_user>`:
 
  * You can also change `TIME_ZONE` and `LANGUAGE_CODE` if necessary.
 
- * Edit `phiroom/local_settings.py` :
+ * Edit `phiroom/local_settings.py`:
 
         $ vim phiroom/local_settings.py
 
- * Change it's content for :
+ * Change it's content for:
 
         #from phiroom.devel_settings import *
         from phiroom.prod_settings import *
@@ -204,7 +206,32 @@ Run as `<my_user>`:
 
         $ python3 manage.py loaddata initial_data
 
+    
+#### Configure Node app ####
 
+Run as `<my_user>`:
+
+        $ cd /var/www/phiroom_env/phiroom/src/js
+
+
+ * Edit `config.js`:
+
+        $ vim config.js
+
+ * Set up base url (replace `phiroom.org` by your domain):
+
+        let base_url = 'http://phiroom.org'
+
+ * Tell node app to do not serve static files:
+
+        let statics_proxy = true
+
+ * Configure unix socket for connection with nginx:
+
+        let port = '/var/www/phiroom_env/run/node.sock'
+
+ * Save and quit.
+    
 #### Set up gunicorn ####
 
 Run as root:
@@ -268,13 +295,13 @@ Run as root:
         <my_user>$ /var/www/phiroom_env/bin/gunicorn_start
  
  * Quit with `ctrl+C`
- * Quit python vitual environment with `deactivate`
+ * Quit python virtual environment with `deactivate`
 
 #### Set up node app ####
 
- * Create a shell script to launch gunicorn and node app :
+ * Create a shell script to launch node app :
 
-        $ vim /var/www/phiroom_env/bin/phiroom_start
+        $ vim /var/www/phiroom_env/bin/node_start
 
  * Complete it as follow:
 
@@ -283,9 +310,6 @@ Run as root:
         # go to app root directory
         cd /var/www/phiroom_env/phiroom
 
-        # launch gunicorn
-        ../bin/gunicorn_start &
-
         # launch node
         npm run build
         npm run start_prod
@@ -293,7 +317,14 @@ Run as root:
 
  * Give execution rights to our script:
 
-        $ sudo chmod u+x /var/www/phiroom_env/bin/phiroom_start
+        $ sudo chmod u+x /var/www/phiroom_env/bin/node_start
+
+ * You can test script running it as `<my_user>`:
+
+        # su <my_user>
+        <my_user>$ /var/www/phiroom_env/bin/node_start
+ 
+ * Quit with `ctrl+C`
 
 #### Monitoring our App ####
 
@@ -304,23 +335,58 @@ I'll present here two solution for monitoring our app :
 
 ##### Monitoring App with supervisor #####
 
+###### Gunicorn ######
+
 Run as root:
 
     # aptitude install supervisor
 
- * Create configuration file:
+ * Create configuration file for gunicorn:
 
-        # vim /etc/supervisor/conf.d/phiroom.conf
+        # vim /etc/supervisor/conf.d/phiroom_gunicorn.conf
 
  * Complete it as follow:
 
         [program:phiroom]
-        command = /var/www/phiroom_env/bin/phiroom_start
+        command = /var/www/phiroom_env/bin/gunicorn_start
         user = <my_user>
         autostart = true
         autorestart = true
-        stdout_logfile = /var/www/phiroom_env/bin/phiroom_supervisor.log
+        stdout_logfile = /var/www/phiroom_env/bin/phiroom_gunicorn_supervisor.log
         redirect_stderr = true
+
+ * Now you can manage gunicorn with following commands:
+
+        # supervisorctl status phiroom_gunicorn
+        # supervisorctl stop phiroom_gunicorn
+        # supervisorctl start phiroom_gunicorn
+        # supervisorctl restart phiroom_gunicorn
+
+##### Node #####
+
+ * Create configuration file for node:
+
+        # vim /etc/supervisor/conf.d/phiroom_node.conf
+
+ * Complete it as follow:
+
+        [program:phiroom]
+        command = /var/www/phiroom_env/bin/node_start
+        user = <my_user>
+        autostart = true
+        autorestart = true
+        stdout_logfile = /var/www/phiroom_env/bin/phiroom_node_supervisor.log
+        redirect_stderr = true
+
+ * Now you can manage gunicorn with following commands:
+
+        # supervisorctl status phiroom_node
+        # supervisorctl stop phiroom_node
+        # supervisorctl start phiroom_node
+        # supervisorctl restart phiroom_node
+
+
+##### Set up supervisor #####
 
  * Edit configuration file:
 
@@ -336,46 +402,77 @@ Run as root:
         # supervisorctl reread
         # supervisorctl update
 
- * Now you can manage supervisor with following commands:
 
-        # supervisorctl status phiroom
-        # supervisorctl stop phiroom
-        # supervisorctl start phiroom
-        # supervisorctl restart phiroom
 
 ##### Monitoring App with systemd #####
 
-Run as root :
- * Create configuration file:
+##### Gunicorn #####
 
-        # vim /etc/systemd/system/phiroom.service
+Run as root :
+ * Create configuration file for gunicorn:
+
+        # vim /etc/systemd/system/phiroom_gunicorn.service
 
  * Complete it as follow:
 
     [Unit]
-    Description=Phiroom
+    Description=Phiroom_gunicorn
     After=network.target
 
     [Service]
     User=<my_user>
     Group=<my_group>
     WorkingDirectory=/var/www/phiroom_env/phiroom
-    ExecStart=/var/www/phiroom_env/bin/phiroom_start
+    ExecStart=/var/www/phiroom_env/bin/gunicorn_start
 
     [Install]
     WantedBy=multi-user.target
 
  * We start service and enable it as boot:
 
-        # systemctl start phiroom
-        # systemctl enable phiroom
+        # systemctl start phiroom_gunicorn
+        # systemctl enable phiroom_gunicorn
 
  * Now we can manage our API with following commands:
 
-        # systemctl start phiroom
-        # systemctl status phiroom
-        # systemctl stop phiroom
-        # systemctl restart phiroom
+        # systemctl start phiroom_gunicorn
+        # systemctl status phiroom_gunicorn
+        # systemctl stop phiroom_gunicorn
+        # systemctl restart phiroom_gunicorn
+
+##### Node #####
+
+Run as root :
+ * Create configuration file for node:
+
+        # vim /etc/systemd/system/phiroom_node.service
+
+ * Complete it as follow:
+
+    [Unit]
+    Description=Phiroom_node
+    After=network.target
+
+    [Service]
+    User=<my_user>
+    Group=<my_group>
+    WorkingDirectory=/var/www/phiroom_env/phiroom
+    ExecStart=/var/www/phiroom_env/bin/node_start
+
+    [Install]
+    WantedBy=multi-user.target
+
+ * We start service and enable it as boot:
+
+        # systemctl start phiroom_node
+        # systemctl enable phiroom_node
+
+ * Now we can manage our API with following commands:
+
+        # systemctl start phiroom_node
+        # systemctl status phiroom_node
+        # systemctl stop phiroom_node
+        # systemctl restart phiroom_node
 
 
 #### Set up nginx ####
@@ -390,7 +487,7 @@ Run as root:
 
  * Complete it as follow:
 
-        upstream phiroom_app_server {
+        upstream phiroom_api_server {
             # fail_timeout=0 means we always retry an upstream even if it failed
             # te return a good HTTP response (in case the Unicorn master nukes a
             # single worker for timing out).
@@ -398,11 +495,18 @@ Run as root:
         }
 
 
+        upstream phiroom_node_server {
+            # fail_timeout=0 means we always retry an upstream even if it failed
+            # te return a good HTTP response (in case the Unicorn master nukes a
+            # single worker for timing out).
+            server unix:/var/www/phiroom_env/run/node.sock fail_timeout=0
+        }
+
         server {
-            listen 80 default;
+            listen 80;
             server_name phiroom.org;
 
-            root /var/www/phiroom_env/phiroom/phiroom/statics/;
+            root /var/www/phiroom_env/phiroom/phiroom;
 
             if ($host = 'www.phiroom.org'){
                 rewrite ^/(.*)$ http://phiroom.org/$1 permanent;
@@ -413,15 +517,23 @@ Run as root:
             error_log /var/log/nginx/phiroom-error.log;
 
             location /assets/ {
-                alias /var/www/phiroom_env/phiroom/phiroom/statics/;
+                alias /var/www/phiroom_env/phiroom/src/api/phiroom/assets/;
             }
 
             location /media/ {
-                alias /var/www/phiroom_env/phiroom/phiroom/data/;
+                alias /var/www/phiroom_env/phiroom/src/api/phiroom/data/;
+            }
+
+            location /statics/ {
+                alias /var/www/phiroom_env/phiroom/dist;
             }
 
             location / {
-                try_files $uri $uri/ /index.html;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $http_host;
+                proxy_read_timeout 300000;
+                proxy_redirect off;
+                
             }
 
             location /api/ {
