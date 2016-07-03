@@ -3,7 +3,8 @@
         "model": "conf.Conf",
         "pk": 1,
         "fields": {
-            "comment": "Default settings"
+            "comment": "Default settings",
+            "date": "2016-07-02T16:55:43.511Z"
         }
     },
     {
