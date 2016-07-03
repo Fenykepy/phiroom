@@ -485,7 +485,7 @@ Run as root:
 
         # vim /etc/nginx/sites-available/phiroom
 
- * Complete it as follow:
+ * Complete it as follow (this is just a basic example, and it's not secured at all. You should read nginx documentation to set it up correctly for your real production environment):
 
         upstream phiroom_api_server {
             # fail_timeout=0 means we always retry an upstream even if it failed
@@ -533,7 +533,12 @@ Run as root:
                 proxy_set_header Host $http_host;
                 proxy_read_timeout 300000;
                 proxy_redirect off;
-                
+                proxy_set_header REMOTE_ADDR $remote_addr;
+                proxy_set_header X-Real-IP $remote_addr;
+                if (!-f $request_filename) {
+                    proxy_pass http://phiroom_node_server;
+                    break;
+                }
             }
 
             location /api/ {
@@ -541,8 +546,10 @@ Run as root:
                 proxy_set_header Host $http_host;
                 proxy_read_timeout 300000;
                 proxy_redirect off;
+                proxy_set_header REMOTE_ADDR $remote_addr;
+                proxy_set_header X-Real-IP $remote_addr;
                 if (!-f $request_filename) {
-                    proxy_pass http://phiroom_app_server;
+                    proxy_pass http://phiroom_api_server;
                     break;
                 }
             }
