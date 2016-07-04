@@ -365,7 +365,7 @@ export function createPortfolio() {
     .then(json => {
       dispatch(receiveNewPortfolio(json))
       // navigate to new portfolio
-      browserHistory.push(`/librairy/portfolio/${json.title}/`)
+      browserHistory.push(`/librairy/portfolio/${json.slug}/`)
       // refetch new portfolios headers
       return dispatch(fetchPortfoliosHeaders())
     })
