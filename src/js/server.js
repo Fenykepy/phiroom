@@ -173,13 +173,27 @@ if (SERVER_RENDERING) {
   })
 }
 
+function resetSocket(sock) {
+  /* 
+   * We first delete socket if file exists,
+   * as it's not automatically done at shutdown,
+   * else it throws a error
+   */
+  try {
+    fs.accessSync(test, fs.F_OK, (error) => {throw error})
+    console.log("Socket file exists, delete it.")
+    fs.unlinkSync(test)
+  } catch (e) {
+    return
+  }
+}
 
-
-
-if (typeof port == "string" && fs.lstatSync(port).isSocket()) {
-    // we unlink socket if it exists as it's not
-    // deleted at shutdown and create errors
-    fs.unlinkSync(port)
+if (typeof port == "string") {
+  /*
+   * If we use a socket, first delete file if
+   * it exists
+   */
+  resetSocket(port)
 }
 
 app.listen(port, function(error) {

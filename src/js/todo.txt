@@ -84,6 +84,8 @@
 #- Move weblog component to containers
 - Review modal to stand in child components
 - Review lightbox to stand in child components
+- Test creation of portfolios and weblog post with special chars (/"_-)
+#- Review server.js with unix socket
 #- Move portfolio component to containers
 #- Move librairy component to containers
 #- Change common reducer to wrap csrf, lightbox, modal, contextualmenu, settings, user, authors, modules, viewport,
