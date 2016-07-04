@@ -149,7 +149,7 @@ function renderFullPage(html, initialState, title='') {
         <title>${title}</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="${webpackAssets.app.css}" />
-        <link rel="icon" type="image/png" href="/assets/images/phiroom-favicon.svg" />
+        <link rel="icon" type="image/svg" href="/assets/images/phiroom-favicon.svg" />
       </head>
       <body>
         <div id="root">${html}</div>

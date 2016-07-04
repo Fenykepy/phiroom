@@ -93,6 +93,8 @@
 
 #- Remove mainSelector to use only common at top level
 #- Handle errors on login form
+- Redirection fails after portfolio creation with a / in name
+- Add SEO tags in headers
 
 
 
