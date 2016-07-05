@@ -180,9 +180,9 @@ function resetSocket(sock) {
    * else it throws a error
    */
   try {
-    fs.accessSync(test, fs.F_OK, (error) => {throw error})
+    fs.accessSync(sock, fs.F_OK, (error) => {throw error})
     console.log("Socket file exists, delete it.")
-    fs.unlinkSync(test)
+    fs.unlinkSync(sock)
   } catch (e) {
     return
   }
