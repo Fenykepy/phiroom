@@ -360,7 +360,7 @@ You can customise color theme:
 
 ##### Make a build after any style changement #####
 
-After any style changement you need to make a new build an relauch node app:
+After any style changement you need to make a new build an relaunch node app:
 
         $ cd /var/www/phiroom_env/phiroom
         $ npm run build
