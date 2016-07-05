@@ -18,6 +18,7 @@ import Signup from './containers/Signup'
 import ErrorPage from './components/ErrorPage'
 
 
+import LibrairyIndex from './components/LibrairyIndex'
 import LibrairyPortfolio from './components/LibrairyPortfolio'
 import LibrairyPost from './components/LibrairyPost'
 import LibrairyCollection from './components/LibrairyCollection'
@@ -63,7 +64,7 @@ export default () => {
           <Route path="signup(/)" component={Signup} onEnter={appendSlash} />
         </Route>
         <Route path="librairy(/)" component={Librairy} onEnter={appendSlash}>
-          <IndexRoute component={LibrairyPicturesList} />
+          <IndexRoute component={LibrairyIndex} />
           <Route path="portfolio/:slug(/)" component={LibrairyPortfolio} onEnter={appendSlash}>
             <IndexRoute component={LibrairyPicturesList} />
             <Route path="single/:picture(/)" component={LibrairyPictureDetail} />
