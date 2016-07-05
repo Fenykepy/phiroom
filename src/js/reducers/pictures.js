@@ -12,6 +12,7 @@ import {
   REQUEST_ALL_PICTURES_SUCCESS,
   REQUEST_ALL_PICTURES_FAILURE,
   ADD_PICTURE_TO_UPLOAD,
+  START_PICTURES_UPLOAD,
   UPLOAD_PICTURE,
   UPLOAD_PICTURE_SUCCESS,
   UPLOAD_PICTURE_FAILURE,
@@ -240,10 +241,35 @@ function files(state = {}, action) {
   }
 }
 
+function status(state = {count: 0, remain: 0, fails: []}, action) {
+  switch (action.type) {
+    case START_PICTURES_UPLOAD:
+      return {
+        count: action.count,
+        remain: action.count,
+        fails: []
+      }
+    case UPLOAD_PICTURE_SUCCESS:
+      return Object.assign({}, state, {
+        remain: state.remain - 1
+      })
+    case UPLOAD_PICTURE_FAILURE:
+      let fails = state.fails.slice()
+      fails.push(action.id)
+      return Object.assign({}, state, {
+        remain: state.remain - 1,
+        fails: fails
+      })
+    default:
+      return state
+  }
+}
+
 const uploading = combineReducers({
   files,
   current,
   list,
+  status,
 })
 
 

@@ -66,8 +66,8 @@
 #- Use dynamic settings
 - Add a way to edit settings
 - Add a notifications system
-- Add a progress bar to picture uploader
-- Add a popup window to cancel leaving page while uploading
+#- Add a progress bar to picture uploader
+#- Add a popup window to cancel leaving page while uploading
 #- Add a weblog list by tag
 #- Add an error page (404, 500)
 - Add infinite pagination to librairy list

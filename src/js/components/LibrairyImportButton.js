@@ -2,6 +2,7 @@ import React, { Component, Proptypes } from 'react'
 
 import Modal from './Modal'
 import LibrairyUploader from './LibrairyUploader'
+import LibrairyUploading from '../containers/LibrairyUploading'
 
 import {
   closeModal,
@@ -22,7 +23,17 @@ export default class LibrairyImportButton extends Component {
 
   uploadFiles(files) {
     this.props.dispatch(uploadPictures(files))
-    this.closeModal()
+    //this.closeModal()
+    let modal = (
+      <Modal
+        modal_closable={false}
+        modal_max={true}
+        modal_title={'Upload pictures'}
+        modal_child={LibrairyUploading}
+        modal_close={this.closeModal.bind(this)}
+      />
+    )
+    this.props.dispatch(setModal(modal))
   }
 
   handleClick() {

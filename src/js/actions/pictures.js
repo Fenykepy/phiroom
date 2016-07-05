@@ -271,6 +271,13 @@ function uploadPictureRequest(id) {
   }
 }
 
+function startPicturesUpload(count) {
+  return {
+    type: types.START_PICTURES_UPLOAD,
+    count,
+  }
+}
+
 function uploadPictureSuccess(id, data) {
   console.log('successfully uploaded picture: ' + id, data)
   return {
@@ -294,6 +301,8 @@ export function uploadPictures(files) {
    * Launch an importation
    */
   return function(dispatch, getState) {
+    // start upload with number of files to upload
+    dispatch(startPicturesUpload(files.length))
     // set a UUID for importation
     let uuid = guid()
     // add all files to upload list
