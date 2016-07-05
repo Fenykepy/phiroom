@@ -326,6 +326,47 @@ Run as root:
  
  * Quit with `ctrl+C`
 
+#### Customize styles ####
+
+##### Header styles ####
+
+You can customize headers CSS easily (and other less files carrefully):
+
+        $ cd /var/www/phiroom_env/phiroom
+
+ * Make a backup:
+
+        $ cp src/less/common/header.less src/less/common/header.default.less
+
+ * Edit `src/less/common/header.less`:
+
+        $ vim src/less/common/header.less
+
+ * You can found a list of all default theme colors variables in `src/less/common/palette.less`, feel free to use them
+
+##### Change color theme #####
+
+You can customise color theme:
+
+        $ cd /var/www/phiroom_env/phiroom
+
+ * Make a backup:
+        
+        $ cp src/less/common/palette.less src/less/common/palette.default.less
+
+ * Edit `src/less/common/palette.less`:
+
+        $ vim src/less/common/palette.less
+
+##### Make a build after any style changement #####
+
+After any style changement you need to make a new build an relauch node app:
+
+        $ cd /var/www/phiroom_env/phiroom
+        $ npm run build
+
+ * When it's done restart node app (see Monitoring App section).
+
 #### Monitoring our App ####
 
 I'll present here two solution for monitoring our app :

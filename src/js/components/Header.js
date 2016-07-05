@@ -5,7 +5,10 @@ import MainMenu from './MainMenu'
 export default class Header extends Component {
   render () {
     return (
-      <header role="banner">
+      <header
+        id={this.props.id}
+        role="banner"
+      >
         <Logo
           logo={this.props.logo}
           title={this.props.settings.title}

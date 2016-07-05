@@ -23,6 +23,7 @@ class WeblogWrapper extends Component {
     return (
       <div>
         <Header
+          id = "public-header"
           modules={this.props.modules}
           settings={this.props.settings}
           user={this.props.user}

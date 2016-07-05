@@ -108,6 +108,7 @@ class Librairy extends Component {
     return (
       <div>
         <Header
+          id="librairy-header"
           modules={this.props.modules}
           settings={this.props.settings}
           user={this.props.user}

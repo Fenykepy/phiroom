@@ -408,37 +408,6 @@ time {
     margin-right: 10px;
 }
 
-// main header common
-header[role="banner"] {
-    // logo
-    #logo {
-        img {
-            max-height: 50px;
-        }
-    }
-    // main menu
-    #main-menu {
-        li {
-            display: inline-block;
-            line-height: 0.9em;
-            height: 1em;
-            padding: 0 10px;
-            &:last-child {
-                padding-right: 0;
-            }
-            &:first-child {
-                padding-left: 0;
-            }
-            a {
-                vertical-align: top;
-                text-decoration: none;
-            }
-        }
-        .hits {
-            padding-left: 15px;
-        }
-    }
-}
 
 // main footer common
 footer[role="contentinfo"] {
@@ -457,80 +426,73 @@ hr {
 }
 
 // centered main header
-#weblog, #portfolios, #contact, #user, #librairy {
-    header[role="banner"] {
+header[role="banner"] {
+    #main-menu {
         position: relative;
-        height: auto;
         width: auto;
-        text-align: center;
-        padding: 36px 0 24px 0;
-        border-bottom: 1px solid @blog-hr;
-        // logo
-        #logo {
-            position: relative;
-            left: 0;
-            top: 0;
-            margin-bottom: 10px;
-        }
-        // main title
-        h1, h2 {
-            font-weight: normal;
-            font-size: 1.2em;
-        }
-        nav {
-            margin-top: 15px;
-        }
-        #main-menu {
+        top: 0;
+        li {
+            display: inline-block;
+            line-height: 0.9em;
+            height: 1em;
+            padding: 0 10px;
             position: relative;
             width: auto;
             top: 0;
-            li {
-                position: relative;
-                width: auto;
-                top: 0;
-                right: 0;
-                border-right: 1px solid @blog-text;
-                &:last-child {
-                    border: none;
-                }
-                a.selected {
-                    color: @blog-selected-menu;
-                    &:hover, &:active, &:focus {
-                        color: @blog-links-hover;
-                    }
-                }
-                .sub-main-menu-wrapper {
-                    display: none;
-                    position: absolute;
-                    top: 10px;
-                    left: -15px;
-                    z-index: 50;
-                    padding-top: 15px;
-                }
-                ul.sub-main-menu { // main menu sub-menu
-                    background-color: @blog-bg;
-                    padding: 15px 20px 5px;
-                    border: 1px solid @blog-hr;
-                    border-radius: 3px;
-                    text-align: left;
-                    li {
-                        margin: 10px 0 20px;
-                        border: none;
-                        padding: 0;
-                        width: auto;
-                        white-space: nowrap;
-                        display: flex;
-                        position: relative;
-                    }
-
-                }
-                &:hover .sub-main-menu-wrapper {
-                    display: block;
+            right: 0;
+            border-right: 1px solid @blog-text;
+            &:first-child {
+                padding-left: 0;
+            }
+            &:last-child {
+                padding-right: 0;
+                border: none;
+            }
+            a {
+                vertical-align: top;
+                text-decoration: none;
+            }
+            a.selected {
+                color: @blog-selected-menu;
+                &:hover, &:active, &:focus {
+                    color: @blog-links-hover;
                 }
             }
+            .sub-main-menu-wrapper {
+                display: none;
+                position: absolute;
+                top: 10px;
+                left: -15px;
+                z-index: 50;
+                padding-top: 15px;
+            }
+            ul.sub-main-menu { // main menu sub-menu
+                background-color: @blog-bg;
+                padding: 15px 20px 5px;
+                border: 1px solid @blog-hr;
+                border-radius: 3px;
+                text-align: left;
+                li {
+                    margin: 10px 0 20px;
+                    border: none;
+                    padding: 0;
+                    width: auto;
+                    white-space: nowrap;
+                    display: flex;
+                    position: relative;
+                }
+
+            }
+            &:hover .sub-main-menu-wrapper {
+                display: block;
+            }
+        }
+        .hits {
+            padding-left: 15px;
         }
     }
 }
+
 #weblog, #contact, #user {
     // main section
     section[role="main"] {

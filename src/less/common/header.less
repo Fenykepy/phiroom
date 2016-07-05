@@ -1,0 +1,48 @@
+// main header
+header#public-header {
+    /*
+     * Insert here your specific headers styles.
+     * 
+     * fell free to use variables with colors set in palette.less
+     */
+
+    /* Header general styles */
+    position: relative;
+    height: auto;
+    width: auto;
+    text-align: center;
+    padding: 36px 0 24px 0;
+
+    /* separation line at bottom */
+    border-bottom: 1px solid @blog-hr;
+    
+    /* logo position */
+    #logo {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin-bottom: 10px;
+        img {
+            max-height: 50px;
+        }
+    }
+
+    /*
+     * main title and subtitle
+     *
+     * you can uncomment .accessibility if
+     * your header is an image and doesn't need text
+     * it will be hidden but remain in html for SEO and accessibility
+     */
+    h1, h2 {
+        /* uncomment to hide titles */
+        //.accessibility;
+        font-weight: normal;
+        font-size: 1.2em;
+    }
+
+    /* navigation menu */
+    nav {
+        margin-top: 15px;
+    }
+}

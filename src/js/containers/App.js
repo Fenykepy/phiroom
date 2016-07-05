@@ -7,7 +7,6 @@ import { setViewport } from '../actions/viewport'
 import Lightbox from '../containers/Lightbox'
 
 // components
-import Header from '../components/Header'
 import Footer from '../components/Footer'
 
 import { appSelector } from '../selectors/appSelector'

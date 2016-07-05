@@ -96,6 +96,7 @@
 #- Handle errors on login form
 #- Redirection fails after portfolio creation with a / in name
 - Add SEO tags in headers
+#- Add a special less file for headers upgradable by user
 
 
 
