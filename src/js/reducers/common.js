@@ -14,6 +14,7 @@ import pictures from './pictures'
 
 /* !!! add here contextual menu and notifications reducer */
 
+// Document title
 function title(state = '', action) {
   switch (action.type) {
     case DOCUMENT_SET_TITLE:
@@ -23,8 +24,26 @@ function title(state = '', action) {
   }
 }
 
+// Document meta description
+function description(state = '', action) {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
+
+// Document meta author
+function author(state = '', action) {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
+
 const common = combineReducers({
   title,
+  author,
+  description,
   settings,
   modules,
   viewport,

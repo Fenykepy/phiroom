@@ -119,8 +119,12 @@ function handleRender(req, res) {
             <RouterContext {...renderProps}/>
           </Provider>
         )
-        // set document title if necessary
+        // set document title
         const title = buildDocumentTitle(initialState)
+        // set document meta description
+        const description = initialState.common.description
+        // set document meta author
+        const author = initialState.common.author
 
         // set auth_token cookie if user is authenticated
         if (initialState.common.user.token) {
@@ -128,7 +132,7 @@ function handleRender(req, res) {
         }
 
         // serve rendered html
-        res.status(200).send(renderFullPage(html, initialState, title))
+        res.status(200).send(renderFullPage(html, initialState, title, author, description))
       })
       .catch((error) => {
         // send error if a promise fail
@@ -141,13 +145,25 @@ function handleRender(req, res) {
 }
 
 
-function renderFullPage(html, initialState, title='') {
+function renderFullPage(html, initialState, title='', author='', description='') {
+ 
+  // we don't show empty meta
+  if (description) {
+    description = `<meta name="description" content="${description}" />` 
+  }
+  if (author) {
+    author = `<meta name="author" content="${author}" />`
+  }
+  
   return `
     <!DOCTYPE html>
     <html lang="en">
       <head>
         <title>${title}</title>
+        ${description} 
+        ${author}
         <meta charset="utf-8" />
+        <meta name="generator" content="Phiroom 0.3.0" />
         <link rel="stylesheet" href="${webpackAssets.app.css}" />
         <link rel="icon" type="image/svg" href="/assets/images/phiroom-favicon.svg" />
       </head>

@@ -101,10 +101,10 @@
     - post detail
     - contact description
 - Show author info in :
-    - server side rendering
+#    - server side rendering
     - client side rendering
 - Show meta description in :
-    - server side rendering
+#    - server side rendering (portfolios, posts)
     - client side rendering
 - Change directory structure :
     - phiroom
