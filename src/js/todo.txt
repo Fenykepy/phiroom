@@ -96,6 +96,30 @@
 #- Handle errors on login form
 #- Redirection fails after portfolio creation with a / in name
 - Add SEO tags in headers
+- Fetch author info in :
+    - portfolio detail
+    - post detail
+    - contact description
+- Show author info in :
+    - server side rendering
+    - client side rendering
+- Show meta description in :
+    - server side rendering
+    - client side rendering
+- Change directory structure :
+    - phiroom
+        - django
+        - node
+        - INSTALL.md
+        - node.config.js (link)
+        - phiroom.prod_settings.py (link)
+- Store django and node assets in same directory, serve them at /static
+- Patch base_url in node config
+- Add a grid view for pictures under posts
+- Add a main picture for posts
+- Show main picture in abstracts
+- Split bundle in public and connected and staff parts
+- Split css in public and connected parts
 #- Add a special less file for headers upgradable by user
 
 
