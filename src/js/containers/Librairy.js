@@ -14,7 +14,7 @@ import { dragEnd, setContainer } from '../actions/librairy'
 import { fetchPortfoliosHeadersIfNeeded } from '../actions/portfolios'
 import { fetchPostsHeadersIfNeeded } from '../actions/weblog'
 import { fetchCollectionsHeadersIfNeeded } from '../actions/collections'
-import { setDocumentTitleIfNeeded } from '../actions/title'
+import { setDocumentTitleIfNeeded } from '../actions/common'
 
 
 class Librairy extends Component {

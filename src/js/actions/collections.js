@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import Fetch from '../helpers/http'
 
 import { setTitle } from './librairy'
-import { setDocumentTitleIfNeeded } from './title'
+import { setDocumentTitleIfNeeded } from './common'
 
 
 // action creators

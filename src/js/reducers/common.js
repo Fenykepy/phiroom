@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux'
 
-import { DOCUMENT_SET_TITLE } from '../constants/actionsTypes'
+import {
+  DOCUMENT_SET_TITLE,
+  DOCUMENT_SET_DESCRIPTION,
+  DOCUMENT_SET_AUTHOR,
+} from '../constants/actionsTypes'
 
 import settings from './settings'
 import modules from './modules'
@@ -27,6 +31,8 @@ function title(state = '', action) {
 // Document meta description
 function description(state = '', action) {
   switch (action.type) {
+    case DOCUMENT_SET_DESCRIPTION:
+      return action.description
     default:
       return state
   }
@@ -35,6 +41,8 @@ function description(state = '', action) {
 // Document meta author
 function author(state = '', action) {
   switch (action.type) {
+    case DOCUMENT_SET_AUTHOR:
+      return action.author
     default:
       return state
   }

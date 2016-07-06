@@ -9,7 +9,7 @@ import Spinner from '../components/Spinner'
 
 import { login } from '../actions/user'
 import { setModule } from '../actions/modules'
-import { setDocumentTitleIfNeeded } from '../actions/title'
+import { setDocumentTitleIfNeeded } from '../actions/common'
 
 class Login extends Component {
 

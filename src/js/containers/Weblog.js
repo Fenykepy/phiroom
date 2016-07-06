@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import { setModule } from '../actions/modules'
-import { setDocumentTitleIfNeeded } from '../actions/title'
+import { setDocumentTitleIfNeeded } from '../actions/common'
 
 class Weblog extends Component {
 

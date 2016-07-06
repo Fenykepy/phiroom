@@ -18,7 +18,7 @@ import {
 } from '../actions/portfolios'
 import { lightboxStart } from '../actions/lightbox'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
-import { setDocumentTitleIfNeeded } from '../actions/title'
+import { setDocumentTitleIfNeeded } from '../actions/common'
 import { sendHit } from '../actions/hits'
 
 

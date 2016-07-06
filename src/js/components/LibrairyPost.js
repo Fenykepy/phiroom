@@ -16,7 +16,7 @@ import {
   unsetPicture,
   orderPictInPost,
 } from '../actions/librairy'
-import { setDocumentTitleIfNeeded } from '../actions/title'
+import { setDocumentTitleIfNeeded } from '../actions/common'
 
 import { buildPostSlug } from '../containers/WeblogDetail'
 

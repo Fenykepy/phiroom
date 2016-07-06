@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { loginSelector } from '../selectors/loginSelector'
 
 import { setModule } from '../actions/modules'
-import { setDocumentTitleIfNeeded } from '../actions/title'
+import { setDocumentTitleIfNeeded } from '../actions/common'
 
 class Signup extends Component {
 

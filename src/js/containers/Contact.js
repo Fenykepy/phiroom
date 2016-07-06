@@ -15,7 +15,7 @@ import {
   fetchHits,
 } from '../actions/contact'
 import { setModule } from '../actions/modules'
-import { setDocumentTitleIfNeeded } from '../actions/title'
+import { setDocumentTitleIfNeeded } from '../actions/common'
 import { sendHit } from '../actions/hits'
 
 

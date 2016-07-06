@@ -20,7 +20,7 @@ import rootReducer from './reducers/main'
 import { fetchCommonData } from './helpers/fetchCommonData'
 import Fetch from './helpers/http'
 
-import { buildDocumentTitle } from './actions/title'
+import { buildDocumentTitle } from './actions/common'
 import { receiveToken } from './actions/user'
 
 import { statics_proxy, port } from './config'

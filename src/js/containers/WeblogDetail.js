@@ -17,7 +17,7 @@ import { sendHit } from '../actions/hits'
 import { fetchAuthorIfNeeded } from '../actions/authors'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { lightboxStart } from '../actions/lightbox'
-import { setDocumentTitleIfNeeded } from '../actions/title'
+import { setDocumentTitleIfNeeded } from '../actions/common'
 
 import { Link } from 'react-router'
 

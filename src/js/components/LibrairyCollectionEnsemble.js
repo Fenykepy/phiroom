@@ -12,7 +12,7 @@ import {
   setTitle,
   setPictures,
 } from '../actions/librairy'
-import { setDocumentTitleIfNeeded } from '../actions/title'
+import { setDocumentTitleIfNeeded } from '../actions/common'
 
 
 export default class LibrairyCollectionEnsemble extends Component {
