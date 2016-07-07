@@ -14,8 +14,15 @@ import {
   fetchDescriptionIfNeeded,
   fetchHits,
 } from '../actions/contact'
+import {
+  fetchAuthorIfNeeded
+} from '../actions/authors'
 import { setModule } from '../actions/modules'
-import { setDocumentTitleIfNeeded } from '../actions/common'
+import { 
+  setDocumentTitleIfNeeded,
+  setDocumentAuthor,
+  setDocumentDescription,
+} from '../actions/common'
 import { sendHit } from '../actions/hits'
 
 
@@ -28,10 +35,19 @@ class Contact extends Component {
     promises.push(dispatch(fetchDescriptionIfNeeded()).then(data => {
       // set document title
       dispatch(setDocumentTitleIfNeeded(data.data.title))
+      // set document description
+      dispatch(setDocumentDescription('Contact page'))
+      return data.data
+    }).then(data => {
+      // set document author if we have one (it's null with default description)
+      if (data.author) {
+        return dispatch(fetchAuthorIfNeeded(data.author)).then(data => {
+          dispatch(setDocumentAuthor(data.data.author_name))
+        })
+      }
     }))
     // set module
     dispatch(setModule('contact'))
-
 
     return promises
   }

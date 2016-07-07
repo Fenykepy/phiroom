@@ -51,14 +51,14 @@ function setDocumentTitle(title) {
 }
 
 
-function setDocumentAuthor(author) {
+export function setDocumentAuthor(author) {
   return {
     type: types.DOCUMENT_SET_AUTHOR,
     author
   }
 }
 
-function setDocumentDescription(description) {
+export function setDocumentDescription(description) {
   return {
     type: types.DOCUMENT_SET_DESCRIPTION,
     description

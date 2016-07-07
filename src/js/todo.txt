@@ -102,7 +102,7 @@
     - contact description
 - Show author info in :
 #    - server side rendering
-    - client side rendering
+    - client side rendering -> not useful
 - Show meta description in :
 #    - server side rendering (portfolios, posts)
     - client side rendering

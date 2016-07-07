@@ -146,7 +146,6 @@ function handleRender(req, res) {
 
 
 function renderFullPage(html, initialState, title='', author='', description='') {
- 
   // we don't show empty meta
   if (description) {
     description = `<meta name="description" content="${description}" />` 
