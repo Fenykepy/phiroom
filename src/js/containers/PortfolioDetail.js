@@ -18,7 +18,12 @@ import {
 } from '../actions/portfolios'
 import { lightboxStart } from '../actions/lightbox'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
-import { setDocumentTitleIfNeeded } from '../actions/common'
+import { fetchAuthorIfNeeded } from '../actions/authors'
+import {
+  setDocumentTitleIfNeeded,
+  setDocumentAuthor,
+  setDocumentDescription,
+} from '../actions/common'
 import { sendHit } from '../actions/hits'
 
 
@@ -28,21 +33,30 @@ class PortfolioDetail extends Component {
     let promises = []
     if (! params.slug)  return promises
     // use static to be able to call it server side before component is rendered
-    promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then((data) => {
-        dispatch(selectPortfolio(params.slug))
-        // set document title
-        dispatch(setDocumentTitleIfNeeded(data.data.title))
-        // launch lightbox if needed
-        if (params.lightbox) {
-          dispatch(lightboxStart(data.data.pictures,
-                  params.lightbox))
-        }
-        // fetch portfolios pictures if needed
-        if (clientSide) {
-          data.data.pictures.map((item) => {
-            dispatch(fetchShortPictureIfNeeded(item))
-          })
-        }
+    promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then(data => {
+      dispatch(selectPortfolio(params.slug))
+      // set document title
+      dispatch(setDocumentTitleIfNeeded(data.data.title))
+      let desc = `Phiroom's portfolio : ${data.data.title}.`
+      dispatch(setDocumentDescription(desc))
+      // launch lightbox if needed
+      if (params.lightbox) {
+        dispatch(lightboxStart(data.data.pictures,
+                params.lightbox))
+      }
+      // fetch portfolios pictures if needed
+      if (clientSide) {
+        data.data.pictures.map((item) => {
+          dispatch(fetchShortPictureIfNeeded(item))
+        })
+      }
+      return data.data
+    }) .then(data => {
+      // fetch author if necessary
+      return dispatch(fetchAuthorIfNeeded(data.author)).then(data => {
+        // set document author
+        dispatch(setDocumentAuthor(data.data.author_name))
+      })
     }))
     if (! clientSide) {
       // fetch all pictures at once serverside

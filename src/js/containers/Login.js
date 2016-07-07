@@ -9,7 +9,10 @@ import Spinner from '../components/Spinner'
 
 import { login } from '../actions/user'
 import { setModule } from '../actions/modules'
-import { setDocumentTitleIfNeeded } from '../actions/common'
+import { 
+  setDocumentTitleIfNeeded,
+  setDocumentDescription,  
+} from '../actions/common'
 
 class Login extends Component {
 
@@ -18,6 +21,8 @@ class Login extends Component {
     dispatch(setModule('user'))
     // set document title
     dispatch(setDocumentTitleIfNeeded('Login page'))
+    // set document description
+    dispatch(setDocumentDescription('Phiroom\'s login page'))
     // return empty promises array
     return []
   }

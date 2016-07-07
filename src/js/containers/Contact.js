@@ -36,7 +36,7 @@ class Contact extends Component {
       // set document title
       dispatch(setDocumentTitleIfNeeded(data.data.title))
       // set document description
-      dispatch(setDocumentDescription('Contact page'))
+      dispatch(setDocumentDescription('Phiroom\'s contact page'))
       return data.data
     }).then(data => {
       // set document author if we have one (it's null with default description)

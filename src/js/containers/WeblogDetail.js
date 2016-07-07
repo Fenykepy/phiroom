@@ -17,7 +17,11 @@ import { sendHit } from '../actions/hits'
 import { fetchAuthorIfNeeded } from '../actions/authors'
 import { fetchShortPictureIfNeeded } from '../actions/pictures'
 import { lightboxStart } from '../actions/lightbox'
-import { setDocumentTitleIfNeeded } from '../actions/common'
+import {
+  setDocumentTitleIfNeeded,
+  setDocumentDescription,
+  setDocumentAuthor,
+} from '../actions/common'
 
 import { Link } from 'react-router'
 
@@ -44,10 +48,17 @@ class WeblogDetail extends Component {
     let slug = buildPostSlug(params)
     if (! slug) return promises
     // use static to be able to call it server side before component is rendered
-    promises.push(dispatch(fetchPostIfNeeded(slug)).then((data) => {
+    promises.push(dispatch(fetchPostIfNeeded(slug)).then(data => {
       dispatch(selectPost(slug))
       // set document title
       dispatch(setDocumentTitleIfNeeded(data.data.title))
+      // set document description
+      let desc = `Phiroom weblog post : ${data.data.title}`
+      if (data.data.description) {
+        desc = desc + ` - ${data.data.description}`
+      }
+      desc = desc + '.'
+      dispatch(setDocumentDescription(desc))
       // launch lightbox if needed
       if (params.lightbox) {
         dispatch(lightboxStart(data.data.pictures,
@@ -59,10 +70,13 @@ class WeblogDetail extends Component {
           dispatch(fetchShortPictureIfNeeded(item))
         })
       }
-      return data
-    }).then((data) => {
+      return data.data
+    }).then(data => {
       // fetch author if necessary
-      dispatch(fetchAuthorIfNeeded(data.data.author))
+      return dispatch(fetchAuthorIfNeeded(data.author)).then(data => {
+        // set document author
+        dispatch(setDocumentAuthor(data.data.author_name))
+      })
     }))
     if (! clientSide) {
       // fetch all pictures at once serverside

@@ -11,6 +11,11 @@ import  {
   fetchHits,
 } from '../actions/weblog'
 
+import {
+  setDocumentTitleIfNeeded,
+  setDocumentDescription,
+} from '../actions/common'
+
 import WeblogPagination from '../components/WeblogPagination'
 import WeblogPostAbstract from '../components/WeblogPostAbstract'
 import Spinner from '../components/Spinner'
@@ -25,6 +30,13 @@ class WeblogList extends Component {
     promises.push(dispatch(fetchWeblogPageIfNeeded(page)).then((data) => {
       dispatch(selectWeblogPage(page))
     }))
+
+    // set document title
+    dispatch(setDocumentTitleIfNeeded(`List page: ${page}`))
+    // set document description
+    let desc = `Phiroom weblog list of posts, page: ${page}`
+    dispatch(setDocumentDescription(desc))
+    
     
     return promises
   }

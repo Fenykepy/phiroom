@@ -5,7 +5,10 @@ import { connect } from 'react-redux'
 import { loginSelector } from '../selectors/loginSelector'
 
 import { setModule } from '../actions/modules'
-import { setDocumentTitleIfNeeded } from '../actions/common'
+import {
+  setDocumentTitleIfNeeded,
+  setDocumentDescription,
+} from '../actions/common'
 
 class Signup extends Component {
 
@@ -14,6 +17,8 @@ class Signup extends Component {
     dispatch(setModule('user'))
     // set document title
     dispatch(setDocumentTitleIfNeeded('Sign up page'))
+    // set document description
+    dispatch(setDocumentDescription('Phiroom\'s registration page'))
     // return empty promises array
     return []
   }
