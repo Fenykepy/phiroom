@@ -96,16 +96,17 @@
 #- Handle errors on login form
 #- Redirection fails after portfolio creation with a / in name
 - Add SEO tags in headers
-- Fetch author info in :
-    - portfolio detail
-    - post detail
-    - contact description
-- Show author info in :
+#- Fetch author info in :
+#    - portfolio detail
+#    - post detail
+#    - contact description
+#- Show author info in :
 #    - server side rendering
-    - client side rendering -> not useful
-- Show meta description in :
+#    - client side rendering -> not useful
+#- Show meta description in :
 #    - server side rendering (portfolios, posts)
-    - client side rendering
+#    - client side rendering
+- Add opengraph data in head.
 - Change directory structure :
     - phiroom
         - django
@@ -116,6 +117,8 @@
 - Store django and node assets in same directory, serve them at /static
 - Patch base_url in node config
 - Add a grid view for pictures under posts
+- Add radio to select grid or inline gallery for posts
+- Test adding markdown images in posts.
 - Add a main picture for posts
 - Show main picture in abstracts
 - Split bundle in public and connected and staff parts

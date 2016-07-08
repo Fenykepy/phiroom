@@ -34,7 +34,7 @@ class Signup extends Component {
       user,
     } = this.props
 
-    console.log('signup', this.props)
+    //console.log('signup', this.props)
 
     let message = 'Sorry, signing up is not allowed...'
 
