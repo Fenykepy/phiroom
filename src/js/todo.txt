@@ -107,6 +107,7 @@
 #    - server side rendering (portfolios, posts)
 #    - client side rendering
 - Add opengraph data in head.
+- Add a popover with author info in signatures
 - Change directory structure :
     - phiroom
         - django
