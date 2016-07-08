@@ -223,6 +223,7 @@ class UserAPITest(TestCase):
         self.assertEqual(response.data['facebook_link'], self.staffUser.facebook_link)
         self.assertEqual(response.data['pinterest_link'], self.staffUser.pinterest_link)
         self.assertEqual(response.data['vk_link'], self.staffUser.vk_link)
+        self.assertEqual(response.data['insta_link'], self.staffUser.insta_link)
  
         # test with staff member
         login(self, self.staffUser)

@@ -101,6 +101,13 @@ class User(AbstractUser):
             verbose_name="Vkontakte",
             help_text="A link to your vkontakte page"
     )
+    insta_link = models.URLField(
+            null=True,
+            blank=True,
+            max_length=2000,
+            verbose_name="Instagram",
+            help_text="A link to your instagram page"
+    )
     mail_newsletter = models.BooleanField(
             default=False,
             verbose_name="Suscribe to news letter",

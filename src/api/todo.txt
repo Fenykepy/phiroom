@@ -23,7 +23,11 @@ weblog:
 #    - add tests for new rights with is_weblog_author
     - use abstract delimiter, replaced, and end from conf model
     - use n_post_per_page in weblog list serializer
-    - add tests for port hits
+    - add tests for post hits
+    - add boolean to choose inline or grid galleries
+
+user:
+#    - add instagram link
 
 librairy:
 #    - add pictures_full view

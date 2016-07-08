@@ -27,6 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
                 'gplus_link',
                 'pinterest_link',
                 'vk_link',
+                'insta_link',
                 'mail_newsletter',
                 'mail_contact',
                 'mail_registration',
@@ -73,6 +74,7 @@ class SafeUserSerializer(UserSerializer):
                 'gplus_link',
                 'pinterest_link',
                 'vk_link',
+                'insta_link',
                 'mail_newsletter',
         )
         read_only_fields =('is_staff', 'is_weblog_author', 'is_librairy_member')
@@ -90,7 +92,7 @@ class AuthorSerializer(serializers.ModelSerializer):
             'username', 'author_name', 'avatar',
             'website', 'facebook_link', 'flickr_link',
             'px500_link', 'twitter_link', 'gplus_link',
-            'pinterest_link', 'vk_link',
+            'pinterest_link', 'vk_link', 'insta_link',
         )
         read_only_fields = fields
 
