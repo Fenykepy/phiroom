@@ -9,6 +9,7 @@ conf:
 #    - review tests to use create_test_users
 #    - review model to match client side requirements
     - review pages to match client requirements
+    - add etsy link
 
 portfolio:
 #    - add views
@@ -28,6 +29,10 @@ weblog:
 
 user:
 #    - add instagram link
+    - add etsy link
+    - add blog link
+    - resize and rename avatars
+    - create a default avatar
 
 librairy:
 #    - add pictures_full view

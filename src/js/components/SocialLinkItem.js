@@ -12,8 +12,8 @@ export default class SocialLinkItem extends Component {
         className={this.props.class}
         title={"Follow me on " + this.props.title}
       ><span
-          className="accessibility"
-        >{this.props.title} link</span></a></li>
+          className={(() => this.props.display_title ? "" : "accessibility")()}
+        >{this.props.title}</span></a></li>
     )
   }
 }

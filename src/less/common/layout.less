@@ -22,6 +22,50 @@ strong {
     font-weight: bold;
 }
 
+// links
+a {
+    color: @blog-links;
+    text-decoration: underline;
+    &:hover, &:active, &:focus {
+        color: @blog-links-hover;
+    }
+}
+
+// headings
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: @blog-headings;
+    font-weight: bold;
+    line-height: 1.1;
+    a {
+        text-decoration: none;
+        &:hover, &:active, &:focus {
+            color: @blog-headings;
+        }
+    }
+}
+h1 {
+    font-size: 1.5em;
+    margin-bottom: 0.45em;
+}
+header h1 {
+    margin-top: 0;
+}
+h2 {
+    font-size: 1.4em;
+}
+h3 {
+    font-size: 1.3em;
+}
+h4 {
+    font-size: 1.2em;
+}
+h5 {
+    font-size: 1.1em;
+}
+
+
 article {
     padding: 0px;
     position: relative;
@@ -225,11 +269,6 @@ button.modal-close {
 }
 
 
-// headings
-h1, h2, h3, h4, h5, h6 {
-    font-weight: bold;
-}
-
 .underlined {
     border-bottom: 1px solid @blog-hr;
     padding: 10px 0;
@@ -287,58 +326,119 @@ h1, h2, h3, h4, h5, h6 {
         width: 32px;
         border: 1px solid @blog-hr;
         box-sizing: border-box;
-        &:hover, &:focus {
+        &.color:hover, &.color:focus {
             border: none;
         }
     }
 }
 .facebook-link {
     background: url("/assets/images/fb.svg") center center no-repeat;
-    &:hover, &:focus {
+    &.color:hover, &.color:focus {
         background: url("/assets/images/fb-color.svg") center center no-repeat;
     }
 }
 .twitter-link {
     background: url("/assets/images/twitter.svg") center center no-repeat;
-    &:hover, &:focus {
+    &.color:hover, &.color:focus {
         background: url("/assets/images/twitter-color.svg") center center no-repeat;
     }
 }
 .gplus-link {
     background: url("/assets/images/gplus.svg") center center no-repeat;
-    &:hover, &:focus {
+    &.color:hover, &.color:focus {
         background: url("/assets/images/gplus-color.svg") center center no-repeat;
     }
 }
 .flickr-link {
     background: url("/assets/images/flickr.svg") center center no-repeat;
-    &:hover, &:focus {
+    &.color:hover, &.color:focus {
         background: url("/assets/images/flickr-color.svg") center center no-repeat;
     }
 }
 .vk-link {
     background: url("/assets/images/vk.svg") center center no-repeat;
-    &:hover, &:focus {
+    &.color:hover, &.color:focus {
         background: url("/assets/images/vk-color.svg") center center no-repeat;
     }
 }
 .pinterest-link {
     background: url("/assets/images/pinterest.svg") center center no-repeat;
-    &:hover, &:focus {
+    &.color:hover, &.color:focus {
         background: url("/assets/images/pinterest-color.svg") center center no-repeat;
     }
 }
 .px500-link {
     background: url("/assets/images/500px.svg") center center no-repeat;
-    &:hover, &:focus {
+    &.color:hover, &.color:focus {
         background: url("/assets/images/500px-color.svg") center center no-repeat;
     }
 }
 .insta-link {
     background: url("/assets/images/insta.svg") center center no-repeat;
-    &:hover, &:focus {
+    &.color:hover, &.color:focus {
         background: url("/assets/images/insta-color.png") center center no-repeat;
     }
+}
+
+// user info panel (displayed on author name hover)
+.user-info-wrapper {
+    position: absolute;
+    z-index: 50; // we place it on top of other components
+    display: none; // show it only on h6.author hover
+    padding-top: 15px; // for mouse to do not escape
+    right: -15px;
+    top: 10px;
+}
+.user-info {
+    background-color: @blog-bg;
+    padding: 20px 25px;
+    border: 1px solid @blog-hr;
+    border-radius: 3px;
+    text-align: left;
+    margin-bottom: 30px;
+    header {
+        display: flex;
+        border-bottom: 1px solid @blog-hr;
+        padding-bottom: 15px;
+    }
+    .avatar {
+        margin-right: 15px;
+        height: 37px;
+        width: 37px;
+        border-radius: 3px;
+    }
+    h6 {
+        margin: 5px 15px 5px 0;
+    }
+    .social-links {
+        margin: 15px 15px 0 15px;
+        padding: 0;
+        text-align: left;
+    }
+    li {
+        border: none;
+        display: block;
+        margin: 2px 0;
+        a {
+            display: flex;
+            border: none;
+            width: auto;
+            padding-left: 35px;
+            background-position: left center;
+            background-size: 25px;
+            &:hover {
+                background-position: left center;
+                text-decoration: underline;
+            }
+            span {
+                margin: auto 0;
+            }
+        }
+    }
+}
+
+h6.author:hover .user-info-wrapper {
+    display: block; // we show panel on user over
 }
 
 // white background generalities
@@ -346,48 +446,8 @@ h1, h2, h3, h4, h5, h6 {
     color: @blog-text;
     background-color: @blog-bg;
 
-    // links
-    a {
-        color: @blog-links;
-        text-decoration: underline;
-        &:hover, &:active, &:focus {
-            color: @blog-links-hover;
-        }
-    }
-
-    // headings
-    h1, h2, h3, h4, h5, h6 {
-        margin-top: 20px;
-        margin-bottom: 10px;
-        color: @blog-headings;
-        line-height: 1.1;
-        a {
-            text-decoration: none;
-            &:hover, &:active, &:focus {
-                color: @blog-headings;
-            }
-        }
-    }
-    h1 {
-        font-size: 1.5em;
-        margin-bottom: 0.45em;
-    }
-    header h1 {
-        margin-top: 0;
-    }
-    h2 {
-        font-size: 1.4em;
-    }
-    h3 {
-        font-size: 1.3em;
-    }
-    h4 {
-        font-size: 1.2em;
-    }
-    h5 {
-        font-size: 1.1em;
-    }
 }
+
 
 // sup heading
 .suptitle {

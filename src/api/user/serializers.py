@@ -4,6 +4,12 @@ from user.models import User
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
+    
+    # set files as charfield else we get
+    # api link (127.0.0.1:8000 in dev) instead
+    # of relative link
+    avatar = serializers.CharField()
+
     class Meta:
         model = User
         fields = (
@@ -85,6 +91,12 @@ class AuthorSerializer(serializers.ModelSerializer):
     A serializer to show author datas in posts.
     Musn't display any private informations.
     """
+
+    # set files as charfield else we get
+    # api link (127.0.0.1:8000 in dev) instead
+    # of relative link
+    avatar = serializers.CharField()
+
 
     class Meta:
         model = User

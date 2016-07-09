@@ -109,6 +109,8 @@ class Contact extends Component {
           pinterest_link={this.props.settings.pinterest_link}
           px500_link={this.props.settings.px500_link}
           insta_link={this.props.settings.insta_link}
+          display_title={false}
+          color_hover={true}
         />
         <hr />
         <article>

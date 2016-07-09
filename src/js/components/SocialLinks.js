@@ -3,14 +3,34 @@ import React, { Component, PropTypes } from 'react'
 import SocialLinkItem from './SocialLinkItem'
 
 export default class SocialLinks extends Component {
-  
+
+  getClass(className) {
+    if (this.props.color_hover) {
+      return className + " color"
+    }
+    return className
+  }
+
+  getWebsite() {
+    if (this.props.website) {
+      return (
+        <SocialLinkItem
+          title={'Website'}
+          class={this.getClass("website-link")}
+          link={this.props.website}
+          display_title={this.props.display_title}
+        />
+      )
+    }
+  }
   getFacebookLink() {
     if (this.props.fb_link) {
       return (
         <SocialLinkItem
-          title={'facebook'}
-          class="facebook-link"
+          title={'Facebook'}
+          class={this.getClass("facebook-link")}
           link={this.props.fb_link}
+          display_title={this.props.display_title}
         />
       )
     }
@@ -21,9 +41,10 @@ export default class SocialLinks extends Component {
     if (this.props.twitter_link) {
       return (
         <SocialLinkItem
-          title={'twitter'}
-          class="twitter-link"
+          title={'Twitter'}
+          class={this.getClass("twitter-link")}
           link={this.props.twitter_link}
+          display_title={this.props.display_title}
         />
       )
     }
@@ -34,9 +55,10 @@ export default class SocialLinks extends Component {
     if (this.props.gplus_link) {
       return (
         <SocialLinkItem
-          title={'google plus'}
-          class="gplus-link"
+          title={'Google plus'}
+          class={this.getClass("gplus-link")}
           link={this.props.gplus_link}
+          display_title={this.props.display_title}
         />
       )
     }
@@ -47,9 +69,10 @@ export default class SocialLinks extends Component {
     if (this.props.flickr_link) {
       return (
         <SocialLinkItem
-          title={'flickr'}
-          class="flickr-link"
+          title={'Flickr'}
+          class={this.getClass("flickr-link")}
           link={this.props.flickr_link}
+          display_title={this.props.display_title}
         />
       )
     }
@@ -60,9 +83,10 @@ export default class SocialLinks extends Component {
     if (this.props.vk_link) {
       return (
         <SocialLinkItem
-          title={'vkontakte'}
-          class="vk-link"
+          title={'Vkontakte'}
+          class={this.getClass("vk-link")}
           link={this.props.vk_link}
+          display_title={this.props.display_title}
         />
       )
     }
@@ -73,9 +97,10 @@ export default class SocialLinks extends Component {
     if (this.props.pinterest_link) {
       return (
         <SocialLinkItem
-          title={'pinterest'}
-          class="pinterest-link"
+          title={'Pinterest'}
+          class={this.getClass("pinterest-link")}
           link={this.props.pinterest_link}
+          display_title={this.props.display_title}
         />
       )
     }
@@ -87,8 +112,10 @@ export default class SocialLinks extends Component {
       return (
         <SocialLinkItem
           title={'500px'}
-          class="px500-link"
+          class={this.getClass("px500-link")}
           link={this.props.px500_link}
+          display_title={this.props.display_title}
+          color_hover={this.props.color_hover}
         />
       )
     }
@@ -99,9 +126,10 @@ export default class SocialLinks extends Component {
     if (this.props.insta_link) {
       return (
         <SocialLinkItem
-          title={'instagram'}
-          class="insta-link"
+          title={'Instagram'}
+          class={this.getClass("insta-link")}
           link={this.props.insta_link}
+          display_title={this.props.display_title}
         />
       )
     }
@@ -111,6 +139,7 @@ export default class SocialLinks extends Component {
   render() {
     return (
       <ul className="social-links">
+        {this.getWebsite()}
         {this.getFacebookLink()}
         {this.getTwitterLink()}
         {this.getGplusLink()}
