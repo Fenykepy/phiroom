@@ -25,8 +25,9 @@ class UserSerializer(serializers.ModelSerializer):
                 'is_librairy_member',
                 'avatar',
                 'author_name',
-                'website',
-                'blog',
+                'website_link',
+                'blog_link',
+                'etsy_link',
                 'facebook_link',
                 'flickr_link',
                 'px500_link',
@@ -73,8 +74,9 @@ class SafeUserSerializer(UserSerializer):
                 'is_librairy_member',
                 'avatar',
                 'author_name',
-                'website',
-                'blog',
+                'website_link',
+                'blog_link',
+                'etsy_link',
                 'facebook_link',
                 'flickr_link',
                 'px500_link',
@@ -103,8 +105,8 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'username', 'author_name', 'avatar', 'blog',
-            'website', 'facebook_link', 'flickr_link',
+            'username', 'author_name', 'avatar', 'blog_link',
+            'website_link', 'etsy_link', 'facebook_link', 'flickr_link',
             'px500_link', 'twitter_link', 'gplus_link',
             'pinterest_link', 'vk_link', 'insta_link',
         )

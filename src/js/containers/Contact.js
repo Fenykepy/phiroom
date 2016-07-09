@@ -101,6 +101,7 @@ class Contact extends Component {
       <section role="main">
         {this.getDescription()}
         <SocialLinks
+          etsy_link={this.props.settings.etsy_link}
           fb_link={this.props.settings.fb_link}
           twitter_link={this.props.settings.twitter_link}
           gplus_link={this.props.settings.gplus_link}

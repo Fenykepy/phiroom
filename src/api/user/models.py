@@ -45,19 +45,26 @@ class User(AbstractUser):
             null=True,
             help_text="Your name as shown under content you published"
     )
-    website = models.URLField(
+    website_link = models.URLField(
             null=True,
             blank=True,
             max_length=2000,
             verbose_name="Website",
             help_text="A link to your website"
     )
-    blog = models.URLField(
+    blog_link = models.URLField(
             null=True,
             blank=True,
             max_length=2000,
             verbose_name="Blog",
             help_text="A link to your blog"
+    )
+    etsy_link = models.URLField(
+            null=True,
+            blank=True,
+            max_length=2000,
+            verbose_name="Etsy",
+            help_text="A link to etsy page"
     )
     facebook_link = models.URLField(
             null=True,

@@ -11,25 +11,37 @@ export default class SocialLinks extends Component {
     return className
   }
 
-  getWebsite() {
-    if (this.props.website) {
+  getWebsiteLink() {
+    if (this.props.website_link) {
       return (
         <SocialLinkItem
           title={'Website'}
           class={this.getClass("website-link")}
-          link={this.props.website}
+          link={this.props.website_link}
           display_title={this.props.display_title}
         />
       )
     }
   }
-  getBlog() {
-    if (this.props.blog) {
+  getBlogLink() {
+    if (this.props.blog_link) {
       return (
         <SocialLinkItem
           title={'Blog'}
-          class={this.getClass("website-link")}
-          link={this.props.blog}
+          class={this.getClass("blog-link")}
+          link={this.props.blog_link}
+          display_title={this.props.display_title}
+        />
+      )
+    }
+  }
+  getEtsyLink() {
+    if (this.props.etsy_link) {
+      return (
+        <SocialLinkItem
+          title={'Etsy'}
+          class={this.getClass("etsy-link")}
+          link={this.props.etsy_link}
           display_title={this.props.display_title}
         />
       )
@@ -151,8 +163,9 @@ export default class SocialLinks extends Component {
   render() {
     return (
       <ul className="social-links">
-        {this.getWebsite()}
-        {this.getBlog()}
+        {this.getWebsiteLink()}
+        {this.getBlogLink()}
+        {this.getEtsyLink()}
         {this.getFacebookLink()}
         {this.getTwitterLink()}
         {this.getGplusLink()}
