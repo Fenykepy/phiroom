@@ -54,37 +54,41 @@ class Conf(models.Model):
             help_text="A preview regeneration is necessary after each \
                     change of this setting (import folder again with \
                     \"regenerate previews of existing images\" option).")
+    etsy_link = models.URLField(null=True, blank=True,
+            verbose_name="Etsy shop link",
+            help_text="Url to a etsy shop, will be displayed \
+                    under a small logo.")
     fb_link = models.URLField(null=True, blank=True,
             verbose_name="Facebook page link",
-            help_text="Url to a facebook page, will be displayed on \
+            help_text="Url to a facebook page, will be displayed \
                     under a small logo.")
     twitter_link = models.URLField(null=True, blank=True,
             verbose_name="Twitter page link",
-            help_text="Url to a twitter page, will be displayed on \
+            help_text="Url to a twitter page, will be displayed \
                     under a small logo.")
     gplus_link = models.URLField(null=True, blank=True,
             verbose_name="Google plus page link",
-            help_text="Url to a google plus page, will be displayed on \
+            help_text="Url to a google plus page, will be displayed \
                     under a small logo.")
     flickr_link = models.URLField(null=True, blank=True,
             verbose_name="Flickr page link",
-            help_text="Url to a flickr page, will be displayed on \
+            help_text="Url to a flickr page, will be displayed \
                     under a small logo.")
     vk_link = models.URLField(null=True, blank=True,
             verbose_name="Vkontakte page link",
-            help_text="Url to a vkontakte page, will be displayed on \
+            help_text="Url to a vkontakte page, will be displayed \
                     under a small logo.")
     pinterest_link = models.URLField(null=True, blank=True,
             verbose_name="Pinterest page link",
-            help_text="Url to a pinterest page, will be displayed on \
+            help_text="Url to a pinterest page, will be displayed \
                     under a small logo.")
     px500_link = models.URLField(null=True, blank=True,
             verbose_name="500px page link",
-            help_text="Url to a 500px page, will be displayed on \
+            help_text="Url to a 500px page, will be displayed \
                     under a small logo.")
     insta_link = models.URLField(null=True, blank=True,
             verbose_name="Instagram page link",
-            help_text="Url to a instagram page, will be displayed on \
+            help_text="Url to a instagram page, will be displayed \
                     under a small logo.")
     registration_mail = models.BooleanField(default=True,
             verbose_name="Registration mail",
