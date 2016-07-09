@@ -2059,9 +2059,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8"
-     inkscape:cx="3491.1632"
-     inkscape:cy="1773.0605"
+     inkscape:zoom="16"
+     inkscape:cx="3566.5757"
+     inkscape:cy="1684.4584"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -9260,5 +9260,20 @@
        width="5"
        id="rect5619-4"
        style="opacity:1;fill:#575757;fill-opacity:1;stroke:none;stroke-width:0.91500002;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       id="g4280"
+       style="fill:#575757;fill-opacity:1"
+       transform="matrix(0.19995941,-0.19995941,0.19995941,0.19995941,3394.9025,-662.67288)">
+      <path
+         inkscape:connector-curvature="0"
+         id="rect4239"
+         d="m 352.9263,530.44328 c -11.08,0 -20,8.92 -20,20 a 5,5 0 0 0 5,5 5,5 0 0 0 5,-5 c 0,-5.54 4.46,-10 10,-10 l 14,0 c 5.54,0 10,4.46 10,10 0,5.54 -4.46,10 -10,10 l -6.61719,0 c -1.50598,4.14982 -4.34847,7.63866 -8.00586,9.98046 0.20765,0.007 0.41371,0.0195 0.62305,0.0195 l 14,0 c 11.08,0 20,-8.92 20,-20 0,-11.08 -8.92,-20 -20,-20 l -14,0 z"
+         style="opacity:1;fill:#575757;fill-opacity:1;stroke:none;stroke-width:0.91500002;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         style="opacity:1;fill:#575757;fill-opacity:1;stroke:none;stroke-width:0.91500002;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 337.526,570.4432 c 11.08,0 20,-8.92 20,-20 a 5,5 0 0 0 -5,-5 5,5 0 0 0 -5,5 c 0,5.54 -4.46,10 -10,10 l -14,0 c -5.54,0 -10,-4.46 -10,-10 0,-5.54 4.46,-10 10,-10 l 6.61719,0 c 1.50598,-4.14982 4.34847,-7.63866 8.00586,-9.98046 -0.20765,-0.007 -0.41371,-0.0195 -0.62305,-0.0195 l -14,0 c -11.08,0 -20,8.92 -20,20 0,11.08 8.92,20 20,20 l 14,0 z"
+         id="path4278"
+         inkscape:connector-curvature="0" />
+    </g>
   </g>
 </svg>
