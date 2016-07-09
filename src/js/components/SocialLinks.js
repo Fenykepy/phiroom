@@ -23,6 +23,18 @@ export default class SocialLinks extends Component {
       )
     }
   }
+  getBlog() {
+    if (this.props.blog) {
+      return (
+        <SocialLinkItem
+          title={'Blog'}
+          class={this.getClass("website-link")}
+          link={this.props.blog}
+          display_title={this.props.display_title}
+        />
+      )
+    }
+  }
   getFacebookLink() {
     if (this.props.fb_link) {
       return (
@@ -140,6 +152,7 @@ export default class SocialLinks extends Component {
     return (
       <ul className="social-links">
         {this.getWebsite()}
+        {this.getBlog()}
         {this.getFacebookLink()}
         {this.getTwitterLink()}
         {this.getGplusLink()}

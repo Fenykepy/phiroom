@@ -17,6 +17,7 @@ export default class UserInfo extends Component {
           </header>
           <SocialLinks
             website={this.props.user.website}
+            blog={this.props.user.blog}
             fb_link={this.props.user.fb_link}
             twitter_link={this.props.user.twitter_link}
             gplus_link={this.props.user.gplus_link}

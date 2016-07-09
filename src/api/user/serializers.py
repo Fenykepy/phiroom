@@ -26,6 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
                 'avatar',
                 'author_name',
                 'website',
+                'blog',
                 'facebook_link',
                 'flickr_link',
                 'px500_link',
@@ -73,6 +74,7 @@ class SafeUserSerializer(UserSerializer):
                 'avatar',
                 'author_name',
                 'website',
+                'blog',
                 'facebook_link',
                 'flickr_link',
                 'px500_link',
@@ -101,7 +103,7 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'username', 'author_name', 'avatar',
+            'username', 'author_name', 'avatar', 'blog',
             'website', 'facebook_link', 'flickr_link',
             'px500_link', 'twitter_link', 'gplus_link',
             'pinterest_link', 'vk_link', 'insta_link',

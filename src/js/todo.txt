@@ -107,7 +107,8 @@
 #    - server side rendering (portfolios, posts)
 #    - client side rendering
 - Add opengraph data in head.
-- Add a popover with author info in signatures
+- Show a spinner when librairy's pictures are downloading.
+#- Add a popover with author info in signatures
 - Gallery-inline appears in posts even if no pictures
 - Change directory structure :
     - phiroom

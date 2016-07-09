@@ -10,6 +10,10 @@ conf:
 #    - review model to match client side requirements
     - review pages to match client requirements
     - add etsy link
+    - change link to be like this :
+        - link 1 : title - url
+        - link 2 : type - url
+        - link 3 : type - url etc. to allow user to choose order.
 
 portfolio:
 #    - add views

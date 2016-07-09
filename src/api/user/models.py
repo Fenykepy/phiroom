@@ -52,6 +52,13 @@ class User(AbstractUser):
             verbose_name="Website",
             help_text="A link to your website"
     )
+    blog = models.URLField(
+            null=True,
+            blank=True,
+            max_length=2000,
+            verbose_name="Blog",
+            help_text="A link to your blog"
+    )
     facebook_link = models.URLField(
             null=True,
             blank=True,
