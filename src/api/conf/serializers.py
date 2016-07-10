@@ -25,6 +25,7 @@ class ConfSerializer(serializers.ModelSerializer):
               'carousel_default_height',
               'slideshow_duration',
               'google_analytics_id',
+              'google_site_verification_id',
               'etsy_link',
               'fb_link',
               'twitter_link',

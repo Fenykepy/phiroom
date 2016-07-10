@@ -146,12 +146,22 @@ function renderFullPage(html, initialState, title='') {
   if (initialState.common.description) {
     description = `<meta name="description" content="${initialState.common.description}" />` 
   }
+  
   let author = ''
   if (initialState.common.author) {
     author = `<meta name="author" content="${initialState.common.author}" />`
   }
+
+  let settings = initialState.common.settings
+
+  let google_site_id = ''
+  if (settings.google_site_verification_id) {
+    // if we have a google site verification ID, we include it in meta
+    google_site_id = `<meta name="google-site-verification" content="${settings.google_site_verification_id}" />`
+  }
+  
   let analytics = ''
-  if (initialState.common.settings.google_analytics_id) {
+  if (settings.google_analytics_id) {
     // if we have google analytics ID in settings, we include script.
     analytics = `<script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -159,7 +169,7 @@ function renderFullPage(html, initialState, title='') {
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-      ga('create', '${initialState.common.settings.google_analytics_id}', 'auto');
+      ga('create', '${settings.google_analytics_id}', 'auto');
       ga('send', 'pageview');
 
     </script>`
@@ -174,6 +184,7 @@ function renderFullPage(html, initialState, title='') {
         ${author}
         <meta charset="utf-8" />
         <meta name="generator" content="Phiroom 0.3.0" />
+        ${google_site_id}
         <link rel="stylesheet" href="${webpackAssets.app.css}" />
         <link rel="icon" type="image/svg" href="/assets/images/phiroom-favicon.svg" />
       </head>

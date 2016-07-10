@@ -88,6 +88,15 @@ class Conf(models.Model):
             verbose_name="Your google analytics ID.",
             help_text="Enter here you google analytics ID to start tracking."
     )
+    google_site_verification_id = models.CharField(
+            max_length=254,
+            null=True,
+            blank=True,
+            verbose_name="Your google site verification ID.",
+            help_text="Enter her your google site verification ID, \
+                    it will be displayed in <meta name=\"google-site-verification\" /> \
+                    in phiroom's headers."
+    )
     etsy_link = models.URLField(
             null=True,
             blank=True,
