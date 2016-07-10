@@ -121,18 +121,13 @@ function handleRender(req, res) {
         )
         // set document title
         const title = buildDocumentTitle(initialState)
-        // set document meta description
-        const description = initialState.common.description
-        // set document meta author
-        const author = initialState.common.author
-
         // set auth_token cookie if user is authenticated
         if (initialState.common.user.token) {
           res.cookie('auth_token', initialState.common.user.token)
         }
 
         // serve rendered html
-        res.status(200).send(renderFullPage(html, initialState, title, author, description))
+        res.status(200).send(renderFullPage(html, initialState, title))
       })
       .catch((error) => {
         // send error if a promise fail
@@ -145,13 +140,29 @@ function handleRender(req, res) {
 }
 
 
-function renderFullPage(html, initialState, title='', author='', description='') {
+function renderFullPage(html, initialState, title='') {
   // we don't show empty meta
-  if (description) {
-    description = `<meta name="description" content="${description}" />` 
+  let description = ''
+  if (initialState.common.description) {
+    description = `<meta name="description" content="${initialState.common.description}" />` 
   }
-  if (author) {
-    author = `<meta name="author" content="${author}" />`
+  let author = ''
+  if (initialState.common.author) {
+    author = `<meta name="author" content="${initialState.common.author}" />`
+  }
+  let analytics = ''
+  if (initialState.common.settings.google_analytics_id) {
+    // if we have google analytics ID in settings, we include script.
+    analytics = `<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', '${initialState.common.settings.google_analytics_id}', 'auto');
+      ga('send', 'pageview');
+
+    </script>`
   }
   
   return `
@@ -171,7 +182,8 @@ function renderFullPage(html, initialState, title='', author='', description='')
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
-      <script src="${webpackAssets.app.js}"></script>
+        <script src="${webpackAssets.app.js}"></script>
+        ${analytics}
       </body>
     </html>
     `

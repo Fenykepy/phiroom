@@ -19,6 +19,7 @@ portfolio:
 #    - add views
 #    - add tests
     - add tests for portfolios hits
+    - no 404 if portfolio doesn't exits.
 
 weblog:
 #    - add pk relation field for pictures instead of nesting
