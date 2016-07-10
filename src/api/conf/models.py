@@ -81,6 +81,13 @@ class Conf(models.Model):
                     change of this setting (import folder again with \
                     \"regenerate previews of existing images\" option)."
     )
+    piwik_analytics_id = models.CharField(
+            max_length=254,
+            null=True,
+            blank=True,
+            verbose_name="Your piwik analytics ID.",
+            help_text="Enter here you piwik analytics ID to start tracking."
+    )
     google_analytics_id = models.CharField(
             max_length=254,
             null=True,

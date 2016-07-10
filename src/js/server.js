@@ -160,10 +160,10 @@ function renderFullPage(html, initialState, title='') {
     google_site_id = `<meta name="google-site-verification" content="${settings.google_site_verification_id}" />`
   }
   
-  let analytics = ''
+  let google_analytics = ''
   if (settings.google_analytics_id) {
     // if we have google analytics ID in settings, we include script.
-    analytics = `<script>
+    google_analytics = `<script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -173,6 +173,25 @@ function renderFullPage(html, initialState, title='') {
       ga('send', 'pageview');
 
     </script>`
+  }
+
+  let piwik_analytics = ''
+  if (settings.piwik_analytics_id) {
+    // if we have piwik analytics ID in settings, we include script.
+    piwik_analytics = `<!-- Piwik -->
+      <script type="text/javascript">
+          var _paq = _paq || [];
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+          var u="//${settings.piwik_analytics_id}/";
+          _paq.push(['setTrackerUrl', u+'piwik.php']);
+          _paq.push(['setSiteId', 1]);
+          var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+          g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
+          </script>
+      <!-- End Piwik Code -->`
   }
   
   return `
@@ -194,7 +213,8 @@ function renderFullPage(html, initialState, title='') {
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
         <script src="${webpackAssets.app.js}"></script>
-        ${analytics}
+        ${google_analytics}
+        ${piwik_analytics}
       </body>
     </html>
     `
