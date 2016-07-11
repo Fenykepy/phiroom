@@ -119,15 +119,13 @@ function handleRender(req, res) {
             <RouterContext {...renderProps}/>
           </Provider>
         )
-        // set document title
-        const title = buildDocumentTitle(initialState)
         // set auth_token cookie if user is authenticated
         if (initialState.common.user.token) {
           res.cookie('auth_token', initialState.common.user.token)
         }
 
         // serve rendered html
-        res.status(200).send(renderFullPage(html, initialState, title))
+        res.status(200).send(renderFullPage(html, initialState))
       })
       .catch((error) => {
         // send error if a promise fail
@@ -139,31 +137,40 @@ function handleRender(req, res) {
   })
 }
 
+function getTitle(state) {
+  // set document title
+  return buildDocumentTitle(state)
+}
 
-function renderFullPage(html, initialState, title='') {
-  // we don't show empty meta
-  let description = ''
-  if (initialState.common.description) {
-    description = `<meta name="description" content="${initialState.common.description}" />` 
+function getAuthorMeta(state) {
+  // if we have an author, populate meta
+  if (state.common.author) {
+    return `<meta name="author" content="${state.common.author}" />`
   }
-  
-  let author = ''
-  if (initialState.common.author) {
-    author = `<meta name="author" content="${initialState.common.author}" />`
-  }
+  return ''
+}
 
-  let settings = initialState.common.settings
-
-  let google_site_id = ''
-  if (settings.google_site_verification_id) {
-    // if we have a google site verification ID, we include it in meta
-    google_site_id = `<meta name="google-site-verification" content="${settings.google_site_verification_id}" />`
+function getDescriptionMeta(state) {
+  // if we have a description, populate meta
+  if (state.common.description) {
+    return `<meta name="description" content="${state.common.description}" />`
   }
-  
-  let google_analytics = ''
+  return ''
+}
+
+function getGoogleSiteIDMeta(state) {
+  // if we have a google site ID, populate meta
+  if (state.common.settings.google_site_verification_id) {
+    return `<meta name="google-site-verification"
+              content="${state.common.settings.google_site_verification_id}" />`
+  }
+  return ''
+}
+
+function getGoogleAnalyticsScript(state) {
+  let settings = state.common.settings
   if (settings.google_analytics_id) {
-    // if we have google analytics ID in settings, we include script.
-    google_analytics = `<script>
+    return `<script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -174,36 +181,44 @@ function renderFullPage(html, initialState, title='') {
 
     </script>`
   }
+  return ''
+}
 
-  let piwik_analytics = ''
-  if (settings.piwik_analytics_id) {
-    // if we have piwik analytics ID in settings, we include script.
-    piwik_analytics = `<!-- Piwik -->
+function getPiwikAnalyticsScript(state) {
+  let settings = state.common.settings
+  if (settings.piwik_analytics_site_id && settings.piwik_analytics_url) {
+    // if we have piwik analytics site ID and url in settings, we include script.
+    return `<!-- Piwik -->
       <script type="text/javascript">
           var _paq = _paq || [];
           _paq.push(['trackPageView']);
           _paq.push(['enableLinkTracking']);
           (function() {
-          var u="//${settings.piwik_analytics_id}/";
+          var u="//${settings.piwik_analytics_url}/";
           _paq.push(['setTrackerUrl', u+'piwik.php']);
-          _paq.push(['setSiteId', 1]);
+          _paq.push(['setSiteId', ${settings.piwik_analytics_site_id}]);
           var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
           g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
           })();
           </script>
       <!-- End Piwik Code -->`
   }
+  return ''
+}
+
+
+function renderFullPage(html, initialState) {
   
   return `
     <!DOCTYPE html>
     <html lang="en">
       <head>
-        <title>${title}</title>
-        ${description} 
-        ${author}
+        <title>${getTitle(initialState)}</title>
+        ${getDescriptionMeta(initialState)} 
+        ${getAuthorMeta(initialState)}
         <meta charset="utf-8" />
         <meta name="generator" content="Phiroom 0.3.0" />
-        ${google_site_id}
+        ${getGoogleSiteIDMeta(initialState)}
         <link rel="stylesheet" href="${webpackAssets.app.css}" />
         <link rel="icon" type="image/svg" href="/assets/images/phiroom-favicon.svg" />
       </head>
@@ -213,8 +228,8 @@ function renderFullPage(html, initialState, title='') {
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
         <script src="${webpackAssets.app.js}"></script>
-        ${google_analytics}
-        ${piwik_analytics}
+        ${getGoogleAnalyticsScript(initialState)}
+        ${getPiwikAnalyticsScript(initialState)}
       </body>
     </html>
     `

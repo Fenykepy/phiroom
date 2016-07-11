@@ -107,9 +107,9 @@
 #    - server side rendering (portfolios, posts)
 #    - client side rendering
 - Add opengraph data in head.
-- Add piwik analytics
-    - rename field ID to url
-    - add field site ID
+#- Add piwik analytics
+#    - rename field ID to url
+#    - add field site ID
 #- Add google analytics
 #- Add google site verification ID.
 - Show a spinner when librairy's pictures are downloading.
