@@ -147,7 +147,7 @@ class APITest(APITestCase):
         # only admin should have write access to settings
         # login with staff user
         login(self, self.staffUser)
-        test_status_codes(self, url, [200, 405, 400, 200, 405],
+        test_status_codes(self, url, [200, 405, 200, 200, 405],
             postData=data, putData=data, patchData=data)
 
 
