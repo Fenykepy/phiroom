@@ -4,11 +4,10 @@ from user.models import User
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
-    
-    # set files as charfield else we get
-    # api link (127.0.0.1:8000 in dev) instead
-    # of relative link
-    avatar = serializers.CharField()
+   
+    # set required to false else with browsable api
+    # each put with empty file erase existing one
+    avatar = serializers.ImageField(required=False)
 
     class Meta:
         model = User
