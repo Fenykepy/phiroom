@@ -86,7 +86,7 @@ class MessageList(generics.ListCreateAPIView):
                     user=user,
                     name=user.username,
                     mail=user.email,
-                    website=user.website,
+                    website=user.website_link,
                     ip=ip
             )
         else :

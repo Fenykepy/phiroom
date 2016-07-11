@@ -20,7 +20,7 @@ def create_test_messages(instance):
         name=instance.staffUser.username,
         user=instance.staffUser,
         mail=instance.staffUser.email,
-        website=instance.staffUser.website,
+        website=instance.staffUser.website_link,
         subject="contact",
         message="Hello",
     )
@@ -362,7 +362,7 @@ class MessageAPITest(APITestCase):
         mesg = Message.objects.latest('pk')
         self.assertEqual(mesg.name, self.normalUser.username)
         self.assertEqual(mesg.mail, self.normalUser.email)
-        self.assertEqual(mesg.website, self.normalUser.website)
+        self.assertEqual(mesg.website, self.normalUser.website_link)
         self.assertEqual(mesg.user, self.normalUser)
         # !!! assert mail has been sent
         # 2 mails should have been sent (forward is true)

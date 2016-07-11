@@ -63,6 +63,6 @@ class Message(models.Model):
             if not self.mail:
                 self.mail = self.user.email
             if not self.website:
-                self.website = self.user.website
+                self.website = self.user.website_link
         super(Message, self).save()
 
