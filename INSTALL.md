@@ -563,13 +563,19 @@ Run as root:
 
             location /media/ {
                 alias /var/www/phiroom_env/phiroom/src/api/phiroom/data/;
+                # static content, we cache for one year
+                add_header Cache-Control max-age=31536000;
             }
 
             location /statics/ {
                 alias /var/www/phiroom_env/phiroom/dist;
+                # static content, we cache for one year
+                add_header Cache-Control max-age=31536000;
             }
 
             location / {
+                # mutable content, cache always must revalidate
+                add_header Cache-Control no-cache;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header Host $http_host;
                 proxy_read_timeout 300000;
@@ -583,6 +589,8 @@ Run as root:
             }
 
             location /api/ {
+                # mutable content, cache always must revalidate
+                add_header Cache-Control no-cache;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header Host $http_host;
                 proxy_read_timeout 300000;
