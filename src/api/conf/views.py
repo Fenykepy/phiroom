@@ -1,8 +1,12 @@
+from django.views.decorators.cache import cache_page
+
 from rest_framework import generics
 from phiroom.permissions import IsStaffOrReadOnly
 
-from conf.serializers import *
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 
+from conf.serializers import *
 
 class LastConf(generics.RetrieveUpdateAPIView):
     """

@@ -4,11 +4,20 @@ DEBUG = True
 
 ## Cache configuration
 ## for debug
-CACHES = {
+DUMMY = {
         'default': {
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
 }
+LOCMEM = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'unique-snowflake',
+        }
+}
+
+#CACHES = DUMMY # do not cache for testing
+CACHES = LOCMEM # cache to test caching
 
 
 ADMINS = (
