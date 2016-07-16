@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+CONF_CACHE_KEY_PREFIX = settings.CACHE_MIDDLEWARE_KEY_PREFIX + ".conf"
 
 class Conf(models.Model):
     """Main configuration of phiroom."""
@@ -270,5 +271,4 @@ class Page(models.Model):
 
     def __str__(self):
         return "%s" % self.title
-
 
