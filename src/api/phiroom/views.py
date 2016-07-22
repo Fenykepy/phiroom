@@ -1,7 +1,6 @@
 from django.middleware import csrf
 
 from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_cookie
 
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -11,7 +10,6 @@ from rest_framework.permissions import AllowAny
 from phiroom.serializers import CSRFTokenSerializer
 
 @cache_page(None) # we cache forever
-@vary_on_cookie # one cache per user
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({

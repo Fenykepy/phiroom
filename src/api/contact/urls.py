@@ -17,6 +17,6 @@ urlpatterns = [
         name="contact-messages-list"),
     url(r'^messages/(?P<pk>[0-9]+)/$', views.MessageDetail.as_view(),
         name="contact-messages-detail"),
-    url(r'^hits/$', cache_page(60)(views.contact_hits),
+    url(r'^hits/$', cache_page(60 * 3)(views.contact_hits),
         name="contact-hits"),
 ]

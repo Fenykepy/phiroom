@@ -2,6 +2,12 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
 
+
+from django.core.cache import cache
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from phiroom.settings import DEFAULT_FROM_EMAIL, EMAIL_SUBJECT_PREFIX
 
 
@@ -205,6 +211,10 @@ class User(AbstractUser):
         return "{}".format(self.username)
 
 
+
+@receiver(post_save, sender=User)
+def clear_cache(sender, **kwargs):
+    cache.clear()
 
 def get_users_mails(users):
     """Return a list of mails from all users in given queryset."""
