@@ -1,5 +1,10 @@
 from django.db import models
 
+from django.core.cache import cache
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from user.models import User
 from weblog.utils import format_content
 
@@ -34,6 +39,12 @@ class Description(models.Model):
 
     def __str__(self):
         return "{} - contact description".format(self.date_update)
+
+
+
+@receiver(post_save, sender=Description)
+def clear_cache(sender, **kwargs):
+    cache.clear()
 
 
 
