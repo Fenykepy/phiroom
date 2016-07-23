@@ -5,6 +5,11 @@ from django.template.defaultfilters import slugify
 from user.models import User
 from weblog.slug import unique_slugify
 
+from django.core.cache import cache
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 
 class PublishedManager(models.Manager):
@@ -74,6 +79,9 @@ class Portfolio(models.Model):
         return "{} - {}".format(self.pk, self.title)
 
 
+@receiver(post_save, sender=Portfolio)
+def clear_cache(sender, **kwargs):
+    cache.clear()
 
 class PortfolioPicture(models.Model):
     """
@@ -88,6 +96,12 @@ class PortfolioPicture(models.Model):
         ordering = ['order']
         unique_together = ("portfolio", "picture")
 
+
+
+
+@receiver(post_save, sender=PortfolioPicture)
+def clear_cache(sender, **kwargs):
+    cache.clear()
 
 
 
