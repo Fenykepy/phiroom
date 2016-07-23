@@ -1,6 +1,8 @@
 from django.core import mail
 from django.test import TestCase
 
+from django.core.cache import cache
+
 from rest_framework.test import APIClient, APITestCase
 
 from contact.models import Description, Message
@@ -124,7 +126,7 @@ class MessageModelTest(TestCase):
         self.assertTrue(mesg.date)
 
 
-
+# we disable cache for tests
 class DescriptionAPITest(APITestCase):
     """Description API Test class."""
     
@@ -152,7 +154,6 @@ class DescriptionAPITest(APITestCase):
 
 
         self.client = APIClient()
-
 
     def test_contact_hits(self):
 
@@ -194,7 +195,9 @@ class DescriptionAPITest(APITestCase):
         # we reset hits count
         for hit in Hit.objects.all():
             hit.delete()
-
+        
+        # we clear cache to be sure
+        cache.clear()
         response=self.client.get(url)
         # 0 hit should be returned
         self.assertEqual(response.data, 0)

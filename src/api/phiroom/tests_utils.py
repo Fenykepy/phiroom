@@ -35,6 +35,3 @@ def test_status_codes(instance, url, status, postData = {}, putData = {}, patchD
     response = instance.client.delete(url)
     instance.assertEqual(response.status_code, status[4])
     
-    
-    
-

@@ -6,6 +6,11 @@ from django.db.models.signals import post_save, post_delete, m2m_changed
 from user.models import User
 from django.template.defaultfilters import slugify
 
+from django.core.cache import cache
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from librairy.models import Picture
 
 from weblog.slug import unique_slugify
@@ -162,6 +167,11 @@ class Post(models.Model):
 
 
 
+@receiver(post_save, sender=Post)
+def clear_cache(sender, **kwargs):
+    cache.clear()
+
+
 class PostPicture(models.Model):
     """
     Through table for post - pictures relation,
@@ -175,6 +185,12 @@ class PostPicture(models.Model):
         ordering = ['order']
         unique_together = ('post', 'picture')
 
+
+
+
+@receiver(post_save, sender=PostPicture)
+def clear_cache(sender, **kwargs):
+    cache.clear()
 
 
 
