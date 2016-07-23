@@ -17,6 +17,11 @@ from django.template.defaultfilters import slugify
 from django.db.models.signals import pre_delete, post_save, post_delete
 from django.dispatch import receiver
 
+from django.core.cache import cache
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 from mptt.models import MPTTModel, TreeForeignKey
 from librairy.thumbnail import ThumbnailFactory
@@ -410,6 +415,11 @@ class Picture(models.Model):
 
 
 
+@receiver(post_save, sender=Picture)
+def clear_cache(sender, **kwargs):
+    cache.clear()
+
+
 class Tag(MPTTModel):
     """Table for all tags."""
     name = models.CharField(max_length=150, verbose_name="Name")
@@ -495,6 +505,10 @@ class Collection(models.Model):
 
 
 
+@receiver(post_save, sender=Collection)
+def clear_cache(sender, **kwargs):
+    cache.clear()
+
 
 class CollectionPicture(models.Model):
     """Through class for collection's pictures relation, add order column"""
@@ -516,8 +530,8 @@ class CollectionPicture(models.Model):
 @receiver(post_delete, sender=CollectionPicture)
 def collection_picture_changed(sender, instance, **kwargs):
     """Update collection n_pict after change in relation."""
-    
     instance.collection.set_n_pict()
+    cache.clear()
 
 
 
@@ -562,6 +576,10 @@ class CollectionsEnsemble(MPTTModel):
         )
         super(CollectionsEnsemble, self).save()
 
+
+@receiver(post_save, sender=CollectionsEnsemble)
+def clear_cache(sender, **kwargs):
+    cache.clear()
 
 
 
