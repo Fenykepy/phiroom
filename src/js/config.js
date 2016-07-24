@@ -2,7 +2,8 @@
 /*
  * django rest API url
  * usually 'http://127.0.0.1:8000/' in development
- * and '/' in production
+ * and 'https://mon_domaine.com/' in production
+ * you must add trailing slash '/'
  */
 let base_url = 'http://127.0.0.1:8000/'
 

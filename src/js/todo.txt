@@ -47,6 +47,8 @@
 #- Add a way to delete portfolio
 - Add tags to portfolios
 - Add description to portfolios
+- Remove gallery from post when no pictures (it displays strangely on firefox)
+- Add a warning when a portfolio or post is draft 
 #- Add a redirection after portfolio deletion
 #- Add a redirection after portfolio update
 #- Add a redirection after portfolio creation
