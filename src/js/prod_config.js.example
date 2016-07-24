@@ -1,4 +1,4 @@
-let settings
+let settings = {}
 
 /*
  * django rest API url

@@ -212,25 +212,37 @@ Run as `<my_user>`:
 Run as `<my_user>`:
 
         $ cd /var/www/phiroom_env/phiroom/src/js
+        $ cp prod_config.js.example prod_config.js
 
+
+
+ * Edit `prod_config.js`:
+
+        $ vim prod_config.js
+
+ * Set up base url (replace `phiroom.org` by your domain):
+
+        settings.base_url = 'http://phiroom.org'
+
+ * Tell node app to do not serve static files:
+
+        settings.statics_proxy = true
+
+ * Configure unix socket for connection with nginx:
+
+        settings.port = '/var/www/phiroom_env/run/node.sock'
+
+ * Save and quit.
 
  * Edit `config.js`:
 
         $ vim config.js
 
- * Set up base url (replace `phiroom.org` by your domain):
+* Change it's content for:
 
-        let base_url = 'http://phiroom.org'
+        //import settings from './devel_config'
+        import settings from './prod_config'
 
- * Tell node app to do not serve static files:
-
-        let statics_proxy = true
-
- * Configure unix socket for connection with nginx:
-
-        let port = '/var/www/phiroom_env/run/node.sock'
-
- * Save and quit.
     
 #### Set up gunicorn ####
 

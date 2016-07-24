@@ -11,7 +11,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-
 class PublishedManager(models.Manager):
     """
     Returns a query set with all published portfolios.
@@ -79,9 +78,6 @@ class Portfolio(models.Model):
         return "{} - {}".format(self.pk, self.title)
 
 
-@receiver(post_save, sender=Portfolio)
-def clear_cache(sender, **kwargs):
-    cache.clear()
 
 class PortfolioPicture(models.Model):
     """
@@ -98,7 +94,7 @@ class PortfolioPicture(models.Model):
 
 
 
-
+@receiver(post_save, sender=Portfolio)
 @receiver(post_save, sender=PortfolioPicture)
 def clear_cache(sender, **kwargs):
     cache.clear()
