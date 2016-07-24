@@ -1,6 +1,6 @@
 import Express from 'express'
 import cookieParser from 'cookie-parser'
-
+import responseTime from 'response-time'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 
@@ -34,6 +34,9 @@ var app = new Express()
 //var SERVER_RENDERING = false
 var SERVER_RENDERING = true
 
+// get response time in header  
+app.use(responseTime())
+
 // we are in development mode
 if (process.env.NODE_ENV != 'production') {
   // use hot reloading in development
@@ -56,7 +59,6 @@ if (! statics_proxy) {
 
 // get parsed cookies
 app.use(cookieParser())
-  
   
 function handleRender(req, res) {
 
