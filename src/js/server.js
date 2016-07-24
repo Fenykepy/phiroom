@@ -23,7 +23,7 @@ import Fetch from './helpers/http'
 import { buildDocumentTitle } from './actions/common'
 import { receiveToken } from './actions/user'
 
-import { statics_proxy, port } from './config'
+import settings from './config'
 
 import webpackAssets from '../../webpack-assets.json'
 
@@ -49,7 +49,7 @@ if (process.env.NODE_ENV != 'production') {
   SERVER_RENDERING = true
 }
 
-if (! statics_proxy) {
+if (! settings.statics_proxy) {
   // serve statics for developments 
   app.use('/assets', Express.static(__dirname + '/../../assets'))
   app.use('/media', Express.static(__dirname + '/../api/phiroom/data'))
@@ -263,22 +263,22 @@ function resetSocket(sock) {
   }
 }
 
-if (typeof port == "string") {
+if (typeof settings.port == "string") {
   /*
    * If we use a socket, first delete file if
    * it exists
    */
-  resetSocket(port)
+  resetSocket(settings.port)
 }
 
-app.listen(port, function(error) {
+app.listen(settings.port, function(error) {
   if (error) {
     console.error(error)
   } else {
     // we give rights to socket else nginx can't use it
-    if (typeof port == "string" && fs.lstatSync(port).isSocket()) {
-      fs.chmodSync(port, '777');
+    if (typeof settings.port == "string" && fs.lstatSync(settings.port).isSocket()) {
+      fs.chmodSync(settings.port, '777');
     }
-    console.info("==> Listening on port %s. Openup http://localhost:%s/ in your browser.", port, port)
+    console.info("==> Listening on port %s. Openup http://localhost:%s/ in your browser.", settings.port, settings.port)
   }
 })

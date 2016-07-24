@@ -1,7 +1,12 @@
 import fetch from 'isomorphic-fetch'
-import { base_url } from '../config'
+
+import settings from '../config'
 
 import { browserHistory } from 'react-router'
+
+let base_url = settings.base_url
+
+
 /*
  * A wrapper arround fetch.
  * to set default headers

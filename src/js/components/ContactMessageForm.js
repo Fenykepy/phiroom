@@ -3,7 +3,9 @@ import React, { Component, Proptypes } from 'react'
 import FormFieldErrors from './FormFieldErrors'
 import FormRequiredFields from './FormRequiredFields'
 
-import { base_url } from '../config'
+import settings from '../config'
+
+let base_url = settings.base_url
 
 export default class ContactMessageForm extends Component {
   
