@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 
-import { base_url } from '../config'
+import settings from '../config'
 
 import { Link } from 'react-router'
 
 import FormFieldErrors from './FormFieldErrors'
 import FormRequiredFields from './FormRequiredFields'
 
-
+let base_url = settings.base_url
 
 export default class LoginForm extends Component {
 
