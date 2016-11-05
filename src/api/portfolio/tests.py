@@ -443,10 +443,11 @@ class PortfolioAPITest(APITestCase):
 
 
     def test_portfolio_pictures(self):
-        url = '/api/portfolio/portfolios/{}/pictures/'.format(
-                self.port.slug)
-        url3 = '/api/portfolio/portfolios/{}/pictures/'.format(
-                self.port3.slug)
+        base_url = '/api/portfolio/portfolios/{}/pictures/'
+        url = base_url.format(self.port.slug)
+        url3 = base_url.format(self.port3.slug)
+        # to test 404 on wrong slug
+        url4 = base_url.format('toto')
         data = {'pictures': [2, 1]}
 
         # pass port3 draft
@@ -474,7 +475,11 @@ class PortfolioAPITest(APITestCase):
         self.pict2.legend = 'legend 2'
         self.pict2.previews_path = 'xx/xx/xxxxxx'
         self.pict2.ratio = 0.70
-        self.pict2.save()   
+        self.pict2.save()
+
+        # test with wrong slug
+        test_status_codes(self, url4, [404, 401, 401, 401, 401],
+            postData=data, putData=data, patchData=data)
         
         # test without login
         test_status_codes(self, url, [200, 401, 401, 401, 401],

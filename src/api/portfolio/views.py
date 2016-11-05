@@ -121,7 +121,10 @@ def portfolio_pictures(request, slug, format=None):
     without pagination.
     """
     if request.user.is_staff:
-        portfolio = Portfolio.objects.get(slug=slug)
+        try:
+            portfolio = Portfolio.objects.get(slug=slug)
+        except:
+            raise Http404
     else:
         try:
             portfolio = Portfolio.published.get(slug=slug)
