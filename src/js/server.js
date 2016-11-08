@@ -146,7 +146,7 @@ function getTitle(state) {
 
 function getAuthorMeta(state) {
   // if we have an author, populate meta
-  if (state.common.author) {
+  if (state && state.common.author) {
     return `<meta name="author" content="${state.common.author}" />`
   }
   return ''
@@ -154,7 +154,7 @@ function getAuthorMeta(state) {
 
 function getDescriptionMeta(state) {
   // if we have a description, populate meta
-  if (state.common.description) {
+  if (state && state.common.description) {
     return `<meta name="description" content="${state.common.description}" />`
   }
   return ''
@@ -162,7 +162,7 @@ function getDescriptionMeta(state) {
 
 function getGoogleSiteIDMeta(state) {
   // if we have a google site ID, populate meta
-  if (state.common.settings.google_site_verification_id) {
+  if (state && state.common.settings.google_site_verification_id) {
     return `<meta name="google-site-verification"
               content="${state.common.settings.google_site_verification_id}" />`
   }
@@ -170,6 +170,7 @@ function getGoogleSiteIDMeta(state) {
 }
 
 function getGoogleAnalyticsScript(state) {
+  if (! state) return ''
   let settings = state.common.settings
   if (settings.google_analytics_id) {
     return `<script>
@@ -187,6 +188,7 @@ function getGoogleAnalyticsScript(state) {
 }
 
 function getPiwikAnalyticsScript(state) {
+  if (! state) return ''
   let settings = state.common.settings
   if (settings.piwik_analytics_site_id && settings.piwik_analytics_url) {
     // if we have piwik analytics site ID and url in settings, we include script.

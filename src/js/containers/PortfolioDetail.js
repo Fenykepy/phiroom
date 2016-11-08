@@ -34,6 +34,8 @@ class PortfolioDetail extends Component {
     if (! params.slug)  return promises
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then(data => {
+      console.log('data', data)
+      if (data.error) return data
       dispatch(selectPortfolio(params.slug))
       // set document title
       dispatch(setDocumentTitleIfNeeded(data.data.title))
@@ -106,6 +108,7 @@ class PortfolioDetail extends Component {
   getCarousel() {
     // show error page if error
     if (this.props.error) {
+      console.log('error page')
       return (
         <ErrorPage
           status={this.props.error.response.status}
