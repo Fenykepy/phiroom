@@ -218,6 +218,9 @@ export function fetchPostPictures(post) {
           dispatch(receiveShortPicture(item.sha1, item))
         })
       })
+      .catch(error => {
+          dispatch(requestPostPicturesFailure(post, error))
+      })
     }
 }
 

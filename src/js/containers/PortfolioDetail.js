@@ -39,13 +39,15 @@ class PortfolioDetail extends Component {
       }
       dispatch(selectPortfolio(params.slug))
       // set document title
+      // we test for presence of title
+      // else if slug doesn't exists it fails.
       if (data.data && data.data.title) {
         dispatch(setDocumentTitleIfNeeded(data.data.title))
         let desc = `Phiroom's portfolio : ${data.data.title}.`
         dispatch(setDocumentDescription(desc))
       }
       // launch lightbox if needed
-      if (params.lightbox) {
+      if (params.lightbox && data.data) {
         dispatch(lightboxStart(data.data.pictures,
                 params.lightbox))
       }
@@ -58,6 +60,8 @@ class PortfolioDetail extends Component {
       return data.data
     }) .then(data => {
       // fetch author if necessary
+      // we test for presence of author
+      // else if slug doesn't exists it fails.
       if (data && data.author) {
         return dispatch(fetchAuthorIfNeeded(data.author)).then(data => {
           // set document author

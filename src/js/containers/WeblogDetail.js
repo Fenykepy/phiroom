@@ -51,16 +51,20 @@ class WeblogDetail extends Component {
     promises.push(dispatch(fetchPostIfNeeded(slug)).then(data => {
       dispatch(selectPost(slug))
       // set document title
-      dispatch(setDocumentTitleIfNeeded(data.data.title))
-      // set document description
-      let desc = `Phiroom weblog post : ${data.data.title}`
-      if (data.data.description) {
-        desc = desc + ` - ${data.data.description}`
+      // we test for presence of title
+      // else if slug doesn't exists it fails.
+      if (data.data && data.data.title)  {
+        dispatch(setDocumentTitleIfNeeded(data.data.title))
+        // set document description
+        let desc = `Phiroom weblog post : ${data.data.title}`
+        if (data.data.description) {
+          desc = desc + ` - ${data.data.description}`
+        }
+        desc = desc + '.'
+        dispatch(setDocumentDescription(desc))
       }
-      desc = desc + '.'
-      dispatch(setDocumentDescription(desc))
       // launch lightbox if needed
-      if (params.lightbox) {
+      if (params.lightbox && data.data) {
         dispatch(lightboxStart(data.data.pictures,
                 params.lightbox))
       }
@@ -73,10 +77,14 @@ class WeblogDetail extends Component {
       return data.data
     }).then(data => {
       // fetch author if necessary
-      return dispatch(fetchAuthorIfNeeded(data.author)).then(data => {
-        // set document author
-        dispatch(setDocumentAuthor(data.data.author_name))
-      })
+      // we test for presence of author
+      // else if slug doesn't exists it fails.
+      if (data && data.author) {
+        return dispatch(fetchAuthorIfNeeded(data.author)).then(data => {
+          // set document author
+          dispatch(setDocumentAuthor(data.data.author_name))
+        })
+      }
     }))
     if (! clientSide) {
       // fetch all pictures at once serverside
