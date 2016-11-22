@@ -131,6 +131,7 @@ function handleRender(req, res) {
       })
       .catch((error) => {
         // send error if a promise fail
+        console.log(error)
         res.status(500).send(error.message)
       })
     } else {

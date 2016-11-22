@@ -34,13 +34,16 @@ class PortfolioDetail extends Component {
     if (! params.slug)  return promises
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then(data => {
-      console.log('data', data)
-      if (data.error) return data
+      if (data.error) {
+        console.log(data)
+      }
       dispatch(selectPortfolio(params.slug))
       // set document title
-      dispatch(setDocumentTitleIfNeeded(data.data.title))
-      let desc = `Phiroom's portfolio : ${data.data.title}.`
-      dispatch(setDocumentDescription(desc))
+      if (data.data && data.data.title) {
+        dispatch(setDocumentTitleIfNeeded(data.data.title))
+        let desc = `Phiroom's portfolio : ${data.data.title}.`
+        dispatch(setDocumentDescription(desc))
+      }
       // launch lightbox if needed
       if (params.lightbox) {
         dispatch(lightboxStart(data.data.pictures,
@@ -55,10 +58,12 @@ class PortfolioDetail extends Component {
       return data.data
     }) .then(data => {
       // fetch author if necessary
-      return dispatch(fetchAuthorIfNeeded(data.author)).then(data => {
-        // set document author
-        dispatch(setDocumentAuthor(data.data.author_name))
-      })
+      if (data && data.author) {
+        return dispatch(fetchAuthorIfNeeded(data.author)).then(data => {
+          // set document author
+          dispatch(setDocumentAuthor(data.data.author_name))
+        })
+      }
     }))
     if (! clientSide) {
       // fetch all pictures at once serverside
@@ -107,6 +112,7 @@ class PortfolioDetail extends Component {
 
   getCarousel() {
     // show error page if error
+    console.log(this.props)
     if (this.props.error) {
       console.log('error page')
       return (

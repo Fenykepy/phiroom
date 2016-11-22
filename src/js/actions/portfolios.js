@@ -191,6 +191,9 @@ export function fetchPortfolioPictures(portfolio) {
             dispatch(receiveShortPicture(item.sha1, item))
         })
       })
+      .catch(error =>
+             dispatch(requestPortfolioPicturesFailure(portfolio, error))
+      )
   }
 }
 

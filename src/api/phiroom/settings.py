@@ -158,6 +158,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'phiroom.middleware.XForwardedForMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 
