@@ -39,7 +39,7 @@ export default class WeblogTime extends Component {
     let M = this.formatMonth(date.getMonth())
 
     return (
-      <time dateTime={this.props.date} pubDate="pubdate">
+      <time dateTime={this.props.date} itemProp="datePublished">
       {`${M} ${d}, ${Y}`}
       </time>
     )
