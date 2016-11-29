@@ -36,7 +36,7 @@ class PortfolioPictureSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = PortfolioPicture
-        field = ('portfolio', 'picture', 'order')
+        fields = ('portfolio', 'picture', 'order')
 
 
 
