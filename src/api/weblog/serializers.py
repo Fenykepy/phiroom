@@ -123,7 +123,7 @@ class PostPictureSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = PostPicture
-        field = ('post', 'picture', 'order')
+        fields = ('post', 'picture', 'order')
 
 
 class PostHeadSerializer(PostSerializer):
