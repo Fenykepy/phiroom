@@ -16,8 +16,8 @@ LOCMEM = {
         }
 }
 
-#CACHES = DUMMY # do not cache for testing
-CACHES = LOCMEM # cache to test caching
+CACHES = DUMMY # do not cache for testing
+#CACHES = LOCMEM # cache to test caching
 
 
 ADMINS = (

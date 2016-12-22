@@ -1092,7 +1092,6 @@ class PostAPITest(APITestCase):
               'draft': False,
               'tags_flat_list': ['test', 'test2', 'test3'],
         }
-
         # test with staff member
         login(self, self.staffUser)
         response = self.client.put(url, data, format="json")
