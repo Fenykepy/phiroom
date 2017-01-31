@@ -88,17 +88,24 @@
         li {
             //text-indent: 10px;
             position: relative;
-            &.collection {
-                list-style: inside url('/assets/images/dia.svg');
+            a {
+                background: 10px center no-repeat;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
-            &.portfolio {
-                list-style: inside url('/assets/images/portfolio.svg');
+            &.collection a {
+                background-image: url('/assets/images/dia.svg');
             }
-            &.collection-ensemble {
-                list-style: inside url('/assets/images/folder.svg');
+            &.portfolio a {
+                background-image: url('/assets/images/portfolio.svg');
+
             }
-            &.post {
-                list-style: inside url('/assets/images/post.svg');
+            &.collection-ensemble a {
+                background-image: url('/assets/images/folder.svg');
+            }
+            &.post a {
+                background-image: url('/assets/images/post.svg');
             }
         }
         a {
