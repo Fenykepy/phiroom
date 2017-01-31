@@ -54,7 +54,10 @@ export default class LibrairyLeftPanelPostItem extends Component {
 
   render() {
     return (
-      <li className="post">
+      <li
+        className="post"
+        title={'Post: ' + this.props.title}
+      >
         <Link to={`/librairy/post/${this.props.slug}/`}
           activeClassName="selected"
           className={this.state.dragover ? "dragover" : ""}
