@@ -23,7 +23,7 @@ class Fetch {
 
   setAuthorization(headers, state) {
     if (state && state.common && state.common.user.token) {
-      return Object.assign(
+      return Object.assign({},
         headers,
         {'Authorization': 'JWT ' + state.common.user.token}
       )
@@ -32,7 +32,7 @@ class Fetch {
   }
 
   setDefaultHeaders(headers={}, state) {
-    headers = Object.assign(
+    headers = Object.assign({},
         this.default_headers,
         this.setAuthorization(headers, state)
     )

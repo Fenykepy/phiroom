@@ -116,7 +116,7 @@ class PortfolioDetail extends Component {
 
   getCarousel() {
     // show error page if error
-    console.log(this.props)
+    //console.log(this.props)
     if (this.props.error) {
       console.log('error page')
       return (
