@@ -151,7 +151,10 @@ def post_pictures(request, slug, format=None):
     without paginagion.
     """
     if request.user.is_staff:
-        post = Post.objects.get(slug=slug)
+        try:
+            post = Post.objects.get(slug=slug)
+        except:
+            raise Http404
     else:
         try:
             post = Post.published.get(slug=slug)
