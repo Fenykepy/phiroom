@@ -69,6 +69,7 @@ export default class CarouselItem extends Component {
           style={style}
           className="selected"
           title="Open in lightbox"
+          onClick={this.props.stopSlideshow}
         >
           <Link to={lightboxLink}>
             {img}

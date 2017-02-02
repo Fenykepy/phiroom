@@ -154,6 +154,10 @@ export default class Carousel extends Component {
   toggleSlideshow() {
     this.setState({slideshow: ! this.state.slideshow})
   }
+  
+  stopSlideshow() {
+    this.setState({slideshow: false})
+  }
 
   goNext() {
     let widths = this.state.widths
@@ -235,6 +239,7 @@ export default class Carousel extends Component {
               onLoad={this.initPictures.bind(this)}
               onClick={() => this.onImageClick(index)}
               toggleSlideshow={this.toggleSlideshow.bind(this)}
+              stopSlideshow={this.stopSlideshow.bind(this)}
               slideshow={this.state.slideshow}
               height={this.props.height}
               left={this.state.positions[index] || 0}
