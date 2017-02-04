@@ -239,11 +239,11 @@ function fetchAllPictures() {
   /*
    * fetch a picture's data
    */
-  return function(dispatch) {
+  return function(dispatch, getState) {
     // start request
     dispatch(requestAllPictures())
     // return a promise
-    return Fetch.get('api/librairy/pictures/all/')
+    return Fetch.get('api/librairy/pictures/all/', getState())
       .then(json =>
           dispatch(receiveAllPictures(json))
       )
