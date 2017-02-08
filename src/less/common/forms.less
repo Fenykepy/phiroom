@@ -170,6 +170,7 @@ button.overlay {
     border: none;
     margin: 0;
     color: @blog-text;
+    display: flex;
     background-color: rgba(255, 255, 255, 0.5);
     &:hover {
         color: #222;
@@ -183,6 +184,14 @@ button.overlay {
         bottom: 0;
         right: 0;
         border-radius: 4px 0 0 0;
+    }
+    &.cr {
+        top: 50%;
+        right: 0;
+    }
+    &.cl {
+        top: 50%;
+        left: 0;
     }
 }
 
@@ -226,6 +235,26 @@ button.slideshow {
     &:hover {
         background: url("/assets/images/zoom-hover.svg") center center no-repeat;
         background-color: rgba(255, 255, 255, 0.5);
+    }
+}
+.move-right {
+    height: 32px;
+    width: 32px;
+    padding: 0;
+    &:after {
+        right: 11px;
+        top: 11px;
+        .arrow-right(@blog-text, 6px, 6px);
+    }
+}
+.move-left {
+    height: 32px;
+    width: 32px;
+    padding: 0;
+    &:after {
+        left: 11px;
+        top: 11px;
+        .arrow-left(@blog-text, 6px, 6px);
     }
 }
 

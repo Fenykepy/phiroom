@@ -224,6 +224,44 @@ export default class LibrairyPicturesList extends Component {
     this.props.reorderPictures([...statics_before, ...moved, ...statics_after])
   }
 
+  moveRight(index) {
+    /*
+     * Move a single picture to left (with arrow buttons)
+     */
+    if (index + 1 == this.props.n_pictures) {
+      // we do nothing, picture is already last one
+      return
+    }
+    // we get a list of all sha1s in current order
+    let sha1s = this.props.pictures.map(item => item.sha1)
+    // we get sha1's before moved index
+    let before = sha1s.slice(0, index)
+    // we add next sha1 and  moved sha1 to before
+    before.push(sha1s[index+1], sha1s[index])
+    // we get sha1's after index
+    let after = sha1s.slice(index+2)
+    // we reorder pictures
+    this.props.reorderPictures([...before, ...after])
+  }
+
+  moveLeft(index) {
+    /*
+     * Move a single picture to right (with arrow buttons)
+     */
+    // We do nothing, picture is already in first position
+    if (index == 0) return
+    // we get a list of all sha1s in current order
+    let sha1s = this.props.pictures.map(item => item.sha1)
+    // we get sha1's before moved index
+    let before = sha1s.slice(0, index-1)
+    // we add moved sha1 and previous sha1 to before
+    before.push(sha1s[index], sha1s[index-1])
+    // w get sha1's after index
+    let after = sha1s.slice(index+1)
+    // we reorder pictures
+    this.props.reorderPictures([...before, ...after])
+  }
+
   handleBackgroundDrop(e) {
     /*
      * Trigger an reordering at the end when a drop
@@ -264,6 +302,8 @@ export default class LibrairyPicturesList extends Component {
         handleClick={this.handleClick.bind(this)}
         handleDrag={this.handleDrag.bind(this)}
         handleDrop={this.handleDrop.bind(this)}
+        moveRight={this.moveRight.bind(this)}
+        moveLeft={this.moveLeft.bind(this)}
         dropValid={this.dropValid.bind(this)}
         columns_width={this.props.columns_width}
         container={this.props.container}
