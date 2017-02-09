@@ -170,7 +170,6 @@ button.overlay {
     border: none;
     margin: 0;
     color: @blog-text;
-    display: flex;
     background-color: rgba(255, 255, 255, 0.5);
     &:hover {
         color: #222;
@@ -188,10 +187,12 @@ button.overlay {
     &.cr {
         top: 50%;
         right: 0;
+        margin-top: -16px; // to center it
     }
     &.cl {
         top: 50%;
         left: 0;
+        margin-top: -16px; // to center it
     }
 }
 
@@ -246,6 +247,11 @@ button.slideshow {
         top: 11px;
         .arrow-right(@blog-text, 6px, 6px);
     }
+    &:hover:after {
+        right: 11px;
+        top: 11px;
+        .arrow-right(#222, 6px, 6px);
+    }
 }
 .move-left {
     height: 32px;
@@ -255,6 +261,11 @@ button.slideshow {
         left: 11px;
         top: 11px;
         .arrow-left(@blog-text, 6px, 6px);
+    }
+    &:hover:after {
+        left: 11px;
+        top: 11px;
+        .arrow-left(#222, 6px, 6px);
     }
 }
 

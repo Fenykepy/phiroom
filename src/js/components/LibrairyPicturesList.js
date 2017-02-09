@@ -299,6 +299,7 @@ export default class LibrairyPicturesList extends Component {
       <LibrairyPicturesListItem
         key={pict.sha1}
         index={index}
+        n_pictures={this.props.n_pictures}
         handleClick={this.handleClick.bind(this)}
         handleDrag={this.handleDrag.bind(this)}
         handleDrop={this.handleDrop.bind(this)}
@@ -311,6 +312,7 @@ export default class LibrairyPicturesList extends Component {
         deletePicture={this.confirmDeletePicture.bind(this)}
         unselectAll={this.unselectAll.bind(this)}
         pathname={this.props.location.pathname}
+        orderable={this.props.orderable}
         {...pict}
       />
     )

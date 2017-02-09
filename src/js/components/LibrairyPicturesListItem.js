@@ -156,6 +156,39 @@ export default class LibrairyPicturesListItem extends Component {
     }
   }
 
+  getMoveLeftButton() {
+    // no button if picture is first one
+    if (this.props.index == 0) return null
+    return (
+      <button
+        className="overlay cl move-left"
+        title="Move picture to left"
+        onClick={() => this.props.moveLeft(this.props.index)}
+        ><span className="accessibility">Move picture to left</span></button>
+    )
+  }
+
+  getMoveRightButton() {
+    // no button if picture is last one
+    if (this.props.index+1 == this.props.n_pictures) return null
+    return (
+      <button
+        className="overlay cr move-right"
+        title="Move picture to right"
+        onClick={() => this.props.moveRight(this.props.index)}
+        ><span className="accessibility">Move picture to right</span></button>
+    )
+  }
+  getSortingButtons() {
+    if (! this.props.orderable) return null
+    return (
+      <div>
+        {this.getMoveLeftButton()}
+        {this.getMoveRightButton()}
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="thumb-wrapper"
@@ -181,16 +214,7 @@ export default class LibrairyPicturesListItem extends Component {
           ><Link
               to={`${this.props.pathname}single/${this.props.sha1}/`}
           ><span className="accessibility">Single view</span></Link></button>
-          <button
-            className="overlay cl move-left"
-            title="Move picture to left"
-            onClick={() => this.props.moveLeft(this.props.index)}
-            ><span className="accessibility">Move picture to left</span></button>
-          <button
-            className="overlay cr move-right"
-            title="Move picture to right"
-            onClick={() => this.props.moveRight(this.props.index)}
-            ><span className="accessibility">Move picture to right</span></button>
+          {this.getSortingButtons()}
           <img
             style={this.getImageStyle()}
             src={'/media/images/previews/max-500/' + this.props.previews_path}
@@ -224,5 +248,6 @@ LibrairyPicturesListItem.propTypes = {
   unselectAll: PropTypes.func.isRequired,
   moveRight: PropTypes.func.isRequired,
   moveLeft: PropTypes.func.isRequired,
+  orderable: PropTypes.bool,
 }
 
