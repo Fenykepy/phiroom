@@ -25,7 +25,7 @@ class LibrairyAddPicturesTo extends Component {
 
     this.state = {
       container_type: CONTAINER_TYPES[0],
-      container_id: ' ',
+      container_id: this.getDefaultID(CONTAINER_TYPES[0]),
     }
   }
 
@@ -40,6 +40,18 @@ class LibrairyAddPicturesTo extends Component {
     }
   }
 
+  getDefaultID(type) {
+    switch(type) {
+      case CONTAINER_TYPES[0]:
+        return this.props.collectionsIDs[0].id
+      case CONTAINER_TYPES[1]:
+        return this.props.postsIDs[0].id
+      case CONTAINER_TYPES[2]:
+        return this.props.portfoliosIDs[0].id
+    }
+  }
+
+
   handleSubmit(e) {
     e.preventDefault()
 
@@ -47,12 +59,15 @@ class LibrairyAddPicturesTo extends Component {
     switch(this.state.container_type) {
       case CONTAINER_TYPES[0]:
         action = addPict2Collection
+        break
       case CONTAINER_TYPES[1]:
         action = addPict2Post
+        break
       case CONTAINER_TYPES[2]:
         action = addPict2Portfolio
+        break
     }
-
+  
     this.props.pictures.map(picture => {
       this.props.dispatch(action(
         this.state.container_id,
@@ -64,7 +79,7 @@ class LibrairyAddPicturesTo extends Component {
   handleContainerTypeChange(e) {
     this.setState({
       container_type: e.target.value,
-      container_id: ' ',
+      container_id: this.getDefaultID(e.target.value),
     })
   }
 
@@ -81,7 +96,8 @@ class LibrairyAddPicturesTo extends Component {
       portfoliosIDS,
     } = this.props
 
-    console.log('AddPicturesTo', this.props)
+    //console.log('AddPicturesTo', this.props)
+    //console.log('AddPicturesTo', this.state)
 
     return (
       <div>
