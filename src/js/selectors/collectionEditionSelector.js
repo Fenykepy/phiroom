@@ -11,6 +11,7 @@ function flattenHeaders(depth = 1) {
     return curValue.children.reduce(flattenHeaders(depth + 1), prevValue)
   }
 }
+
 export const flatEnsemblesSelector = createSelector(
   collectionHeadersSelector,
   (headers) => {

@@ -40,6 +40,7 @@ export default class LibrairyPicturesListItem extends Component {
             previews_path={this.props.previews_path}
             source_file={this.props.source_file}
             close={this.closeMenu.bind(this)}
+            addTo={this.props.addTo}
           />
       )
     }
@@ -248,6 +249,7 @@ LibrairyPicturesListItem.propTypes = {
   unselectAll: PropTypes.func.isRequired,
   moveRight: PropTypes.func.isRequired,
   moveLeft: PropTypes.func.isRequired,
+  addTo: PropTypes.func.isRequired,
   orderable: PropTypes.bool,
 }
 

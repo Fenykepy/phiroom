@@ -19,6 +19,15 @@ export default class LibrairyPicturesListItemMenu extends Component {
     this.props.close()
   }
 
+  handleAddTo(e) {
+    // don't follow link
+    e.preventDefault()
+    // open form
+    this.props.addTo(this.props.sha1)
+    // close context menu
+    this.props.close()
+  }
+
   handleLink(e) {
     // close context menu
     this.props.close()
@@ -60,6 +69,10 @@ export default class LibrairyPicturesListItemMenu extends Component {
             onClick={this.handleLink.bind(this)}
           >Open original in new tab</a></li>
           {this.getRemoveLink()}
+          <li><a
+            href=""
+            onClick={this.handleAddTo.bind(this)}
+          >Add to...</a></li>
           <hr />
           <li><a
             href=""
@@ -79,4 +92,5 @@ LibrairyPicturesListItemMenu.propTypes = {
   removePicture: PropTypes.func, // optional: not available in all pictures list
   deletePicture: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
+  addTo: PropTypes.func.isRequired,
 }

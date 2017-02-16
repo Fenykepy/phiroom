@@ -6,7 +6,7 @@ import LibrairyPicturesListItem from './LibrairyPicturesListItem'
 import Modal from './Modal'
 import LibrairyDeletePictureConfirm from './LibrairyDeletePictureConfirm'
 import LibrairySingleViewButton from './LibrairySingleViewButton'
-
+import LibrairyAddPicturesTo from '../containers/LibrairyAddPicturesTo'
 import { PICTURE } from '../constants/dragTypes'
 
 
@@ -128,6 +128,27 @@ export default class LibrairyPicturesList extends Component {
     this.props.dispatch(setModal(modal))
   }
 
+  addTo(picture) {
+    /*
+     * Open a modal window to add
+     * pictures to another container
+     */
+    let sha1s = this.getActionTargets(picture)
+
+    let title = "Add a picture to:"
+    if (sha1s.length > 1) title =`Add ${sha1s.length} pictures to:`
+
+    let modal = (
+      <Modal
+        modal_closable={true}
+        modal_close={this.closeModal.bind(this)}
+        modal_title={title}
+        modal_child={LibrairyAddPicturesTo}
+        pictures={sha1s}
+      />
+    )
+      this.props.dispatch(setModal(modal))
+  }
 
   handleClick(picture, ctrlKey, shiftKey) {
     /*
@@ -311,6 +332,7 @@ export default class LibrairyPicturesList extends Component {
         removePicture={this.props.removePicture}
         deletePicture={this.confirmDeletePicture.bind(this)}
         unselectAll={this.unselectAll.bind(this)}
+        addTo={this.addTo.bind(this)}
         pathname={this.props.location.pathname}
         orderable={this.props.orderable}
         {...pict}
