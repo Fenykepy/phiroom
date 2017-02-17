@@ -208,13 +208,13 @@ export default class LibrairyPicturesListItem extends Component {
             className="overlay tr"
             title="Open menu"
             onClick={this.toggleMenu.bind(this)}
-          >&#8226; &#8226; &#8226;</button>
-          <button
+            >&#8226; &#8226; &#8226;</button>
+          <Link
+              to={`${this.props.pathname}single/${this.props.sha1}/`}
+          ><button
             className="overlay br zoom"
             title="Open in single view"
-          ><Link
-              to={`${this.props.pathname}single/${this.props.sha1}/`}
-          ><span className="accessibility">Single view</span></Link></button>
+          ><span className="accessibility">Single view</span></button></Link>
           {this.getSortingButtons()}
           <img
             style={this.getImageStyle()}

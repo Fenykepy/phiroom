@@ -14,13 +14,14 @@ export default class extends Component {
     }
     if (picture) {
       return (
-        <button
-            className="single-view"
-            title="Open single view"
-        >
-          <Link to={`${this.props.pathname}single/${picture}/`}><span className="accessibility">Single view</span>
-          </Link>
-        </button>
+        <Link to={`${this.props.pathname}single/${picture}/`}>
+          <button
+              className="single-view"
+              title="Open single view"
+          >
+            <span className="accessibility">Single view</span>
+          </button>
+        </Link>
       )
     }
     return null
