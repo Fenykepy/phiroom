@@ -87,7 +87,6 @@ export function addPict2Collection(collection, picture) {
       })
     )
     .then(json => {
-      console.log('picture added')
       dispatch(invalidateCollectionHierarchy(collection))
     })
     /*.catch(error =>
