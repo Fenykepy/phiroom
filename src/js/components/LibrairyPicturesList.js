@@ -50,7 +50,11 @@ export default class LibrairyPicturesList extends Component {
     /*
      * returns true if drag object is valid for picture target
      */
+    console.log(types)
     if (this.props.orderable) {
+      // we convert to a list because firefox convert types to a "DomStringList"
+      // which mades everything fail
+      types = Array.prototype.slice.call(types, 0)
       return listsHaveCommon(types, this.accepted_drop)
     }
   }
