@@ -2,18 +2,34 @@ import React, { Component, PropTypes } from 'react'
 
 import CarouselItem from './CarouselItem'
 
+// - we get previous and next images in arrays
+// - we store them in a "to_load" state array by loading order:
+//    - first, 1 before, 2 after and so on
+// - we start loading current image, 2 after and 1 before
+// - we show spinner
+// - On current image load :
+//      - we get it's dimensions and store it in state
+//      - we compute it's position and store it to state
+//      - we add it to "loaded" state array
+//      - we hide spinner
+//      - we start slideshow
+// - On other images load :
+//      - we get it's dimensions and store it in state
+//      - we compute it's position and the position of all next/prev already loaded
+//      - we add it to "loaded" state array
+
 
 
 // constants
 const SWAP_TRANSITION = 300
 const PICT_MARGIN = 6
+const IMAGE_BASE_SRC = '/media/images/previews/height-600/'
 
 const DEFAULT_STATE = {
-  slideshow: true, // boolean, slideshow running or not
+  slideshow: false, // boolean, slideshow running or not
   current: 0, // index of current picture
-  widths: [], // widths of pictures
-  prevs: [], // pictures indexes displayed before current
-  nexts: [], // pictures indexes displayed after current
+  toload: [], // pictures idexes in loading order
+  loaded: [], // loaded pictures objects
   positions: [], // left css property of pictures
   translate: 0, // default translateX
   swaping: null, // index of tail pictures moving to other side of rubber
@@ -36,8 +52,12 @@ export default class Carousel extends Component {
   componentWillUpdate(prev_props, prev_state) {
     if (prev_props.pictures != this.props.pictures) {
       // reset to first picture and compute positions
-      this.setState({current: 0}, this.initPictures)
+      this.setState(DEFAULT_STATE, this.initPictures)
       this.resetInterval()
+    }
+    if (prev_props.height != this.props.height) {
+      // we compute pictures position
+      this.setPositions()
     }
   }
   
@@ -57,21 +77,65 @@ export default class Carousel extends Component {
     }
   }
 
-  getPictWidth(index) {
-    if (this.refs[index]) {
-      return this.refs[index].getWidth()
+
+  loadImage() {
+    let toload = this.state.toload.slice()
+    if (toload.length == 0) return
+    let index = toload.shift()
+    this.setState({toload: toload})
+    let img = new Image()
+    img.onload = () => this.handleImageLoad(index, img)
+    img.src = IMAGE_BASE_SRC + this.props.pictures[index].previews_path
+  }
+
+
+  handleImageLoad(index, img) {
+    // we load next image
+    this.loadImage()
+    // we add pictures to loaded
+    let loaded = this.state.loaded.slice()
+    loaded[index] = this.props.pictures[index]
+
+    this.setPositions(0, loaded)
+  }
+
+
+  getPictureWidth(index) {
+    return this.props.pictures[index].ratio * this.props.height
+  }
+
+
+  setPositions(current=0, loaded) {
+    let positions = []
+    // get carousel width and set current position
+    let width = this.refs.carousel.offsetWidth
+    positions[current] = Math.round((width - this.getPictureWidth(0)) / 2)
+
+    let nexts = this.getNexts(current, loaded)
+    let prevs = this.getPrevs(current, loaded)
+
+    // get prevs positions
+    let cursor = positions[current]
+    for (var i=prevs.length - 1; i >= 0; i--) {
+      let index = prevs[i]
+      positions[index] = Math.round(cursor - PICT_MARGIN - this.getPictureWidth(index))
+      cursor = positions[index]
     }
-    return 0
-  }
 
-  getWidths(pictures) {
-    let widths = pictures.map((picture, index) => {
-        return this.getPictWidth(index)
+    // get nexts positions
+    cursor = positions[current] + this.getPictureWidth(current)
+    for (var i=0, l=nexts.length; i < l; i++) {
+      let index = nexts[i]
+      positions[index] = cursor + PICT_MARGIN
+      cursor = positions[index] + this.getPictureWidth(index)
+    }
+    this.setState({
+      positions: positions,
+      loaded: loaded,
     })
-
-    return widths
   }
-  
+
+
   getNexts(current, pictures) {
     let nexts = []
     let max_index = pictures.length - 1
@@ -85,6 +149,7 @@ export default class Carousel extends Component {
 
     return nexts
   }
+
 
   getPrevs(current, pictures) {
     let prevs = []
@@ -100,49 +165,38 @@ export default class Carousel extends Component {
     return prevs
   }
 
-  initPictures() {
-    let current = this.state.current
-    let positions = []
-    let widths = this.getWidths(this.props.pictures) 
-    // get carousel width and set current position
-    let width = this.refs.carousel.offsetWidth
-    positions[current] = Math.round((width - widths[current]) / 2)
+
+  getLoadingOrder() {
+    let indexes = this.props.pictures.map((item, index) => index)
+    let toload = []
     
-    // get prevs positions
-    let cursor = positions[current]
-    let prevs = this.getPrevs(current, this.props.pictures)
-    for (var i=prevs.length - 1; i >= 0; i--) {
-      let index = prevs[i]
-      positions[index] = cursor - PICT_MARGIN - widths[index]
-      cursor = positions[index]
+    function load2nexts1prev() {
+      if (indexes.length > 0) toload.push(indexes.shift())
+      if (indexes.length > 0) toload.push(indexes.shift())
+      if (indexes.length > 0) toload.push(indexes.pop())
+
+      if (indexes.length > 0) {
+        load2nexts1prev()
+      }
     }
+    load2nexts1prev()
 
-    // get nexts positions
-    cursor = positions[current] + widths[current]
-    let nexts = this.getNexts(current, this.props.pictures)
-    for (var i=0, l=nexts.length; i < l; i++) {
-      let index = nexts[i]
-      positions[index] = cursor + PICT_MARGIN
-      cursor = positions[index] + widths[index]
-    }
-
-
-    this.setState({
-      widths: widths,
-      nexts: nexts,
-      prevs: prevs,
-      positions: positions,
-      current: current,
-      swapping: null,
-      translate: 0,
-    })
-    
+    return toload
   }
+
+
+  initPictures() {
+    this.setState({
+      toload: this.getLoadingOrder()
+    }, this.loadImage)
+  }
+
 
   stopInterval(interval) {
     clearInterval(interval)
     interval = false;
   }
+
 
   resetInterval() {
     this.stopInterval(this.interval);
@@ -151,19 +205,21 @@ export default class Carousel extends Component {
     }
   }
 
+
   toggleSlideshow() {
     this.setState({slideshow: ! this.state.slideshow})
   }
-  
+
+
   stopSlideshow() {
     this.setState({slideshow: false})
   }
 
+
   goNext() {
-    let widths = this.state.widths
     let current = this.state.current
-    let next = this.state.nexts[0]
-    let step = - (widths[current] / 2 + PICT_MARGIN + widths[next] / 2)
+    let next = this.getNexts(current, this.state.loaded)[0]
+    let step = - (this.getPictureWidth(current) / 2 + PICT_MARGIN + this.getPictureWidth(next) / 2)
 
     // swape first picture to end
     let last = this.state.nexts[this.state.nexts.length - 1]
@@ -177,8 +233,8 @@ export default class Carousel extends Component {
     this.timeout = setTimeout(() => 
       this.setState({
         current: next,
-        nexts: this.getNexts(next, this.props.pictures),
-        prevs: this.getPrevs(next, this.props.pictures),
+        nexts: this.getNexts(next, this.state.loaded),
+        prevs: this.getPrevs(next, this.state.loaded),
         translate: this.state.translate + step,
         positions: positions,
         swaping: null,
@@ -202,8 +258,8 @@ export default class Carousel extends Component {
     this.timeout = setTimeout(() =>
       this.setState({
         current: prev,
-        nexts: this.getNexts(prev, this.props.pictures),
-        prevs: this.getPrevs(prev, this.props.pictures),
+        nexts: this.getNexts(prev, this.state.loaded),
+        prevs: this.getPrevs(prev, this.state.loaded),
         translate: this.state.translate + step,
         positions: positions,
         swaping: null,
@@ -229,14 +285,13 @@ export default class Carousel extends Component {
       <ul ref="carousel"
           className="carousel"
           style={{height: this.props.height + 'px'}}>
-          {this.props.pictures.map((pict, index) =>
+          {this.state.loaded.map((pict, index) =>
             <CarouselItem
               ref={index}
               key={pict.sha1+index}
               pathname={this.props.pathname}
               current={this.state.current == index}
               swaping={this.state.swaping == index}
-              onLoad={this.initPictures.bind(this)}
               onClick={() => this.onImageClick(index)}
               toggleSlideshow={this.toggleSlideshow.bind(this)}
               stopSlideshow={this.stopSlideshow.bind(this)}

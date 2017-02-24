@@ -6,36 +6,7 @@ import { setLightboxLink } from '../helpers/urlParser'
 
 export default class CarouselItem extends Component {
 
-  constructor(props) {
-    super(props)
-    
-    // keep track of image load
-    this.state = {imageLoaded: false}
-  }
-
-  componentDidUpdate(prev_props) {
-    // trigger load event if height changed
-    if (prev_props.height != this.props.height) {
-      this.props.onLoad()
-    }
-  }
-
-  getWidth() {
-    // return picture width
-    if (this.refs.li) {
-      return this.refs.li.offsetWidth
-    }
-    return 0
-  }
-
-  onLoad() {
-    // launch carousel onLoad on image load
-    if (! this.state.imageLoaded) {
-      this.setState({imageLoaded: true})
-      this.props.onLoad()
-    }
-  }
-
+  
   render() {
     //console.log('carousel item', this.props)
     let style = {
@@ -47,7 +18,6 @@ export default class CarouselItem extends Component {
       <img
          src={'/media/images/previews/height-600/' + this.props.previews_path}
          alt={this.props.title}
-         onLoad={this.onLoad.bind(this)}
          style={{height: this.props.height}}
       />
     )
@@ -101,7 +71,6 @@ CarouselItem.propTypes = {
   pathname: PropTypes.string.isRequired,
   current: PropTypes.bool.isRequired,
   swaping: PropTypes.bool.isRequired,
-  onLoad: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   toggleSlideshow: PropTypes.func.isRequired,
   slideshow: PropTypes.bool.isRequired,
