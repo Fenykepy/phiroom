@@ -26,12 +26,13 @@ const PICT_MARGIN = 6
 const IMAGE_BASE_SRC = '/media/images/previews/height-600/'
 
 const DEFAULT_STATE = {
-  slideshow: false, // boolean, slideshow running or not
+  slideshow: true, // boolean, slideshow running or not
   current: 0, // index of current picture
+  prevs: [], // pictures indexes displayed before current
+  nexts: [], // pictures indexes displayed after current
   toload: [], // pictures idexes in loading order
   loaded: [], // loaded pictures objects
   positions: [], // left css property of pictures
-  translate: 0, // default translateX
   swaping: null, // index of tail pictures moving to other side of rubber
 }
 
@@ -75,6 +76,9 @@ export default class Carousel extends Component {
     if (this.timeout) {
       clearTimeout(this.timeout)
     }
+    if (this.swap_timeout) {
+      clearTimeout(this.swap_timeout)
+    }
   }
 
 
@@ -96,7 +100,7 @@ export default class Carousel extends Component {
     let loaded = this.state.loaded.slice()
     loaded[index] = this.props.pictures[index]
 
-    this.setPositions(0, loaded)
+    this.setPositions(this.state.current, loaded)
   }
 
 
@@ -109,7 +113,7 @@ export default class Carousel extends Component {
     let positions = []
     // get carousel width and set current position
     let width = this.refs.carousel.offsetWidth
-    positions[current] = Math.round((width - this.getPictureWidth(0)) / 2)
+    positions[current] = Math.round((width - this.getPictureWidth(current)) / 2)
 
     let nexts = this.getNexts(current, loaded)
     let prevs = this.getPrevs(current, loaded)
@@ -132,6 +136,9 @@ export default class Carousel extends Component {
     this.setState({
       positions: positions,
       loaded: loaded,
+      nexts: nexts,
+      prevs: prevs,
+      current: current,
     })
   }
 
@@ -217,54 +224,42 @@ export default class Carousel extends Component {
 
 
   goNext() {
-    let current = this.state.current
-    let next = this.getNexts(current, this.state.loaded)[0]
-    let step = - (this.getPictureWidth(current) / 2 + PICT_MARGIN + this.getPictureWidth(next) / 2)
-
-    // swape first picture to end
-    let last = this.state.nexts[this.state.nexts.length - 1]
+    // make firt image disappear
+    // then compute new positions
     let first = this.state.prevs[0]
-    if (this.props.pictures.length == 2) first = current
-    let positions = this.state.positions.slice()
-    positions[first] = positions[last] + widths[last] + PICT_MARGIN
-    
-    // make first image disappear
-    this.setState({swaping: first})
-    this.timeout = setTimeout(() => 
-      this.setState({
-        current: next,
-        nexts: this.getNexts(next, this.state.loaded),
-        prevs: this.getPrevs(next, this.state.loaded),
-        translate: this.state.translate + step,
-        positions: positions,
-        swaping: null,
-    }), SWAP_TRANSITION)
+    this.setState({swaping: first}, () =>
+      this.timeout = setTimeout(() =>                  
+        this.setPositions(
+          this.state.nexts[0],
+          this.state.loaded
+        ), SWAP_TRANSITION)
+    )
+
+    // make first image appear again
+    this.swap_timeout = setTimeout(() =>
+      this.setState({swaping: null})
+    , SWAP_TRANSITION * 2)
   }
+
 
   goPrev() {
-    let widths = this.state.widths
-    let current = this.state.current
-    let prev = this.state.prevs[this.state.prevs.length - 1]
-    let step = widths[current] / 2 + PICT_MARGIN + widths[prev] / 2
-
-    // swape last picture to beginning
+    // make last image disappear
+    // then compute new positions
     let last = this.state.nexts[this.state.nexts.length - 1]
-    let first = this.state.prevs[0]
-    let positions = this.state.positions.slice()
-    positions[last] = positions[first] - widths[last] - PICT_MARGIN
-    
-    // make last image disapper
-    this.setState({swaping: last})
-    this.timeout = setTimeout(() =>
-      this.setState({
-        current: prev,
-        nexts: this.getNexts(prev, this.state.loaded),
-        prevs: this.getPrevs(prev, this.state.loaded),
-        translate: this.state.translate + step,
-        positions: positions,
-        swaping: null,
-    }), SWAP_TRANSITION)
+    this.setState({swaping: last}, () => 
+      this.timeout = setTimeout(() =>
+        this.setPositions(
+          this.state.prevs[this.state.prevs.length - 1],
+          this.state.loaded
+        ), SWAP_TRANSITION)
+    )
+
+    // make last image appear again
+    this.swap_timeout = setTimeout(() =>
+      this.setState({swaping: null})
+    , SWAP_TRANSITION * 2)
   }
+
 
   onImageClick(index) {
     if (this.state.nexts.indexOf(index) != -1) {
@@ -298,7 +293,6 @@ export default class Carousel extends Component {
               slideshow={this.state.slideshow}
               height={this.props.height}
               left={this.state.positions[index] || 0}
-              translate={this.state.translate}
               previews_path={pict.previews_path}
               title={pict.title}
               sha1={pict.sha1}

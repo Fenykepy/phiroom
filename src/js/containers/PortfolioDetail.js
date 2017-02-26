@@ -134,8 +134,9 @@ class PortfolioDetail extends Component {
       )
     }
     // show a spinner if data's are fetching
-    // or if first image isn't arrived yet
-    if (this.props.is_fetching || this.props.pictures.length == 0) {
+    // or if all images aren't fetched yet (else there is lagging in carousel each
+    // time a new picture is added
+    if (this.props.is_fetching || this.props.pictures.length != this.props.n_pictures) {
       return (<Spinner message="Fetching..." />)
     }
     // show a dynamic carousel if we are clientside and client has js

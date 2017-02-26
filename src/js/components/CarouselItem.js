@@ -11,7 +11,6 @@ export default class CarouselItem extends Component {
     //console.log('carousel item', this.props)
     let style = {
       left: this.props.left,
-      transform: "translateX(" + this.props.translate + "px)",
     }
 
     let img = (
@@ -74,7 +73,6 @@ CarouselItem.propTypes = {
   onClick: PropTypes.func.isRequired,
   toggleSlideshow: PropTypes.func.isRequired,
   slideshow: PropTypes.bool.isRequired,
-  translate: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   left: PropTypes.number.isRequired,
   previews_path: PropTypes.string.isRequired,
