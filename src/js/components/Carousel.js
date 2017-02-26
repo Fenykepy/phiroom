@@ -2,23 +2,6 @@ import React, { Component, PropTypes } from 'react'
 
 import CarouselItem from './CarouselItem'
 
-// - we get previous and next images in arrays
-// - we store them in a "to_load" state array by loading order:
-//    - first, 1 before, 2 after and so on
-// - we start loading current image, 2 after and 1 before
-// - we show spinner
-// - On current image load :
-//      - we get it's dimensions and store it in state
-//      - we compute it's position and store it to state
-//      - we add it to "loaded" state array
-//      - we hide spinner
-//      - we start slideshow
-// - On other images load :
-//      - we get it's dimensions and store it in state
-//      - we compute it's position and the position of all next/prev already loaded
-//      - we add it to "loaded" state array
-
-
 
 // constants
 const SWAP_TRANSITION = 300
@@ -213,7 +196,8 @@ export default class Carousel extends Component {
   }
 
 
-  toggleSlideshow() {
+  toggleSlideshow(e) {
+    e.stopPropagation()
     this.setState({slideshow: ! this.state.slideshow})
   }
 
@@ -276,6 +260,7 @@ export default class Carousel extends Component {
 
   render() {
     //console.log('carousel', this.props)
+    //console.log('carousel', this.state)
     return (
       <ul ref="carousel"
           className="carousel"
