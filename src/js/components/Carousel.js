@@ -41,7 +41,7 @@ export default class Carousel extends Component {
     }
     if (prev_props.height != this.props.height) {
       // we compute pictures position
-      this.setPositions()
+      this.setPositions(this.state.current, this.state.loaded)
     }
   }
   
