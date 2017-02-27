@@ -53,7 +53,7 @@ class Lightbox extends Component {
   }
   
   componentDidUpdate(prevProps) {
-    if (prevProps.current != this.props.current) {
+    if (prevProps.current.sha1 != this.props.current.sha1) {
       this.loadImages()
     }
   }
@@ -150,13 +150,13 @@ class Lightbox extends Component {
     let reset = false
     // move to next pict
     if (e.which == SPACE || e.which == RIGHT_ARROW) {
-      console.log('next') 
+      //console.log('next') 
       this.context.router.push(this.getNextPath())
       reset = true
     }
     // move to prev pict
     if (e.which == BACKSPACE || e.which == LEFT_ARROW) {
-      console.log('prev') 
+      //console.log('prev') 
       this.context.router.push(this.getPreviousPath())
       reset = true
     }
