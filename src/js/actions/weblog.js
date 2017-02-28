@@ -142,7 +142,7 @@ export function selectPost(post) {
 function shouldFetchPost(state, post) {
   // returns true if post hasn't been fetched yet
   const item = state.weblog.posts[post]
-  if (! item) { return true }
+  if (! item || item.did_invalidate) { return true }
   if (item.is_fetching || item.fetched) { return false }
   return true
 }

@@ -204,7 +204,6 @@ export function orderPictInPortfolio(portfolio, picture, order) {
 }
 
 export function addPict2Post(post, picture) {
-  console.log(post, picture)
   return (dispatch, getState) => {
     // add picture to post
     return Fetch.post('api/weblog/post-picture/',
