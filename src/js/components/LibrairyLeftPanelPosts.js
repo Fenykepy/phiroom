@@ -25,7 +25,7 @@ export default class LibrairyLeftPanelPosts extends Component {
     if (! this.props.type == PICTURE) {
       return this.props.dispatch(dragEnd())
     }
-    console.log(this.props)
+    //    console.log(this.props)
     this.props.drag.data.map(picture => {
       this.props.dispatch(addPict2Post(post, picture))
     })
