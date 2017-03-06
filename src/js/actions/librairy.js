@@ -15,6 +15,18 @@ export function setTitle(title) {
   }
 }
 
+export function startFetching() {
+  return {
+    type: types.LIBRAIRY_START_FETCHING,
+  }
+}
+
+export function endFetching() {
+  return {
+    type: types.LIBRAIRY_END_FETCHING,
+  }
+}
+
 export function setContainer(container) {
   return {
     type: types.LIBRAIRY_SET_CONTAINER,
@@ -23,6 +35,7 @@ export function setContainer(container) {
 }
 
 export function setPictures(pictures) {
+  //console.log(pictures)
   return {
     type: types.SET_PICTURES,
     pictures

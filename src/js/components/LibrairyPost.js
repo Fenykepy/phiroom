@@ -12,6 +12,8 @@ import { fetchPictureIfNeeded } from '../actions/pictures'
 import {
   setTitle,
   setPictures,
+  startFetching,
+  endFetching,
   removePictFromPost,
   unsetPicture,
   orderPictInPost,
@@ -23,12 +25,14 @@ import { buildPostSlug } from '../containers/WeblogDetail'
 export default class LibrairyPost extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
+    dispatch(startFetching())
     let promises = []
     let slug = buildPostSlug(params)
     if (! slug) return promises
     // use static to be able to call it server side befour component is rendered
     promises.push(dispatch(fetchPostIfNeeded(slug)).then(data => {
       dispatch(setPictures(data.data.pictures))
+      dispatch(endFetching())
       dispatch(setTitle(data.data.title))
       // set document title
       dispatch(setDocumentTitleIfNeeded(data.data.title))
@@ -109,6 +113,7 @@ export default class LibrairyPost extends Component {
       drag: this.props.drag,
       columns_width: this.props.columns_width,
       location: this.props.location,
+      fetching: this.props.fetching,
     })
   }
 }

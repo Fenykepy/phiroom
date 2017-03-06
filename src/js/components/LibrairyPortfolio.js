@@ -11,6 +11,8 @@ import { fetchPictureIfNeeded } from '../actions/pictures'
 import { 
   setTitle,
   setPictures,
+  startFetching,
+  endFetching,
   removePictFromPortfolio,
   unsetPicture,
   orderPictInPortfolio,
@@ -20,11 +22,13 @@ import { setDocumentTitleIfNeeded } from '../actions/common'
 export default class LibrairyPortfolio extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
+    dispatch(startFetching())
     let promises = []
     if (! params.slug) return promises
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchPortfolioIfNeeded(params.slug)).then(data => {
         dispatch(setPictures(data.data.pictures))
+        dispatch(endFetching())
         dispatch(setTitle(data.data.title))
         // set document title
         dispatch(setDocumentTitleIfNeeded(data.data.title))
@@ -102,6 +106,7 @@ export default class LibrairyPortfolio extends Component {
       drag: this.props.drag,
       columns_width: this.props.columns_width,
       location: this.props.location,
+      fetching: this.props.fetching,
     })
   }
 }

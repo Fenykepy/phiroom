@@ -10,6 +10,8 @@ import {
 import {
   setTitle,
   setPictures,
+  startFetching,
+  endFetching,
 } from '../actions/librairy'
 
 import { setDocumentTitleIfNeeded } from '../actions/common'
@@ -17,9 +19,11 @@ import { setDocumentTitleIfNeeded } from '../actions/common'
 export default class LibrairyAll extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
+    dispatch(startFetching())
     let promises = []
     promises.push(dispatch(fetchAllPicturesIfNeeded()).then(data => {
       dispatch(setPictures(data.data))
+      dispatch(endFetching())
       dispatch(setTitle(null))
       // set document title
       dispatch(setDocumentTitleIfNeeded('All pictures'))
@@ -53,7 +57,8 @@ export default class LibrairyAll extends Component {
       n_selected: this.props.n_selected,
       drag: this.props.drag,
       columns_width: this.props.columns_width,
-      location: this.props.location
+      location: this.props.location,
+      fetching: this.props.fetching,
     })
   }
 }

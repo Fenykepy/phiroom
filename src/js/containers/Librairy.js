@@ -80,6 +80,7 @@ class Librairy extends Component {
         columns_width: this.props.columns_width,
         left_panel_width: this.props.left_panel_width,
         right_panel_width: this.props.right_panel_width,
+        fetching: this.props.fetching,
       })
     }
     return null
@@ -103,6 +104,7 @@ class Librairy extends Component {
       columns_width,
       left_panel_width,
       right_panel_width,
+      fetching,
     } = this.props
     //console.log('lib', this.props)
     return (

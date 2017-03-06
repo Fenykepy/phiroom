@@ -7,6 +7,8 @@ import Modal from './Modal'
 import LibrairyDeletePictureConfirm from './LibrairyDeletePictureConfirm'
 import LibrairySingleViewButton from './LibrairySingleViewButton'
 import LibrairyAddPicturesTo from '../containers/LibrairyAddPicturesTo'
+import Spinner from './Spinner'
+
 import { PICTURE } from '../constants/dragTypes'
 
 
@@ -307,7 +309,14 @@ export default class LibrairyPicturesList extends Component {
   }
 
   listPictures() {
-    if (this.props.pictures < 1) {
+    if (this.props.fetching) {
+      return (
+        <article>
+          <Spinner message="Fetching..." />
+        </article>
+      )
+    }
+    if (this.props.n_pictures < 1) {
       return (
         <article>
           <p className="centered">
@@ -383,6 +392,7 @@ export default class LibrairyPicturesList extends Component {
 LibrairyPicturesList.propTypes = {
   dispatch: PropTypes.func,
   orderable: PropTypes.bool,
+  fetching: PropTypes.bool,
   n_selected: PropTypes.number,
   n_pictures: PropTypes.number,
   title: PropTypes.string,

@@ -44,6 +44,9 @@ import { settingsSelector } from './settingsSelector'
 // displayed pictures in librairy
 const displayedSelector = state => state.librairy.pictures
 
+// librairy fetching
+const fetchingSelector = state => state.librairy.fetching
+
 
 
 
@@ -126,4 +129,5 @@ export const librairySelector = createStructuredSelector({
   columns_width: columnsWidthSelector,
   left_panel_width: leftPanelWidthSelector,
   right_panel_width: rightPanelWidthSelector,
+  fetching: fetchingSelector,
 })

@@ -6,6 +6,8 @@ import {
   UNSELECT_ALL,
   LIBRAIRY_SET_TITLE,
   LIBRAIRY_SET_CONTAINER,
+  LIBRAIRY_START_FETCHING,
+  LIBRAIRY_END_FETCHING,
   SET_PICTURES,
   UNSET_PICTURE,
   ORDER_PORTFOLIO_PICTURES,
@@ -146,6 +148,20 @@ function container(state='/librairy/', action) {
   }
 }
 
+/*
+ * Returns true while container is loading datas
+ */
+function fetching(state=true, action) {
+  switch (action.type) {
+    case LIBRAIRY_START_FETCHING:
+      return true
+    case LIBRAIRY_END_FETCHING:
+      return false
+    default:
+      return state
+  }
+}
+
 const librairy = combineReducers({
   selected,
   pictures,
@@ -156,6 +172,7 @@ const librairy = combineReducers({
   title,
   collection,
   container,
+  fetching
 })
 
 export default librairy

@@ -12,6 +12,8 @@ import { fetchPictureIfNeeded } from '../actions/pictures'
 import { 
   setTitle,
   setPictures,
+  startFetching,
+  endFetching,
   removePictFromCollection,
   unsetPicture,
   orderPictInCollection,
@@ -22,17 +24,20 @@ import { setDocumentTitleIfNeeded } from '../actions/common'
 export default class LibrairyCollection extends Component {
 
   static fetchData(dispatch, params=null, clientSide=false) {
+    dispatch(startFetching())
     let promises = []
     if (! params.pk) return promises
     // use static to be able to call it server side before component is rendered
     promises.push(dispatch(fetchCollectionIfNeeded(params.pk)).then(data => {
       dispatch(setPictures(data.data.pictures))
+      dispatch(endFetching())
       // set librairy title
       dispatch(setTitle(data.data.name))
       // set document title
       dispatch(setDocumentTitleIfNeeded(data.data.name))
       // fetch all collection's pictures
       if (clientSide) {
+        // stop loading
         data.data.pictures.map(item => {
           dispatch(fetchPictureIfNeeded(item))
         })
@@ -43,7 +48,7 @@ export default class LibrairyCollection extends Component {
     }
     return promises
   }
-
+  
   componentDidMount() {
     this.constructor.fetchData(this.props.dispatch, this.props.params, true)
   }
@@ -106,6 +111,7 @@ export default class LibrairyCollection extends Component {
       drag: this.props.drag,
       columns_width: this.props.columns_width,
       location: this.props.location,
+      fetching: this.props.fetching,
     })
   }
 }
