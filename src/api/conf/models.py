@@ -45,7 +45,7 @@ class Conf(models.Model):
     activate_weblog = models.BooleanField(
             default=True,
             verbose_name="Activate weblog",
-            help_text="Uncheck to desactivate webgo."
+            help_text="Uncheck to desactivate weblog."
     )
     n_posts_per_page = models.PositiveSmallIntegerField(
             default=3,
