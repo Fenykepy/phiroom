@@ -17,6 +17,7 @@ class ConfSerializer(serializers.ModelSerializer):
               'subtitle',
               'weblog_logo',
               'librairy_logo', 
+              'activate_weblog',
               'n_posts_per_page',
               'abstract_delimiter',
               'abstract_last_char',
