@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.cache import cache
 
 from django.db.models.signals import post_save
+from django.template.defaultfilters import slugify
 from django.dispatch import receiver
 
 class Conf(models.Model):
@@ -23,15 +24,6 @@ class Conf(models.Model):
             verbose_name="Subtitle",
             help_text="Website's main subtitle, will be display in page header."
     )
-    weblog_logo = models.ImageField(
-            null=True,
-            blank=True,
-            upload_to="images/logos/",
-            verbose_name="Weblog's logo.",
-            default='images/default/default_logo.svg',
-            help_text="The logo you can see on each weblog's page header. \
-                    Leave blank to use default one."
-    )
     librairy_logo = models.ImageField(
             null=True,
             blank=True,
@@ -45,12 +37,31 @@ class Conf(models.Model):
     activate_weblog = models.BooleanField(
             default=True,
             verbose_name="Activate weblog",
-            help_text="Uncheck to desactivate weblog."
+            help_text="Uncheck to deactivate weblog."
+    )
+    weblog_title = models.CharField(
+            max_length=254,
+            default="Weblog",
+            verbose_name="Weblog title",
+            help_text="Weblog title (default to \"Weblog\""
+    )
+    weblog_slug = models.CharField(
+            max_length=270,
+            default="weblog"
+    )
+    weblog_logo = models.ImageField(
+            null=True,
+            blank=True,
+            upload_to="images/logos/",
+            verbose_name="Weblog's logo.",
+            default='images/default/default_logo.svg',
+            help_text="The logo you can see on each weblog's page header. \
+                    Leave blank to use default one."
     )
     n_posts_per_page = models.PositiveSmallIntegerField(
             default=3,
             verbose_name="Paginate by",
-            help_text="Maximum number of posts per list page."
+            help_text="Maximum number of posts per list page on weblog."
     )
     abstract_delimiter = models.CharField(
             max_length=254,
@@ -72,6 +83,21 @@ class Conf(models.Model):
             verbose_name="Abstract replaced characters",
             help_text="List of characters that will be replaced by abstract last \
                     character if they end abstract."
+    )
+    activate_contact = models.BooleanField(
+            default=True,
+            verbose_name="Activate contact page",
+            help_text="Uncheck to deactivate contact page."
+    )
+    contact_title = models.CharField(
+            max_length=254,
+            default="Contact",
+            verbose_name="Contact page title",
+            help_text="Contact page title (default to \"Contact\""
+    )
+    contact_slug = models.CharField(
+            max_length=270,
+            default="contact"
     )
     carousel_default_height = models.PositiveIntegerField(
             default=600,
@@ -212,6 +238,15 @@ class Conf(models.Model):
     def save(self, **kwargs):
         """Always save as a new conf entry."""
         self.pk = None
+
+        # Set weblog page slug
+        if self.weblog_title:
+            self.weblog_slug = slugify(self.weblog_title)
+
+        # Set contact page slug
+        if self.contact_title:
+            self.contact_slug = slugify(self.contact_title)
+
         super(Conf, self).save()
 
 
@@ -225,7 +260,6 @@ class Conf(models.Model):
 @receiver(post_save, sender=Conf)
 def clear_cache(sender, **kwargs):
     cache.clear()
-
 
 
 

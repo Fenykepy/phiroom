@@ -15,13 +15,18 @@ class ConfSerializer(serializers.ModelSerializer):
         fields = (
               'title',
               'subtitle',
-              'weblog_logo',
               'librairy_logo', 
               'activate_weblog',
+              'weblog_title',
+              'weblog_slug',
+              'weblog_logo',
               'n_posts_per_page',
               'abstract_delimiter',
               'abstract_last_char',
               'abstract_replaced_chars',
+              'activate_contact',
+              'contact_title',
+              'contact_slug',
               'carousel_default_height',
               'slideshow_duration',
               'piwik_analytics_url',
@@ -40,6 +45,7 @@ class ConfSerializer(serializers.ModelSerializer):
               'registration_mail',
               'comment',
         )
+        read_only_fields = ('weblog_slug', 'contact_slug')
 
     def update(self, instance, validated_data):
         """create new instance at each update."""
