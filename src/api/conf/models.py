@@ -42,6 +42,11 @@ class Conf(models.Model):
                     Idealy 50px height. \
                     Leave blank to use default one."
     )
+    activate_weblog = models.BooleanField(
+            default=True,
+            verbose_name="Activate weblog",
+            help_text="Uncheck to desactivate webgo."
+    )
     n_posts_per_page = models.PositiveSmallIntegerField(
             default=3,
             verbose_name="Paginate by",
